@@ -14,12 +14,9 @@
 init ()
 {
 	GTKDIALOG=gtkdialog
-	DATA=25
-	RESET=/tmp/xfce-theme-manager$$
 
 	export -f liveupdate
-	
-	export DATA
+
 }
 
 liveupdate ()
@@ -29,4 +26,4 @@ liveupdate ()
 
 init
 main
-rm $RESET
+
