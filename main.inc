@@ -19,7 +19,7 @@ export MAIN_DIALOG="
 
 			<vbox>
 				<tree selection-mode=\"1\">
-					<label>Theme Name</label>
+					<label>Border Name</label>
 					<input file>$BORDERFILES</input>
 					<variable>BORDERTREE</variable>
 				</tree>
@@ -32,7 +32,7 @@ export MAIN_DIALOG="
 
 			<vbox>
 				<tree selection-mode=\"1\">
-					<label>Theme Name</label>
+					<label>Control Name</label>
 					<input file>$GTKFILES</input>
 					<variable>GTKTREE</variable>
 				</tree>
@@ -40,6 +40,19 @@ export MAIN_DIALOG="
 				<button>
 					<label>Set Controls</label>
 					<action>exec $SHELL -c 'setcontrols'</action>
+				</button>
+			</vbox>
+
+			<vbox>
+				<tree selection-mode=\"1\">
+					<label>Icon Name</label>
+					<input file>$ICONFILES</input>
+					<variable>ICONTREE</variable>
+				</tree>
+				
+				<button>
+					<label>Set Icons</label>
+					<action>exec $SHELL -c 'seticons'</action>
 				</button>
 			</vbox>
 

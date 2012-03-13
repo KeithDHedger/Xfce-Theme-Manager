@@ -17,11 +17,23 @@ init ()
 	THEMEFILES=/tmp/tf$$
 	BORDERFILES=/tmp/win$$
 	GTKFILES=/tmp/gtk$$
+	ICONFILES=/tmp/icons$$
 
 	export -f settheme
 	export -f setborder
 	export -f setcontrols
+	export -f makeiconnames
 
+}
+
+makeiconnames ()
+{
+	while read
+		do
+			if [ ! -d "${REPLY}/cursors" ];then
+				echo $(basename "$REPLY")
+			fi
+		done < <(find ~/.icons /usr/share/icons -maxdepth 1 -mindepth 1)|sort >$ICONFILES
 }
 
 makethemenames ()
@@ -31,7 +43,7 @@ makethemenames ()
 			if [ -d "${REPLY}/xfwm4" ] && [ -d "${REPLY}/gtk-2.0" ];then
 				echo $(basename "$REPLY")
 			fi
-		done < <(find ~/.themes /usr/share/themes -maxdepth 1 -mindepth 1|sort) >$THEMEFILES
+		done < <(find ~/.themes /usr/share/themes -maxdepth 1 -mindepth 1)|sort>$THEMEFILES
 }
 
 makebordernames ()
@@ -41,7 +53,7 @@ makebordernames ()
 			if [ -d "${REPLY}/xfwm4" ];then
 				echo $(basename "$REPLY")
 			fi
-		done < <(find ~/.themes /usr/share/themes -maxdepth 1 -mindepth 1|sort) >$BORDERFILES
+		done < <(find ~/.themes /usr/share/themes -maxdepth 1 -mindepth 1)|sort >$BORDERFILES
 }
 
 makegtknames ()
@@ -51,7 +63,7 @@ makegtknames ()
 			if [ -d "${REPLY}/gtk-2.0" ];then
 				echo $(basename "$REPLY")
 			fi
-		done < <(find ~/.themes /usr/share/themes -maxdepth 1 -mindepth 1|sort) >$GTKFILES
+		done < <(find ~/.themes /usr/share/themes -maxdepth 1 -mindepth 1)|sort >$GTKFILES
 }
 
 settheme ()
@@ -77,6 +89,9 @@ init
 makethemenames
 makebordernames
 makegtknames
+makeiconnames
+cat $ICONFILES
+
 main
 #cat $THEMEFILES
 #echo ############
@@ -84,4 +99,4 @@ main
 #echo ############
 #cat $GTKFILES
 
-rm $THEMEFILES $BORDERFILES $GTKFILES
+rm $THEMEFILES $BORDERFILES $GTKFILES $ICONFILES
