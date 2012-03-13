@@ -19,11 +19,24 @@ init ()
 	GTKFILES=/tmp/gtk$$
 	ICONFILES=/tmp/icons$$
 
+	export OLDICONS=$(xfconf-query -c xsettings -vp /Net/IconThemeName)
+	export OLDBORDER=$(xfconf-query -c xfwm4 -vp /general/theme)
+	export OLDCONTROLS=$(xfconf-query -c xsettings -vp /Net/ThemeName)
+
 	export -f settheme
 	export -f setborder
 	export -f setcontrols
+	export -f seticons
 	export -f makeiconnames
+	export -f resettheme
 
+}
+
+resettheme ()
+{
+	xfconf-query -c xfwm4 -p /general/theme -s "$OLDBORDER"
+	xfconf-query -c xsettings -p /Net/ThemeName -s "$OLDCONTROLS"
+	xfconf-query -c xsettings -p /Net/IconThemeName -s "$OLDICONS"
 }
 
 makeiconnames ()
@@ -68,21 +81,37 @@ makegtknames ()
 
 settheme ()
 {
-	echo "controls = $THEMETREE " >&2
+	local icontheme
+
 	xfconf-query -c xfwm4 -vp /general/theme -s "$THEMETREE"
 	xfconf-query -c xsettings -vp /Net/ThemeName -s "$THEMETREE"
+
+	icontheme=$(cat ~/.themes/$THEMETREE/index.theme|grep "IconTheme"|awk -F= '{print $2}')
+	if [ -d ~/.icons/$icontheme ] || [ -d /usr/share/.icons/$icontheme ];then
+		xfconf-query -c xsettings -vp /Net/IconThemeName -s "$icontheme"
+		return
+	fi
+
+	icontheme=$(cat /usr/share/themes/$THEMETREE/index.theme|grep "IconTheme"|awk -F= '{print $2}')
+	if [ -d /usr/share/.icons/$icontheme ];then
+		xfconf-query -c xsettings -vp /Net/IconThemeName -s "$icontheme"
+	fi
+
 }
 
 setborder ()
 {
-	echo "controls = $BORDERTREE " >&2
 	xfconf-query -c xfwm4 -vp /general/theme -s "$BORDERTREE"
 }
 
 setcontrols ()
 {
-	echo "controls = $GTKTREE " >&2
 	xfconf-query -c xsettings -vp /Net/ThemeName -s "$GTKTREE"
+}
+
+seticons ()
+{
+	xfconf-query -c xsettings -vp /Net/IconThemeName -s "$ICONTREE"
 }
 
 init
@@ -90,13 +119,8 @@ makethemenames
 makebordernames
 makegtknames
 makeiconnames
-cat $ICONFILES
 
 main
-#cat $THEMEFILES
-#echo ############
-#cat $BORDERFILES
-#echo ############
-#cat $GTKFILES
 
 rm $THEMEFILES $BORDERFILES $GTKFILES $ICONFILES
+

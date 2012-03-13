@@ -44,8 +44,8 @@ export MAIN_DIALOG="
 
 	<hbox  homogeneous=\"true\" space-fill=\"false\" space-expand=\"false\">
 		<button>
-			<label>Set Theme</label>
-			<action>exec $SHELL -c 'liveupdate'</action>
+			<label>Reset Theme</label>
+			<action>exec $SHELL -c 'resettheme'</action>
 		</button>
 
 		<button>
