@@ -1,0 +1,18 @@
+#------------------------------------------------------
+#
+#   Xfce-Theme-Manager
+#
+#   ©K.D.Hedger 2012
+#
+#   Released under GPL ie do what you want with it
+#
+#------------------------------------------------------
+
+DEPENDENCIES:
+
+Bash
+gtkdialog version 0.8.x
+
+INSTALL:
+
+Enjoy!

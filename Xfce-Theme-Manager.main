@@ -1,0 +1,32 @@
+#!/bin/bash
+
+#------------------------------------------------------#
+#                                                      #
+#   Xfce-Theme-Manager                                           #
+#                                                      #
+#   ©K.D.Hedger 2012                                   #
+#                                                      #
+#   Released under GPL ie do what you want with it     #
+#                                                      #
+#                                                      #
+#------------------------------------------------------#
+###MAIN###
+init ()
+{
+	GTKDIALOG=gtkdialog
+	DATA=25
+	RESET=/tmp/xfce-theme-manager$$
+
+	export -f liveupdate
+	
+	export DATA
+}
+
+liveupdate ()
+{
+	echo "Data = $DATA setting to $DATA_RANGE" >&2
+}
+
+init
+main
+rm $RESET

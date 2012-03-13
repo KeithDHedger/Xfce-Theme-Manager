@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Name=Xfce-Theme-Manager
+Comment=
+Terminal=false
+Type=Application
+Categories=system;
+Icon=Xfce-Theme-Manager
+Exec=xfce-theme-manager
