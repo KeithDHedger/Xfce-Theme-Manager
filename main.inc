@@ -9,12 +9,8 @@ export MAIN_DIALOG="
 					<label>Theme Name</label>
 					<input file>$THEMEFILES</input>
 					<variable>THEMETREE</variable>
-				</tree>
-
-				<button>
-					<label>Set Theme</label>
 					<action>exec $SHELL -c 'settheme'</action>
-				</button>
+				</tree>
 			</vbox>
 
 			<vbox>
@@ -22,12 +18,8 @@ export MAIN_DIALOG="
 					<label>Border Name</label>
 					<input file>$BORDERFILES</input>
 					<variable>BORDERTREE</variable>
-				</tree>
-
-				<button>
-					<label>Set Window Border</label>
 					<action>exec $SHELL -c 'setborder'</action>
-				</button>
+				</tree>
 			</vbox>
 
 			<vbox>
@@ -35,12 +27,8 @@ export MAIN_DIALOG="
 					<label>Control Name</label>
 					<input file>$GTKFILES</input>
 					<variable>GTKTREE</variable>
-				</tree>
-				
-				<button>
-					<label>Set Controls</label>
 					<action>exec $SHELL -c 'setcontrols'</action>
-				</button>
+				</tree>
 			</vbox>
 
 			<vbox>
@@ -48,12 +36,8 @@ export MAIN_DIALOG="
 					<label>Icon Name</label>
 					<input file>$ICONFILES</input>
 					<variable>ICONTREE</variable>
-				</tree>
-				
-				<button>
-					<label>Set Icons</label>
 					<action>exec $SHELL -c 'seticons'</action>
-				</button>
+				</tree>
 			</vbox>
 
 		</notebook>
