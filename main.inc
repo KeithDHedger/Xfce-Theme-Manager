@@ -25,7 +25,7 @@ export MAIN_DIALOG="
 				</tree>
 
 				<button>
-					<label>Set Window Borde</label>
+					<label>Set Window Border</label>
 					<action>exec $SHELL -c 'setborder'</action>
 				</button>
 			</vbox>

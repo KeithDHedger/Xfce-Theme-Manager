@@ -18,7 +18,6 @@ init ()
 	BORDERFILES=/tmp/win$$
 	GTKFILES=/tmp/gtk$$
 
-	export -f liveupdate
 	export -f settheme
 	export -f setborder
 	export -f setcontrols
@@ -32,7 +31,7 @@ makethemenames ()
 			if [ -d "${REPLY}/xfwm4" ] && [ -d "${REPLY}/gtk-2.0" ];then
 				echo $(basename "$REPLY")
 			fi
-		done < <(find ~/.themes -maxdepth 1 -mindepth 1) >$THEMEFILES
+		done < <(find ~/.themes /usr/share/themes -maxdepth 1 -mindepth 1|sort) >$THEMEFILES
 }
 
 makebordernames ()
@@ -42,7 +41,7 @@ makebordernames ()
 			if [ -d "${REPLY}/xfwm4" ];then
 				echo $(basename "$REPLY")
 			fi
-		done < <(find ~/.themes -maxdepth 1 -mindepth 1) >$BORDERFILES
+		done < <(find ~/.themes /usr/share/themes -maxdepth 1 -mindepth 1|sort) >$BORDERFILES
 }
 
 makegtknames ()
@@ -52,30 +51,26 @@ makegtknames ()
 			if [ -d "${REPLY}/gtk-2.0" ];then
 				echo $(basename "$REPLY")
 			fi
-		done < <(find ~/.themes -maxdepth 1 -mindepth 1) >$GTKFILES
-}
-
-
-liveupdate ()
-{
-	echo "theme = $THEMETREE " >&2
-	echo "border = $BORDERTREE " >&2
-	echo "controls = $GTKTREE " >&2
+		done < <(find ~/.themes /usr/share/themes -maxdepth 1 -mindepth 1|sort) >$GTKFILES
 }
 
 settheme ()
 {
 	echo "controls = $THEMETREE " >&2
+	xfconf-query -c xfwm4 -vp /general/theme -s "$THEMETREE"
+	xfconf-query -c xsettings -vp /Net/ThemeName -s "$THEMETREE"
 }
 
 setborder ()
 {
 	echo "controls = $BORDERTREE " >&2
+	xfconf-query -c xfwm4 -vp /general/theme -s "$BORDERTREE"
 }
 
 setcontrols ()
 {
 	echo "controls = $GTKTREE " >&2
+	xfconf-query -c xsettings -vp /Net/ThemeName -s "$GTKTREE"
 }
 
 init
