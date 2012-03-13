@@ -22,6 +22,7 @@ init ()
 	export OLDICONS=$(xfconf-query -c xsettings -vp /Net/IconThemeName)
 	export OLDBORDER=$(xfconf-query -c xfwm4 -vp /general/theme)
 	export OLDCONTROLS=$(xfconf-query -c xsettings -vp /Net/ThemeName)
+	export OLDCONTROLS=$(xfconf-query -c xsettings -vp /Net/ThemeName)
 
 	export -f settheme
 	export -f setborder
@@ -29,7 +30,6 @@ init ()
 	export -f seticons
 	export -f makeiconnames
 	export -f resettheme
-
 }
 
 resettheme ()
@@ -96,7 +96,6 @@ settheme ()
 	if [ -d /usr/share/.icons/$icontheme ];then
 		xfconf-query -c xsettings -vp /Net/IconThemeName -s "$icontheme"
 	fi
-
 }
 
 setborder ()
