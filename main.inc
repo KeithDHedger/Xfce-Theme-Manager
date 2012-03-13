@@ -7,10 +7,40 @@ export MAIN_DIALOG="
 			<vbox>
 				<tree selection-mode=\"1\">
 					<label>Theme Name</label>
-					<input file>testfile</input>
+					<input file>$THEMEFILES</input>
 					<variable>THEMETREE</variable>
 				</tree>
 
+				<button>
+					<label>Set Theme</label>
+					<action>exec $SHELL -c 'settheme'</action>
+				</button>
+			</vbox>
+
+			<vbox>
+				<tree selection-mode=\"1\">
+					<label>Theme Name</label>
+					<input file>$BORDERFILES</input>
+					<variable>BORDERTREE</variable>
+				</tree>
+
+				<button>
+					<label>Set Window Borde</label>
+					<action>exec $SHELL -c 'setborder'</action>
+				</button>
+			</vbox>
+
+			<vbox>
+				<tree selection-mode=\"1\">
+					<label>Theme Name</label>
+					<input file>$GTKFILES</input>
+					<variable>GTKTREE</variable>
+				</tree>
+				
+				<button>
+					<label>Set Controls</label>
+					<action>exec $SHELL -c 'setcontrols'</action>
+				</button>
 			</vbox>
 
 		</notebook>

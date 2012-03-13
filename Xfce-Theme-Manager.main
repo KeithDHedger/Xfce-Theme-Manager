@@ -14,16 +14,79 @@
 init ()
 {
 	GTKDIALOG=gtkdialog
+	THEMEFILES=/tmp/tf$$
+	BORDERFILES=/tmp/win$$
+	GTKFILES=/tmp/gtk$$
 
 	export -f liveupdate
+	export -f settheme
+	export -f setborder
+	export -f setcontrols
 
 }
+
+makethemenames ()
+{
+	while read
+		do
+			if [ -d "${REPLY}/xfwm4" ] && [ -d "${REPLY}/gtk-2.0" ];then
+				echo $(basename "$REPLY")
+			fi
+		done < <(find ~/.themes -maxdepth 1 -mindepth 1) >$THEMEFILES
+}
+
+makebordernames ()
+{
+	while read
+		do
+			if [ -d "${REPLY}/xfwm4" ];then
+				echo $(basename "$REPLY")
+			fi
+		done < <(find ~/.themes -maxdepth 1 -mindepth 1) >$BORDERFILES
+}
+
+makegtknames ()
+{
+	while read
+		do
+			if [ -d "${REPLY}/gtk-2.0" ];then
+				echo $(basename "$REPLY")
+			fi
+		done < <(find ~/.themes -maxdepth 1 -mindepth 1) >$GTKFILES
+}
+
 
 liveupdate ()
 {
-	echo "Data = $THEMETREE " >&2
+	echo "theme = $THEMETREE " >&2
+	echo "border = $BORDERTREE " >&2
+	echo "controls = $GTKTREE " >&2
+}
+
+settheme ()
+{
+	echo "controls = $THEMETREE " >&2
+}
+
+setborder ()
+{
+	echo "controls = $BORDERTREE " >&2
+}
+
+setcontrols ()
+{
+	echo "controls = $GTKTREE " >&2
 }
 
 init
+makethemenames
+makebordernames
+makegtknames
 main
+#cat $THEMEFILES
+#echo ############
+#cat $BORDERFILES
+#echo ############
+#cat $GTKFILES
 
+rm $THEMEFILES $BORDERFILES $GTKFILES
