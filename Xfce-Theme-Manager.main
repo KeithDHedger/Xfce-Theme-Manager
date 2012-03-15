@@ -150,25 +150,39 @@ makethumb ()
 	local theme=$1
 	local startx=0
 	local starty=0
+	local canvasw
 
-	suffix=png
+suffix=png
 
-	tldata=$(identify "$1/xfwm4/top-left-active.$suffix" |awk '{print $ 3}')
+	topleft="$1/xfwm4/top-left-active.*"
+	toprite="$1/xfwm4/top-right-active.*"
+	title="$1/xfwm4/title-3-active.*"
+	
+	leftside="$1/xfwm4/left-active.*"
+	riteside="$1/xfwm4/right-active.*"
+
+	bottomleft="$1/xfwm4/bottom-left-active.*"
+	bottomrite="$1/xfwm4/bottom-right-active.*"
+	bottom="$1/xfwm4/bottom-active.*"
+	
+	tldata=$(identify "$topleft"|awk '{print $ 3}')
 	tlwid=${tldata%x?*}
 	tlhite=${tldata#?*x}
 
-	bldata=$(identify "$1/xfwm4/bottom-left-active.$suffix" |awk '{print $ 3}')
+	bldata=$(identify "$bottomleft" |awk '{print $ 3}')
 	blwid=${bldata%x?*}
 	blhite=${bldata#?*x}
 
-	sldata=$(identify "$1/xfwm4/left-active.$suffix" |awk '{print $ 3}')
+	sldata=$(identify "$leftside" |awk '{print $ 3}')
 	slwid=${sldata%x?*}
 	slhite=${sldata#?*x}
 
-	botdata=$(identify "$1/xfwm4/bottom-active.$suffix" |awk '{print $ 3}')
+	botdata=$(identify "$bottom" |awk '{print $ 3}')
 	botwid=${botdata%x?*}
 	bothite=${botdata#?*x}
 
+	canvasw=$((128+tlwid+tlwid))
+	canvash=$((tlhite+32+blhite))
 
 	com1="image  SrcOver 0,0 0,0 \"$1/xfwm4/top-left-active.$suffix\""
 	com2="image  SrcOver $tlwid,0 128,-1\"$1/xfwm4/title-3-active.$suffix\""
@@ -184,7 +198,7 @@ makethumb ()
 	com8="image  SrcOver $blwid,$((starty+blhite-bothite)) $((128+tlwid+tlwid-blwid-blwid)),-1 \"$1/xfwm4/bottom-active.$suffix\""
 
 
-	convert -size 640x640 canvas:grey -draw "$com1" -draw "$com2" -draw "$com3" -draw "$com4" -draw "$com5" -draw "$com6" -draw "$com7" -draw "$com8" out.bmp
+	convert -size ${canvasw}x${canvash} canvas:white -draw "$com1" -draw "$com2" -draw "$com3" -draw "$com4" -draw "$com5" -draw "$com6" -draw "$com7" -draw "$com8" out.bmp
 
 }
 
