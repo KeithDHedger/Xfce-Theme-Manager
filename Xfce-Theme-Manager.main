@@ -74,18 +74,35 @@ makethumb ()
 	bottomleft="$1/xfwm4/bottom-left-active.*"
 	bottomrite="$1/xfwm4/bottom-right-active.*"
 	bottom="$1/xfwm4/bottom-active.*"
-	
-	tldata=$(identify "$topleft"|awk '{print $ 3}')
-	tlwid=${tldata%x?*}
-	tlhite=${tldata#?*x}
 
-	bldata=$(identify "$bottomleft" |awk '{print $ 3}')
-	blwid=${bldata%x?*}
-	blhite=${bldata#?*x}
+#top left	
+	data=$(identify "$topleft"|awk '{print $ 3}')
+	tlwid=${data%x?*}
+	tlhite=${data#?*x}
 
-	sldata=$(identify "$leftside" |awk '{print $ 3}')
-	slwid=${sldata%x?*}
-	slhite=${sldata#?*x}
+#top rite
+	data=$(identify "$toprite"|awk '{print $ 3}')
+	trwid=${data%x?*}
+	trhite=${data#?*x}
+
+#bottom left
+	data=$(identify "$bottomleft" |awk '{print $ 3}')
+	blwid=${data%x?*}
+	blhite=${data#?*x}
+
+#bottom rite
+	data=$(identify "$bottomrite" |awk '{print $ 3}')
+	brwid=${data%x?*}
+	brhite=${data#?*x}
+
+#left side
+	data=$(identify "$leftside" |awk '{print $ 3}')
+	slwid=${data%x?*}
+	slhite=${data#?*x}
+
+	data=$(identify "$riteside" |awk '{print $ 3}')
+	srwid=${data%x?*}
+	srhite=${data#?*x}
 
 	botdata=$(identify "$bottom" |awk '{print $ 3}')
 	botwid=${botdata%x?*}
@@ -106,18 +123,18 @@ makethumb ()
 
 	com3="image  SrcOver $((tlwid+32+t2wid+64+t4wid+32)),0 0,0 \"$(echo $toprite)\""
 
-	totalwid=$((tlwid+32+t2wid+64+t4wid+32+tlwid))
+	totalwid=$((tlwid+32+t2wid+64+t4wid+32+trwid))
 #side
 	((starty=tlhite))
 	com4="image  SrcOver 0,$starty $slwid,32 \"$(echo $leftside)\""
-	com5="image  SrcOver $((totalwid-slwid)),$starty $slwid,32 \"$(echo $riteside)\""
+	com5="image  SrcOver $((totalwid-srwid)),$starty $srwid,32 \"$(echo $riteside)\""
 
 #bottom
 	((starty=tlhite+32))
 	com6="image  SrcOver 0,$starty 0,0 \"$(echo $bottomleft)\""
-	com7="image  SrcOver $((totalwid-blwid)),$starty 0,0 \"$(echo $bottomrite)\""
+	com7="image  SrcOver $((totalwid-brwid)),$starty 0,0 \"$(echo $bottomrite)\""
 	
-	com8="image  SrcOver $blwid,$((starty+blhite-bothite)) $((totalwid-blwid-blwid)),-1 \"$(echo $bottom)\""
+	com8="image  SrcOver $blwid,$((starty+blhite-bothite)) $((totalwid-blwid-brwid)),$bothite \"$(echo $bottom)\""
 
 	convert -size 640x640 canvas:white -draw "$com1" -draw "$com2_1" -draw "$com2_2" -draw "$com2_3" -draw "$com2_4" -draw "$com2_5" -draw "$com3" -draw "$com4" -draw "$com5" -draw "$com6" -draw "$com8" -draw "$com7" /tmp/XTM/$(basename $1).bmp
 
