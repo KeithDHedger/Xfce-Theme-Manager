@@ -113,12 +113,49 @@ seticons ()
 	xfconf-query -c xsettings -vp /Net/IconThemeName -s "$ICONTREE"
 }
 
+
+#convert -background none \( -gravity north '/home/keithhedger/.themes/OldWoodAndBrass/xfwm4/top-left-active.png' '/home/keithhedger/.themes/OldWoodAndBrass/xfwm4/title-3-active.png' '/home/keithhedger/.themes/OldWoodAndBrass/xfwm4/top-right-active.png' +append \)  \( '/home/keithhedger/.themes/OldWoodAndBrass/xfwm4/left-active.png' ./back1.jpg  '/home/keithhedger/.themes/OldWoodAndBrass/xfwm4/right-active.png' +append \) \( -gravity south '/home/keithhedger/.themes/OldWoodAndBrass/xfwm4/bottom-left-active.png' '/home/keithhedger/.themes/OldWoodAndBrass/xfwm4/bottom-active.png' '/home/keithhedger/.themes/OldWoodAndBrass/xfwm4/bottom-right-active.png' +append \) -background none -append out.png
+
+makethumb ()
+{
+	local theme=$1
+	local startx=0
+	local starty=0
+
+	com1="image  SrcOver 0,0 16,16 \"$1/xfwm4/top-left-active.png\""
+	((startx=startx+16))
+	com2="image  SrcOver $startx,0 128,16\"$1/xfwm4/title-3-active.png\""
+	((startx=startx+128))
+	com3="image  SrcOver $startx,0 16,16 \"$1/xfwm4/top-right-active.png\""
+
+	startx=0
+	((starty=starty+16))
+	com4="image  SrcOver $startx,$starty 4,64 \"$1/xfwm4/left-active.png\""
+	((startx=startx+16+128+16-4))
+	com5="image  SrcOver $startx,$starty 4,64 \"$1/xfwm4/right-active.png\""
+
+	startx=0
+	((starty=starty+64))	
+	com6="image  SrcOver $startx,$starty 0,0 \"$1/xfwm4/bottom-left-active.png\""
+	((startx=startx+16))
+	com7="image  SrcOver $startx,$starty 128,-1 \"$1/xfwm4/bottom-active.png\""
+	((startx=startx+128))
+	com8="image  SrcOver $startx,$starty 0,0 \"$1/xfwm4/bottom-right-active.png\""
+
+	convert -size 640x640 canvas:grey -draw "$com1" -draw "$com2" -draw "$com3" -draw "$com4" -draw "$com5" -draw "$com6" -draw "$com8" -draw "$com7" out.bmp
+}
+
 init
 makethemenames
 makebordernames
 makegtknames
 makeiconnames
 
+#makethumb "/home/keithhedger/.themes/OldWoodAndBrass/"
+
+#cat $THEMEFILES
+#rm $THEMEFILES $BORDERFILES $GTKFILES $ICONFILES
+#exit
 main
 
 rm $THEMEFILES $BORDERFILES $GTKFILES $ICONFILES
