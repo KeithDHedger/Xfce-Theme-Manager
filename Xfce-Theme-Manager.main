@@ -147,12 +147,10 @@ makethumb1 ()
 
 makethumb ()
 {
-	local theme=$1
-	local startx=0
-	local starty=0
-	local canvasw
 
-suffix=png
+
+	local starty=0
+
 
 	topleft="$1/xfwm4/top-left-active.*"
 	
