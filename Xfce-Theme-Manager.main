@@ -95,24 +95,31 @@ makethumb ()
 	canvasw=$((128+tlwid+tlwid))
 	canvash=$((tlhite+32+blhite))
 
+#title
 	com1="image  SrcOver 0,0 0,0 \"$(echo $topleft)\""
-	com2_1="image  SrcOver $tlwid,0 10,-1\"$(echo $title1)\""
-	com2_2="image  SrcOver $((tlwid+10)),0 10,-1\"$(echo $title2)\""
-	com2_3="image  SrcOver $((tlwid+20)),0 10,-1\"$(echo $title3)\""
-	com2_4="image  SrcOver $((tlwid+30)),0 10,-1\"$(echo $title4)\""
-	com2_5="image  SrcOver $((tlwid+40)),0 10,-1\"$(echo $title5)\""
-	com3="image  SrcOver $((tlwid+50)),0 0,0 \"$(echo $toprite)\""
 
+	com2_1="image  SrcOver $tlwid,0 32,-1\"$(echo $title1)\""
+	com2_2="image  SrcOver $((tlwid+32)),0 0,0\"$(echo $title2)\""
+	com2_3="image  SrcOver $((tlwid+32+t2wid)),0 64,-1\"$(echo $title3)\""
+	com2_4="image  SrcOver $((tlwid+32+t2wid+64)),0 0,0\"$(echo $title4)\""
+	com2_5="image  SrcOver $((tlwid+32+t2wid+64+t4wid)),0 32,-1\"$(echo $title5)\""
+
+	com3="image  SrcOver $((tlwid+32+t2wid+64+t4wid+32)),0 0,0 \"$(echo $toprite)\""
+
+	totalwid=$((tlwid+32+t2wid+64+t4wid+32+tlwid))
+#side
 	((starty=tlhite))
 	com4="image  SrcOver 0,$starty $slwid,32 \"$(echo $leftside)\""
-	com5="image  SrcOver $((256+tlwid+tlwid-slwid)),$starty $slwid,32 \"$(echo $riteside)\""
+	com5="image  SrcOver $((totalwid-slwid)),$starty $slwid,32 \"$(echo $riteside)\""
 
+#bottom
 	((starty=tlhite+32))
 	com6="image  SrcOver 0,$starty 0,0 \"$(echo $bottomleft)\""
-	com7="image  SrcOver $((256+tlwid+tlwid-blwid)),$starty 0,0 \"$(echo $bottomrite)\""
-	com8="image  SrcOver $blwid,$((starty+blhite-bothite)) $((256+tlwid+tlwid-blwid-blwid)),-1 \"$(echo $bottom)\""
+	com7="image  SrcOver $((totalwid-blwid)),$starty 0,0 \"$(echo $bottomrite)\""
+	
+	com8="image  SrcOver $blwid,$((starty+blhite-bothite)) $((totalwid-blwid-blwid)),-1 \"$(echo $bottom)\""
 
-	convert -size 640x640 canvas:white -draw "$com1" -draw "$com2_1" -draw "$com2_2" -draw "$com2_3" -draw "$com2_4" -draw "$com2_5" -draw "$com3" /tmp/XTM/$(basename $1).bmp
+	convert -size 640x640 canvas:white -draw "$com1" -draw "$com2_1" -draw "$com2_2" -draw "$com2_3" -draw "$com2_4" -draw "$com2_5" -draw "$com3" -draw "$com4" -draw "$com5" -draw "$com6" -draw "$com8" -draw "$com7" /tmp/XTM/$(basename $1).bmp
 
 
 #	convert -size ${canvasw}x${canvash} canvas:white -draw "$com1" -draw "$com2_1" -draw "$com2_2" -draw "$com2_3" -draw "$com2_4" -draw "$com2_5" -draw "$com3" -draw "$com4" -draw "$com5" -draw "$com6" -draw "$com7" -draw "$com8" /tmp/XTM/$(basename $1).bmp
