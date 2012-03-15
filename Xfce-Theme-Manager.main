@@ -155,6 +155,8 @@ makethumb ()
 suffix=png
 
 	topleft="$1/xfwm4/top-left-active.*"
+	
+	
 	toprite="$1/xfwm4/top-right-active.*"
 	title="$1/xfwm4/title-3-active.*"
 	
@@ -181,22 +183,22 @@ suffix=png
 	botwid=${botdata%x?*}
 	bothite=${botdata#?*x}
 
+
 	canvasw=$((128+tlwid+tlwid))
 	canvash=$((tlhite+32+blhite))
 
-	com1="image  SrcOver 0,0 0,0 \"$1/xfwm4/top-left-active.$suffix\""
-	com2="image  SrcOver $tlwid,0 128,-1\"$1/xfwm4/title-3-active.$suffix\""
-	com3="image  SrcOver $((128+tlwid)),0 0,0 \"$1/xfwm4/top-right-active.$suffix\""
+	com1="image  SrcOver 0,0 0,0 \"$(echo $topleft)\""
+	com2="image  SrcOver $tlwid,0 128,-1\"$(echo $title)\""
+	com3="image  SrcOver $((128+tlwid)),0 0,0 \"$(echo $toprite)\""
 
 	((starty=tlhite))
-	com4="image  SrcOver $startx,$starty $slwid,32 \"$1/xfwm4/left-active.$suffix\""
-	com5="image  SrcOver $((128+tlwid+tlwid-slwid)),$starty $slwid,32 \"$1/xfwm4/right-active.$suffix\""
+	com4="image  SrcOver $startx,$starty $slwid,32 \"$(echo $leftside)\""
+	com5="image  SrcOver $((128+tlwid+tlwid-slwid)),$starty $slwid,32 \"$(echo $riteside)\""
 
 	((starty=tlhite+32))
-	com6="image  SrcOver 0,$starty 0,0 \"$1/xfwm4/bottom-left-active.$suffix\""
-	com7="image  SrcOver $((128+tlwid+tlwid-blwid)),$starty 0,0 \"$1/xfwm4/bottom-right-active.$suffix\""
-	com8="image  SrcOver $blwid,$((starty+blhite-bothite)) $((128+tlwid+tlwid-blwid-blwid)),-1 \"$1/xfwm4/bottom-active.$suffix\""
-
+	com6="image  SrcOver 0,$starty 0,0 \"$(echo $bottomleft)\""
+	com7="image  SrcOver $((128+tlwid+tlwid-blwid)),$starty 0,0 \"$(echo $bottomrite)\""
+	com8="image  SrcOver $blwid,$((starty+blhite-bothite)) $((128+tlwid+tlwid-blwid-blwid)),-1 \"$(echo $bottom)\""
 
 	convert -size ${canvasw}x${canvash} canvas:white -draw "$com1" -draw "$com2" -draw "$com3" -draw "$com4" -draw "$com5" -draw "$com6" -draw "$com7" -draw "$com8" out.bmp
 
@@ -208,7 +210,7 @@ makebordernames
 makegtknames
 makeiconnames
 
-makethumb "/home/keithhedger/.themes/AllHallowsEveII/"
+makethumb "/home/keithhedger/.themes/WoodThemeRustic"
 
 cat $THEMEFILES
 #rm $THEMEFILES $BORDERFILES $GTKFILES $ICONFILES
