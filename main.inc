@@ -5,11 +5,15 @@ export MAIN_DIALOG="
 	<vbox>
 		<notebook labels=\"Themes|Window Borders|Controls|Icons\" space-fill=\"true\" space-expand=\"true\">
 			<vbox>
-				<tree selection-mode=\"1\">
+				<tree selection-mode=\"2\">
 					<label>Theme Name</label>
 					<input file>$THEMEFILES</input>
 					<variable>THEMETREE</variable>
+     					<action signal=\"cursor-changed\">echo cursor-changed: \$THEMETREE >&2</action>
+     					<action signal=\"button-press-event\">echo button-press-event[BUTTON=\$BUTTON]: \$THEMETREE >&2</action>
+     					<action signal=\"button-release-event\">echo button-release-event[BUTTON=\$BUTTON]: \$THEMETREE >&2</action>
 					<action>exec $SHELL -c 'settheme'</action>
+					
 				</tree>
 			</vbox>
 
