@@ -30,6 +30,93 @@ init ()
 	export -f seticons
 	export -f makeiconnames
 	export -f resettheme
+	
+	mkdir /tmp/XTM
+}
+
+makethumb ()
+{
+
+	local starty=0 topleft toprite title leftside riteside
+	local bottomleft bottomrite bottom
+	local tldata tlwid tlhite
+	local bldata blwid blhite
+	local sldata slwid slhite
+	local botdata botwid bothite
+	local canvasw canvash
+	local com1 com2 com3 com4 com5 com6 com7 com8
+
+	topleft="$1/xfwm4/top-left-active.*"
+	toprite="$1/xfwm4/top-right-active.*"
+
+	title1="$1/xfwm4/title-1-active.*"
+	title2="$1/xfwm4/title-2-active.*"
+	title3="$1/xfwm4/title-3-active.*"
+	title4="$1/xfwm4/title-4-active.*"
+	title5="$1/xfwm4/title-5-active.*"
+	
+	ttdata=$(identify "$title1"|awk '{print $ 3}')
+	t1wid=${ttdata%x?*}
+	ttdata=$(identify "$title2"|awk '{print $ 3}')
+	t2wid=${ttdata%x?*}
+	ttdata=$(identify "$title3"|awk '{print $ 3}')
+	t3wid=${ttdata%x?*}
+	ttdata=$(identify "$title4"|awk '{print $ 3}')
+	t4wid=${ttdata%x?*}
+	ttdata=$(identify "$title5"|awk '{print $ 3}')
+	t5wid=${ttdata%x?*}
+
+	
+	
+	leftside="$1/xfwm4/left-active.*"
+	riteside="$1/xfwm4/right-active.*"
+
+	bottomleft="$1/xfwm4/bottom-left-active.*"
+	bottomrite="$1/xfwm4/bottom-right-active.*"
+	bottom="$1/xfwm4/bottom-active.*"
+	
+	tldata=$(identify "$topleft"|awk '{print $ 3}')
+	tlwid=${tldata%x?*}
+	tlhite=${tldata#?*x}
+
+	bldata=$(identify "$bottomleft" |awk '{print $ 3}')
+	blwid=${bldata%x?*}
+	blhite=${bldata#?*x}
+
+	sldata=$(identify "$leftside" |awk '{print $ 3}')
+	slwid=${sldata%x?*}
+	slhite=${sldata#?*x}
+
+	botdata=$(identify "$bottom" |awk '{print $ 3}')
+	botwid=${botdata%x?*}
+	bothite=${botdata#?*x}
+
+
+	canvasw=$((128+tlwid+tlwid))
+	canvash=$((tlhite+32+blhite))
+
+	com1="image  SrcOver 0,0 0,0 \"$(echo $topleft)\""
+	com2_1="image  SrcOver $tlwid,0 10,-1\"$(echo $title1)\""
+	com2_2="image  SrcOver $((tlwid+10)),0 10,-1\"$(echo $title2)\""
+	com2_3="image  SrcOver $((tlwid+20)),0 10,-1\"$(echo $title3)\""
+	com2_4="image  SrcOver $((tlwid+30)),0 10,-1\"$(echo $title4)\""
+	com2_5="image  SrcOver $((tlwid+40)),0 10,-1\"$(echo $title5)\""
+	com3="image  SrcOver $((tlwid+50)),0 0,0 \"$(echo $toprite)\""
+
+	((starty=tlhite))
+	com4="image  SrcOver 0,$starty $slwid,32 \"$(echo $leftside)\""
+	com5="image  SrcOver $((256+tlwid+tlwid-slwid)),$starty $slwid,32 \"$(echo $riteside)\""
+
+	((starty=tlhite+32))
+	com6="image  SrcOver 0,$starty 0,0 \"$(echo $bottomleft)\""
+	com7="image  SrcOver $((256+tlwid+tlwid-blwid)),$starty 0,0 \"$(echo $bottomrite)\""
+	com8="image  SrcOver $blwid,$((starty+blhite-bothite)) $((256+tlwid+tlwid-blwid-blwid)),-1 \"$(echo $bottom)\""
+
+	convert -size 640x640 canvas:white -draw "$com1" -draw "$com2_1" -draw "$com2_2" -draw "$com2_3" -draw "$com2_4" -draw "$com2_5" -draw "$com3" /tmp/XTM/$(basename $1).bmp
+
+
+#	convert -size ${canvasw}x${canvash} canvas:white -draw "$com1" -draw "$com2_1" -draw "$com2_2" -draw "$com2_3" -draw "$com2_4" -draw "$com2_5" -draw "$com3" -draw "$com4" -draw "$com5" -draw "$com6" -draw "$com7" -draw "$com8" /tmp/XTM/$(basename $1).bmp
+
 }
 
 resettheme ()
@@ -54,6 +141,7 @@ makethemenames ()
 	while read
 		do
 			if [ -d "${REPLY}/xfwm4" ] && [ -d "${REPLY}/gtk-2.0" ];then
+				makethumb "$REPLY"
 				echo $(basename "$REPLY")
 			fi
 		done < <(find ~/.themes /usr/share/themes -maxdepth 1 -mindepth 1)|sort>$THEMEFILES
@@ -116,104 +204,23 @@ seticons ()
 
 #convert -background none \( -gravity north '/home/keithhedger/.themes/OldWoodAndBrass/xfwm4/top-left-active.png' '/home/keithhedger/.themes/OldWoodAndBrass/xfwm4/title-3-active.png' '/home/keithhedger/.themes/OldWoodAndBrass/xfwm4/top-right-active.png' +append \)  \( '/home/keithhedger/.themes/OldWoodAndBrass/xfwm4/left-active.png' ./back1.jpg  '/home/keithhedger/.themes/OldWoodAndBrass/xfwm4/right-active.png' +append \) \( -gravity south '/home/keithhedger/.themes/OldWoodAndBrass/xfwm4/bottom-left-active.png' '/home/keithhedger/.themes/OldWoodAndBrass/xfwm4/bottom-active.png' '/home/keithhedger/.themes/OldWoodAndBrass/xfwm4/bottom-right-active.png' +append \) -background none -append out.png
 
-makethumb1 ()
-{
-	local theme=$1
-	local startx=0
-	local starty=0
-
-	com1="image  SrcOver 0,0 16,16 \"$1/xfwm4/top-left-active.png\""
-	((startx=startx+16))
-	com2="image  SrcOver $startx,0 128,16\"$1/xfwm4/title-3-active.png\""
-	((startx=startx+128))
-	com3="image  SrcOver $startx,0 16,16 \"$1/xfwm4/top-right-active.png\""
-
-	startx=0
-	((starty=starty+16))
-	com4="image  SrcOver $startx,$starty 4,64 \"$1/xfwm4/left-active.png\""
-	((startx=startx+16+128+16-4))
-	com5="image  SrcOver $startx,$starty 4,64 \"$1/xfwm4/right-active.png\""
-
-	startx=0
-	((starty=starty+64))	
-	com6="image  SrcOver $startx,$starty 0,0 \"$1/xfwm4/bottom-left-active.png\""
-	((startx=startx+16))
-	com7="image  SrcOver $startx,$starty 128,-1 \"$1/xfwm4/bottom-active.png\""
-	((startx=startx+128))
-	com8="image  SrcOver $startx,$starty 0,0 \"$1/xfwm4/bottom-right-active.png\""
-
-	convert -size 640x640 canvas:grey -draw "$com1" -draw "$com2" -draw "$com3" -draw "$com4" -draw "$com5" -draw "$com6" -draw "$com8" -draw "$com7" out.bmp
-}
-
-makethumb ()
-{
-
-
-	local starty=0
-
-
-	topleft="$1/xfwm4/top-left-active.*"
-	
-	
-	toprite="$1/xfwm4/top-right-active.*"
-	title="$1/xfwm4/title-3-active.*"
-	
-	leftside="$1/xfwm4/left-active.*"
-	riteside="$1/xfwm4/right-active.*"
-
-	bottomleft="$1/xfwm4/bottom-left-active.*"
-	bottomrite="$1/xfwm4/bottom-right-active.*"
-	bottom="$1/xfwm4/bottom-active.*"
-	
-	tldata=$(identify "$topleft"|awk '{print $ 3}')
-	tlwid=${tldata%x?*}
-	tlhite=${tldata#?*x}
-
-	bldata=$(identify "$bottomleft" |awk '{print $ 3}')
-	blwid=${bldata%x?*}
-	blhite=${bldata#?*x}
-
-	sldata=$(identify "$leftside" |awk '{print $ 3}')
-	slwid=${sldata%x?*}
-	slhite=${sldata#?*x}
-
-	botdata=$(identify "$bottom" |awk '{print $ 3}')
-	botwid=${botdata%x?*}
-	bothite=${botdata#?*x}
-
-
-	canvasw=$((128+tlwid+tlwid))
-	canvash=$((tlhite+32+blhite))
-
-	com1="image  SrcOver 0,0 0,0 \"$(echo $topleft)\""
-	com2="image  SrcOver $tlwid,0 128,-1\"$(echo $title)\""
-	com3="image  SrcOver $((128+tlwid)),0 0,0 \"$(echo $toprite)\""
-
-	((starty=tlhite))
-	com4="image  SrcOver $startx,$starty $slwid,32 \"$(echo $leftside)\""
-	com5="image  SrcOver $((128+tlwid+tlwid-slwid)),$starty $slwid,32 \"$(echo $riteside)\""
-
-	((starty=tlhite+32))
-	com6="image  SrcOver 0,$starty 0,0 \"$(echo $bottomleft)\""
-	com7="image  SrcOver $((128+tlwid+tlwid-blwid)),$starty 0,0 \"$(echo $bottomrite)\""
-	com8="image  SrcOver $blwid,$((starty+blhite-bothite)) $((128+tlwid+tlwid-blwid-blwid)),-1 \"$(echo $bottom)\""
-
-	convert -size ${canvasw}x${canvash} canvas:white -draw "$com1" -draw "$com2" -draw "$com3" -draw "$com4" -draw "$com5" -draw "$com6" -draw "$com7" -draw "$com8" out.bmp
-
-}
 
 init
+#makethumb "/usr/share/themes/Xfce/"
+#exit
+
 makethemenames
 makebordernames
 makegtknames
 makeiconnames
 
-makethumb "/home/keithhedger/.themes/WoodThemeRustic"
-
-cat $THEMEFILES
+#makethumb "/usr/share/themes/Redmond"
+#exit
+#cat $THEMEFILES
 #rm $THEMEFILES $BORDERFILES $GTKFILES $ICONFILES
-exit
+#exit
 main
 
 rm $THEMEFILES $BORDERFILES $GTKFILES $ICONFILES
+#rm -r /tmp/XTM
 
