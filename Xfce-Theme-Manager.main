@@ -31,7 +31,12 @@ init ()
 	export -f makeiconnames
 	export -f resettheme
 	
-	mkdir /tmp/XTM
+	DB=/tmp/XFTE
+	FRAMES=${DB}/wmf
+	CONTROLS=${DB}/conts
+	META=${DB}/meta
+	
+	mkdir -p $FRAMES $CONTROLS $META
 }
 
 makethumb ()
