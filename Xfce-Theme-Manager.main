@@ -62,16 +62,16 @@ makethumb ()
 	title4="$1/xfwm4/title-4-active.*"
 	title5="$1/xfwm4/title-5-active.*"
 	
-	ttdata=$(identify "$title1" 2>/dev/null|awk '{print $ 3}')
+	ttdata=$(identify "$title1" 2>/dev/null|awk '{print $3}')
 	t1wid=${ttdata%x?*}
-	ttdata=$(identify "$title2" 2>/dev/null|awk '{print $ 3}')
+	ttdata=$(identify "$title2" 2>/dev/null|awk '{print $3}')
 	t2wid=${ttdata%x?*}
-	ttdata=$(identify "$title3" 2>/dev/null|awk '{print $ 3}')
+	ttdata=$(identify "$title3" 2>/dev/null|awk '{print $3}')
 	t3wid=${ttdata%x?*}
 	titlehite=${ttdata#?*x}
-	ttdata=$(identify "$title4" 2>/dev/null|awk '{print $ 3}')
+	ttdata=$(identify "$title4" 2>/dev/null|awk '{print $3}')
 	t4wid=${ttdata%x?*}
-	ttdata=$(identify "$title5" 2>/dev/null|awk '{print $ 3}')
+	ttdata=$(identify "$title5" 2>/dev/null|awk '{print $3}')
 	t5wid=${ttdata%x?*}
 
 	leftside="$1/xfwm4/left-active.*"
@@ -88,63 +88,65 @@ makethumb ()
 	menu="$1/xfwm4/menu-active.*"
 
 #menu button
-	data=$(identify "$menu"|awk '{print $ 3}')
+	data=$(identify "$menu"|awk '{print $3}')
 	menuwid=${data%x?*}
 	menuhite=${data#?*x}
 
 #close
-	data=$(identify "$close"|awk '{print $ 3}')
+	data=$(identify "$close"|awk '{print $3}')
 	closewid=${data%x?*}
 	closehite=${data#?*x}
 
 #max
-	data=$(identify "$max"|awk '{print $ 3}')
+	data=$(identify "$max"|awk '{print $3}')
 	maxwid=${data%x?*}
 	maxhite=${data#?*x}
 #min
-	data=$(identify "$min"|awk '{print $ 3}')
+	data=$(identify "$min"|awk '{print $3}')
 	minwid=${data%x?*}
 	minhite=${data#?*x}
 	
 #top left	
-	data=$(identify "$topleft"|awk '{print $ 3}')
+	data=$(identify "$topleft"|awk '{print $3}')
 	tlwid=${data%x?*}
 	tlhite=${data#?*x}
 
 #top rite
-	data=$(identify "$toprite"|awk '{print $ 3}')
+	data=$(identify "$toprite"|awk '{print $3}')
 	trwid=${data%x?*}
 	trhite=${data#?*x}
 
 #bottom left
-	data=$(identify "$bottomleft" |awk '{print $ 3}')
+	data=$(identify "$bottomleft" |awk '{print $3}')
 	blwid=${data%x?*}
 	blhite=${data#?*x}
 
 #bottom rite
-	data=$(identify "$bottomrite" |awk '{print $ 3}')
+	data=$(identify "$bottomrite" |awk '{print $3}')
 	brwid=${data%x?*}
 	brhite=${data#?*x}
 
 #left side
-	data=$(identify "$leftside" |awk '{print $ 3}')
+	data=$(identify "$leftside" |awk '{print $3}')
 	slwid=${data%x?*}
 	slhite=${data#?*x}
 
-	data=$(identify "$riteside" |awk '{print $ 3}')
+	data=$(identify "$riteside" |awk '{print $3}')
 	srwid=${data%x?*}
 	srhite=${data#?*x}
 
-	botdata=$(identify "$bottom" |awk '{print $ 3}')
+	botdata=$(identify "$bottom" |awk '{print $3}')
 	botwid=${botdata%x?*}
 	bothite=${botdata#?*x}
 
 #leftsegwidth
 	lsegwid=$((menuwid+button_spacing))
+
 #midsegwidth
 
 #rightsegwidth
 	rsegwid=$((closewid+maxwid+minwid+(button_spacing*3)))
+
 #title
 	com1="image  SrcOver 0,0 0,0 \"$(echo $topleft)\""
 
@@ -182,10 +184,13 @@ makethumb ()
 	canvasw=$((totalwid))
 	canvash=$((titlehite+32+blhite))
 
-	gtkpreview/gtkprev "$(basename "$1")" /tmp/XTM/out.png
-	gtkcom="image  SrcOver $((slwid)),$((starty=tlhite)) $((totalwid-slwid-srwid)),$((32+blhite-bothite)) \"/tmp/XTM/out.png\""
+	if [ $2 -eq 1 ];then
+		gtkcom="image  SrcOver $((slwid)),$((starty=tlhite)) $((totalwid-slwid-srwid)),$((32+blhite-bothite)) \"${CONTROLS}/$(basename "$1").png\""
 
-	convert -size ${canvasw}x${canvash} canvas:white -draw "$com1" -draw "$com2_1" -draw "$com2_2" -draw "$com2_3" -draw "$com2_4" -draw "$com2_5" -draw "$com3" -draw "$com4" -draw "$com5" -draw "$com6" -draw "$com8" -draw "$com7" -draw "$menubut" -draw "$closebut"  -draw "$maxbut"  -draw "$minbut" -draw "$gtkcom" /tmp/XTM/$(basename $1).bmp &>/dev/null
+		convert -size ${canvasw}x${canvash} canvas:white -draw "$com1" -draw "$com2_1" -draw "$com2_2" -draw "$com2_3" -draw "$com2_4" -draw "$com2_5" -draw "$com3" -draw "$com4" -draw "$com5" -draw "$com6" -draw "$com8" -draw "$com7" -draw "$menubut" -draw "$closebut"  -draw "$maxbut"  -draw "$minbut" -draw "$gtkcom" "${META}/$(basename $1).bmp" &>/dev/null
+	else
+		convert -size ${canvasw}x${canvash} canvas:white -draw "$com1" -draw "$com2_1" -draw "$com2_2" -draw "$com2_3" -draw "$com2_4" -draw "$com2_5" -draw "$com3" -draw "$com4" -draw "$com5" -draw "$com6" -draw "$com8" -draw "$com7" -draw "$menubut" -draw "$closebut"  -draw "$maxbut"  -draw "$minbut" "${FRAMES}/$(basename $1).bmp" &>/dev/null
+	fi
 
 }
 
@@ -206,12 +211,23 @@ makeiconnames ()
 		done < <(find ~/.icons /usr/share/icons -maxdepth 1 -mindepth 1)|sort >$ICONFILES
 }
 
+makegtknames ()
+{
+	while read
+		do
+			if [ -d "${REPLY}/gtk-2.0" ];then
+				echo $(basename "$REPLY")
+				gtkpreview/gtkprev "$(basename "$REPLY")" "${CONTROLS}/$(basename "$REPLY").png"
+			fi
+		done < <(find ~/.themes /usr/share/themes -maxdepth 1 -mindepth 1)|sort >$GTKFILES
+}
+
 makethemenames ()
 {
 	while read
 		do
 			if [ -d "${REPLY}/xfwm4" ] && [ -d "${REPLY}/gtk-2.0" ];then
-				makethumb "$REPLY"
+				makethumb "$REPLY" 1
 				echo $(basename "$REPLY")
 			fi
 		done < <(find ~/.themes /usr/share/themes -maxdepth 1 -mindepth 1)|sort>$THEMEFILES
@@ -223,18 +239,10 @@ makebordernames ()
 		do
 			if [ -d "${REPLY}/xfwm4" ];then
 				echo $(basename "$REPLY")
+				makethumb "$REPLY" 0
+				echo $REPLY >&2
 			fi
-		done < <(find ~/.themes /usr/share/themes -maxdepth 1 -mindepth 1)|sort >$BORDERFILES
-}
-
-makegtknames ()
-{
-	while read
-		do
-			if [ -d "${REPLY}/gtk-2.0" ];then
-				echo $(basename "$REPLY")
-			fi
-		done < <(find ~/.themes /usr/share/themes -maxdepth 1 -mindepth 1)|sort >$GTKFILES
+		done < <(find ~/.themes /usr/share/themes -maxdepth 1 -mindepth 1|sort) >$BORDERFILES
 }
 
 settheme ()
@@ -279,9 +287,10 @@ init
 #makethumb "/usr/share/themes/Xfce/"
 #exit
 
-makethemenames
-makebordernames
 makegtknames
+makebordernames
+makethemenames
+
 makeiconnames
 
 #makethumb "/usr/share/themes/Redmond"
@@ -292,5 +301,5 @@ makeiconnames
 main
 
 rm $THEMEFILES $BORDERFILES $GTKFILES $ICONFILES
-#rm -r /tmp/XTM
+rm -r /tmp/XTM
 
