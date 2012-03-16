@@ -134,9 +134,6 @@ makethumb ()
 	botwid=${botdata%x?*}
 	bothite=${botdata#?*x}
 
-	canvasw=$((128+tlwid+tlwid))
-	canvash=$((tlhite+32+blhite))
-
 #leftsegwidth
 	lsegwid=$((menuwid+button_spacing))
 #midsegwidth
@@ -177,7 +174,11 @@ makethumb ()
 	buttonoffset=$(((titlehite-minhite)/2))
 	minbut="image  SrcOver $((totalwid-button_offset-srwid-closewid-maxwid-minwid-button_spacing-button_spacing)),$hiteoffset 0,0 \"$(echo $min)\""
 
-	convert -size 640x640 canvas:white -draw "$com1" -draw "$com2_1" -draw "$com2_2" -draw "$com2_3" -draw "$com2_4" -draw "$com2_5" -draw "$com3" -draw "$com4" -draw "$com5" -draw "$com6" -draw "$com8" -draw "$com7" -draw "$menubut" -draw "$closebut"  -draw "$maxbut"  -draw "$minbut" /tmp/XTM/$(basename $1).bmp &>/dev/null
+#canvas
+	canvasw=$((totalwid))
+	canvash=$((titlehite+32+bothite))
+
+	convert -size ${canvasw}x${canvash} canvas:white -draw "$com1" -draw "$com2_1" -draw "$com2_2" -draw "$com2_3" -draw "$com2_4" -draw "$com2_5" -draw "$com3" -draw "$com4" -draw "$com5" -draw "$com6" -draw "$com8" -draw "$com7" -draw "$menubut" -draw "$closebut"  -draw "$maxbut"  -draw "$minbut" /tmp/XTM/$(basename $1).bmp &>/dev/null
 
 }
 
