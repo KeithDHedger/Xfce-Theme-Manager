@@ -138,22 +138,23 @@ makethumb ()
 	canvash=$((tlhite+32+blhite))
 
 #leftsegwidth
-	lsegwid=$((slwid+menuwid+button_offset))
-#rightsegwidth
+	lsegwid=$((menuwid+button_spacing))
 #midsegwidth
 
+#rightsegwidth
+	rsegwid=$((closewid+maxwid+minwid+(button_spacing*3)))
 #title
 	com1="image  SrcOver 0,0 0,0 \"$(echo $topleft)\""
 
-	com2_1="image  SrcOver $tlwid,0 32,-1\"$(echo $title1)\""
-	com2_2="image  SrcOver $((tlwid+32)),0 0,0\"$(echo $title2)\""
-	com2_3="image  SrcOver $((tlwid+32+t2wid)),0 64,-1\"$(echo $title3)\""
-	com2_4="image  SrcOver $((tlwid+32+t2wid+64)),0 0,0\"$(echo $title4)\""
-	com2_5="image  SrcOver $((tlwid+32+t2wid+64+t4wid)),0 32,-1\"$(echo $title5)\""
+	com2_1="image  SrcOver $tlwid,0 $lsegwid,$titlehite \"$(echo $title1)\""
+	com2_2="image  SrcOver $((tlwid+lsegwid)),0 0,0 \"$(echo $title2)\""
+	com2_3="image  SrcOver $((tlwid+lsegwid+t2wid)),0 64,$titlehite \"$(echo $title3)\""
+	com2_4="image  SrcOver $((tlwid+lsegwid+t2wid+64)),0 0,0 \"$(echo $title4)\""
+	com2_5="image  SrcOver $((tlwid+lsegwid+t2wid+64+t4wid)),0 $rsegwid,$titlehite \"$(echo $title5)\""
 
-	com3="image  SrcOver $((tlwid+32+t2wid+64+t4wid+32)),0 0,0 \"$(echo $toprite)\""
+	com3="image  SrcOver $((tlwid+lsegwid+t2wid+64+t4wid+rsegwid)),0 0,0 \"$(echo $toprite)\""
 
-	totalwid=$((tlwid+32+t2wid+64+t4wid+32+trwid))
+	totalwid=$((tlwid+lsegwid+t2wid+64+t4wid+rsegwid+trwid))
 #side
 	((starty=tlhite))
 	com4="image  SrcOver 0,$starty $slwid,32 \"$(echo $leftside)\""
