@@ -61,13 +61,12 @@ makethumb ()
 	t2wid=${ttdata%x?*}
 	ttdata=$(identify "$title3"|awk '{print $ 3}')
 	t3wid=${ttdata%x?*}
+	titlehite=${ttdata#?*x}
 	ttdata=$(identify "$title4"|awk '{print $ 3}')
 	t4wid=${ttdata%x?*}
 	ttdata=$(identify "$title5"|awk '{print $ 3}')
 	t5wid=${ttdata%x?*}
 
-	
-	
 	leftside="$1/xfwm4/left-active.*"
 	riteside="$1/xfwm4/right-active.*"
 
@@ -75,6 +74,31 @@ makethumb ()
 	bottomrite="$1/xfwm4/bottom-right-active.*"
 	bottom="$1/xfwm4/bottom-active.*"
 
+#buttons
+	close="$1/xfwm4/close-active.*"
+	max="$1/xfwm4/maximize-active.*"
+	min="$1/xfwm4/hide-active.*"
+	menu="$1/xfwm4/menu-active.*"
+
+#menu button
+	data=$(identify "$menu"|awk '{print $ 3}')
+	menuwid=${data%x?*}
+	menuhite=${data#?*x}
+
+#close
+	data=$(identify "$close"|awk '{print $ 3}')
+	closewid=${data%x?*}
+	closehite=${data#?*x}
+
+#max
+	data=$(identify "$max"|awk '{print $ 3}')
+	maxwid=${data%x?*}
+	maxhite=${data#?*x}
+#min
+	data=$(identify "$min"|awk '{print $ 3}')
+	minwid=${data%x?*}
+	minhite=${data#?*x}
+	
 #top left	
 	data=$(identify "$topleft"|awk '{print $ 3}')
 	tlwid=${data%x?*}
@@ -108,7 +132,6 @@ makethumb ()
 	botwid=${botdata%x?*}
 	bothite=${botdata#?*x}
 
-
 	canvasw=$((128+tlwid+tlwid))
 	canvash=$((tlhite+32+blhite))
 
@@ -136,7 +159,14 @@ makethumb ()
 	
 	com8="image  SrcOver $blwid,$((starty+blhite-bothite)) $((totalwid-blwid-brwid)),$bothite \"$(echo $bottom)\""
 
-	convert -size 640x640 canvas:white -draw "$com1" -draw "$com2_1" -draw "$com2_2" -draw "$com2_3" -draw "$com2_4" -draw "$com2_5" -draw "$com3" -draw "$com4" -draw "$com5" -draw "$com6" -draw "$com8" -draw "$com7" /tmp/XTM/$(basename $1).bmp
+#dobuttons
+	buttonoffset=$(((titlehite-menuhite)/2))
+	menubut="image  SrcOver 16,$buttonoffset 0,0 \"$(echo $menu)\""
+	closebut="image  SrcOver 16,$buttonoffset 0,0 \"$(echo $menu)\""
+	maxbut="image  SrcOver 16,$buttonoffset 0,0 \"$(echo $menu)\""
+	minbut="image  SrcOver 16,$buttonoffset 0,0 \"$(echo $menu)\""
+
+	convert -size 640x640 canvas:white -draw "$com1" -draw "$com2_1" -draw "$com2_2" -draw "$com2_3" -draw "$com2_4" -draw "$com2_5" -draw "$com3" -draw "$com4" -draw "$com5" -draw "$com6" -draw "$com8" -draw "$com7" -draw "$menubut"  -draw "$closebut"/tmp/XTM/$(basename $1).bmp 2>/dev/null
 
 
 #	convert -size ${canvasw}x${canvash} canvas:white -draw "$com1" -draw "$com2_1" -draw "$com2_2" -draw "$com2_3" -draw "$com2_4" -draw "$com2_5" -draw "$com3" -draw "$com4" -draw "$com5" -draw "$com6" -draw "$com7" -draw "$com8" /tmp/XTM/$(basename $1).bmp
