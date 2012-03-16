@@ -28,18 +28,18 @@ GdkPixmap* draw_window_on_pixbuf(GtkWidget *widget)
 
 	gtk_widget_ensure_style(widget);
 
-	style = gtk_widget_get_style(widget);
+	style=gtk_widget_get_style(widget);
 
 	g_assert(style);
 	g_assert(style->font_desc);
 
 	gtk_window_get_size(GTK_WINDOW(widget), &width, &height);
 
-	visual = gtk_widget_get_visual(widget);
-	pixmap = gdk_pixmap_new(NULL, width, height, visual->depth);
+	visual=gtk_widget_get_visual(widget);
+	pixmap=gdk_pixmap_new(NULL, width, height, visual->depth);
 	gdk_drawable_set_colormap(GDK_DRAWABLE(pixmap), gtk_widget_get_colormap(widget));
 
-	window = gtk_widget_get_window(widget);
+	window=gtk_widget_get_window(widget);
 
 	gdk_window_redirect_to_drawable(window, pixmap, 0, 0, 0, 0, width, height);
 	gdk_window_set_override_redirect(window, TRUE);
@@ -62,22 +62,22 @@ GdkPixbuf * create_gtk_theme_pixbuf(char* name)
 	GdkPixbuf *pixbuf, *retval;
 	gint width, height;
 
-	settings = gtk_settings_get_default();
+	settings=gtk_settings_get_default();
 	g_object_set(settings, "gtk-theme-name",(char*)name,"gtk-color-scheme", "default",NULL);
 
-	window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+	window=gtk_window_new(GTK_WINDOW_TOPLEVEL);
 
-	vbox = gtk_vbox_new(FALSE, 0);
+	vbox=gtk_vbox_new(FALSE, 0);
 	gtk_container_add(GTK_CONTAINER(window), vbox);
-	box = gtk_hbox_new(FALSE, 6);
+	box=gtk_hbox_new(FALSE, 6);
 	gtk_container_set_border_width(GTK_CONTAINER(box), 6);
 	gtk_box_pack_start(GTK_BOX(vbox), box, FALSE, FALSE, 0);
-	stock_button = gtk_button_new_from_stock(GTK_STOCK_OPEN);
+	stock_button=gtk_button_new_from_stock(GTK_STOCK_OPEN);
 	gtk_box_pack_start(GTK_BOX(box), stock_button, FALSE, FALSE, 0);
-	checkbox = gtk_check_button_new();
+	checkbox=gtk_check_button_new();
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbox), TRUE);
 	gtk_box_pack_start(GTK_BOX(box), checkbox, FALSE, FALSE, 0);
-	radio = gtk_radio_button_new_from_widget(NULL);
+	radio=gtk_radio_button_new_from_widget(NULL);
 	gtk_box_pack_start(GTK_BOX(box), radio, FALSE, FALSE, 0);
 
 	gtk_widget_show_all(vbox);
@@ -91,21 +91,22 @@ GdkPixbuf * create_gtk_theme_pixbuf(char* name)
 	gtk_widget_map(radio);
 
 	gtk_widget_size_request(window, &requisition);
-	allocation.x = 0;
-	allocation.y = 0;
-	allocation.width = requisition.width;
-	allocation.height = requisition.height;
+	allocation.x=0;
+	allocation.y=0;
+	allocation.width=requisition.width;
+	allocation.height=requisition.height;
 	gtk_widget_size_allocate(window, &allocation);
 	gtk_widget_size_request(window, &requisition);
 
 	gtk_window_get_size(GTK_WINDOW(window), &width, &height);
 
-	pixmap = draw_window_on_pixbuf(window);
+	pixmap=draw_window_on_pixbuf(window);
 
-	pixbuf = gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 8, width, height);
+	pixbuf=gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 8, width, height);
 	gdk_pixbuf_get_from_drawable(pixbuf, pixmap, NULL, 0, 0, 0, 0, width, height);
 
-	retval = gdk_pixbuf_scale_simple(pixbuf,GTK_THUMBNAIL_SIZE,(int) GTK_THUMBNAIL_SIZE *(((double) height) /((double) width)),GDK_INTERP_BILINEAR);
+	retval=gdk_pixbuf_scale_simple(pixbuf,GTK_THUMBNAIL_SIZE,(int) GTK_THUMBNAIL_SIZE *(((double) height) /((double) width)),GDK_INTERP_BILINEAR);
+
 	g_object_unref(pixbuf);
 	gtk_widget_destroy(window);
 	g_object_unref(pixmap);
@@ -113,13 +114,13 @@ GdkPixbuf * create_gtk_theme_pixbuf(char* name)
 	return retval;
 }
 
-
 int main(int argc,char **argv)
 {
+	GdkPixbuf *pixbuf=NULL;
+
 	gtk_init(&argc, &argv);
-	GdkPixbuf *pixbuf = NULL;
-	pixbuf = create_gtk_theme_pixbuf(argv[1]);
-	gdk_pixbuf_savev(pixbuf,"test.png","png",NULL,NULL,NULL);
+	pixbuf=create_gtk_theme_pixbuf(argv[1]);
+	gdk_pixbuf_savev(pixbuf,argv[2],"png",NULL,NULL,NULL);
 	g_object_unref(pixbuf);
 
 	return(0);
