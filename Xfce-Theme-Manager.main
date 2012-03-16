@@ -177,9 +177,10 @@ makethumb ()
 	canvasw=$((totalwid))
 	canvash=$((titlehite+32+blhite))
 
-gtkpreview/gtkprev "$(basename "$1")" /tmp/XTM/out.png
+	gtkpreview/gtkprev "$(basename "$1")" /tmp/XTM/out.png
+	gtkcom="image  SrcOver $((slwid)),$((starty=tlhite)) $((totalwid-slwid-srwid)),$((32+blhite-bothite)) \"/tmp/XTM/out.png\""
 
-	convert -size ${canvasw}x${canvash} canvas:white -draw "$com1" -draw "$com2_1" -draw "$com2_2" -draw "$com2_3" -draw "$com2_4" -draw "$com2_5" -draw "$com3" -draw "$com4" -draw "$com5" -draw "$com6" -draw "$com8" -draw "$com7" -draw "$menubut" -draw "$closebut"  -draw "$maxbut"  -draw "$minbut" /tmp/XTM/$(basename $1).bmp &>/dev/null
+	convert -size ${canvasw}x${canvash} canvas:white -draw "$com1" -draw "$com2_1" -draw "$com2_2" -draw "$com2_3" -draw "$com2_4" -draw "$com2_5" -draw "$com3" -draw "$com4" -draw "$com5" -draw "$com6" -draw "$com8" -draw "$com7" -draw "$menubut" -draw "$closebut"  -draw "$maxbut"  -draw "$minbut" -draw "$gtkcom" /tmp/XTM/$(basename $1).bmp &>/dev/null
 
 }
 
