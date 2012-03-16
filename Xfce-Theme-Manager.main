@@ -46,6 +46,8 @@ makethumb ()
 	local canvasw canvash
 	local com1 com2 com3 com4 com5 com6 com7 com8
 
+	. "$1/xfwm4/themerc"
+
 	topleft="$1/xfwm4/top-left-active.*"
 	toprite="$1/xfwm4/top-right-active.*"
 
@@ -55,16 +57,16 @@ makethumb ()
 	title4="$1/xfwm4/title-4-active.*"
 	title5="$1/xfwm4/title-5-active.*"
 	
-	ttdata=$(identify "$title1"|awk '{print $ 3}')
+	ttdata=$(identify "$title1" 2>/dev/null|awk '{print $ 3}')
 	t1wid=${ttdata%x?*}
-	ttdata=$(identify "$title2"|awk '{print $ 3}')
+	ttdata=$(identify "$title2" 2>/dev/null|awk '{print $ 3}')
 	t2wid=${ttdata%x?*}
-	ttdata=$(identify "$title3"|awk '{print $ 3}')
+	ttdata=$(identify "$title3" 2>/dev/null|awk '{print $ 3}')
 	t3wid=${ttdata%x?*}
 	titlehite=${ttdata#?*x}
-	ttdata=$(identify "$title4"|awk '{print $ 3}')
+	ttdata=$(identify "$title4" 2>/dev/null|awk '{print $ 3}')
 	t4wid=${ttdata%x?*}
-	ttdata=$(identify "$title5"|awk '{print $ 3}')
+	ttdata=$(identify "$title5" 2>/dev/null|awk '{print $ 3}')
 	t5wid=${ttdata%x?*}
 
 	leftside="$1/xfwm4/left-active.*"
@@ -135,6 +137,11 @@ makethumb ()
 	canvasw=$((128+tlwid+tlwid))
 	canvash=$((tlhite+32+blhite))
 
+#leftsegwidth
+	lsegwid=$((slwid+menuwid+button_offset))
+#rightsegwidth
+#midsegwidth
+
 #title
 	com1="image  SrcOver 0,0 0,0 \"$(echo $topleft)\""
 
@@ -160,16 +167,16 @@ makethumb ()
 	com8="image  SrcOver $blwid,$((starty+blhite-bothite)) $((totalwid-blwid-brwid)),$bothite \"$(echo $bottom)\""
 
 #dobuttons
-	buttonoffset=$(((titlehite-menuhite)/2))
-	menubut="image  SrcOver 16,$buttonoffset 0,0 \"$(echo $menu)\""
-	closebut="image  SrcOver 16,$buttonoffset 0,0 \"$(echo $menu)\""
-	maxbut="image  SrcOver 16,$buttonoffset 0,0 \"$(echo $menu)\""
-	minbut="image  SrcOver 16,$buttonoffset 0,0 \"$(echo $menu)\""
+	hiteoffset=$(((titlehite-menuhite)/2))
+	menubut="image  SrcOver $((button_offset+slwid)),$hiteoffset 0,0 \"$(echo $menu)\""
+	buttonoffset=$(((titlehite-closehite)/2))
+	closebut="image  SrcOver $((totalwid-button_offset-srwid-closewid)),$hiteoffset 0,0 \"$(echo $close)\""
+	buttonoffset=$(((titlehite-maxhite)/2))
+	maxbut="image  SrcOver $((totalwid-button_offset-srwid-closewid-maxwid-button_spacing)),$hiteoffset 0,0 \"$(echo $max)\""
+	buttonoffset=$(((titlehite-minhite)/2))
+	minbut="image  SrcOver $((totalwid-button_offset-srwid-closewid-maxwid-minwid-button_spacing-button_spacing)),$hiteoffset 0,0 \"$(echo $min)\""
 
-	convert -size 640x640 canvas:white -draw "$com1" -draw "$com2_1" -draw "$com2_2" -draw "$com2_3" -draw "$com2_4" -draw "$com2_5" -draw "$com3" -draw "$com4" -draw "$com5" -draw "$com6" -draw "$com8" -draw "$com7" -draw "$menubut"  -draw "$closebut"/tmp/XTM/$(basename $1).bmp 2>/dev/null
-
-
-#	convert -size ${canvasw}x${canvash} canvas:white -draw "$com1" -draw "$com2_1" -draw "$com2_2" -draw "$com2_3" -draw "$com2_4" -draw "$com2_5" -draw "$com3" -draw "$com4" -draw "$com5" -draw "$com6" -draw "$com7" -draw "$com8" /tmp/XTM/$(basename $1).bmp
+	convert -size 640x640 canvas:white -draw "$com1" -draw "$com2_1" -draw "$com2_2" -draw "$com2_3" -draw "$com2_4" -draw "$com2_5" -draw "$com3" -draw "$com4" -draw "$com5" -draw "$com6" -draw "$com8" -draw "$com7" -draw "$menubut" -draw "$closebut"  -draw "$maxbut"  -draw "$minbut" /tmp/XTM/$(basename $1).bmp &>/dev/null
 
 }
 
