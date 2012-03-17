@@ -208,9 +208,9 @@ makethumb ()
 	canvash=$((titlehite+32+blhite))
 
 	if [ $2 -eq 1 ];then
-		gtkcom="image  SrcOver $((slwid)),$((starty=tlhite)) $((totalwid-slwid-srwid)),$((32+blhite-bothite)) \"${CONTROLS}/$(basename "$1").png\""
+		gtkcom="image  SrcOver $((slwid)),$((starty=tlhite)) 0,0 \"${CONTROLS}/$(basename "$1").png\""
 
-		convert -size ${canvasw}x${canvash} canvas:white -draw "$com1" -draw "$com2_1" -draw "$com2_2" -draw "$com2_3" -draw "$com2_4" -draw "$com2_5" -draw "$com3" -draw "$com4" -draw "$com5" -draw "$com6" -draw "$com8" -draw "$com7" -draw "$menubut" -draw "$closebut"  -draw "$maxbut"  -draw "$minbut" -draw "$gtkcom" "${META}/$(basename $1).bmp" &>/dev/null
+		convert -size ${canvasw}x${canvash} canvas:white  -draw "$gtkcom" -draw "$com1" -draw "$com2_1" -draw "$com2_2" -draw "$com2_3" -draw "$com2_4" -draw "$com2_5" -draw "$com3" -draw "$com4" -draw "$com5" -draw "$com6" -draw "$com8" -draw "$com7" -draw "$menubut" -draw "$closebut"  -draw "$maxbut"  -draw "$minbut" "${META}/$(basename $1).bmp" &>/dev/null
 	else
 		convert -size ${canvasw}x${canvash} canvas:white -draw "$com1" -draw "$com2_1" -draw "$com2_2" -draw "$com2_3" -draw "$com2_4" -draw "$com2_5" -draw "$com3" -draw "$com4" -draw "$com5" -draw "$com6" -draw "$com8" -draw "$com7" -draw "$menubut" -draw "$closebut"  -draw "$maxbut"  -draw "$minbut" "${FRAMES}/$(basename $1).bmp" &>/dev/null
 	fi

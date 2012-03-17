@@ -66,6 +66,8 @@ GdkPixbuf * create_gtk_theme_pixbuf(char* name)
 	g_object_set(settings, "gtk-theme-name",(char*)name,"gtk-color-scheme", "default",NULL);
 
 	window=gtk_window_new(GTK_WINDOW_TOPLEVEL);
+	
+	gtk_window_set_default_size((GtkWindow*)window, 180,50);
 
 	vbox=gtk_vbox_new(FALSE, 0);
 	gtk_container_add(GTK_CONTAINER(window), vbox);
@@ -107,8 +109,8 @@ GdkPixbuf * create_gtk_theme_pixbuf(char* name)
 
 	retval=gdk_pixbuf_scale_simple(pixbuf,GTK_THUMBNAIL_SIZE,(int) GTK_THUMBNAIL_SIZE *(((double) height) /((double) width)),GDK_INTERP_BILINEAR);
 //	retval=gdk_pixbuf_scale_simple(pixbuf,256,96,GDK_INTERP_BILINEAR);
-
-	g_object_unref(pixbuf);
+retval=pixbuf;
+//	g_object_unref(pixbuf);
 	gtk_widget_destroy(window);
 	g_object_unref(pixmap);
 
@@ -123,6 +125,7 @@ int main(int argc,char **argv)
 	pixbuf=create_gtk_theme_pixbuf(argv[1]);
 	gdk_pixbuf_savev(pixbuf,argv[2],"png",NULL,NULL,NULL);
 	g_object_unref(pixbuf);
+
 
 	return(0);
 }
