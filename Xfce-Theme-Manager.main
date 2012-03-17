@@ -60,8 +60,8 @@ makethumb ()
 	local canvasw canvash
 	local com1 com2 com3 com4 com5 com6 com7 com8
 
-	local x0=0 y1=0 x1=-1 y1=0
-	local x2=0 y2=64 x3=-1 y3=64
+	local boxwid=-1
+	local boxhite=48
 
 	. "$1/xfwm4/themerc"
 
@@ -187,22 +187,18 @@ makethumb ()
 	com3="image  SrcOver $((tlwid+lsegwid+t2wid+64+t4wid+rsegwid)),0 0,0 \"$(echo $toprite)\""
 
 	totalwid=$((tlwid+lsegwid+t2wid+64+t4wid+rsegwid+trwid))
-	x1=$totalwid
-	x3=$totalwid
+	boxwid=$totalwid
+	boxhite=64
 
 #side
-	#((starty=titlehite))
-	com4="image  SrcOver $x0,$tlhite $slwid,$((y2-blwid)) \"$(echo $leftside)\""
-#	((starty=titlehite))
-	com5="image  SrcOver $((x1-srwid)),$trhite $srwid,$((y3-brhite)) \"$(echo $riteside)\""
+	com4="image  SrcOver 0,$tlhite $slwid,$((boxhite-blhite-tlhite)) \"$(echo $leftside)\""
+	com5="image  SrcOver $((boxwid-srwid)),$trhite $srwid,$((boxhite-brhite-trhite)) \"$(echo $riteside)\""
 
 #bottom
-	((starty=tlhite+(64-blhite)))
-	com6="image  SrcOver 0,$starty 0,0 \"$(echo $bottomleft)\""
-	((starty=tlhite+(64-brhite)))
-	com7="image  SrcOver $((totalwid-brwid)),$starty 0,0 \"$(echo $bottomrite)\""
+	com6="image  SrcOver 0,$((boxhite-blhite)) 0,0 \"$(echo $bottomleft)\""
+	com7="image  SrcOver $((boxwid-brwid)),$((boxhite-brhite)) 0,0 \"$(echo $bottomrite)\""
 	
-	com8="image  SrcOver $blwid,$((starty+blhite-bothite)) $((totalwid-blwid-brwid)),$bothite \"$(echo $bottom)\""
+	com8="image  SrcOver $blwid,$((boxhite-bothite)) $((boxwid-blwid-brwid)),$bothite \"$(echo $bottom)\""
 
 #dobuttons
 	hiteoffset=$(((titlehite-menuhite)/2))
@@ -216,6 +212,7 @@ makethumb ()
 #canvas
 	canvasw=$((totalwid))
 	canvash=$((tlhite+32+blhite))
+canvash=$boxhite
 
 	if [ $2 -eq 1 ];then
 		gtkcom="image  SrcOver $((slwid)),$((starty=tlhite)) 0,0 \"${CONTROLS}/$(basename "$1").png\""
@@ -415,12 +412,12 @@ if [ X"$1" = "X-m" ];then
 	MAKEPICS=1
 fi
 
-#makegtknames
+makegtknames
 makebordernames
-#makethemenames
-#makeiconnames
+makethemenames
+makeiconnames
 
-#main
+main
 
 rm $ICONFILES
 
