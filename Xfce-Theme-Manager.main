@@ -274,11 +274,19 @@ resettheme ()
 	xfconf-query -c xsettings -p /Net/IconThemeName -s "$OLDICONS"
 }
 
+makeiconthumbs ()
+{
+
+}
+
 makeiconnames ()
 {
 	while read
 		do
 			if [ ! -d "${REPLY}/cursors" ];then
+				if [ $MAKEPICS -eq 1 ];then
+					makeiconthumbs "$REPLY"
+				fi
 				makeiconslist "$REPLY"
 			fi
 		done < <(find ~/.icons /usr/share/icons -maxdepth 1 -mindepth 1|sort)
