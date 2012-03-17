@@ -60,6 +60,9 @@ makethumb ()
 	local canvasw canvash
 	local com1 com2 com3 com4 com5 com6 com7 com8
 
+	local x0=0 y1=0 x1=-1 y1=0
+	local x2=0 y2=64 x3=-1 y3=64
+
 	. "$1/xfwm4/themerc"
 
 	topleft="$1/xfwm4/top-left-active.*"
@@ -184,15 +187,19 @@ makethumb ()
 	com3="image  SrcOver $((tlwid+lsegwid+t2wid+64+t4wid+rsegwid)),0 0,0 \"$(echo $toprite)\""
 
 	totalwid=$((tlwid+lsegwid+t2wid+64+t4wid+rsegwid+trwid))
+	x1=$totalwid
+	x3=$totalwid
+
 #side
-	((starty=titlehite))
-	com4="image  SrcOver 0,$starty $slwid,32 \"$(echo $leftside)\""
-	((starty=titlehite))
-	com5="image  SrcOver $((totalwid-srwid)),$starty $srwid,32 \"$(echo $riteside)\""
+	#((starty=titlehite))
+	com4="image  SrcOver $x0,$tlhite $slwid,$((y2-blwid)) \"$(echo $leftside)\""
+#	((starty=titlehite))
+	com5="image  SrcOver $((x1-srwid)),$trhite $srwid,$((y3-brhite)) \"$(echo $riteside)\""
 
 #bottom
-	((starty=tlhite+32))
+	((starty=tlhite+(64-blhite)))
 	com6="image  SrcOver 0,$starty 0,0 \"$(echo $bottomleft)\""
+	((starty=tlhite+(64-brhite)))
 	com7="image  SrcOver $((totalwid-brwid)),$starty 0,0 \"$(echo $bottomrite)\""
 	
 	com8="image  SrcOver $blwid,$((starty+blhite-bothite)) $((totalwid-blwid-brwid)),$bothite \"$(echo $bottom)\""
