@@ -257,7 +257,7 @@ makeiconslist ()
 {
 	local iconname="$(basename "$1")"
 	local pixmap="$(find "$REPLY" -iname "folder.???"|sort|head -n1)"
-echo +++ $iconname +++ $REPLY +++ $pixmap +++
+
 if [ X"$pixmap" != "X" ];then
 	ICONSLIST=''"${ICONSLIST}"'<button space-expand="false" space-fill="false" image-position="2" relief="2">'
 	ICONSLIST=''"${ICONSLIST}"'<input file>'"$pixmap"'</input>'
