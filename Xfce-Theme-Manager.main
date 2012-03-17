@@ -2,7 +2,7 @@
 
 #------------------------------------------------------#
 #                                                      #
-#   Xfce-Theme-Manager                                           #
+#   Xfce-Theme-Manager                                 #
 #                                                      #
 #   ©K.D.Hedger 2012                                   #
 #                                                      #
@@ -35,6 +35,7 @@ init ()
 	FRAMES=${DB}/wmf
 	CONTROLS=${DB}/conts
 	META=${DB}/meta
+	ICONS=${DB}/icons
 	
 	GLOBAL=/usr/share/themes
 	#GLOBAL=""
@@ -44,7 +45,7 @@ init ()
 	CONTROLSLIST=""
 	ICONSLIST=""
 
-	mkdir -p $FRAMES $CONTROLS $META
+	mkdir -p $FRAMES $CONTROLS $META $ICONS
 }
 
 makethumb ()
@@ -184,8 +185,9 @@ makethumb ()
 
 	totalwid=$((tlwid+lsegwid+t2wid+64+t4wid+rsegwid+trwid))
 #side
-	((starty=tlhite))
+	((starty=titlehite))
 	com4="image  SrcOver 0,$starty $slwid,32 \"$(echo $leftside)\""
+	((starty=titlehite))
 	com5="image  SrcOver $((totalwid-srwid)),$starty $srwid,32 \"$(echo $riteside)\""
 
 #bottom
@@ -206,7 +208,7 @@ makethumb ()
 
 #canvas
 	canvasw=$((totalwid))
-	canvash=$((titlehite+32+blhite))
+	canvash=$((tlhite+32+blhite))
 
 	if [ $2 -eq 1 ];then
 		gtkcom="image  SrcOver $((slwid)),$((starty=tlhite)) 0,0 \"${CONTROLS}/$(basename "$1").png\""
@@ -256,7 +258,7 @@ makecontrolslist ()
 makeiconslist ()
 {
 	local iconname="$(basename "$1")"
-	local pixmap="$(find "$REPLY" -iname "folder.???"|sort|head -n1)"
+	local pixmap="${ICONS}/${iconname}.png"
 
 if [ X"$pixmap" != "X" ];then
 	ICONSLIST=''"${ICONSLIST}"'<button space-expand="false" space-fill="false" image-position="2" relief="2">'
@@ -276,16 +278,45 @@ resettheme ()
 
 makeiconthumbs ()
 {
+	local iconname=$(basename "$1")
+	local folderpic="$(find "$1" -iname "folder.???"|head -n1)"
+	local homepic="$(find "$1" -iname "user-home*.???"|head -n1)"
+	local comppic="$(find "$1" -iname "computer.???"|head -n1)"
+	local drivepic="$(find "$1" -iname "*drive*harddisk*.???"|head -n1)"
 
+	convert $folderpic $homepic $comppic $drivepic -background none +append -scale 128x32! ${ICONS}/${iconname}.png
+		
+#	echo ++++++++++++++
+#	echo convert -size 64x64 canvas:white -draw 'image SrcOver 0,0 32,32 "'"$folderpic"'"' ${ICONS}/${iconname}.png
+	# -draw 'image SrcOver 32,0 32,32 '"$homepic" -draw 'image SrcOver 0,32 32,32 '"$comppic" -draw 'image SrcOver 32,32 32,32 '"$drivepic" ${ICONS}${iconname}.png
+#	echo +++++++++++++++
+
+#	convert -size 64x64 canvas:white -draw 'image SrcOver 0,0 32,32 "'"$folderpic"'"' -draw 'image SrcOver 32,0 32,32 "'"$homepic"'"' -draw 'image SrcOver 0,32 32,32 "'"$comppic"'"' -draw 'image SrcOver 32,32 32,32 "'"$drivepic"'"' ${ICONS}/${iconname}.png
 }
 
 makeiconnames ()
-{
+{	
+#local iconname=$(basename "$1")
+#	local folderpic
+#	local homepic
+#	local comppic
+#	local drivepic
+
 	while read
 		do
 			if [ ! -d "${REPLY}/cursors" ];then
 				if [ $MAKEPICS -eq 1 ];then
 					makeiconthumbs "$REPLY"
+					#iconname=$(basename "$REPLY")
+					#folderpicx="$(find "$REPLY" -iname "folder.???"|head -n1)"
+					#homepic="$(find "$REPLY" -iname "user-home*.???"|head -n1)"
+					#comppic="$(find "$REPLY" -iname "computer.???"|head -n1)"
+					#drivepic="$(find "$REPLY" -iname "*drive*harddisk*.???"|head -n1)"
+					#echo +++++++++++
+					#echo convert -size 64x64 canvas:white -draw 'image SrcOver 0,0 32,32 "'"$folderpic"'"' -draw 'image SrcOver 32,0 32,32 "'"$homepic"'"' -draw 'image SrcOver 0,32 32,32 "'"$comppic"'"' -draw 'image SrcOver 32,32 32,32 "'"$drivepic"'"' ${ICONS}/${iconname}.png
+					#echo ---------------
+					#convert -size 64x64 canvas:white -draw 'image SrcOver 0,0 32,32 "'"$folderpic"'"' -draw 'image SrcOver 32,0 32,32 "'"$homepic"'"' -draw 'image SrcOver 0,32 32,32 "'"$comppic"'"' -draw 'image SrcOver 32,32 32,32 "'"$drivepic"'"' ${ICONS}/${iconname}.png 2>/dev/null
+					#makeiconthumbs "$REPLY"
 				fi
 				makeiconslist "$REPLY"
 			fi
@@ -377,13 +408,12 @@ if [ X"$1" = "X-m" ];then
 	MAKEPICS=1
 fi
 
-makegtknames
+#makegtknames
 makebordernames
-makethemenames
+#makethemenames
+#makeiconnames
 
-makeiconnames
-
-main
+#main
 
 rm $ICONFILES
 
