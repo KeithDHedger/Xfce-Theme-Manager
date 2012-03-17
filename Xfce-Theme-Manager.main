@@ -24,13 +24,13 @@ init ()
 	export OLDCONTROLS=$(xfconf-query -c xsettings -vp /Net/ThemeName)
 	export OLDCONTROLS=$(xfconf-query -c xsettings -vp /Net/ThemeName)
 
-	export -f settheme
-	export -f setborder
+	export -f setframe
 	export -f setcontrols
 	export -f seticons
 	export -f makeiconnames
 	export -f resettheme
-	
+	export -f setmetatheme
+
 	DB=/tmp/XFTE
 	FRAMES=${DB}/wmf
 	CONTROLS=${DB}/conts
@@ -40,6 +40,8 @@ init ()
 	GLOBAL=""
 
 	METALIST=""
+	FRAMESLIST=""
+	CONTROLSLIST=""
 
 	mkdir -p $FRAMES $CONTROLS $META
 }
@@ -223,8 +225,32 @@ makemetalist ()
 	METALIST=''"${METALIST}"'<button space-expand="false" space-fill="false" image-position="2" relief="2">'
 	METALIST=''"${METALIST}"'<input file>'"$pixmap"'</input>'
 	METALIST=''"${METALIST}"'<label>'"$metaname"'</label>'
-	METALIST=''"${METALIST}"'<action>echo '"$metaname"' >&2</action>'
+	METALIST=''"${METALIST}"'<action>exec $SHELL -c '"setmetatheme $metaname"'</action>'
 	METALIST=''"${METALIST}"'</button>'
+}
+
+makeframeslist ()
+{
+	local framename="$1"
+	local pixmap="${FRAMES}/${framename}.bmp"
+	
+	FRAMESLIST=''"${FRAMESLIST}"'<button space-expand="false" space-fill="false" image-position="2" relief="2">'
+	FRAMESLIST=''"${FRAMESLIST}"'<input file>'"$pixmap"'</input>'
+	FRAMESLIST=''"${FRAMESLIST}"'<label>'"$framename"'</label>'
+	FRAMESLIST=''"${FRAMESLIST}"'<action>exec $SHELL -c '"setframe $framename"'</action>'
+	FRAMESLIST=''"${FRAMESLIST}"'</button>'
+}
+
+makecontrolslist ()
+{
+	local controlname="$1"
+	local pixmap="${CONTROLS}/${controlname}.png"
+	
+	CONTROLSLIST=''"${CONTROLSLIST}"'<button space-expand="false" space-fill="false" image-position="2" relief="2">'
+	CONTROLSLIST=''"${CONTROLSLIST}"'<input file>'"$pixmap"'</input>'
+	CONTROLSLIST=''"${CONTROLSLIST}"'<label>'"$controlname"'</label>'
+	CONTROLSLIST=''"${CONTROLSLIST}"'<action>exec $SHELL -c '"setcontrols $controlname"'</action>'
+	CONTROLSLIST=''"${CONTROLSLIST}"'</button>'
 }
 
 resettheme ()
@@ -251,8 +277,9 @@ makegtknames ()
 			if [ -d "${REPLY}/gtk-2.0" ];then
 				echo "$(basename "$REPLY")|$REPLY"
 				#gtkpreview/gtkprev "$(basename "$REPLY")" "${CONTROLS}/$(basename "$REPLY").png"
+				makecontrolslist "$(basename "$REPLY")"
 			fi
-		done < <(find ~/.themes $GLOBAL -maxdepth 1 -mindepth 1)|sort >$GTKFILES
+		done < <(find ~/.themes $GLOBAL -maxdepth 1 -mindepth 1|sort )>$GTKFILES
 }
 
 makethemenames ()
@@ -274,38 +301,42 @@ makebordernames ()
 			if [ -d "${REPLY}/xfwm4" ];then
 				echo $(basename "$REPLY")
 				#makethumb "$REPLY" 0
-				echo $REPLY >&2
+				makeframeslist "$(basename "$REPLY")"
 			fi
 		done < <(find ~/.themes $GLOBAL -maxdepth 1 -mindepth 1|sort) >$BORDERFILES
 }
 
-settheme ()
+#set meta theme and icons if gnome index.theme file available
+setmetatheme ()
 {
 	local icontheme
+	local themename="$0"
 
-	xfconf-query -c xfwm4 -vp /general/theme -s "$THEMETREE"
-	xfconf-query -c xsettings -vp /Net/ThemeName -s "$THEMETREE"
+	xfconf-query -c xfwm4 -vp /general/theme -s "$themename"
+	xfconf-query -c xsettings -vp /Net/ThemeName -s "$themename"
 
-	icontheme=$(cat ~/.themes/$THEMETREE/index.theme|grep "IconTheme"|awk -F= '{print $2}')
+	icontheme=$(cat ~/.themes/$themename/index.theme|grep "IconTheme"|awk -F= '{print $2}')
 	if [ -d ~/.icons/$icontheme ] || [ -d /usr/share/.icons/$icontheme ];then
 		xfconf-query -c xsettings -vp /Net/IconThemeName -s "$icontheme"
 		return
 	fi
 
-	icontheme=$(cat /usr/share/themes/$THEMETREE/index.theme|grep "IconTheme"|awk -F= '{print $2}')
+	icontheme=$(cat /usr/share/themes/$themename/index.theme|grep "IconTheme"|awk -F= '{print $2}')
 	if [ -d /usr/share/.icons/$icontheme ];then
 		xfconf-query -c xsettings -vp /Net/IconThemeName -s "$icontheme"
 	fi
 }
 
-setborder ()
+setframe ()
 {
-	xfconf-query -c xfwm4 -vp /general/theme -s "$BORDERTREE"
+	local framename="$0"
+	xfconf-query -c xfwm4 -vp /general/theme -s "$framename"
 }
 
 setcontrols ()
 {
-	xfconf-query -c xsettings -vp /Net/ThemeName -s "$GTKTREE"
+	local controlname="$0"
+	xfconf-query -c xsettings -vp /Net/ThemeName -s "$controlname"
 }
 
 seticons ()

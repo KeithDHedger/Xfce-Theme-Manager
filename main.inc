@@ -2,29 +2,19 @@
 main ()
 {
 export MAIN_DIALOG='
-<window title="Xfce-Theme-Manager" height_request="480" width_request="500" window_position="1">
+<window title="Xfce-Theme-Manager" height_request="480" width_request="320" window_position="1">
 	<vbox>
 		<notebook labels="Themes|Window Borders|Controls|Icons" space-fill="true" space-expand="true">
 			<vbox scrollable="true">
 				'"$METALIST"'
 			</vbox>
 
-			<vbox>
-				<tree selection-mode="1">
-					<label>Border Name</label>
-					<input file>'"$BORDERFILES"'</input>
-					<variable>BORDERTREE</variable>
-					<action>exec $SHELL -c '"setborder"'</action>
-				</tree>
+			<vbox scrollable="true">
+				'"$FRAMESLIST"'
 			</vbox>
 
-			<vbox>
-				<tree selection-mode="1">
-					<label>Control Name</label>
-					<input file>'"$GTKFILES"'</input>
-					<variable>GTKTREE</variable>
-					<action>exec $SHELL -c '"setcontrols"'</action>
-				</tree>
+			<vbox scrollable="true">
+				'"$CONTROLSLIST"'
 			</vbox>
 
 			<vbox>
