@@ -39,6 +39,8 @@ init ()
 	GLOBAL=/usr/share/themes
 	GLOBAL=""
 
+	METALIST=""
+
 	mkdir -p $FRAMES $CONTROLS $META
 }
 
@@ -213,6 +215,18 @@ makethumb ()
 
 }
 
+makemetalist ()
+{
+	local metaname="$1"
+	local pixmap="${META}/${metaname}.bmp"
+	
+	METALIST=''"${METALIST}"'<button space-expand="false" space-fill="false" image-position="2" relief="2">'
+	METALIST=''"${METALIST}"'<input file>'"$pixmap"'</input>'
+	METALIST=''"${METALIST}"'<label>'"$metaname"'</label>'
+	METALIST=''"${METALIST}"'<action>echo '"$metaname"' >&2</action>'
+	METALIST=''"${METALIST}"'</button>'
+}
+
 resettheme ()
 {
 	xfconf-query -c xfwm4 -p /general/theme -s "$OLDBORDER"
@@ -247,9 +261,10 @@ makethemenames ()
 		do
 			if [ -d "${REPLY}/xfwm4" ] && [ -d "${REPLY}/gtk-2.0" ];then
 				#makethumb "$REPLY" 1
+				makemetalist "$(basename "$REPLY")"
 				echo $(basename "$REPLY")
 			fi
-		done < <(find ~/.themes $GLOBAL -maxdepth 1 -mindepth 1)|sort>$THEMEFILES
+		done < <(find ~/.themes $GLOBAL -maxdepth 1 -mindepth 1|sort)>$THEMEFILES
 }
 
 makebordernames ()
@@ -317,6 +332,7 @@ makeiconnames
 #cat $THEMEFILES
 #rm $THEMEFILES $BORDERFILES $GTKFILES $ICONFILES
 #exit
+
 main
 
 rm $THEMEFILES $BORDERFILES $GTKFILES $ICONFILES
