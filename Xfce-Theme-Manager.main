@@ -253,6 +253,19 @@ makecontrolslist ()
 	CONTROLSLIST=''"${CONTROLSLIST}"'<action>exec $SHELL -c '"setcontrols $controlname"'</action>'
 	CONTROLSLIST=''"${CONTROLSLIST}"'</button>'
 }
+makeiconslist ()
+{
+	local iconname="$(basename "$1")"
+	local pixmap="$(find "$REPLY" -iname "folder.???"|sort|head -n1)"
+echo +++ $iconname +++ $REPLY +++ $pixmap +++
+if [ X"$pixmap" != "X" ];then
+	ICONSLIST=''"${ICONSLIST}"'<button space-expand="false" space-fill="false" image-position="2" relief="2">'
+	ICONSLIST=''"${ICONSLIST}"'<input file>'"$pixmap"'</input>'
+	ICONSLIST=''"${ICONSLIST}"'<label>'"$iconname"'</label>'
+	ICONSLIST=''"${ICONSLIST}"'<action>exec $SHELL -c '"seticons $iconname"'</action>'
+	ICONSLIST=''"${ICONSLIST}"'</button>'
+fi
+}
 
 resettheme ()
 {
@@ -266,9 +279,9 @@ makeiconnames ()
 	while read
 		do
 			if [ ! -d "${REPLY}/cursors" ];then
-				echo $(basename "$REPLY")
+				makeiconslist "$REPLY"
 			fi
-		done < <(find ~/.icons /usr/share/icons -maxdepth 1 -mindepth 1)|sort >$ICONFILES
+		done < <(find ~/.icons /usr/share/icons -maxdepth 1 -mindepth 1|sort)
 }
 
 makegtknames ()
@@ -276,7 +289,6 @@ makegtknames ()
 	while read
 		do
 			if [ -d "${REPLY}/gtk-2.0" ];then
-				echo "$(basename "$REPLY")|$REPLY"
 				if [ $MAKEPICS -eq 1 ];then
 					gtkpreview/gtkprev "$(basename "$REPLY")" "${CONTROLS}/$(basename "$REPLY").png"
 				fi
@@ -294,7 +306,6 @@ makethemenames ()
 					makethumb "$REPLY" 1
 				fi
 				makemetalist "$(basename "$REPLY")"
-				echo $(basename "$REPLY")
 			fi
 		done < <(find ~/.themes $GLOBAL -maxdepth 1 -mindepth 1|sort)
 }
@@ -304,7 +315,6 @@ makebordernames ()
 	while read
 		do
 			if [ -d "${REPLY}/xfwm4" ];then
-				echo $(basename "$REPLY")
 				if [ $MAKEPICS -eq 1 ];then
 					makethumb "$REPLY" 0
 				fi
@@ -348,7 +358,8 @@ setcontrols ()
 
 seticons ()
 {
-	xfconf-query -c xsettings -vp /Net/IconThemeName -s "$ICONTREE"
+	local iconname="$0"
+	xfconf-query -c xsettings -vp /Net/IconThemeName -s "$iconname"
 }
 
 

@@ -17,13 +17,8 @@ export MAIN_DIALOG='
 				'"$CONTROLSLIST"'
 			</vbox>
 
-			<vbox>
-				<tree selection-mode="1">
-					<label>Icon Name</label>
-					<input file>'"$ICONFILES"'</input>
-					<variable>ICONTREE</variable>
-					<action>exec $SHELL -c '"seticons"'</action>
-				</tree>
+			<vbox scrollable="true">
+				'"$ICONSLIST"'
 			</vbox>
 
 		</notebook>
