@@ -188,7 +188,7 @@ makethumb ()
 
 	totalwid=$((tlwid+lsegwid+t2wid+64+t4wid+rsegwid+trwid))
 	boxwid=$totalwid
-	boxhite=64
+	boxhite=80
 
 #side
 	com4="image  SrcOver 0,$tlhite $slwid,$((boxhite-blhite-tlhite)) \"$(echo $leftside)\""
