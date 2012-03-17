@@ -14,9 +14,7 @@
 init ()
 {
 	GTKDIALOG=gtkdialog
-	THEMEFILES=/tmp/tf$$
-	BORDERFILES=/tmp/win$$
-	GTKFILES=/tmp/gtk$$
+
 	ICONFILES=/tmp/icons$$
 
 	MAKEPICS=0
@@ -39,7 +37,7 @@ init ()
 	META=${DB}/meta
 	
 	GLOBAL=/usr/share/themes
-	GLOBAL=""
+	#GLOBAL=""
 
 	METALIST=""
 	FRAMESLIST=""
@@ -284,7 +282,7 @@ makegtknames ()
 				fi
 				makecontrolslist "$(basename "$REPLY")"
 			fi
-		done < <(find ~/.themes $GLOBAL -maxdepth 1 -mindepth 1|sort )>$GTKFILES
+		done < <(find ~/.themes $GLOBAL -maxdepth 1 -mindepth 1|sort )
 }
 
 makethemenames ()
@@ -298,7 +296,7 @@ makethemenames ()
 				makemetalist "$(basename "$REPLY")"
 				echo $(basename "$REPLY")
 			fi
-		done < <(find ~/.themes $GLOBAL -maxdepth 1 -mindepth 1|sort)>$THEMEFILES
+		done < <(find ~/.themes $GLOBAL -maxdepth 1 -mindepth 1|sort)
 }
 
 makebordernames ()
@@ -312,7 +310,7 @@ makebordernames ()
 				fi
 				makeframeslist "$(basename "$REPLY")"
 			fi
-		done < <(find ~/.themes $GLOBAL -maxdepth 1 -mindepth 1|sort) >$BORDERFILES
+		done < <(find ~/.themes $GLOBAL -maxdepth 1 -mindepth 1|sort)
 }
 
 #set meta theme and icons if gnome index.theme file available
@@ -368,6 +366,6 @@ makeiconnames
 
 main
 
-rm $THEMEFILES $BORDERFILES $GTKFILES $ICONFILES
+rm $ICONFILES
 
 

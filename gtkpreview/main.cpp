@@ -67,7 +67,7 @@ GdkPixbuf * create_gtk_theme_pixbuf(char* name)
 
 	window=gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	
-	gtk_window_set_default_size((GtkWindow*)window, 180,50);
+	gtk_window_set_default_size((GtkWindow*)window, 200,50);
 
 	vbox=gtk_vbox_new(FALSE, 0);
 	gtk_container_add(GTK_CONTAINER(window), vbox);
