@@ -19,6 +19,8 @@ init ()
 	GTKFILES=/tmp/gtk$$
 	ICONFILES=/tmp/icons$$
 
+	MAKEPICS=0
+
 	export OLDICONS=$(xfconf-query -c xsettings -vp /Net/IconThemeName)
 	export OLDBORDER=$(xfconf-query -c xfwm4 -vp /general/theme)
 	export OLDCONTROLS=$(xfconf-query -c xsettings -vp /Net/ThemeName)
@@ -37,11 +39,12 @@ init ()
 	META=${DB}/meta
 	
 	GLOBAL=/usr/share/themes
-	#GLOBAL=""
+	GLOBAL=""
 
 	METALIST=""
 	FRAMESLIST=""
 	CONTROLSLIST=""
+	ICONSLIST=""
 
 	mkdir -p $FRAMES $CONTROLS $META
 }
@@ -276,7 +279,9 @@ makegtknames ()
 		do
 			if [ -d "${REPLY}/gtk-2.0" ];then
 				echo "$(basename "$REPLY")|$REPLY"
-				gtkpreview/gtkprev "$(basename "$REPLY")" "${CONTROLS}/$(basename "$REPLY").png"
+				if [ $MAKEPICS -eq 1 ];then
+					gtkpreview/gtkprev "$(basename "$REPLY")" "${CONTROLS}/$(basename "$REPLY").png"
+				fi
 				makecontrolslist "$(basename "$REPLY")"
 			fi
 		done < <(find ~/.themes $GLOBAL -maxdepth 1 -mindepth 1|sort )>$GTKFILES
@@ -287,7 +292,9 @@ makethemenames ()
 	while read
 		do
 			if [ -d "${REPLY}/xfwm4" ] && [ -d "${REPLY}/gtk-2.0" ];then
-				makethumb "$REPLY" 1
+				if [ $MAKEPICS -eq 1 ];then
+					makethumb "$REPLY" 1
+				fi
 				makemetalist "$(basename "$REPLY")"
 				echo $(basename "$REPLY")
 			fi
@@ -300,7 +307,9 @@ makebordernames ()
 		do
 			if [ -d "${REPLY}/xfwm4" ];then
 				echo $(basename "$REPLY")
-				makethumb "$REPLY" 0
+				if [ $MAKEPICS -eq 1 ];then
+					makethumb "$REPLY" 0
+				fi
 				makeframeslist "$(basename "$REPLY")"
 			fi
 		done < <(find ~/.themes $GLOBAL -maxdepth 1 -mindepth 1|sort) >$BORDERFILES
@@ -345,12 +354,11 @@ seticons ()
 }
 
 
-#convert -background none \( -gravity north '/home/keithhedger/.themes/OldWoodAndBrass/xfwm4/top-left-active.png' '/home/keithhedger/.themes/OldWoodAndBrass/xfwm4/title-3-active.png' '/home/keithhedger/.themes/OldWoodAndBrass/xfwm4/top-right-active.png' +append \)  \( '/home/keithhedger/.themes/OldWoodAndBrass/xfwm4/left-active.png' ./back1.jpg  '/home/keithhedger/.themes/OldWoodAndBrass/xfwm4/right-active.png' +append \) \( -gravity south '/home/keithhedger/.themes/OldWoodAndBrass/xfwm4/bottom-left-active.png' '/home/keithhedger/.themes/OldWoodAndBrass/xfwm4/bottom-active.png' '/home/keithhedger/.themes/OldWoodAndBrass/xfwm4/bottom-right-active.png' +append \) -background none -append out.png
-
-
 init
-#makethumb "/usr/share/themes/Xfce/"
-#exit
+
+if [ X"$1" = "X-m" ];then
+	MAKEPICS=1
+fi
 
 makegtknames
 makebordernames
@@ -358,14 +366,8 @@ makethemenames
 
 makeiconnames
 
-#makethumb "/usr/share/themes/Redmond"
-#exit
-#cat $THEMEFILES
-#rm $THEMEFILES $BORDERFILES $GTKFILES $ICONFILES
-#exit
-
 main
 
 rm $THEMEFILES $BORDERFILES $GTKFILES $ICONFILES
-rm -r /tmp/XTM
+
 
