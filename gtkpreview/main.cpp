@@ -105,8 +105,8 @@ GdkPixbuf * create_gtk_theme_pixbuf(char* name)
 	pixbuf=gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 8, width, height);
 	gdk_pixbuf_get_from_drawable(pixbuf, pixmap, NULL, 0, 0, 0, 0, width, height);
 
-//	retval=gdk_pixbuf_scale_simple(pixbuf,GTK_THUMBNAIL_SIZE,(int) GTK_THUMBNAIL_SIZE *(((double) height) /((double) width)),GDK_INTERP_BILINEAR);
-	retval=gdk_pixbuf_scale_simple(pixbuf,256,96,GDK_INTERP_BILINEAR);
+	retval=gdk_pixbuf_scale_simple(pixbuf,GTK_THUMBNAIL_SIZE,(int) GTK_THUMBNAIL_SIZE *(((double) height) /((double) width)),GDK_INTERP_BILINEAR);
+//	retval=gdk_pixbuf_scale_simple(pixbuf,256,96,GDK_INTERP_BILINEAR);
 
 	g_object_unref(pixbuf);
 	gtk_widget_destroy(window);

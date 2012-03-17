@@ -37,7 +37,7 @@ init ()
 	META=${DB}/meta
 	
 	GLOBAL=/usr/share/themes
-	GLOBAL=""
+	#GLOBAL=""
 
 	METALIST=""
 	FRAMESLIST=""
@@ -276,7 +276,7 @@ makegtknames ()
 		do
 			if [ -d "${REPLY}/gtk-2.0" ];then
 				echo "$(basename "$REPLY")|$REPLY"
-				#gtkpreview/gtkprev "$(basename "$REPLY")" "${CONTROLS}/$(basename "$REPLY").png"
+				gtkpreview/gtkprev "$(basename "$REPLY")" "${CONTROLS}/$(basename "$REPLY").png"
 				makecontrolslist "$(basename "$REPLY")"
 			fi
 		done < <(find ~/.themes $GLOBAL -maxdepth 1 -mindepth 1|sort )>$GTKFILES
@@ -287,7 +287,7 @@ makethemenames ()
 	while read
 		do
 			if [ -d "${REPLY}/xfwm4" ] && [ -d "${REPLY}/gtk-2.0" ];then
-				#makethumb "$REPLY" 1
+				makethumb "$REPLY" 1
 				makemetalist "$(basename "$REPLY")"
 				echo $(basename "$REPLY")
 			fi
@@ -300,7 +300,7 @@ makebordernames ()
 		do
 			if [ -d "${REPLY}/xfwm4" ];then
 				echo $(basename "$REPLY")
-				#makethumb "$REPLY" 0
+				makethumb "$REPLY" 0
 				makeframeslist "$(basename "$REPLY")"
 			fi
 		done < <(find ~/.themes $GLOBAL -maxdepth 1 -mindepth 1|sort) >$BORDERFILES
