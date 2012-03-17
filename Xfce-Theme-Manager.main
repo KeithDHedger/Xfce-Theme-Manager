@@ -37,7 +37,7 @@ init ()
 	META=${DB}/meta
 	
 	GLOBAL=/usr/share/themes
-	GLOBAL=""
+	#GLOBAL=""
 
 	METALIST=""
 	FRAMESLIST=""
