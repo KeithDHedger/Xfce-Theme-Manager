@@ -12,7 +12,7 @@ export MAIN_DIALOG='
 			<vbox>
 				<tree selection-mode="0">
 					<label>Border Name</label>
-					<input file>$BORDERFILES</input>
+					<input file>'"$BORDERFILES"'</input>
 					<variable>BORDERTREE</variable>
 					<action>exec $SHELL -c '"setborder"'</action>
 				</tree>
