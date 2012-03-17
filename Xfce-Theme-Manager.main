@@ -37,7 +37,7 @@ init ()
 	META=${DB}/meta
 	
 	GLOBAL=/usr/share/themes
-	#GLOBAL=""
+	GLOBAL=""
 
 	METALIST=""
 	FRAMESLIST=""
@@ -111,54 +111,54 @@ makethumb ()
 	menu=$(echo $menu|awk '{print $NF}')
 
 #menu button
-	data=$(identify "$menu"|awk '{print $3}')
+	data=$(identify "$menu" 2>/dev/null|awk '{print $3}')
 	menuwid=${data%x?*}
 	menuhite=${data#?*x}
 
 #close
-	data=$(identify "$close"|awk '{print $3}')
+	data=$(identify "$close" 2>/dev/null|awk '{print $3}')
 	closewid=${data%x?*}
 	closehite=${data#?*x}
 
 #max
-	data=$(identify "$max"|awk '{print $3}')
+	data=$(identify "$max" 2>/dev/null|awk '{print $3}')
 	maxwid=${data%x?*}
 	maxhite=${data#?*x}
 #min
-	data=$(identify "$min"|awk '{print $3}')
+	data=$(identify "$min" 2>/dev/null|awk '{print $3}')
 	minwid=${data%x?*}
 	minhite=${data#?*x}
 	
 #top left	
-	data=$(identify "$topleft"|awk '{print $3}')
+	data=$(identify "$topleft" 2>/dev/null|awk '{print $3}')
 	tlwid=${data%x?*}
 	tlhite=${data#?*x}
 
 #top rite
-	data=$(identify "$toprite"|awk '{print $3}')
+	data=$(identify "$toprite" 2>/dev/null|awk '{print $3}')
 	trwid=${data%x?*}
 	trhite=${data#?*x}
 
 #bottom left
-	data=$(identify "$bottomleft" |awk '{print $3}')
+	data=$(identify "$bottomleft" 2>/dev/null |awk '{print $3}')
 	blwid=${data%x?*}
 	blhite=${data#?*x}
 
 #bottom rite
-	data=$(identify "$bottomrite" |awk '{print $3}')
+	data=$(identify "$bottomrite" 2>/dev/null |awk '{print $3}')
 	brwid=${data%x?*}
 	brhite=${data#?*x}
 
 #left side
-	data=$(identify "$leftside" |awk '{print $3}')
+	data=$(identify "$leftside" 2>/dev/null |awk '{print $3}')
 	slwid=${data%x?*}
 	slhite=${data#?*x}
 
-	data=$(identify "$riteside" |awk '{print $3}')
+	data=$(identify "$riteside"  2>/dev/null|awk '{print $3}')
 	srwid=${data%x?*}
 	srhite=${data#?*x}
 
-	botdata=$(identify "$bottom" |awk '{print $3}')
+	botdata=$(identify "$bottom" 2>/dev/null |awk '{print $3}')
 	botwid=${botdata%x?*}
 	bothite=${botdata#?*x}
 
@@ -210,9 +210,9 @@ makethumb ()
 	if [ $2 -eq 1 ];then
 		gtkcom="image  SrcOver $((slwid)),$((starty=tlhite)) 0,0 \"${CONTROLS}/$(basename "$1").png\""
 
-		convert -size ${canvasw}x${canvash} canvas:white  -draw "$gtkcom" -draw "$com1" -draw "$com2_1" -draw "$com2_2" -draw "$com2_3" -draw "$com2_4" -draw "$com2_5" -draw "$com3" -draw "$com4" -draw "$com5" -draw "$com6" -draw "$com8" -draw "$com7" -draw "$menubut" -draw "$closebut"  -draw "$maxbut"  -draw "$minbut" "${META}/$(basename $1).bmp" &>/dev/null
+		convert -size ${canvasw}x${canvash} canvas:transparent  -draw "$gtkcom" -draw "$com1" -draw "$com2_1" -draw "$com2_2" -draw "$com2_3" -draw "$com2_4" -draw "$com2_5" -draw "$com3" -draw "$com4" -draw "$com5" -draw "$com6" -draw "$com8" -draw "$com7" -draw "$menubut" -draw "$closebut"  -draw "$maxbut"  -draw "$minbut" "${META}/$(basename $1).bmp" &>/dev/null
 	else
-		convert -size ${canvasw}x${canvash} canvas:white -draw "$com1" -draw "$com2_1" -draw "$com2_2" -draw "$com2_3" -draw "$com2_4" -draw "$com2_5" -draw "$com3" -draw "$com4" -draw "$com5" -draw "$com6" -draw "$com8" -draw "$com7" -draw "$menubut" -draw "$closebut"  -draw "$maxbut"  -draw "$minbut" "${FRAMES}/$(basename $1).bmp" &>/dev/null
+		convert -size ${canvasw}x${canvash} canvas:transparent -draw "$com1" -draw "$com2_1" -draw "$com2_2" -draw "$com2_3" -draw "$com2_4" -draw "$com2_5" -draw "$com3" -draw "$com4" -draw "$com5" -draw "$com6" -draw "$com8" -draw "$com7" -draw "$menubut" -draw "$closebut"  -draw "$maxbut"  -draw "$minbut" "${FRAMES}/$(basename $1).bmp" &>/dev/null
 	fi
 
 }
