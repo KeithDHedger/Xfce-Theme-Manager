@@ -15,8 +15,6 @@ init ()
 {
 	GTKDIALOG=gtkdialog
 
-	ICONFILES=/tmp/icons$$
-
 	MAKEPICS=0
 
 	export OLDICONS=$(xfconf-query -c xsettings -vp /Net/IconThemeName)
@@ -31,7 +29,7 @@ init ()
 	export -f resettheme
 	export -f setmetatheme
 
-	DB=/tmp/XFTE
+	DB=${HOME}/.config/XfceThemeManager
 	FRAMES=${DB}/wmf
 	CONTROLS=${DB}/conts
 	META=${DB}/meta
@@ -53,17 +51,17 @@ makethumb ()
 
 	local starty=0 topleft toprite title leftside riteside
 	local bottomleft bottomrite bottom
-	local tldata tlwid tlhite
-	local bldata blwid blhite
-	local sldata slwid slhite
+	local tlwid tlhite
+	local blwid blhite
+	local slwid slhite
 	local botdata botwid bothite
 	local canvasw canvash
 	local com1 com2 com3 com4 com5 com6 com7 com8
-
+	local picinfo
 	local boxwid=-1
-	local boxhite=48
+	local boxhite=80
 
-	. "$1/xfwm4/themerc"
+	. "$1/xfwm4/themerc" 2>/dev/null
 
 	topleft="$1/xfwm4/top-left-active.*"
 	topleft=$(echo $topleft|awk '{print $NF}')
@@ -81,17 +79,17 @@ makethumb ()
 	title5="$1/xfwm4/title-5-active.*"
 	title5=$(echo $title5|awk '{print $NF}')
 	
-	ttdata=$(identify "$title1" 2>/dev/null|awk '{print $3}')
-	t1wid=${ttdata%x?*}
-	ttdata=$(identify "$title2" 2>/dev/null|awk '{print $3}')
-	t2wid=${ttdata%x?*}
-	ttdata=$(identify "$title3" 2>/dev/null|awk '{print $3}')
-	t3wid=${ttdata%x?*}
-	titlehite=${ttdata#?*x}
-	ttdata=$(identify "$title4" 2>/dev/null|awk '{print $3}')
-	t4wid=${ttdata%x?*}
-	ttdata=$(identify "$title5" 2>/dev/null|awk '{print $3}')
-	t5wid=${ttdata%x?*}
+	picinfo=$(identify "$title1" 2>/dev/null|awk '{print $3}')
+	t1wid=${picinfo%x?*}
+	picinfo=$(identify "$title2" 2>/dev/null|awk '{print $3}')
+	t2wid=${picinfo%x?*}
+	picinfo=$(identify "$title3" 2>/dev/null|awk '{print $3}')
+	t3wid=${picinfo%x?*}
+	titlehite=${picinfo#?*x}
+	picinfo=$(identify "$title4" 2>/dev/null|awk '{print $3}')
+	t4wid=${picinfo%x?*}
+	picinfo=$(identify "$title5" 2>/dev/null|awk '{print $3}')
+	t5wid=${picinfo%x?*}
 
 	leftside="$1/xfwm4/left-active.*"
 	leftside=$(echo $leftside|awk '{print $NF}')
@@ -116,56 +114,56 @@ makethumb ()
 	menu=$(echo $menu|awk '{print $NF}')
 
 #menu button
-	data=$(identify "$menu" 2>/dev/null|awk '{print $3}')
-	menuwid=${data%x?*}
-	menuhite=${data#?*x}
+	picinfo=$(identify "$menu" 2>/dev/null|awk '{print $3}')
+	menuwid=${picinfo%x?*}
+	menuhite=${picinfo#?*x}
 
 #close
-	data=$(identify "$close" 2>/dev/null|awk '{print $3}')
-	closewid=${data%x?*}
-	closehite=${data#?*x}
+	picinfo=$(identify "$close" 2>/dev/null|awk '{print $3}')
+	closewid=${picinfo%x?*}
+	closehite=${picinfo#?*x}
 
 #max
-	data=$(identify "$max" 2>/dev/null|awk '{print $3}')
-	maxwid=${data%x?*}
-	maxhite=${data#?*x}
+	picinfo=$(identify "$max" 2>/dev/null|awk '{print $3}')
+	maxwid=${picinfo%x?*}
+	maxhite=${picinfo#?*x}
 #min
-	data=$(identify "$min" 2>/dev/null|awk '{print $3}')
-	minwid=${data%x?*}
-	minhite=${data#?*x}
+	picinfo=$(identify "$min" 2>/dev/null|awk '{print $3}')
+	minwid=${picinfo%x?*}
+	minhite=${picinfo#?*x}
 	
 #top left	
-	data=$(identify "$topleft" 2>/dev/null|awk '{print $3}')
-	tlwid=${data%x?*}
-	tlhite=${data#?*x}
+	picinfo=$(identify "$topleft" 2>/dev/null|awk '{print $3}')
+	tlwid=${picinfo%x?*}
+	tlhite=${picinfo#?*x}
 
 #top rite
-	data=$(identify "$toprite" 2>/dev/null|awk '{print $3}')
-	trwid=${data%x?*}
-	trhite=${data#?*x}
+	picinfo=$(identify "$toprite" 2>/dev/null|awk '{print $3}')
+	trwid=${picinfo%x?*}
+	trhite=${picinfo#?*x}
 
 #bottom left
-	data=$(identify "$bottomleft" 2>/dev/null |awk '{print $3}')
-	blwid=${data%x?*}
-	blhite=${data#?*x}
+	picinfo=$(identify "$bottomleft" 2>/dev/null |awk '{print $3}')
+	blwid=${picinfo%x?*}
+	blhite=${picinfo#?*x}
 
 #bottom rite
-	data=$(identify "$bottomrite" 2>/dev/null |awk '{print $3}')
-	brwid=${data%x?*}
-	brhite=${data#?*x}
+	picinfo=$(identify "$bottomrite" 2>/dev/null |awk '{print $3}')
+	brwid=${picinfo%x?*}
+	brhite=${picinfo#?*x}
 
 #left side
-	data=$(identify "$leftside" 2>/dev/null |awk '{print $3}')
-	slwid=${data%x?*}
-	slhite=${data#?*x}
+	picinfo=$(identify "$leftside" 2>/dev/null |awk '{print $3}')
+	slwid=${picinfo%x?*}
+	slhite=${picinfo#?*x}
 
-	data=$(identify "$riteside"  2>/dev/null|awk '{print $3}')
-	srwid=${data%x?*}
-	srhite=${data#?*x}
+	picinfo=$(identify "$riteside"  2>/dev/null|awk '{print $3}')
+	srwid=${picinfo%x?*}
+	srhite=${picinfo#?*x}
 
-	botdata=$(identify "$bottom" 2>/dev/null |awk '{print $3}')
-	botwid=${botdata%x?*}
-	bothite=${botdata#?*x}
+	picinfo=$(identify "$bottom" 2>/dev/null |awk '{print $3}')
+	botwid=${picinfo%x?*}
+	bothite=${picinfo#?*x}
 
 #leftsegwidth
 	lsegwid=$((menuwid+button_spacing))
@@ -188,7 +186,6 @@ makethumb ()
 
 	totalwid=$((tlwid+lsegwid+t2wid+64+t4wid+rsegwid+trwid))
 	boxwid=$totalwid
-	boxhite=80
 
 #side
 	com4="image  SrcOver 0,$tlhite $slwid,$((boxhite-blhite-tlhite)) \"$(echo $leftside)\""
@@ -419,6 +416,5 @@ makeiconnames
 
 main
 
-rm $ICONFILES
 
 
