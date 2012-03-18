@@ -53,9 +53,9 @@ makethumb ()
 	local starty=0 topleft toprite title leftside riteside
 	local bottomleft bottomrite bottom
 	local tlwid tlhite
-	local blwid blhite
-	local slwid slhite
-	local botdata botwid bothite
+
+
+
 	local canvasw canvash
 	local com1 com2 com3 com4 com5 com6 com7 com8
 	local picinfo
@@ -104,21 +104,27 @@ title5=( $(echo "$1"/xfwm4/title-5-active.*|awk '{print $NF}'|xargs identify -fo
 #	picinfo=$(identify "$title5" 2>/dev/null|awk '{print $3}')
 #	t5wid=${picinfo%x?*}
 
-	leftside="$1/xfwm4/left-active.*"
-	leftside=$(echo $leftside|awk '{print $NF}')
+#	leftside="$1/xfwm4/left-active.*"
+#	leftside=$(echo $leftside|awk '{print $NF}')
 	riteside="$1/xfwm4/right-active.*"
 	riteside=$(echo $riteside|awk '{print $NF}')
+	leftside=( $(echo "$1"/xfwm4/left-active.*|awk '{print $NF}'|xargs identify -format "%i %w %h") )
+	riteside=( $(echo "$1"/xfwm4/right-active.*|awk '{print $NF}'|xargs identify -format "%i %w %h") )
 
-	bottomleft="$1/xfwm4/bottom-left-active.*"
-	bottomleft=$(echo $bottomleft|awk '{print $NF}')
-	bottomrite="$1/xfwm4/bottom-right-active.*"
-	bottomrite=$(echo $bottomrite|awk '{print $NF}')
-	bottom="$1/xfwm4/bottom-active.*"
-	bottom=$(echo $bottom|awk '{print $NF}')
+#	bottomleft="$1/xfwm4/bottom-left-active.*"
+#	bottomleft=$(echo $bottomleft|awk '{print $NF}')
+#	bottomrite="$1/xfwm4/bottom-right-active.*"
+#	bottomrite=$(echo $bottomrite|awk '{print $NF}')
+#	bottom="$1/xfwm4/bottom-active.*"
+#	bottom=$(echo $bottom|awk '{print $NF}')
+
+	bottomleft=( $(echo "$1"/xfwm4/bottom-left-active.*|awk '{print $NF}'|xargs identify -format "%i %w %h") )
+	bottomrite=( $(echo "$1"/xfwm4/bottom-right-active.*|awk '{print $NF}'|xargs identify -format "%i %w %h") )
+	bottom=( $(echo "$1"/xfwm4/bottom-active.*|awk '{print $NF}'|xargs identify -format "%i %w %h") )
 
 #buttons
-	close="$1/xfwm4/close-active.*"
-	close=$(echo $close|awk '{print $NF}')
+#	close="$1/xfwm4/close-active.*"
+#	close=$(echo $close|awk '{print $NF}')
 	max="$1/xfwm4/maximize-active.*"
 	max=$(echo $max|awk '{print $NF}')
 	min="$1/xfwm4/hide-active.*"
@@ -126,15 +132,17 @@ title5=( $(echo "$1"/xfwm4/title-5-active.*|awk '{print $NF}'|xargs identify -fo
 	menu="$1/xfwm4/menu-active.*"
 	menu=$(echo $menu|awk '{print $NF}')
 
+close=( $(echo "$1"/xfwm4/close-active.*|awk '{print $NF}'|xargs identify -format "%i %w %h") )
+
 #menu button
 	picinfo=$(identify "$menu" 2>/dev/null|awk '{print $3}')
 	menuwid=${picinfo%x?*}
 	menuhite=${picinfo#?*x}
 
 #close
-	picinfo=$(identify "$close" 2>/dev/null|awk '{print $3}')
-	closewid=${picinfo%x?*}
-	closehite=${picinfo#?*x}
+#	picinfo=$(identify "$close" 2>/dev/null|awk '{print $3}')
+#	closewid=${picinfo%x?*}
+#	closehite=${picinfo#?*x}
 
 #max
 	picinfo=$(identify "$max" 2>/dev/null|awk '{print $3}')
@@ -156,27 +164,27 @@ title5=( $(echo "$1"/xfwm4/title-5-active.*|awk '{print $NF}'|xargs identify -fo
 #	trhite=${picinfo#?*x}
 
 #bottom left
-	picinfo=$(identify "$bottomleft" 2>/dev/null |awk '{print $3}')
-	blwid=${picinfo%x?*}
-	blhite=${picinfo#?*x}
+#	picinfo=$(identify "$bottomleft" 2>/dev/null |awk '{print $3}')
+#	blwid=${picinfo%x?*}
+#	blhite=${picinfo#?*x}
 
 #bottom rite
-	picinfo=$(identify "$bottomrite" 2>/dev/null |awk '{print $3}')
-	brwid=${picinfo%x?*}
-	brhite=${picinfo#?*x}
+#	picinfo=$(identify "$bottomrite" 2>/dev/null |awk '{print $3}')
+#	brwid=${picinfo%x?*}
+#	brhite=${picinfo#?*x}
 
 #left side
-	picinfo=$(identify "$leftside" 2>/dev/null |awk '{print $3}')
-	slwid=${picinfo%x?*}
-	slhite=${picinfo#?*x}
+#	picinfo=$(identify "$leftside" 2>/dev/null |awk '{print $3}')
+#	slwid=${picinfo%x?*}
+#	slhite=${picinfo#?*x}
 
-	picinfo=$(identify "$riteside"  2>/dev/null|awk '{print $3}')
-	srwid=${picinfo%x?*}
-	srhite=${picinfo#?*x}
+#	picinfo=$(identify "$riteside"  2>/dev/null|awk '{print $3}')
+#	srwid=${picinfo%x?*}
+#	srhite=${picinfo#?*x}
 
-	picinfo=$(identify "$bottom" 2>/dev/null |awk '{print $3}')
-	botwid=${picinfo%x?*}
-	bothite=${picinfo#?*x}
+#	picinfo=$(identify "$bottom" 2>/dev/null |awk '{print $3}')
+#	botwid=${picinfo%x?*}
+#	bothite=${picinfo#?*x}
 
 #leftsegwidth
 	lsegwid=$((menuwid+button_spacing))
@@ -184,48 +192,48 @@ title5=( $(echo "$1"/xfwm4/title-5-active.*|awk '{print $NF}'|xargs identify -fo
 #midsegwidth
 
 #rightsegwidth
-	rsegwid=$((closewid+maxwid+minwid+(button_spacing*3)))
+	rsegwid=$((close[1]+maxwid+minwid+(button_spacing*3)))
 
 #title
 	com1="image  SrcOver 0,0 0,0 \"$(echo $topleft)\""
 
-	com2_1="image  SrcOver ${topleft[1]},0 $lsegwid,${title3[2]} \"$(echo $title1)\""
-	com2_2="image  SrcOver $((topleft[1]+lsegwid)),0 0,0 \"$(echo $title2)\""
-	com2_3="image  SrcOver $((topleft[1]+lsegwid+title2[1])),0 64,${title3[2]} \"$(echo $title3)\""
-	com2_4="image  SrcOver $((topleft[1]+lsegwid+title2[1]+64)),0 0,0 \"$(echo $title4)\""
-	com2_5="image  SrcOver $((topleft[1]+lsegwid+title2[1]+64+title4[1])),0 $rsegwid,${title3[2]} \"$(echo $title5)\""
+	com2_1="image  SrcOver ${topleft[1]},0 $lsegwid,${title3[2]} \"$(echo ${title1[0]})\""
+	com2_2="image  SrcOver $((topleft[1]+lsegwid)),0 0,0 \"$(echo ${title2[0]})\""
+	com2_3="image  SrcOver $((topleft[1]+lsegwid+title2[1])),0 64,${title3[2]} \"$(echo ${title3[0]})\""
+	com2_4="image  SrcOver $((topleft[1]+lsegwid+title2[1]+64)),0 0,0 \"$(echo ${title4[0]})\""
+	com2_5="image  SrcOver $((topleft[1]+lsegwid+title2[1]+64+title4[1])),0 $rsegwid,${title3[2]} \"$(echo ${title5[0]})\""
 
-	com3="image  SrcOver $((topleft[1]+lsegwid+title2[1]+64+title4[1]+rsegwid)),0 0,0 \"$(echo $toprite)\""
+	com3="image  SrcOver $((topleft[1]+lsegwid+title2[1]+64+title4[1]+rsegwid)),0 0,0 \"$(echo ${toprite[0]})\""
 
 	totalwid=$((topleft[1]+lsegwid+title2[1]+64+title4[1]+rsegwid+toprite[1]))
 	boxwid=$totalwid
 
 #side
-	com4="image  SrcOver 0,${topleft[2]} $slwid,$((boxhite-blhite-topleft[2])) \"$(echo $leftside)\""
-	com5="image  SrcOver $((boxwid-srwid)),${toprite[2]} $srwid,$((boxhite-brhite-toprite[2])) \"$(echo $riteside)\""
+	com4="image  SrcOver 0,${topleft[2]} ${leftside[1]},$((boxhite-bottomleft[2]-topleft[2])) \"$(echo ${leftside[0]})\""
+	com5="image  SrcOver $((boxwid-riteside[1])),${toprite[2]} ${riteside[1]},$((boxhite-bottomrite[2]-toprite[2])) \"$(echo ${riteside[0]})\""
 
 #bottom
-	com6="image  SrcOver 0,$((boxhite-blhite)) 0,0 \"$(echo $bottomleft)\""
-	com7="image  SrcOver $((boxwid-brwid)),$((boxhite-brhite)) 0,0 \"$(echo $bottomrite)\""
+	com6="image  SrcOver 0,$((boxhite-bottomleft[2])) 0,0 \"$(echo ${bottomleft[0]})\""
+	com7="image  SrcOver $((boxwid-bottomrite[1])),$((boxhite-bottomrite[2])) 0,0 \"$(echo ${bottomrite[0]})\""
 	
-	com8="image  SrcOver $blwid,$((boxhite-bothite)) $((boxwid-blwid-brwid)),$bothite \"$(echo $bottom)\""
+	com8="image  SrcOver ${bottomleft[1]},$((boxhite-bottom[2])) $((boxwid-bottomleft[1]-bottomrite[1])),${bottom[2]} \"$(echo ${bottom[0]})\""
 
 #dobuttons
 	hiteoffset=$(((title3[2]-menuhite)/2))
-	menubut="image  SrcOver $((button_offset+slwid)),$hiteoffset 0,0 \"$(echo $menu)\""
+	menubut="image  SrcOver $((button_offset+leftside[1])),$hiteoffset 0,0 \"$(echo $menu)\""
 
-	hiteoffset=$(((title3[2]-closehite)/2))
-	closebut="image  SrcOver $((totalwid-button_offset-srwid-closewid)),$hiteoffset 0,0 \"$(echo $close)\""
-	maxbut="image  SrcOver $((totalwid-button_offset-srwid-closewid-maxwid-button_spacing)),$hiteoffset 0,0 \"$(echo $max)\""
-	minbut="image  SrcOver $((totalwid-button_offset-srwid-closewid-maxwid-minwid-button_spacing-button_spacing)),$hiteoffset 0,0 \"$(echo $min)\""
+	hiteoffset=$(((title3[2]-close[2])/2))
+	closebut="image  SrcOver $((totalwid-button_offset-rightside[1]-close[1])),$hiteoffset 0,0 \"$(echo $close)\""
+	maxbut="image  SrcOver $((totalwid-button_offset-rightside[1]-close[1]-maxwid-button_spacing)),$hiteoffset 0,0 \"$(echo $max)\""
+	minbut="image  SrcOver $((totalwid-button_offset-rightside[1]-close[1]-maxwid-minwid-button_spacing-button_spacing)),$hiteoffset 0,0 \"$(echo $min)\""
 
 #canvas
 	canvasw=$((totalwid))
-	canvash=$((topleft[2]+32+blhite))
+	canvash=$((topleft[2]+32+bottomleft[2]))
 canvash=$boxhite
 
 	if [ $2 -eq 1 ];then
-		gtkcom="image  SrcOver $((slwid)),$((starty=topleft[2])) 0,0 \"${CONTROLS}/$(basename "$1").png\""
+		gtkcom="image  SrcOver $((leftside[1])),$((starty=topleft[2])) 0,0 \"${CONTROLS}/$(basename "$1").png\""
 
 		convert -size ${canvasw}x${canvash} canvas:transparent  -draw "$gtkcom" -draw "$com1" -draw "$com2_1" -draw "$com2_2" -draw "$com2_3" -draw "$com2_4" -draw "$com2_5" -draw "$com3" -draw "$com4" -draw "$com5" -draw "$com6" -draw "$com8" -draw "$com7" -draw "$menubut" -draw "$closebut"  -draw "$maxbut"  -draw "$minbut" "${META}/$(basename $1).bmp" &>/dev/null
 	else
