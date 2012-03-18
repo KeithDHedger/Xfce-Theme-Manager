@@ -44,6 +44,7 @@ init ()
 	CONTROLSLIST=""
 	ICONSLIST=""
 
+	GTKPREV=/usr/local/gtkprev
 	mkdir -p $FRAMES $CONTROLS $META $ICONS
 }
 
@@ -236,7 +237,7 @@ makegtknames ()
 		do
 			if [ -d "${REPLY}/gtk-2.0" ];then
 				if [ $MAKEPICS -eq 1 ];then
-					gtkpreview/gtkprev "$(basename "$REPLY")" "${CONTROLS}/$(basename "$REPLY").png"
+					$GTKPREV "$(basename "$REPLY")" "${CONTROLS}/$(basename "$REPLY").png"
 				fi
 				makecontrolslist "$(basename "$REPLY")"
 			fi

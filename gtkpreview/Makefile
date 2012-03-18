@@ -15,6 +15,13 @@ $(PROGRAM):$(SOURCES)
 	g++ $(CXXFLAGS) -o $(PROGRAM) $(SOURCES)
 	strip $(PROGRAM)
 
+inastall:
+	rm $(PROGRAM)
+	$(PROGRAM):$(SOURCES)
+	g++ $(CXXFLAGS) -o $(PROGRAM) $(SOURCES)
+	strip $(PROGRAM)
+	cp $(PROGRAM) $(PREFIX)/bin
+
 clean:
 	rm $(PROGRAM)
 
