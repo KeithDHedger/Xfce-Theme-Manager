@@ -30,6 +30,7 @@ init ()
 	export -f setmetatheme
 
 	DB=${HOME}/.config/XfceThemeManager
+	DB=/tmp/XfceThemeManager
 	FRAMES=${DB}/wmf
 	CONTROLS=${DB}/conts
 	META=${DB}/meta
@@ -63,35 +64,45 @@ makethumb ()
 
 	. "$1/xfwm4/themerc" 2>/dev/null
 
-	topleft="$1/xfwm4/top-left-active.*"
-	topleft=$(echo $topleft|awk '{print $NF}')
-	toprite="$1/xfwm4/top-right-active.*"
-	toprite=$(echo $toprite|awk '{print $NF}')
+#	topleft="$1/xfwm4/top-left-active.*"
+#	topleft=$(echo $topleft|awk '{print $NF}')
+#	toprite="$1/xfwm4/top-right-active.*"
+#	toprite=$(echo $toprite|awk '{print $NF}')
 
-	title1="$1/xfwm4/title-1-active.*"
-	title1=$(echo $title1|awk '{print $NF}')
-	title2="$1/xfwm4/title-2-active.*"
-	title2=$(echo $title2|awk '{print $NF}')
-	title3="$1/xfwm4/title-3-active.*"
-	title3=$(echo $title3|awk '{print $NF}')
-	title4="$1/xfwm4/title-4-active.*"
-	title4=$(echo $title4|awk '{print $NF}')
-	title5="$1/xfwm4/title-5-active.*"
-	title5=$(echo $title5|awk '{print $NF}')
+#	title1="$1/xfwm4/title-1-active.*"
+#	title1=$(echo $title1|awk '{print $NF}')
+#	title2="$1/xfwm4/title-2-active.*"
+#	title2=$(echo $title2|awk '{print $NF}')
+#	title3="$1/xfwm4/title-3-active.*"
+#	title3=$(echo $title3|awk '{print $NF}')
+#	title4="$1/xfwm4/title-4-active.*"
+#	title4=$(echo $title4|awk '{print $NF}')
+#	title5="$1/xfwm4/title-5-active.*"
+#	title5=$(echo $title5|awk '{print $NF}')
+	
+topleft=( $(echo "$1"/xfwm4/top-left-active.*|awk '{print $NF}'|xargs identify -format "%i %w %h") )
+toprite=( $(echo "$1"/xfwm4/top-right-active.*|awk '{print $NF}'|xargs identify -format "%i %w %h") )
+title1=( $(echo "$1"/xfwm4/title-1-active.*|awk '{print $NF}'|xargs identify -format "%i %w %h") )
+title2=( $(echo "$1"/xfwm4/title-2-active.*|awk '{print $NF}'|xargs identify -format "%i %w %h") )
+title3=( $(echo "$1"/xfwm4/title-3-active.*|awk '{print $NF}'|xargs identify -format "%i %w %h") )
+title4=( $(echo "$1"/xfwm4/title-4-active.*|awk '{print $NF}'|xargs identify -format "%i %w %h") )
+title5=( $(echo "$1"/xfwm4/title-5-active.*|awk '{print $NF}'|xargs identify -format "%i %w %h") )
+
 
 #echo ~/.themes/G-Effects/xfwm4/close-active.*|awk '{print $NF}'|xargs identify -format "%i %w %h"
+#closedata=( $(echo ~/.themes/G-Effects/xfwm4/close-active.*|awk '{print $NF}'|xargs identify -format "%i %w %h") )
 
-	picinfo=$(identify "$title1" 2>/dev/null|awk '{print $3}')
-	t1wid=${picinfo%x?*}
-	picinfo=$(identify "$title2" 2>/dev/null|awk '{print $3}')
-	t2wid=${picinfo%x?*}
-	picinfo=$(identify "$title3" 2>/dev/null|awk '{print $3}')
-	t3wid=${picinfo%x?*}
-	titlehite=${picinfo#?*x}
-	picinfo=$(identify "$title4" 2>/dev/null|awk '{print $3}')
-	t4wid=${picinfo%x?*}
-	picinfo=$(identify "$title5" 2>/dev/null|awk '{print $3}')
-	t5wid=${picinfo%x?*}
+#	picinfo=$(identify "$title1" 2>/dev/null|awk '{print $3}')
+#	t1wid=${picinfo%x?*}
+#	picinfo=$(identify "$title2" 2>/dev/null|awk '{print $3}')
+#	t2wid=${picinfo%x?*}
+#	picinfo=$(identify "$title3" 2>/dev/null|awk '{print $3}')
+#	t3wid=${picinfo%x?*}
+#	titlehite=${picinfo#?*x}
+#	picinfo=$(identify "$title4" 2>/dev/null|awk '{print $3}')
+#	t4wid=${picinfo%x?*}
+#	picinfo=$(identify "$title5" 2>/dev/null|awk '{print $3}')
+#	t5wid=${picinfo%x?*}
 
 	leftside="$1/xfwm4/left-active.*"
 	leftside=$(echo $leftside|awk '{print $NF}')
@@ -135,14 +146,14 @@ makethumb ()
 	minhite=${picinfo#?*x}
 	
 #top left	
-	picinfo=$(identify "$topleft" 2>/dev/null|awk '{print $3}')
-	tlwid=${picinfo%x?*}
-	tlhite=${picinfo#?*x}
+#	picinfo=$(identify "$topleft" 2>/dev/null|awk '{print $3}')
+#	tlwid=${picinfo%x?*}
+#	tlhite=${picinfo#?*x}
 
 #top rite
-	picinfo=$(identify "$toprite" 2>/dev/null|awk '{print $3}')
-	trwid=${picinfo%x?*}
-	trhite=${picinfo#?*x}
+#	picinfo=$(identify "$toprite" 2>/dev/null|awk '{print $3}')
+#	trwid=${picinfo%x?*}
+#	trhite=${picinfo#?*x}
 
 #bottom left
 	picinfo=$(identify "$bottomleft" 2>/dev/null |awk '{print $3}')
@@ -178,20 +189,20 @@ makethumb ()
 #title
 	com1="image  SrcOver 0,0 0,0 \"$(echo $topleft)\""
 
-	com2_1="image  SrcOver $tlwid,0 $lsegwid,$titlehite \"$(echo $title1)\""
-	com2_2="image  SrcOver $((tlwid+lsegwid)),0 0,0 \"$(echo $title2)\""
-	com2_3="image  SrcOver $((tlwid+lsegwid+t2wid)),0 64,$titlehite \"$(echo $title3)\""
-	com2_4="image  SrcOver $((tlwid+lsegwid+t2wid+64)),0 0,0 \"$(echo $title4)\""
-	com2_5="image  SrcOver $((tlwid+lsegwid+t2wid+64+t4wid)),0 $rsegwid,$titlehite \"$(echo $title5)\""
+	com2_1="image  SrcOver ${topleft[1]},0 $lsegwid,${title3[2]} \"$(echo $title1)\""
+	com2_2="image  SrcOver $((topleft[1]+lsegwid)),0 0,0 \"$(echo $title2)\""
+	com2_3="image  SrcOver $((topleft[1]+lsegwid+title2[1])),0 64,${title3[2]} \"$(echo $title3)\""
+	com2_4="image  SrcOver $((topleft[1]+lsegwid+title2[1]+64)),0 0,0 \"$(echo $title4)\""
+	com2_5="image  SrcOver $((topleft[1]+lsegwid+title2[1]+64+title4[1])),0 $rsegwid,${title3[2]} \"$(echo $title5)\""
 
-	com3="image  SrcOver $((tlwid+lsegwid+t2wid+64+t4wid+rsegwid)),0 0,0 \"$(echo $toprite)\""
+	com3="image  SrcOver $((topleft[1]+lsegwid+title2[1]+64+title4[1]+rsegwid)),0 0,0 \"$(echo $toprite)\""
 
-	totalwid=$((tlwid+lsegwid+t2wid+64+t4wid+rsegwid+trwid))
+	totalwid=$((topleft[1]+lsegwid+title2[1]+64+title4[1]+rsegwid+toprite[1]))
 	boxwid=$totalwid
 
 #side
-	com4="image  SrcOver 0,$tlhite $slwid,$((boxhite-blhite-tlhite)) \"$(echo $leftside)\""
-	com5="image  SrcOver $((boxwid-srwid)),$trhite $srwid,$((boxhite-brhite-trhite)) \"$(echo $riteside)\""
+	com4="image  SrcOver 0,${topleft[2]} $slwid,$((boxhite-blhite-topleft[2])) \"$(echo $leftside)\""
+	com5="image  SrcOver $((boxwid-srwid)),${toprite[2]} $srwid,$((boxhite-brhite-toprite[2])) \"$(echo $riteside)\""
 
 #bottom
 	com6="image  SrcOver 0,$((boxhite-blhite)) 0,0 \"$(echo $bottomleft)\""
@@ -200,27 +211,26 @@ makethumb ()
 	com8="image  SrcOver $blwid,$((boxhite-bothite)) $((boxwid-blwid-brwid)),$bothite \"$(echo $bottom)\""
 
 #dobuttons
-	hiteoffset=$(((titlehite-menuhite)/2))
+	hiteoffset=$(((title3[2]-menuhite)/2))
 	menubut="image  SrcOver $((button_offset+slwid)),$hiteoffset 0,0 \"$(echo $menu)\""
 
-	hiteoffset=$(((titlehite-closehite)/2))
+	hiteoffset=$(((title3[2]-closehite)/2))
 	closebut="image  SrcOver $((totalwid-button_offset-srwid-closewid)),$hiteoffset 0,0 \"$(echo $close)\""
 	maxbut="image  SrcOver $((totalwid-button_offset-srwid-closewid-maxwid-button_spacing)),$hiteoffset 0,0 \"$(echo $max)\""
 	minbut="image  SrcOver $((totalwid-button_offset-srwid-closewid-maxwid-minwid-button_spacing-button_spacing)),$hiteoffset 0,0 \"$(echo $min)\""
 
 #canvas
 	canvasw=$((totalwid))
-	canvash=$((tlhite+32+blhite))
+	canvash=$((topleft[2]+32+blhite))
 canvash=$boxhite
 
 	if [ $2 -eq 1 ];then
-		gtkcom="image  SrcOver $((slwid)),$((starty=tlhite)) 0,0 \"${CONTROLS}/$(basename "$1").png\""
+		gtkcom="image  SrcOver $((slwid)),$((starty=topleft[2])) 0,0 \"${CONTROLS}/$(basename "$1").png\""
 
 		convert -size ${canvasw}x${canvash} canvas:transparent  -draw "$gtkcom" -draw "$com1" -draw "$com2_1" -draw "$com2_2" -draw "$com2_3" -draw "$com2_4" -draw "$com2_5" -draw "$com3" -draw "$com4" -draw "$com5" -draw "$com6" -draw "$com8" -draw "$com7" -draw "$menubut" -draw "$closebut"  -draw "$maxbut"  -draw "$minbut" "${META}/$(basename $1).bmp" &>/dev/null
 	else
 		convert -size ${canvasw}x${canvash} canvas:transparent -draw "$com1" -draw "$com2_1" -draw "$com2_2" -draw "$com2_3" -draw "$com2_4" -draw "$com2_5" -draw "$com3" -draw "$com4" -draw "$com5" -draw "$com6" -draw "$com8" -draw "$com7" -draw "$menubut" -draw "$closebut"  -draw "$maxbut"  -draw "$minbut" "${FRAMES}/$(basename $1).bmp" &>/dev/null
 	fi
-
 }
 
 makemetalist ()
@@ -335,11 +345,12 @@ makebordernames ()
 		do
 			if [ -d "${REPLY}/xfwm4" ];then
 				if [ $MAKEPICS -eq 1 ];then
-					makethumb "$REPLY" 0
+					makethumb "$REPLY" 0 < /dev/null
 				fi
 				makeframeslist "$(basename "$REPLY")"
 			fi
 		done < <(find ~/.themes $GLOBAL -maxdepth 1 -mindepth 1|sort)
+
 }
 
 #set meta theme and icons if gnome index.theme file available
@@ -388,12 +399,13 @@ if [ X"$1" = "X-m" ];then
 	MAKEPICS=1
 fi
 
-makegtknames
+#makegtknames
 makebordernames
-makethemenames
-makeiconnames
+echo XXXXXXXXx
+#makethemenames
+#makeiconnames
 
-main
+#main
 
 
 
