@@ -37,7 +37,7 @@ init ()
 	ICONS=${DB}/icons
 	
 	GLOBAL=/usr/share/themes
-	GLOBAL=""
+	#GLOBAL=""
 
 	METALIST=""
 	FRAMESLIST=""
@@ -60,9 +60,7 @@ makethumb ()
 	local boxwid
 	local boxhite=80
 
-#	. "$1/xfwm4/themerc" 2>/dev/null
-
-eval $(cat "$1"/xfwm4/themerc|grep -i -e "button_offset" -e "button_spacing")
+	eval $(cat "$1"/xfwm4/themerc|grep -i -e "button_offset" -e "button_spacing")
 
 	topleft=( $(echo "$1"/xfwm4/top-left-active.*|awk '{print $NF}'|xargs identify -format "%i %w %h") )
 	toprite=( $(echo "$1"/xfwm4/top-right-active.*|awk '{print $NF}'|xargs identify -format "%i %w %h") )
@@ -173,14 +171,14 @@ makecontrolslist ()
 }
 makeiconslist ()
 {
-	local iconname="$(basename "$1")"
-	local pixmap="${ICONS}/${iconname}.png"
+	local showiconname="$1" iconname="$2"
+	local pixmap="${ICONS}/${showiconname}.png"
 
 if [ X"$pixmap" != "X" ];then
 	ICONSLIST=''"${ICONSLIST}"'<button space-expand="false" space-fill="false" image-position="2" relief="2">'
 	ICONSLIST=''"${ICONSLIST}"'<input file>'"$pixmap"'</input>'
-	ICONSLIST=''"${ICONSLIST}"'<label>'"$iconname"'</label>'
-	ICONSLIST=''"${ICONSLIST}"'<action>exec $SHELL -c '"seticons $iconname"'</action>'
+	ICONSLIST=''"${ICONSLIST}"'<label>'"$showiconname"'</label>'
+	ICONSLIST=''"${ICONSLIST}"'<action>exec $SHELL -c ''seticons '"\"$iconname\""'''</action>'
 	ICONSLIST=''"${ICONSLIST}"'</button>'
 fi
 }
@@ -194,26 +192,42 @@ resettheme ()
 
 makeiconthumbs ()
 {
-	local iconname=$(basename "$1")
-	local folderpic="$(find "$1" -iname "folder.???"|head -n1)"
-	local homepic="$(find "$1" -iname "user-home*.???"|head -n1)"
-	local comppic="$(find "$1" -iname "computer.???"|head -n1)"
-	local drivepic="$(find "$1" -iname "*drive*harddisk*.???"|head -n1)"
+	local iconpath="$1"
+	local iconname="$2"
+	
+	echo iconpath="$1"  iconname="$2"
+	
+	local folderpic="$(find "$iconpath" -iname "folder.???"|head -n1)"
+	local homepic="$(find "$iconpath" -iname "user-home*.???"|head -n1)"
+	local comppic="$(find "$iconpath" -iname "computer.???"|head -n1)"
+	local drivepic="$(find "$iconpath" -iname "*drive*harddisk*.???"|head -n1)"
 
-	convert $folderpic $homepic $comppic $drivepic -background none +append -scale 128x32! ${ICONS}/${iconname}.png
-		}
+echo $folderpic $homepic $comppic $drivepic
+	convert $folderpic $homepic $comppic $drivepic -background none +append -scale 128x32! "${ICONS}/${iconname}.png"
+}
 
 makeiconnames ()
-{	
+{
+	local showiconname iconname
+	
 	while read
 		do
-			if [ ! -d "${REPLY}/cursors" ];then
-				if [ $MAKEPICS -eq 1 ];then
-					makeiconthumbs "$REPLY"
+			if [ ! -d "${REPLY}"/cursors ];then
+
+				if [ -e "${REPLY}"/index.theme ];then
+					if ! cat "${REPLY}"/index.theme |grep -i "hidden" >/dev/null ;then
+						iconname="$(basename "$REPLY")"
+						showiconname=$(cat "${REPLY}"/index.theme |grep -i "name="|awk -F "=" '{print $2}')
+						if [ $MAKEPICS -eq 1 ];then
+							echo $REPLY
+							makeiconthumbs "$REPLY" "$showiconname"
+						fi
+						makeiconslist "$showiconname" "$iconname"
+					fi
 				fi
-				makeiconslist "$REPLY"
+
 			fi
-		done < <(find ~/.icons /usr/share/icons -maxdepth 1 -mindepth 1|sort)
+		done < <(find ~/.icons /usr/share/icons -maxdepth 1 -mindepth 1 -type d|sort)
 }
 
 makegtknames ()
@@ -292,6 +306,8 @@ setcontrols ()
 seticons ()
 {
 	local iconname="$0"
+	echo $iconname >&2
+
 	xfconf-query -c xsettings -vp /Net/IconThemeName -s "$iconname"
 }
 

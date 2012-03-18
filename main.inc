@@ -40,7 +40,7 @@ export MAIN_DIALOG='
 #<label>AllHallowsEveII</label>
 #</button>'
 
-#echo -e $MAIN_DIALOG > ./MAINDIA
+echo -e $MAIN_DIALOG > ./MAINDIA
 #echo -e $METALIST > ./METAL
 #export testdia=$MAIN_DIALOG
 $GTKDIALOG --program=MAIN_DIALOG >/dev/null
