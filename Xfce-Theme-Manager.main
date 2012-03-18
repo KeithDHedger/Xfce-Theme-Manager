@@ -78,7 +78,9 @@ makethumb ()
 	title4=$(echo $title4|awk '{print $NF}')
 	title5="$1/xfwm4/title-5-active.*"
 	title5=$(echo $title5|awk '{print $NF}')
-	
+
+#echo ~/.themes/G-Effects/xfwm4/close-active.*|awk '{print $NF}'|xargs identify -format "%i %w %h"
+
 	picinfo=$(identify "$title1" 2>/dev/null|awk '{print $3}')
 	t1wid=${picinfo%x?*}
 	picinfo=$(identify "$title2" 2>/dev/null|awk '{print $3}')
