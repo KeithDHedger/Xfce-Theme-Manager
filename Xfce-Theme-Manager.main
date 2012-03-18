@@ -286,38 +286,15 @@ makeiconthumbs ()
 	local drivepic="$(find "$1" -iname "*drive*harddisk*.???"|head -n1)"
 
 	convert $folderpic $homepic $comppic $drivepic -background none +append -scale 128x32! ${ICONS}/${iconname}.png
-		
-#	echo ++++++++++++++
-#	echo convert -size 64x64 canvas:white -draw 'image SrcOver 0,0 32,32 "'"$folderpic"'"' ${ICONS}/${iconname}.png
-	# -draw 'image SrcOver 32,0 32,32 '"$homepic" -draw 'image SrcOver 0,32 32,32 '"$comppic" -draw 'image SrcOver 32,32 32,32 '"$drivepic" ${ICONS}${iconname}.png
-#	echo +++++++++++++++
-
-#	convert -size 64x64 canvas:white -draw 'image SrcOver 0,0 32,32 "'"$folderpic"'"' -draw 'image SrcOver 32,0 32,32 "'"$homepic"'"' -draw 'image SrcOver 0,32 32,32 "'"$comppic"'"' -draw 'image SrcOver 32,32 32,32 "'"$drivepic"'"' ${ICONS}/${iconname}.png
-}
+		}
 
 makeiconnames ()
 {	
-#local iconname=$(basename "$1")
-#	local folderpic
-#	local homepic
-#	local comppic
-#	local drivepic
-
 	while read
 		do
 			if [ ! -d "${REPLY}/cursors" ];then
 				if [ $MAKEPICS -eq 1 ];then
 					makeiconthumbs "$REPLY"
-					#iconname=$(basename "$REPLY")
-					#folderpicx="$(find "$REPLY" -iname "folder.???"|head -n1)"
-					#homepic="$(find "$REPLY" -iname "user-home*.???"|head -n1)"
-					#comppic="$(find "$REPLY" -iname "computer.???"|head -n1)"
-					#drivepic="$(find "$REPLY" -iname "*drive*harddisk*.???"|head -n1)"
-					#echo +++++++++++
-					#echo convert -size 64x64 canvas:white -draw 'image SrcOver 0,0 32,32 "'"$folderpic"'"' -draw 'image SrcOver 32,0 32,32 "'"$homepic"'"' -draw 'image SrcOver 0,32 32,32 "'"$comppic"'"' -draw 'image SrcOver 32,32 32,32 "'"$drivepic"'"' ${ICONS}/${iconname}.png
-					#echo ---------------
-					#convert -size 64x64 canvas:white -draw 'image SrcOver 0,0 32,32 "'"$folderpic"'"' -draw 'image SrcOver 32,0 32,32 "'"$homepic"'"' -draw 'image SrcOver 0,32 32,32 "'"$comppic"'"' -draw 'image SrcOver 32,32 32,32 "'"$drivepic"'"' ${ICONS}/${iconname}.png 2>/dev/null
-					#makeiconthumbs "$REPLY"
 				fi
 				makeiconslist "$REPLY"
 			fi
