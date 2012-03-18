@@ -125,19 +125,22 @@ title5=( $(echo "$1"/xfwm4/title-5-active.*|awk '{print $NF}'|xargs identify -fo
 #buttons
 #	close="$1/xfwm4/close-active.*"
 #	close=$(echo $close|awk '{print $NF}')
-	max="$1/xfwm4/maximize-active.*"
-	max=$(echo $max|awk '{print $NF}')
-	min="$1/xfwm4/hide-active.*"
-	min=$(echo $min|awk '{print $NF}')
-	menu="$1/xfwm4/menu-active.*"
-	menu=$(echo $menu|awk '{print $NF}')
+#	max="$1/xfwm4/maximize-active.*"
+#	max=$(echo $max|awk '{print $NF}')
+#	min="$1/xfwm4/hide-active.*"
+#	min=$(echo $min|awk '{print $NF}')
+#	menu="$1/xfwm4/menu-active.*"
+#	menu=$(echo $menu|awk '{print $NF}')
 
-close=( $(echo "$1"/xfwm4/close-active.*|awk '{print $NF}'|xargs identify -format "%i %w %h") )
+	close=( $(echo "$1"/xfwm4/close-active.*|awk '{print $NF}'|xargs identify -format "%i %w %h") )
+	max=( $(echo "$1"/xfwm4/maximize-active.*|awk '{print $NF}'|xargs identify -format "%i %w %h") )
+	min=( $(echo "$1"/xfwm4/hide-active.*|awk '{print $NF}'|xargs identify -format "%i %w %h") )
+	menu=( $(echo "$1"/xfwm4/menu-active.*|awk '{print $NF}'|xargs identify -format "%i %w %h") )
 
 #menu button
-	picinfo=$(identify "$menu" 2>/dev/null|awk '{print $3}')
-	menuwid=${picinfo%x?*}
-	menuhite=${picinfo#?*x}
+#	picinfo=$(identify "$menu" 2>/dev/null|awk '{print $3}')
+#	menuwid=${picinfo%x?*}
+#	menuhite=${picinfo#?*x}
 
 #close
 #	picinfo=$(identify "$close" 2>/dev/null|awk '{print $3}')
@@ -145,13 +148,13 @@ close=( $(echo "$1"/xfwm4/close-active.*|awk '{print $NF}'|xargs identify -forma
 #	closehite=${picinfo#?*x}
 
 #max
-	picinfo=$(identify "$max" 2>/dev/null|awk '{print $3}')
-	maxwid=${picinfo%x?*}
-	maxhite=${picinfo#?*x}
+#	picinfo=$(identify "$max" 2>/dev/null|awk '{print $3}')
+#	maxwid=${picinfo%x?*}
+#	maxhite=${picinfo#?*x}
 #min
-	picinfo=$(identify "$min" 2>/dev/null|awk '{print $3}')
-	minwid=${picinfo%x?*}
-	minhite=${picinfo#?*x}
+#	picinfo=$(identify "$min" 2>/dev/null|awk '{print $3}')
+#	minwid=${picinfo%x?*}
+#	minhite=${picinfo#?*x}
 	
 #top left	
 #	picinfo=$(identify "$topleft" 2>/dev/null|awk '{print $3}')
@@ -187,12 +190,12 @@ close=( $(echo "$1"/xfwm4/close-active.*|awk '{print $NF}'|xargs identify -forma
 #	bothite=${picinfo#?*x}
 
 #leftsegwidth
-	lsegwid=$((menuwid+button_spacing))
+	lsegwid=$((menu[1]+button_spacing))
 
 #midsegwidth
 
 #rightsegwidth
-	rsegwid=$((close[1]+maxwid+minwid+(button_spacing*3)))
+	rsegwid=$((close[1]+max[1]+min[1]+(button_spacing*3)))
 
 #title
 	com1="image  SrcOver 0,0 0,0 \"$(echo $topleft)\""
@@ -219,13 +222,13 @@ close=( $(echo "$1"/xfwm4/close-active.*|awk '{print $NF}'|xargs identify -forma
 	com8="image  SrcOver ${bottomleft[1]},$((boxhite-bottom[2])) $((boxwid-bottomleft[1]-bottomrite[1])),${bottom[2]} \"$(echo ${bottom[0]})\""
 
 #dobuttons
-	hiteoffset=$(((title3[2]-menuhite)/2))
+	hiteoffset=$(((title3[2]-menu[2])/2))
 	menubut="image  SrcOver $((button_offset+leftside[1])),$hiteoffset 0,0 \"$(echo $menu)\""
 
 	hiteoffset=$(((title3[2]-close[2])/2))
-	closebut="image  SrcOver $((totalwid-button_offset-rightside[1]-close[1])),$hiteoffset 0,0 \"$(echo $close)\""
-	maxbut="image  SrcOver $((totalwid-button_offset-rightside[1]-close[1]-maxwid-button_spacing)),$hiteoffset 0,0 \"$(echo $max)\""
-	minbut="image  SrcOver $((totalwid-button_offset-rightside[1]-close[1]-maxwid-minwid-button_spacing-button_spacing)),$hiteoffset 0,0 \"$(echo $min)\""
+	closebut="image  SrcOver $((totalwid-button_offset-riteside[1]-close[1])),$hiteoffset 0,0 \"$(echo $close)\""
+	maxbut="image  SrcOver $((totalwid-button_offset-riteside[1]-close[1]-max[1]-button_spacing)),$hiteoffset 0,0 \"$(echo $max)\""
+	minbut="image  SrcOver $((totalwid-button_offset-riteside[1]-close[1]-max[1]-min[1]-button_spacing-button_spacing)),$hiteoffset 0,0 \"$(echo $min)\""
 
 #canvas
 	canvasw=$((totalwid))
