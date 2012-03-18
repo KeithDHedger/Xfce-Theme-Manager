@@ -60,8 +60,10 @@ makethumb ()
 	local boxwid
 	local boxhite=80
 
-	. "$1/xfwm4/themerc" 2>/dev/null
-	
+#	. "$1/xfwm4/themerc" 2>/dev/null
+
+eval $(cat "$1"/xfwm4/themerc|grep -i -e "button_offset" -e "button_spacing")
+
 	topleft=( $(echo "$1"/xfwm4/top-left-active.*|awk '{print $NF}'|xargs identify -format "%i %w %h") )
 	toprite=( $(echo "$1"/xfwm4/top-right-active.*|awk '{print $NF}'|xargs identify -format "%i %w %h") )
 	title1=( $(echo "$1"/xfwm4/title-1-active.*|awk '{print $NF}'|xargs identify -format "%i %w %h") )
@@ -305,7 +307,7 @@ makebordernames
 makethemenames
 makeiconnames
 
-#main
+main
 
 
 
