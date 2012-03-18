@@ -15,7 +15,7 @@ $(PROGRAM):$(SOURCES)
 	g++ $(CXXFLAGS) -o $(PROGRAM) $(SOURCES)
 	strip $(PROGRAM)
 
-inastall:
+install:
 	rm $(PROGRAM)
 	$(PROGRAM):$(SOURCES)
 	g++ $(CXXFLAGS) -o $(PROGRAM) $(SOURCES)
