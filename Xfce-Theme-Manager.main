@@ -203,8 +203,7 @@ makeiconthumbs ()
 	local comppic="$(find "$iconpath" -iname "computer.???"|head -n1)"
 	local drivepic="$(find "$iconpath" -iname "*drive*harddisk*.???"|head -n1)"
 
-echo $folderpic $homepic $comppic $drivepic
-	convert $folderpic $homepic $comppic $drivepic -background none +append -scale 128x32! "${ICONS}/${iconname}.png"
+	convert $folderpic $homepic $comppic $drivepic +append -scale x32 "${ICONS}/${iconname}.png"
 }
 
 makeiconnames ()

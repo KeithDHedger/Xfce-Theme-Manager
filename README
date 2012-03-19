@@ -16,5 +16,5 @@ glib-2.0
 gdk-2.0
 
 INSTALL:
-
+Extract the archive say into /tmp, cd into /tmp/Xfce-Theme-Manager/gtkpreview, run make;sudo make install
 Enjoy!
