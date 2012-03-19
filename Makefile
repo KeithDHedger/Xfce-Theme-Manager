@@ -17,6 +17,7 @@ install:
 
 uninstall:
 	rm $(DESTDIR)$(PREFIX)/bin/$(PROGRAM)
+	rm $(DESTDIR)$(PREFIX)/share/applications/$(LAUNCHER)
 
 clean:
 	rm -f $(PROGRAM)

@@ -15,11 +15,23 @@ gtkdialog version 0.8.x
 glib-2.0
 gdk-2.0
 
+USAGE:
+xfce-theme-manager [-m] [-u]
+
+-m force a make of all the thumbnails for meta-themes/frames/controls and icons.
+-u just build misssing thumbnails
+
+The thumbnails are stored in ${HOME}/.config/XfceThemeManager
+The first time you use Xfce-Theme-Manager you should either run it from the command line with the -m switch or click on the "Rebuld DB" button, the first build of the DB can take a while so be patient!
+The DB only needs updating if you add/change/remove a theme/icon set.
+
 INSTALL:
-Extract the archive say into /tmp, cd into /tmp/Xfce-Theme-Manager/gtkpreview, run make;sudo make install, this will iinstall both the gtkprev app and the Xfce-Theme-Manager GUI.
+Extract the archive say into /tmp, cd into /tmp/Xfce-Theme-Manager/gtkpreview, run sudo make install, this will iinstall both the gtkprev app and the Xfce-Theme-Manager GUI.
+The GUI can be run from the command line or from the settings menu.
 
 There is no configure script as the makefile is very simple, default is to install in /usr/local/bin this can be changed by setting the PREFIX variable prior to make install.
 
 If you have a source based pkg manager like slackware the dev files for glib etc should already be installed, if you are using a debian based install you may have to install the dev packages as well, probably somthing along the lines of glib2-dev/gdk2-dev check your installation documentation for further details.
 
+You may have to run  xfce4-panel --restart to see the Xfce-Theme-Manager menu item in settings.
 Enjoy!

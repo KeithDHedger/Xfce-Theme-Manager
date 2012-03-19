@@ -1,7 +1,8 @@
 PROGRAM=gtkprev
 SOURCES=main.cpp
 VERSION=0.0.2
-GUI=../xfce-theme-manager
+GUI=xfce-theme-manager
+LAUNCHER=Xfce-Theme-Manager.desktop
 
 ifeq ($(strip $(PREFIX)),)
 	PREFIX=/usr/local
@@ -19,8 +20,12 @@ install:
 	rm $(PROGRAM)||true
 	g++ $(CXXFLAGS) -o $(PROGRAM) $(SOURCES)
 	strip $(PROGRAM)
-	cp $(PROGRAM) $(GUI) $(PREFIX)/bin
+	chmod +x ../$(GUI)
+	cp $(PROGRAM) ../$(GUI) $(DESTDIR)$(PREFIX)/bin
+	cp ../$(LAUNCHER) $(DESTDIR)$(PREFIX)/share/applications
 
+uninstall:
+	rm $(DESTDIR)$(PREFIX)/bin/$(PROGRAM) $(DESTDIR)$(PREFIX)/share/applications/$(LAUNCHER) $(DESTDIR)$(PREFIX)/bin/$(GUI)
 clean:
 	rm $(PROGRAM)
 
