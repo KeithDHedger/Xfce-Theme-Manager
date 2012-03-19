@@ -10,11 +10,16 @@
 
 DEPENDENCIES:
 
-Bash
+Bash 4.x
 gtkdialog version 0.8.x
 glib-2.0
 gdk-2.0
 
 INSTALL:
-Extract the archive say into /tmp, cd into /tmp/Xfce-Theme-Manager/gtkpreview, run make;sudo make install
+Extract the archive say into /tmp, cd into /tmp/Xfce-Theme-Manager/gtkpreview, run make;sudo make install, this will iinstall both the gtkprev app and the Xfce-Theme-Manager GUI.
+
+There is no configure script as the makefile is very simple, default is to install in /usr/local/bin this can be changed by setting the PREFIX variable prior to make install.
+
+If you have a source based pkg manager like slackware the dev files for glib etc should already be installed, if you are using a debian based install you may have to install the dev packages as well, probably somthing along the lines of glib2-dev/gdk2-dev check your installation documentation for further details.
+
 Enjoy!
