@@ -43,7 +43,6 @@ init ()
 	CONTROLSLIST=""
 	ICONSLIST=""
 
-	
 	UPDATEPICS=0
 	MAKEPICS=0
 
@@ -91,8 +90,6 @@ makethumb ()
 #leftsegwidth
 	lsegwid=$((menu[1]+button_spacing))
 
-#midsegwidth
-
 #rightsegwidth
 	rsegwid=$((close[1]+max[1]+min[1]+(button_spacing*3)))
 
@@ -136,7 +133,7 @@ makethumb ()
 		convert -size ${boxwid}x${boxhite} canvas:transparent -draw "$com1" -draw "$com2_1" -draw "$com2_2" -draw "$com2_3" -draw "$com2_4" -draw "$com2_5" -draw "$com3" -draw "$com4" -draw "$com5" -draw "$com6" -draw "$com8" -draw "$com7" -draw "$menubut" -draw "$closebut"  -draw "$maxbut"  -draw "$minbut" "${FRAMES}/$(basename $1).bmp" &>/dev/null
 	fi
 }
-#<variable>mlist</variable>
+
 makemetalist ()
 {
 	local metaname="$1"
@@ -366,8 +363,5 @@ else
 	makeiconnames
 fi
 
-
 main
-
-
 
