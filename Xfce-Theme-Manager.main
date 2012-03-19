@@ -30,26 +30,24 @@ init ()
 	export -f setmetatheme
 
 	DB=${HOME}/.config/XfceThemeManager
-	DB=/tmp/XfceThemeManager
 	FRAMES=${DB}/wmf
 	CONTROLS=${DB}/conts
 	META=${DB}/meta
 	ICONS=${DB}/icons
 	
 	GLOBAL=/usr/share/themes
-	#GLOBAL=""
+	GTKPREV=$(which gtkprev)
 
 	METALIST=""
 	FRAMESLIST=""
 	CONTROLSLIST=""
 	ICONSLIST=""
 
-	GTKPREV=/usr/local/bin/gtkprev
-	mkdir -p $FRAMES $CONTROLS $META $ICONS
 	
 	UPDATEPICS=0
 	MAKEPICS=0
 
+	mkdir -p $FRAMES $CONTROLS $META $ICONS
 }
 
 makethumb ()
