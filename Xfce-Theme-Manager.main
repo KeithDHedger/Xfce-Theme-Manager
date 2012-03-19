@@ -28,9 +28,10 @@ init ()
 	export -f makeiconnames
 	export -f resettheme
 	export -f setmetatheme
+	export -f updatedb
 
 	DB=${HOME}/.config/XfceThemeManager
-	DB=/tmp/XfceThemeManager
+	#DB=/tmp/XfceThemeManager
 	FRAMES=${DB}/wmf
 	CONTROLS=${DB}/conts
 	META=${DB}/meta
@@ -134,7 +135,7 @@ makethumb ()
 		convert -size ${boxwid}x${boxhite} canvas:transparent -draw "$com1" -draw "$com2_1" -draw "$com2_2" -draw "$com2_3" -draw "$com2_4" -draw "$com2_5" -draw "$com3" -draw "$com4" -draw "$com5" -draw "$com6" -draw "$com8" -draw "$com7" -draw "$menubut" -draw "$closebut"  -draw "$maxbut"  -draw "$minbut" "${FRAMES}/$(basename $1).bmp" &>/dev/null
 	fi
 }
-
+#<variable>mlist</variable>
 makemetalist ()
 {
 	local metaname="$1"
@@ -143,6 +144,7 @@ makemetalist ()
 	METALIST=''"${METALIST}"'<button space-expand="false" space-fill="false" image-position="2" relief="2">'
 	METALIST=''"${METALIST}"'<input file>'"$pixmap"'</input>'
 	METALIST=''"${METALIST}"'<label>'"$metaname"'</label>'
+	METALIST=''"${METALIST}"'<variable>mlist</variable>'
 	METALIST=''"${METALIST}"'<action>exec $SHELL -c '"setmetatheme $metaname"'</action>'
 	METALIST=''"${METALIST}"'</button>'
 }
@@ -311,7 +313,6 @@ seticons ()
 
 	xfconf-query -c xsettings -vp /Net/IconThemeName -s "$iconname"
 }
-
 
 init
 
