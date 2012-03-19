@@ -220,43 +220,28 @@ makeiconnames ()
 						iconname="$(basename "$REPLY")"
 						showiconname=$(cat "${REPLY}"/index.theme |grep -i "name="|awk -F "=" '{print $2}')
 						if [ $MAKEPICS -eq 1 ];then
-							echo $REPLY
+							echo ""
 							makeiconthumbs "$REPLY" "$showiconname"
 						fi
 						makeiconslist "$showiconname" "$iconname"
-						echo ""
 					fi
 				fi
-
 			fi
-		done < <(find ~/.icons /usr/share/icons -maxdepth 1 -mindepth 1 -type d|sort) > >(zenity --text="Building Icon DB..." --progress  --no-cancel  --auto-close --pulsate)
+		done < <(find ~/.icons /usr/share/icons -maxdepth 1 -mindepth 1 -type d|sort)
 }
 
 makegtknames ()
 {
-#shopt -s
-#mkfifo mypipe
-
-#find ~/.themes $GLOBAL -maxdepth 1 -mindepth 1|sort &
-#	while read
 	while read
 		do
 			if [ -d "${REPLY}/gtk-2.0" ];then
 				if [ $MAKEPICS -eq 1 ];then
 					$GTKPREV "$(basename "$REPLY")" "${CONTROLS}/$(basename "$REPLY").png"
+					echo ""
 				fi
 				makecontrolslist "$(basename "$REPLY")"
-
-				#echo $REPLY|zenity --progress  --no-cancel  --auto-close --pulsate
-				#sleep 1
-				echo ""
 			fi
-		done < <(find ~/.themes $GLOBAL -maxdepth 1 -mindepth 1|sort) > >(zenity --text="Building Control DB..." --progress  --no-cancel  --auto-close --pulsate)
-		#|(zenity --progress  --no-cancel  --auto-close --pulsate) < mypipe 
-		# |zenity --progress  --no-cancel  --auto-close --pulsate
-
-#		done < <(find ~/.themes $GLOBAL -maxdepth 1 -mindepth 1|sort)
-		# | tee /dev/stdout|zenity --progress  --no-cancel  --auto-close --pulsate
+		done < <(find ~/.themes $GLOBAL -maxdepth 1 -mindepth 1|sort)
 }
 
 makethemenames ()
@@ -266,11 +251,11 @@ makethemenames ()
 			if [ -d "${REPLY}/xfwm4" ] && [ -d "${REPLY}/gtk-2.0" ];then
 				if [ $MAKEPICS -eq 1 ];then
 					makethumb "$REPLY" 1 < /dev/null
+					echo ""
 				fi
 				makemetalist "$(basename "$REPLY")"
-				echo ""
 			fi
-		done < <(find ~/.themes $GLOBAL -maxdepth 1 -mindepth 1|sort) > >(zenity --text="Building Meta Theme DB..." --progress  --no-cancel  --auto-close --pulsate)
+		done < <(find ~/.themes $GLOBAL -maxdepth 1 -mindepth 1|sort)
 }
 
 makebordernames ()
@@ -280,12 +265,11 @@ makebordernames ()
 			if [ -d "${REPLY}/xfwm4" ];then
 				if [ $MAKEPICS -eq 1 ];then
 					makethumb "$REPLY" 0 < /dev/null
+					echo ""
 				fi
 				makeframeslist "$(basename "$REPLY")"
-				echo ""
 			fi
-		done < <(find ~/.themes $GLOBAL -maxdepth 1 -mindepth 1|sort) > >(zenity --text="Building Window Frame DB..." --progress  --no-cancel  --auto-close --pulsate)
-
+		done < <(find ~/.themes $GLOBAL -maxdepth 1 -mindepth 1|sort)
 }
 
 #set meta theme and icons if gnome index.theme file available
@@ -334,12 +318,17 @@ init
 
 if [ X"$1" = "X-m" ];then
 	MAKEPICS=1
+	makegtknames > >(zenity --text="Building Controls DB..." --progress  --no-cancel  --auto-close --pulsate)
+	makebordernames > >(zenity --text="Building Window Frames DB..." --progress  --no-cancel  --auto-close --pulsate)
+	makethemenames > >(zenity --text="Building Meta Themes DB..." --progress  --no-cancel  --auto-close --pulsate)
+	makeiconnames > >(zenity --text="Building Icons DB..." --progress  --no-cancel  --auto-close --pulsate)
+else
+	makegtknames
+	makebordernames
+	makethemenames
+	makeiconnames
 fi
 
-makegtknames
-makebordernames
-makethemenames
-makeiconnames
 
 main
 
