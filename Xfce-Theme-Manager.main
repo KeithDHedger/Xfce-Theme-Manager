@@ -224,15 +224,21 @@ makeiconnames ()
 							makeiconthumbs "$REPLY" "$showiconname"
 						fi
 						makeiconslist "$showiconname" "$iconname"
+						echo ""
 					fi
 				fi
 
 			fi
-		done < <(find ~/.icons /usr/share/icons -maxdepth 1 -mindepth 1 -type d|sort)
+		done < <(find ~/.icons /usr/share/icons -maxdepth 1 -mindepth 1 -type d|sort) > >(zenity --text="Building Icon DB..." --progress  --no-cancel  --auto-close --pulsate)
 }
 
 makegtknames ()
 {
+#shopt -s
+#mkfifo mypipe
+
+#find ~/.themes $GLOBAL -maxdepth 1 -mindepth 1|sort &
+#	while read
 	while read
 		do
 			if [ -d "${REPLY}/gtk-2.0" ];then
@@ -240,9 +246,17 @@ makegtknames ()
 					$GTKPREV "$(basename "$REPLY")" "${CONTROLS}/$(basename "$REPLY").png"
 				fi
 				makecontrolslist "$(basename "$REPLY")"
+
 				#echo $REPLY|zenity --progress  --no-cancel  --auto-close --pulsate
+				#sleep 1
+				echo ""
 			fi
-		done < <(find ~/.themes $GLOBAL -maxdepth 1 -mindepth 1|sort|zenity --progress  --no-cancel  --auto-close --pulsate )
+		done < <(find ~/.themes $GLOBAL -maxdepth 1 -mindepth 1|sort) > >(zenity --text="Building Control DB..." --progress  --no-cancel  --auto-close --pulsate)
+		#|(zenity --progress  --no-cancel  --auto-close --pulsate) < mypipe 
+		# |zenity --progress  --no-cancel  --auto-close --pulsate
+
+#		done < <(find ~/.themes $GLOBAL -maxdepth 1 -mindepth 1|sort)
+		# | tee /dev/stdout|zenity --progress  --no-cancel  --auto-close --pulsate
 }
 
 makethemenames ()
@@ -254,8 +268,9 @@ makethemenames ()
 					makethumb "$REPLY" 1 < /dev/null
 				fi
 				makemetalist "$(basename "$REPLY")"
+				echo ""
 			fi
-		done < <(find ~/.themes $GLOBAL -maxdepth 1 -mindepth 1|sort)
+		done < <(find ~/.themes $GLOBAL -maxdepth 1 -mindepth 1|sort) > >(zenity --text="Building Meta Theme DB..." --progress  --no-cancel  --auto-close --pulsate)
 }
 
 makebordernames ()
@@ -267,8 +282,9 @@ makebordernames ()
 					makethumb "$REPLY" 0 < /dev/null
 				fi
 				makeframeslist "$(basename "$REPLY")"
+				echo ""
 			fi
-		done < <(find ~/.themes $GLOBAL -maxdepth 1 -mindepth 1|sort)
+		done < <(find ~/.themes $GLOBAL -maxdepth 1 -mindepth 1|sort) > >(zenity --text="Building Window Frame DB..." --progress  --no-cancel  --auto-close --pulsate)
 
 }
 
