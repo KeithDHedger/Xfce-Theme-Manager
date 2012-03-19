@@ -12,6 +12,8 @@ DEPENDENCIES:
 
 Bash
 gtkdialog version 0.8.x
+glib-2.0
+gdk-2.0
 
 INSTALL:
 

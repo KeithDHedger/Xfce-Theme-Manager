@@ -16,7 +16,7 @@ $(PROGRAM):$(SOURCES)
 	strip $(PROGRAM)
 
 install:
-	rm $(PROGRAM)
+	rm $(PROGRAM)||true
 	g++ $(CXXFLAGS) -o $(PROGRAM) $(SOURCES)
 	strip $(PROGRAM)
 	cp $(PROGRAM) $(PREFIX)/bin

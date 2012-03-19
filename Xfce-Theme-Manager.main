@@ -44,7 +44,7 @@ init ()
 	CONTROLSLIST=""
 	ICONSLIST=""
 
-	GTKPREV=/usr/local/gtkprev
+	GTKPREV=/usr/local/bin/gtkprev
 	mkdir -p $FRAMES $CONTROLS $META $ICONS
 }
 
@@ -240,8 +240,9 @@ makegtknames ()
 					$GTKPREV "$(basename "$REPLY")" "${CONTROLS}/$(basename "$REPLY").png"
 				fi
 				makecontrolslist "$(basename "$REPLY")"
+				#echo $REPLY|zenity --progress  --no-cancel  --auto-close --pulsate
 			fi
-		done < <(find ~/.themes $GLOBAL -maxdepth 1 -mindepth 1|sort )
+		done < <(find ~/.themes $GLOBAL -maxdepth 1 -mindepth 1|sort|zenity --progress  --no-cancel  --auto-close --pulsate )
 }
 
 makethemenames ()
