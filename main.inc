@@ -2,7 +2,7 @@
 main ()
 {
 export MAIN_DIALOG='
-<window title="Xfce-Theme-Manager" height_request="480" width_request="320" window_position="1">
+<window title="Xfce-Theme-Manager" height_request="480" width_request="400" window_position="1">
 	<vbox>
 		<notebook labels="Themes|Window Borders|Controls|Icons" space-fill="true" space-expand="true">
 
@@ -25,7 +25,7 @@ export MAIN_DIALOG='
 			<variable>nvar</variable>
 		</notebook>
 
-	<hbox  homogeneous="true" space-fill="false" space-expand="false">
+	<hbox  homogeneous="true" space-fill="true" space-expand="false">
 		<button>
 			<label>Reset Theme</label>
 			<action>exec $SHELL -c '"resettheme"'</action>

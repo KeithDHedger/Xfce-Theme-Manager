@@ -28,10 +28,9 @@ init ()
 	export -f makeiconnames
 	export -f resettheme
 	export -f setmetatheme
-	export -f updatedb
 
 	DB=${HOME}/.config/XfceThemeManager
-	#DB=/tmp/XfceThemeManager
+	DB=/tmp/XfceThemeManager
 	FRAMES=${DB}/wmf
 	CONTROLS=${DB}/conts
 	META=${DB}/meta
@@ -47,6 +46,10 @@ init ()
 
 	GTKPREV=/usr/local/bin/gtkprev
 	mkdir -p $FRAMES $CONTROLS $META $ICONS
+	
+	UPDATEPICS=0
+	MAKEPICS=0
+
 }
 
 makethumb ()
@@ -224,6 +227,13 @@ makeiconnames ()
 							echo ""
 							makeiconthumbs "$REPLY" "$showiconname"
 						fi
+
+						if [ $UPDATEPICS -eq 1 ];then
+							if [ ! -e "${ICONS}/${showiconname}.png" ];then
+								makeiconthumbs "$REPLY" "$showiconname"
+								echo ""
+							fi
+						fi
 						makeiconslist "$showiconname" "$iconname"
 					fi
 				fi
@@ -240,6 +250,13 @@ makegtknames ()
 					$GTKPREV "$(basename "$REPLY")" "${CONTROLS}/$(basename "$REPLY").png"
 					echo ""
 				fi
+
+				if [ $UPDATEPICS -eq 1 ];then
+					if [ ! -e "${CONTROLS}/$(basename "$REPLY").png" ];then
+						$GTKPREV "$(basename "$REPLY")" "${CONTROLS}/$(basename "$REPLY").png"
+						echo ""
+					fi
+				fi
 				makecontrolslist "$(basename "$REPLY")"
 			fi
 		done < <(find ~/.themes $GLOBAL -maxdepth 1 -mindepth 1|sort)
@@ -254,6 +271,12 @@ makethemenames ()
 					makethumb "$REPLY" 1 < /dev/null
 					echo ""
 				fi
+				if [ $UPDATEPICS -eq 1 ];then
+					if [ ! -e "${META}/$(basename "$REPLY").bmp" ];then
+						makethumb "$REPLY" 1 < /dev/null
+						echo ""
+					fi
+				fi
 				makemetalist "$(basename "$REPLY")"
 			fi
 		done < <(find ~/.themes $GLOBAL -maxdepth 1 -mindepth 1|sort)
@@ -267,6 +290,12 @@ makebordernames ()
 				if [ $MAKEPICS -eq 1 ];then
 					makethumb "$REPLY" 0 < /dev/null
 					echo ""
+				fi
+				if [ $UPDATEPICS -eq 1 ];then
+					if [ ! -e "${FRAMES}/$(basename "$REPLY").bmp" ];then
+						makethumb "$REPLY" 0 < /dev/null
+						echo ""
+					fi
 				fi
 				makeframeslist "$(basename "$REPLY")"
 			fi
@@ -316,12 +345,22 @@ seticons ()
 
 init
 
-if [ X"$1" = "X-m" ];then
+if [ X"$1" = "X-m" ] || [ X"$1" = "X-u" ];then
+
+	UPDATEPICS=0
 	MAKEPICS=1
-	makegtknames > >(zenity --text="Building Controls DB..." --progress  --no-cancel  --auto-close --pulsate)
-	makebordernames > >(zenity --text="Building Window Frames DB..." --progress  --no-cancel  --auto-close --pulsate)
-	makethemenames > >(zenity --text="Building Meta Themes DB..." --progress  --no-cancel  --auto-close --pulsate)
-	makeiconnames > >(zenity --text="Building Icons DB..." --progress  --no-cancel  --auto-close --pulsate)
+	doing="Building"
+
+	if [ X"$1" = "X-u" ];then
+		doing="Updating"
+		UPDATEPICS=1
+		MAKEPICS=0
+	fi
+
+	makegtknames > >(zenity --text="$doing Controls DB..." --progress  --no-cancel  --auto-close --pulsate)
+	makebordernames > >(zenity --text="$doing Window Frames DB..." --progress  --no-cancel  --auto-close --pulsate)
+	makethemenames > >(zenity --text="$doing Meta Themes DB..." --progress  --no-cancel  --auto-close --pulsate)
+	makeiconnames > >(zenity --text="$doing Icons DB..." --progress  --no-cancel  --auto-close --pulsate)
 else
 	makegtknames
 	makebordernames
