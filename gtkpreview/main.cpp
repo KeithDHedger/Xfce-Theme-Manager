@@ -14,6 +14,7 @@
 #include <glib.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gtk/gtk.h>
+#include <string.h>
 
 #define GTK_THUMBNAIL_SIZE 96
 
@@ -202,8 +203,6 @@ void makeborder(char* folder)
 	max=loadfile(folder,"maximize-active");
 	min=loadfile(folder,"hide-active");
 	menu=loadfile(folder,"menu-active");
-
-menu=gdk_pixbuf_add_alpha                (menu,false,0,0,0);
 
 	int closewid,maxwid,minwid,menuwid;
 	int closehite,maxhite,minhite,menuhite;
@@ -415,47 +414,97 @@ menu=gdk_pixbuf_add_alpha                (menu,false,0,0,0);
 
 //bottomleft
 //com6="image  SrcOver 0,$((boxhite-bottomleft[2])) 0,0 \"$(echo ${bottomleft[0]})\""
-	gdk_pixbuf_copy_area(bottomleft,0,0,bottomleftwid,bottomlefthite,basepixbuf,0,boxhite-bottomlefthite);
+	cairo_save (cr);
+		gdk_cairo_set_source_pixbuf(cr,bottomleft,0,boxhite-bottomlefthite);
+		cairo_paint_with_alpha(cr,100);
+	cairo_restore (cr);
+
+
+//	gdk_pixbuf_copy_area(bottomleft,0,0,bottomleftwid,bottomlefthite,basepixbuf,0,boxhite-bottomlefthite);
 
 //bottomrite
 //com7="image  SrcOver $((boxwid-bottomrite[1])),$((boxhite-bottomrite[2])) 0,0 \"$(echo ${bottomrite[0]})\""
-	gdk_pixbuf_copy_area(bottomrite,0,0,bottomritewid,bottomritehite,basepixbuf,boxwid-bottomritewid,boxhite-bottomritehite);
+//	gdk_pixbuf_copy_area(bottomrite,0,0,bottomritewid,bottomritehite,basepixbuf,boxwid-bottomritewid,boxhite-bottomritehite);
+	cairo_save (cr);
+		gdk_cairo_set_source_pixbuf(cr,bottomrite,boxwid-bottomritewid,boxhite-bottomlefthite);
+		cairo_paint_with_alpha(cr,100);
+	cairo_restore (cr);
 
 //bottom
 //com8="image  SrcOver ${bottomleft[1]},$((boxhite-bottom[2])) $((boxwid-bottomleft[1]-bottomrite[1])),${bottom[2]} \"$(echo ${bottom[0]})\""
-	gdk_pixbuf_copy_area(gdk_pixbuf_scale_simple(bottom,boxwid-bottomritewid-bottomleftwid,bottomhite,GDK_INTERP_BILINEAR),0,0,boxwid-bottomritewid-bottomleftwid,bottomhite,basepixbuf,bottomleftwid,boxhite-bottomhite);
+
+	cairo_save (cr);
+		gdk_cairo_set_source_pixbuf(cr,gdk_pixbuf_scale_simple(bottom,boxwid-bottomritewid-bottomleftwid,bottomhite,GDK_INTERP_BILINEAR),bottomleftwid,boxhite-bottomhite);
+		cairo_paint_with_alpha(cr,100);
+	cairo_restore (cr);
+
+
+//	gdk_pixbuf_copy_area(gdk_pixbuf_scale_simple(bottom,boxwid-bottomritewid-bottomleftwid,bottomhite,GDK_INTERP_BILINEAR),0,0,boxwid-bottomritewid-bottomleftwid,bottomhite,basepixbuf,bottomleftwid,boxhite-bottomhite);
 
 
 //menu
 //menubut="image  SrcOver $((button_offset+leftside[1])),$hiteoffset 0,0 \"$(echo ${menu[0]})\""
 	hiteoffset=(title3hite-menuhite)/2;
-
-	gdk_pixbuf_copy_area(menu,0,0,menuwid,menuhite,basepixbuf,button_offset+leftsidewid,hiteoffset);
+	cairo_save (cr);
+		gdk_cairo_set_source_pixbuf(cr,menu,button_offset+leftsidewid,hiteoffset);
+		cairo_paint_with_alpha(cr,100);
 
 //close
-//closebut="image  SrcOver $((boxwid-button_offset-riteside[1]-close[1])),$hiteoffset 0,0 \"$(echo ${close[0]})\""
-	hiteoffset=(title3hite-closehite)/2;
-	gdk_pixbuf_copy_area(close,0,0,closewid,closehite,basepixbuf,boxwid-button_offset-ritesidewid-closewid,hiteoffset);
-
+		hiteoffset=(title3hite-closehite)/2;
+		gdk_cairo_set_source_pixbuf(cr,close,boxwid-button_offset-ritesidewid-closewid,hiteoffset);
+		cairo_paint_with_alpha(cr,100);
 //max
+		gdk_cairo_set_source_pixbuf(cr,max,boxwid-button_offset-ritesidewid-closewid-maxwid-button_spacing,hiteoffset);
+		cairo_paint_with_alpha(cr,100);
+
+//min
+		gdk_cairo_set_source_pixbuf(cr,min,boxwid-button_offset-ritesidewid-closewid-maxwid-minwid-button_spacing-button_spacing,hiteoffset);
+		cairo_paint_with_alpha(cr,100);
+	cairo_restore (cr);
+
+//	gdk_pixbuf_copy_area(menu,0,0,menuwid,menuhite,basepixbuf,button_offset+leftsidewid,hiteoffset);
+
+
+//closebut="image  SrcOver $((boxwid-button_offset-riteside[1]-close[1])),$hiteoffset 0,0 \"$(echo ${close[0]})\""
+//	hiteoffset=(title3hite-closehite)/2;
+//	gdk_pixbuf_copy_area(close,0,0,closewid,closehite,basepixbuf,boxwid-button_offset-ritesidewid-closewid,hiteoffset);
+
+
 //maxbut="image  SrcOver $((boxwid-button_offset-riteside[1]-close[1]-max[1]-button_spacing)),$hiteoffset 0,0 \"$(echo ${max[0]})\""
-	gdk_pixbuf_copy_area(max,0,0,maxwid,maxhite,basepixbuf,boxwid-button_offset-ritesidewid-closewid-maxwid-button_spacing,hiteoffset);
+//	gdk_pixbuf_copy_area(max,0,0,maxwid,maxhite,basepixbuf,boxwid-button_offset-ritesidewid-closewid-maxwid-button_spacing,hiteoffset);
 
 
 //printf ("%i %i %i %i\n",bottomleftwid,bottomlefthite,boxhite-bottomlefthite,0);
 
-	gdk_pixbuf_savev(basepixbuf,"./out.png","png",NULL,NULL,NULL);
+//	gdk_pixbuf_savev(basepixbuf,"./out.png","png",NULL,NULL,NULL);
 
 
 
 cairo_surface_write_to_png(surface,"outcairo.png");
 }
 
+void getspace(char* folder)
+{
+	char	filename[2048];
+	FILE*	fp;
+	char*	strstart=NULL;
+
+	sprintf((char*)filename,"%s/xfwm4/themerc",folder);
+	fp=fopen(filename,"r");
+	fgets(filename,80,fp);
+	strstart=strstr(filename,"button_offset");
+	if (strstart!=NULL)
+		button_offset=atoi((char*)filename[15]);
+	fclose(fp);
+	printf("%i\n",button_offset);
+}
+
 int main(int argc,char **argv)
 {
 
 	gtk_init(&argc, &argv);
-
+getspace(argv[3]);
+return(0);
 	//basepixbuf=gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 8, 400, 400);
 	button_offset=atoi(argv[1]);
 	button_spacing=atoi(argv[2]);
