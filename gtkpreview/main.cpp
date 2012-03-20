@@ -236,11 +236,27 @@ void makeborder(char* folder)
 	gdk_pixbuf_copy_area(topleft,0,0,topleftwid,toplefthite,basepixbuf,0,0);
 
 //gdk_pixbuf_scale_simple(title1,leftsegwid,title3hite,GDK_INTERP_BILINEAR);
+//com2_1="image  SrcOver ${topleft[1]},0 $lsegwid,${title3[2]} \"$(echo ${title1[0]})\""
 //title1
-	gdk_pixbuf_copy_area(gdk_pixbuf_scale_simple(title1,lsegwid,title3hite,GDK_INTERP_BILINEAR),0,0,title1wid,title1hite,basepixbuf,topleftwid,0);
+	gdk_pixbuf_copy_area(gdk_pixbuf_scale_simple(title1,lsegwid,title3hite,GDK_INTERP_BILINEAR),0,0,lsegwid,title3hite,basepixbuf,topleftwid,0);
+//title2
+	if (title2!=NULL)
+		gdk_pixbuf_copy_area(title2,0,0,title2wid,title2hite,basepixbuf,topleftwid+lsegwid,0);
+//com2_2="image  SrcOver $((topleft[1]+lsegwid)),0 0,0 \"$(echo ${title2[0]})\""
 
-//	com2_1="image  SrcOver ${topleft[1]},0 $lsegwid,${title3[2]} \"$(echo ${title1[0]})\""
+//title3
+//com2_3="image  SrcOver $((topleft[1]+lsegwid+title2[1])),0 64,${title3[2]} \"$(echo ${title3[0]})\""
+	if (title3!=NULL)
+		gdk_pixbuf_copy_area(gdk_pixbuf_scale_simple(title3,64,title3hite,GDK_INTERP_BILINEAR),0,0,64,title3hite,basepixbuf,topleftwid+lsegwid+title2wid,0);
+
+
+
+
+
+
 	gdk_pixbuf_savev(basepixbuf,"./out.png","png",NULL,NULL,NULL);
+
+
 }
 
 int main(int argc,char **argv)
