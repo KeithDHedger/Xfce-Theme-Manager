@@ -163,6 +163,7 @@ GdkPixbuf * loadfile(char* bordername,const char* name)
 	
 	return(tmpbuf);
 }
+#define boxhite 80
 
 void makeborder(char* folder)
 {
@@ -183,7 +184,7 @@ void makeborder(char* folder)
 	GdkPixbuf*	min;
 	GdkPixbuf*	menu;
 	
-	int		lsegwid,rsegwid;
+	int		lsegwid,rsegwid,boxwid,hiteoffset;
 
 	topleft=loadfile(folder,"top-left-active");
 	toprite=loadfile(folder,"top-right-active");
@@ -202,79 +203,252 @@ void makeborder(char* folder)
 	min=loadfile(folder,"hide-active");
 	menu=loadfile(folder,"menu-active");
 
+menu=gdk_pixbuf_add_alpha                (menu,false,0,0,0);
+
 	int closewid,maxwid,minwid,menuwid;
+	int closehite,maxhite,minhite,menuhite;
 	int topleftwid,toplefthite,topritewid,topritehite;
+	int bottomleftwid,bottomlefthite,bottomritewid,bottomritehite;
+	int leftsidewid,leftsidehite,ritesidewid,ritesidehite;
+	int bottomwid,bottomhite;
+
 	int title1wid,title1hite;
 	int title2wid,title2hite;
 	int title3wid,title3hite;
 	int title4wid,title4hite;
 	int title5wid,title5hite;
+	
+	gdouble	sw;
+	gdouble	sh;
 
-	title1wid=gdk_pixbuf_get_width((const GdkPixbuf *)title1);
-	title1hite=gdk_pixbuf_get_height((const GdkPixbuf *)title1);
-	title2wid=gdk_pixbuf_get_width((const GdkPixbuf *)title2);
-	title2hite=gdk_pixbuf_get_height((const GdkPixbuf *)title2);
-	title3wid=gdk_pixbuf_get_width((const GdkPixbuf *)title3);
-	title3hite=gdk_pixbuf_get_height((const GdkPixbuf *)title3);
-	title4wid=gdk_pixbuf_get_width((const GdkPixbuf *)title4);
-	title4hite=gdk_pixbuf_get_height((const GdkPixbuf *)title4);
-	title5wid=gdk_pixbuf_get_width((const GdkPixbuf *)title5);
-	title5hite=gdk_pixbuf_get_height((const GdkPixbuf *)title5);
+	if (title1!=NULL)
+		{
+			title1wid=gdk_pixbuf_get_width((const GdkPixbuf *)title1);
+			title1hite=gdk_pixbuf_get_height((const GdkPixbuf *)title1);
+		}
+	else
+		{
+			title1wid=0;
+			title1hite=0;
+		}
+	if (title2!=NULL)
+		{
+			title2wid=gdk_pixbuf_get_width((const GdkPixbuf *)title2);
+			title2hite=gdk_pixbuf_get_height((const GdkPixbuf *)title2);
+		}
+	else
+		{
+			title2wid=0;
+			title2hite=0;
+		}
+	if (title3!=NULL)
+		{
+			title3wid=gdk_pixbuf_get_width((const GdkPixbuf *)title3);
+			title3hite=gdk_pixbuf_get_height((const GdkPixbuf *)title3);
+		}
+	else
+		{
+			title3wid=0;
+			title3hite=0;
+		}
+	if (title4!=NULL)
+		{
+		title4wid=gdk_pixbuf_get_width((const GdkPixbuf *)title4);
+		title4hite=gdk_pixbuf_get_height((const GdkPixbuf *)title4);
+		}
+	else
+		{
+			title4wid=0;
+			title4hite=0;
+		}
+	if (title5!=NULL)
+		{
+			title5wid=gdk_pixbuf_get_width((const GdkPixbuf *)title5);
+			title5hite=gdk_pixbuf_get_height((const GdkPixbuf *)title5);
+		}
+	else
+		{
+			title5wid=0;
+			title5hite=0;
+		}
 
 	topleftwid=gdk_pixbuf_get_width((const GdkPixbuf *)topleft);
 	toplefthite=gdk_pixbuf_get_height((const GdkPixbuf *)topleft);
 	
 	topritewid=gdk_pixbuf_get_width((const GdkPixbuf *)toprite);
 	topritehite=gdk_pixbuf_get_height((const GdkPixbuf *)toprite);
+
+	bottomleftwid=gdk_pixbuf_get_width((const GdkPixbuf *)bottomleft);
+	bottomlefthite=gdk_pixbuf_get_height((const GdkPixbuf *)bottomleft);
+	
+	bottomritewid=gdk_pixbuf_get_width((const GdkPixbuf *)bottomrite);
+	bottomritehite=gdk_pixbuf_get_height((const GdkPixbuf *)bottomrite);
+
+	leftsidewid=gdk_pixbuf_get_width((const GdkPixbuf *)leftside);
+	leftsidehite=gdk_pixbuf_get_height((const GdkPixbuf *)leftside);
+	
+	ritesidewid=gdk_pixbuf_get_width((const GdkPixbuf *)riteside);
+	ritesidehite=gdk_pixbuf_get_height((const GdkPixbuf *)riteside);
+	
+	bottomwid=gdk_pixbuf_get_width((const GdkPixbuf *)bottom);
+	bottomhite=gdk_pixbuf_get_height((const GdkPixbuf *)bottom);
 	
 	closewid=gdk_pixbuf_get_width((const GdkPixbuf *)close);
 	maxwid=gdk_pixbuf_get_width((const GdkPixbuf *)max);
 	minwid=gdk_pixbuf_get_width((const GdkPixbuf *)min);
 	menuwid=gdk_pixbuf_get_width((const GdkPixbuf *)menu);
 	
+	closehite=gdk_pixbuf_get_height((const GdkPixbuf *)close);
+	maxhite=gdk_pixbuf_get_height((const GdkPixbuf *)max);
+	minhite=gdk_pixbuf_get_height((const GdkPixbuf *)min);
+	menuhite=gdk_pixbuf_get_height((const GdkPixbuf *)menu);
+	
 	lsegwid=menuwid+button_spacing;
 	rsegwid=closewid+maxwid+minwid+(button_spacing*3);
+	boxwid=topleftwid+lsegwid+title2wid+64+title4wid+rsegwid+topritewid;
+
+	basepixbuf=gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE,8, boxwid, boxhite);
+//	basepixbuf=gdk_pixbuf_new_from_file("pat.png",NULL);
+
+	cairo_surface_t *surface;
+	cairo_t *cr;
+
+	surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, boxwid, boxhite);
+	cr = cairo_create (surface);
 
 //topleft
-	gdk_pixbuf_copy_area(topleft,0,0,topleftwid,toplefthite,basepixbuf,0,0);
+	cairo_save (cr);
+
+	gdk_cairo_set_source_pixbuf(cr,topleft,0,0);
+	cairo_paint_with_alpha(cr,100);
+	
+	cairo_restore (cr);
+
+//	gdk_pixbuf_copy_area(topleft,0,0,topleftwid,toplefthite,basepixbuf,0,0);
 
 //gdk_pixbuf_scale_simple(title1,leftsegwid,title3hite,GDK_INTERP_BILINEAR);
 //com2_1="image  SrcOver ${topleft[1]},0 $lsegwid,${title3[2]} \"$(echo ${title1[0]})\""
 //title1
-	gdk_pixbuf_copy_area(gdk_pixbuf_scale_simple(title1,lsegwid,title3hite,GDK_INTERP_BILINEAR),0,0,lsegwid,title3hite,basepixbuf,topleftwid,0);
+	if (title1!=NULL)
+		{
+			cairo_save (cr);
+				gdk_cairo_set_source_pixbuf(cr,gdk_pixbuf_scale_simple(title1,lsegwid,title3hite,GDK_INTERP_BILINEAR),topleftwid,0);
+				cairo_paint_with_alpha(cr,100);
+			cairo_restore (cr);
+
+		//gdk_pixbuf_copy_area(gdk_pixbuf_scale_simple(title1,lsegwid,title3hite,GDK_INTERP_BILINEAR),0,0,lsegwid,title3hite,basepixbuf,topleftwid,0);
+		}
 //title2
 	if (title2!=NULL)
-		gdk_pixbuf_copy_area(title2,0,0,title2wid,title2hite,basepixbuf,topleftwid+lsegwid,0);
+		{
+			cairo_save (cr);
+				gdk_cairo_set_source_pixbuf(cr,title2,topleftwid+lsegwid,0);
+				cairo_paint_with_alpha(cr,100);
+			cairo_restore (cr);
+		}
+//		gdk_pixbuf_copy_area(title2,0,0,title2wid,title2hite,basepixbuf,topleftwid+lsegwid,0);
 //com2_2="image  SrcOver $((topleft[1]+lsegwid)),0 0,0 \"$(echo ${title2[0]})\""
 
 //title3
 //com2_3="image  SrcOver $((topleft[1]+lsegwid+title2[1])),0 64,${title3[2]} \"$(echo ${title3[0]})\""
 	if (title3!=NULL)
-		gdk_pixbuf_copy_area(gdk_pixbuf_scale_simple(title3,64,title3hite,GDK_INTERP_BILINEAR),0,0,64,title3hite,basepixbuf,topleftwid+lsegwid+title2wid,0);
+		{
+			cairo_save (cr);
+				gdk_cairo_set_source_pixbuf(cr,gdk_pixbuf_scale_simple(title3,64,title3hite,GDK_INTERP_BILINEAR),topleftwid+lsegwid+title2wid,0);
+				cairo_paint_with_alpha(cr,100);
+			cairo_restore (cr);
+		}
+		//gdk_pixbuf_copy_area(gdk_pixbuf_scale_simple(title3,64,title3hite,GDK_INTERP_BILINEAR),0,0,64,title3hite,basepixbuf,topleftwid+lsegwid+title2wid,0);
 
 //title4
 //com2_4="image  SrcOver $((topleft[1]+lsegwid+title2[1]+64)),0 0,0 \"$(echo ${title4[0]})\""
 	if (title4!=NULL)
-		gdk_pixbuf_copy_area(title4,0,0,title4wid,title4hite,basepixbuf,topleftwid+lsegwid+title2wid+64,0);
-
+		{
+			cairo_save (cr);
+				gdk_cairo_set_source_pixbuf(cr,title2,topleftwid+lsegwid+title2wid+64,0);
+				cairo_paint_with_alpha(cr,100);
+			cairo_restore (cr);
+		}
+		//gdk_pixbuf_copy_area(title4,0,0,title4wid,title4hite,basepixbuf,topleftwid+lsegwid+title2wid+64,0);
+//
 //title5
 //com2_5="image  SrcOver $((topleft[1]+lsegwid+title2[1]+64+title4[1])),0 $rsegwid,${title3[2]} \"$(echo ${title5[0]})\""
 
 	if (title5!=NULL)
-		gdk_pixbuf_copy_area(gdk_pixbuf_scale_simple(title5,rsegwid,title3hite,GDK_INTERP_BILINEAR),0,0,rsegwid,title3hite,basepixbuf,topleftwid+lsegwid+title2wid+64+title4wid,0);
+		{
+			cairo_save (cr);
+					gdk_cairo_set_source_pixbuf(cr,gdk_pixbuf_scale_simple(title5,rsegwid,title3hite,GDK_INTERP_BILINEAR),topleftwid+lsegwid+title2wid+64+title4wid,0);
+			cairo_paint_with_alpha(cr,100);
+			cairo_restore (cr);
+		}
+		//gdk_pixbuf_copy_area(gdk_pixbuf_scale_simple(title5,rsegwid,title3hite,GDK_INTERP_BILINEAR),0,0,rsegwid,title3hite,basepixbuf,topleftwid+lsegwid+title2wid+64+title4wid,0);
 
 //toprite
 //com3="image  SrcOver $((topleft[1]+lsegwid+title2[1]+64+title4[1]+rsegwid)),0 0,0 \"$(echo ${toprite[0]})\""
-	gdk_pixbuf_copy_area(toprite,0,0,topritewid,topritehite,basepixbuf,topleftwid+lsegwid+title2wid+64+title4wid+rsegwid,0);
+	cairo_save (cr);
+		gdk_cairo_set_source_pixbuf(cr,toprite,boxwid-topritewid,0);
+		cairo_paint_with_alpha(cr,100);
+	cairo_restore (cr);
+
+//	gdk_pixbuf_copy_area(toprite,0,0,topritewid,topritehite,basepixbuf,topleftwid+lsegwid+title2wid+64+title4wid+rsegwid,0);
+
+//leftside
+//com4="image  SrcOver 0,${topleft[2]} ${leftside[1]},$((boxhite-bottomleft[2]-topleft[2])) \"$(echo ${leftside[0]})\""
+	//gdk_pixbuf_copy_area(gdk_pixbuf_scale_simple(leftside,leftsidewid,boxhite-bottomlefthite-toplefthite,GDK_INTERP_BILINEAR),0,0,leftsidewid,boxhite-bottomlefthite-toplefthite,basepixbuf,0,toplefthite);
+	
+	cairo_save (cr);
+		gdk_cairo_set_source_pixbuf(cr,gdk_pixbuf_scale_simple(leftside,leftsidewid,boxhite-bottomlefthite-toplefthite,GDK_INTERP_BILINEAR),0,toplefthite);
+		cairo_paint_with_alpha(cr,100);
+	cairo_restore (cr);
+
+
+//ritesie
+//com5="image  SrcOver $((boxwid-riteside[1])),${toprite[2]} ${riteside[1]},$((boxhite-bottomrite[2]-toprite[2])) \"$(echo ${riteside[0]})\""
+	cairo_save (cr);
+		gdk_cairo_set_source_pixbuf(cr,gdk_pixbuf_scale_simple(riteside,ritesidewid,boxhite-bottomritehite-topritehite,GDK_INTERP_BILINEAR),boxwid-ritesidewid,topritehite);
+		cairo_paint_with_alpha(cr,100);
+	cairo_restore (cr);
 
 
 
+	//gdk_pixbuf_copy_area(gdk_pixbuf_scale_simple(riteside,ritesidewid,boxhite-bottomritehite-topritehite,GDK_INTERP_BILINEAR),0,0,ritesidewid,boxhite-bottomritehite-topritehite,basepixbuf,boxwid-ritesidewid,topritehite);
+
+//bottomleft
+//com6="image  SrcOver 0,$((boxhite-bottomleft[2])) 0,0 \"$(echo ${bottomleft[0]})\""
+	gdk_pixbuf_copy_area(bottomleft,0,0,bottomleftwid,bottomlefthite,basepixbuf,0,boxhite-bottomlefthite);
+
+//bottomrite
+//com7="image  SrcOver $((boxwid-bottomrite[1])),$((boxhite-bottomrite[2])) 0,0 \"$(echo ${bottomrite[0]})\""
+	gdk_pixbuf_copy_area(bottomrite,0,0,bottomritewid,bottomritehite,basepixbuf,boxwid-bottomritewid,boxhite-bottomritehite);
+
+//bottom
+//com8="image  SrcOver ${bottomleft[1]},$((boxhite-bottom[2])) $((boxwid-bottomleft[1]-bottomrite[1])),${bottom[2]} \"$(echo ${bottom[0]})\""
+	gdk_pixbuf_copy_area(gdk_pixbuf_scale_simple(bottom,boxwid-bottomritewid-bottomleftwid,bottomhite,GDK_INTERP_BILINEAR),0,0,boxwid-bottomritewid-bottomleftwid,bottomhite,basepixbuf,bottomleftwid,boxhite-bottomhite);
 
 
+//menu
+//menubut="image  SrcOver $((button_offset+leftside[1])),$hiteoffset 0,0 \"$(echo ${menu[0]})\""
+	hiteoffset=(title3hite-menuhite)/2;
+
+	gdk_pixbuf_copy_area(menu,0,0,menuwid,menuhite,basepixbuf,button_offset+leftsidewid,hiteoffset);
+
+//close
+//closebut="image  SrcOver $((boxwid-button_offset-riteside[1]-close[1])),$hiteoffset 0,0 \"$(echo ${close[0]})\""
+	hiteoffset=(title3hite-closehite)/2;
+	gdk_pixbuf_copy_area(close,0,0,closewid,closehite,basepixbuf,boxwid-button_offset-ritesidewid-closewid,hiteoffset);
+
+//max
+//maxbut="image  SrcOver $((boxwid-button_offset-riteside[1]-close[1]-max[1]-button_spacing)),$hiteoffset 0,0 \"$(echo ${max[0]})\""
+	gdk_pixbuf_copy_area(max,0,0,maxwid,maxhite,basepixbuf,boxwid-button_offset-ritesidewid-closewid-maxwid-button_spacing,hiteoffset);
+
+
+//printf ("%i %i %i %i\n",bottomleftwid,bottomlefthite,boxhite-bottomlefthite,0);
 
 	gdk_pixbuf_savev(basepixbuf,"./out.png","png",NULL,NULL,NULL);
 
 
+
+cairo_surface_write_to_png(surface,"outcairo.png");
 }
 
 int main(int argc,char **argv)
@@ -282,7 +456,7 @@ int main(int argc,char **argv)
 
 	gtk_init(&argc, &argv);
 
-	basepixbuf=gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 8, 400, 400);
+	//basepixbuf=gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 8, 400, 400);
 	button_offset=atoi(argv[1]);
 	button_spacing=atoi(argv[2]);
 	makeborder(argv[3]);
