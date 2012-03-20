@@ -203,6 +203,26 @@ void makeborder(char* folder)
 	menu=loadfile(folder,"menu-active");
 
 	int closewid,maxwid,minwid,menuwid;
+	int topleftwid,toplefthite;
+	int title1wid,title1hite;
+	int title2wid,title2hite;
+	int title3wid,title3hite;
+	int title4wid,title4hite;
+	int title5wid,title5hite;
+
+	title1wid=gdk_pixbuf_get_width((const GdkPixbuf *)title1);
+	title1hite=gdk_pixbuf_get_height((const GdkPixbuf *)title1);
+	title2wid=gdk_pixbuf_get_width((const GdkPixbuf *)title2);
+	title2hite=gdk_pixbuf_get_height((const GdkPixbuf *)title2);
+	title3wid=gdk_pixbuf_get_width((const GdkPixbuf *)title3);
+	title3hite=gdk_pixbuf_get_height((const GdkPixbuf *)title3);
+	title4wid=gdk_pixbuf_get_width((const GdkPixbuf *)title4);
+	title4hite=gdk_pixbuf_get_height((const GdkPixbuf *)title4);
+	title5wid=gdk_pixbuf_get_width((const GdkPixbuf *)title5);
+	title5hite=gdk_pixbuf_get_height((const GdkPixbuf *)title5);
+
+	topleftwid=gdk_pixbuf_get_width((const GdkPixbuf *)topleft);
+	toplefthite=gdk_pixbuf_get_height((const GdkPixbuf *)topleft);
 	
 	closewid=gdk_pixbuf_get_width((const GdkPixbuf *)close);
 	maxwid=gdk_pixbuf_get_width((const GdkPixbuf *)max);
@@ -210,9 +230,17 @@ void makeborder(char* folder)
 	menuwid=gdk_pixbuf_get_width((const GdkPixbuf *)menu);
 	
 	lsegwid=menuwid+button_spacing;
-	rsegwid=closewid+maxwid+minwid+(button_spacing*3)
+	rsegwid=closewid+maxwid+minwid+(button_spacing*3);
 
+//topleft
+	gdk_pixbuf_copy_area(topleft,0,0,topleftwid,toplefthite,basepixbuf,0,0);
 
+//gdk_pixbuf_scale_simple(title1,leftsegwid,title3hite,GDK_INTERP_BILINEAR);
+//title1
+	gdk_pixbuf_copy_area(gdk_pixbuf_scale_simple(title1,lsegwid,title3hite,GDK_INTERP_BILINEAR),0,0,title1wid,title1hite,basepixbuf,topleftwid,0);
+
+//	com2_1="image  SrcOver ${topleft[1]},0 $lsegwid,${title3[2]} \"$(echo ${title1[0]})\""
+	gdk_pixbuf_savev(basepixbuf,"./out.png","png",NULL,NULL,NULL);
 }
 
 int main(int argc,char **argv)
