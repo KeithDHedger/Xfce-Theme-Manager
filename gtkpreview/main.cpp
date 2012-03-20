@@ -137,24 +137,31 @@ void makepicX(void)
 	gdk_pixbuf_savev(basepixbuf,"./out.png","png",NULL,NULL,NULL);
 }
 
-GdkPixmap*	basepixmap;
+//GdkPixmap*	basepixmap;
 GdkPixbuf*	basepixbuf;
+int		button_offset,button_spacing;
 
 //"$1"/xfwm4/top-left-active.*
-void loadfile(GdkPixbuf* pixbuff,char* bordername,const char* name)
+GdkPixbuf * loadfile(char* bordername,const char* name)
 {
 	char	pixmapname[2048];
+	GdkPixbuf* tmpbuf;
 
 	sprintf((char*)pixmapname,"%s/xfwm4/%s.xpm",bordername,name);
-	pixbuff=gdk_pixbuf_new_from_file((char*)pixmapname,NULL);
-	if (pixbuff==NULL)
+	tmpbuf=gdk_pixbuf_new_from_file((char*)pixmapname,NULL);
+	if (tmpbuf==NULL)
 		{
 			sprintf((char*)pixmapname,"%s/xfwm4/%s.png",bordername,name);
-			pixbuff=gdk_pixbuf_new_from_file((char*)pixmapname,NULL);
+			tmpbuf=gdk_pixbuf_new_from_file((char*)pixmapname,NULL);
 		}
 	
-	printf("%s\n",pixmapname);
-
+//	printf("%s\n",pixmapname);
+//if (tmpbuf==NULL)
+//	printf("no pixbuf\n");
+//else
+//	printf("got a pix buf\n");
+	
+	return(tmpbuf);
 }
 
 void makeborder(char* folder)
@@ -176,22 +183,36 @@ void makeborder(char* folder)
 	GdkPixbuf*	min;
 	GdkPixbuf*	menu;
 	
-	loadfile(topleft,folder,"top-left-active");
-	loadfile(toprite,folder,"top-right-active");
-	loadfile(title1,folder,"title-1-active");
-	loadfile(title2,folder,"title-2-active");
-	loadfile(title3,folder,"title-3-active");
-	loadfile(title4,folder,"title-4-active");
-	loadfile(title5,folder,"title-5-active");
-	loadfile(riteside,folder,"right-active");
-	loadfile(leftside,folder,"left-active");
-	loadfile(bottomleft,folder,"bottom-left-active");
-	loadfile(bottomrite,folder,"bottom-right-active");
-	loadfile(bottom,folder,"bottom-active");
-	loadfile(close,folder,"close-active");
-	loadfile(max,folder,"maximize-active");
-	loadfile(min,folder,"hide-active");
-	loadfile(menu,folder,"menu-active");
+	int		lsegwid,rsegwid;
+
+	topleft=loadfile(folder,"top-left-active");
+	toprite=loadfile(folder,"top-right-active");
+	title1=loadfile(folder,"title-1-active");
+	title2=loadfile(folder,"title-2-active");
+	title3=loadfile(folder,"title-3-active");
+	title4=loadfile(folder,"title-4-active");
+	title5=loadfile(folder,"title-5-active");
+	riteside=loadfile(folder,"right-active");
+	leftside=loadfile(folder,"left-active");
+	bottomleft=loadfile(folder,"bottom-left-active");
+	bottomrite=loadfile(folder,"bottom-right-active");
+	bottom=loadfile(folder,"bottom-active");
+	close=loadfile(folder,"close-active");
+	max=loadfile(folder,"maximize-active");
+	min=loadfile(folder,"hide-active");
+	menu=loadfile(folder,"menu-active");
+
+	int closewid,maxwid,minwid,menuwid;
+	
+	closewid=gdk_pixbuf_get_width((const GdkPixbuf *)close);
+	maxwid=gdk_pixbuf_get_width((const GdkPixbuf *)max);
+	minwid=gdk_pixbuf_get_width((const GdkPixbuf *)min);
+	menuwid=gdk_pixbuf_get_width((const GdkPixbuf *)menu);
+	
+	lsegwid=menuwid+button_spacing;
+	rsegwid=closewid+maxwid+minwid+(button_spacing*3)
+
+
 }
 
 int main(int argc,char **argv)
@@ -200,7 +221,9 @@ int main(int argc,char **argv)
 	gtk_init(&argc, &argv);
 
 	basepixbuf=gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 8, 400, 400);
-	makeborder(argv[1]);
+	button_offset=atoi(argv[1]);
+	button_spacing=atoi(argv[2]);
+	makeborder(argv[3]);
 
 //makepic();
 	return(0);
