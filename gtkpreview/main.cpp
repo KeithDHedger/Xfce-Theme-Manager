@@ -177,6 +177,21 @@ void makeborder(char* folder)
 	GdkPixbuf*	menu;
 	
 	loadfile(topleft,folder,"top-left-active");
+	loadfile(toprite,folder,"top-right-active");
+	loadfile(title1,folder,"title-1-active");
+	loadfile(title2,folder,"title-2-active");
+	loadfile(title3,folder,"title-3-active");
+	loadfile(title4,folder,"title-4-active");
+	loadfile(title5,folder,"title-5-active");
+	loadfile(riteside,folder,"right-active");
+	loadfile(leftside,folder,"left-active");
+	loadfile(bottomleft,folder,"bottom-left-active");
+	loadfile(bottomrite,folder,"bottom-right-active");
+	loadfile(bottom,folder,"bottom-active");
+	loadfile(close,folder,"close-active");
+	loadfile(max,folder,"maximize-active");
+	loadfile(min,folder,"hide-active");
+	loadfile(menu,folder,"menu-active");
 }
 
 int main(int argc,char **argv)
