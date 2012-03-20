@@ -138,8 +138,26 @@ void makepicX(void)
 }
 
 GdkPixmap*	basepixmap;
+GdkPixbuf*	basepixbuf;
 
-void makeborder(void)
+//"$1"/xfwm4/top-left-active.*
+void loadfile(GdkPixbuf* pixbuff,char* bordername,const char* name)
+{
+	char	pixmapname[2048];
+
+	sprintf((char*)pixmapname,"%s/xfwm4/%s.xpm",bordername,name);
+	pixbuff=gdk_pixbuf_new_from_file((char*)pixmapname,NULL);
+	if (pixbuff==NULL)
+		{
+			sprintf((char*)pixmapname,"%s/xfwm4/%s.png",bordername,name);
+			pixbuff=gdk_pixbuf_new_from_file((char*)pixmapname,NULL);
+		}
+	
+	printf("%s\n",pixmapname);
+
+}
+
+void makeborder(char* folder)
 {
 	GdkPixbuf*	topleft;
 	GdkPixbuf*	toprite;
@@ -157,6 +175,8 @@ void makeborder(void)
 	GdkPixbuf*	max;
 	GdkPixbuf*	min;
 	GdkPixbuf*	menu;
+	
+	loadfile(topleft,folder,"top-left-active");
 }
 
 int main(int argc,char **argv)
@@ -165,7 +185,7 @@ int main(int argc,char **argv)
 	gtk_init(&argc, &argv);
 
 	basepixbuf=gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 8, 400, 400);
-	makeborder();
+	makeborder(argv[1]);
 
 //makepic();
 	return(0);
