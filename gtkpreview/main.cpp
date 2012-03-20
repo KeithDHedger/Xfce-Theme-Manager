@@ -203,7 +203,7 @@ void makeborder(char* folder)
 	menu=loadfile(folder,"menu-active");
 
 	int closewid,maxwid,minwid,menuwid;
-	int topleftwid,toplefthite;
+	int topleftwid,toplefthite,topritewid,topritehite;
 	int title1wid,title1hite;
 	int title2wid,title2hite;
 	int title3wid,title3hite;
@@ -223,6 +223,9 @@ void makeborder(char* folder)
 
 	topleftwid=gdk_pixbuf_get_width((const GdkPixbuf *)topleft);
 	toplefthite=gdk_pixbuf_get_height((const GdkPixbuf *)topleft);
+	
+	topritewid=gdk_pixbuf_get_width((const GdkPixbuf *)toprite);
+	topritehite=gdk_pixbuf_get_height((const GdkPixbuf *)toprite);
 	
 	closewid=gdk_pixbuf_get_width((const GdkPixbuf *)close);
 	maxwid=gdk_pixbuf_get_width((const GdkPixbuf *)max);
@@ -248,6 +251,21 @@ void makeborder(char* folder)
 //com2_3="image  SrcOver $((topleft[1]+lsegwid+title2[1])),0 64,${title3[2]} \"$(echo ${title3[0]})\""
 	if (title3!=NULL)
 		gdk_pixbuf_copy_area(gdk_pixbuf_scale_simple(title3,64,title3hite,GDK_INTERP_BILINEAR),0,0,64,title3hite,basepixbuf,topleftwid+lsegwid+title2wid,0);
+
+//title4
+//com2_4="image  SrcOver $((topleft[1]+lsegwid+title2[1]+64)),0 0,0 \"$(echo ${title4[0]})\""
+	if (title4!=NULL)
+		gdk_pixbuf_copy_area(title4,0,0,title4wid,title4hite,basepixbuf,topleftwid+lsegwid+title2wid+64,0);
+
+//title5
+//com2_5="image  SrcOver $((topleft[1]+lsegwid+title2[1]+64+title4[1])),0 $rsegwid,${title3[2]} \"$(echo ${title5[0]})\""
+
+	if (title5!=NULL)
+		gdk_pixbuf_copy_area(gdk_pixbuf_scale_simple(title5,rsegwid,title3hite,GDK_INTERP_BILINEAR),0,0,rsegwid,title3hite,basepixbuf,topleftwid+lsegwid+title2wid+64+title4wid,0);
+
+//toprite
+//com3="image  SrcOver $((topleft[1]+lsegwid+title2[1]+64+title4[1]+rsegwid)),0 0,0 \"$(echo ${toprite[0]})\""
+	gdk_pixbuf_copy_area(toprite,0,0,topritewid,topritehite,basepixbuf,topleftwid+lsegwid+title2wid+64+title4wid+rsegwid,0);
 
 
 
