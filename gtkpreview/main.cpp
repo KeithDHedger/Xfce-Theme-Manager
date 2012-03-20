@@ -491,12 +491,19 @@ void getspace(char* folder)
 
 	sprintf((char*)filename,"%s/xfwm4/themerc",folder);
 	fp=fopen(filename,"r");
-	fgets(filename,80,fp);
+	//fgets(filename,80,fp);
+	while ( fgets(filename, 80, fp) != NULL)
+	{
+	strstart=NULL;
 	strstart=strstr(filename,"button_offset");
 	if (strstart!=NULL)
-		button_offset=atoi((char*)filename[15]);
+	{
+	printf("%s\n%i\n",filename,button_offset);
+		button_offset=atoi((char*)&filename[14]);
+	printf("xx %s\n%i\n",filename,button_offset);
+	}
+	}
 	fclose(fp);
-	printf("%i\n",button_offset);
 }
 
 int main(int argc,char **argv)
