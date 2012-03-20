@@ -117,8 +117,59 @@ retval=pixbuf;
 	return retval;
 }
 
+void makepicX(void)
+{
+	GdkPixmap*	basepixmap;
+	GdkPixbuf*	basepixbuf;
+	GdkPixbuf*	pic1;
+	
+	
+	//basepixmap=gdk_pixmap_new(NULL,240,240,32);
+		
+	//gdk_pixbuf_get_from_drawable(basepixbuf, basepixmap, NULL, 0, 0, 0, 0, 240, 240);
+	basepixbuf=gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 8, 400, 400);
+	pic1=gdk_pixbuf_new_from_file("pat.png",NULL);
+	
+//	gdk_pixbuf_copy_area(pic1,0,0,gdk_pixbuf_get_width(pic1),gdk_pixbuf_get_height(pic1),basepixbuf,100,10);
+
+	//gdk_pixbuf_scale(pic1,basepixbuf,20,20,128,128,20,20,2.0,1.0,GDK_INTERP_NEAREST);	
+	gdk_pixbuf_copy_area(gdk_pixbuf_scale_simple(pic1,50,50,GDK_INTERP_BILINEAR),0,0,50,50,basepixbuf,20,20);
+	gdk_pixbuf_savev(basepixbuf,"./out.png","png",NULL,NULL,NULL);
+}
+
+GdkPixmap*	basepixmap;
+
+void makeborder(void)
+{
+	GdkPixbuf*	topleft;
+	GdkPixbuf*	toprite;
+	GdkPixbuf*	title1;
+	GdkPixbuf*	title2;
+	GdkPixbuf*	title3;
+	GdkPixbuf*	title4;
+	GdkPixbuf*	title5;
+	GdkPixbuf*	riteside;
+	GdkPixbuf*	leftside;
+	GdkPixbuf*	bottomleft;
+	GdkPixbuf*	bottomrite;
+	GdkPixbuf*	bottom;
+	GdkPixbuf*	close;
+	GdkPixbuf*	max;
+	GdkPixbuf*	min;
+	GdkPixbuf*	menu;
+}
+
 int main(int argc,char **argv)
 {
+
+	gtk_init(&argc, &argv);
+
+	basepixbuf=gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 8, 400, 400);
+	makeborder();
+
+//makepic();
+	return(0);
+
 	GdkPixbuf *pixbuf=NULL;
 
 	gtk_init(&argc, &argv);
