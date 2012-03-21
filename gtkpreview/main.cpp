@@ -18,6 +18,8 @@
 
 #define GTK_THUMBNAIL_SIZE 96
 
+int button_offset,button_spacing;
+
 GdkPixmap* draw_window_on_pixbuf(GtkWidget *widget)
 {
 	GdkVisual	*visual;
@@ -118,31 +120,6 @@ retval=pixbuf;
 	return retval;
 }
 
-void makepicX(void)
-{
-	GdkPixmap*	basepixmap;
-	GdkPixbuf*	basepixbuf;
-	GdkPixbuf*	pic1;
-	
-	
-	//basepixmap=gdk_pixmap_new(NULL,240,240,32);
-		
-	//gdk_pixbuf_get_from_drawable(basepixbuf, basepixmap, NULL, 0, 0, 0, 0, 240, 240);
-	basepixbuf=gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 8, 400, 400);
-	pic1=gdk_pixbuf_new_from_file("pat.png",NULL);
-	
-//	gdk_pixbuf_copy_area(pic1,0,0,gdk_pixbuf_get_width(pic1),gdk_pixbuf_get_height(pic1),basepixbuf,100,10);
-
-	//gdk_pixbuf_scale(pic1,basepixbuf,20,20,128,128,20,20,2.0,1.0,GDK_INTERP_NEAREST);	
-	gdk_pixbuf_copy_area(gdk_pixbuf_scale_simple(pic1,50,50,GDK_INTERP_BILINEAR),0,0,50,50,basepixbuf,20,20);
-	gdk_pixbuf_savev(basepixbuf,"./out.png","png",NULL,NULL,NULL);
-}
-
-//GdkPixmap*	basepixmap;
-GdkPixbuf*	basepixbuf;
-int		button_offset,button_spacing;
-
-//"$1"/xfwm4/top-left-active.*
 GdkPixbuf * loadfile(char* bordername,const char* name)
 {
 	char	pixmapname[2048];
@@ -155,18 +132,12 @@ GdkPixbuf * loadfile(char* bordername,const char* name)
 			sprintf((char*)pixmapname,"%s/xfwm4/%s.png",bordername,name);
 			tmpbuf=gdk_pixbuf_new_from_file((char*)pixmapname,NULL);
 		}
-	
-//	printf("%s\n",pixmapname);
-//if (tmpbuf==NULL)
-//	printf("no pixbuf\n");
-//else
-//	printf("got a pix buf\n");
-	
+
 	return(tmpbuf);
 }
 #define boxhite 80
 
-void makeborder(char* folder)
+void makeborder(char* folder,char* outframe)
 {
 	GdkPixbuf*	topleft;
 	GdkPixbuf*	toprite;
@@ -186,6 +157,21 @@ void makeborder(char* folder)
 	GdkPixbuf*	menu;
 	
 	int		lsegwid,rsegwid,boxwid,hiteoffset;
+	int	closewid,maxwid,minwid,menuwid;
+	int	closehite,maxhite,minhite,menuhite;
+	int	topleftwid,toplefthite,topritewid,topritehite;
+	int	bottomleftwid,bottomlefthite,bottomritewid,bottomritehite;
+	int	leftsidewid,leftsidehite,ritesidewid,ritesidehite;
+	int	bottomwid,bottomhite;
+
+	int	title1wid,title1hite;
+	int	title2wid,title2hite;
+	int	title3wid,title3hite;
+	int	title4wid,title4hite;
+	int	title5wid,title5hite;
+
+	cairo_surface_t *surface;
+	cairo_t *cr;
 
 	topleft=loadfile(folder,"top-left-active");
 	toprite=loadfile(folder,"top-right-active");
@@ -203,22 +189,6 @@ void makeborder(char* folder)
 	max=loadfile(folder,"maximize-active");
 	min=loadfile(folder,"hide-active");
 	menu=loadfile(folder,"menu-active");
-
-	int closewid,maxwid,minwid,menuwid;
-	int closehite,maxhite,minhite,menuhite;
-	int topleftwid,toplefthite,topritewid,topritehite;
-	int bottomleftwid,bottomlefthite,bottomritewid,bottomritehite;
-	int leftsidewid,leftsidehite,ritesidewid,ritesidehite;
-	int bottomwid,bottomhite;
-
-	int title1wid,title1hite;
-	int title2wid,title2hite;
-	int title3wid,title3hite;
-	int title4wid,title4hite;
-	int title5wid,title5hite;
-	
-	gdouble	sw;
-	gdouble	sh;
 
 	if (title1!=NULL)
 		{
@@ -306,27 +276,15 @@ void makeborder(char* folder)
 	rsegwid=closewid+maxwid+minwid+(button_spacing*3);
 	boxwid=topleftwid+lsegwid+title2wid+64+title4wid+rsegwid+topritewid;
 
-	basepixbuf=gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE,8, boxwid, boxhite);
-//	basepixbuf=gdk_pixbuf_new_from_file("pat.png",NULL);
-
-	cairo_surface_t *surface;
-	cairo_t *cr;
-
-	surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, boxwid, boxhite);
-	cr = cairo_create (surface);
+	surface=cairo_image_surface_create(CAIRO_FORMAT_ARGB32,boxwid,boxhite);
+	cr=cairo_create(surface);
 
 //topleft
 	cairo_save (cr);
-
-	gdk_cairo_set_source_pixbuf(cr,topleft,0,0);
-	cairo_paint_with_alpha(cr,100);
-	
+		gdk_cairo_set_source_pixbuf(cr,topleft,0,0);
+		cairo_paint_with_alpha(cr,100);
 	cairo_restore (cr);
 
-//	gdk_pixbuf_copy_area(topleft,0,0,topleftwid,toplefthite,basepixbuf,0,0);
-
-//gdk_pixbuf_scale_simple(title1,leftsegwid,title3hite,GDK_INTERP_BILINEAR);
-//com2_1="image  SrcOver ${topleft[1]},0 $lsegwid,${title3[2]} \"$(echo ${title1[0]})\""
 //title1
 	if (title1!=NULL)
 		{
@@ -334,8 +292,6 @@ void makeborder(char* folder)
 				gdk_cairo_set_source_pixbuf(cr,gdk_pixbuf_scale_simple(title1,lsegwid,title3hite,GDK_INTERP_BILINEAR),topleftwid,0);
 				cairo_paint_with_alpha(cr,100);
 			cairo_restore (cr);
-
-		//gdk_pixbuf_copy_area(gdk_pixbuf_scale_simple(title1,lsegwid,title3hite,GDK_INTERP_BILINEAR),0,0,lsegwid,title3hite,basepixbuf,topleftwid,0);
 		}
 //title2
 	if (title2!=NULL)
@@ -345,11 +301,8 @@ void makeborder(char* folder)
 				cairo_paint_with_alpha(cr,100);
 			cairo_restore (cr);
 		}
-//		gdk_pixbuf_copy_area(title2,0,0,title2wid,title2hite,basepixbuf,topleftwid+lsegwid,0);
-//com2_2="image  SrcOver $((topleft[1]+lsegwid)),0 0,0 \"$(echo ${title2[0]})\""
 
 //title3
-//com2_3="image  SrcOver $((topleft[1]+lsegwid+title2[1])),0 64,${title3[2]} \"$(echo ${title3[0]})\""
 	if (title3!=NULL)
 		{
 			cairo_save (cr);
@@ -357,10 +310,7 @@ void makeborder(char* folder)
 				cairo_paint_with_alpha(cr,100);
 			cairo_restore (cr);
 		}
-		//gdk_pixbuf_copy_area(gdk_pixbuf_scale_simple(title3,64,title3hite,GDK_INTERP_BILINEAR),0,0,64,title3hite,basepixbuf,topleftwid+lsegwid+title2wid,0);
-
 //title4
-//com2_4="image  SrcOver $((topleft[1]+lsegwid+title2[1]+64)),0 0,0 \"$(echo ${title4[0]})\""
 	if (title4!=NULL)
 		{
 			cairo_save (cr);
@@ -368,11 +318,7 @@ void makeborder(char* folder)
 				cairo_paint_with_alpha(cr,100);
 			cairo_restore (cr);
 		}
-		//gdk_pixbuf_copy_area(title4,0,0,title4wid,title4hite,basepixbuf,topleftwid+lsegwid+title2wid+64,0);
-//
 //title5
-//com2_5="image  SrcOver $((topleft[1]+lsegwid+title2[1]+64+title4[1])),0 $rsegwid,${title3[2]} \"$(echo ${title5[0]})\""
-
 	if (title5!=NULL)
 		{
 			cairo_save (cr);
@@ -380,75 +326,48 @@ void makeborder(char* folder)
 			cairo_paint_with_alpha(cr,100);
 			cairo_restore (cr);
 		}
-		//gdk_pixbuf_copy_area(gdk_pixbuf_scale_simple(title5,rsegwid,title3hite,GDK_INTERP_BILINEAR),0,0,rsegwid,title3hite,basepixbuf,topleftwid+lsegwid+title2wid+64+title4wid,0);
-
 //toprite
-//com3="image  SrcOver $((topleft[1]+lsegwid+title2[1]+64+title4[1]+rsegwid)),0 0,0 \"$(echo ${toprite[0]})\""
 	cairo_save (cr);
 		gdk_cairo_set_source_pixbuf(cr,toprite,boxwid-topritewid,0);
 		cairo_paint_with_alpha(cr,100);
 	cairo_restore (cr);
 
-//	gdk_pixbuf_copy_area(toprite,0,0,topritewid,topritehite,basepixbuf,topleftwid+lsegwid+title2wid+64+title4wid+rsegwid,0);
-
-//leftside
-//com4="image  SrcOver 0,${topleft[2]} ${leftside[1]},$((boxhite-bottomleft[2]-topleft[2])) \"$(echo ${leftside[0]})\""
-	//gdk_pixbuf_copy_area(gdk_pixbuf_scale_simple(leftside,leftsidewid,boxhite-bottomlefthite-toplefthite,GDK_INTERP_BILINEAR),0,0,leftsidewid,boxhite-bottomlefthite-toplefthite,basepixbuf,0,toplefthite);
-	
+//leftside	
 	cairo_save (cr);
 		gdk_cairo_set_source_pixbuf(cr,gdk_pixbuf_scale_simple(leftside,leftsidewid,boxhite-bottomlefthite-toplefthite,GDK_INTERP_BILINEAR),0,toplefthite);
 		cairo_paint_with_alpha(cr,100);
 	cairo_restore (cr);
 
-
-//ritesie
-//com5="image  SrcOver $((boxwid-riteside[1])),${toprite[2]} ${riteside[1]},$((boxhite-bottomrite[2]-toprite[2])) \"$(echo ${riteside[0]})\""
+//riteside
 	cairo_save (cr);
 		gdk_cairo_set_source_pixbuf(cr,gdk_pixbuf_scale_simple(riteside,ritesidewid,boxhite-bottomritehite-topritehite,GDK_INTERP_BILINEAR),boxwid-ritesidewid,topritehite);
 		cairo_paint_with_alpha(cr,100);
 	cairo_restore (cr);
 
-
-
-	//gdk_pixbuf_copy_area(gdk_pixbuf_scale_simple(riteside,ritesidewid,boxhite-bottomritehite-topritehite,GDK_INTERP_BILINEAR),0,0,ritesidewid,boxhite-bottomritehite-topritehite,basepixbuf,boxwid-ritesidewid,topritehite);
-
 //bottomleft
-//com6="image  SrcOver 0,$((boxhite-bottomleft[2])) 0,0 \"$(echo ${bottomleft[0]})\""
 	cairo_save (cr);
 		gdk_cairo_set_source_pixbuf(cr,bottomleft,0,boxhite-bottomlefthite);
 		cairo_paint_with_alpha(cr,100);
 	cairo_restore (cr);
 
-
-//	gdk_pixbuf_copy_area(bottomleft,0,0,bottomleftwid,bottomlefthite,basepixbuf,0,boxhite-bottomlefthite);
-
 //bottomrite
-//com7="image  SrcOver $((boxwid-bottomrite[1])),$((boxhite-bottomrite[2])) 0,0 \"$(echo ${bottomrite[0]})\""
-//	gdk_pixbuf_copy_area(bottomrite,0,0,bottomritewid,bottomritehite,basepixbuf,boxwid-bottomritewid,boxhite-bottomritehite);
 	cairo_save (cr);
 		gdk_cairo_set_source_pixbuf(cr,bottomrite,boxwid-bottomritewid,boxhite-bottomlefthite);
 		cairo_paint_with_alpha(cr,100);
 	cairo_restore (cr);
 
 //bottom
-//com8="image  SrcOver ${bottomleft[1]},$((boxhite-bottom[2])) $((boxwid-bottomleft[1]-bottomrite[1])),${bottom[2]} \"$(echo ${bottom[0]})\""
-
 	cairo_save (cr);
 		gdk_cairo_set_source_pixbuf(cr,gdk_pixbuf_scale_simple(bottom,boxwid-bottomritewid-bottomleftwid,bottomhite,GDK_INTERP_BILINEAR),bottomleftwid,boxhite-bottomhite);
 		cairo_paint_with_alpha(cr,100);
 	cairo_restore (cr);
 
-
-//	gdk_pixbuf_copy_area(gdk_pixbuf_scale_simple(bottom,boxwid-bottomritewid-bottomleftwid,bottomhite,GDK_INTERP_BILINEAR),0,0,boxwid-bottomritewid-bottomleftwid,bottomhite,basepixbuf,bottomleftwid,boxhite-bottomhite);
-
-
+//buttons
 //menu
-//menubut="image  SrcOver $((button_offset+leftside[1])),$hiteoffset 0,0 \"$(echo ${menu[0]})\""
 	hiteoffset=(title3hite-menuhite)/2;
 	cairo_save (cr);
 		gdk_cairo_set_source_pixbuf(cr,menu,button_offset+leftsidewid,hiteoffset);
 		cairo_paint_with_alpha(cr,100);
-
 //close
 		hiteoffset=(title3hite-closehite)/2;
 		gdk_cairo_set_source_pixbuf(cr,close,boxwid-button_offset-ritesidewid-closewid,hiteoffset);
@@ -456,53 +375,37 @@ void makeborder(char* folder)
 //max
 		gdk_cairo_set_source_pixbuf(cr,max,boxwid-button_offset-ritesidewid-closewid-maxwid-button_spacing,hiteoffset);
 		cairo_paint_with_alpha(cr,100);
-
 //min
 		gdk_cairo_set_source_pixbuf(cr,min,boxwid-button_offset-ritesidewid-closewid-maxwid-minwid-button_spacing-button_spacing,hiteoffset);
 		cairo_paint_with_alpha(cr,100);
 	cairo_restore (cr);
 
-//	gdk_pixbuf_copy_area(menu,0,0,menuwid,menuhite,basepixbuf,button_offset+leftsidewid,hiteoffset);
-
-
-//closebut="image  SrcOver $((boxwid-button_offset-riteside[1]-close[1])),$hiteoffset 0,0 \"$(echo ${close[0]})\""
-//	hiteoffset=(title3hite-closehite)/2;
-//	gdk_pixbuf_copy_area(close,0,0,closewid,closehite,basepixbuf,boxwid-button_offset-ritesidewid-closewid,hiteoffset);
-
-
-//maxbut="image  SrcOver $((boxwid-button_offset-riteside[1]-close[1]-max[1]-button_spacing)),$hiteoffset 0,0 \"$(echo ${max[0]})\""
-//	gdk_pixbuf_copy_area(max,0,0,maxwid,maxhite,basepixbuf,boxwid-button_offset-ritesidewid-closewid-maxwid-button_spacing,hiteoffset);
-
-
-//printf ("%i %i %i %i\n",bottomleftwid,bottomlefthite,boxhite-bottomlefthite,0);
-
-//	gdk_pixbuf_savev(basepixbuf,"./out.png","png",NULL,NULL,NULL);
-
-
-
-cairo_surface_write_to_png(surface,"outcairo.png");
+	cairo_surface_write_to_png(surface,outframe);
 }
 
 void getspace(char* folder)
 {
 	char	filename[2048];
 	FILE*	fp;
-	char*	strstart=NULL;
+	char*	offsetstr=NULL;
+	char*	spacestr=NULL;
 
 	sprintf((char*)filename,"%s/xfwm4/themerc",folder);
 	fp=fopen(filename,"r");
-	//fgets(filename,80,fp);
-	while ( fgets(filename, 80, fp) != NULL)
-	{
-	strstart=NULL;
-	strstart=strstr(filename,"button_offset");
-	if (strstart!=NULL)
-	{
-	printf("%s\n%i\n",filename,button_offset);
-		button_offset=atoi((char*)&filename[14]);
-	printf("xx %s\n%i\n",filename,button_offset);
-	}
-	}
+
+	while (fgets(filename,80,fp)!=NULL)
+		{
+			offsetstr=NULL;
+			offsetstr=strstr((char*)&filename,"button_offset=");
+			spacestr=NULL;
+			spacestr=strstr((char*)&filename,"button_spacing=");
+			
+			if (offsetstr!=NULL)
+					button_offset=atoi((char*)&filename[14]);
+			if (spacestr!=NULL)
+					button_spacing=atoi((char*)&filename[15]);
+		}
+
 	fclose(fp);
 }
 
@@ -510,15 +413,11 @@ int main(int argc,char **argv)
 {
 
 	gtk_init(&argc, &argv);
-getspace(argv[3]);
-return(0);
-	//basepixbuf=gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 8, 400, 400);
-	button_offset=atoi(argv[1]);
-	button_spacing=atoi(argv[2]);
-	makeborder(argv[3]);
 
-//makepic();
-	return(0);
+//	getspace(argv[1]);
+//	makeborder(argv[1],argv[2]);
+//
+//	return(0);
 
 	GdkPixbuf *pixbuf=NULL;
 
