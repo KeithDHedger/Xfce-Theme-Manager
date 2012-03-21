@@ -15,6 +15,9 @@
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gtk/gtk.h>
 #include <string.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
 
 #define GTK_THUMBNAIL_SIZE 96
 
@@ -138,6 +141,8 @@ GdkPixbuf * loadfile(char* bordername,const char* name)
 }
 #define boxhite 80
 
+
+
 void makeborder(char* folder,char* outframe)
 {
 	GdkPixbuf*	topleft;
@@ -158,18 +163,18 @@ void makeborder(char* folder,char* outframe)
 	GdkPixbuf*	menu;
 	
 	int		lsegwid,rsegwid,boxwid,hiteoffset;
-	int	closewid,maxwid,minwid,menuwid;
-	int	closehite,maxhite,minhite,menuhite;
-	int	topleftwid,toplefthite,topritewid,topritehite;
-	int	bottomleftwid,bottomlefthite,bottomritewid,bottomritehite;
-	int	leftsidewid,leftsidehite,ritesidewid,ritesidehite;
-	int	bottomwid,bottomhite;
+	int		closewid,maxwid,minwid,menuwid;
+	int		closehite,maxhite,minhite,menuhite;
+	int		topleftwid,toplefthite,topritewid,topritehite;
+	int		bottomleftwid,bottomlefthite,bottomritewid,bottomritehite;
+	int		leftsidewid,leftsidehite,ritesidewid,ritesidehite;
+	int		bottomwid,bottomhite;
 
-	int	title1wid,title1hite;
-	int	title2wid,title2hite;
-	int	title3wid,title3hite;
-	int	title4wid,title4hite;
-	int	title5wid,title5hite;
+	int		title1wid,title1hite;
+	int		title2wid,title2hite;
+	int		title3wid,title3hite;
+	int		title4wid,title4hite;
+	int		title5wid,title5hite;
 
 	cairo_surface_t *surface;
 	cairo_t *cr;
@@ -223,8 +228,8 @@ void makeborder(char* folder,char* outframe)
 		}
 	if (title4!=NULL)
 		{
-		title4wid=gdk_pixbuf_get_width((const GdkPixbuf *)title4);
-		title4hite=gdk_pixbuf_get_height((const GdkPixbuf *)title4);
+			title4wid=gdk_pixbuf_get_width((const GdkPixbuf *)title4);
+			title4hite=gdk_pixbuf_get_height((const GdkPixbuf *)title4);
 		}
 	else
 		{
@@ -390,6 +395,30 @@ void makeborder(char* folder,char* outframe)
 	cairo_restore (cr);
 
 	cairo_surface_write_to_png(surface,outframe);
+
+	g_object_unref(topleft);
+	g_object_unref(toprite);
+if (title1!=NULL)
+	g_object_unref(title1);
+if (title2!=NULL)
+	g_object_unref(title2);
+if (title3!=NULL)
+	g_object_unref(title3);
+if (title4!=NULL)
+	g_object_unref(title4);
+if (title5!=NULL)
+	g_object_unref(title5);
+	g_object_unref(riteside);
+	g_object_unref(leftside);
+	g_object_unref(bottomleft);
+	g_object_unref(bottomrite);
+	g_object_unref(bottom);
+	g_object_unref(close);
+	g_object_unref(max);
+	g_object_unref(min);
+	g_object_unref(menu);
+	cairo_surface_destroy(surface);
+	cairo_destroy(cr);
 }
 
 void getspace(char* folder)
@@ -424,11 +453,19 @@ void getspace(char* folder)
 
 int main(int argc,char **argv)
 {
-	gtk_init(&argc, &argv);
 	gtkPixbuf=NULL;
+	struct stat st;
+	
+	gtk_init(&argc, &argv);
 
 	if (strcasecmp(argv[1],"border")==0)
 		{
+			if(stat(argv[2],&st)!=0)
+        			{
+        				fprintf(stderr,"No such folder\n");
+        				return(1);
+        			}
+		
 			getspace(argv[2]);
 			makeborder(argv[2],argv[3]);
 			return(0);
@@ -444,6 +481,12 @@ int main(int argc,char **argv)
 
 	if (strcasecmp(argv[1],"theme")==0)
 		{
+			if(stat(argv[3],&st)!=0)
+        			{
+        				fprintf(stderr,"No such folder\n");
+        				return(1);
+        			}
+
 			gtkPixbuf=create_gtk_theme_pixbuf(argv[2]);
 			getspace(argv[3]);
 			makeborder(argv[3],argv[4]);
