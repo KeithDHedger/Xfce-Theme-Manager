@@ -15,6 +15,7 @@ Bash 4.x
 gtkdialog version 0.8.x
 glib-2.0
 gdk-2.0
+cairo
 
 USAGE:
 xfce-theme-manager [-m] [-u]
@@ -41,10 +42,13 @@ You may have to run  xfce4-panel --restart to see the Xfce-Theme-Manager menu it
 TODO:
 Add 'custom' theme preview
 Add 'custom' theme save
-Re-write border thumbnail routine in 'C' (BASH is TOOoo.. slow)
 Add 'missing icons' icon
 Add 'cursors tab'
 etc
+
+Changelog:
+0.0.2b Re-wrote helper app to create window frame thumbnails
+0.0.1b 1st release into the wild
 
 Enjoy!
 
