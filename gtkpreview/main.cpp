@@ -19,7 +19,7 @@
 #define GTK_THUMBNAIL_SIZE 96
 
 int button_offset,button_spacing;
-GdkPixbuf *pixbuf;
+GdkPixbuf *gtkPixbuf;
 
 GdkPixmap* draw_window_on_pixbuf(GtkWidget *widget)
 {
@@ -280,6 +280,14 @@ void makeborder(char* folder,char* outframe)
 	surface=cairo_image_surface_create(CAIRO_FORMAT_ARGB32,boxwid,boxhite);
 	cr=cairo_create(surface);
 
+//do theme
+	if (gtkPixbuf!=NULL)
+		{
+			cairo_save (cr);
+				gdk_cairo_set_source_pixbuf(cr,gtkPixbuf,leftsidewid,toplefthite);
+				cairo_paint_with_alpha(cr,100);
+			cairo_restore (cr);
+		}
 //topleft
 	cairo_save (cr);
 		gdk_cairo_set_source_pixbuf(cr,topleft,0,0);
@@ -417,7 +425,7 @@ void getspace(char* folder)
 int main(int argc,char **argv)
 {
 	gtk_init(&argc, &argv);
-	pixbuf=NULL;
+	gtkPixbuf=NULL;
 
 	if (strcasecmp(argv[1],"border")==0)
 		{
@@ -426,35 +434,22 @@ int main(int argc,char **argv)
 			return(0);
 		}
 
-	if (strcasecmp(argv[1],"theme")==0)
-		{
-			pixbuf=create_gtk_theme_pixbuf(argv[2]);
-			gdk_pixbuf_savev(pixbuf,argv[3],"png",NULL,NULL,NULL);
-			g_object_unref(pixbuf);
-			return(0);
-		}
-
 	if (strcasecmp(argv[1],"controls")==0)
 		{
-			pixbuf=create_gtk_theme_pixbuf(argv[2]);
-			getspace(argv[3]);
-			makeborder(argv[3],argv[4]);
-			g_object_unref(pixbuf);
+			gtkPixbuf=create_gtk_theme_pixbuf(argv[2]);
+			gdk_pixbuf_savev(gtkPixbuf,argv[3],"png",NULL,NULL,NULL);
+			g_object_unref(gtkPixbuf);
 			return(0);
 		}
-//	getspace(argv[1]);
-//	makeborder(argv[1],argv[2]);
-//
-printf("XXXXXX\n");
-	return(0);
 
-//	GdkPixbuf *pixbuf=NULL;
+	if (strcasecmp(argv[1],"theme")==0)
+		{
+			gtkPixbuf=create_gtk_theme_pixbuf(argv[2]);
+			getspace(argv[3]);
+			makeborder(argv[3],argv[4]);
+			g_object_unref(gtkPixbuf);
+			return(0);
+		}
 
-//	gtk_init(&argc, &argv);
-//	pixbuf=create_gtk_theme_pixbuf(argv[1]);
-//	gdk_pixbuf_savev(pixbuf,argv[2],"png",NULL,NULL,NULL);
-//	g_object_unref(pixbuf);
-
-
-//	return(0);
+	return(1);
 }
