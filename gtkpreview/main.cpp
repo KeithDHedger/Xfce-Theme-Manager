@@ -19,6 +19,7 @@
 #define GTK_THUMBNAIL_SIZE 96
 
 int button_offset,button_spacing;
+GdkPixbuf *pixbuf;
 
 GdkPixmap* draw_window_on_pixbuf(GtkWidget *widget)
 {
@@ -409,23 +410,51 @@ void getspace(char* folder)
 	fclose(fp);
 }
 
+//gtkprev [border] /path/to/border /out/path/to/png
+//gtkprev [controls] gtkthemename /out/path/to/png
+//gtkprev [theme] gtkthemename /path/to/border /out/path/to/png
+
 int main(int argc,char **argv)
 {
-
 	gtk_init(&argc, &argv);
+	pixbuf=NULL;
 
+	if (strcasecmp(argv[1],"border")==0)
+		{
+			getspace(argv[2]);
+			makeborder(argv[2],argv[3]);
+			return(0);
+		}
+
+	if (strcasecmp(argv[1],"theme")==0)
+		{
+			pixbuf=create_gtk_theme_pixbuf(argv[2]);
+			gdk_pixbuf_savev(pixbuf,argv[3],"png",NULL,NULL,NULL);
+			g_object_unref(pixbuf);
+			return(0);
+		}
+
+	if (strcasecmp(argv[1],"controls")==0)
+		{
+			pixbuf=create_gtk_theme_pixbuf(argv[2]);
+			getspace(argv[3]);
+			makeborder(argv[3],argv[4]);
+			g_object_unref(pixbuf);
+			return(0);
+		}
 //	getspace(argv[1]);
 //	makeborder(argv[1],argv[2]);
 //
-//	return(0);
-
-	GdkPixbuf *pixbuf=NULL;
-
-	gtk_init(&argc, &argv);
-	pixbuf=create_gtk_theme_pixbuf(argv[1]);
-	gdk_pixbuf_savev(pixbuf,argv[2],"png",NULL,NULL,NULL);
-	g_object_unref(pixbuf);
-
-
+printf("XXXXXX\n");
 	return(0);
+
+//	GdkPixbuf *pixbuf=NULL;
+
+//	gtk_init(&argc, &argv);
+//	pixbuf=create_gtk_theme_pixbuf(argv[1]);
+//	gdk_pixbuf_savev(pixbuf,argv[2],"png",NULL,NULL,NULL);
+//	g_object_unref(pixbuf);
+
+
+//	return(0);
 }
