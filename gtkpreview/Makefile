@@ -24,6 +24,12 @@ install:
 	cp $(PROGRAM) ../$(GUI) $(DESTDIR)$(PREFIX)/bin
 	cp ../$(LAUNCHER) $(DESTDIR)$(PREFIX)/share/applications
 
+install-helper:
+	rm $(PROGRAM)||true
+	g++ $(CXXFLAGS) -o $(PROGRAM) $(SOURCES)
+	strip $(PROGRAM)
+	cp $(PROGRAM) $(DESTDIR)$(PREFIX)/bin
+
 uninstall:
 	rm $(DESTDIR)$(PREFIX)/bin/$(PROGRAM) $(DESTDIR)$(PREFIX)/share/applications/$(LAUNCHER) $(DESTDIR)$(PREFIX)/bin/$(GUI)
 clean:

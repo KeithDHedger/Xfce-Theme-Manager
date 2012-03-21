@@ -51,93 +51,17 @@ init ()
 
 makethumb ()
 {
-
-	local topleft toprite title1 title2 title3 title4 title5 leftside riteside
-	local bottomleft bottomrite bottom
-	local close max min menu
-	local lsegwid rsegwid
-	local com1 com2 com3 com4 com5 com6 com7 com8
-	local menubut closebut maxbut minbut
-	
-	local boxwid
-	local boxhite=80
-
-	eval $(cat "$1"/xfwm4/themerc|grep -i -e "button_offset" -e "button_spacing")
-
-	topleft=( $(echo "$1"/xfwm4/top-left-active.*|awk '{print $NF}'|xargs identify -format "%i %w %h") )
-	toprite=( $(echo "$1"/xfwm4/top-right-active.*|awk '{print $NF}'|xargs identify -format "%i %w %h") )
-	title1=( $(echo "$1"/xfwm4/title-1-active.*|awk '{print $NF}'|xargs identify -format "%i %w %h") )
-	title2=( $(echo "$1"/xfwm4/title-2-active.*|awk '{print $NF}'|xargs identify -format "%i %w %h") )
-	title3=( $(echo "$1"/xfwm4/title-3-active.*|awk '{print $NF}'|xargs identify -format "%i %w %h") )
-	title4=( $(echo "$1"/xfwm4/title-4-active.*|awk '{print $NF}'|xargs identify -format "%i %w %h") )
-	title5=( $(echo "$1"/xfwm4/title-5-active.*|awk '{print $NF}'|xargs identify -format "%i %w %h") )
-
-	riteside="$1/xfwm4/right-active.*"
-	riteside=$(echo $riteside|awk '{print $NF}')
-	leftside=( $(echo "$1"/xfwm4/left-active.*|awk '{print $NF}'|xargs identify -format "%i %w %h") )
-	riteside=( $(echo "$1"/xfwm4/right-active.*|awk '{print $NF}'|xargs identify -format "%i %w %h") )
-
-	bottomleft=( $(echo "$1"/xfwm4/bottom-left-active.*|awk '{print $NF}'|xargs identify -format "%i %w %h") )
-	bottomrite=( $(echo "$1"/xfwm4/bottom-right-active.*|awk '{print $NF}'|xargs identify -format "%i %w %h") )
-	bottom=( $(echo "$1"/xfwm4/bottom-active.*|awk '{print $NF}'|xargs identify -format "%i %w %h") )
-
-
-	close=( $(echo "$1"/xfwm4/close-active.*|awk '{print $NF}'|xargs identify -format "%i %w %h") )
-	max=( $(echo "$1"/xfwm4/maximize-active.*|awk '{print $NF}'|xargs identify -format "%i %w %h") )
-	min=( $(echo "$1"/xfwm4/hide-active.*|awk '{print $NF}'|xargs identify -format "%i %w %h") )
-	menu=( $(echo "$1"/xfwm4/menu-active.*|awk '{print $NF}'|xargs identify -format "%i %w %h") )
-
-#leftsegwidth
-	lsegwid=$((menu[1]+button_spacing))
-
-#rightsegwidth
-	rsegwid=$((close[1]+max[1]+min[1]+(button_spacing*3)))
-
-#title
-	com1="image  SrcOver 0,0 0,0 \"$(echo $topleft)\""
-
-	com2_1="image  SrcOver ${topleft[1]},0 $lsegwid,${title3[2]} \"$(echo ${title1[0]})\""
-	com2_2="image  SrcOver $((topleft[1]+lsegwid)),0 0,0 \"$(echo ${title2[0]})\""
-	com2_3="image  SrcOver $((topleft[1]+lsegwid+title2[1])),0 64,${title3[2]} \"$(echo ${title3[0]})\""
-	com2_4="image  SrcOver $((topleft[1]+lsegwid+title2[1]+64)),0 0,0 \"$(echo ${title4[0]})\""
-	com2_5="image  SrcOver $((topleft[1]+lsegwid+title2[1]+64+title4[1])),0 $rsegwid,${title3[2]} \"$(echo ${title5[0]})\""
-
-	com3="image  SrcOver $((topleft[1]+lsegwid+title2[1]+64+title4[1]+rsegwid)),0 0,0 \"$(echo ${toprite[0]})\""
-
-	boxwid=$((topleft[1]+lsegwid+title2[1]+64+title4[1]+rsegwid+toprite[1]))
-
-#side
-	com4="image  SrcOver 0,${topleft[2]} ${leftside[1]},$((boxhite-bottomleft[2]-topleft[2])) \"$(echo ${leftside[0]})\""
-	com5="image  SrcOver $((boxwid-riteside[1])),${toprite[2]} ${riteside[1]},$((boxhite-bottomrite[2]-toprite[2])) \"$(echo ${riteside[0]})\""
-
-#bottom
-	com6="image  SrcOver 0,$((boxhite-bottomleft[2])) 0,0 \"$(echo ${bottomleft[0]})\""
-	com7="image  SrcOver $((boxwid-bottomrite[1])),$((boxhite-bottomrite[2])) 0,0 \"$(echo ${bottomrite[0]})\""
-	
-	com8="image  SrcOver ${bottomleft[1]},$((boxhite-bottom[2])) $((boxwid-bottomleft[1]-bottomrite[1])),${bottom[2]} \"$(echo ${bottom[0]})\""
-
-#dobuttons
-	hiteoffset=$(((title3[2]-menu[2])/2))
-	menubut="image  SrcOver $((button_offset+leftside[1])),$hiteoffset 0,0 \"$(echo ${menu[0]})\""
-
-	hiteoffset=$(((title3[2]-close[2])/2))
-	closebut="image  SrcOver $((boxwid-button_offset-riteside[1]-close[1])),$hiteoffset 0,0 \"$(echo ${close[0]})\""
-	maxbut="image  SrcOver $((boxwid-button_offset-riteside[1]-close[1]-max[1]-button_spacing)),$hiteoffset 0,0 \"$(echo ${max[0]})\""
-	minbut="image  SrcOver $((boxwid-button_offset-riteside[1]-close[1]-max[1]-min[1]-button_spacing-button_spacing)),$hiteoffset 0,0 \"$(echo ${min[0]})\""
-
 	if [ $2 -eq 1 ];then
-		gtkcom="image  SrcOver $((leftside[1])),$((topleft[2])) 0,0 \"${CONTROLS}/$(basename "$1").png\""
-
-		convert -size ${boxwid}x${boxhite} canvas:transparent  -draw "$gtkcom" -draw "$com1" -draw "$com2_1" -draw "$com2_2" -draw "$com2_3" -draw "$com2_4" -draw "$com2_5" -draw "$com3" -draw "$com4" -draw "$com5" -draw "$com6" -draw "$com8" -draw "$com7" -draw "$menubut" -draw "$closebut"  -draw "$maxbut"  -draw "$minbut" "${META}/$(basename $1).bmp" &>/dev/null
+		gtkprev theme "$(basename "$1")" "$1"  "${META}/$(basename $1).png"
 	else
-		convert -size ${boxwid}x${boxhite} canvas:transparent -draw "$com1" -draw "$com2_1" -draw "$com2_2" -draw "$com2_3" -draw "$com2_4" -draw "$com2_5" -draw "$com3" -draw "$com4" -draw "$com5" -draw "$com6" -draw "$com8" -draw "$com7" -draw "$menubut" -draw "$closebut"  -draw "$maxbut"  -draw "$minbut" "${FRAMES}/$(basename $1).bmp" &>/dev/null
+		gtkprev border "$1" "${FRAMES}/$(basename $1).png"
 	fi
 }
 
 makemetalist ()
 {
 	local metaname="$1"
-	local pixmap="${META}/${metaname}.bmp"
+	local pixmap="${META}/${metaname}.png"
 	
 	METALIST=''"${METALIST}"'<button space-expand="false" space-fill="false" image-position="2" relief="2">'
 	METALIST=''"${METALIST}"'<input file>'"$pixmap"'</input>'
@@ -150,7 +74,7 @@ makemetalist ()
 makeframeslist ()
 {
 	local framename="$1"
-	local pixmap="${FRAMES}/${framename}.bmp"
+	local pixmap="${FRAMES}/${framename}.png"
 	
 	FRAMESLIST=''"${FRAMESLIST}"'<button space-expand="false" space-fill="false" image-position="2" relief="2">'
 	FRAMESLIST=''"${FRAMESLIST}"'<input file>'"$pixmap"'</input>'
@@ -242,13 +166,13 @@ makegtknames ()
 		do
 			if [ -d "${REPLY}/gtk-2.0" ];then
 				if [ $MAKEPICS -eq 1 ];then
-					$GTKPREV "$(basename "$REPLY")" "${CONTROLS}/$(basename "$REPLY").png"
+					$GTKPREV "controls" "$(basename "$REPLY")" "${CONTROLS}/$(basename "$REPLY").png"
 					echo ""
 				fi
 
 				if [ $UPDATEPICS -eq 1 ];then
 					if [ ! -e "${CONTROLS}/$(basename "$REPLY").png" ];then
-						$GTKPREV "$(basename "$REPLY")" "${CONTROLS}/$(basename "$REPLY").png"
+						$GTKPREV "controls" "$(basename "$REPLY")" "${CONTROLS}/$(basename "$REPLY").png"
 						echo ""
 					fi
 				fi
@@ -267,7 +191,7 @@ makethemenames ()
 					echo ""
 				fi
 				if [ $UPDATEPICS -eq 1 ];then
-					if [ ! -e "${META}/$(basename "$REPLY").bmp" ];then
+					if [ ! -e "${META}/$(basename "$REPLY").png" ];then
 						makethumb "$REPLY" 1 < /dev/null
 						echo ""
 					fi
@@ -287,7 +211,7 @@ makebordernames ()
 					echo ""
 				fi
 				if [ $UPDATEPICS -eq 1 ];then
-					if [ ! -e "${FRAMES}/$(basename "$REPLY").bmp" ];then
+					if [ ! -e "${FRAMES}/$(basename "$REPLY").png" ];then
 						makethumb "$REPLY" 0 < /dev/null
 						echo ""
 					fi

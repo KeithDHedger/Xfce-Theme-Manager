@@ -32,7 +32,7 @@ export MAIN_DIALOG='
 		</button>
 
 		<button>
-			<label>Rebuld DB</label>
+			<label>Rebuild DB</label>
 			<action>exec '"xfce-theme-manager"' '"-m &"'</action>
 			<action>exit:EXIT</action>
 		</button>
