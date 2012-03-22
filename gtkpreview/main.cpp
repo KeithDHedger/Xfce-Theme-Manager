@@ -527,6 +527,15 @@ GdkPixbuf * mouse_settings_themes_pixbuf_from_filename (const gchar *filename,
     return pixbuf;
 }
 
+void makecursor(char* cursorPath,char* outPath)
+{
+	gtkPixbuf=NULL;
+
+	gtkPixbuf=mouse_settings_themes_pixbuf_from_filename (cursorPath,CURS_PREVIEW_SIZE);
+	gdk_pixbuf_savev(gtkPixbuf,outPath,"png",NULL,NULL,NULL);
+
+}
+
 //gtkprev [border] /path/to/border /out/path/to/png
 //gtkprev [controls] gtkthemename /out/path/to/png
 //gtkprev [theme] gtkthemename /path/to/border /out/path/to/png
@@ -538,9 +547,6 @@ int main(int argc,char **argv)
 	struct stat st;
 	
 	gtk_init(&argc, &argv);
-	 gtkPixbuf = mouse_settings_themes_pixbuf_from_filename ("/home/keithhedger/.icons/XSilver/cursors/left_ptr", CURS_PREVIEW_SIZE);
-	gdk_pixbuf_savev(gtkPixbuf,"/tmp/cross.png","png",NULL,NULL,NULL);
-	return(0);
 
 	if (strcasecmp(argv[1],"border")==0)
 		{
@@ -575,6 +581,18 @@ int main(int argc,char **argv)
 			getspace(argv[3]);
 			makeborder(argv[3],argv[4]);
 			g_object_unref(gtkPixbuf);
+			return(0);
+		}
+
+	if (strcasecmp(argv[1],"cursor")==0)
+		{
+			if(stat(argv[2],&st)!=0)
+        			{
+        				fprintf(stderr,"No such folder\n");
+        				return(1);
+        			}
+
+			makecursor(argv[2],argv[3]);
 			return(0);
 		}
 
