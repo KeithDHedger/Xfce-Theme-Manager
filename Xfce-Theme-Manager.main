@@ -21,6 +21,7 @@ init ()
 	export OLDBORDER=$(xfconf-query -c xfwm4 -vp /general/theme)
 	export OLDCONTROLS=$(xfconf-query -c xsettings -vp /Net/ThemeName)
 	export OLDCONTROLS=$(xfconf-query -c xsettings -vp /Net/ThemeName)
+	export OLDCURSOR=$(xfconf-query -c xsettings -vp /Gtk/CursorThemeName)
 
 	export -f setframe
 	export -f setcontrols
@@ -28,12 +29,14 @@ init ()
 	export -f makeiconnames
 	export -f resettheme
 	export -f setmetatheme
+	export -f setcursor
 
 	DB=${HOME}/.config/XfceThemeManager
 	FRAMES=${DB}/wmf
 	CONTROLS=${DB}/conts
 	META=${DB}/meta
 	ICONS=${DB}/icons
+	CURSORS=${DB}/cursors
 	
 	GLOBAL=/usr/share/themes
 	GTKPREV=$(which gtkprev)
@@ -42,19 +45,20 @@ init ()
 	FRAMESLIST=""
 	CONTROLSLIST=""
 	ICONSLIST=""
+	CURSORSLIST=""
 
 	UPDATEPICS=0
 	MAKEPICS=0
 
-	mkdir -p $FRAMES $CONTROLS $META $ICONS
+	mkdir -p $FRAMES $CONTROLS $META $ICONS $CURSORS
 }
 
 makethumb ()
 {
 	if [ $2 -eq 1 ];then
-		gtkprev theme "$(basename "$1")" "$1"  "${META}/$(basename "$1").png"
+		$GTKPREV theme "$(basename "$1")" "$1"  "${META}/$(basename "$1").png"
 	else
-		gtkprev border "$1" "${FRAMES}/$(basename "$1").png"
+		$GTKPREV border "$1" "${FRAMES}/$(basename "$1").png"
 	fi
 }
 
@@ -93,6 +97,7 @@ makecontrolslist ()
 	CONTROLSLIST=''"${CONTROLSLIST}"'<action>exec $SHELL -c '"setcontrols '"$controlname"'"'</action>'
 	CONTROLSLIST=''"${CONTROLSLIST}"'</button>'
 }
+
 makeiconslist ()
 {
 	local showiconname="$1" iconname="$2"
@@ -107,11 +112,27 @@ if [ X"$pixmap" != "X" ];then
 fi
 }
 
+makecursorslist ()
+{
+	local showcursorname="$1" cursorname="$2"
+	local pixmap="${CURSORS}/${showcursorname}.png"
+
+if [ X"$pixmap" != "X" ];then
+	CURSORSLIST=''"${CURSORSLIST}"'<button space-expand="false" space-fill="false" image-position="2" relief="2">'
+	CURSORSLIST=''"${CURSORSLIST}"'<input file>'"$pixmap"'</input>'
+	CURSORSLIST=''"${CURSORSLIST}"'<label>'"$showcursorname"'</label>'
+	CURSORSLIST=''"${CURSORSLIST}"'<action>exec $SHELL -c ''setcursor '"\"$cursorname\""'''</action>'
+	CURSORSLIST=''"${CURSORSLIST}"'</button>'
+fi
+}
+
+
 resettheme ()
 {
 	xfconf-query -c xfwm4 -p /general/theme -s "$OLDBORDER"
 	xfconf-query -c xsettings -p /Net/ThemeName -s "$OLDCONTROLS"
 	xfconf-query -c xsettings -p /Net/IconThemeName -s "$OLDICONS"
+	xfconf-query -c xsettings -p /Gtk/CursorThemeName -s "$OLDCURSOR"
 }
 
 makeiconthumbs ()
@@ -155,6 +176,47 @@ makeiconnames ()
 						makeiconslist "$showiconname" "$iconname"
 					fi
 				fi
+			fi
+		done < <(find ~/.icons /usr/share/icons -maxdepth 1 -mindepth 1 -type d|sort)
+}
+
+makecursornames ()
+{
+	local showcursorname cursorname
+	
+	while read
+		do
+			if [ -d "${REPLY}"/cursors ];then
+
+				cursorname="$(basename "$REPLY")"
+
+				if [ -e "${REPLY}"/index.theme ];then
+					showcursorname=$(cat "${REPLY}"/index.theme |grep -i "name")
+					showcursorname=${showcursorname#?*= *}
+				else
+					showcursorname=$(basename "$REPLY")
+				fi
+					#if ! cat "${REPLY}"/index.theme |grep -i "hidden" >/dev/null ;then
+						cursorname="$(basename "$REPLY")"
+						#showcursorname=$(cat "${REPLY}"/index.theme |sed 's% %%'grep -i "name="|awk -F "=" '{print $2}')
+						#${a#?*= *}
+						#showcursorname=$(cat "${REPLY}"/index.theme |grep -i "name")
+						#showcursorname=${showcursorname#?*= *}
+						if [ $MAKEPICS -eq 1 ];then
+							echo ""
+							$GTKPREV cursor "$REPLY" "$showcursorname"
+						fi
+
+						if [ $UPDATEPICS -eq 1 ];then
+							echo "$GTKPREV cursor \"$REPLY\" \"$showcursorname\"" >&2
+							if [ ! -e "${CURSORS}/${showcursorname}.png" ];then
+								$GTKPREV cursor "$REPLY" "${CURSORS}/${showcursorname}.png"
+								echo ""
+							fi
+						fi
+						makecursorslist "$showcursorname" "$cursorname"
+					#fi
+				#fi
 			fi
 		done < <(find ~/.icons /usr/share/icons -maxdepth 1 -mindepth 1 -type d|sort)
 }
@@ -205,6 +267,7 @@ makebordernames ()
 	while read
 		do
 			if [ -d "${REPLY}/xfwm4" ];then
+			((bords++))
 				if [ $MAKEPICS -eq 1 ];then
 					makethumb "$REPLY" 0 < /dev/null
 					echo ""
@@ -257,9 +320,13 @@ setcontrols ()
 seticons ()
 {
 	local iconname="$0"
-	echo $iconname >&2
-
 	xfconf-query -c xsettings -vp /Net/IconThemeName -s "$iconname"
+}
+
+setcursor ()
+{
+	local cursorname="$0"
+	xfconf-query -c xsettings -vp /Gtk/CursorThemeName -s "$cursorname"
 }
 
 init
@@ -280,18 +347,18 @@ if [ X"$1" = "X-m" ] || [ X"$1" = "X-u" ];then
 	makebordernames > >(zenity --text="$doing Window Frames DB..." --progress  --no-cancel  --auto-close --pulsate)
 	makethemenames > >(zenity --text="$doing Meta Themes DB..." --progress  --no-cancel  --auto-close --pulsate)
 	makeiconnames > >(zenity --text="$doing Icons DB..." --progress  --no-cancel  --auto-close --pulsate)
+	makecursornames > >(zenity --text="$doing Cursor DB..." --progress  --no-cancel  --auto-close --pulsate)
 else
 	makegtknames
 	makebordernames
 	makethemenames
 	makeiconnames
+	makecursornames
 fi
 
 main
 
-#if [ -e /tmp/xfcethememanager$$ ];then
-#	rm /tmp/xfcethememanager$$
-#fi
-#if [ -e /tmp/xxgdia$$ ];then
-#	rm /tmp/xxgdia$$
-#f#i
+if [ -e /tmp/xfcethememanager$$ ];then
+	rm /tmp/xfcethememanager$$
+fi
+

@@ -458,63 +458,44 @@ void getspace(char* folder)
 GdkPixbuf *cursorprev (const gchar *filename,guint size)
 {
 	XcursorImage	*image;
-	GdkPixbuf	*scaled, *pixbuf = NULL;
+	GdkPixbuf	*scaled=NULL, *pixbuf=NULL;
 	gsize		bsize;
 	guchar		*buffer, *p, tmp;
 	gdouble		wratio, hratio;
 	gint		dest_width, dest_height;
 
     /* load the image */
-	image = XcursorFilenameLoadImage (filename, size);
-		if (G_LIKELY (image))
+	image=XcursorFilenameLoadImage(filename, size);
+		if (G_LIKELY(image))
 			{
-				bsize = image->width * image->height * 4;
-				buffer = (guchar*)g_malloc (bsize);
+				bsize=image->width*image->height*4;
+				buffer=(guchar*)g_malloc(bsize);
 
         /* copy pixel data to buffer */
-				memcpy (buffer, image->pixels, bsize);
-
+				memcpy(buffer,image->pixels,bsize);
         /* swap bits */
-				for (p = buffer; p < buffer + bsize; p += 4)
+				for (p=buffer;p<buffer+bsize;p+=4)
 					{
-						tmp = p[0];
-						p[0] = p[2];
-						p[2] = tmp;
+						tmp=p[0];
+						p[0]=p[2];
+						p[2]=tmp;
 					}
         /* create pixbuf */
-				pixbuf = gdk_pixbuf_new_from_data (buffer,GDK_COLORSPACE_RGB,TRUE,8,image->width,image->height,4 * image->width,(GdkPixbufDestroyNotify) g_free,NULL);
+				pixbuf=gdk_pixbuf_new_from_data(buffer,GDK_COLORSPACE_RGB,TRUE,8,image->width,image->height,4*image->width,(GdkPixbufDestroyNotify) g_free,NULL);
 
         /* don't leak when creating the pixbuf failed */
-				if (G_UNLIKELY (pixbuf == NULL))
-					g_free (buffer);
-        /* scale pixbuf if needed */
-//				if (pixbuf && (image->height > size || image->width > size))
-//					{
-//  /          /* calculate the ratio */
-//						wratio = (gdouble) image->width / (gdouble) size;
-//						hratio = (gdouble) image->height / (gdouble) size;
-//
-  //          /* init */
-//						dest_width = dest_height = size;
-//
-//            /* set dest size */
-//						if (hratio > wratio)
-//							dest_width  = image->width / hratio;
-//						else
-//							dest_height = image->height / wratio;
-//
-  //          /* scale pixbuf */
-//						scaled = gdk_pixbuf_scale_simple (pixbuf, MAX (dest_width, 1), MAX (dest_height, 1), GDK_INTERP_BILINEAR);
-//
-//            /* release and set scaled pixbuf */
-//						g_object_unref (G_OBJECT (pixbuf));
-//						pixbuf = scaled;
-//					}
+				if (G_UNLIKELY(pixbuf==NULL))
+					g_free(buffer);
 
-        /* cleanup */
+				if (pixbuf!=NULL)
+					{
+						scaled=gdk_pixbuf_scale_simple(pixbuf,32,32,GDK_INTERP_BILINEAR);
+						g_object_unref (G_OBJECT (pixbuf));
+					}
+
 				XcursorImageDestroy (image);
 			}
-	return pixbuf;
+	return scaled;
 }
 
 void makecursor(char* cursorPath,char* outPath)
