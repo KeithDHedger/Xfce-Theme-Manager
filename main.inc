@@ -1,7 +1,7 @@
 
 main ()
 {
-export MAIN_DIALOG='
+MAIN_DIALOG='
 <window title="Xfce-Theme-Manager" height_request="480" width_request="400" window_position="1">
 	<vbox>
 		<notebook labels="Themes|Window Borders|Controls|Icons" space-fill="true" space-expand="true">
@@ -22,7 +22,7 @@ export MAIN_DIALOG='
 			<vbox scrollable="true">
 				'"$ICONSLIST"'
 			</vbox>
-			<variable>nvar</variable>
+
 		</notebook>
 
 	<hbox  homogeneous="true" space-fill="true" space-expand="false">
@@ -51,7 +51,20 @@ export MAIN_DIALOG='
 	</vbox>
 </window>'
 
+echo ${#MAIN_DIALOG}  131072
+if [ ${#MAIN_DIALOG} -ge 131072 ];then
+	echo XXX
+	echo "$MAIN_DIALOG" > "/tmp/xfcethememanager$$"
+	echo ZZZ
+	unset MAIN_DIALOG
+	echo AAAA
+	$GTKDIALOG --file="/tmp/xfcethememanager$$"
+	echo QQQ
+else
+	echo EEE
+	export MAIN_DIALOG
+	$GTKDIALOG --program=MAIN_DIALOG >/dev/null
+fi
 
-$GTKDIALOG --program=MAIN_DIALOG >/dev/null
 }
 
