@@ -18,8 +18,10 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <X11/Xcursor/Xcursor.h>
 
 #define GTK_THUMBNAIL_SIZE 96
+#define CURS_PREVIEW_SIZE    32
 
 int button_offset,button_spacing;
 GdkPixbuf *gtkPixbuf;
@@ -453,9 +455,82 @@ void getspace(char* folder)
 	fclose(fp);
 }
 
+GdkPixbuf * mouse_settings_themes_pixbuf_from_filename (const gchar *filename,
+                                            guint        size)
+{
+    XcursorImage *image;
+    GdkPixbuf    *scaled, *pixbuf = NULL;
+    gsize         bsize;
+    guchar       *buffer, *p, tmp;
+    gdouble       wratio, hratio;
+    gint          dest_width, dest_height;
+
+    /* load the image */
+    image = XcursorFilenameLoadImage (filename, size);
+    if (G_LIKELY (image))
+    {
+        /* buffer size */
+        bsize = image->width * image->height * 4;
+
+        /* allocate buffer */
+        buffer = (guchar*)g_malloc (bsize);
+
+        /* copy pixel data to buffer */
+        memcpy (buffer, image->pixels, bsize);
+
+        /* swap bits */
+        for (p = buffer; p < buffer + bsize; p += 4)
+        {
+            tmp = p[0];
+            p[0] = p[2];
+            p[2] = tmp;
+        }
+
+        /* create pixbuf */
+        pixbuf = gdk_pixbuf_new_from_data (buffer, GDK_COLORSPACE_RGB, TRUE,
+                                           8, image->width, image->height,
+                                           4 * image->width,
+                                           (GdkPixbufDestroyNotify) g_free, NULL);
+
+        /* don't leak when creating the pixbuf failed */
+        if (G_UNLIKELY (pixbuf == NULL))
+            g_free (buffer);
+
+        /* scale pixbuf if needed */
+        if (pixbuf && (image->height > size || image->width > size))
+        {
+            /* calculate the ratio */
+            wratio = (gdouble) image->width / (gdouble) size;
+            hratio = (gdouble) image->height / (gdouble) size;
+
+            /* init */
+            dest_width = dest_height = size;
+
+            /* set dest size */
+            if (hratio > wratio)
+                dest_width  = image->width / hratio;
+            else
+                dest_height = image->height / wratio;
+
+            /* scale pixbuf */
+            scaled = gdk_pixbuf_scale_simple (pixbuf, MAX (dest_width, 1), MAX (dest_height, 1), GDK_INTERP_BILINEAR);
+
+            /* release and set scaled pixbuf */
+            g_object_unref (G_OBJECT (pixbuf));
+            pixbuf = scaled;
+        }
+
+        /* cleanup */
+        XcursorImageDestroy (image);
+    }
+
+    return pixbuf;
+}
+
 //gtkprev [border] /path/to/border /out/path/to/png
 //gtkprev [controls] gtkthemename /out/path/to/png
 //gtkprev [theme] gtkthemename /path/to/border /out/path/to/png
+//gtkprev [cursor] /path/to/cursortheme /out/path/to/png
 
 int main(int argc,char **argv)
 {
@@ -463,6 +538,9 @@ int main(int argc,char **argv)
 	struct stat st;
 	
 	gtk_init(&argc, &argv);
+	 gtkPixbuf = mouse_settings_themes_pixbuf_from_filename ("/home/keithhedger/.icons/XSilver/cursors/left_ptr", CURS_PREVIEW_SIZE);
+	gdk_pixbuf_savev(gtkPixbuf,"/tmp/cross.png","png",NULL,NULL,NULL);
+	return(0);
 
 	if (strcasecmp(argv[1],"border")==0)
 		{
