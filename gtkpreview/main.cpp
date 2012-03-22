@@ -1,7 +1,7 @@
 /*
- * Original author David D Lowe <daviddlowe.flimm@gmail.com>
- *
- *
+ * Original author of parts of gtkpreview David D Lowe <daviddlowe.flimm@gmail.com>
+ * Parts of cursor preveiw Copyright (c) 2008 Nick Schermer <nick@xfce.org> & Jannis Pohlmann <jannis@xfce.org>
+ * from xfce4-settings-4.6.5/dialogs/mouse-settings
  *
  * Seriously mucked about by:
  *
@@ -455,8 +455,7 @@ void getspace(char* folder)
 	fclose(fp);
 }
 
-GdkPixbuf * mouse_settings_themes_pixbuf_from_filename (const gchar *filename,
-                                            guint        size)
+GdkPixbuf *cursorprev (const gchar *filename, guint        size)
 {
     XcursorImage *image;
     GdkPixbuf    *scaled, *pixbuf = NULL;
@@ -529,11 +528,47 @@ GdkPixbuf * mouse_settings_themes_pixbuf_from_filename (const gchar *filename,
 
 void makecursor(char* cursorPath,char* outPath)
 {
+	GdkPixbuf*	arrow;
+	GdkPixbuf*	move;
+	GdkPixbuf*	wait;
+	GdkPixbuf*	hand;
+	cairo_surface_t *surface;
+	cairo_t *cr;
+	char	pixmapname[2048];
+
 	gtkPixbuf=NULL;
+	surface=cairo_image_surface_create(CAIRO_FORMAT_ARGB32,128,32);
+	cr=cairo_create(surface);
 
-	gtkPixbuf=mouse_settings_themes_pixbuf_from_filename (cursorPath,CURS_PREVIEW_SIZE);
-	gdk_pixbuf_savev(gtkPixbuf,outPath,"png",NULL,NULL,NULL);
+	sprintf((char*)pixmapname,"%s/cursors/left_ptr",cursorPath);
+	arrow=cursorprev(pixmapname,CURS_PREVIEW_SIZE);
+	sprintf((char*)pixmapname,"%s/cursors/fleur",cursorPath);
+	move=cursorprev(pixmapname,CURS_PREVIEW_SIZE);
+	sprintf((char*)pixmapname,"%s/cursors/watch",cursorPath);
+	wait=cursorprev(pixmapname,CURS_PREVIEW_SIZE);
+	sprintf((char*)pixmapname,"%s/cursors/hand2",cursorPath);
+	hand=cursorprev(pixmapname,CURS_PREVIEW_SIZE);
+	
+	cairo_save (cr);
+		gdk_cairo_set_source_pixbuf(cr,arrow,0,0);
+		cairo_paint_with_alpha(cr,100);
+		gdk_cairo_set_source_pixbuf(cr,move,32,0);
+		cairo_paint_with_alpha(cr,100);
+		gdk_cairo_set_source_pixbuf(cr,wait,64,0);
+		cairo_paint_with_alpha(cr,100);
+		gdk_cairo_set_source_pixbuf(cr,hand,96,0);
+		cairo_paint_with_alpha(cr,100);
+	cairo_restore (cr);
 
+	cairo_surface_write_to_png(surface,outPath);
+
+	g_object_unref(arrow);
+	g_object_unref(move);
+	g_object_unref(wait);
+	g_object_unref(hand);
+
+	cairo_surface_destroy(surface);
+	cairo_destroy(cr);
 }
 
 //gtkprev [border] /path/to/border /out/path/to/png
