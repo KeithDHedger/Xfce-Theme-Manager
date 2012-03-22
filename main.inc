@@ -4,7 +4,7 @@ main ()
 MAIN_DIALOG='
 <window title="Xfce-Theme-Manager" height_request="480" width_request="400" window_position="1">
 	<vbox>
-		<notebook labels="Themes|Window Borders|Controls|Icons|Cursors" space-fill="true" space-expand="true">
+		<notebook labels="Themes|Window Borders|Controls|Icons|Cursors|Custom" space-fill="true" space-expand="true">
 
 
 			<vbox scrollable="true">
@@ -26,7 +26,9 @@ MAIN_DIALOG='
 			<vbox scrollable="true">
 				'"$CURSORSLIST"'
 			</vbox>
-
+			
+			'"$customlist"'
+			
 		</notebook>
 
 	<hbox  homogeneous="true" space-fill="true" space-expand="false">
