@@ -30,6 +30,7 @@ init ()
 	export -f resettheme
 	export -f setmetatheme
 	export -f setcursor
+	export -f removedb
 
 	DB=${HOME}/.config/XfceThemeManager
 	FRAMES=${DB}/wmf
@@ -37,6 +38,7 @@ init ()
 	META=${DB}/meta
 	ICONS=${DB}/icons
 	CURSORS=${DB}/cursors
+	CUSTOM=${DB}/custom
 	
 	GLOBAL=/usr/share/themes
 	GTKPREV=$(which gtkprev)
@@ -60,6 +62,12 @@ makethumb ()
 	else
 		$GTKPREV border "$1" "${FRAMES}/$(basename "$1").png"
 	fi
+}
+
+removedb ()
+{
+	rm -r $DB
+	mkdir -p $FRAMES $CONTROLS $META $ICONS $CURSORS
 }
 
 makemetalist ()
@@ -145,7 +153,7 @@ makeiconthumbs ()
 	local comppic="$(find "$iconpath" -iname "computer.???"|head -n1)"
 	local drivepic="$(find "$iconpath" -iname "*drive*harddisk*.???"|head -n1)"
 
-	convert "$folderpic" "$homepic" "$comppic" "$drivepic" +append -scale x32 "${ICONS}/${iconname}.png" </dev/null
+	convert -quiet "$folderpic" "$homepic" "$comppic" "$drivepic" +append -scale x32 "${ICONS}/${iconname}.png" </dev/null &>/dev/null
 }
 
 makeiconnames ()
@@ -197,12 +205,12 @@ makecursornames ()
 
 				if [ $MAKEPICS -eq 1 ];then
 					echo ""
-					$GTKPREV cursor "$REPLY" "$showcursorname"
+					$GTKPREV cursor "$REPLY" "${CURSORS}/${showcursorname}.png"
 				fi
 
 				if [ $UPDATEPICS -eq 1 ];then
 					if [ ! -e "${CURSORS}/${showcursorname}.png" ];then
-						$GTKPREV cursor "$REPLY" "${CURSORS}/${showcursorname}.png"
+						$GTKPREV "cursor" "$REPLY" "${CURSORS}/${showcursorname}.png"
 						echo ""
 					fi
 				fi
@@ -273,6 +281,58 @@ makebordernames ()
 		done < <(find ~/.themes $GLOBAL -maxdepth 1 -mindepth 1|sort)
 }
 
+#	local showcursorname="$1" cursorname="$2"
+#	local pixmap="${CURSORS}/${showcursorname}.png"
+#
+#if [ X"$pixmap" != "X" ];then
+#	CURSORSLIST=''"${CURSORSLIST}"'<button space-expand="false" space-fill="false" image-position="2" relief="2">'
+#	CURSORSLIST=''"${CURSORSLIST}"'<input file>'"$pixmap"'</input>'
+#	CURSORSLIST=''"${CURSORSLIST}"'<label>'"$showcursorname"'</label>'
+#	CURSORSLIST=''"${CURSORSLIST}"'<action>exec $SHELL -c ''setcursor '"\"$cursorname\""'''</action>'
+#	CURSORSLIST=''"${CURSORSLIST}"'</button>'
+#fi
+
+
+makecustomnames ()
+{
+	local customlist=""
+	local themename elements
+
+	while read
+		do
+			themename="$(basename "$REPLY")"
+			elements="$(basename "$REPLY" .png)"
+			customlist=''"${customlist}"'<button space-expand="false" space-fill="false" image-position="2" relief="2">'
+			customlist=''"${customlist}"'<input file>'"$REPLY"'</input>'
+			customlist=''"${customlist}"'<label>'"$themename"'</label>'
+			customlist=''"${customlist}"'<action>exec $SHELL -c ''setcursor '"\"$elements\""'''</action>'
+			customlist=''"${customlist}"'</button>'
+
+			
+#			if [ -d "${REPLY}/xfwm4" ] && [ -d "${REPLY}/gtk-2.0" ];then
+#				if [ $MAKEPICS -eq 1 ];then
+#					makethumb "$REPLY" 1 < /dev/null
+#					echo ""
+#				fi
+#				if [ $UPDATEPICS -eq 1 ];then
+#					if [ ! -e "${META}/$(basename "$REPLY").png" ];then
+#						makethumb "$REPLY" 1 < /dev/null
+#						echo ""
+#					fi
+#				fi
+#				makemetalist "$(basename "$REPLY")"
+#			fi
+		done < <(find $CUSTOM -iname "*.png" -maxdepth 1 -mindepth 1|sort)
+	
+	if [ X"customlist" != "X" ];then
+		customlist='<vbox scrollable="true">'"${customlist}"
+		customlist=''"${customlist}"'</vbox>'
+	fi
+	echo $customlist
+}
+
+
+
 #set meta theme and icons if gnome index.theme file available
 setmetatheme ()
 {
@@ -324,7 +384,7 @@ init
 if [ X"$1" = "X-m" ] || [ X"$1" = "X-u" ];then
 
 	UPDATEPICS=0
-	MAKEPICS=1
+	MAKEPICS=0
 	doing="Building"
 
 	if [ X"$1" = "X-u" ];then
@@ -333,11 +393,17 @@ if [ X"$1" = "X-m" ] || [ X"$1" = "X-u" ];then
 		MAKEPICS=0
 	fi
 
-	makegtknames > >(zenity --text="$doing Controls DB..." --progress  --no-cancel  --auto-close --pulsate)
-	makebordernames > >(zenity --text="$doing Window Frames DB..." --progress  --no-cancel  --auto-close --pulsate)
-	makethemenames > >(zenity --text="$doing Meta Themes DB..." --progress  --no-cancel  --auto-close --pulsate)
-	makeiconnames > >(zenity --text="$doing Icons DB..." --progress  --no-cancel  --auto-close --pulsate)
-	makecursornames > >(zenity --text="$doing Cursor DB..." --progress  --no-cancel  --auto-close --pulsate)
+	if [ X"$1" = "X-m" ];then
+		removedb
+		UPDATEPICS=0
+		MAKEPICS=1
+	fi
+
+	makegtknames > >(zenity --title="Xfce Theme Manager" --width=240 --text="$doing Controls DB..." --progress  --no-cancel  --auto-close --pulsate)
+	makebordernames > >(zenity --title="Xfce Theme Manager" --width=240 --text="$doing Window Frames DB..." --progress  --no-cancel  --auto-close --pulsate)
+	makethemenames > >(zenity --title="Xfce Theme Manager" --width=240 --text="$doing Meta Themes DB..." --progress  --no-cancel  --auto-close --pulsate)
+	makeiconnames > >(zenity --title="Xfce Theme Manager" --width=240 --text="$doing Icons DB..." --progress  --no-cancel  --auto-close --pulsate)
+	makecursornames > >(zenity --title="Xfce Theme Manager" --width=240 --text="$doing Cursor DB..." --progress  --no-cancel  --auto-close --pulsate)
 else
 	makegtknames
 	makebordernames

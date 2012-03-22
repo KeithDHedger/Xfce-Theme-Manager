@@ -461,8 +461,6 @@ GdkPixbuf *cursorprev (const gchar *filename,guint size)
 	GdkPixbuf	*scaled=NULL, *pixbuf=NULL;
 	gsize		bsize;
 	guchar		*buffer, *p, tmp;
-	gdouble		wratio, hratio;
-	gint		dest_width, dest_height;
 
     /* load the image */
 	image=XcursorFilenameLoadImage(filename, size);

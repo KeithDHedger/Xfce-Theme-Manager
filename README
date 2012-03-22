@@ -43,13 +43,20 @@ TODO:
 Add 'custom' theme preview
 Add 'custom' theme save
 Add 'missing icons' icon
-Add 'cursors tab'
+
 etc
 
 Changelog:
-0.0.03b Very large numbers of themes now supported
-0.0.2b Re-wrote helper app to create window frame thumbnails
-0.0.1b 1st release into the wild
+0.0.4b	Fixed a bug where imagemagick swallows stdin
+	Added Cursor theme tab.
+	Added cursor previews to helper app.
+	Fixed another "spaces in file name" bug
+
+0.0.03b	Large numbers of themes now supported >200.
+	Fixed some bugs with themes with spaces in their names.
+
+0.0.2b	Re-wrote helper app to create window frame thumbnails
+0.0.1b	1st release into the wild
 
 Enjoy!
 
