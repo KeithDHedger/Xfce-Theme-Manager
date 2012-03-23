@@ -49,11 +49,10 @@ MAIN_DIALOG='
 				<action>exec '"xfce-theme-manager"' '"-u &"'</action>
 				<action>exit:EXIT</action>
 			</button>
-
 			<button>
 				<label>Add Custom</label>
-				<action>exec '"addcustom"'</action>
-				<action>exit:EXIT</action>
+				<action>enable:custom</action>
+				<action>refresh:custom</action>
 			</button>
 
 		</hbox>
@@ -68,6 +67,13 @@ MAIN_DIALOG='
 
 	</vbox>
 </window>'
+#
+#			<button>
+#				<label>Add Custom</label>
+#				<action>exec $SHELL -c '"setcustom"'</action>
+#				<action>enable:custom</action>
+#			</button>
+
 
 if [ ${#MAIN_DIALOG} -ge 131072 ];then
 	echo "$MAIN_DIALOG" > "/tmp/xfcethememanager$$"

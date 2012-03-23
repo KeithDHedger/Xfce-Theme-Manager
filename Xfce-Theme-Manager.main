@@ -32,8 +32,10 @@ init ()
 	export -f setcursor
 	export -f removedb
 	export -f addcustom
+	export -f setcustom
+	export -f setcustomicon
 
-	DB=${HOME}/.config/XfceThemeManager
+	export DB=${HOME}/.config/XfceThemeManager
 	FRAMES=${DB}/wmf
 	CONTROLS=${DB}/conts
 	META=${DB}/meta
@@ -41,8 +43,8 @@ init ()
 	CURSORS=${DB}/cursors
 	CUSTOM=${DB}/custom
 	
-	GLOBAL=/usr/share
-	GTKPREV=$(which gtkprev)
+	export GLOBAL=/usr/share
+	export GTKPREV=$(which gtkprev)
 
 	METALIST=""
 	FRAMESLIST=""
@@ -248,6 +250,20 @@ makegtknames ()
 	fi
 }
 
+addcustom ()
+{
+	METALIST=''"${METALIST}"'<button space-expand="false" space-fill="false" image-position="2" relief="2">'
+	METALIST=''"${METALIST}"'<variable>custom</variable>'
+	METALIST=''"${METALIST}"'<input file>'"${DB}/custom.png"'</input>'
+	METALIST=''"${METALIST}"'<label>Custom</label>'
+	METALIST=''"${METALIST}"'<action>exec $SHELL -c '"setcustom"'</action>'
+	METALIST=''"${METALIST}"'</button>'
+
+#	if [ -e ${DB}/custom.png ];then
+#	fi
+
+}
+
 makethemenames ()
 {
 	while read
@@ -266,6 +282,8 @@ makethemenames ()
 				makemetalist "$(basename "$REPLY")"
 			fi
 		done < <(find ~/.themes ${GLOBAL}/themes -maxdepth 1 -mindepth 1|sort)
+
+	addcustom
 
 	if [ X"$METALIST" = "X" ];then
 		METALIST='<vbox><text><label>No Meta-themes Available...</label></text></vbox>'
@@ -346,13 +364,13 @@ setmetatheme ()
 	xfconf-query -c xfwm4 -vp /general/theme -s "$themename"
 	xfconf-query -c xsettings -vp /Net/ThemeName -s "$themename"
 
-	icontheme=$(cat ~/.themes/"$themename"/index.theme|grep "IconTheme"|awk -F= '{print $2}')
+	icontheme=$(cat ~/.themes/"$themename"/index.theme 2>/dev/null|grep "IconTheme"|awk -F= '{print $2}')
 	if [ -d ~/.icons/$icontheme ] || [ -d /usr/share/.icons/$icontheme ];then
 		xfconf-query -c xsettings -vp /Net/IconThemeName -s "$icontheme"
 		return
 	fi
 
-	icontheme=$(cat /usr/share/themes/$themename/index.theme|grep "IconTheme"|awk -F= '{print $2}')
+	icontheme=$(cat /usr/share/themes/$themename/index.theme 2>/dev/null|grep "IconTheme"|awk -F= '{print $2}')
 	if [ -d /usr/share/.icons/$icontheme ];then
 		xfconf-query -c xsettings -vp /Net/IconThemeName -s "$icontheme"
 	fi
@@ -362,6 +380,7 @@ setframe ()
 {
 	local framename="$0"
 	xfconf-query -c xfwm4 -vp /general/theme -s "$framename"
+	setcustomicon
 }
 
 setcontrols ()
@@ -369,36 +388,67 @@ setcontrols ()
 	local controlname="$0"
 
 	xfconf-query -c xsettings -vp /Net/ThemeName -s "$controlname"
+	setcustomicon
 }
 
 seticons ()
 {
 	local iconname="$0"
 	xfconf-query -c xsettings -vp /Net/IconThemeName -s "$iconname"
+	setcustomicon
 }
 
 setcursor ()
 {
 	local cursorname="$0"
 	xfconf-query -c xsettings -vp /Gtk/CursorThemeName -s "$cursorname"
+	setcustomicon
 }
 
 setcustom ()
 {
+	echo ++++++++++ >&2
+}
+
+setcustomicon ()
+{
 	local name="$0"
-	local gtk wmf cursor icons
-	echo ++++++++++++ ${CUSTOM}/$name +++++++>&2
-	read  gtk <"${CUSTOM}/$name"
-	read  wmf <"${CUSTOM}/$name"
-	read  wmf <"${CUSTOM}/$name"
-	read  icons <"${CUSTOM}/$name"
+	local gtk wmf cursor icons pathtoborder
+	
+#	echo ++++++++++++ ${CUSTOM}/$name +++++++>&2
+#	read  gtk <"${CUSTOM}/$name"
+#	read  wmf <"${CUSTOM}/$name"
+#	read  wmf <"${CUSTOM}/$name"
+#	read  icons <"${CUSTOM}/$name"
+#//gtkprev [theme] gtkthemename /path/to/border /out/path/to/png
+	
+#echo $gtk $wmf $cursor $icons >&2
 
-echo $gtk $wmf $cursor $icons >&2
+	gtk="$(xfconf-query -c xsettings -vp /Net/ThemeName)"
+	wmf="$(xfconf-query -c xfwm4 -vp /general/theme)"
+	cursor="$(xfconf-query -c xsettings -vp /Gtk/CursorThemeName)"
+	icons="$(xfconf-query -c xsettings -vp /Net/IconThemeName)"
+	pathtoborder="$(find ~/.themes ${GLOBAL}/themes -iname "$wmf")"
+#	echo $GTKPREV "theme" "$gtk" "$pathtoborder" ${DB}/custom.png >&2
+#	find ~/.themes /usr/share/themes -iname "$wmf" >&2
+	#echo $name >&2
+	$GTKPREV "theme" "$gtk" "$pathtoborder" ${DB}/custom.png	
+}
 
-	xfconf-query -c xsettings -vp /Net/ThemeName -s "$gtk"
-	xfconf-query -c xfwm4 -vp /general/theme -s "$wmf"
-	xfconf-query -c xsettings -vp /Gtk/CursorThemeName -s "$wmf"
-	xfconf-query -c xsettings -vp /Net/IconThemeName -s "$icons"
+addcustomX ()
+{
+	local customname
+
+	customname=$(zenity --title="Set Custom Name" --entry --entry-text="MyCustom")
+	if [ X"$customname" != "X" ];then
+		$GTKPREV "theme" customname
+	fi
+#//gtkprev [theme] gtkthemename /path/to/border /out/path/to/png 
+#	export OLDICONS=$(xfconf-query -c xsettings -vp /Net/IconThemeName)
+#	export OLDBORDER=$(xfconf-query -c xfwm4 -vp /general/theme)
+#	export OLDCONTROLS=$(xfconf-query -c xsettings -vp /Net/ThemeName)
+#	export OLDCONTROLS=$(xfconf-query -c xsettings -vp /Net/ThemeName)
+#	export OLDCURSOR=$(xfconf-query -c xsettings -vp /Gtk/CursorThemeName)
 
 }
 
