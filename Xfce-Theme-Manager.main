@@ -74,7 +74,7 @@ removedb ()
 
 makemetalist ()
 {
-	local metaname="$1"
+	local metaname="${1:-'Unknown'}"
 	local pixmap="${META}/${metaname}.png"
 	
 	METALIST=''"${METALIST}"'<button space-expand="false" space-fill="false" image-position="2" relief="2">'
@@ -86,7 +86,7 @@ makemetalist ()
 
 makeframeslist ()
 {
-	local framename="$1"
+	local framename="${1:-'Unknown'}"
 	local pixmap="${FRAMES}/${framename}.png"
 	
 	FRAMESLIST=''"${FRAMESLIST}"'<button space-expand="false" space-fill="false" image-position="2" relief="2">'
@@ -98,9 +98,9 @@ makeframeslist ()
 
 makecontrolslist ()
 {
-	local controlname="$1"
+	local controlname="${1:-'Unknown'}"
 	local pixmap="${CONTROLS}/${controlname}.png"
-	
+
 	CONTROLSLIST=''"${CONTROLSLIST}"'<button space-expand="false" space-fill="false" image-position="2" relief="2">'
 	CONTROLSLIST=''"${CONTROLSLIST}"'<input file>'"$pixmap"'</input>'
 	CONTROLSLIST=''"${CONTROLSLIST}"'<label>'"$controlname"'</label>'
@@ -110,30 +110,30 @@ makecontrolslist ()
 
 makeiconslist ()
 {
-	local showiconname="$1" iconname="$2"
+	local showiconname="${1:-'Unknown'}" iconname="${2:-'Unknown'}"
 	local pixmap="${ICONS}/${showiconname}.png"
 
-if [ X"$pixmap" != "X" ];then
+#if [ X"$pixmap" != "X" ];then
 	ICONSLIST=''"${ICONSLIST}"'<button space-expand="false" space-fill="false" image-position="2" relief="2">'
 	ICONSLIST=''"${ICONSLIST}"'<input file>'"$pixmap"'</input>'
 	ICONSLIST=''"${ICONSLIST}"'<label>'"$showiconname"'</label>'
 	ICONSLIST=''"${ICONSLIST}"'<action>exec $SHELL -c ''seticons '"\"$iconname\""'''</action>'
 	ICONSLIST=''"${ICONSLIST}"'</button>'
-fi
+#fi
 }
 
 makecursorslist ()
 {
-	local showcursorname="$1" cursorname="$2"
+	local showcursorname="${1:-'Unknown'}" cursorname="${2:-'Unknown'}"
 	local pixmap="${CURSORS}/${showcursorname}.png"
 
-if [ X"$pixmap" != "X" ];then
+#if [ X"$pixmap" != "X" ];then
 	CURSORSLIST=''"${CURSORSLIST}"'<button space-expand="false" space-fill="false" image-position="2" relief="2">'
 	CURSORSLIST=''"${CURSORSLIST}"'<input file>'"$pixmap"'</input>'
 	CURSORSLIST=''"${CURSORSLIST}"'<label>'"$showcursorname"'</label>'
 	CURSORSLIST=''"${CURSORSLIST}"'<action>exec $SHELL -c ''setcursor '"\"$cursorname\""'''</action>'
 	CURSORSLIST=''"${CURSORSLIST}"'</button>'
-fi
+#fi
 }
 
 
@@ -185,7 +185,10 @@ makeiconnames ()
 					fi
 				fi
 			fi
-		done < <(find ~/.icons /usr/share/icons -maxdepth 1 -mindepth 1 -type d|sort)
+		done < <(find ~/.icons $GLOBAL -maxdepth 1 -mindepth 1 -type d|sort)
+	if [ X"$ICONSLIST" = "X" ];then
+		ICONSLIST='<vbox><text><label>No Icons Available...Mmm?</label></text></vbox>'
+	fi
 }
 
 makecursornames ()
@@ -218,7 +221,10 @@ makecursornames ()
 				fi
 				makecursorslist "$showcursorname" "$cursorname"
 			fi
-		done < <(find ~/.icons /usr/share/icons -maxdepth 1 -mindepth 1 -type d|sort)
+		done < <(find ~/.icons $GLOBAL -maxdepth 1 -mindepth 1 -type d|sort)
+	if [ X"$CURSORSLIST" = "X" ];then
+		CURSORSLIST='<vbox><text><label>No Cursors Available...Mmm?</label></text></vbox>'
+	fi
 }
 
 makegtknames ()
@@ -239,7 +245,11 @@ makegtknames ()
 				fi
 				makecontrolslist "$(basename "$REPLY")"
 			fi
+
 		done < <(find ~/.themes $GLOBAL -maxdepth 1 -mindepth 1|sort)
+	if [ X"$CONTROLSLIST" = "X" ];then
+		CONTROLSLIST='<vbox><text><label>No Controls Available...Mmm?</label></text></vbox>'
+	fi
 }
 
 makethemenames ()
@@ -260,6 +270,10 @@ makethemenames ()
 				makemetalist "$(basename "$REPLY")"
 			fi
 		done < <(find ~/.themes $GLOBAL -maxdepth 1 -mindepth 1|sort)
+
+	if [ X"$METALIST" = "X" ];then
+		METALIST='<vbox><text><label>No Meta-themes Available...</label></text></vbox>'
+	fi
 }
 
 makebordernames ()
@@ -281,6 +295,10 @@ makebordernames ()
 				makeframeslist "$(basename "$REPLY")"
 			fi
 		done < <(find ~/.themes $GLOBAL -maxdepth 1 -mindepth 1|sort)
+	if [ X"$FRAMESLIST" = "X" ];then
+		FRAMESLIST='<vbox><text><label>No Window Borders Available...Mmm?</label></text></vbox>'
+	fi
+
 }
 
 #	local showcursorname="$1" cursorname="$2"
@@ -431,9 +449,9 @@ else
 	makethemenames
 	makeiconnames
 	makecursornames
-	makecustomnames
+#	makecustomnames
 fi
-
+CUSTOMLIST=""
 main
 
 if [ -e /tmp/xfcethememanager$$ ];then
