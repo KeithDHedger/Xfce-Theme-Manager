@@ -31,7 +31,7 @@ init ()
 	export -f setmetatheme
 	export -f setcursor
 	export -f removedb
-	export -f setcustom
+	export -f addcustom
 
 	DB=${HOME}/.config/XfceThemeManager
 	FRAMES=${DB}/wmf
@@ -39,7 +39,7 @@ init ()
 	META=${DB}/meta
 	ICONS=${DB}/icons
 	CURSORS=${DB}/cursors
-	export CUSTOM=${DB}/custom
+	CUSTOM=${DB}/custom
 	
 	GLOBAL=/usr/share
 	GTKPREV=$(which gtkprev)
@@ -54,7 +54,7 @@ init ()
 	UPDATEPICS=0
 	MAKEPICS=0
 
-	mkdir -p $FRAMES $CONTROLS $META $ICONS $CURSORS
+	mkdir -p $FRAMES $CONTROLS $META $ICONS $CURSORS $CUSTOM
 }
 
 makethumb ()
@@ -69,7 +69,7 @@ makethumb ()
 removedb ()
 {
 	rm -r $DB
-	mkdir -p $FRAMES $CONTROLS $META $ICONS $CURSORS
+	mkdir -p $FRAMES $CONTROLS $META $ICONS $CURSORS $CUSTOM
 }
 
 makemetalist ()
@@ -113,13 +113,11 @@ makeiconslist ()
 	local showiconname="${1:-'Unknown'}" iconname="${2:-'Unknown'}"
 	local pixmap="${ICONS}/${showiconname}.png"
 
-#if [ X"$pixmap" != "X" ];then
 	ICONSLIST=''"${ICONSLIST}"'<button space-expand="false" space-fill="false" image-position="2" relief="2">'
 	ICONSLIST=''"${ICONSLIST}"'<input file>'"$pixmap"'</input>'
 	ICONSLIST=''"${ICONSLIST}"'<label>'"$showiconname"'</label>'
 	ICONSLIST=''"${ICONSLIST}"'<action>exec $SHELL -c ''seticons '"\"$iconname\""'''</action>'
 	ICONSLIST=''"${ICONSLIST}"'</button>'
-#fi
 }
 
 makecursorslist ()
@@ -127,13 +125,11 @@ makecursorslist ()
 	local showcursorname="${1:-'Unknown'}" cursorname="${2:-'Unknown'}"
 	local pixmap="${CURSORS}/${showcursorname}.png"
 
-#if [ X"$pixmap" != "X" ];then
 	CURSORSLIST=''"${CURSORSLIST}"'<button space-expand="false" space-fill="false" image-position="2" relief="2">'
 	CURSORSLIST=''"${CURSORSLIST}"'<input file>'"$pixmap"'</input>'
 	CURSORSLIST=''"${CURSORSLIST}"'<label>'"$showcursorname"'</label>'
 	CURSORSLIST=''"${CURSORSLIST}"'<action>exec $SHELL -c ''setcursor '"\"$cursorname\""'''</action>'
 	CURSORSLIST=''"${CURSORSLIST}"'</button>'
-#fi
 }
 
 
@@ -198,7 +194,7 @@ makecursornames ()
 	while read
 		do
 			if [ -d "${REPLY}"/cursors ];then
-echo $REPLY
+
 				cursorname="$(basename "$REPLY")"
 
 				if [ -e "${REPLY}"/index.theme ];then
@@ -300,18 +296,6 @@ makebordernames ()
 	fi
 
 }
-
-#	local showcursorname="$1" cursorname="$2"
-#	local pixmap="${CURSORS}/${showcursorname}.png"
-#
-#if [ X"$pixmap" != "X" ];then
-#	CURSORSLIST=''"${CURSORSLIST}"'<button space-expand="false" space-fill="false" image-position="2" relief="2">'
-#	CURSORSLIST=''"${CURSORSLIST}"'<input file>'"$pixmap"'</input>'
-#	CURSORSLIST=''"${CURSORSLIST}"'<label>'"$showcursorname"'</label>'
-#	CURSORSLIST=''"${CURSORSLIST}"'<action>exec $SHELL -c ''setcursor '"\"$cursorname\""'''</action>'
-#	CURSORSLIST=''"${CURSORSLIST}"'</button>'
-#fi
-
 
 makecustomnames ()
 {

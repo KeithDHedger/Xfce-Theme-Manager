@@ -31,28 +31,40 @@ MAIN_DIALOG='
 			
 		</notebook>
 
-	<hbox  homogeneous="true" space-fill="true" space-expand="false">
-		<button>
-			<label>Reset Theme</label>
-			<action>exec $SHELL -c '"resettheme"'</action>
-		</button>
+		<hbox  homogeneous="true" space-fill="true" space-expand="false">
 
-		<button>
-			<label>Rebuild DB</label>
-			<action>exec '"xfce-theme-manager"' '"-m &"'</action>
-			<action>exit:EXIT</action>
-		</button>
+			<button>
+				<label>Reset Theme</label>
+				<action>exec $SHELL -c '"resettheme"'</action>
+			</button>
 
-		<button>
-			<label>Update DB</label>
-			<action>exec '"xfce-theme-manager"' '"-u &"'</action>
-			<action>exit:EXIT</action>
-		</button>
+			<button>
+				<label>Rebuild DB</label>
+				<action>exec '"xfce-theme-manager"' '"-m &"'</action>
+				<action>exit:EXIT</action>
+			</button>
 
-		<button>
-			<input file stock="gtk-quit"></input> 
-		</button>
-	</hbox>
+			<button>
+				<label>Update DB</label>
+				<action>exec '"xfce-theme-manager"' '"-u &"'</action>
+				<action>exit:EXIT</action>
+			</button>
+
+			<button>
+				<label>Add Custom</label>
+				<action>exec '"addcustom"'</action>
+				<action>exit:EXIT</action>
+			</button>
+
+		</hbox>
+
+		<hseparator space-fill="true" ></hseparator>
+
+		<hbox  homogeneous="true" space-fill="false" space-expand="false">
+			<button>
+				<input file stock="gtk-quit"></input> 
+			</button>
+		</hbox>
 
 	</vbox>
 </window>'
