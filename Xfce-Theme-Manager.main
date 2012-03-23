@@ -41,7 +41,7 @@ init ()
 	CURSORS=${DB}/cursors
 	export CUSTOM=${DB}/custom
 	
-	GLOBAL=/usr/share/themes
+	GLOBAL=/usr/share
 	GTKPREV=$(which gtkprev)
 
 	METALIST=""
@@ -185,7 +185,7 @@ makeiconnames ()
 					fi
 				fi
 			fi
-		done < <(find ~/.icons $GLOBAL -maxdepth 1 -mindepth 1 -type d|sort)
+		done < <(find ~/.icons ${GLOBAL}/icons -maxdepth 1 -mindepth 1 -type d|sort)
 	if [ X"$ICONSLIST" = "X" ];then
 		ICONSLIST='<vbox><text><label>No Icons Available...Mmm?</label></text></vbox>'
 	fi
@@ -198,7 +198,7 @@ makecursornames ()
 	while read
 		do
 			if [ -d "${REPLY}"/cursors ];then
-
+echo $REPLY
 				cursorname="$(basename "$REPLY")"
 
 				if [ -e "${REPLY}"/index.theme ];then
@@ -221,7 +221,7 @@ makecursornames ()
 				fi
 				makecursorslist "$showcursorname" "$cursorname"
 			fi
-		done < <(find ~/.icons $GLOBAL -maxdepth 1 -mindepth 1 -type d|sort)
+		done < <(find ~/.icons ${GLOBAL}/icons -maxdepth 1 -mindepth 1 -type d|sort)
 	if [ X"$CURSORSLIST" = "X" ];then
 		CURSORSLIST='<vbox><text><label>No Cursors Available...Mmm?</label></text></vbox>'
 	fi
@@ -246,7 +246,7 @@ makegtknames ()
 				makecontrolslist "$(basename "$REPLY")"
 			fi
 
-		done < <(find ~/.themes $GLOBAL -maxdepth 1 -mindepth 1|sort)
+		done < <(find ~/.themes ${GLOBAL}/themes -maxdepth 1 -mindepth 1|sort)
 	if [ X"$CONTROLSLIST" = "X" ];then
 		CONTROLSLIST='<vbox><text><label>No Controls Available...Mmm?</label></text></vbox>'
 	fi
@@ -269,7 +269,7 @@ makethemenames ()
 				fi
 				makemetalist "$(basename "$REPLY")"
 			fi
-		done < <(find ~/.themes $GLOBAL -maxdepth 1 -mindepth 1|sort)
+		done < <(find ~/.themes ${GLOBAL}/themes -maxdepth 1 -mindepth 1|sort)
 
 	if [ X"$METALIST" = "X" ];then
 		METALIST='<vbox><text><label>No Meta-themes Available...</label></text></vbox>'
@@ -294,7 +294,7 @@ makebordernames ()
 				fi
 				makeframeslist "$(basename "$REPLY")"
 			fi
-		done < <(find ~/.themes $GLOBAL -maxdepth 1 -mindepth 1|sort)
+		done < <(find ~/.themes ${GLOBAL}/themes -maxdepth 1 -mindepth 1|sort)
 	if [ X"$FRAMESLIST" = "X" ];then
 		FRAMESLIST='<vbox><text><label>No Window Borders Available...Mmm?</label></text></vbox>'
 	fi
