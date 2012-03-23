@@ -31,6 +31,7 @@ init ()
 	export -f setmetatheme
 	export -f setcursor
 	export -f removedb
+	export -f setcustom
 
 	DB=${HOME}/.config/XfceThemeManager
 	FRAMES=${DB}/wmf
@@ -38,7 +39,7 @@ init ()
 	META=${DB}/meta
 	ICONS=${DB}/icons
 	CURSORS=${DB}/cursors
-	CUSTOM=${DB}/custom
+	export CUSTOM=${DB}/custom
 	
 	GLOBAL=/usr/share/themes
 	GTKPREV=$(which gtkprev)
@@ -48,6 +49,7 @@ init ()
 	CONTROLSLIST=""
 	ICONSLIST=""
 	CURSORSLIST=""
+	CUSTOMLIST=""
 
 	UPDATEPICS=0
 	MAKEPICS=0
@@ -302,11 +304,11 @@ makecustomnames ()
 		do
 			themename="$(basename "$REPLY")"
 			elements="$(basename "$REPLY" .png)"
-			customlist=''"${customlist}"'<button space-expand="false" space-fill="false" image-position="2" relief="2">'
-			customlist=''"${customlist}"'<input file>'"$REPLY"'</input>'
-			customlist=''"${customlist}"'<label>'"$themename"'</label>'
-			customlist=''"${customlist}"'<action>exec $SHELL -c ''setcursor '"\"$elements\""'''</action>'
-			customlist=''"${customlist}"'</button>'
+			CUSTOMLIST=''"${CUSTOMLIST}"'<button space-expand="false" space-fill="false" image-position="2" relief="2">'
+			CUSTOMLIST=''"${CUSTOMLIST}"'<input file>'"$REPLY"'</input>'
+			CUSTOMLIST=''"${CUSTOMLIST}"'<label>'"$themename"'</label>'
+			CUSTOMLIST=''"${CUSTOMLIST}"'<action>exec $SHELL -c ''setcustom '"\"$elements\""'''</action>'
+			CUSTOMLIST=''"${CUSTOMLIST}"'</button>'
 
 			
 #			if [ -d "${REPLY}/xfwm4" ] && [ -d "${REPLY}/gtk-2.0" ];then
@@ -324,11 +326,11 @@ makecustomnames ()
 #			fi
 		done < <(find $CUSTOM -iname "*.png" -maxdepth 1 -mindepth 1|sort)
 	
-	if [ X"customlist" != "X" ];then
-		customlist='<vbox scrollable="true">'"${customlist}"
-		customlist=''"${customlist}"'</vbox>'
+	if [ X"$CUSTOMLIST" != "X" ];then
+		CUSTOMLIST='<vbox scrollable="true">'"${CUSTOMLIST}"
+		CUSTOMLIST=''"${CUSTOMLIST}"'</vbox>'
 	fi
-	echo $customlist
+	echo $CUSTOMLIST
 }
 
 
@@ -379,6 +381,25 @@ setcursor ()
 	xfconf-query -c xsettings -vp /Gtk/CursorThemeName -s "$cursorname"
 }
 
+setcustom ()
+{
+	local name="$0"
+	local gtk wmf cursor icons
+	echo ++++++++++++ ${CUSTOM}/$name +++++++>&2
+	read  gtk <"${CUSTOM}/$name"
+	read  wmf <"${CUSTOM}/$name"
+	read  wmf <"${CUSTOM}/$name"
+	read  icons <"${CUSTOM}/$name"
+
+echo $gtk $wmf $cursor $icons >&2
+
+	xfconf-query -c xsettings -vp /Net/ThemeName -s "$gtk"
+	xfconf-query -c xfwm4 -vp /general/theme -s "$wmf"
+	xfconf-query -c xsettings -vp /Gtk/CursorThemeName -s "$wmf"
+	xfconf-query -c xsettings -vp /Net/IconThemeName -s "$icons"
+
+}
+
 init
 
 if [ X"$1" = "X-m" ] || [ X"$1" = "X-u" ];then
@@ -410,6 +431,7 @@ else
 	makethemenames
 	makeiconnames
 	makecursornames
+	makecustomnames
 fi
 
 main

@@ -26,6 +26,26 @@
 int button_offset,button_spacing;
 GdkPixbuf *gtkPixbuf;
 int boxhite=80;
+int gtkwidth=200;
+int gtkheight=50;
+
+bool itemExists(char* folder,const char* subfolder)
+{
+	char	buffer[4096];
+	struct stat st;
+
+	sprintf((char*)buffer,"%s/%s",folder,subfolder);
+
+	if(stat(buffer,&st)!=0)
+        	{
+        		fprintf(stderr,"Item %s doesn'exist\n",(char*)buffer);
+        		return(false);
+        	}
+        else
+        	return(true);
+       
+
+}
 
 GdkPixmap* draw_window_on_pixbuf(GtkWidget *widget)
 {
@@ -77,7 +97,7 @@ GdkPixbuf * create_gtk_theme_pixbuf(char* name)
 
 	window=gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	
-	gtk_window_set_default_size((GtkWindow*)window, 200,50);
+	gtk_window_set_default_size((GtkWindow*)window,gtkwidth,gtkheight);
 
 	vbox=gtk_vbox_new(FALSE, 0);
 	gtk_container_add(GTK_CONTAINER(window), vbox);
@@ -432,12 +452,20 @@ if (menu!=NULL)
 void getspace(char* folder)
 {
 	char	filename[2048];
-	FILE*	fp;
+	FILE*	fp=NULL;
 	char*	offsetstr=NULL;
 	char*	spacestr=NULL;
 
 	sprintf((char*)filename,"%s/xfwm4/themerc",folder);
 	fp=fopen(filename,"r");
+
+	if (fp==NULL)
+		{
+			printf("No themerc file... %s\n",filename);
+			button_offset=0;
+			button_spacing=2;
+			return;
+		}
 
 	while (fgets(filename,80,fp)!=NULL)
 		{
@@ -452,7 +480,8 @@ void getspace(char* folder)
 					button_spacing=atoi((char*)&filename[15]);
 		}
 
-	fclose(fp);
+	if (fp!=NULL)
+		fclose(fp);
 }
 
 GdkPixbuf *cursorprev (const gchar *filename,guint size)
@@ -553,7 +582,7 @@ int main(int argc,char **argv)
 	
 	gtk_init(&argc, &argv);
 
-	if (strcasecmp(argv[1],"border")==0)
+	if (strcasecmp(argv[1],"border")==0 && argc==4)
 		{
 			if(stat(argv[2],&st)!=0)
         			{
@@ -562,19 +591,29 @@ int main(int argc,char **argv)
         			}
 		
 			getspace(argv[2]);
-			makeborder(argv[2],argv[3]);
+			if(itemExists(argv[2],"xfwm4"))
+				makeborder(argv[2],argv[3]);
+			else
+				return(1);
+
 			return(0);
 		}
 
-	if (strcasecmp(argv[1],"controls")==0)
+	if (strcasecmp(argv[1],"controls")==0 && argc==4)
 		{
 			gtkPixbuf=create_gtk_theme_pixbuf(argv[2]);
-			gdk_pixbuf_savev(gtkPixbuf,argv[3],"png",NULL,NULL,NULL);
-			g_object_unref(gtkPixbuf);
+			if(gtkPixbuf!=NULL)
+				{
+					gdk_pixbuf_savev(gtkPixbuf,argv[3],"png",NULL,NULL,NULL);
+					g_object_unref(gtkPixbuf);
+				}
+			else
+				return(1);
+
 			return(0);
 		}
 
-	if (strcasecmp(argv[1],"theme")==0)
+	if (strcasecmp(argv[1],"theme")==0 && argc==5)
 		{
 			if(stat(argv[3],&st)!=0)
         			{
@@ -582,14 +621,27 @@ int main(int argc,char **argv)
         				return(1);
         			}
 
+			gtkwidth=400;
+			gtkheight=200;
+
 			gtkPixbuf=create_gtk_theme_pixbuf(argv[2]);
-			getspace(argv[3]);
-			makeborder(argv[3],argv[4]);
-			g_object_unref(gtkPixbuf);
+
+			if(gtkPixbuf!=NULL)
+				{
+					getspace(argv[3]);
+					if(itemExists(argv[3],"xfwm4"))
+						makeborder(argv[3],argv[4]);
+					else
+						return(1);
+
+					g_object_unref(gtkPixbuf);
+				}
+			else
+				return(1);
 			return(0);
 		}
 
-	if (strcasecmp(argv[1],"cursor")==0)
+	if (strcasecmp(argv[1],"cursor")==0 && argc==4)
 		{
 			if(stat(argv[2],&st)!=0)
         			{
@@ -597,7 +649,11 @@ int main(int argc,char **argv)
         				return(1);
         			}
 
-			makecursor(argv[2],argv[3]);
+			if(itemExists(argv[2],"cursors"))
+				makecursor(argv[2],argv[3]);
+			else
+				return(1);
+			
 			return(0);
 		}
 

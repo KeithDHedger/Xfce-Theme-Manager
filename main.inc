@@ -27,7 +27,7 @@ MAIN_DIALOG='
 				'"$CURSORSLIST"'
 			</vbox>
 			
-			'"$customlist"'
+			'$CUSTOMLIST'
 			
 		</notebook>
 
