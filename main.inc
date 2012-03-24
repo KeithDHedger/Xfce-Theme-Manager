@@ -2,9 +2,9 @@
 main ()
 {
 MAIN_DIALOG='
-<window title="Xfce-Theme-Manager" height_request="480" width_request="400" window_position="1">
+<window title="Xfce-Theme-Manager" height_request="480" width_request="360" window_position="1">
 	<vbox>
-		<notebook labels="Themes|Window Borders|Controls|Icons|Cursors|Custom" space-fill="true" space-expand="true">
+		<notebook labels="Themes|Window Borders|Controls|Icons|Cursors" space-fill="true" space-expand="true">
 
 
 			<vbox scrollable="true">
@@ -27,8 +27,6 @@ MAIN_DIALOG='
 				'"$CURSORSLIST"'
 			</vbox>
 			
-			'$CUSTOMLIST'
-			
 		</notebook>
 
 		<hbox  homogeneous="true" space-fill="true" space-expand="false">
@@ -49,11 +47,6 @@ MAIN_DIALOG='
 				<action>exec '"xfce-theme-manager"' '"-u &"'</action>
 				<action>exit:EXIT</action>
 			</button>
-			<button>
-				<label>Add Custom</label>
-				<action>enable:custom</action>
-				<action>refresh:custom</action>
-			</button>
 
 		</hbox>
 
@@ -67,13 +60,6 @@ MAIN_DIALOG='
 
 	</vbox>
 </window>'
-#
-#			<button>
-#				<label>Add Custom</label>
-#				<action>exec $SHELL -c '"setcustom"'</action>
-#				<action>enable:custom</action>
-#			</button>
-
 
 if [ ${#MAIN_DIALOG} -ge 131072 ];then
 	echo "$MAIN_DIALOG" > "/tmp/xfcethememanager$$"

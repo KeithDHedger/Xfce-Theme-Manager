@@ -31,7 +31,6 @@ init ()
 	export -f setmetatheme
 	export -f setcursor
 	export -f removedb
-	export -f addcustom
 	export -f setcustom
 	export -f setcustomicon
 
@@ -51,7 +50,6 @@ init ()
 	CONTROLSLIST=""
 	ICONSLIST=""
 	CURSORSLIST=""
-	CUSTOMLIST=""
 
 	UPDATEPICS=0
 	MAKEPICS=0
@@ -95,6 +93,7 @@ makeframeslist ()
 	FRAMESLIST=''"${FRAMESLIST}"'<input file>'"$pixmap"'</input>'
 	FRAMESLIST=''"${FRAMESLIST}"'<label>'"$framename"'</label>'
 	FRAMESLIST=''"${FRAMESLIST}"'<action>exec $SHELL -c '"setframe '"$framename"'"'</action>'
+	FRAMESLIST=''"${FRAMESLIST}"'<action>refresh:custom</action>'
 	FRAMESLIST=''"${FRAMESLIST}"'</button>'
 }
 
@@ -107,6 +106,7 @@ makecontrolslist ()
 	CONTROLSLIST=''"${CONTROLSLIST}"'<input file>'"$pixmap"'</input>'
 	CONTROLSLIST=''"${CONTROLSLIST}"'<label>'"$controlname"'</label>'
 	CONTROLSLIST=''"${CONTROLSLIST}"'<action>exec $SHELL -c '"setcontrols '"$controlname"'"'</action>'
+	CONTROLSLIST=''"${CONTROLSLIST}"'<action>refresh:custom</action>'
 	CONTROLSLIST=''"${CONTROLSLIST}"'</button>'
 }
 
@@ -119,6 +119,7 @@ makeiconslist ()
 	ICONSLIST=''"${ICONSLIST}"'<input file>'"$pixmap"'</input>'
 	ICONSLIST=''"${ICONSLIST}"'<label>'"$showiconname"'</label>'
 	ICONSLIST=''"${ICONSLIST}"'<action>exec $SHELL -c ''seticons '"\"$iconname\""'''</action>'
+	ICONSLIST=''"${ICONSLIST}"'<action>refresh:custom</action>'
 	ICONSLIST=''"${ICONSLIST}"'</button>'
 }
 
@@ -131,6 +132,7 @@ makecursorslist ()
 	CURSORSLIST=''"${CURSORSLIST}"'<input file>'"$pixmap"'</input>'
 	CURSORSLIST=''"${CURSORSLIST}"'<label>'"$showcursorname"'</label>'
 	CURSORSLIST=''"${CURSORSLIST}"'<action>exec $SHELL -c ''setcursor '"\"$cursorname\""'''</action>'
+	CURSORSLIST=''"${CURSORSLIST}"'<action>refresh:custom</action>'
 	CURSORSLIST=''"${CURSORSLIST}"'</button>'
 }
 
@@ -252,20 +254,18 @@ makegtknames ()
 
 addcustom ()
 {
-	METALIST=''"${METALIST}"'<button space-expand="false" space-fill="false" image-position="2" relief="2">'
+	METALIST='<button space-expand="false" space-fill="false" image-position="2" relief="2">'
 	METALIST=''"${METALIST}"'<variable>custom</variable>'
 	METALIST=''"${METALIST}"'<input file>'"${DB}/custom.png"'</input>'
 	METALIST=''"${METALIST}"'<label>Custom</label>'
 	METALIST=''"${METALIST}"'<action>exec $SHELL -c '"setcustom"'</action>'
 	METALIST=''"${METALIST}"'</button>'
-
-#	if [ -e ${DB}/custom.png ];then
-#	fi
-
 }
 
 makethemenames ()
 {
+	addcustom
+
 	while read
 		do
 			if [ -d "${REPLY}/xfwm4" ] && [ -d "${REPLY}/gtk-2.0" ];then
@@ -282,12 +282,6 @@ makethemenames ()
 				makemetalist "$(basename "$REPLY")"
 			fi
 		done < <(find ~/.themes ${GLOBAL}/themes -maxdepth 1 -mindepth 1|sort)
-
-	addcustom
-
-	if [ X"$METALIST" = "X" ];then
-		METALIST='<vbox><text><label>No Meta-themes Available...</label></text></vbox>'
-	fi
 }
 
 makebordernames ()
@@ -314,46 +308,6 @@ makebordernames ()
 	fi
 
 }
-
-makecustomnames ()
-{
-	local customlist=""
-	local themename elements
-
-	while read
-		do
-			themename="$(basename "$REPLY")"
-			elements="$(basename "$REPLY" .png)"
-			CUSTOMLIST=''"${CUSTOMLIST}"'<button space-expand="false" space-fill="false" image-position="2" relief="2">'
-			CUSTOMLIST=''"${CUSTOMLIST}"'<input file>'"$REPLY"'</input>'
-			CUSTOMLIST=''"${CUSTOMLIST}"'<label>'"$themename"'</label>'
-			CUSTOMLIST=''"${CUSTOMLIST}"'<action>exec $SHELL -c ''setcustom '"\"$elements\""'''</action>'
-			CUSTOMLIST=''"${CUSTOMLIST}"'</button>'
-
-			
-#			if [ -d "${REPLY}/xfwm4" ] && [ -d "${REPLY}/gtk-2.0" ];then
-#				if [ $MAKEPICS -eq 1 ];then
-#					makethumb "$REPLY" 1 < /dev/null
-#					echo ""
-#				fi
-#				if [ $UPDATEPICS -eq 1 ];then
-#					if [ ! -e "${META}/$(basename "$REPLY").png" ];then
-#						makethumb "$REPLY" 1 < /dev/null
-#						echo ""
-#					fi
-#				fi
-#				makemetalist "$(basename "$REPLY")"
-#			fi
-		done < <(find $CUSTOM -iname "*.png" -maxdepth 1 -mindepth 1|sort)
-	
-	if [ X"$CUSTOMLIST" != "X" ];then
-		CUSTOMLIST='<vbox scrollable="true">'"${CUSTOMLIST}"
-		CUSTOMLIST=''"${CUSTOMLIST}"'</vbox>'
-	fi
-	echo $CUSTOMLIST
-}
-
-
 
 #set meta theme and icons if gnome index.theme file available
 setmetatheme ()
@@ -407,49 +361,38 @@ setcursor ()
 
 setcustom ()
 {
-	echo ++++++++++ >&2
+	local gtk wmf cursor icons
+
+	{
+		read gtk
+		read wmf
+		read cursor
+		read icons
+	}<${DB}/custom.conf
+
+	xfconf-query -c xfwm4 -p /general/theme -s "$wmf"
+	xfconf-query -c xsettings -p /Net/ThemeName -s "$gtk"
+	xfconf-query -c xsettings -p /Net/IconThemeName -s "$icons"
+	xfconf-query -c xsettings -p /Gtk/CursorThemeName -s "$cursor"
 }
 
 setcustomicon ()
 {
-	local name="$0"
 	local gtk wmf cursor icons pathtoborder
-	
-#	echo ++++++++++++ ${CUSTOM}/$name +++++++>&2
-#	read  gtk <"${CUSTOM}/$name"
-#	read  wmf <"${CUSTOM}/$name"
-#	read  wmf <"${CUSTOM}/$name"
-#	read  icons <"${CUSTOM}/$name"
-#//gtkprev [theme] gtkthemename /path/to/border /out/path/to/png
-	
-#echo $gtk $wmf $cursor $icons >&2
 
 	gtk="$(xfconf-query -c xsettings -vp /Net/ThemeName)"
 	wmf="$(xfconf-query -c xfwm4 -vp /general/theme)"
 	cursor="$(xfconf-query -c xsettings -vp /Gtk/CursorThemeName)"
 	icons="$(xfconf-query -c xsettings -vp /Net/IconThemeName)"
 	pathtoborder="$(find ~/.themes ${GLOBAL}/themes -iname "$wmf")"
-#	echo $GTKPREV "theme" "$gtk" "$pathtoborder" ${DB}/custom.png >&2
-#	find ~/.themes /usr/share/themes -iname "$wmf" >&2
-	#echo $name >&2
-	$GTKPREV "theme" "$gtk" "$pathtoborder" ${DB}/custom.png	
-}
 
-addcustomX ()
-{
-	local customname
-
-	customname=$(zenity --title="Set Custom Name" --entry --entry-text="MyCustom")
-	if [ X"$customname" != "X" ];then
-		$GTKPREV "theme" customname
-	fi
-#//gtkprev [theme] gtkthemename /path/to/border /out/path/to/png 
-#	export OLDICONS=$(xfconf-query -c xsettings -vp /Net/IconThemeName)
-#	export OLDBORDER=$(xfconf-query -c xfwm4 -vp /general/theme)
-#	export OLDCONTROLS=$(xfconf-query -c xsettings -vp /Net/ThemeName)
-#	export OLDCONTROLS=$(xfconf-query -c xsettings -vp /Net/ThemeName)
-#	export OLDCURSOR=$(xfconf-query -c xsettings -vp /Gtk/CursorThemeName)
-
+	$GTKPREV "theme" "$gtk" "$pathtoborder" ${DB}/custom.png
+	{
+		echo $gtk
+		echo $wmf
+		echo $cursor
+		echo $icons
+	}>${DB}/custom.conf
 }
 
 init
@@ -483,9 +426,12 @@ else
 	makethemenames
 	makeiconnames
 	makecursornames
-#	makecustomnames
 fi
-CUSTOMLIST=""
+
+if [ ! -e "${DB}/custom.conf" ];then
+	setcustomicon
+fi
+
 main
 
 if [ -e /tmp/xfcethememanager$$ ];then

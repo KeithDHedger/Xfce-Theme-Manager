@@ -298,7 +298,7 @@ void makeborder(char* folder,char* outframe)
 	if (gtkPixbuf!=NULL)
 		{
 			cairo_save (cr);
-				gdk_cairo_set_source_pixbuf(cr,gtkPixbuf,leftsidewid,toplefthite);
+				gdk_cairo_set_source_pixbuf(cr,gtkPixbuf,leftsidewid,title3hite);
 				cairo_paint_with_alpha(cr,100);
 			cairo_restore (cr);
 		}

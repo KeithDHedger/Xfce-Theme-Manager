@@ -16,11 +16,12 @@ gtkdialog version 0.8.x
 glib-2.0
 gdk-2.0
 cairo
+zenity 2.32
 
 USAGE:
 xfce-theme-manager [-m] [-u]
 
--m force a make of all the thumbnails for meta-themes/frames/controls and icons.
+-m force a make of all the thumbnails for meta-themes/frames/controls/cursors and icons.
 -u just build misssing thumbnails
 
 The thumbnails are stored in ${HOME}/.config/XfceThemeManager
@@ -28,6 +29,9 @@ The first time you use Xfce-Theme-Manager you should either run it from the comm
 The DB only needs updating if you add/change/remove a theme/icon set.
 
 Meta Themes are themes that contain a gtk2 folder and an xfwm4 folder (ie window frames and controls), if their is a gnome-like theme.index file that also specifies an icon set this will be used as well.
+
+If you change an individual setting ( window border, icon etc ) the 'Custom' theme will be updated and can be clicked on to set a theme like any other meta theme.
+You will lose your custom meta-theme if you rebuild the DB either from the command line or from the GUI.
 
 INSTALL:
 Extract the archive say into /tmp, cd into /tmp/Xfce-Theme-Manager/gtkpreview, run sudo make install, this will iinstall both the gtkprev app and the Xfce-Theme-Manager GUI.
@@ -40,13 +44,15 @@ If you have a source based pkg manager like slackware the dev files for glib etc
 You may have to run  xfce4-panel --restart to see the Xfce-Theme-Manager menu item in settings.
 
 TODO:
-Add 'custom' theme preview
-Add 'custom' theme save
 Add 'missing icons' icon
 
 etc
 
 Changelog:
+0.0.5	Added Custom preview.
+	Numerous bug fix's for badly formed themes.
+	Code clean up.
+
 0.0.4b	Fixed a bug where imagemagick swallows stdin
 	Added Cursor theme tab.
 	Added cursor previews to helper app.
