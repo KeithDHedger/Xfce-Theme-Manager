@@ -44,6 +44,7 @@ init ()
 	
 	export GLOBAL=/usr/share
 	export GTKPREV=$(which gtkprev)
+	export HOME
 
 	METALIST=""
 	FRAMESLIST=""
@@ -318,14 +319,14 @@ setmetatheme ()
 	xfconf-query -c xfwm4 -vp /general/theme -s "$themename"
 	xfconf-query -c xsettings -vp /Net/ThemeName -s "$themename"
 
-	icontheme=$(cat ~/.themes/"$themename"/index.theme 2>/dev/null|grep "IconTheme"|awk -F= '{print $2}')
-	if [ -d ~/.icons/$icontheme ] || [ -d /usr/share/.icons/$icontheme ];then
+	icontheme=$(cat "${HOME}/.themes/$themename"/index.theme 2>/dev/null|grep "IconTheme"|awk -F= '{print $2}')
+	if [ -d "${HOME}/.icons/$icontheme" ] || [ -d /usr/share/.icons/$icontheme ];then
 		xfconf-query -c xsettings -vp /Net/IconThemeName -s "$icontheme"
 		return
 	fi
 
-	icontheme=$(cat /usr/share/themes/$themename/index.theme 2>/dev/null|grep "IconTheme"|awk -F= '{print $2}')
-	if [ -d /usr/share/.icons/$icontheme ];then
+	icontheme=$(cat "${GLOBAL}/themes/$themename"/index.theme 2>/dev/null|grep "IconTheme"|awk -F= '{print $2}')
+	if [ -d "${GLOBAL}/.icons/$icontheme" ];then
 		xfconf-query -c xsettings -vp /Net/IconThemeName -s "$icontheme"
 	fi
 }
@@ -415,11 +416,11 @@ if [ X"$1" = "X-m" ] || [ X"$1" = "X-u" ];then
 		MAKEPICS=1
 	fi
 
-	makegtknames > >(zenity --title="Xfce Theme Manager" --width=240 --text="$doing Controls DB..." --progress  --no-cancel  --auto-close --pulsate)
-	makebordernames > >(zenity --title="Xfce Theme Manager" --width=240 --text="$doing Window Frames DB..." --progress  --no-cancel  --auto-close --pulsate)
-	makethemenames > >(zenity --title="Xfce Theme Manager" --width=240 --text="$doing Meta Themes DB..." --progress  --no-cancel  --auto-close --pulsate)
-	makeiconnames > >(zenity --title="Xfce Theme Manager" --width=240 --text="$doing Icons DB..." --progress  --no-cancel  --auto-close --pulsate)
-	makecursornames > >(zenity --title="Xfce Theme Manager" --width=240 --text="$doing Cursor DB..." --progress  --no-cancel  --auto-close --pulsate)
+	makegtknames > >(zenity --title="Xfce Theme Manager" --width=320 --text="$doing Controls DB..." --progress  --no-cancel  --auto-close --pulsate)
+	makebordernames > >(zenity --title="Xfce Theme Manager" --width=320 --text="$doing Window Frames DB..." --progress  --no-cancel  --auto-close --pulsate)
+	makethemenames > >(zenity --title="Xfce Theme Manager" --width=320 --text="$doing Meta Themes DB..." --progress  --no-cancel  --auto-close --pulsate)
+	makeiconnames > >(zenity --title="Xfce Theme Manager" --width=320 --text="$doing Icons DB..." --progress  --no-cancel  --auto-close --pulsate)
+	makecursornames > >(zenity --title="Xfce Theme Manager" --width=320 --text="$doing Cursor DB..." --progress  --no-cancel  --auto-close --pulsate)
 else
 	makegtknames
 	makebordernames

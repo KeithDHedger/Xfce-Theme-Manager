@@ -25,7 +25,7 @@
 
 int button_offset,button_spacing;
 GdkPixbuf *gtkPixbuf;
-int boxhite=80;
+int boxhite=90;
 int gtkwidth=200;
 int gtkheight=50;
 
@@ -285,10 +285,10 @@ void makeborder(char* folder,char* outframe)
 	rsegwid=closewid+maxwid+minwid+(button_spacing*3)+1;
 	boxwid=topleftwid+lsegwid+title2wid+64+title4wid+rsegwid+topritewid;
 
-	if (boxhite-bottomritehite-topritehite<0)
+	if (boxhite-bottomritehite-topritehite<=0)
 		boxhite=bottomritehite+topritehite+10;
 
-	if (boxhite-bottomlefthite-toplefthite<0)
+	if (boxhite-bottomlefthite-toplefthite<=0)
 		boxhite=bottomritehite+topritehite+10;
 
 	surface=cairo_image_surface_create(CAIRO_FORMAT_ARGB32,boxwid,boxhite);
