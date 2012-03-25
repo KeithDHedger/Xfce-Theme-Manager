@@ -51,3 +51,26 @@ find . \
  \( -perm 666 -o -perm 664 -o -perm 600 -o -perm 444 -o -perm 440 -o -perm 400 \) \
  -exec chmod 644 {} \;
 
+PREFIX=$PKG/usr
+
+mkdir -p $PKG/usr/bin $PKG/usr/doc $PKG/usr/share/applications
+
+pushd gtkpreview
+make
+make install
+popd
+
+pwd
+cp xfce-theme-manager ${PKG}/bin/xfce-theme-manager
+cp Xfce-Theme-Manager.desktop $(DESTDIR)$(PREFIX)/share/applications
+
+mkdir -p $PKG/usr/doc/$PRGNAM-$VERSION
+cp -a README $PKG/usr/doc/$PRGNAM-$VERSION
+cat $CWD/$PRGNAM.SlackBuild > $PKG/usr/doc/$PRGNAM-$VERSION/$PRGNAM.SlackBuild
+
+mkdir -p $PKG/install
+cat $CWD/slack-desc > $PKG/install/slack-desc
+
+cd $PKG
+/sbin/makepkg -l y -c n $OUTPUT/$PRGNAM-$VERSION-$ARCH-$BUILD$TAG.${PKGTYPE:-tgz}
+

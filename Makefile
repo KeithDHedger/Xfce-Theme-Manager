@@ -18,7 +18,7 @@ install:
 uninstall:
 	rm $(DESTDIR)$(PREFIX)/bin/$(PROGRAM)
 	rm $(DESTDIR)$(PREFIX)/share/applications/$(LAUNCHER)
-
+	rm $(DESTDIR)$(PREFIX)/bin/gtkprev
 clean:
 	rm -f $(PROGRAM)
 
