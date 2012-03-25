@@ -35,7 +35,7 @@ TMP=${TMP:-/tmp/SBo}
 PKG=$TMP/package-$PRGNAM
 OUTPUT=${OUTPUT:-/tmp}
 
-set -e
+#set -e
 
 rm -rf $PKG
 mkdir -p $TMP $PKG $OUTPUT
@@ -51,20 +51,20 @@ find . \
  \( -perm 666 -o -perm 664 -o -perm 600 -o -perm 444 -o -perm 440 -o -perm 400 \) \
  -exec chmod 644 {} \;
 
-PREFIX=$PKG/usr
+export PREFIX=/usr
+export DESTDIR=$PKG
 
-mkdir -p $PKG/usr/bin $PKG/usr/doc $PKG/usr/share/applications
+mkdir -p ${PKG}/${PREFIX}/bin ${PKG}/usr/doc $PKG/${PREFIX}/share/applications
 
 pushd gtkpreview
-make
 make install
 popd
 
-pwd
-cp xfce-theme-manager ${PKG}/bin/xfce-theme-manager
-cp Xfce-Theme-Manager.desktop $(DESTDIR)$(PREFIX)/share/applications
+cp xfce-theme-manager ${PKG}/${PREFIX}/bin/xfce-theme-manager
+cp Xfce-Theme-Manager.desktop ${PKG}/${PREFIX}/share/applications
 
 mkdir -p $PKG/usr/doc/$PRGNAM-$VERSION
+
 cp -a README $PKG/usr/doc/$PRGNAM-$VERSION
 cat $CWD/$PRGNAM.SlackBuild > $PKG/usr/doc/$PRGNAM-$VERSION/$PRGNAM.SlackBuild
 
