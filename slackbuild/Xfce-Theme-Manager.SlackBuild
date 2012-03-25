@@ -35,7 +35,7 @@ TMP=${TMP:-/tmp/SBo}
 PKG=$TMP/package-$PRGNAM
 OUTPUT=${OUTPUT:-/tmp}
 
-#set -e
+set -e
 
 rm -rf $PKG
 mkdir -p $TMP $PKG $OUTPUT
@@ -43,7 +43,7 @@ rm -rf ${TMP}/$PRGNAM-$VERSION
 mkdir -p ${TMP}/$PRGNAM-$VERSION
 
 cd ${TMP}/$PRGNAM-$VERSION
-tar xvf $CWD/$PRGNAM-$VERSION.tar.gz
+tar xvf $CWD/$PRGNAM.tar.gz
 chown -R root:root .
 find . \
  \( -perm 777 -o -perm 775 -o -perm 711 -o -perm 555 -o -perm 511 \) \
@@ -54,7 +54,7 @@ find . \
 export PREFIX=/usr
 export DESTDIR=$PKG
 
-mkdir -p ${PKG}/${PREFIX}/bin ${PKG}/usr/doc $PKG/${PREFIX}/share/applications
+mkdir -p ${PKG}${PREFIX}/bin ${PKG}/usr/doc ${PKG}${PREFIX}/share/applications
 
 pushd gtkpreview
 make install
