@@ -27,3 +27,6 @@ pkg:
 	sed '/###MAIN###/r main.inc'  Xfce-Theme-Manager.main|sed 's/###[[:alpha:]]*###//' > $(PROGRAM)
 	chmod +x $(PROGRAM)
 	tar --exclude .svn --exclude gtkprev -cvzf Xfce-Theme-Manager.tar.gz xfce-theme-manager Xfce-Theme-Manager.desktop gtkpreview README
+
+slackpkg:
+	tar --exclude .svn -cvzf Xfce-Theme-Manager.tar.gz Xfce-Theme-Manager
