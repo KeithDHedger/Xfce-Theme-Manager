@@ -1,4 +1,4 @@
-#!/bin/sh -x
+#!/bin/sh
 
 # Slackware build script for Xfce-Theme-Manager
 
