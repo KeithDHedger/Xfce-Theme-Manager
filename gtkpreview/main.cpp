@@ -23,11 +23,13 @@
 #define GTK_THUMBNAIL_SIZE 96
 #define CURS_PREVIEW_SIZE    32
 
-int button_offset,button_spacing;
-GdkPixbuf *gtkPixbuf;
-int boxhite=90;
-int gtkwidth=200;
-int gtkheight=50;
+int		button_offset,button_spacing;
+GdkPixbuf*	gtkPixbuf;
+int		boxhite=90;
+int		gtkwidth=200;
+int		gtkheight=50;
+char		cursortheme[2048];
+char		icontheme[2048];
 
 bool itemExists(char* folder,const char* subfolder)
 {
@@ -45,6 +47,48 @@ bool itemExists(char* folder,const char* subfolder)
         	return(true);
        
 
+}
+
+GdkPixbuf *cursorprev (const gchar *ptrname,char* themename)
+{
+	XcursorImage	*image;
+	GdkPixbuf	*scaled=NULL, *pixbuf=NULL;
+	gsize		bsize;
+	guchar		*buffer, *p, tmp;
+
+    /* load the image */
+
+	image=XcursorLibraryLoadImage (ptrname,themename,32);
+		if (G_LIKELY(image))
+			{
+				bsize=image->width*image->height*4;
+				buffer=(guchar*)g_malloc(bsize);
+
+        /* copy pixel data to buffer */
+				memcpy(buffer,image->pixels,bsize);
+        /* swap bits */
+				for (p=buffer;p<buffer+bsize;p+=4)
+					{
+						tmp=p[0];
+						p[0]=p[2];
+						p[2]=tmp;
+					}
+        /* create pixbuf */
+				pixbuf=gdk_pixbuf_new_from_data(buffer,GDK_COLORSPACE_RGB,TRUE,8,image->width,image->height,4*image->width,(GdkPixbufDestroyNotify) g_free,NULL);
+
+        /* don't leak when creating the pixbuf failed */
+				if (G_UNLIKELY(pixbuf==NULL))
+					g_free(buffer);
+
+				if (pixbuf!=NULL)
+					{
+						scaled=gdk_pixbuf_scale_simple(pixbuf,32,32,GDK_INTERP_BILINEAR);
+						g_object_unref (G_OBJECT (pixbuf));
+					}
+
+				XcursorImageDestroy (image);
+			}
+	return scaled;
 }
 
 GdkPixmap* draw_window_on_pixbuf(GtkWidget *widget)
@@ -178,7 +222,8 @@ void makeborder(char* folder,char* outframe)
 	GdkPixbuf*	max;
 	GdkPixbuf*	min;
 	GdkPixbuf*	menu;
-	
+	GdkPixbuf*	arrow=NULL;
+
 	int		lsegwid,rsegwid,boxwid,hiteoffset=0;
 	int		closewid=0,maxwid=0,minwid=0,menuwid=0;
 	int		closehite=0,maxhite=0,minhite=0,menuhite=0;
@@ -294,12 +339,19 @@ void makeborder(char* folder,char* outframe)
 	surface=cairo_image_surface_create(CAIRO_FORMAT_ARGB32,boxwid,boxhite);
 	cr=cairo_create(surface);
 
+
 //do theme
 	if (gtkPixbuf!=NULL)
 		{
+			arrow=cursorprev("left_ptr",cursortheme);
 			cairo_save (cr);
 				gdk_cairo_set_source_pixbuf(cr,gtkPixbuf,leftsidewid,title3hite);
 				cairo_paint_with_alpha(cr,100);
+				if(arrow!=NULL)
+					{
+						gdk_cairo_set_source_pixbuf(cr,arrow,boxwid-ritesidewid-32,title3hite+2);
+						cairo_paint_with_alpha(cr,100);
+					}
 			cairo_restore (cr);
 		}
 
@@ -388,7 +440,7 @@ void makeborder(char* folder,char* outframe)
 
 //buttons
 //menu
-hiteoffset=0;
+	hiteoffset=0;
 	cairo_save (cr);
 		if(menu!=NULL)
 			{
@@ -484,48 +536,7 @@ void getspace(char* folder)
 		fclose(fp);
 }
 
-GdkPixbuf *cursorprev (const gchar *filename,guint size)
-{
-	XcursorImage	*image;
-	GdkPixbuf	*scaled=NULL, *pixbuf=NULL;
-	gsize		bsize;
-	guchar		*buffer, *p, tmp;
-
-    /* load the image */
-	image=XcursorFilenameLoadImage(filename, size);
-		if (G_LIKELY(image))
-			{
-				bsize=image->width*image->height*4;
-				buffer=(guchar*)g_malloc(bsize);
-
-        /* copy pixel data to buffer */
-				memcpy(buffer,image->pixels,bsize);
-        /* swap bits */
-				for (p=buffer;p<buffer+bsize;p+=4)
-					{
-						tmp=p[0];
-						p[0]=p[2];
-						p[2]=tmp;
-					}
-        /* create pixbuf */
-				pixbuf=gdk_pixbuf_new_from_data(buffer,GDK_COLORSPACE_RGB,TRUE,8,image->width,image->height,4*image->width,(GdkPixbufDestroyNotify) g_free,NULL);
-
-        /* don't leak when creating the pixbuf failed */
-				if (G_UNLIKELY(pixbuf==NULL))
-					g_free(buffer);
-
-				if (pixbuf!=NULL)
-					{
-						scaled=gdk_pixbuf_scale_simple(pixbuf,32,32,GDK_INTERP_BILINEAR);
-						g_object_unref (G_OBJECT (pixbuf));
-					}
-
-				XcursorImageDestroy (image);
-			}
-	return scaled;
-}
-
-void makecursor(char* cursorPath,char* outPath)
+void makecursor(char* theme,char* outPath)
 {
 	GdkPixbuf*	arrow;
 	GdkPixbuf*	move;
@@ -533,21 +544,18 @@ void makecursor(char* cursorPath,char* outPath)
 	GdkPixbuf*	hand;
 	cairo_surface_t *surface;
 	cairo_t *cr;
-	char	pixmapname[2048];
 
 	gtkPixbuf=NULL;
 	surface=cairo_image_surface_create(CAIRO_FORMAT_ARGB32,128,32);
 	cr=cairo_create(surface);
 
-	sprintf((char*)pixmapname,"%s/cursors/left_ptr",cursorPath);
-	arrow=cursorprev(pixmapname,CURS_PREVIEW_SIZE);
-	sprintf((char*)pixmapname,"%s/cursors/fleur",cursorPath);
-	move=cursorprev(pixmapname,CURS_PREVIEW_SIZE);
-	sprintf((char*)pixmapname,"%s/cursors/watch",cursorPath);
-	wait=cursorprev(pixmapname,CURS_PREVIEW_SIZE);
-	sprintf((char*)pixmapname,"%s/cursors/hand2",cursorPath);
-	hand=cursorprev(pixmapname,CURS_PREVIEW_SIZE);
-	
+	arrow=cursorprev("left_ptr",theme);
+	move=cursorprev("fleur",theme);
+	wait=cursorprev("watch",theme);
+	hand=cursorprev("hand2",theme);
+
+	if (arrow==NULL || move==NULL || wait==NULL || hand==NULL)
+		exit(1);
 	cairo_save (cr);
 		gdk_cairo_set_source_pixbuf(cr,arrow,0,0);
 		cairo_paint_with_alpha(cr,100);
@@ -568,6 +576,42 @@ void makecursor(char* cursorPath,char* outPath)
 
 	cairo_surface_destroy(surface);
 	cairo_destroy(cr);
+}
+
+void getmetafile(char* folder)
+{
+	FILE*	fp=NULL;
+	char	filename[2048];
+	char*	word;
+
+	if(itemExists(folder,"index.theme")==false)
+		{
+			fprintf(stderr,"No such folder - %s\n",folder);
+			exit(1);
+		}
+
+	sprintf((char*)filename,"%s/index.theme",folder);
+	fp=fopen(filename,"r");
+	while (fgets(filename,80,fp)!=NULL)
+		{
+			word=strtok(filename,"=");
+			if (strcasecmp("CursorTheme",word)==0)
+				{
+					word=strtok(NULL,"\n");
+					printf("Cursor theme is %s\n",word);
+					sprintf(cursortheme,"%s",word);
+				}
+			
+			if (strcasecmp("IconTheme",word)==0)
+				{
+					word=strtok(NULL,"\n");
+					printf("Icon theme is %s\n",word);
+					sprintf(icontheme,"%s",word);
+				}
+		}
+
+	if (fp!=NULL)
+		fclose(fp);
 }
 
 //gtkprev [border] /path/to/border /out/path/to/png
@@ -623,8 +667,9 @@ int main(int argc,char **argv)
 
 			gtkwidth=400;
 			gtkheight=200;
-
+			boxhite=200;
 			gtkPixbuf=create_gtk_theme_pixbuf(argv[2]);
+			getmetafile(argv[3]);
 
 			if(gtkPixbuf!=NULL)
 				{
@@ -643,17 +688,7 @@ int main(int argc,char **argv)
 
 	if (strcasecmp(argv[1],"cursor")==0 && argc==4)
 		{
-			if(stat(argv[2],&st)!=0)
-        			{
-        				fprintf(stderr,"No such folder\n");
-        				return(1);
-        			}
-
-			if(itemExists(argv[2],"cursors"))
-				makecursor(argv[2],argv[3]);
-			else
-				return(1);
-			
+			makecursor(argv[2],argv[3]);
 			return(0);
 		}
 
