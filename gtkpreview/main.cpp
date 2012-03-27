@@ -621,6 +621,7 @@ void getmetafile(char* folder)
 
 int main(int argc,char **argv)
 {
+
 	gtkPixbuf=NULL;
 	struct stat st;
 	
