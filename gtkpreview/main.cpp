@@ -40,49 +40,14 @@ bool itemExists(char* folder,const char* subfolder)
 	sprintf((char*)buffer,"%s/%s",folder,subfolder);
 
 	if(stat(buffer,&st)!=0)
-        	{
-        		//fprintf(stderr,"Item %s doesn'exist\n",(char*)buffer);
         		return(false);
-        	}
         else
         	return(true);
        
 
 }
 
-bool findiconfolder(char* name)
-{
-	struct dirent	*de=NULL;
-	DIR		*d=NULL;
-	bool		retval=false;
-
-	d=opendir(strcat(getenv("HOME"),"/.icons"));
-	if(d!=NULL)
-		{
-			while((de=readdir(d)))
-				if (strcasecmp(de->d_name,name)==0)
-					{
-						sprintf(icontheme,"%s/.icons/%s",getenv("HOME"),name);
-						retval=true;
-					}
-		}
-	closedir(d);
-
-	d=opendir("/usr/share/icons");
-	if(d!=NULL)
-		{
-			while((de=readdir(d)))
-				if (strcasecmp(de->d_name,name)==0)
-					{
-						sprintf(icontheme,"/usr/share/icons/%s",name);
-						retval=true;
-					}
-		}
-	closedir(d);
-	return(retval);
-}
-
-GdkPixbuf *cursorprev (const gchar *ptrname,char* themename)
+GdkPixbuf *cursorprev (const char *ptrname,char* themename)
 {
 	XcursorImage	*image;
 	GdkPixbuf	*scaled=NULL, *pixbuf=NULL;
@@ -92,6 +57,7 @@ GdkPixbuf *cursorprev (const gchar *ptrname,char* themename)
     /* load the image */
 
 	image=XcursorLibraryLoadImage (ptrname,themename,32);
+
 		if (G_LIKELY(image))
 			{
 				bsize=image->width*image->height*4;
@@ -236,9 +202,10 @@ GdkPixbuf * loadfile(char* bordername,const char* name)
 
 	return(tmpbuf);
 }
-
+//XcursorFilenameLoadImage
 void makeborder(char* folder,char* outframe)
 {
+
 	GdkPixbuf*	topleft;
 	GdkPixbuf*	toprite;
 	GdkPixbuf*	title1;
@@ -255,7 +222,7 @@ void makeborder(char* folder,char* outframe)
 	GdkPixbuf*	max;
 	GdkPixbuf*	min;
 	GdkPixbuf*	menu;
-	GdkPixbuf*	arrow=NULL;
+	GdkPixbuf*	arrow;
 
 	int		lsegwid,rsegwid,boxwid,hiteoffset=0;
 	int		closewid=0,maxwid=0,minwid=0,menuwid=0;
@@ -613,18 +580,21 @@ void makecursor(char* theme,char* outPath)
 
 void getmetafile(char* folder)
 {
+
 	FILE*	fp=NULL;
 	char	filename[2048];
-	char*	word;
+	char	*word;
+
 
 	if(itemExists(folder,"index.theme")==false)
 		{
-			fprintf(stderr,"No such folder - %s\n",folder);
+			printf("No such folder - %s\n",folder);
 			exit(1);
 		}
 
 	sprintf((char*)filename,"%s/index.theme",folder);
 	fp=fopen(filename,"r");
+
 	while (fgets(filename,80,fp)!=NULL)
 		{
 			word=strtok(filename,"=");
@@ -634,21 +604,26 @@ void getmetafile(char* folder)
 					printf("Cursor theme is %s\n",word);
 					sprintf(cursortheme,"%s",word);
 				}
-			
+
+/*
 			if (strcasecmp("IconTheme",word)==0)
 				{
 					word=strtok(NULL,"\n");
 					printf("Icon theme is %s\n",word);
 					if(itemExists("/usr/share/icons/",word)==true)
-						printf("Found here:/usr/share/icons/%s\n",word);
+						{
+							printf("Found here:/usr/share/icons/%s\n",word);
+							sprintf(icontheme,"%s",word);
+						}
+
 					if(itemExists(strcat(getenv("HOME"),"/.icons"),word)==true)
-						printf("Found here:%s/.icons/%s\n",getenv("HOME"),word);
-					//sprintf(icontheme,"%s",word);
-					//if (findiconfolder(icontheme)==true)
-					//	{
-					//		printf("Found here:%s\n",icontheme);
-					//	}
+						{
+
+							printf("Found here:%s/.icons/%s\n",getenv("HOME"),word);
+							sprintf(icontheme,"%s",word);
+						}
 				}
+*/
 		}
 
 	if (fp!=NULL)
@@ -658,18 +633,22 @@ void getmetafile(char* folder)
 //gtkprev [border] /path/to/border /out/path/to/png
 //gtkprev [controls] gtkthemename /out/path/to/png
 //gtkprev [theme] gtkthemename /path/to/border /out/path/to/png
-//gtkprev [cursor] /path/to/cursortheme /out/path/to/png
+//gtkprev [cursor] cursortheme /out/path/to/png
 
 int main(int argc,char **argv)
 {
+//XcursorImage	*image;
+//image=XcursorLibraryLoadImage (argv[2],argv[1],32);
+//		if (G_LIKELY(image))
+//			{
+//			printf("ZZZZZZZZZ\n");
+//			exit(0);
+//			}
+
+		
 	gtkPixbuf=NULL;
 	struct stat st;
 
-//printf("%s\n",strcat(getenv("HOME"),"/.icons"));
-//exit(0);
-//	char* name=findfolder(strcat(getenv("HOME"),"/.icons"),"");
-	
-//	exit(0);
 	gtk_init(&argc, &argv);
 
 	if (strcasecmp(argv[1],"border")==0 && argc==4)
@@ -712,10 +691,12 @@ int main(int argc,char **argv)
         			}
 
 			gtkwidth=400;
+
+			getmetafile(argv[3]);
+
 			gtkheight=200;
 			boxhite=200;
 			gtkPixbuf=create_gtk_theme_pixbuf(argv[2]);
-			getmetafile(argv[3]);
 
 			if(gtkPixbuf!=NULL)
 				{
