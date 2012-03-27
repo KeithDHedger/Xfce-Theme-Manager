@@ -19,6 +19,7 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <X11/Xcursor/Xcursor.h>
+#include <dirent.h>
 
 #define GTK_THUMBNAIL_SIZE 96
 #define CURS_PREVIEW_SIZE    32
@@ -40,13 +41,45 @@ bool itemExists(char* folder,const char* subfolder)
 
 	if(stat(buffer,&st)!=0)
         	{
-        		fprintf(stderr,"Item %s doesn'exist\n",(char*)buffer);
+        		//fprintf(stderr,"Item %s doesn'exist\n",(char*)buffer);
         		return(false);
         	}
         else
         	return(true);
        
 
+}
+
+bool findiconfolder(char* name)
+{
+	struct dirent	*de=NULL;
+	DIR		*d=NULL;
+	bool		retval=false;
+
+	d=opendir(strcat(getenv("HOME"),"/.icons"));
+	if(d!=NULL)
+		{
+			while((de=readdir(d)))
+				if (strcasecmp(de->d_name,name)==0)
+					{
+						sprintf(icontheme,"%s/.icons/%s",getenv("HOME"),name);
+						retval=true;
+					}
+		}
+	closedir(d);
+
+	d=opendir("/usr/share/icons");
+	if(d!=NULL)
+		{
+			while((de=readdir(d)))
+				if (strcasecmp(de->d_name,name)==0)
+					{
+						sprintf(icontheme,"/usr/share/icons/%s",name);
+						retval=true;
+					}
+		}
+	closedir(d);
+	return(retval);
 }
 
 GdkPixbuf *cursorprev (const gchar *ptrname,char* themename)
@@ -606,7 +639,15 @@ void getmetafile(char* folder)
 				{
 					word=strtok(NULL,"\n");
 					printf("Icon theme is %s\n",word);
-					sprintf(icontheme,"%s",word);
+					if(itemExists("/usr/share/icons/",word)==true)
+						printf("Found here:/usr/share/icons/%s\n",word);
+					if(itemExists(strcat(getenv("HOME"),"/.icons"),word)==true)
+						printf("Found here:%s/.icons/%s\n",getenv("HOME"),word);
+					//sprintf(icontheme,"%s",word);
+					//if (findiconfolder(icontheme)==true)
+					//	{
+					//		printf("Found here:%s\n",icontheme);
+					//	}
 				}
 		}
 
@@ -621,10 +662,14 @@ void getmetafile(char* folder)
 
 int main(int argc,char **argv)
 {
-
 	gtkPixbuf=NULL;
 	struct stat st;
+
+//printf("%s\n",strcat(getenv("HOME"),"/.icons"));
+//exit(0);
+//	char* name=findfolder(strcat(getenv("HOME"),"/.icons"),"");
 	
+//	exit(0);
 	gtk_init(&argc, &argv);
 
 	if (strcasecmp(argv[1],"border")==0 && argc==4)
