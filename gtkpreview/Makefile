@@ -26,7 +26,7 @@ install:
 
 install-helper:
 	rm $(PROGRAM)||true
-	g++ $(CXXFLAGS) -o $(PROGRAM) $(SOURCES)
+	g++z $(CXXFLAGS) -o $(PROGRAM) $(SOURCES)
 	strip $(PROGRAM)
 	cp $(PROGRAM) $(DESTDIR)$(PREFIX)/bin
 

@@ -19,7 +19,6 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <X11/Xcursor/Xcursor.h>
-#include <dirent.h>
 
 #define GTK_THUMBNAIL_SIZE 96
 #define CURS_PREVIEW_SIZE    32
@@ -58,35 +57,34 @@ GdkPixbuf *cursorprev (const char *ptrname,char* themename)
 
 	image=XcursorLibraryLoadImage (ptrname,themename,32);
 
-		if (G_LIKELY(image))
-			{
-				bsize=image->width*image->height*4;
-				buffer=(guchar*)g_malloc(bsize);
+	if (G_LIKELY(image))
+		{
+			bsize=image->width*image->height*4;
+			buffer=(guchar*)g_malloc(bsize);
 
         /* copy pixel data to buffer */
-				memcpy(buffer,image->pixels,bsize);
+			memcpy(buffer,image->pixels,bsize);
         /* swap bits */
-				for (p=buffer;p<buffer+bsize;p+=4)
-					{
-						tmp=p[0];
-						p[0]=p[2];
-						p[2]=tmp;
-					}
+			for (p=buffer;p<buffer+bsize;p+=4)
+				{
+					tmp=p[0];
+					p[0]=p[2];
+					p[2]=tmp;
+				}
         /* create pixbuf */
-				pixbuf=gdk_pixbuf_new_from_data(buffer,GDK_COLORSPACE_RGB,TRUE,8,image->width,image->height,4*image->width,(GdkPixbufDestroyNotify) g_free,NULL);
+			pixbuf=gdk_pixbuf_new_from_data(buffer,GDK_COLORSPACE_RGB,TRUE,8,image->width,image->height,4*image->width,(GdkPixbufDestroyNotify) g_free,NULL);
 
         /* don't leak when creating the pixbuf failed */
-				if (G_UNLIKELY(pixbuf==NULL))
-					g_free(buffer);
+			if (G_UNLIKELY(pixbuf==NULL))
+				g_free(buffer);
 
-				if (pixbuf!=NULL)
-					{
-						scaled=gdk_pixbuf_scale_simple(pixbuf,32,32,GDK_INTERP_BILINEAR);
-						g_object_unref (G_OBJECT (pixbuf));
-					}
-
+			if (pixbuf!=NULL)
+				{
+					scaled=gdk_pixbuf_scale_simple(pixbuf,32,32,GDK_INTERP_BILINEAR);
+					g_object_unref (G_OBJECT (pixbuf));
+				}
 				XcursorImageDestroy (image);
-			}
+		}
 	return scaled;
 }
 
@@ -202,7 +200,7 @@ GdkPixbuf * loadfile(char* bordername,const char* name)
 
 	return(tmpbuf);
 }
-//XcursorFilenameLoadImage
+
 void makeborder(char* folder,char* outframe)
 {
 
@@ -584,7 +582,7 @@ void getmetafile(char* folder)
 	FILE*	fp=NULL;
 	char	filename[2048];
 	char	*word;
-
+	char	buffer[4096];
 
 	if(itemExists(folder,"index.theme")==false)
 		{
@@ -605,25 +603,25 @@ void getmetafile(char* folder)
 					sprintf(cursortheme,"%s",word);
 				}
 
-/*
+
 			if (strcasecmp("IconTheme",word)==0)
 				{
 					word=strtok(NULL,"\n");
 					printf("Icon theme is %s\n",word);
-					if(itemExists("/usr/share/icons/",word)==true)
+					if(itemExists((char*)"/usr/share/icons/",word)==true)
 						{
 							printf("Found here:/usr/share/icons/%s\n",word);
 							sprintf(icontheme,"%s",word);
 						}
 
-					if(itemExists(strcat(getenv("HOME"),"/.icons"),word)==true)
+					sprintf(buffer,"%s/.icons",getenv("HOME"));
+					if(itemExists(buffer,word)==true)
 						{
-
 							printf("Found here:%s/.icons/%s\n",getenv("HOME"),word);
 							sprintf(icontheme,"%s",word);
 						}
 				}
-*/
+
 		}
 
 	if (fp!=NULL)
@@ -636,16 +634,7 @@ void getmetafile(char* folder)
 //gtkprev [cursor] cursortheme /out/path/to/png
 
 int main(int argc,char **argv)
-{
-//XcursorImage	*image;
-//image=XcursorLibraryLoadImage (argv[2],argv[1],32);
-//		if (G_LIKELY(image))
-//			{
-//			printf("ZZZZZZZZZ\n");
-//			exit(0);
-//			}
-
-		
+{		
 	gtkPixbuf=NULL;
 	struct stat st;
 
