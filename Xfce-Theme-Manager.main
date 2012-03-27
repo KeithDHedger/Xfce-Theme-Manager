@@ -313,22 +313,30 @@ makebordernames ()
 #set meta theme and icons if gnome index.theme file available
 setmetatheme ()
 {
-	local icontheme
+	local icontheme cursortheme
 	local themename="$0"
 
 	xfconf-query -c xfwm4 -vp /general/theme -s "$themename"
 	xfconf-query -c xsettings -vp /Net/ThemeName -s "$themename"
 
 	icontheme=$(cat "${HOME}/.themes/$themename"/index.theme 2>/dev/null|grep "IconTheme"|awk -F= '{print $2}')
-	if [ -d "${HOME}/.icons/$icontheme" ] || [ -d /usr/share/.icons/$icontheme ];then
-		xfconf-query -c xsettings -vp /Net/IconThemeName -s "$icontheme"
-		return
+	if [ X"$icontheme" = "X" ];then
+		icontheme=$(cat "${GLOBAL}/themes/$themename"/index.theme 2>/dev/null|grep "IconTheme"|awk -F= '{print $2}')
 	fi
 
-	icontheme=$(cat "${GLOBAL}/themes/$themename"/index.theme 2>/dev/null|grep "IconTheme"|awk -F= '{print $2}')
-	if [ -d "${GLOBAL}/.icons/$icontheme" ];then
+	if [ -d "${HOME}/.icons/$icontheme" ] || [ -d "${GLOBAL}/.icons/$icontheme" ];then
 		xfconf-query -c xsettings -vp /Net/IconThemeName -s "$icontheme"
 	fi
+
+	cursortheme=$(cat "${HOME}/.themes/$themename"/index.theme 2>/dev/null|grep "CursorTheme"|awk -F= '{print $2}')
+	if [ X"$cursortheme" = "X" ];then
+		cursortheme=$(cat "${GLOBAL}/themes/$themename"/index.theme 2>/dev/null|grep "CursorTheme"|awk -F= '{print $2}')
+	fi
+
+	if [ -d "${HOME}/.icons/$cursortheme" ] || [ -d "${GLOBAL}/.icons/$cursortheme" ];then
+		xfconf-query -c xsettings -vp /Gtk/CursorThemeName  -s "$cursortheme"
+	fi
+
 }
 
 setframe ()

@@ -29,4 +29,5 @@ pkg:
 	tar --exclude .svn --exclude gtkprev -cvzf Xfce-Theme-Manager.tar.gz xfce-theme-manager Xfce-Theme-Manager.desktop gtkpreview README
 
 slackpkg:
+	cd slackbuild
 	tar --exclude .svn -cvzf Xfce-Theme-Manager.tar.gz Xfce-Theme-Manager
