@@ -1,6 +1,7 @@
 PROGRAM=xfce-theme-manager
 PREFIX=/usr/local
 LAUNCHER=Xfce-Theme-Manager.desktop
+VERSION=0.0.5
 
 all:
 	rm -f $(PROGRAM)
@@ -26,7 +27,7 @@ pkg:
 	rm -f $(PROGRAM)
 	sed '/###MAIN###/r main.inc'  Xfce-Theme-Manager.main|sed 's/###[[:alpha:]]*###//' > $(PROGRAM)
 	chmod +x $(PROGRAM)
-	tar --exclude .svn --exclude gtkprev -cvzf Xfce-Theme-Manager.tar.gz xfce-theme-manager Xfce-Theme-Manager.desktop gtkpreview README
+	tar --exclude .svn --exclude gtkprev -cvzf Xfce-Theme-Manager-$(VERSION).tar.gz xfce-theme-manager Xfce-Theme-Manager.desktop gtkpreview README
 
 slackpkg:
 	cd slackbuild
