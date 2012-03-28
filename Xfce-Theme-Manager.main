@@ -211,12 +211,12 @@ makecursornames ()
 
 				if [ $MAKEPICS -eq 1 ];then
 					echo ""
-					$GTKPREV cursor "$REPLY" "${CURSORS}/${showcursorname}.png"
+					$GTKPREV "cursor" "$cursorname" "${CURSORS}/${showcursorname}.png"
 				fi
 
 				if [ $UPDATEPICS -eq 1 ];then
 					if [ ! -e "${CURSORS}/${showcursorname}.png" ];then
-						$GTKPREV "cursor" "$REPLY" "${CURSORS}/${showcursorname}.png"
+						$GTKPREV "cursor" "$cursorname" "${CURSORS}/${showcursorname}.png"
 						echo ""
 					fi
 				fi
@@ -395,7 +395,8 @@ setcustomicon ()
 	icons="$(xfconf-query -c xsettings -vp /Net/IconThemeName)"
 	pathtoborder="$(find ~/.themes ${GLOBAL}/themes -iname "$wmf")"
 
-	$GTKPREV "theme" "$gtk" "$pathtoborder" ${DB}/custom.png
+	$GTKPREV "custom" "$gtk" "$cursor" "$icons" "$pathtoborder" ${DB}/custom.png
+
 	{
 		echo $gtk
 		echo $wmf

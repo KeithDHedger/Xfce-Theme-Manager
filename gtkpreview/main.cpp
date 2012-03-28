@@ -20,8 +20,10 @@
 #include <unistd.h>
 #include <X11/Xcursor/Xcursor.h>
 
-#define GTK_THUMBNAIL_SIZE 96
-#define CURS_PREVIEW_SIZE    32
+#define PADWIDTH 72
+#define MAXBOXWIDTH 240
+#define ICONWIDTH 32
+#define ICONPAD 8
 
 int		button_offset,button_spacing;
 GdkPixbuf*	gtkPixbuf;
@@ -200,36 +202,10 @@ GdkPixbuf * loadFile(char* bordername,const char* name)
 
 	return(tmpbuf);
 }
-//icontheme
-GdkPixbuf* findIcon(void)
-{
-	char		buffer[2048];
-	GdkPixbuf*	tmpbuf=NULL;
 
-
-/*
-	sprintf(buffer,"%s/scalable/places",icontheme);
-	if(itemExists(buffer,"user-home.svg")==true)
-		{
-			sprintf(buffer,"%s/scalable/places/%s",icontheme,"user-home.svg");
-			tmpbuf=gdk_pixbuf_new_from_file((char*)buffer,NULL);
-			return(tmpbuf);
-		}
-	
-	sprintf(buffer,"%s/256x256/places",icontheme);
-	if(itemExists(buffer,"user-home.png")==true)
-		{
-			sprintf(buffer,"%s/256x256/places/%s",icontheme,"user-home.png");
-			tmpbuf=gdk_pixbuf_new_from_file((char*)buffer,NULL);
-			return(tmpbuf);
-		}
-*/
-	return(NULL);	
-}
 
 void makeborder(char* folder,char* outframe)
 {
-
 	GdkPixbuf*	topleft;
 	GdkPixbuf*	toprite;
 	GdkPixbuf*	title1;
@@ -248,6 +224,8 @@ void makeborder(char* folder,char* outframe)
 	GdkPixbuf*	menu;
 	GdkPixbuf*	arrow;
 
+	GtkIconTheme*	theme;
+	
 	int		lsegwid,rsegwid,boxwid,hiteoffset=0;
 	int		closewid=0,maxwid=0,minwid=0,menuwid=0;
 	int		closehite=0,maxhite=0,minhite=0,menuhite=0;
@@ -262,8 +240,11 @@ void makeborder(char* folder,char* outframe)
 	int		title4wid=0,title4hite=0;
 	int		title5wid=0,title5hite=0;
 
+	int		padwid=PADWIDTH;
+
 	cairo_surface_t *surface;
 	cairo_t *cr;
+
 
 	topleft=loadFile(folder,"top-left-active");
 	toprite=loadFile(folder,"top-right-active");
@@ -349,10 +330,15 @@ void makeborder(char* folder,char* outframe)
 			menuwid=gdk_pixbuf_get_width((const GdkPixbuf *)menu);
 			menuhite=gdk_pixbuf_get_height((const GdkPixbuf *)menu);
 		}
-	
+
 	lsegwid=menuwid+button_spacing+1;
 	rsegwid=closewid+maxwid+minwid+(button_spacing*3)+1;
-	boxwid=topleftwid+lsegwid+title2wid+64+title4wid+rsegwid+topritewid;
+	boxwid=topleftwid+lsegwid+title2wid+PADWIDTH+title4wid+rsegwid+topritewid;
+	if (boxwid<MAXBOXWIDTH)
+		{
+			padwid=MAXBOXWIDTH-(topleftwid+lsegwid+title2wid+title4wid+rsegwid+topritewid);
+			boxwid=MAXBOXWIDTH;
+		}
 
 	if (boxhite-bottomritehite-topritehite<=0)
 		boxhite=bottomritehite+topritehite+10;
@@ -363,28 +349,32 @@ void makeborder(char* folder,char* outframe)
 	surface=cairo_image_surface_create(CAIRO_FORMAT_ARGB32,boxwid,boxhite);
 	cr=cairo_create(surface);
 
-
 //do theme
+
 	if (gtkPixbuf!=NULL)
 		{
-			arrow=cursorprev("left_ptr",cursortheme);
 			cairo_save (cr);
 				gdk_cairo_set_source_pixbuf(cr,gtkPixbuf,leftsidewid,title3hite);
 				cairo_paint_with_alpha(cr,100);
+
+				arrow=cursorprev("left_ptr",cursortheme);
 				if(arrow!=NULL)
 					{
-						gdk_cairo_set_source_pixbuf(cr,arrow,boxwid-ritesidewid-32,title3hite+2);
+						gdk_cairo_set_source_pixbuf(cr,arrow,boxwid-ritesidewid-ICONWIDTH-ICONPAD,title3hite+ICONPAD);
 						cairo_paint_with_alpha(cr,100);
 						g_object_unref(arrow);
-						arrow=NULL;
-						arrow=findIcon();
+						
+						theme=gtk_icon_theme_new();
+						gtk_icon_theme_set_custom_theme(theme,icontheme);
+						arrow=gtk_icon_theme_load_icon(theme,"user-home",ICONWIDTH,GTK_ICON_LOOKUP_FORCE_SIZE,NULL);
 						if (arrow!=NULL)
 							{
-								printf("got icon\n");
+								gdk_cairo_set_source_pixbuf(cr,arrow,boxwid-ritesidewid-(ICONWIDTH*2)-(ICONPAD*2),title3hite+ICONPAD);
+								cairo_paint_with_alpha(cr,100);
 								g_object_unref(arrow);
 							}
-						else
-							printf("no icon\n");
+						if(theme!=NULL)
+							g_object_unref(theme);
 					}
 			cairo_restore (cr);
 		}
@@ -415,7 +405,7 @@ void makeborder(char* folder,char* outframe)
 	if (title3!=NULL)
 		{
 			cairo_save (cr);
-				gdk_cairo_set_source_pixbuf(cr,gdk_pixbuf_scale_simple(title3,64,title3hite,GDK_INTERP_BILINEAR),topleftwid+lsegwid+title2wid,0);
+				gdk_cairo_set_source_pixbuf(cr,gdk_pixbuf_scale_simple(title3,padwid,title3hite,GDK_INTERP_BILINEAR),topleftwid+lsegwid+title2wid,0);
 				cairo_paint_with_alpha(cr,100);
 			cairo_restore (cr);
 		}
@@ -423,7 +413,7 @@ void makeborder(char* folder,char* outframe)
 	if (title4!=NULL)
 		{
 			cairo_save (cr);
-				gdk_cairo_set_source_pixbuf(cr,title4,topleftwid+lsegwid+title2wid+64,0);
+				gdk_cairo_set_source_pixbuf(cr,title4,topleftwid+lsegwid+title2wid+padwid,0);
 				cairo_paint_with_alpha(cr,100);
 			cairo_restore (cr);
 		}
@@ -431,8 +421,8 @@ void makeborder(char* folder,char* outframe)
 	if (title5!=NULL)
 		{
 			cairo_save (cr);
-					gdk_cairo_set_source_pixbuf(cr,gdk_pixbuf_scale_simple(title5,rsegwid,title3hite,GDK_INTERP_BILINEAR),topleftwid+lsegwid+title2wid+64+title4wid,0);
-			cairo_paint_with_alpha(cr,100);
+				gdk_cairo_set_source_pixbuf(cr,gdk_pixbuf_scale_simple(title5,rsegwid,title3hite,GDK_INTERP_BILINEAR),topleftwid+lsegwid+title2wid+padwid+title4wid,0);
+				cairo_paint_with_alpha(cr,100);
 			cairo_restore (cr);
 		}
 
@@ -474,7 +464,7 @@ void makeborder(char* folder,char* outframe)
 
 //buttons
 //menu
-	hiteoffset=0;
+hiteoffset=0;
 	cairo_save (cr);
 		if(menu!=NULL)
 			{
@@ -612,6 +602,48 @@ void makecursor(char* theme,char* outPath)
 	cairo_destroy(cr);
 }
 
+void makeicon(char* theme,char* outPath)
+{
+	GdkPixbuf*	arrow;
+	GdkPixbuf*	move;
+	GdkPixbuf*	wait;
+	GdkPixbuf*	hand;
+	cairo_surface_t *surface;
+	cairo_t *cr;
+
+	gtkPixbuf=NULL;
+	surface=cairo_image_surface_create(CAIRO_FORMAT_ARGB32,128,32);
+	cr=cairo_create(surface);
+
+	arrow=cursorprev("left_ptr",theme);
+	move=cursorprev("fleur",theme);
+	wait=cursorprev("watch",theme);
+	hand=cursorprev("hand2",theme);
+
+	if (arrow==NULL || move==NULL || wait==NULL || hand==NULL)
+		exit(1);
+	cairo_save (cr);
+		gdk_cairo_set_source_pixbuf(cr,arrow,0,0);
+		cairo_paint_with_alpha(cr,100);
+		gdk_cairo_set_source_pixbuf(cr,move,32,0);
+		cairo_paint_with_alpha(cr,100);
+		gdk_cairo_set_source_pixbuf(cr,wait,64,0);
+		cairo_paint_with_alpha(cr,100);
+		gdk_cairo_set_source_pixbuf(cr,hand,96,0);
+		cairo_paint_with_alpha(cr,100);
+	cairo_restore (cr);
+
+	cairo_surface_write_to_png(surface,outPath);
+
+	g_object_unref(arrow);
+	g_object_unref(move);
+	g_object_unref(wait);
+	g_object_unref(hand);
+
+	cairo_surface_destroy(surface);
+	cairo_destroy(cr);
+}
+
 void getmetafile(char* folder)
 {
 
@@ -621,10 +653,7 @@ void getmetafile(char* folder)
 	char	buffer[4096];
 
 	if(itemExists(folder,"index.theme")==false)
-		{
-			printf("No such folder - %s\n",folder);
-			exit(1);
-		}
+		return;
 
 	sprintf((char*)filename,"%s/index.theme",folder);
 	fp=fopen(filename,"r");
@@ -635,7 +664,6 @@ void getmetafile(char* folder)
 			if (strcasecmp("CursorTheme",word)==0)
 				{
 					word=strtok(NULL,"\n");
-					printf("Cursor theme is %s\n",word);
 					sprintf(cursortheme,"%s",word);
 				}
 
@@ -643,19 +671,12 @@ void getmetafile(char* folder)
 			if (strcasecmp("IconTheme",word)==0)
 				{
 					word=strtok(NULL,"\n");
-					printf("Icon theme is %s\n",word);
 					if(itemExists((char*)"/usr/share/icons/",word)==true)
-						{
-							printf("Found here:/usr/share/icons/%s\n",word);
-							sprintf(icontheme,"/usr/share/icons/%s",word);
-						}
+						sprintf(icontheme,"%s",word);
 
 					sprintf(buffer,"%s/.icons",getenv("HOME"));
 					if(itemExists(buffer,word)==true)
-						{
-							printf("Found here:%s/.icons/%s\n",getenv("HOME"),word);
-							sprintf(icontheme,"%s/.icons/%s",getenv("HOME"),word);
-						}
+						sprintf(icontheme,"%s",word);
 				}
 
 		}
@@ -668,12 +689,12 @@ void getmetafile(char* folder)
 //gtkprev [controls] gtkthemename /out/path/to/png
 //gtkprev [theme] gtkthemename /path/to/border /out/path/to/png
 //gtkprev [cursor] cursortheme /out/path/to/png
+//gtkprev [custom] gtkthemename cursortheme icontheme /path/to/border /out/path/to/png
 
 int main(int argc,char **argv)
 {		
 	gtkPixbuf=NULL;
 	struct stat st;
-
 	gtk_init(&argc, &argv);
 
 	if (strcasecmp(argv[1],"border")==0 && argc==4)
@@ -720,7 +741,7 @@ int main(int argc,char **argv)
 			getmetafile(argv[3]);
 
 			gtkheight=200;
-			boxhite=200;
+
 			gtkPixbuf=create_gtk_theme_pixbuf(argv[2]);
 
 			if(gtkPixbuf!=NULL)
@@ -741,6 +762,37 @@ int main(int argc,char **argv)
 	if (strcasecmp(argv[1],"cursor")==0 && argc==4)
 		{
 			makecursor(argv[2],argv[3]);
+			return(0);
+		}
+
+//gtkprev [custom] gtkthemename cursortheme icontheme /path/to/border /out/path/to/png
+	if (strcasecmp(argv[1],"custom")==0 && argc==7)
+		{
+			if(stat(argv[5],&st)!=0)
+        			{
+        				fprintf(stderr,"No such folder\n");
+        				return(1);
+        			}
+
+			gtkwidth=400;
+			gtkheight=200;
+
+			sprintf(cursortheme,"%s",argv[3]);
+			sprintf(icontheme,"%s",argv[4]);
+			gtkPixbuf=create_gtk_theme_pixbuf(argv[2]);
+
+			if(gtkPixbuf!=NULL)
+				{
+					getspace(argv[5]);
+					if(itemExists(argv[5],"xfwm4"))
+						makeborder(argv[5],argv[6]);
+					else
+						return(1);
+
+					g_object_unref(gtkPixbuf);
+				}
+			else
+				return(1);
 			return(0);
 		}
 
