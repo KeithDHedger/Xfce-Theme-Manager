@@ -31,12 +31,12 @@ int		gtkheight=50;
 char		cursortheme[2048];
 char		icontheme[2048];
 
-bool itemExists(char* folder,const char* subfolder)
+bool itemExists(char* folder,const char* item)
 {
 	char	buffer[4096];
 	struct stat st;
 
-	sprintf((char*)buffer,"%s/%s",folder,subfolder);
+	sprintf((char*)buffer,"%s/%s",folder,item);
 
 	if(stat(buffer,&st)!=0)
         		return(false);
@@ -185,7 +185,7 @@ GdkPixbuf * create_gtk_theme_pixbuf(char* name)
 	return retval;
 }
 
-GdkPixbuf * loadfile(char* bordername,const char* name)
+GdkPixbuf * loadFile(char* bordername,const char* name)
 {
 	char	pixmapname[2048];
 	GdkPixbuf* tmpbuf;
@@ -199,6 +199,32 @@ GdkPixbuf * loadfile(char* bordername,const char* name)
 		}
 
 	return(tmpbuf);
+}
+//icontheme
+GdkPixbuf* findIcon(void)
+{
+	char		buffer[2048];
+	GdkPixbuf*	tmpbuf=NULL;
+
+
+/*
+	sprintf(buffer,"%s/scalable/places",icontheme);
+	if(itemExists(buffer,"user-home.svg")==true)
+		{
+			sprintf(buffer,"%s/scalable/places/%s",icontheme,"user-home.svg");
+			tmpbuf=gdk_pixbuf_new_from_file((char*)buffer,NULL);
+			return(tmpbuf);
+		}
+	
+	sprintf(buffer,"%s/256x256/places",icontheme);
+	if(itemExists(buffer,"user-home.png")==true)
+		{
+			sprintf(buffer,"%s/256x256/places/%s",icontheme,"user-home.png");
+			tmpbuf=gdk_pixbuf_new_from_file((char*)buffer,NULL);
+			return(tmpbuf);
+		}
+*/
+	return(NULL);	
 }
 
 void makeborder(char* folder,char* outframe)
@@ -239,22 +265,22 @@ void makeborder(char* folder,char* outframe)
 	cairo_surface_t *surface;
 	cairo_t *cr;
 
-	topleft=loadfile(folder,"top-left-active");
-	toprite=loadfile(folder,"top-right-active");
-	title1=loadfile(folder,"title-1-active");
-	title2=loadfile(folder,"title-2-active");
-	title3=loadfile(folder,"title-3-active");
-	title4=loadfile(folder,"title-4-active");
-	title5=loadfile(folder,"title-5-active");
-	riteside=loadfile(folder,"right-active");
-	leftside=loadfile(folder,"left-active");
-	bottomleft=loadfile(folder,"bottom-left-active");
-	bottomrite=loadfile(folder,"bottom-right-active");
-	bottom=loadfile(folder,"bottom-active");
-	close=loadfile(folder,"close-active");
-	max=loadfile(folder,"maximize-active");
-	min=loadfile(folder,"hide-active");
-	menu=loadfile(folder,"menu-active");
+	topleft=loadFile(folder,"top-left-active");
+	toprite=loadFile(folder,"top-right-active");
+	title1=loadFile(folder,"title-1-active");
+	title2=loadFile(folder,"title-2-active");
+	title3=loadFile(folder,"title-3-active");
+	title4=loadFile(folder,"title-4-active");
+	title5=loadFile(folder,"title-5-active");
+	riteside=loadFile(folder,"right-active");
+	leftside=loadFile(folder,"left-active");
+	bottomleft=loadFile(folder,"bottom-left-active");
+	bottomrite=loadFile(folder,"bottom-right-active");
+	bottom=loadFile(folder,"bottom-active");
+	close=loadFile(folder,"close-active");
+	max=loadFile(folder,"maximize-active");
+	min=loadFile(folder,"hide-active");
+	menu=loadFile(folder,"menu-active");
 
 	if (title1!=NULL)
 		{
@@ -349,6 +375,16 @@ void makeborder(char* folder,char* outframe)
 					{
 						gdk_cairo_set_source_pixbuf(cr,arrow,boxwid-ritesidewid-32,title3hite+2);
 						cairo_paint_with_alpha(cr,100);
+						g_object_unref(arrow);
+						arrow=NULL;
+						arrow=findIcon();
+						if (arrow!=NULL)
+							{
+								printf("got icon\n");
+								g_object_unref(arrow);
+							}
+						else
+							printf("no icon\n");
 					}
 			cairo_restore (cr);
 		}
@@ -611,14 +647,14 @@ void getmetafile(char* folder)
 					if(itemExists((char*)"/usr/share/icons/",word)==true)
 						{
 							printf("Found here:/usr/share/icons/%s\n",word);
-							sprintf(icontheme,"%s",word);
+							sprintf(icontheme,"/usr/share/icons/%s",word);
 						}
 
 					sprintf(buffer,"%s/.icons",getenv("HOME"));
 					if(itemExists(buffer,word)==true)
 						{
 							printf("Found here:%s/.icons/%s\n",getenv("HOME"),word);
-							sprintf(icontheme,"%s",word);
+							sprintf(icontheme,"%s/.icons/%s",getenv("HOME"),word);
 						}
 				}
 
