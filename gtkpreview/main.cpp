@@ -22,7 +22,7 @@
 
 #define PADWIDTH 72
 #define MAXBOXWIDTH 240
-#define ICONWIDTH 32
+#define ICONSIZE 32
 #define ICONPAD 8
 
 int		button_offset,button_spacing;
@@ -340,12 +340,16 @@ void makeborder(char* folder,char* outframe)
 			boxwid=MAXBOXWIDTH;
 		}
 
+	if (boxhite-bottomhite-title3hite<ICONPAD+ICONPAD+ICONSIZE+title3hite+bottomhite)
+		boxhite=title3hite+ICONPAD+ICONPAD+ICONSIZE+bottomhite;
+
 	if (boxhite-bottomritehite-topritehite<=0)
 		boxhite=bottomritehite+topritehite+10;
 
 	if (boxhite-bottomlefthite-toplefthite<=0)
 		boxhite=bottomritehite+topritehite+10;
 
+		
 	surface=cairo_image_surface_create(CAIRO_FORMAT_ARGB32,boxwid,boxhite);
 	cr=cairo_create(surface);
 
@@ -360,16 +364,16 @@ void makeborder(char* folder,char* outframe)
 				arrow=cursorprev("left_ptr",cursortheme);
 				if(arrow!=NULL)
 					{
-						gdk_cairo_set_source_pixbuf(cr,arrow,boxwid-ritesidewid-ICONWIDTH-ICONPAD,title3hite+ICONPAD);
+						gdk_cairo_set_source_pixbuf(cr,arrow,boxwid-ritesidewid-ICONSIZE-ICONPAD,title3hite+ICONPAD);
 						cairo_paint_with_alpha(cr,100);
 						g_object_unref(arrow);
 						
 						theme=gtk_icon_theme_new();
 						gtk_icon_theme_set_custom_theme(theme,icontheme);
-						arrow=gtk_icon_theme_load_icon(theme,"user-home",ICONWIDTH,GTK_ICON_LOOKUP_FORCE_SIZE,NULL);
+						arrow=gtk_icon_theme_load_icon(theme,"user-home",ICONSIZE,GTK_ICON_LOOKUP_FORCE_SIZE,NULL);
 						if (arrow!=NULL)
 							{
-								gdk_cairo_set_source_pixbuf(cr,arrow,boxwid-ritesidewid-(ICONWIDTH*2)-(ICONPAD*2),title3hite+ICONPAD);
+								gdk_cairo_set_source_pixbuf(cr,arrow,boxwid-ritesidewid-(ICONSIZE*2)-(ICONPAD*2),title3hite+ICONPAD);
 								cairo_paint_with_alpha(cr,100);
 								g_object_unref(arrow);
 							}
@@ -601,45 +605,8 @@ void makecursor(char* theme,char* outPath)
 	cairo_surface_destroy(surface);
 	cairo_destroy(cr);
 }
-/*
 
-	GdkPixbuf*	arrow;
-
-	GtkIconTheme*	theme;
-	
-	int		lsegwid,rsegwid,boxwid,hiteoffset=0;
-	int		closewid=0,maxwid=0,minwid=0,menuwid=0;
-	int		closehite=0,maxhite=0,minhite=0,menuhite=0;
-	int		topleftwid=0,toplefthite=0,topritewid=0,topritehite=0;
-	int		bottomleftwid=0,bottomlefthite=0,bottomritewid=0,bottomritehite=0;
-	int		leftsidewid=0,leftsidehite=0,ritesidewid=0,ritesidehite=0;
-	int		bottomwid=0,bottomhite=0;
-
-	int		title1wid=0,title1hite=0;
-	int		title2wid=0,title2hite=0;
-	int		title3wid=0,title3hite=0;
-	int		title4wid=0,title4hite=0;
-	int		title5wid=0,title5hite=0;
-
-	int		padwid=PADWIDTH;
-
-	cairo_surface_t *surface;
-	cairo_t *cr;
-
-						theme=gtk_icon_theme_new();
-						gtk_icon_theme_set_custom_theme(theme,icontheme);
-						arrow=gtk_icon_theme_load_icon(theme,"user-home",ICONWIDTH,GTK_ICON_LOOKUP_FORCE_SIZE,NULL);
-						if (arrow!=NULL)
-							{
-								gdk_cairo_set_source_pixbuf(cr,arrow,boxwid-ritesidewid-(ICONWIDTH*2)-(ICONPAD*2),title3hite+ICONPAD);
-								cairo_paint_with_alpha(cr,100);
-								g_object_unref(arrow);
-							}
-						if(theme!=NULL)
-							g_object_unref(theme);
-
-*/
-void makeicon(char* themename,char* outPath)
+void makeIcon(char* themename,char* outPath)
 {
 	GdkPixbuf*	home;
 	GdkPixbuf*	folder;
@@ -656,10 +623,10 @@ void makeicon(char* themename,char* outPath)
 	theme=gtk_icon_theme_new();
 	gtk_icon_theme_set_custom_theme(theme,themename);
 
-	home=gtk_icon_theme_load_icon(theme,"user-home",ICONWIDTH,GTK_ICON_LOOKUP_FORCE_SIZE,NULL);
-	folder=gtk_icon_theme_load_icon(theme,"folder",ICONWIDTH,GTK_ICON_LOOKUP_FORCE_SIZE,NULL);
-	computer=gtk_icon_theme_load_icon(theme,"user-desktop",ICONWIDTH,GTK_ICON_LOOKUP_FORCE_SIZE,NULL);
-	drive=gtk_icon_theme_load_icon(theme,"drive-harddisk",ICONWIDTH,GTK_ICON_LOOKUP_FORCE_SIZE,NULL);
+	home=gtk_icon_theme_load_icon(theme,"user-home",ICONSIZE,GTK_ICON_LOOKUP_FORCE_SIZE,NULL);
+	folder=gtk_icon_theme_load_icon(theme,"folder",ICONSIZE,GTK_ICON_LOOKUP_FORCE_SIZE,NULL);
+	computer=gtk_icon_theme_load_icon(theme,"user-desktop",ICONSIZE,GTK_ICON_LOOKUP_FORCE_SIZE,NULL);
+	drive=gtk_icon_theme_load_icon(theme,"drive-harddisk",ICONSIZE,GTK_ICON_LOOKUP_FORCE_SIZE,NULL);
 
 	if(home!=NULL)
 		{
@@ -816,7 +783,7 @@ int main(int argc,char **argv)
 
 	if (strcasecmp(argv[1],"icon")==0 && argc==4)
 		{
-			makeicon(argv[2],argv[3]);
+			makeIcon(argv[2],argv[3]);
 			return(0);
 		}
 

@@ -61,9 +61,9 @@ init ()
 makethumb ()
 {
 	if [ $2 -eq 1 ];then
-		$GTKPREV theme "$(basename "$1")" "$1"  "${META}/$(basename "$1").png"
+		$GTKPREV "theme" "$(basename "$1")" "$1"  "${META}/$(basename "$1").png"
 	else
-		$GTKPREV border "$1" "${FRAMES}/$(basename "$1").png"
+		$GTKPREV "border" "$1" "${FRAMES}/$(basename "$1").png"
 	fi
 }
 
@@ -148,15 +148,10 @@ resettheme ()
 
 makeiconthumbs ()
 {
-	local iconpath="$1"
-	local iconname="$2"
+	local iconname="$1"
+	local outpath="$2"
 
-	local folderpic="$(find "$iconpath" -iname "folder.???"|head -n1)"
-	local homepic="$(find "$iconpath" -iname "user-home*.???"|head -n1)"
-	local comppic="$(find "$iconpath" -iname "computer.???"|head -n1)"
-	local drivepic="$(find "$iconpath" -iname "*drive*harddisk*.???"|head -n1)"
-
-	convert -quiet "$folderpic" "$homepic" "$comppic" "$drivepic" +append -scale x32 "${ICONS}/${iconname}.png" </dev/null &>/dev/null
+	$GTKPREV "icon" "$iconname" "${ICONS}/${outpath}.png"
 }
 
 makeiconnames ()
@@ -173,13 +168,14 @@ makeiconnames ()
 						showiconname=$(cat "${REPLY}"/index.theme |grep -i "name="|awk -F "=" '{print $2}')
 						if [ $MAKEPICS -eq 1 ];then
 							echo ""
-							makeiconthumbs "$REPLY" "$showiconname"
+							$GTKPREV "icon" "$iconname" "${ICONS}/${showiconname}.png"
 						fi
 
 						if [ $UPDATEPICS -eq 1 ];then
 							if [ ! -e "${ICONS}/${showiconname}.png" ];then
-								makeiconthumbs "$REPLY" "$showiconname"
 								echo ""
+								$GTKPREV "icon" "$iconname" "${ICONS}/${showiconname}.png"
+								
 							fi
 						fi
 						makeiconslist "$showiconname" "$iconname"
@@ -290,7 +286,6 @@ makebordernames ()
 	while read
 		do
 			if [ -d "${REPLY}/xfwm4" ];then
-			((bords++))
 				if [ $MAKEPICS -eq 1 ];then
 					makethumb "$REPLY" 0 < /dev/null
 					echo ""
