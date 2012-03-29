@@ -49,6 +49,11 @@ Add 'missing icons' icon
 etc
 
 Changelog:
+0.0.6	Icon themes now handled by helper app hopefully no more 'missing' icons in the gui.
+	Meta-Themes now include 'Home' icon and 'Left' pointer in preview.
+	Size of Meta-Theme previews nor more consistant.
+	Numerous minor bug fix's.
+
 0.0.5	Added Custom preview.
 	Numerous bug fix's for badly formed themes.
 	Code clean up.
