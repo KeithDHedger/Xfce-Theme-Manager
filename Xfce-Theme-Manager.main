@@ -146,14 +146,6 @@ resettheme ()
 	xfconf-query -c xsettings -p /Gtk/CursorThemeName -s "$OLDCURSOR"
 }
 
-makeiconthumbs ()
-{
-	local iconname="$1"
-	local outpath="$2"
-
-	$GTKPREV "icon" "$iconname" "${ICONS}/${outpath}.png"
-}
-
 makeiconnames ()
 {
 	local showiconname iconname
@@ -168,13 +160,13 @@ makeiconnames ()
 						showiconname=$(cat "${REPLY}"/index.theme |grep -i "name="|awk -F "=" '{print $2}')
 						if [ $MAKEPICS -eq 1 ];then
 							echo ""
-							$GTKPREV "icon" "$iconname" "${ICONS}/${showiconname}.png"
+							$GTKPREV "icons" "$iconname" "${ICONS}/${showiconname}.png"
 						fi
 
 						if [ $UPDATEPICS -eq 1 ];then
 							if [ ! -e "${ICONS}/${showiconname}.png" ];then
 								echo ""
-								$GTKPREV "icon" "$iconname" "${ICONS}/${showiconname}.png"
+								$GTKPREV "icons" "$iconname" "${ICONS}/${showiconname}.png"
 								
 							fi
 						fi
@@ -207,12 +199,12 @@ makecursornames ()
 
 				if [ $MAKEPICS -eq 1 ];then
 					echo ""
-					$GTKPREV "cursor" "$cursorname" "${CURSORS}/${showcursorname}.png"
+					$GTKPREV "cursors" "$cursorname" "${CURSORS}/${showcursorname}.png"
 				fi
 
 				if [ $UPDATEPICS -eq 1 ];then
 					if [ ! -e "${CURSORS}/${showcursorname}.png" ];then
-						$GTKPREV "cursor" "$cursorname" "${CURSORS}/${showcursorname}.png"
+						$GTKPREV "cursors" "$cursorname" "${CURSORS}/${showcursorname}.png"
 						echo ""
 					fi
 				fi

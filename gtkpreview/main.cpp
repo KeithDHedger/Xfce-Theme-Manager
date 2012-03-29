@@ -703,8 +703,8 @@ void getmetafile(char* folder)
 //gtkprev [border] /path/to/border /out/path/to/png
 //gtkprev [controls] gtkthemename /out/path/to/png
 //gtkprev [theme] gtkthemename /path/to/border /out/path/to/png
-//gtkprev [cursor] cursortheme /out/path/to/png
-//gtkprev [icon] icontheme /out/path/to/png
+//gtkprev [cursors] cursortheme /out/path/to/png
+//gtkprev [icons] icontheme /out/path/to/png
 //gtkprev [custom] gtkthemename cursortheme icontheme /path/to/border /out/path/to/png
 
 int main(int argc,char **argv)
@@ -713,6 +713,7 @@ int main(int argc,char **argv)
 	struct stat st;
 	gtk_init(&argc, &argv);
 
+//gtkprev [border] /path/to/border /out/path/to/png
 	if (strcasecmp(argv[1],"border")==0 && argc==4)
 		{
 			if(stat(argv[2],&st)!=0)
@@ -730,6 +731,7 @@ int main(int argc,char **argv)
 			return(0);
 		}
 
+//gtkprev [controls] gtkthemename /out/path/to/png
 	if (strcasecmp(argv[1],"controls")==0 && argc==4)
 		{
 			gtkPixbuf=create_gtk_theme_pixbuf(argv[2]);
@@ -744,6 +746,7 @@ int main(int argc,char **argv)
 			return(0);
 		}
 
+//gtkprev [theme] gtkthemename /path/to/border /out/path/to/png
 	if (strcasecmp(argv[1],"theme")==0 && argc==5)
 		{
 			if(stat(argv[3],&st)!=0)
@@ -775,13 +778,15 @@ int main(int argc,char **argv)
 			return(0);
 		}
 
-	if (strcasecmp(argv[1],"cursor")==0 && argc==4)
+//gtkprev [cursors] cursortheme /out/path/to/png
+	if (strcasecmp(argv[1],"cursors")==0 && argc==4)
 		{
 			makecursor(argv[2],argv[3]);
 			return(0);
 		}
 
-	if (strcasecmp(argv[1],"icon")==0 && argc==4)
+//gtkprev [icons] icontheme /out/path/to/png
+	if (strcasecmp(argv[1],"icons")==0 && argc==4)
 		{
 			makeIcon(argv[2],argv[3]);
 			return(0);
