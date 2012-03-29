@@ -40,7 +40,6 @@ init ()
 	META=${DB}/meta
 	ICONS=${DB}/icons
 	CURSORS=${DB}/cursors
-	CUSTOM=${DB}/custom
 	
 	export GLOBAL=/usr/share
 	export GTKPREV=$(which gtkprev)
@@ -55,7 +54,7 @@ init ()
 	UPDATEPICS=0
 	MAKEPICS=0
 
-	mkdir -p $FRAMES $CONTROLS $META $ICONS $CURSORS $CUSTOM
+	mkdir -p $FRAMES $CONTROLS $META $ICONS $CURSORS
 }
 
 makethumb ()
@@ -70,7 +69,7 @@ makethumb ()
 removedb ()
 {
 	rm -r $DB
-	mkdir -p $FRAMES $CONTROLS $META $ICONS $CURSORS $CUSTOM
+	mkdir -p $FRAMES $CONTROLS $META $ICONS $CURSORS
 }
 
 makemetalist ()
