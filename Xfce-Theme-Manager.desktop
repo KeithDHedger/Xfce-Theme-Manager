@@ -5,6 +5,6 @@ Name=Xfce-Theme-Manager
 Comment=
 Terminal=false
 Type=Application
-Categories=Gnome;GTK;;Settings;DesktopSettings;
+Categories=Gnome;GTK;;Settings;DesktopSettings;X-XFCE;
 Icon=xfce4-settings
 Exec=xfce-theme-manager

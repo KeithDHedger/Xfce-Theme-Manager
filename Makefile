@@ -1,7 +1,7 @@
 PROGRAM=xfce-theme-manager
 PREFIX=/usr/local
 LAUNCHER=Xfce-Theme-Manager.desktop
-VERSION=0.0.5
+VERSION=0.0.6
 
 all:
 	rm -f $(PROGRAM)
