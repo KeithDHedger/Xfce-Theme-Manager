@@ -17,6 +17,7 @@ $(PROGRAM):$(SOURCES)
 	strip $(PROGRAM)
 
 install:
+	mkdir -p $(DESTDIR)$(PREFIX)/bin $(DESTDIR)$(PREFIX)/share/applications
 	rm $(PROGRAM)||true
 	g++ $(CXXFLAGS) -o $(PROGRAM) $(SOURCES)
 	strip $(PROGRAM)
@@ -25,6 +26,7 @@ install:
 	cp ../$(LAUNCHER) $(DESTDIR)$(PREFIX)/share/applications
 
 install-helper:
+	mkdir -p $(DESTDIR)$(PREFIX)/bin
 	rm $(PROGRAM)||true
 	g++ $(CXXFLAGS) -o $(PROGRAM) $(SOURCES)
 	strip $(PROGRAM)

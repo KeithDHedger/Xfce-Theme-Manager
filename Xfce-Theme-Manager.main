@@ -155,10 +155,10 @@ makecursorslist ()
 
 resettheme ()
 {
-	xfconf-query -c xfwm4 -p /general/theme -s "$OLDBORDER"
-	xfconf-query -c xsettings -p /Net/ThemeName -s "$OLDCONTROLS"
-	xfconf-query -c xsettings -p /Net/IconThemeName -s "$OLDICONS"
-	xfconf-query -c xsettings -p /Gtk/CursorThemeName -s "$OLDCURSOR"
+	xfconf-query -nc xfwm4 -p /general/theme -s "$OLDBORDER"
+	xfconf-query -nc xsettings -p /Net/ThemeName -s "$OLDCONTROLS"
+	xfconf-query -nc xsettings -p /Net/IconThemeName -s "$OLDICONS"
+	xfconf-query -nc xsettings -p /Gtk/CursorThemeName -s "$OLDCURSOR"
 }
 
 makeiconnames ()
@@ -329,8 +329,8 @@ setmetatheme ()
 	local icontheme cursortheme
 	local themename="$0"
 
-	xfconf-query -c xfwm4 -vp /general/theme -s "$themename"
-	xfconf-query -c xsettings -vp /Net/ThemeName -s "$themename"
+	xfconf-query -nc xfwm4 -vp /general/theme -s "$themename"
+	xfconf-query -nc xsettings -vp /Net/ThemeName -s "$themename"
 
 	icontheme=$(cat "${HOME}/.themes/$themename"/index.theme 2>/dev/null|grep "IconTheme"|awk -F= '{print $2}')
 	if [ X"$icontheme" = "X" ];then
@@ -338,7 +338,7 @@ setmetatheme ()
 	fi
 
 	if [ -d "${HOME}/.icons/$icontheme" ] || [ -d "${GLOBAL}/.icons/$icontheme" ];then
-		xfconf-query -c xsettings -vp /Net/IconThemeName -s "$icontheme"
+		xfconf-query -nc xsettings -vp /Net/IconThemeName -s "$icontheme"
 	fi
 
 	cursortheme=$(cat "${HOME}/.themes/$themename"/index.theme 2>/dev/null|grep "CursorTheme"|awk -F= '{print $2}')
@@ -347,7 +347,7 @@ setmetatheme ()
 	fi
 
 	if [ -d "${HOME}/.icons/$cursortheme" ] || [ -d "${GLOBAL}/.icons/$cursortheme" ];then
-		xfconf-query -c xsettings -vp /Gtk/CursorThemeName  -s "$cursortheme"
+		xfconf-query -nc xsettings -vp /Gtk/CursorThemeName  -s "$cursortheme"
 	fi
 	xfdesktop --reload
 }
@@ -355,7 +355,7 @@ setmetatheme ()
 setframe ()
 {
 	local framename="$0"
-	xfconf-query -c xfwm4 -vp /general/theme -s "$framename"
+	xfconf-query -nc xfwm4 -vp /general/theme -s "$framename"
 	setcustomicon
 }
 
@@ -363,14 +363,14 @@ setcontrols ()
 {
 	local controlname="$0"
 
-	xfconf-query -c xsettings -vp /Net/ThemeName -s "$controlname"
+	xfconf-query -nc xsettings -vp /Net/ThemeName -s "$controlname"
 	setcustomicon
 }
 
 seticons ()
 {
 	local iconname="$0"
-	xfconf-query -c xsettings -vp /Net/IconThemeName -s "$iconname"
+	xfconf-query -nc xsettings -vp /Net/IconThemeName -s "$iconname"
 	setcustomicon
 	xfdesktop --reload
 }
@@ -378,7 +378,7 @@ seticons ()
 setcursor ()
 {
 	local cursorname="$0"
-	xfconf-query -c xsettings -vp /Gtk/CursorThemeName -s "$cursorname"
+	xfconf-query -nc xsettings -vp /Gtk/CursorThemeName -s "$cursorname"
 	setcustomicon
 }
 
@@ -386,7 +386,7 @@ setwallpaper ()
 {
 	local papername="$0"
 
-	xfconf-query -c xfce4-desktop -vp /backdrop/screen0/monitor0/image-path -s "$papername" 
+	xfconf-query -nc xfce4-desktop -vp /backdrop/screen0/monitor0/image-path -s "$papername" 
 }
 
 setcustom ()
@@ -400,10 +400,10 @@ setcustom ()
 		read icons
 	}<${DB}/custom.conf
 
-	xfconf-query -c xfwm4 -p /general/theme -s "$wmf"
-	xfconf-query -c xsettings -p /Net/ThemeName -s "$gtk"
-	xfconf-query -c xsettings -p /Net/IconThemeName -s "$icons"
-	xfconf-query -c xsettings -p /Gtk/CursorThemeName -s "$cursor"
+	xfconf-query -nc xfwm4 -p /general/theme -s "$wmf"
+	xfconf-query -nc xsettings -p /Net/ThemeName -s "$gtk"
+	xfconf-query -nc xsettings -p /Net/IconThemeName -s "$icons"
+	xfconf-query -nc xsettings -p /Gtk/CursorThemeName -s "$cursor"
 	xfdesktop --reload
 }
 
