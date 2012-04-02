@@ -52,6 +52,7 @@ init ()
 	CONTROLSLIST=""
 	ICONSLIST=""
 	CURSORSLIST=""
+	WALLPAPERSLIST=""
 
 	UPDATEPICS=0
 	MAKEPICS=0
@@ -84,6 +85,19 @@ makemetalist ()
 	METALIST=''"${METALIST}"'<label>'"$metaname"'</label>'
 	METALIST=''"${METALIST}"'<action>exec $SHELL -c '"setmetatheme '"$metaname"'"'</action>'
 	METALIST=''"${METALIST}"'</button>'
+}
+
+makepaperslist ()
+{
+	local papername="${1:-'Unknown'}"
+	local pixmap="${FRAMES}/${framename}.png"
+	
+	FRAMESLIST=''"${FRAMESLIST}"'<button space-expand="false" space-fill="false" image-position="2" relief="2">'
+	FRAMESLIST=''"${FRAMESLIST}"'<input file>'"$pixmap"'</input>'
+	FRAMESLIST=''"${FRAMESLIST}"'<label>'"$framename"'</label>'
+	FRAMESLIST=''"${FRAMESLIST}"'<action>exec $SHELL -c '"setframe '"$framename"'"'</action>'
+	FRAMESLIST=''"${FRAMESLIST}"'<action>refresh:custom</action>'
+	FRAMESLIST=''"${FRAMESLIST}"'</button>'
 }
 
 makeframeslist ()
@@ -294,6 +308,30 @@ makebordernames ()
 		done < <(find ~/.themes ${GLOBAL}/themes -maxdepth 1 -mindepth 1|sort)
 	if [ X"$FRAMESLIST" = "X" ];then
 		FRAMESLIST='<vbox><text><label>No Window Borders Available...Mmm?</label></text></vbox>'
+	fi
+
+}
+
+makepapernames ()
+{
+	while read
+		do
+			if [ -d "${REPLY}/xfwm4" ];then
+				if [ $MAKEPICS -eq 1 ];then
+					makethumb "$REPLY" 0 < /dev/null
+					echo ""
+				fi
+				if [ $UPDATEPICS -eq 1 ];then
+					if [ ! -e "${FRAMES}/$(basename "$REPLY").png" ];then
+						makethumb "$REPLY" 0 < /dev/null
+						echo ""
+					fi
+				fi
+				makeframeslist "$(basename "$REPLY")"
+			fi
+		done < <(find "$LOCALWALLPAPERS" "$GLOBALWALLPAPERS" -maxdepth 1 -mindepth 1|sort)
+	if [ X"$WALLPAPERSLIST" = "X" ];then
+		WALLPAPERSLIST='<vbox><text><label>No Wallpapers Available...Mmm?</label></text></vbox>'
 	fi
 
 }
