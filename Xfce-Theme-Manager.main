@@ -40,7 +40,9 @@ init ()
 	META=${DB}/meta
 	ICONS=${DB}/icons
 	CURSORS=${DB}/cursors
-	
+	LOCALWALLPAPERS="${HOME}/.local/share/xfce4/backdrops"
+	GLOBALWALLPAPERS="/usr/share/xfce4/backdrops"
+
 	export GLOBAL=/usr/share
 	export GTKPREV=$(which gtkprev)
 	export HOME
@@ -322,7 +324,7 @@ setmetatheme ()
 	if [ -d "${HOME}/.icons/$cursortheme" ] || [ -d "${GLOBAL}/.icons/$cursortheme" ];then
 		xfconf-query -c xsettings -vp /Gtk/CursorThemeName  -s "$cursortheme"
 	fi
-
+	xfdesktop --reload
 }
 
 setframe ()
@@ -345,6 +347,7 @@ seticons ()
 	local iconname="$0"
 	xfconf-query -c xsettings -vp /Net/IconThemeName -s "$iconname"
 	setcustomicon
+	xfdesktop --reload
 }
 
 setcursor ()
@@ -369,6 +372,7 @@ setcustom ()
 	xfconf-query -c xsettings -p /Net/ThemeName -s "$gtk"
 	xfconf-query -c xsettings -p /Net/IconThemeName -s "$icons"
 	xfconf-query -c xsettings -p /Gtk/CursorThemeName -s "$cursor"
+	xfdesktop --reload
 }
 
 setcustomicon ()
