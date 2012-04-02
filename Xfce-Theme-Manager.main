@@ -33,6 +33,7 @@ init ()
 	export -f removedb
 	export -f setcustom
 	export -f setcustomicon
+	export -f setwallpaper
 
 	export DB=${HOME}/.config/XfceThemeManager
 	FRAMES=${DB}/wmf
@@ -89,15 +90,14 @@ makemetalist ()
 
 makepaperslist ()
 {
-	local papername="${1:-'Unknown'}"
-	local pixmap="${FRAMES}/${framename}.png"
+	local papername="$(basename "$1")"
+	local pixmap="$1"
 	
-	FRAMESLIST=''"${FRAMESLIST}"'<button space-expand="false" space-fill="false" image-position="2" relief="2">'
-	FRAMESLIST=''"${FRAMESLIST}"'<input file>'"$pixmap"'</input>'
-	FRAMESLIST=''"${FRAMESLIST}"'<label>'"$framename"'</label>'
-	FRAMESLIST=''"${FRAMESLIST}"'<action>exec $SHELL -c '"setframe '"$framename"'"'</action>'
-	FRAMESLIST=''"${FRAMESLIST}"'<action>refresh:custom</action>'
-	FRAMESLIST=''"${FRAMESLIST}"'</button>'
+	WALLPAPERSLIST=''"${WALLPAPERSLIST}"'<button space-expand="false" space-fill="false" image-position="2" relief="2">'
+	WALLPAPERSLIST=''"${WALLPAPERSLIST}"'<input file>'"$pixmap"'</input><width>128</width>'
+	WALLPAPERSLIST=''"${WALLPAPERSLIST}"'<label>'"$papername"'</label>'
+	WALLPAPERSLIST=''"${WALLPAPERSLIST}"'<action>exec $SHELL -c '"setwallpaper '"$pixmap"'"'</action>'
+	WALLPAPERSLIST=''"${WALLPAPERSLIST}"'</button>'
 }
 
 makeframeslist ()
@@ -316,24 +316,11 @@ makepapernames ()
 {
 	while read
 		do
-			if [ -d "${REPLY}/xfwm4" ];then
-				if [ $MAKEPICS -eq 1 ];then
-					makethumb "$REPLY" 0 < /dev/null
-					echo ""
-				fi
-				if [ $UPDATEPICS -eq 1 ];then
-					if [ ! -e "${FRAMES}/$(basename "$REPLY").png" ];then
-						makethumb "$REPLY" 0 < /dev/null
-						echo ""
-					fi
-				fi
-				makeframeslist "$(basename "$REPLY")"
-			fi
-		done < <(find "$LOCALWALLPAPERS" "$GLOBALWALLPAPERS" -maxdepth 1 -mindepth 1|sort)
+			makepaperslist "$REPLY"
+		done < <(find -L "$LOCALWALLPAPERS" "$GLOBALWALLPAPERS" -maxdepth 1 -mindepth 1|sort)
 	if [ X"$WALLPAPERSLIST" = "X" ];then
 		WALLPAPERSLIST='<vbox><text><label>No Wallpapers Available...Mmm?</label></text></vbox>'
 	fi
-
 }
 
 #set meta theme and icons if gnome index.theme file available
@@ -393,6 +380,13 @@ setcursor ()
 	local cursorname="$0"
 	xfconf-query -c xsettings -vp /Gtk/CursorThemeName -s "$cursorname"
 	setcustomicon
+}
+
+setwallpaper ()
+{
+	local papername="$0"
+
+	xfconf-query -c xfce4-desktop -vp /backdrop/screen0/monitor0/image-path -s "$papername" 
 }
 
 setcustom ()
@@ -464,6 +458,7 @@ else
 	makethemenames
 	makeiconnames
 	makecursornames
+	makepapernames
 fi
 
 if [ ! -e "${DB}/custom.conf" ];then
