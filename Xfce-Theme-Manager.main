@@ -76,8 +76,6 @@ setimagestyle ()
 	xfconf-query -nc xfce4-desktop -vp /backdrop/screen0/monitor0/image-style -s ${imagearray[$imagestyle]}
 	xfconf-query -nc xfce4-desktop -vp /backdrop/screen0/monitor0/brightness -s  $imagebright
 	xfconf-query -nc xfce4-desktop -vp /backdrop/screen0/monitor0/saturation -s  $imagesat
-
-#	echo $imagebright>&2
 }
 
 makethumb ()
@@ -116,6 +114,7 @@ makepaperslist ()
 	WALLPAPERSLIST=''"${WALLPAPERSLIST}"'<input file>'"$pixmap"'</input><height>64</height>'
 	WALLPAPERSLIST=''"${WALLPAPERSLIST}"'<label>'"$papername"'</label>'
 	WALLPAPERSLIST=''"${WALLPAPERSLIST}"'<action>exec $SHELL -c '"setwallpaper '"$pixmap"'"'</action>'
+	WALLPAPERSLIST=''"${WALLPAPERSLIST}"'<action>refresh:custom</action>'
 	WALLPAPERSLIST=''"${WALLPAPERSLIST}"'</button>'
 }
 
@@ -405,36 +404,40 @@ setwallpaper ()
 {
 	local papername="$0"
 
-	xfconf-query -nc xfce4-desktop -vp /backdrop/screen0/monitor0/image-path -s "$papername" 
+	xfconf-query -nc xfce4-desktop -vp /backdrop/screen0/monitor0/image-path -s "$papername"
+	setcustomicon
 }
 
 setcustom ()
 {
-	local gtk wmf cursor icons
+	local gtk wmf cursor icons wallpaper
 
 	{
 		read gtk
 		read wmf
 		read cursor
 		read icons
+		read wallpaper
 	}<${DB}/custom.conf
 
 	xfconf-query -nc xfwm4 -p /general/theme -s "$wmf"
 	xfconf-query -nc xsettings -p /Net/ThemeName -s "$gtk"
 	xfconf-query -nc xsettings -p /Net/IconThemeName -s "$icons"
 	xfconf-query -nc xsettings -p /Gtk/CursorThemeName -s "$cursor"
+	xfconf-query -nc xfce4-desktop -vp /backdrop/screen0/monitor0/image-path -s "$wallpaper"
 	xfdesktop --reload
 }
 
 setcustomicon ()
 {
-	local gtk wmf cursor icons pathtoborder
+	local gtk wmf cursor icons pathtoborder wallpaper
 
 	gtk="$(xfconf-query -c xsettings -vp /Net/ThemeName)"
 	wmf="$(xfconf-query -c xfwm4 -vp /general/theme)"
 	cursor="$(xfconf-query -c xsettings -vp /Gtk/CursorThemeName)"
 	icons="$(xfconf-query -c xsettings -vp /Net/IconThemeName)"
 	pathtoborder="$(find ~/.themes ${GLOBAL}/themes -iname "$wmf")"
+	wallpaper="$(xfconf-query -nc xfce4-desktop -vp /backdrop/screen0/monitor0/image-path)"
 
 	$GTKPREV "custom" "$gtk" "$cursor" "$icons" "$pathtoborder" ${DB}/custom.png
 
@@ -443,6 +446,7 @@ setcustomicon ()
 		echo $wmf
 		echo $cursor
 		echo $icons
+		echo $wallpaper
 	}>${DB}/custom.conf
 }
 
@@ -480,8 +484,9 @@ else
 	makethemenames
 	makeiconnames
 	makecursornames
-	makepapernames
 fi
+
+makepapernames
 
 if [ ! -e "${DB}/custom.conf" ];then
 	setcustomicon
