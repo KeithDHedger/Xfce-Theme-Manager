@@ -4,7 +4,7 @@ main ()
 MAIN_DIALOG='
 <window title="Xfce-Theme-Manager" height_request="480" window_position="1">
 	<vbox>
-		<notebook labels="Themes|Window Borders|Controls|Icons|Cursors|Wallpapers" space-fill="true" space-expand="true">
+		<notebook labels="Themes|Window Borders|Controls|Icons|Cursors|Wallpapers|Advanced" space-fill="true" space-expand="true">
 
 
 			<vbox scrollable="true">
@@ -27,8 +27,24 @@ MAIN_DIALOG='
 				'"$CURSORSLIST"'
 			</vbox>
 
-			<vbox scrollable="true">
+			<vbox>
+				<vbox>
+					<comboboxtext>
+						<variable>imagestyle</variable>
+						<default>'"$DEFAULTSTYLE"'</default>
+						<item>Auto</item>
+						<item>Centered</item>
+						<item>Tiled</item>
+						<item>Stretched</item>
+						<item>Scaled</item>
+						<item>Zoomed</item>
+						<action>exec $SHELL -c '"setimagestyle"'</action>
+					</comboboxtext>
+				</vbox>
+				<vbox scrollable="true">
 				'"$WALLPAPERSLIST"'
+				</vbox>
+
 			</vbox>
 
 		</notebook>

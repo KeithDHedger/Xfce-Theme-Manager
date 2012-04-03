@@ -13,6 +13,8 @@
 ###MAIN###
 init ()
 {
+	local style=( "Auto" "Centered" "Tiled" "Stretched" "Scaled" "Zoomed" )
+
 	GTKDIALOG=gtkdialog
 
 	MAKEPICS=0
@@ -34,6 +36,7 @@ init ()
 	export -f setcustom
 	export -f setcustomicon
 	export -f setwallpaper
+	export -f setimagestyle
 
 	export DB=${HOME}/.config/XfceThemeManager
 	FRAMES=${DB}/wmf
@@ -48,6 +51,9 @@ init ()
 	export GTKPREV=$(which gtkprev)
 	export HOME
 
+	export IMAGESTYLE=$(xfconf-query -c xfce4-desktop -vp /backdrop/screen0/monitor0/image-style)
+	DEFAULTSTYLE=${style[$IMAGESTYLE]}
+
 	METALIST=""
 	FRAMESLIST=""
 	CONTROLSLIST=""
@@ -59,6 +65,13 @@ init ()
 	MAKEPICS=0
 
 	mkdir -p $FRAMES $CONTROLS $META $ICONS $CURSORS
+}
+
+setimagestyle ()
+{
+	declare -A imagearray=( ["Auto"]=0 ["Centered"]=1 ["Tiled"]=2 ["Stretched"]=3 ["Scaled"]=4 ["Zoomed"]=5 )
+
+	xfconf-query -c xfce4-desktop -vp /backdrop/screen0/monitor0/image-style -s ${imagearray[$imagestyle]}
 }
 
 makethumb ()
@@ -94,7 +107,7 @@ makepaperslist ()
 	local pixmap="$1"
 	
 	WALLPAPERSLIST=''"${WALLPAPERSLIST}"'<button space-expand="false" space-fill="false" image-position="2" relief="2">'
-	WALLPAPERSLIST=''"${WALLPAPERSLIST}"'<input file>'"$pixmap"'</input><width>128</width>'
+	WALLPAPERSLIST=''"${WALLPAPERSLIST}"'<input file>'"$pixmap"'</input><height>64</height>'
 	WALLPAPERSLIST=''"${WALLPAPERSLIST}"'<label>'"$papername"'</label>'
 	WALLPAPERSLIST=''"${WALLPAPERSLIST}"'<action>exec $SHELL -c '"setwallpaper '"$pixmap"'"'</action>'
 	WALLPAPERSLIST=''"${WALLPAPERSLIST}"'</button>'
@@ -426,6 +439,9 @@ setcustomicon ()
 		echo $icons
 	}>${DB}/custom.conf
 }
+
+
+###########MAIN###########
 
 init
 
