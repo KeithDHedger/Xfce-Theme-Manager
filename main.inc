@@ -1,6 +1,7 @@
 
 main ()
 {
+
 MAIN_DIALOG='
 <window title="Xfce-Theme-Manager" height_request="480" window_position="1">
 	<vbox>

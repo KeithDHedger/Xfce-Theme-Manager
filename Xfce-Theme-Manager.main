@@ -52,7 +52,7 @@ init ()
 	export HOME
 
 	export IMAGESTYLE=$(xfconf-query -c xfce4-desktop -vp /backdrop/screen0/monitor0/image-style)
-	DEFAULTSTYLE=${style[$IMAGESTYLE]:-0}
+	DEFAULTSTYLE=${style[$IMAGESTYLE]:-"Auto"}
 	DEFAULTBRIGHTNESS=$(xfconf-query -c xfce4-desktop -vp /backdrop/screen0/monitor0/brightness)
 	DEFAULTSAT=$(xfconf-query -c xfce4-desktop -vp /backdrop/screen0/monitor0/saturation)
 
@@ -411,6 +411,7 @@ setwallpaper ()
 
 	xfconf-query -nc xfce4-desktop -vp /backdrop/screen0/monitor0/image-path -s "$papername"
 	setcustomicon
+	setimagestyle
 }
 
 setcustom ()
