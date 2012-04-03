@@ -48,10 +48,15 @@ Add 'missing icons' icon.
 Make title bar more accurate (tile instead of stretch).
 etc
 
+BUGS:
+Please send them direct to me at: kdhedger@yahoo.co.uk posting them on xfce-look etc gets too messy!
+
 Changelog:
-0.0.7	Added Wallpaper Selection.
+0.0.7	Added Wallpaper Section.
 	Tested under Xfce 4.10.
 	Adds properties to xconf if not defined.
+	Refresh Xfce desktop when changing icons.
+	Tweaked the Makefile to take acount of Fedora's mucking about with the linker!
 
 0.0.6	Icon themes now handled by helper app hopefully no more 'missing' icons in the gui.
 	Meta-Themes now include 'Home' icon and 'Left' pointer in preview.
