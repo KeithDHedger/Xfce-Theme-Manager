@@ -49,6 +49,10 @@ Make title bar more accurate (tile instead of stretch).
 etc
 
 Changelog:
+0.0.7	Added Wallpaper Selection
+	Tested under Xfce 4.10
+	Adds properties to xconf if not defined
+
 0.0.6	Icon themes now handled by helper app hopefully no more 'missing' icons in the gui.
 	Meta-Themes now include 'Home' icon and 'Left' pointer in preview.
 	Size of Meta-Theme previews nor more consistant.
