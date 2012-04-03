@@ -14,6 +14,7 @@
 init ()
 {
 	local style=( "Auto" "Centered" "Tiled" "Stretched" "Scaled" "Zoomed" )
+	local imagestyle
 
 	GTKDIALOG=gtkdialog
 
@@ -51,17 +52,17 @@ init ()
 	export GTKPREV=$(which gtkprev)
 	export HOME
 
-	export IMAGESTYLE=$(xfconf-query -c xfce4-desktop -vp /backdrop/screen0/monitor0/image-style)
-	DEFAULTSTYLE=${style[$IMAGESTYLE]:-"Auto"}
-	DEFAULTBRIGHTNESS=$(xfconf-query -c xfce4-desktop -vp /backdrop/screen0/monitor0/brightness)
-	DEFAULTSAT=$(xfconf-query -c xfce4-desktop -vp /backdrop/screen0/monitor0/saturation)
+	if ! imagestyle=$(xfconf-query -c xfce4-desktop -vp /backdrop/screen0/monitor0/image-style);then
+		imagestyle=0
+	fi
+	DEFAULTSTYLE=${style[${imagestyle}]}
 
-	if [ X"$DEFAULTBRIGHTNESS" = "X" ];then
+	if ! DEFAULTBRIGHTNESS=$(xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitor0/brightness);then
 		DEFAULTBRIGHTNESS=0
 	fi
 
-	if [ X"$DEFAULTSAT" = "X" ];then
-		DEFAULTSAT=1.0
+	if ! DEFAULTSAT=$(xfconf-query -c xfce4-desktop -vp /backdrop/screen0/monitor0/saturation);then
+		DEFAULTSAT=1
 	fi
 
 	METALIST=""
