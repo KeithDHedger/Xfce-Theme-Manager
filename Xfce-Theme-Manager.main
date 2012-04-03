@@ -53,6 +53,8 @@ init ()
 
 	export IMAGESTYLE=$(xfconf-query -c xfce4-desktop -vp /backdrop/screen0/monitor0/image-style)
 	DEFAULTSTYLE=${style[$IMAGESTYLE]}
+	DEFAULTBRIGHTNESS=$(xfconf-query -c xfce4-desktop -vp /backdrop/screen0/monitor0/brightness)
+	DEFAULTSAT=$(xfconf-query -c xfce4-desktop -vp /backdrop/screen0/monitor0/saturation)
 
 	METALIST=""
 	FRAMESLIST=""
@@ -71,7 +73,11 @@ setimagestyle ()
 {
 	declare -A imagearray=( ["Auto"]=0 ["Centered"]=1 ["Tiled"]=2 ["Stretched"]=3 ["Scaled"]=4 ["Zoomed"]=5 )
 
-	xfconf-query -c xfce4-desktop -vp /backdrop/screen0/monitor0/image-style -s ${imagearray[$imagestyle]}
+	xfconf-query -nc xfce4-desktop -vp /backdrop/screen0/monitor0/image-style -s ${imagearray[$imagestyle]}
+	xfconf-query -nc xfce4-desktop -vp /backdrop/screen0/monitor0/brightness -s  $imagebright
+	xfconf-query -nc xfce4-desktop -vp /backdrop/screen0/monitor0/saturation -s  $imagesat
+
+#	echo $imagebright>&2
 }
 
 makethumb ()
