@@ -52,9 +52,17 @@ init ()
 	export HOME
 
 	export IMAGESTYLE=$(xfconf-query -c xfce4-desktop -vp /backdrop/screen0/monitor0/image-style)
-	DEFAULTSTYLE=${style[$IMAGESTYLE]}
+	DEFAULTSTYLE=${style[$IMAGESTYLE]:-0}
 	DEFAULTBRIGHTNESS=$(xfconf-query -c xfce4-desktop -vp /backdrop/screen0/monitor0/brightness)
 	DEFAULTSAT=$(xfconf-query -c xfce4-desktop -vp /backdrop/screen0/monitor0/saturation)
+
+	if [ X"$DEFAULTBRIGHTNESS" = "X" ];then
+		DEFAULTBRIGHTNESS=0
+	fi
+
+	if [ X"$DEFAULTSAT" = "X" ];then
+		DEFAULTSAT=1.0
+	fi
 
 	METALIST=""
 	FRAMESLIST=""
@@ -63,9 +71,6 @@ init ()
 	CURSORSLIST=""
 	WALLPAPERSLIST=""
 
-	UPDATEPICS=0
-	MAKEPICS=0
-
 	mkdir -p $FRAMES $CONTROLS $META $ICONS $CURSORS
 }
 
@@ -73,9 +78,9 @@ setimagestyle ()
 {
 	declare -A imagearray=( ["Auto"]=0 ["Centered"]=1 ["Tiled"]=2 ["Stretched"]=3 ["Scaled"]=4 ["Zoomed"]=5 )
 
-	xfconf-query -nc xfce4-desktop -vp /backdrop/screen0/monitor0/image-style -s ${imagearray[$imagestyle]}
-	xfconf-query -nc xfce4-desktop -vp /backdrop/screen0/monitor0/brightness -s  $imagebright
-	xfconf-query -nc xfce4-desktop -vp /backdrop/screen0/monitor0/saturation -s  $imagesat
+	xfconf-query -nRt "int" -c xfce4-desktop -vp /backdrop/screen0/monitor0/image-style -s ${imagearray[$imagestyle]}
+	xfconf-query -nRt "int" -c xfce4-desktop -vp /backdrop/screen0/monitor0/brightness -s  $imagebright
+	xfconf-query -nRt "double" -c xfce4-desktop -vp /backdrop/screen0/monitor0/saturation -s  $imagesat
 }
 
 makethumb ()
@@ -451,14 +456,14 @@ setcustomicon ()
 }
 
 
-###########MAIN###########
+###########START###########
 
 init
+UPDATEPICS=0
+MAKEPICS=0
 
 if [ X"$1" = "X-m" ] || [ X"$1" = "X-u" ];then
 
-	UPDATEPICS=0
-	MAKEPICS=0
 	doing="Building"
 
 	if [ X"$1" = "X-u" ];then
