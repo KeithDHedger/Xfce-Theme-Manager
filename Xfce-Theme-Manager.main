@@ -79,7 +79,7 @@ init ()
 
 doarchive ()
 {
-	echo $ENTRY >&2
+	echo $archive >&2
 }
 
 setimagestyle ()

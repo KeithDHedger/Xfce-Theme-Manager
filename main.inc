@@ -62,15 +62,25 @@ MAIN_DIALOG='
 				<vbox scrollable="true">
 					'"$WALLPAPERSLIST"'
 				</vbox>
-
 			</vbox>
-				<vbox>
-					<entry>
-						<default>Default value</default>
+
+			<vbox>
+				<hbox>
+					<text label="Select Theme Archive"></text>
+					<entry fs-action="file" fs-filters="*.tar.gz|*.tgz">
 						<variable>archive</variable>
-						<action>exec $SHELL -c '"doarchive"'</action>
 					</entry>
-				</vbox>
+					<button>
+						<input file stock="gtk-open"></input>
+						<action>fileselect:archive</action>
+					</button>
+					<button>
+						<label>Install Theme</label>
+						<action>exec $SHELL -c '"doarchive"'</action>
+					</button>
+				</hbox>
+			</vbox>
+
 		</notebook>
 
 		<hbox  homogeneous="true" space-fill="true" space-expand="false">
@@ -105,7 +115,7 @@ MAIN_DIALOG='
 	</vbox>
 </window>'
 
-export LANG=es_US
+export LANG=en_US
 
 if [ ${#MAIN_DIALOG} -ge 131072 ];then
 	echo "$MAIN_DIALOG" > "/tmp/xfcethememanager$$"
