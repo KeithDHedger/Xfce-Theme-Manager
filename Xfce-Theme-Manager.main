@@ -39,6 +39,8 @@ init ()
 	export -f setwallpaper
 	export -f setimagestyle
 
+	export -f doarchive
+
 	export DB=${HOME}/.config/XfceThemeManager
 	FRAMES=${DB}/wmf
 	CONTROLS=${DB}/conts
@@ -73,6 +75,11 @@ init ()
 	WALLPAPERSLIST=""
 
 	mkdir -p $FRAMES $CONTROLS $META $ICONS $CURSORS
+}
+
+doarchive ()
+{
+	echo $ENTRY >&2
 }
 
 setimagestyle ()

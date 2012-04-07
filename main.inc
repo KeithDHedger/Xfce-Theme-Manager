@@ -60,11 +60,17 @@ MAIN_DIALOG='
 				</vbox>
 
 				<vbox scrollable="true">
-				'"$WALLPAPERSLIST"'
+					'"$WALLPAPERSLIST"'
 				</vbox>
 
 			</vbox>
-
+				<vbox>
+					<entry>
+						<default>Default value</default>
+						<variable>archive</variable>
+						<action>exec $SHELL -c '"doarchive"'</action>
+					</entry>
+				</vbox>
 		</notebook>
 
 		<hbox  homogeneous="true" space-fill="true" space-expand="false">
@@ -98,6 +104,8 @@ MAIN_DIALOG='
 
 	</vbox>
 </window>'
+
+export LANG=es_US
 
 if [ ${#MAIN_DIALOG} -ge 131072 ];then
 	echo "$MAIN_DIALOG" > "/tmp/xfcethememanager$$"
