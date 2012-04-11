@@ -368,8 +368,10 @@ setmetatheme ()
 		icontheme=$(cat "${GLOBAL}/themes/$themename"/index.theme 2>/dev/null|grep "IconTheme"|awk -F= '{print $2}')
 	fi
 
-	if [ -d "${HOME}/.icons/$icontheme" ] || [ -d "${GLOBAL}/.icons/$icontheme" ];then
-		xfconf-query -nRt "string" -c xsettings -vp /Net/IconThemeName -s "$icontheme"
+	if [ X"$icontheme" != "X" ];then
+		if [ -d "${HOME}/.icons/$icontheme" ] || [ -d "${GLOBAL}/.icons/$icontheme" ];then
+			xfconf-query -nRt "string" -c xsettings -vp /Net/IconThemeName -s "$icontheme"
+		fi
 	fi
 
 	cursortheme=$(cat "${HOME}/.themes/$themename"/index.theme 2>/dev/null|grep "CursorTheme"|awk -F= '{print $2}')
@@ -377,8 +379,10 @@ setmetatheme ()
 		cursortheme=$(cat "${GLOBAL}/themes/$themename"/index.theme 2>/dev/null|grep "CursorTheme"|awk -F= '{print $2}')
 	fi
 
-	if [ -d "${HOME}/.icons/$cursortheme" ] || [ -d "${GLOBAL}/.icons/$cursortheme" ];then
-		xfconf-query -nRt "string" -c xsettings -vp /Gtk/CursorThemeName  -s "$cursortheme"
+	if [ X"$cursortheme" != "X" ];then
+		if [ -d "${HOME}/.icons/$cursortheme" ] || [ -d "${GLOBAL}/.icons/$cursortheme" ];then
+			xfconf-query -nRt "string" -c xsettings -vp /Gtk/CursorThemeName  -s "$cursortheme"
+		fi
 	fi
 	xfdesktop --reload
 }
