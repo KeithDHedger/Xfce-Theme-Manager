@@ -81,28 +81,33 @@ MAIN_DIALOG='
 				</hbox>
 				<hseparator></hseparator>
 				<text label="Backdrop Adjustments"></text>
-				<hbox spacing="0" space-fill="false" space-expand="false" homogeneous="false">
-
-					<button border-width="8" height="15" width="10" space-fill="false" space-expand="false" spacing="0">
+				<hbox homogeneous="false">
+					<button border-width="8" space-expand="false" >
 						<label>Reset</label>
-						<variable>bright=1</variable>
+						<variable>bright=0</variable>
 						<action>refresh:imagebright</action>
 					</button>
 
+				<hscale space-fill="true" space-expand="true" update-policy="1" wrap="true" range-min="-128" range-max="127" value-pos="0">
+					<default>'"$DEFAULTBRIGHTNESS"'</default>
+					<variable>imagebright</variable>
+					<input>echo $bright</input>
+					<action>exec $SHELL -c '"setimagestyle"'</action>
+				</hscale>
+				<text label="Brightness"></text>
+</hbox>
 
-					<hscale space-fill="true" space-expand="true" update-policy="1" wrap="true" range-min="-128" range-max="127" value-pos="0">
-						<default>'"$DEFAULTBRIGHTNESS"'</default>
-						<variable>imagebright</variable>
-						<input>echo $bright</input>
-						<action>exec $SHELL -c '"setimagestyle"'</action>
-					</hscale>
-					<text label="Brightness"></text>
-				</hbox>
+				<hbox homogeneous="false">
+					<button border-width="8" space-expand="false" >
+						<label>Reset</label>
+						<variable>sat=1.0</variable>
+						<action>refresh:imagesat</action>
+					</button>
 
-				<hbox>
 					<hscale space-fill="true" space-expand="true" update-policy="1" wrap="true" range-min="-10.0" range-max="10.0" range-step="0.1" value-pos="0">
 						<default>'"$DEFAULTSAT"'</default>
 						<variable>imagesat</variable>
+						<input>echo $sat</input>
 						<action>exec $SHELL -c '"setimagestyle"'</action>
 					</hscale>
 					<text label="Saturation"></text>
