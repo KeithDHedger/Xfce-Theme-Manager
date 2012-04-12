@@ -45,22 +45,6 @@ MAIN_DIALOG='
 						<item>Zoomed</item>
 						<action>exec $SHELL -c '"setimagestyle"'</action>
 					</comboboxtext>
-					<hbox>
-						<hscale space-fill="true" space-expand="true" update-policy="1" wrap="true" range-min="-128" range-max="127" value-pos="0">
-							<default>'"$DEFAULTBRIGHTNESS"'</default>
-							<variable>imagebright</variable>
-							<action>exec $SHELL -c '"setimagestyle"'</action>
-						</hscale>
-						<text label="Brightness"></text>
-					</hbox>
-					<hbox>
-						<hscale space-fill="true" space-expand="true" update-policy="1" wrap="true" range-min="-10.0" range-max="10.0" range-step="0.1" value-pos="0">
-							<default>'"$DEFAULTSAT"'</default>
-							<variable>imagesat</variable>
-							<action>exec $SHELL -c '"setimagestyle"'</action>
-						</hscale>
-						<text label="Saturation"></text>
-					</hbox>
 				</vbox>
 
 				<vbox scrollable="true">
@@ -87,10 +71,33 @@ MAIN_DIALOG='
 						<action>exec $SHELL -c '"doarchive"'</action>
 					</button>
 				</hbox>
-					<button>
+				<hseparator></hseparator>
+				<text label="Launch Xfce-Composite-Editor"></text>
+				<hbox homogenous="true">
+					<button  space-expand="true">
 						<label>Xfce-Composite-Editor</label>
-						<action>exec $SHELL -c '"xfce-composite-editor"'</action>
+						<action>exec $SHELL -c '"xfce4-composite-editor"'</action>
 					</button>
+				</hbox>
+				<hseparator></hseparator>
+				<text label="Backdrop Adjustments"></text>
+				<hbox>
+					<hscale space-fill="true" space-expand="true" update-policy="1" wrap="true" range-min="-128" range-max="127" value-pos="0">
+						<default>'"$DEFAULTBRIGHTNESS"'</default>
+						<variable>imagebright</variable>
+						<action>exec $SHELL -c '"setimagestyle"'</action>
+					</hscale>
+					<text label="Brightness"></text>
+				</hbox>
+
+				<hbox>
+					<hscale space-fill="true" space-expand="true" update-policy="1" wrap="true" range-min="-10.0" range-max="10.0" range-step="0.1" value-pos="0">
+						<default>'"$DEFAULTSAT"'</default>
+						<variable>imagesat</variable>
+						<action>exec $SHELL -c '"setimagestyle"'</action>
+					</hscale>
+					<text label="Saturation"></text>
+				</hbox>
 
 			</vbox>
 
