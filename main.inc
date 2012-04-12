@@ -5,6 +5,10 @@ main ()
 MAIN_DIALOG='
 <window title="Xfce-Theme-Manager" height_request="480" window_position="1">
 	<vbox>
+	<notebook page="0" show-tabs="false" show-border="false" labels="Themes|Advanced"  space-fill="true" space-expand="true">
+
+		<vbox>
+		
 		<notebook labels="Themes|Window Borders|Controls|Icons|Cursors|Wallpapers|Advanced" space-fill="true" space-expand="true">
 
 
@@ -64,9 +68,13 @@ MAIN_DIALOG='
 				</vbox>
 			</vbox>
 
+
+		</notebook>
+
+		</vbox>
 			<vbox>
+				<text label="Select Theme Archive"></text>
 				<hbox>
-					<text label="Select Theme Archive"></text>
 					<entry fs-action="file" fs-filters="*.tar.gz|*.tgz">
 						<variable>archive</variable>
 					</entry>
@@ -81,26 +89,44 @@ MAIN_DIALOG='
 				</hbox>
 			</vbox>
 
-		</notebook>
+		<variable>mainui</variable>
+		<input>if [ X"$mainui" = "X0" ];then echo 1;else echo 0;fi</input>
+
+	</notebook>
 
 		<hbox  homogeneous="true" space-fill="true" space-expand="false">
 
 			<button>
 				<label>Reset Theme</label>
+				<variable>reset</variable>
 				<action>exec $SHELL -c '"resettheme"'</action>
 			</button>
 
 			<button>
 				<label>Rebuild DB</label>
+				<variable>rbdb</variable>
 				<action>exec '"xfce-theme-manager"' '"-m &"'</action>
 				<action>exit:EXIT</action>
 			</button>
 
 			<button>
 				<label>Update DB</label>
+				<variable>updb</variable>
 				<action>exec '"xfce-theme-manager"' '"-u &"'</action>
 				<action>exit:EXIT</action>
 			</button>
+
+			<togglebutton>
+				<label>Advanced</label>
+				<variable>advanced</variable>
+				<action>refresh:mainui</action>
+				<action>if true disable:rbdb</action>
+				<action>if false enable:rbdb</action>
+				<action>if true disable:updb</action>
+				<action>if false enable:updb</action>
+				<action>if true disable:reset</action>
+				<action>if false enable:reset</action>
+			</togglebutton>
 
 		</hbox>
 

@@ -42,6 +42,9 @@ init ()
 	export -f doarchive
 
 	export DB=${HOME}/.config/XfceThemeManager
+
+	TOG=1
+	
 	FRAMES=${DB}/wmf
 	CONTROLS=${DB}/conts
 	META=${DB}/meta
