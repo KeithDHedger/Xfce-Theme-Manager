@@ -81,10 +81,19 @@ MAIN_DIALOG='
 				</hbox>
 				<hseparator></hseparator>
 				<text label="Backdrop Adjustments"></text>
-				<hbox>
+				<hbox spacing="0" space-fill="false" space-expand="false" homogeneous="false">
+
+					<button border-width="8" height="15" width="10" space-fill="false" space-expand="false" spacing="0">
+						<label>Reset</label>
+						<variable>bright=1</variable>
+						<action>refresh:imagebright</action>
+					</button>
+
+
 					<hscale space-fill="true" space-expand="true" update-policy="1" wrap="true" range-min="-128" range-max="127" value-pos="0">
 						<default>'"$DEFAULTBRIGHTNESS"'</default>
 						<variable>imagebright</variable>
+						<input>echo $bright</input>
 						<action>exec $SHELL -c '"setimagestyle"'</action>
 					</hscale>
 					<text label="Brightness"></text>
