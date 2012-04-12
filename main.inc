@@ -87,6 +87,11 @@ MAIN_DIALOG='
 						<action>exec $SHELL -c '"doarchive"'</action>
 					</button>
 				</hbox>
+					<button>
+						<label>Xfce-Composite-Editor</label>
+						<action>exec $SHELL -c '"xfce-composite-editor"'</action>
+					</button>
+
 			</vbox>
 
 		<variable>mainui</variable>
