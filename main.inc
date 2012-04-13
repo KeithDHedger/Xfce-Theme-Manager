@@ -59,7 +59,7 @@ MAIN_DIALOG='
 			<vbox>
 				<text label="Select Theme Archive"></text>
 				<hbox>
-					<entry fs-action="file" fs-filters="*.tar.gz|*.tgz">
+					<entry fs-action="file"  fs-filters-mime="application/x-compressed-tar|application/x-bzip-compressed-tar|image/*">
 						<variable>archive</variable>
 					</entry>
 					<button>
@@ -69,6 +69,21 @@ MAIN_DIALOG='
 					<button>
 						<label>Install Theme</label>
 						<action>exec $SHELL -c '"doarchive"'</action>
+						<action>exec '"xfce-theme-manager"' '"-u &"'</action>
+						<action>exit:EXIT</action>
+					</button>
+				</hbox>
+				<hbox>
+					<entry fs-action="file"  fs-filters-mime="image/*">
+						<variable>papers</variable>
+					</entry>
+					<button>
+						<input file stock="gtk-open"></input>
+						<action>fileselect:papers</action>
+					</button>
+					<button>
+						<label>Install Wallpaper</label>
+						<action>cp "$papers" '"$LOCALWALLPAPERS"'</action>
 						<action>exec '"xfce-theme-manager"' '"-u &"'</action>
 						<action>exit:EXIT</action>
 					</button>

@@ -42,6 +42,7 @@ init ()
 	export -f setimagestyle
 
 	export -f doarchive
+#	export -f dowallpaper
 
 	export DB=${HOME}/.config/XfceThemeManager
 
@@ -82,16 +83,21 @@ init ()
 	mkdir -p $FRAMES $CONTROLS $META $ICONS $CURSORS
 }
 
+#//dowallpaper ()
+#{
+#	if [ X"$papers" != "X" ];then
+#		cp "$papers" 
+#}
+
 doarchive ()
 {
 	local testfolder
 
-	echo $archive >&2
 	if [ X"$archive" != "X" ];then
 		mkdir /tmp/testarchive$$
 		pushd /tmp/testarchive$$
 			if tar -xvf "$archive";then
-				testfolder=$(find -iname "gtk-2.0")
+				testfolder=$(find -type d -iname "gtk-2.0" -o -iname "xfwm4")
 				if [ X"$testfolder" != "X" ];then
 					pushd "${HOME}/.themes"
 						tar -xvf "$archive"
@@ -110,10 +116,10 @@ doarchive ()
 					popd
 				fi
 			else
-				echo "Couldn't extract archive $archive ..."
+				zenity --info --text="Couldn't extract archive $archive ..."
 			fi
 		popd
-		rm -r /tmp/testarchive$$
+		rm -fr /tmp/testarchive$$
 	fi
 }
 
