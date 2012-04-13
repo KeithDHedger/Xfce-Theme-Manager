@@ -129,7 +129,7 @@ MAIN_DIALOG='
 					<button border-width="8" space-expand="false" >
 						<label>WM Font</label>
 						<input file stock="gtk-select-font"></input>
-						<action>xfconf-query -c xfwm4 -vp /general/title_font -s "$(gtkprev "fontpicker")"</action>
+						<action>xfconf-query -c xfwm4 -vp /general/title_font -s "$(gtkprev "fontpicker" "$wmfont")"</action>
 						<action>refresh:wmfont</action>
 					</button>
 				</hbox>
@@ -148,7 +148,7 @@ MAIN_DIALOG='
 					<button border-width="8" space-expand="false" >
 						<label>App Font</label>
 						<input file stock="gtk-select-font"></input>
-						<action>xfconf-query -c xsettings -vp /Gtk/FontName -s "$(gtkprev "fontpicker")"</action>
+						<action>xfconf-query -c xsettings -vp /Gtk/FontName -s "$(gtkprev "fontpicker" "$appfont")"</action>
 						<action>refresh:appfont</action>
 					</button>
 				</hbox>
