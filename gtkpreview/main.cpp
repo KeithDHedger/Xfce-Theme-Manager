@@ -712,6 +712,7 @@ void respond(GtkFontSelectionDialog* dialog,gint response,gpointer data)
 				printf("%s\n",font);
 				g_free(font);
 				break;
+		}
 
 	gtk_main_quit();
 }
