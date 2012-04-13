@@ -69,6 +69,8 @@ MAIN_DIALOG='
 					<button>
 						<label>Install Theme</label>
 						<action>exec $SHELL -c '"doarchive"'</action>
+						<action>exec '"xfce-theme-manager"' '"-u &"'</action>
+						<action>exit:EXIT</action>
 					</button>
 				</hbox>
 				<hseparator></hseparator>

@@ -84,7 +84,37 @@ init ()
 
 doarchive ()
 {
+	local testfolder
+
 	echo $archive >&2
+	if [ X"$archive" != "X" ];then
+		mkdir /tmp/testarchive$$
+		pushd /tmp/testarchive$$
+			if tar -xvf "$archive";then
+				testfolder=$(find -iname "gtk-2.0")
+				if [ X"$testfolder" != "X" ];then
+					pushd "${HOME}/.themes"
+						tar -xvf "$archive"
+					popd
+				fi
+				testfolder=$(find -type d -iname "devices")
+				if [ X"$testfolder" != "X" ];then
+					pushd "${HOME}/.icons"
+						tar -xvf "$archive"
+					popd
+				fi
+				testfolder=$(find -type d -iname "cursors")
+				if [ X"$testfolder" != "X" ];then
+					pushd "${HOME}/.icons"
+						tar -xvf "$archive"
+					popd
+				fi
+			else
+				echo "Couldn't extract archive $archive ..."
+			fi
+		popd
+		rm -r /tmp/testarchive$$
+	fi
 }
 
 setimagestyle ()
