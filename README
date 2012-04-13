@@ -18,6 +18,11 @@ gdk-2.0
 cairo
 zenity 2.32
 
+EXTERNAL APPS:
+
+Xfce4-Composite-Editor Available here:
+http://gtk-apps.org/content/show.php/Xfce4-Composite-Editor?content=149523&PHPSESSID=f9317d406c1ed0e51799fb6b6a1e3e32
+
 USAGE:
 xfce-theme-manager [-m] [-u]
 
@@ -26,7 +31,7 @@ xfce-theme-manager [-m] [-u]
 
 The thumbnails are stored in ${HOME}/.config/XfceThemeManager
 The first time you use Xfce-Theme-Manager you should either run it from the command line with the -m switch or click on the "Rebuld DB" button, the first build of the DB can take a while so be patient!
-The DB only needs updating if you add/change/remove a theme/icon set.
+The DB only needs updating if you add/change/remove a theme/icon etc set.
 
 Meta Themes are themes that contain a gtk2 folder and an xfwm4 folder (ie window frames and controls), if their is a gnome-like theme.index file that also specifies an icon set this will be used as well.
 
@@ -48,10 +53,19 @@ Add 'missing icons' icon.
 Make title bar more accurate (tile instead of stretch).
 etc
 
+***************************************
 BUGS:
 Please send them direct to me at: kdhedger@yahoo.co.uk posting them on xfce-look etc gets too messy!
+***************************************
 
 Changelog:
+
+0.0.8	Added 'Install Theme/Wallpaper' to advanced.
+	Added WM/App font selector to gui and helper app.
+	Moved window brightness/saturation to advanced.
+	Added launch 'Xfce4-Composite-Editor' to advanced.
+	Added 'Advanced' option.
+	
 0.0.7	Added Wallpaper Section.
 	Tested under Xfce 4.10.
 	Adds properties to xconf if not defined.
