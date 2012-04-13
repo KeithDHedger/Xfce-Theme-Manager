@@ -112,7 +112,47 @@ MAIN_DIALOG='
 					</hscale>
 					<text label="Saturation"></text>
 				</hbox>
+				<hseparator></hseparator>
+				<text label="Fonts"></text>
+				<hbox homogeneous="false" border-width="0">
+					<button border-width="8" space-expand="false" >
+						<label>Reset</label>
+						<action>xfconf-query -c xfwm4 -vp /general/title_font -s "$OLDWMFONT"</action>
+						<action>refresh:wmfont</action>
+					</button>
+					<entry space-expand="true">
+						<default>'"$OLDWMFONT"'</default>
+						<variable>wmfont</variable>
+						<input>xfconf-query -c xfwm4 -vp /general/title_font</input>
+					</entry>
 
+					<button border-width="8" space-expand="false" >
+						<label>WM Font</label>
+						<input file stock="gtk-select-font"></input>
+						<action>xfconf-query -c xfwm4 -vp /general/title_font -s "$(gtkprev "fontpicker")"</action>
+						<action>refresh:wmfont</action>
+					</button>
+				</hbox>
+				<hbox homogeneous="false" border-width="0">
+					<button border-width="8" space-expand="false" >
+						<label>Reset</label>
+						<action>xfconf-query -c xsettings -vp /Gtk/FontName -s "$OLDAPPFONT"</action>
+						<action>refresh:appfont</action>
+					</button>
+					<entry space-expand="true">
+						<default>'"$OLDAPPFONT"'</default>
+						<variable>appfont</variable>
+						<input>xfconf-query -c xsettings -vp /Gtk/FontName</input>
+					</entry>
+
+					<button border-width="8" space-expand="false" >
+						<label>App Font</label>
+						<input file stock="gtk-select-font"></input>
+						<action>xfconf-query -c xsettings -vp /Gtk/FontName -s "$(gtkprev "fontpicker")"</action>
+						<action>refresh:appfont</action>
+					</button>
+				</hbox>
+				<hseparator></hseparator>
 			</vbox>
 
 		<variable>mainui</variable>
