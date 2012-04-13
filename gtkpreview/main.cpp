@@ -700,12 +700,46 @@ void getmetafile(char* folder)
 		fclose(fp);
 }
 
+void respond(GtkFontSelectionDialog* dialog,gint response,gpointer data)
+{
+	gchar* font;
+
+	switch(response)
+		{
+			case (GTK_RESPONSE_APPLY):
+			case (GTK_RESPONSE_OK):
+				font=gtk_font_selection_dialog_get_font_name(dialog);
+				printf("%s\n",font);
+				g_free(font);
+				break;
+
+	gtk_main_quit();
+}
+
+void pickfont(void)
+{
+	GtkWidget*	dialog;
+	
+	dialog=gtk_font_selection_dialog_new("Please Pick A Font");
+	gtk_font_selection_dialog_set_font_name(GTK_FONT_SELECTION_DIALOG(dialog),"Sans Bold Italic 12");
+	gtk_font_selection_dialog_set_preview_text(GTK_FONT_SELECTION_DIALOG(dialog),"The Quick Brown Fox Jumped Over The Lazy Dog");
+	g_signal_connect_after(G_OBJECT(dialog),"response",G_CALLBACK(respond), NULL);
+
+	gtk_widget_show_all(dialog);
+	gtk_main();
+
+	gtk_widget_destroy(GTK_WIDGET(dialog));
+
+	return;
+}
+
 //gtkprev [border] /path/to/border /out/path/to/png
 //gtkprev [controls] gtkthemename /out/path/to/png
 //gtkprev [theme] gtkthemename /path/to/border /out/path/to/png
 //gtkprev [cursors] cursortheme /out/path/to/png
 //gtkprev [icons] icontheme /out/path/to/png
 //gtkprev [custom] gtkthemename cursortheme icontheme /path/to/border /out/path/to/png
+//gtkprev [fontpicker]
 
 int main(int argc,char **argv)
 {		
@@ -713,6 +747,11 @@ int main(int argc,char **argv)
 	struct stat st;
 	gtk_init(&argc, &argv);
 
+	if (strcasecmp(argv[1],"fontpicker")==0)
+		{
+			pickfont();
+			return(0);
+		}
 //gtkprev [border] /path/to/border /out/path/to/png
 	if (strcasecmp(argv[1],"border")==0 && argc==4)
 		{
