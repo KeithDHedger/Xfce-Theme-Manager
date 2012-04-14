@@ -3,9 +3,14 @@
  * Parts of cursor preveiw Copyright (c) 2008 Nick Schermer <nick@xfce.org> & Jannis Pohlmann <jannis@xfce.org>
  * from xfce4-settings-4.6.5/dialogs/mouse-settings
  *
+ * Parts of xwm4 4.10pre
+ *
+ * oroborus - (c) 2001 Ken Lynch
+ * xfwm4    - (c) 2002-2011 Olivier Fourdan
+ *
  * Seriously mucked about by:
  *
- * K.D.Hedger 2011 <kdheger@yahoo.co.uk>
+ * K.D.Hedger 2012 <kdheger@yahoo.co.uk>
  *
  */
 
@@ -44,8 +49,6 @@ bool itemExists(char* folder,const char* item)
         		return(false);
         else
         	return(true);
-       
-
 }
 
 GdkPixbuf *cursorprev (const char *ptrname,char* themename)
@@ -187,23 +190,7 @@ GdkPixbuf * create_gtk_theme_pixbuf(char* name)
 	return retval;
 }
 
-GdkPixbuf* loadFile(char* bordername,const char* name)
-{
-	char	pixmapname[2048];
-	GdkPixbuf* tmpbuf;
-
-	sprintf((char*)pixmapname,"%s/xfwm4/%s.xpm",bordername,name);
-	tmpbuf=gdk_pixbuf_new_from_file((char*)pixmapname,NULL);
-	if (tmpbuf==NULL)
-		{
-			sprintf((char*)pixmapname,"%s/xfwm4/%s.png",bordername,name);
-			tmpbuf=gdk_pixbuf_new_from_file((char*)pixmapname,NULL);
-		}
-
-	return(tmpbuf);
-}
-
-static const char* image_types[]={"svg","png","gif","jpg","bmp",NULL};
+static const char* image_types[]={"png","svg","gif","jpg","bmp",NULL};
 
 GdkPixbuf* composePixbuf(char* bordername,const char* name)
 {
@@ -219,7 +206,7 @@ GdkPixbuf* composePixbuf(char* bordername,const char* name)
 	while ((image_types[i]) && (!alpha))
 		{
 			sprintf((char*)pixmapname,"%s/xfwm4/%s.%s",bordername,name,image_types[i]);
-        		if (g_file_test (pixmapname,G_FILE_TEST_IS_REGULAR))
+        		if (g_file_test(pixmapname,G_FILE_TEST_IS_REGULAR))
             			alpha=gdk_pixbuf_new_from_file(pixmapname,NULL);
         		++i;
 		}
@@ -231,10 +218,10 @@ GdkPixbuf* composePixbuf(char* bordername,const char* name)
     if (!basepixbuf)
         return (alpha);
 
-	width=MIN(gdk_pixbuf_get_width (basepixbuf),gdk_pixbuf_get_width (alpha));
-	height=MIN(gdk_pixbuf_get_height (basepixbuf),gdk_pixbuf_get_height (alpha));
+	width=MIN(gdk_pixbuf_get_width(basepixbuf),gdk_pixbuf_get_width (alpha));
+	height=MIN(gdk_pixbuf_get_height(basepixbuf),gdk_pixbuf_get_height (alpha));
 
-	gdk_pixbuf_composite (alpha, basepixbuf, 0, 0, width, height,0, 0, 1.0, 1.0, GDK_INTERP_NEAREST, 0xFF);
+	gdk_pixbuf_composite(alpha,basepixbuf,0,0,width,height,0,0,1.0,1.0,GDK_INTERP_NEAREST,0xFF);
 
 	g_object_unref (alpha);
 
@@ -282,26 +269,22 @@ void makeborder(char* folder,char* outframe)
 	cairo_surface_t *surface;
 	cairo_t *cr;
 
-
-	topleft=loadFile(folder,"top-left-active");
-	toprite=loadFile(folder,"top-right-active");
-	title1=loadFile(folder,"title-1-active");
-	title2=loadFile(folder,"title-2-active");
-	title3=loadFile(folder,"title-3-active");
-	title4=loadFile(folder,"title-4-active");
-	title5=loadFile(folder,"title-5-active");
-	riteside=loadFile(folder,"right-active");
-	leftside=loadFile(folder,"left-active");
-	bottomleft=loadFile(folder,"bottom-left-active");
-	bottomrite=loadFile(folder,"bottom-right-active");
-	bottom=loadFile(folder,"bottom-active");
-	close=loadFile(folder,"close-active");
-	max=loadFile(folder,"maximize-active");
-	min=loadFile(folder,"hide-active");
-	menu=loadFile(folder,"menu-active");
-
-close=composePixbuf(folder,"close-active");
-
+	topleft=composePixbuf(folder,"top-left-active");
+	toprite=composePixbuf(folder,"top-right-active");
+	title1=composePixbuf(folder,"title-1-active");
+	title2=composePixbuf(folder,"title-2-active");
+	title3=composePixbuf(folder,"title-3-active");
+	title4=composePixbuf(folder,"title-4-active");
+	title5=composePixbuf(folder,"title-5-active");
+	riteside=composePixbuf(folder,"right-active");
+	leftside=composePixbuf(folder,"left-active");
+	bottomleft=composePixbuf(folder,"bottom-left-active");
+	bottomrite=composePixbuf(folder,"bottom-right-active");
+	bottom=composePixbuf(folder,"bottom-active");
+	close=composePixbuf(folder,"close-active");
+	max=composePixbuf(folder,"maximize-active");
+	min=composePixbuf(folder,"hide-active");
+	menu=composePixbuf(folder,"menu-active");
 
 	if (title1!=NULL)
 		{

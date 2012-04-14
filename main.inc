@@ -56,7 +56,7 @@ MAIN_DIALOG='
 		</notebook>
 
 		</vbox>
-			<vbox>
+			<vbox scrollable="true">
 				<text label="Select Theme Archive"></text>
 				<hbox>
 					<entry fs-action="file"  fs-filters-mime="application/x-compressed-tar|application/x-bzip-compressed-tar|image/*">
@@ -170,13 +170,41 @@ MAIN_DIALOG='
 					</button>
 				</hbox>
 				<hseparator></hseparator>
-				<hbox>
+				<hbox homogeneous="false" border-width="0">
 					<text label="Cursor Size"></text>
-					<spinbutton update-policy="0" range-min="16" range-max="48" >
+					<spinbutton update-policy="0" range-min="16" range-max="48">
 						<default>'"$CURSORSIZE"'</default>
 						<variable>cursorsize</variable>
 						<action>xfconf-query -c xsettings -vp /Gtk/CursorThemeSize -s $cursorsize</action>
 					</spinbutton>
+				</hbox>
+				<hseparator></hseparator>
+				<hbox>
+					<text label="Button Layout"></text>
+					<entry>
+						<default>'"$OLDBUTTONS"'</default>
+						<variable>layout</variable>
+						<input>xfconf-query -c xfwm4 -vp /general/button_layout</input>
+						<action>xfconf-query -c xfwm4 -vp /general/button_layout -s "$layout"</action>
+					</entry>
+					<button space-expand="false" >
+						<label>Reset</label>
+						<action>xfconf-query -c xfwm4 -vp /general/button_layout -s "'"$OLDBUTTONS"'"</action>
+						<action>refresh:layout</action>
+					</button>
+				</hbox>
+				<hseparator></hseparator>
+				<hbox>
+					<text label="Title Layout"></text>
+					<radiobutton>
+						<label>L</label>
+					</radiobutton>
+					<radiobutton>
+						<label>C</label>
+					</radiobutton>
+					<radiobutton>
+						<label>R</label>
+					</radiobutton>
 				</hbox>
 			</vbox>
 

@@ -53,6 +53,7 @@ init ()
 	CURSORS=${DB}/cursors
 	LOCALWALLPAPERS="${HOME}/.local/share/xfce4/backdrops"
 	GLOBALWALLPAPERS="/usr/share/xfce4/backdrops"
+	OLDBUTTONS=$(xfconf-query -c xfwm4 -vp /general/button_layout)
 
 	export GLOBAL=/usr/share
 	export GTKPREV=$(which gtkprev)
