@@ -40,9 +40,7 @@ init ()
 	export -f setcustomicon
 	export -f setwallpaper
 	export -f setimagestyle
-
 	export -f doarchive
-#	export -f dowallpaper
 
 	export DB=${HOME}/.config/XfceThemeManager
 
@@ -73,6 +71,10 @@ init ()
 		DEFAULTSAT=1
 	fi
 
+	if ! CURSORSIZE=$(xfconf-query -c xsettings -vp /Gtk/CursorThemeSize);then
+		CURSORSIZE=16
+	fi
+
 	METALIST=""
 	FRAMESLIST=""
 	CONTROLSLIST=""
@@ -80,14 +82,8 @@ init ()
 	CURSORSLIST=""
 	WALLPAPERSLIST=""
 
-	mkdir -p $FRAMES $CONTROLS $META $ICONS $CURSORS
+	mkdir -p "$FRAMES" "$CONTROLS" "$META" "$ICONS" "$CURSORS" "$LOCALWALLPAPERS" "${HOME}/.themes" "${HOME}/.icons"
 }
-
-#//dowallpaper ()
-#{
-#	if [ X"$papers" != "X" ];then
-#		cp "$papers" 
-#}
 
 doarchive ()
 {

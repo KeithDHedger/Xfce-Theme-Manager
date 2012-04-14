@@ -170,6 +170,14 @@ MAIN_DIALOG='
 					</button>
 				</hbox>
 				<hseparator></hseparator>
+				<hbox>
+					<text label="Cursor Size"></text>
+					<spinbutton update-policy="0" range-min="16" range-max="48" >
+						<default>'"$CURSORSIZE"'</default>
+						<variable>cursorsize</variable>
+						<action>xfconf-query -c xsettings -vp /Gtk/CursorThemeSize -s $cursorsize</action>
+					</spinbutton>
+				</hbox>
 			</vbox>
 
 		<variable>mainui</variable>

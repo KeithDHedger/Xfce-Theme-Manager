@@ -1,6 +1,6 @@
 PROGRAM=gtkprev
 SOURCES=main.cpp
-VERSION=0.0.2
+VERSION=0.0.3
 GUI=xfce-theme-manager
 LAUNCHER=Xfce-Theme-Manager.desktop
 
