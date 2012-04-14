@@ -300,7 +300,7 @@ void makeborder(char* folder,char* outframe)
 	min=loadFile(folder,"hide-active");
 	menu=loadFile(folder,"menu-active");
 
-close=makepixbuf(folder,"close-active");
+close=composePixbuf(folder,"close-active");
 
 
 	if (title1!=NULL)
