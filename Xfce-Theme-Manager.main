@@ -14,7 +14,7 @@
 init ()
 {
 	local style=( "Auto" "Centered" "Tiled" "Stretched" "Scaled" "Zoomed" )
-	local imagestyle
+	local imagestyle pos
 
 	GTKDIALOG=gtkdialog
 
@@ -75,6 +75,12 @@ init ()
 	if ! CURSORSIZE=$(xfconf-query -c xsettings -vp /Gtk/CursorThemeSize);then
 		CURSORSIZE=16
 	fi
+
+	declare -A posarray=( ["left"]=0 ["center"]=1 ["right"]=2 )
+
+	pos=$(xfconf-query -c xfwm4 -vp /general/title_alignment)
+	TITLEPOS=( false false false )
+	TITLEPOS[${posarray[$pos]}]=true
 
 	METALIST=""
 	FRAMESLIST=""

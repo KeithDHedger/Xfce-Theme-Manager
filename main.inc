@@ -197,13 +197,19 @@ MAIN_DIALOG='
 				<hbox>
 					<text label="Title Layout"></text>
 					<radiobutton>
-						<label>L</label>
+						<label>Left</label>
+						<default>"'"${TITLEPOS[0]}"'"</default>
+						<action>if true xfconf-query -c xfwm4 -vp /general/title_alignment -s "left"</action>
 					</radiobutton>
 					<radiobutton>
-						<label>C</label>
+						<label>Centre</label>
+						<default>"'"${TITLEPOS[1]}"'"</default>
+						<action>if true xfconf-query -c xfwm4 -vp /general/title_alignment -s "center"</action>
 					</radiobutton>
 					<radiobutton>
-						<label>R</label>
+						<label>Right</label>
+						<default>"'"${TITLEPOS[2]}"'"</default>
+						<action>if true xfconf-query -c xfwm4 -vp /general/title_alignment -s "right"</action>
 					</radiobutton>
 				</hbox>
 			</vbox>
