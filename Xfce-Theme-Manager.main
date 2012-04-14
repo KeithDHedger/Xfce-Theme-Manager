@@ -26,7 +26,7 @@ init ()
 	export OLDCONTROLS=$(xfconf-query -c xsettings -vp /Net/ThemeName)
 	export OLDCURSOR=$(xfconf-query -c xsettings -vp /Gtk/CursorThemeName)
 	export OLDWMFONT=$(xfconf-query -c xfwm4 -vp /general/title_font)
-	export OLDAPPFONT=$(xfconf-query -c xsettings -vp /Gtk/FontName)
+	OLDAPPFONT=$(xfconf-query -c xsettings -vp /Gtk/FontName)
 
 	export -f setframe
 	export -f setcontrols
@@ -88,6 +88,8 @@ init ()
 	ICONSLIST=""
 	CURSORSLIST=""
 	WALLPAPERSLIST=""
+
+	WRITEDIALOG=false
 
 	mkdir -p "$FRAMES" "$CONTROLS" "$META" "$ICONS" "$CURSORS" "$LOCALWALLPAPERS" "${HOME}/.themes" "${HOME}/.icons"
 }
@@ -155,11 +157,7 @@ makemetalist ()
 	local metaname="${1:-'Unknown'}"
 	local pixmap="${META}/${metaname}.png"
 	
-	METALIST=''"${METALIST}"'<button space-expand="false" space-fill="false" image-position="2" relief="2">'
-	METALIST=''"${METALIST}"'<input file>'"$pixmap"'</input>'
-	METALIST=''"${METALIST}"'<label>'"$metaname"'</label>'
-	METALIST=''"${METALIST}"'<action>exec $SHELL -c '"setmetatheme '"$metaname"'"'</action>'
-	METALIST=''"${METALIST}"'</button>'
+	METALIST=''"${METALIST}"'<button space-expand="false" space-fill="false" image-position="2" relief="2"><input file>'"$pixmap"'</input><label>'"$metaname"'</label><action>exec $SHELL -c '"setmetatheme '"$metaname"'"'</action></button>'
 }
 
 makepaperslist ()
@@ -167,12 +165,7 @@ makepaperslist ()
 	local papername="$(basename "$1")"
 	local pixmap="$1"
 	
-	WALLPAPERSLIST=''"${WALLPAPERSLIST}"'<button space-expand="false" space-fill="false" image-position="2" relief="2">'
-	WALLPAPERSLIST=''"${WALLPAPERSLIST}"'<input file>'"$pixmap"'</input><height>64</height>'
-	WALLPAPERSLIST=''"${WALLPAPERSLIST}"'<label>'"$papername"'</label>'
-	WALLPAPERSLIST=''"${WALLPAPERSLIST}"'<action>exec $SHELL -c '"setwallpaper '"$pixmap"'"'</action>'
-	WALLPAPERSLIST=''"${WALLPAPERSLIST}"'<action>refresh:custom</action>'
-	WALLPAPERSLIST=''"${WALLPAPERSLIST}"'</button>'
+	WALLPAPERSLIST=''"${WALLPAPERSLIST}"'<button space-expand="false" space-fill="false" image-position="2" relief="2"><input file>'"$pixmap"'</input><height>64</height><label>'"$papername"'</label><action>exec $SHELL -c '"setwallpaper '"$pixmap"'"'</action><action>refresh:custom</action></button>'
 }
 
 makeframeslist ()
@@ -180,12 +173,7 @@ makeframeslist ()
 	local framename="${1:-'Unknown'}"
 	local pixmap="${FRAMES}/${framename}.png"
 	
-	FRAMESLIST=''"${FRAMESLIST}"'<button space-expand="false" space-fill="false" image-position="2" relief="2">'
-	FRAMESLIST=''"${FRAMESLIST}"'<input file>'"$pixmap"'</input>'
-	FRAMESLIST=''"${FRAMESLIST}"'<label>'"$framename"'</label>'
-	FRAMESLIST=''"${FRAMESLIST}"'<action>exec $SHELL -c '"setframe '"$framename"'"'</action>'
-	FRAMESLIST=''"${FRAMESLIST}"'<action>refresh:custom</action>'
-	FRAMESLIST=''"${FRAMESLIST}"'</button>'
+	FRAMESLIST=''"${FRAMESLIST}"'<button space-expand="false" space-fill="false" image-position="2" relief="2"><input file>'"$pixmap"'</input><label>'"$framename"'</label><action>exec $SHELL -c '"setframe '"$framename"'"'</action><action>refresh:custom</action></button>'
 }
 
 makecontrolslist ()
@@ -193,12 +181,7 @@ makecontrolslist ()
 	local controlname="${1:-'Unknown'}"
 	local pixmap="${CONTROLS}/${controlname}.png"
 
-	CONTROLSLIST=''"${CONTROLSLIST}"'<button space-expand="false" space-fill="false" image-position="2" relief="2">'
-	CONTROLSLIST=''"${CONTROLSLIST}"'<input file>'"$pixmap"'</input>'
-	CONTROLSLIST=''"${CONTROLSLIST}"'<label>'"$controlname"'</label>'
-	CONTROLSLIST=''"${CONTROLSLIST}"'<action>exec $SHELL -c '"setcontrols '"$controlname"'"'</action>'
-	CONTROLSLIST=''"${CONTROLSLIST}"'<action>refresh:custom</action>'
-	CONTROLSLIST=''"${CONTROLSLIST}"'</button>'
+	CONTROLSLIST=''"${CONTROLSLIST}"'<button space-expand="false" space-fill="false" image-position="2" relief="2"><input file>'"$pixmap"'</input><label>'"$controlname"'</label><action>exec $SHELL -c '"setcontrols '"$controlname"'"'</action><action>refresh:custom</action></button>'
 }
 
 makeiconslist ()
@@ -206,12 +189,7 @@ makeiconslist ()
 	local showiconname="${1:-'Unknown'}" iconname="${2:-'Unknown'}"
 	local pixmap="${ICONS}/${showiconname}.png"
 
-	ICONSLIST=''"${ICONSLIST}"'<button space-expand="false" space-fill="false" image-position="2" relief="2">'
-	ICONSLIST=''"${ICONSLIST}"'<input file>'"$pixmap"'</input>'
-	ICONSLIST=''"${ICONSLIST}"'<label>'"$showiconname"'</label>'
-	ICONSLIST=''"${ICONSLIST}"'<action>exec $SHELL -c ''seticons '"\"$iconname\""'''</action>'
-	ICONSLIST=''"${ICONSLIST}"'<action>refresh:custom</action>'
-	ICONSLIST=''"${ICONSLIST}"'</button>'
+	ICONSLIST=''"${ICONSLIST}"'<button space-expand="false" space-fill="false" image-position="2" relief="2"><input file>'"$pixmap"'</input><label>'"$showiconname"'</label><action>exec $SHELL -c ''seticons '"\"$iconname\""'''</action><action>refresh:custom</action></button>'
 }
 
 makecursorslist ()
@@ -219,13 +197,10 @@ makecursorslist ()
 	local showcursorname="${1:-'Unknown'}" cursorname="${2:-'Unknown'}"
 	local pixmap="${CURSORS}/${showcursorname}.png"
 
-	CURSORSLIST=''"${CURSORSLIST}"'<button space-expand="false" space-fill="false" image-position="2" relief="2">'
-	CURSORSLIST=''"${CURSORSLIST}"'<input file>'"$pixmap"'</input>'
-	CURSORSLIST=''"${CURSORSLIST}"'<label>'"$showcursorname"'</label>'
-	CURSORSLIST=''"${CURSORSLIST}"'<action>exec $SHELL -c ''setcursor '"\"$cursorname\""'''</action>'
-	CURSORSLIST=''"${CURSORSLIST}"'<action>refresh:custom</action>'
-	CURSORSLIST=''"${CURSORSLIST}"'</button>'
+	CURSORSLIST=''"${CURSORSLIST}"'<button space-expand="false" space-fill="false" image-position="2" relief="2"><input file>'"$pixmap"'</input><label>'"$showcursorname"'</label><action>exec $SHELL -c ''setcursor '"\"$cursorname\""'''</action><action>refresh:custom</action></button>'
 }
+
+
 
 
 resettheme ()
@@ -333,12 +308,7 @@ makegtknames ()
 
 addcustom ()
 {
-	METALIST='<button space-expand="false" space-fill="false" image-position="2" relief="2">'
-	METALIST=''"${METALIST}"'<variable>custom</variable>'
-	METALIST=''"${METALIST}"'<input file>'"${DB}/custom.png"'</input>'
-	METALIST=''"${METALIST}"'<label>Custom</label>'
-	METALIST=''"${METALIST}"'<action>exec $SHELL -c '"setcustom"'</action>'
-	METALIST=''"${METALIST}"'</button>'
+	METALIST='<button space-expand="false" space-fill="false" image-position="2" relief="2"><variable>custom</variable><input file>'"${DB}/custom.png"'</input><label>Custom</label><action>exec $SHELL -c '"setcustom"'</action></button>'
 }
 
 makethemenames ()
@@ -519,7 +489,8 @@ init
 UPDATEPICS=0
 MAKEPICS=0
 
-if [ X"$1" = "X-m" ] || [ X"$1" = "X-u" ];then
+
+if [ X"$1" = "X-m" ] || [ X"$1" = "X-u" ] || [ ! -e "${DB}/dialogfile" ];then
 
 	doing="Building"
 
@@ -529,7 +500,7 @@ if [ X"$1" = "X-m" ] || [ X"$1" = "X-u" ];then
 		MAKEPICS=0
 	fi
 
-	if [ X"$1" = "X-m" ];then
+	if [ X"$1" = "X-m" ] || [ ! -e "${DB}/dialogfile" ];then
 		removedb
 		UPDATEPICS=0
 		MAKEPICS=1
@@ -540,15 +511,9 @@ if [ X"$1" = "X-m" ] || [ X"$1" = "X-u" ];then
 	makethemenames > >(zenity --title="Xfce Theme Manager" --width=320 --text="$doing Meta Themes DB..." --progress  --no-cancel  --auto-close --pulsate)
 	makeiconnames > >(zenity --title="Xfce Theme Manager" --width=320 --text="$doing Icons DB..." --progress  --no-cancel  --auto-close --pulsate)
 	makecursornames > >(zenity --title="Xfce Theme Manager" --width=320 --text="$doing Cursor DB..." --progress  --no-cancel  --auto-close --pulsate)
-else
-	makegtknames
-	makebordernames
-	makethemenames
-	makeiconnames
-	makecursornames
+	makepapernames
+	WRITEDIALOG=true
 fi
-
-makepapernames
 
 if [ ! -e "${DB}/custom.conf" ];then
 	setcustomicon

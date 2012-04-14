@@ -2,8 +2,12 @@
 main ()
 {
 
-MAIN_DIALOG='
-<window title="Xfce-Theme-Manager" height_request="500" window_position="1">
+	local maindialog
+
+	if [ $WRITEDIALOG = true ];then
+
+	maindialog='
+<window title="Xfce-Theme-Manager" height_request="470" window_position="1">
 	<vbox>
 	<notebook page="0" show-tabs="false" show-border="false" labels="Themes|Advanced"  space-fill="true" space-expand="true">
 
@@ -153,11 +157,11 @@ MAIN_DIALOG='
 				<hbox homogeneous="false" border-width="0">
 					<button border-width="8" space-expand="false" >
 						<label>Reset</label>
-						<action>xfconf-query -c xsettings -vp /Gtk/FontName -s "$OLDAPPFONT"</action>
+						<action>xfconf-query -c xsettings -vp /Gtk/FontName -s "'"$OLDAPPFONT"'"</action>
 						<action>refresh:appfont</action>
 					</button>
 					<entry space-expand="true">
-						<default>'"$OLDAPPFONT"'</default>
+						<default>"'"$OLDAPPFONT"'"</default>
 						<variable>appfont</variable>
 						<input>xfconf-query -c xsettings -vp /Gtk/FontName</input>
 					</entry>
@@ -266,17 +270,12 @@ MAIN_DIALOG='
 	</vbox>
 </window>'
 
-export LANG=en_US
-
-if [ ${#MAIN_DIALOG} -ge 131072 ];then
-	echo "$MAIN_DIALOG" > "/tmp/xfcethememanager$$"
-	unset MAIN_DIALOG
-	$GTKDIALOG --file="/tmp/xfcethememanager$$"
-
-else
-	export MAIN_DIALOG
-	$GTKDIALOG --program=MAIN_DIALOG >/dev/null
+echo "$maindialog" > "${DB}/dialogfile"
+sed -i 's/\t//g' "${DB}/dialogfile"
 fi
+
+export LANG=en_US
+$GTKDIALOG --file="${DB}/dialogfile" >/dev/null
 
 }
 

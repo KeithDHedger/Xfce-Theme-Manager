@@ -62,7 +62,9 @@ Please send them direct to me at: kdhedger@yahoo.co.uk posting them on xfce-look
 
 Changelog:
 
-0.0.8	Added 'Install Theme/Wallpaper' to advanced.
+0.0.8	Tweaked helper app to show render overlays in previews properly.
+	Added Cursor size,title position and button layout to advanced.
+	Added 'Install Theme/Wallpaper' to advanced.
 	Added WM/App font selector to gui and helper app.
 	Moved window brightness/saturation to advanced.
 	Added launch 'Xfce4-Composite-Editor' to advanced.
