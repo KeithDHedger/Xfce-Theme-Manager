@@ -3,7 +3,7 @@ main ()
 {
 
 MAIN_DIALOG='
-<window title="Xfce-Theme-Manager" height_request="480" window_position="1">
+<window title="Xfce-Theme-Manager" height_request="500" window_position="1">
 	<vbox>
 	<notebook page="0" show-tabs="false" show-border="false" labels="Themes|Advanced"  space-fill="true" space-expand="true">
 

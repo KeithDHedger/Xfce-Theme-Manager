@@ -187,7 +187,7 @@ GdkPixbuf * create_gtk_theme_pixbuf(char* name)
 	return retval;
 }
 
-GdkPixbuf * loadFile(char* bordername,const char* name)
+GdkPixbuf* loadFile(char* bordername,const char* name)
 {
 	char	pixmapname[2048];
 	GdkPixbuf* tmpbuf;
@@ -203,6 +203,50 @@ GdkPixbuf * loadFile(char* bordername,const char* name)
 	return(tmpbuf);
 }
 
+static const char* image_types[] = {"svg","png","gif","jpg","bmp",NULL};
+
+GdkPixbuf* makepixbuf(char* bordername,const char* name)
+{
+	char		pixmapname[2048];
+	GdkPixbuf*	tmpbuf;
+	GdkPixbuf*	basepixbuf;
+	GdkPixbuf*	alpha;
+	int		i;
+	gint		width,height;
+
+	sprintf((char*)pixmapname,"%s/xfwm4/%s.xpm",bordername,name);
+	basepixbuf=gdk_pixbuf_new_from_file((char*)pixmapname,NULL);
+	
+	i = 0;
+	alpha = NULL;
+
+	while ((image_types[i]) && (!alpha))
+		{
+			sprintf((char*)pixmapname,"%s/xfwm4/%s.%s",bordername,name,image_types[i]);
+        		if (g_file_test (pixmapname,G_FILE_TEST_IS_REGULAR))
+        			{
+            				alpha=gdk_pixbuf_new_from_file(pixmapname,NULL);
+        			}
+        		++i;
+		}
+/* We have no suitable image to layer on top of the XPM, stop here... */
+	if (!alpha)
+ 			return (basepixbuf);
+
+/* We have no XPM canvas and found a suitable image, use it... */
+    if (!basepixbuf)
+        return (alpha);
+
+	width  = MIN (gdk_pixbuf_get_width (basepixbuf),gdk_pixbuf_get_width (alpha));
+	height = MIN (gdk_pixbuf_get_height (basepixbuf),gdk_pixbuf_get_height (alpha));
+
+	gdk_pixbuf_composite (alpha, basepixbuf, 0, 0, width, height,0, 0, 1.0, 1.0, GDK_INTERP_NEAREST, 0xFF);
+
+	g_object_unref (alpha);
+
+	return basepixbuf;
+
+}
 
 void makeborder(char* folder,char* outframe)
 {
@@ -262,6 +306,9 @@ void makeborder(char* folder,char* outframe)
 	max=loadFile(folder,"maximize-active");
 	min=loadFile(folder,"hide-active");
 	menu=loadFile(folder,"menu-active");
+
+close=makepixbuf(folder,"close-active");
+
 
 	if (title1!=NULL)
 		{
