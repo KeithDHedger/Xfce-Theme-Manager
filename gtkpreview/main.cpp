@@ -781,6 +781,33 @@ void doMeta(GtkWidget* widget,gpointer data)
 	printf("meta -- %s\n",gtk_widget_get_name(widget));
 }
 
+void doControls(GtkWidget* widget,gpointer data)
+{
+
+
+	printf("controls -- %s\n",gtk_widget_get_name(widget));
+}
+
+void doIcons(GtkWidget* widget,gpointer data)
+{
+
+
+	printf("icons -- %s\n",gtk_widget_get_name(widget));
+}
+
+void doCursors(GtkWidget* widget,gpointer data)
+{
+
+
+	printf("cursors -- %s\n",gtk_widget_get_name(widget));
+}
+
+void doWallpapers(GtkWidget* widget,gpointer data)
+{
+
+
+	printf("wallpapers -- %s\n",gtk_widget_get_name(widget));
+}
 
 GtkWidget *imageBox(char* filename,char* text)
 {
@@ -800,72 +827,6 @@ GtkWidget *imageBox(char* filename,char* text)
 	gtk_box_pack_start(GTK_BOX (box),label,FALSE,FALSE,3);
 
 	return box;
-}
-
-void addThemes(GtkWidget* vbox)
-{
-	GtkWidget*	button;
-	GtkWidget*	box;
-
-	char		foldername[4096];
-	const gchar*	entry;
-	GDir*		folder;
-
-	sprintf(foldername,"%s/.themes",getenv("HOME"));
-	folder=g_dir_open(foldername,0,NULL);
-	entry=g_dir_read_name(folder);
-	while(entry!=NULL)
-		{
-			sprintf(foldername,"%s/.themes/%s/xfwm4",getenv("HOME"),entry);
-			if (g_file_test(foldername,G_FILE_TEST_IS_DIR))
-				{
-					sprintf(foldername,"%s/.themes/%s/gtk-2.0",getenv("HOME"),entry);
-					if (g_file_test(foldername,G_FILE_TEST_IS_DIR))
-						{
-							sprintf(foldername,"%s/.config/XfceThemeManager/meta/%s.png",getenv("HOME"),entry);
-							button=gtk_button_new();
-							box=imageBox(foldername,(gchar*)entry);
-							gtk_widget_set_name(button,entry);
-							gtk_button_set_relief((GtkButton*)button,GTK_RELIEF_NONE);
-							gtk_container_add (GTK_CONTAINER (button), box);
-							g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(doFrame),NULL);
-							gtk_box_pack_start((GtkBox*)vbox,button,false,true,4);
-						}
-				}
-			entry=g_dir_read_name(folder);
-		}
-	g_dir_close(folder);
-}
-
-void addFrames(GtkWidget* vbox)
-{
-	GtkWidget*	button;
-	GtkWidget*	box;
-
-	char		foldername[4096];
-	const gchar*	entry;
-	GDir*		folder;
-
-	sprintf(foldername,"%s/.themes",getenv("HOME"));
-	folder=g_dir_open(foldername,0,NULL);
-	entry=g_dir_read_name(folder);
-	while(entry!=NULL)
-		{
-			sprintf(foldername,"%s/.themes/%s/xfwm4",getenv("HOME"),entry);
-			if (g_file_test(foldername,G_FILE_TEST_IS_DIR))
-				{
-					sprintf(foldername,"%s/.config/XfceThemeManager/wmf/%s.png",getenv("HOME"),entry);
-					button=gtk_button_new();
-					box=imageBox(foldername,(gchar*)entry);
-					gtk_widget_set_name(button,entry);
-					gtk_button_set_relief((GtkButton*)button,GTK_RELIEF_NONE);
-					gtk_container_add (GTK_CONTAINER (button), box);
-					g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(doFrame),NULL);
-					gtk_box_pack_start((GtkBox*)vbox,button,false,true,4);
-				}
-			entry=g_dir_read_name(folder);
-		}
-	g_dir_close(folder);
 }
 
 void addButtons(GtkWidget* vbox,const char* subfolder,void* callback)
@@ -927,6 +888,19 @@ int main(int argc,char **argv)
 	GtkWidget*	framesScrollBox;
 	GtkWidget*	framesVbox;
 
+//controls tab
+	GtkWidget*	controlsVbox;
+	GtkWidget*	controlsScrollBox;
+//icons tab
+	GtkWidget*	iconsVbox;
+	GtkWidget*	iconsScrollBox;
+//cursors tab
+	GtkWidget*	cursorsVbox;
+	GtkWidget*	cursorsScrollBox;
+//wallpapers tab
+	GtkWidget*	wallpapersVbox;
+	GtkWidget*	wallpapersScrollBox;
+
 	gtk_init(&argc, &argv);
 
 	window=gtk_window_new(GTK_WINDOW_TOPLEVEL);
@@ -940,16 +914,38 @@ int main(int argc,char **argv)
 //themes vbox
 	themesScrollBox=gtk_scrolled_window_new(NULL,NULL);
 	themesVbox=gtk_vbox_new(FALSE, 0);
-//	addThemes(themesVbox);
 	addButtons(themesVbox,"meta",(void*)doMeta);
 	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)themesScrollBox,themesVbox);
 
 //frames vbox
 	framesScrollBox=gtk_scrolled_window_new(NULL,NULL);
 	framesVbox=gtk_vbox_new(FALSE, 0);
-	//addFrames(framesVbox);
 	addButtons(framesVbox,"wmf",(void*)doFrame);
 	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)framesScrollBox,framesVbox);
+
+//controls vbox
+	controlsScrollBox=gtk_scrolled_window_new(NULL,NULL);
+	controlsVbox=gtk_vbox_new(FALSE, 0);
+	addButtons(controlsVbox,"conts",(void*)doControls);
+	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)controlsScrollBox,controlsVbox);
+
+//icons vbox
+	iconsScrollBox=gtk_scrolled_window_new(NULL,NULL);
+	iconsVbox=gtk_vbox_new(FALSE, 0);
+	addButtons(iconsVbox,"icons",(void*)doIcons);
+	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)iconsScrollBox,iconsVbox);
+
+//cursors
+	cursorsScrollBox=gtk_scrolled_window_new(NULL,NULL);
+	cursorsVbox=gtk_vbox_new(FALSE, 0);
+	addButtons(cursorsVbox,"cursors",(void*)doCursors);
+	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)cursorsScrollBox,cursorsVbox);
+
+//wallpapers
+	wallpapersScrollBox=gtk_scrolled_window_new(NULL,NULL);
+	wallpapersVbox=gtk_vbox_new(FALSE, 0);
+	addButtons(wallpapersVbox,"papers",(void*)doWallpapers);
+	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)wallpapersScrollBox,wallpapersVbox);
 
 //main notebook
 	notebook=(GtkNotebook*)gtk_notebook_new();
@@ -960,6 +956,19 @@ int main(int argc,char **argv)
 
 	label=gtk_label_new("Window Borders");
 	gtk_notebook_append_page(notebook,framesScrollBox,label);
+
+	label=gtk_label_new("Controls");
+	gtk_notebook_append_page(notebook,controlsScrollBox,label);
+
+	label=gtk_label_new("Icons");
+	gtk_notebook_append_page(notebook,iconsScrollBox,label);
+
+	label=gtk_label_new("Cursors");
+	gtk_notebook_append_page(notebook,cursorsScrollBox,label);
+
+	label=gtk_label_new("Wallpapers");
+	gtk_notebook_append_page(notebook,wallpapersScrollBox,label);
+
 
 //add notebook to window
 	gtk_container_add(GTK_CONTAINER(vbox),(GtkWidget*)notebook);
