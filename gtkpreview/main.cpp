@@ -768,11 +768,18 @@ void pickfont(char* currentname)
 
 void doFrame(GtkWidget* widget,gpointer data)
 {
-	char	foldername[4096];
 
-	printf("here -- %s\n",gtk_widget_get_name(widget));
+
+	printf("frame -- %s\n",gtk_widget_get_name(widget));
 }
 
+
+void doMeta(GtkWidget* widget,gpointer data)
+{
+
+
+	printf("meta -- %s\n",gtk_widget_get_name(widget));
+}
 
 
 GtkWidget *imageBox(char* filename,char* text)
@@ -861,7 +868,7 @@ void addFrames(GtkWidget* vbox)
 	g_dir_close(folder);
 }
 
-void addButtons(GtkWidget* vbox,char* subfolder)
+void addButtons(GtkWidget* vbox,const char* subfolder,void* callback)
 {
 	GtkWidget*	button;
 	GtkWidget*	box;
@@ -887,10 +894,10 @@ void addButtons(GtkWidget* vbox,char* subfolder)
 			box=imageBox(foldername,labelname);
 
 			gtk_widget_set_name(button,labelname);
-
 			gtk_button_set_relief((GtkButton*)button,GTK_RELIEF_NONE);
+
 			gtk_container_add (GTK_CONTAINER (button), box);
-			g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(doFrame),NULL);
+			g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(callback),NULL);
 			gtk_box_pack_start((GtkBox*)vbox,button,false,true,4);
 			entry=g_dir_read_name(folder);
 		}
@@ -934,14 +941,14 @@ int main(int argc,char **argv)
 	themesScrollBox=gtk_scrolled_window_new(NULL,NULL);
 	themesVbox=gtk_vbox_new(FALSE, 0);
 //	addThemes(themesVbox);
-	addButtons(themesVbox,"meta");
+	addButtons(themesVbox,"meta",(void*)doMeta);
 	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)themesScrollBox,themesVbox);
 
 //frames vbox
 	framesScrollBox=gtk_scrolled_window_new(NULL,NULL);
 	framesVbox=gtk_vbox_new(FALSE, 0);
 	//addFrames(framesVbox);
-	addButtons(framesVbox,"wmf");
+	addButtons(framesVbox,"wmf",(void*)doFrame);
 	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)framesScrollBox,framesVbox);
 
 //main notebook
