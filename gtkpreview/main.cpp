@@ -805,8 +805,13 @@ void doCursors(GtkWidget* widget,gpointer data)
 void doWallpapers(GtkWidget* widget,gpointer data)
 {
 
+	char		filename[4096];
+	const char*	xconf="xfconf-query -nRt string -c xfce4-desktop -vp /backdrop/screen0/monitor0/image-path -s";
 
+	sprintf(filename,"%s \"%s/.local/share/xfce4/backdrops/%s.jpg\"",xconf,getenv("HOME"),gtk_widget_get_name(widget));
 	printf("wallpapers -- %s\n",gtk_widget_get_name(widget));
+	printf("wallpapers +++ %s\n",filename);
+	system(filename);
 }
 
 GtkWidget *imageBox(char* filename,char* text)
