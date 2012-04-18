@@ -764,6 +764,45 @@ void pickfont(char* currentname)
 	return;
 }
 
+void shutdown(GtkWidget* window,gpointer data)
+{
+	gtk_main_quit();
+}
+
+
+int main(int argc,char **argv)
+{
+	GtkWidget*	window;
+	GtkWidget*	vbox;
+	GtkNotebook*	notebook;
+	GtkWidget*	button;
+	GtkWidget*	label;
+
+	gtk_init(&argc, &argv);
+
+
+	window=gtk_window_new(GTK_WINDOW_TOPLEVEL);
+	gtk_window_set_default_size((GtkWindow*)window,200,470);
+	g_signal_connect_after(G_OBJECT(window),"destroy",G_CALLBACK(shutdown),NULL);
+
+	vbox=gtk_vbox_new(FALSE, 0);
+	gtk_container_add(GTK_CONTAINER(window),vbox);
+
+	notebook=(GtkNotebook*)gtk_notebook_new();
+	button=gtk_button_new_with_label("button1");
+	label=gtk_label_new("Themes");
+	gtk_notebook_append_page(notebook,button,label);
+	button=gtk_button_new_with_label("button2");
+	label=gtk_label_new("Window Borders");
+	gtk_notebook_append_page(notebook,button,label);
+
+	gtk_container_add(GTK_CONTAINER(vbox),(GtkWidget*)notebook);
+	
+	gtk_widget_show_all(window);
+	gtk_main();
+
+}
+
 //gtkprev [border] /path/to/border /out/path/to/png
 //gtkprev [controls] gtkthemename /out/path/to/png
 //gtkprev [theme] gtkthemename /path/to/border /out/path/to/png
@@ -772,7 +811,7 @@ void pickfont(char* currentname)
 //gtkprev [custom] gtkthemename cursortheme icontheme /path/to/border /out/path/to/png
 //gtkprev [fontpicker] "fontname"
 
-int main(int argc,char **argv)
+int mainx(int argc,char **argv)
 {		
 	gtkPixbuf=NULL;
 	struct stat st;
