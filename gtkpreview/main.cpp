@@ -24,6 +24,8 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <X11/Xcursor/Xcursor.h>
+#include <glib/gstdio.h>
+//#include <glib/gdir.h>
 
 #define PADWIDTH 72
 #define MAXBOXWIDTH 240
@@ -764,6 +766,66 @@ void pickfont(char* currentname)
 	return;
 }
 
+void doFrame(GtkWidget* widget,gpointer data)
+{
+	char	foldername[4096];
+
+	printf("here -- %s\n",gtk_widget_get_name(widget));
+}
+
+
+
+GtkWidget *imageBox(gchar* filename,gchar* text)
+{
+	GtkWidget*	box;
+	GtkWidget*	label;
+	GtkWidget*	image;
+
+    /* Create box for image and label */
+	box=gtk_vbox_new(FALSE, 0);
+	gtk_container_set_border_width(GTK_CONTAINER (box), 2);
+
+	image=gtk_image_new_from_file(filename);
+	label=gtk_label_new(text);
+
+    /* Pack the image and label into the box */
+	gtk_box_pack_start(GTK_BOX (box),image,FALSE,FALSE,3);
+	gtk_box_pack_start(GTK_BOX (box),label,FALSE,FALSE,3);
+
+	return box;
+}
+
+void addFrames(GtkWidget* vbox)
+{
+	GtkWidget*	button;
+	GtkWidget*	box;
+
+	char		foldername[4096];
+	const gchar*	entry;
+	GDir*		folder;
+
+	sprintf(foldername,"%s/.themes",getenv("HOME"));
+	folder=g_dir_open(foldername,0,NULL);
+	entry=g_dir_read_name(folder);
+	while(entry!=NULL)
+		{
+			sprintf(foldername,"%s/.themes/%s/xfwm4",getenv("HOME"),entry);
+			if (g_file_test(foldername,G_FILE_TEST_IS_DIR))
+				{
+					sprintf(foldername,"%s/.config/XfceThemeManager/wmf/%s.png",getenv("HOME"),entry);
+					button=gtk_button_new();
+					box=imageBox(foldername,(gchar*)entry);
+					gtk_widget_set_name(button,entry);
+					gtk_button_set_relief((GtkButton*)button,GTK_RELIEF_NONE);
+					gtk_container_add (GTK_CONTAINER (button), box);
+					g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(doFrame),NULL);
+					gtk_box_pack_start((GtkBox*)vbox,button,false,true,4);
+				}
+			entry=g_dir_read_name(folder);
+		}
+	g_dir_close(folder);
+}
+
 void shutdown(GtkWidget* window,gpointer data)
 {
 	gtk_main_quit();
@@ -772,30 +834,49 @@ void shutdown(GtkWidget* window,gpointer data)
 
 int main(int argc,char **argv)
 {
-	GtkWidget*	window;
-	GtkWidget*	vbox;
-	GtkNotebook*	notebook;
-	GtkWidget*	button;
-	GtkWidget*	label;
+	GtkWidget*		window;
+	GtkWidget*		vbox;
+	GtkNotebook*		notebook;
+
+	GtkWidget*		label;
+
+//themes tab
+	GtkWidget*		themesVbox;
+
+//frames tab
+	GtkWidget*	scrollBox;
+	GtkWidget*	framesVbox;
 
 	gtk_init(&argc, &argv);
 
-
 	window=gtk_window_new(GTK_WINDOW_TOPLEVEL);
-	gtk_window_set_default_size((GtkWindow*)window,200,470);
+	gtk_window_set_default_size((GtkWindow*)window,400,470);
 	g_signal_connect_after(G_OBJECT(window),"destroy",G_CALLBACK(shutdown),NULL);
 
+//main window vbox
 	vbox=gtk_vbox_new(FALSE, 0);
-	gtk_container_add(GTK_CONTAINER(window),vbox);
+	gtk_container_add(GTK_CONTAINER(window),(GtkWidget*)vbox);
 
+//themes vbox
+	themesVbox=gtk_vbox_new(FALSE, 0);
+
+//frames vbox
+	scrollBox=gtk_scrolled_window_new(NULL,NULL);
+	framesVbox=gtk_vbox_new(FALSE, 0);
+	addFrames(framesVbox);
+	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)scrollBox,framesVbox);
+
+//main notebook
 	notebook=(GtkNotebook*)gtk_notebook_new();
-	button=gtk_button_new_with_label("button1");
-	label=gtk_label_new("Themes");
-	gtk_notebook_append_page(notebook,button,label);
-	button=gtk_button_new_with_label("button2");
-	label=gtk_label_new("Window Borders");
-	gtk_notebook_append_page(notebook,button,label);
 
+//pages
+	label=gtk_label_new("Themes");
+	gtk_notebook_append_page(notebook,themesVbox,label);
+
+	label=gtk_label_new("Window Borders");
+	gtk_notebook_append_page(notebook,scrollBox,label);
+
+//add notebook to window
 	gtk_container_add(GTK_CONTAINER(vbox),(GtkWidget*)notebook);
 	
 	gtk_widget_show_all(window);
