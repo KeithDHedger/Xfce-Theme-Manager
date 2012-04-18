@@ -34,7 +34,9 @@
 #define XCONFIMAGESTYLE "xfconf-query -nRt int -c xfce4-desktop -vp /backdrop/screen0/monitor0/image-style -s "
 #define XCONFIMAGEBRIGHT "xfconf-query -nRt int -c xfce4-desktop -vp /backdrop/screen0/monitor0/brightness -s "
 #define XCONFIMAGESATU "xfconf-query -nRt double -c xfce4-desktop -vp /backdrop/screen0/monitor0/saturation -s "
-#define XCONFIMAGEPATH "xfconf-query -nRt string -c xfce4-desktop -vp /backdrop/screen0/monitor0/image-path -s"
+#define XCONFIMAGEPATH "xfconf-query -nRt string -c xfce4-desktop -vp /backdrop/screen0/monitor0/image-path -s "
+
+#define XCONFFRAME "xfconf-query -nRt string -c xfwm4 -vp /general/theme -s "
 
 int		button_offset,button_spacing;
 GdkPixbuf*	gtkPixbuf;
@@ -775,6 +777,10 @@ void pickfont(char* currentname)
 void doFrame(GtkWidget* widget,gpointer data)
 {
 
+	char		command[4096];
+
+	sprintf(command,"%s\"%s\"",XCONFFRAME,gtk_widget_get_name(widget));
+	system(command);
 
 	printf("frame -- %s\n",gtk_widget_get_name(widget));
 }
@@ -789,6 +795,11 @@ void doMeta(GtkWidget* widget,gpointer data)
 
 void doControls(GtkWidget* widget,gpointer data)
 {
+
+	char		command[4096];
+
+	sprintf(command,"%s%i",XCONFIMAGESTYLE,wallStyle);
+	system(command);
 
 
 	printf("controls -- %s\n",gtk_widget_get_name(widget));
@@ -862,7 +873,7 @@ GtkWidget *imageBox(char* filename,char* text)
 	return box;
 }
 
-void addButtons(GtkWidget* vbox,const char* subfolder,void* callback)
+void addButtons(GtkWidget* vbox,const char* subfolder,void* callback,bool uselabel)
 {
 	GtkWidget*	button;
 	GtkWidget*	box;
@@ -887,7 +898,11 @@ void addButtons(GtkWidget* vbox,const char* subfolder,void* callback)
 
 			box=imageBox(foldername,labelname);
 
-			gtk_widget_set_name(button,entry);
+			if (uselabel==true)
+				gtk_widget_set_name(button,labelname);
+			else
+				gtk_widget_set_name(button,entry);
+
 			gtk_button_set_relief((GtkButton*)button,GTK_RELIEF_NONE);
 
 			gtk_container_add (GTK_CONTAINER (button), box);
@@ -961,31 +976,31 @@ int main(int argc,char **argv)
 //themes vbox
 	themesScrollBox=gtk_scrolled_window_new(NULL,NULL);
 	themesVbox=gtk_vbox_new(FALSE, 0);
-	addButtons(themesVbox,"meta",(void*)doMeta);
+	addButtons(themesVbox,"meta",(void*)doMeta,true);
 	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)themesScrollBox,themesVbox);
 
 //frames vbox
 	framesScrollBox=gtk_scrolled_window_new(NULL,NULL);
 	framesVbox=gtk_vbox_new(FALSE, 0);
-	addButtons(framesVbox,"wmf",(void*)doFrame);
+	addButtons(framesVbox,"wmf",(void*)doFrame,true);
 	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)framesScrollBox,framesVbox);
 
 //controls vbox
 	controlsScrollBox=gtk_scrolled_window_new(NULL,NULL);
 	controlsVbox=gtk_vbox_new(FALSE, 0);
-	addButtons(controlsVbox,"conts",(void*)doControls);
+	addButtons(controlsVbox,"conts",(void*)doControls,true);
 	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)controlsScrollBox,controlsVbox);
 
 //icons vbox
 	iconsScrollBox=gtk_scrolled_window_new(NULL,NULL);
 	iconsVbox=gtk_vbox_new(FALSE, 0);
-	addButtons(iconsVbox,"icons",(void*)doIcons);
+	addButtons(iconsVbox,"icons",(void*)doIcons,true);
 	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)iconsScrollBox,iconsVbox);
 
 //cursors
 	cursorsScrollBox=gtk_scrolled_window_new(NULL,NULL);
 	cursorsVbox=gtk_vbox_new(FALSE, 0);
-	addButtons(cursorsVbox,"cursors",(void*)doCursors);
+	addButtons(cursorsVbox,"cursors",(void*)doCursors,true);
 	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)cursorsScrollBox,cursorsVbox);
 
 //wallpapers
@@ -993,7 +1008,7 @@ int main(int argc,char **argv)
 
 	vgbox=gtk_scrolled_window_new(NULL,NULL);
 	wallpapersVbox=gtk_vbox_new(FALSE, 0);
-	addButtons(wallpapersVbox,"papers",(void*)doWallpapers);
+	addButtons(wallpapersVbox,"papers",(void*)doWallpapers,false);
 
 	combo=(GtkComboBoxText*)gtk_combo_box_text_new();
 	gtk_combo_box_text_append_text(combo,"Auto");
