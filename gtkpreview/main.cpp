@@ -25,12 +25,16 @@
 #include <unistd.h>
 #include <X11/Xcursor/Xcursor.h>
 #include <glib/gstdio.h>
-//#include <glib/gdir.h>
 
 #define PADWIDTH 72
 #define MAXBOXWIDTH 240
 #define ICONSIZE 32
 #define ICONPAD 8
+
+#define XCONFIMAGESTYLE "xfconf-query -nRt int -c xfce4-desktop -vp /backdrop/screen0/monitor0/image-style -s "
+#define XCONFIMAGEBRIGHT "xfconf-query -nRt int -c xfce4-desktop -vp /backdrop/screen0/monitor0/brightness -s "
+#define XCONFIMAGESATU "xfconf-query -nRt double -c xfce4-desktop -vp /backdrop/screen0/monitor0/saturation -s "
+#define XCONFIMAGEPATH "xfconf-query -nRt string -c xfce4-desktop -vp /backdrop/screen0/monitor0/image-path -s"
 
 int		button_offset,button_spacing;
 GdkPixbuf*	gtkPixbuf;
@@ -804,24 +808,15 @@ void doCursors(GtkWidget* widget,gpointer data)
 	printf("cursors -- %s\n",gtk_widget_get_name(widget));
 }
 
-/*
-setimagestyle ()
-{
-	declare -A imagearray=( ["Auto"]=0 ["Centered"]=1 ["Tiled"]=2 ["Stretched"]=3 ["Scaled"]=4 ["Zoomed"]=5 )
-
-	xfconf-query -nRt "int" -c xfce4-desktop -vp /backdrop/screen0/monitor0/image-style -s ${imagearray[$imagestyle]}
-	xfconf-query -nRt "int" -c xfce4-desktop -vp /backdrop/screen0/monitor0/brightness -s  $imagebright
-	xfconf-query -nRt "double" -c xfce4-desktop -vp /backdrop/screen0/monitor0/saturation -s  $imagesat
-}
-
-
-*/
+//*******************************************************************
+//
+//	WALPAPERS
+//
 void setWallStyle()
 {
 	char		command[4096];
 
-	const char*	imagestyle="xfconf-query -nRt int -c xfce4-desktop -vp /backdrop/screen0/monitor0/image-style -s ";
-	sprintf(command,"%s%i",imagestyle,wallStyle);
+	sprintf(command,"%s%i",XCONFIMAGESTYLE,wallStyle);
 	system(command);
 }
 
@@ -829,25 +824,23 @@ void wallStyleChanged(GtkWidget* widget,gpointer data)
 {
 	wallStyle=gtk_combo_box_get_active((GtkComboBox*)widget);
 	setWallStyle();
-	printf("%i\n",wallStyle);
-	
 }
 
 void doWallpapers(GtkWidget* widget,gpointer data)
 {
 
 	char		filename[4096];
-	const char*	xconf="xfconf-query -nRt string -c xfce4-desktop -vp /backdrop/screen0/monitor0/image-path -s";
 
 	sprintf(filename,"%s/.local/share/xfce4/backdrops/%s",getenv("HOME"),gtk_widget_get_name(widget));
 	if (g_file_test(filename,G_FILE_TEST_EXISTS))
 		{
-			sprintf(filename,"%s \"%s/.local/share/xfce4/backdrops/%s\"",xconf,getenv("HOME"),gtk_widget_get_name(widget));
+			sprintf(filename,"%s \"%s/.local/share/xfce4/backdrops/%s\"",XCONFIMAGEPATH,getenv("HOME"),gtk_widget_get_name(widget));
 			system(filename);
 			return;
 		}
-
 }
+//
+//*******************************************************************
 
 GtkWidget *imageBox(char* filename,char* text)
 {
