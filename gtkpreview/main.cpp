@@ -37,6 +37,8 @@
 #define XCONFIMAGEPATH "xfconf-query -nRt string -c xfce4-desktop -vp /backdrop/screen0/monitor0/image-path -s "
 
 #define XCONFFRAME "xfconf-query -nRt string -c xfwm4 -vp /general/theme -s "
+#define XCONFCONTROLS "xfconf-query -nRt string -c xsettings -vp /Net/ThemeName -s "
+#define XCONFICONS "xfconf-query -nRt string -c xsettings -vp /Net/IconThemeName -s "
 
 int		button_offset,button_spacing;
 GdkPixbuf*	gtkPixbuf;
@@ -773,18 +775,19 @@ void pickfont(char* currentname)
 
 	return;
 }
-
+//*******************************************************************
+//
+//	FRAMES
+//
 void doFrame(GtkWidget* widget,gpointer data)
 {
-
 	char		command[4096];
 
 	sprintf(command,"%s\"%s\"",XCONFFRAME,gtk_widget_get_name(widget));
 	system(command);
-
-	printf("frame -- %s\n",gtk_widget_get_name(widget));
 }
-
+//
+//*******************************************************************
 
 void doMeta(GtkWidget* widget,gpointer data)
 {
@@ -793,24 +796,36 @@ void doMeta(GtkWidget* widget,gpointer data)
 	printf("meta -- %s\n",gtk_widget_get_name(widget));
 }
 
+//*******************************************************************
+//
+//	CONTROLS
+//
 void doControls(GtkWidget* widget,gpointer data)
 {
-
 	char		command[4096];
 
-	sprintf(command,"%s%i",XCONFIMAGESTYLE,wallStyle);
+	sprintf(command,"%s\"%s\"",XCONFCONTROLS,gtk_widget_get_name(widget));
 	system(command);
-
-
-	printf("controls -- %s\n",gtk_widget_get_name(widget));
 }
+//
+//*******************************************************************
+
+//*******************************************************************
+//
+//	ICONS
+//
 
 void doIcons(GtkWidget* widget,gpointer data)
 {
+	char		command[4096];
 
-
-	printf("icons -- %s\n",gtk_widget_get_name(widget));
+	sprintf(command,"%s\"%s\"",XCONFICONS,gtk_widget_get_name(widget));
+	system(command);
+	system("xfdesktop --reload");
+	printf ("%s\n",command);
 }
+//
+//*******************************************************************
 
 void doCursors(GtkWidget* widget,gpointer data)
 {
