@@ -775,7 +775,7 @@ void doFrame(GtkWidget* widget,gpointer data)
 
 
 
-GtkWidget *imageBox(gchar* filename,gchar* text)
+GtkWidget *imageBox(char* filename,char* text)
 {
 	GtkWidget*	box;
 	GtkWidget*	label;
@@ -861,6 +861,43 @@ void addFrames(GtkWidget* vbox)
 	g_dir_close(folder);
 }
 
+void addButtons(GtkWidget* vbox,char* subfolder)
+{
+	GtkWidget*	button;
+	GtkWidget*	box;
+
+	char		foldername[4096];
+	char		labelname[4096];
+	const gchar*	entry;
+	GDir*		folder;
+	int		entrylen;
+
+	sprintf(foldername,"%s/.config/XfceThemeManager/%s",getenv("HOME"),subfolder);
+	folder=g_dir_open(foldername,0,NULL);
+	entry=g_dir_read_name(folder);
+	while(entry!=NULL)
+		{
+			sprintf(foldername,"%s/.config/XfceThemeManager/%s/%s",getenv("HOME"),subfolder,entry);
+			button=gtk_button_new();
+
+			entrylen=strlen(entry)-4;
+			sprintf(labelname,"%s",entry);
+			labelname[entrylen]=0;
+
+			box=imageBox(foldername,labelname);
+
+			gtk_widget_set_name(button,labelname);
+
+			gtk_button_set_relief((GtkButton*)button,GTK_RELIEF_NONE);
+			gtk_container_add (GTK_CONTAINER (button), box);
+			g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(doFrame),NULL);
+			gtk_box_pack_start((GtkBox*)vbox,button,false,true,4);
+			entry=g_dir_read_name(folder);
+		}
+	g_dir_close(folder);
+
+}
+
 void shutdown(GtkWidget* window,gpointer data)
 {
 	gtk_main_quit();
@@ -896,13 +933,15 @@ int main(int argc,char **argv)
 //themes vbox
 	themesScrollBox=gtk_scrolled_window_new(NULL,NULL);
 	themesVbox=gtk_vbox_new(FALSE, 0);
-	addThemes(themesVbox);
+//	addThemes(themesVbox);
+	addButtons(themesVbox,"meta");
 	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)themesScrollBox,themesVbox);
 
 //frames vbox
 	framesScrollBox=gtk_scrolled_window_new(NULL,NULL);
 	framesVbox=gtk_vbox_new(FALSE, 0);
-	addFrames(framesVbox);
+	//addFrames(framesVbox);
+	addButtons(framesVbox,"wmf");
 	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)framesScrollBox,framesVbox);
 
 //main notebook
