@@ -40,6 +40,8 @@ int		gtkheight=50;
 char		cursortheme[2048];
 char		icontheme[2048];
 
+int		wallStyle=0;
+
 bool itemExists(char* folder,const char* item)
 {
 	char	buffer[4096];
@@ -802,16 +804,49 @@ void doCursors(GtkWidget* widget,gpointer data)
 	printf("cursors -- %s\n",gtk_widget_get_name(widget));
 }
 
+/*
+setimagestyle ()
+{
+	declare -A imagearray=( ["Auto"]=0 ["Centered"]=1 ["Tiled"]=2 ["Stretched"]=3 ["Scaled"]=4 ["Zoomed"]=5 )
+
+	xfconf-query -nRt "int" -c xfce4-desktop -vp /backdrop/screen0/monitor0/image-style -s ${imagearray[$imagestyle]}
+	xfconf-query -nRt "int" -c xfce4-desktop -vp /backdrop/screen0/monitor0/brightness -s  $imagebright
+	xfconf-query -nRt "double" -c xfce4-desktop -vp /backdrop/screen0/monitor0/saturation -s  $imagesat
+}
+
+
+*/
+void setWallStyle()
+{
+	char		command[4096];
+
+	const char*	imagestyle="xfconf-query -nRt int -c xfce4-desktop -vp /backdrop/screen0/monitor0/image-style -s ";
+	sprintf(command,"%s%i",imagestyle,wallStyle);
+	system(command);
+}
+
+void wallStyleChanged(GtkWidget* widget,gpointer data)
+{
+	wallStyle=gtk_combo_box_get_active((GtkComboBox*)widget);
+	setWallStyle();
+	printf("%i\n",wallStyle);
+	
+}
+
 void doWallpapers(GtkWidget* widget,gpointer data)
 {
 
 	char		filename[4096];
 	const char*	xconf="xfconf-query -nRt string -c xfce4-desktop -vp /backdrop/screen0/monitor0/image-path -s";
 
-	sprintf(filename,"%s \"%s/.local/share/xfce4/backdrops/%s.jpg\"",xconf,getenv("HOME"),gtk_widget_get_name(widget));
-	printf("wallpapers -- %s\n",gtk_widget_get_name(widget));
-	printf("wallpapers +++ %s\n",filename);
-	system(filename);
+	sprintf(filename,"%s/.local/share/xfce4/backdrops/%s",getenv("HOME"),gtk_widget_get_name(widget));
+	if (g_file_test(filename,G_FILE_TEST_EXISTS))
+		{
+			sprintf(filename,"%s \"%s/.local/share/xfce4/backdrops/%s\"",xconf,getenv("HOME"),gtk_widget_get_name(widget));
+			system(filename);
+			return;
+		}
+
 }
 
 GtkWidget *imageBox(char* filename,char* text)
@@ -859,7 +894,7 @@ void addButtons(GtkWidget* vbox,const char* subfolder,void* callback)
 
 			box=imageBox(foldername,labelname);
 
-			gtk_widget_set_name(button,labelname);
+			gtk_widget_set_name(button,entry);
 			gtk_button_set_relief((GtkButton*)button,GTK_RELIEF_NONE);
 
 			gtk_container_add (GTK_CONTAINER (button), box);
@@ -876,6 +911,15 @@ void shutdown(GtkWidget* window,gpointer data)
 	gtk_main_quit();
 }
 
+void init(void)
+{
+	gchar	*stdout;
+
+	g_spawn_command_line_sync("xfconf-query -c xfce4-desktop -vp /backdrop/screen0/monitor0/image-style",&stdout,NULL,NULL,NULL);
+	stdout[strlen(stdout)-1]=0;
+	wallStyle=atol(stdout);
+	g_free(stdout);
+}
 
 int main(int argc,char **argv)
 {
@@ -905,8 +949,13 @@ int main(int argc,char **argv)
 //wallpapers tab
 	GtkWidget*	wallpapersVbox;
 	GtkWidget*	wallpapersScrollBox;
+	GtkComboBoxText* combo;
+//general
+	GtkWidget*	vgbox;
 
 	gtk_init(&argc, &argv);
+
+	init();
 
 	window=gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_default_size((GtkWindow*)window,400,470);
@@ -947,10 +996,25 @@ int main(int argc,char **argv)
 	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)cursorsScrollBox,cursorsVbox);
 
 //wallpapers
-	wallpapersScrollBox=gtk_scrolled_window_new(NULL,NULL);
+	wallpapersScrollBox=gtk_vbox_new(FALSE, 0);
+
+	vgbox=gtk_scrolled_window_new(NULL,NULL);
 	wallpapersVbox=gtk_vbox_new(FALSE, 0);
 	addButtons(wallpapersVbox,"papers",(void*)doWallpapers);
-	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)wallpapersScrollBox,wallpapersVbox);
+
+	combo=(GtkComboBoxText*)gtk_combo_box_text_new();
+	gtk_combo_box_text_append_text(combo,"Auto");
+	gtk_combo_box_text_append_text(combo,"Centered");
+	gtk_combo_box_text_append_text(combo,"Tiled");
+	gtk_combo_box_text_append_text(combo,"Stretched");
+	gtk_combo_box_text_append_text(combo,"Scaled");
+	gtk_combo_box_text_append_text(combo,"Zoomed");
+	gtk_combo_box_set_active((GtkComboBox*)combo,wallStyle);
+	g_signal_connect_after(G_OBJECT(combo),"changed",G_CALLBACK(wallStyleChanged),NULL);
+
+	gtk_box_pack_start((GtkBox*)wallpapersScrollBox,(GtkWidget*)combo,false,true,4);
+	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)vgbox,wallpapersVbox);
+	gtk_container_add (GTK_CONTAINER (wallpapersScrollBox), vgbox);
 
 //main notebook
 	notebook=(GtkNotebook*)gtk_notebook_new();
