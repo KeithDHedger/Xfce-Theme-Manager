@@ -795,6 +795,41 @@ GtkWidget *imageBox(gchar* filename,gchar* text)
 	return box;
 }
 
+void addThemes(GtkWidget* vbox)
+{
+	GtkWidget*	button;
+	GtkWidget*	box;
+
+	char		foldername[4096];
+	const gchar*	entry;
+	GDir*		folder;
+
+	sprintf(foldername,"%s/.themes",getenv("HOME"));
+	folder=g_dir_open(foldername,0,NULL);
+	entry=g_dir_read_name(folder);
+	while(entry!=NULL)
+		{
+			sprintf(foldername,"%s/.themes/%s/xfwm4",getenv("HOME"),entry);
+			if (g_file_test(foldername,G_FILE_TEST_IS_DIR))
+				{
+					sprintf(foldername,"%s/.themes/%s/gtk-2.0",getenv("HOME"),entry);
+					if (g_file_test(foldername,G_FILE_TEST_IS_DIR))
+						{
+							sprintf(foldername,"%s/.config/XfceThemeManager/meta/%s.png",getenv("HOME"),entry);
+							button=gtk_button_new();
+							box=imageBox(foldername,(gchar*)entry);
+							gtk_widget_set_name(button,entry);
+							gtk_button_set_relief((GtkButton*)button,GTK_RELIEF_NONE);
+							gtk_container_add (GTK_CONTAINER (button), box);
+							g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(doFrame),NULL);
+							gtk_box_pack_start((GtkBox*)vbox,button,false,true,4);
+						}
+				}
+			entry=g_dir_read_name(folder);
+		}
+	g_dir_close(folder);
+}
+
 void addFrames(GtkWidget* vbox)
 {
 	GtkWidget*	button;
@@ -842,7 +877,7 @@ int main(int argc,char **argv)
 
 //themes tab
 	GtkWidget*	themesVbox;
-	GtkWidget*	themesScrollBox
+	GtkWidget*	themesScrollBox;
 
 //frames tab
 	GtkWidget*	framesScrollBox;
@@ -859,7 +894,10 @@ int main(int argc,char **argv)
 	gtk_container_add(GTK_CONTAINER(window),(GtkWidget*)vbox);
 
 //themes vbox
+	themesScrollBox=gtk_scrolled_window_new(NULL,NULL);
 	themesVbox=gtk_vbox_new(FALSE, 0);
+	addThemes(themesVbox);
+	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)themesScrollBox,themesVbox);
 
 //frames vbox
 	framesScrollBox=gtk_scrolled_window_new(NULL,NULL);
@@ -872,10 +910,10 @@ int main(int argc,char **argv)
 
 //pages
 	label=gtk_label_new("Themes");
-	gtk_notebook_append_page(notebook,themesVbox,label);
+	gtk_notebook_append_page(notebook,themesScrollBox,label);
 
 	label=gtk_label_new("Window Borders");
-	gtk_notebook_append_page(notebook,scrollBox,label);
+	gtk_notebook_append_page(notebook,framesScrollBox,label);
 
 //add notebook to window
 	gtk_container_add(GTK_CONTAINER(vbox),(GtkWidget*)notebook);
