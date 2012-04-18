@@ -834,17 +834,18 @@ void shutdown(GtkWidget* window,gpointer data)
 
 int main(int argc,char **argv)
 {
-	GtkWidget*		window;
-	GtkWidget*		vbox;
-	GtkNotebook*		notebook;
+	GtkWidget*	window;
+	GtkWidget*	vbox;
+	GtkNotebook*	notebook;
 
-	GtkWidget*		label;
+	GtkWidget*	label;
 
 //themes tab
-	GtkWidget*		themesVbox;
+	GtkWidget*	themesVbox;
+	GtkWidget*	themesScrollBox
 
 //frames tab
-	GtkWidget*	scrollBox;
+	GtkWidget*	framesScrollBox;
 	GtkWidget*	framesVbox;
 
 	gtk_init(&argc, &argv);
@@ -861,10 +862,10 @@ int main(int argc,char **argv)
 	themesVbox=gtk_vbox_new(FALSE, 0);
 
 //frames vbox
-	scrollBox=gtk_scrolled_window_new(NULL,NULL);
+	framesScrollBox=gtk_scrolled_window_new(NULL,NULL);
 	framesVbox=gtk_vbox_new(FALSE, 0);
 	addFrames(framesVbox);
-	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)scrollBox,framesVbox);
+	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)framesScrollBox,framesVbox);
 
 //main notebook
 	notebook=(GtkNotebook*)gtk_notebook_new();
