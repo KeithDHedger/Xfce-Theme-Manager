@@ -596,7 +596,7 @@ void getspace(char* folder)
 
 	if (fp==NULL)
 		{
-			printf("No themerc file... %s\n",filename);
+			//printf("No themerc file... %s\n",filename);
 			button_offset=0;
 			button_spacing=2;
 			return;
