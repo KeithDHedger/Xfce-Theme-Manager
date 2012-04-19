@@ -25,6 +25,7 @@
 #include <unistd.h>
 #include <X11/Xcursor/Xcursor.h>
 #include <glib/gstdio.h>
+#include <fcntl.h>
 
 #define PADWIDTH 72
 #define MAXBOXWIDTH 240
@@ -40,6 +41,8 @@
 #define XCONFCONTROLS "xfconf-query -nRt string -c xsettings -vp /Net/ThemeName -s "
 #define XCONFICONS "xfconf-query -nRt string -c xsettings -vp /Net/IconThemeName -s "
 
+#define GLOBALICONS "/usr/share/icons";
+
 int		button_offset,button_spacing;
 GdkPixbuf*	gtkPixbuf;
 int		boxhite=90;
@@ -47,6 +50,15 @@ int		gtkwidth=200;
 int		gtkheight=50;
 char		cursortheme[2048];
 char		icontheme[2048];
+char		localIcons[4096];
+
+//db
+char		metaFolder[4096];
+char		framesFolder[4096];
+char		controlsFolder[4096];
+char		iconsFolder[4096];
+char		cursorsFolder[4096];
+char		wallpapersFolder[4096];
 
 int		wallStyle=0;
 
@@ -894,7 +906,7 @@ void addNewButtons(GtkWidget* vbox,const char* subfolder,void* callback)
 	char		filename[4096];
 	const gchar*	entry;
 	GDir*		folder;
-	GKeyFile*	keyfile=g_key_file_new();;
+	GKeyFile*	keyfile=g_key_file_new();
 	char*		name;
 	char*		set;
 	char*		thumb;
@@ -915,9 +927,8 @@ void addNewButtons(GtkWidget* vbox,const char* subfolder,void* callback)
 									name=g_key_file_get_string(keyfile,"Icons","Name",NULL);
 									set=g_key_file_get_string(keyfile,"Icons","Iconset",NULL);
 									thumb=g_key_file_get_string(keyfile,"Icons","Thumbnail",NULL);
-									sprintf(filename,"%s/.config/XfceThemeManager/icons/%s",getenv("HOME"),thumb);
 									button=gtk_button_new();
-									box=imageBox(filename,name);
+									box=imageBox(thumb,name);
 									gtk_widget_set_name(button,set);
 									gtk_button_set_relief((GtkButton*)button,GTK_RELIEF_NONE);
 									gtk_container_add (GTK_CONTAINER (button),box);
@@ -983,98 +994,64 @@ void init(void)
 {
 	gchar	*stdout;
 
+	sprintf(localIcons,"%s/.icons",getenv("HOME"));
+
+	sprintf(metaFolder,"%s/.config/XfceThemeManager/meta",getenv("HOME"));
+	sprintf(framesFolder,"%s/.config/XfceThemeManager/frames",getenv("HOME"));
+	sprintf(controlsFolder,"%s/.controls",getenv("HOME"));
+	sprintf(iconsFolder,"%s/.config/XfceThemeManager/icons",getenv("HOME"));
+	sprintf(cursorsFolder,"%s/.config/XfceThemeManager/cursors",getenv("HOME"));
+	sprintf(wallpapersFolder,"%s/.config/XfceThemeManager/wallpapers",getenv("HOME"));
+
 	g_spawn_command_line_sync("xfconf-query -c xfce4-desktop -vp /backdrop/screen0/monitor0/image-style",&stdout,NULL,NULL,NULL);
 	stdout[strlen(stdout)-1]=0;
 	wallStyle=atol(stdout);
 	g_free(stdout);
 }
 
-char*	iconName;
-char*	iconSet;
-char*	iconThumb;
-
-void setIconData(char* entry)
+void rebuildDB(void)
 {
-	char		filename[4096];	
-	GKeyFile*	keyfile;
+	char		buffer[4096];
+	char		indexfile[4096];
+	char		dbfile[4096];
 
-	sprintf(filename,"%s/.config/XfceThemeManager/icons/%s",getenv("HOME"),entry);
-	keyfile=g_key_file_new();
-
-	if(g_key_file_load_from_file(keyfile,filename,G_KEY_FILE_NONE,NULL))
-		{
-			iconName=g_key_file_get_string(keyfile,"Icons","Name",NULL);
-			iconSet=g_key_file_get_string(keyfile,"Icons","Thumbnail",NULL);
-			iconThumb=g_key_file_get_string(keyfile,"Icons","Iconset",NULL);
-		}
-}
-
-
-int mainAA(int argc,char **argv)
-{
-	char		foldername[4096];
-	char		labelname[4096];
 	const gchar*	entry;
 	GDir*		folder;
 	int		entrylen;
+	GKeyFile*	keyfile=g_key_file_new();
+	char*		name;
+	char*		set;
+	char*		thumb;
+	FILE*		fd;
 
-	sprintf(foldername,"%s/.config/XfceThemeManager/icons",getenv("HOME"));
-	if(folder=g_dir_open(foldername,0,NULL))
-	{
-	entry=g_dir_read_name(folder);
-	while(entry!=NULL)
+//buid icons
+	g_mkdir_with_parents(iconsFolder,493);
+	if(folder=g_dir_open(localIcons,0,NULL))
 		{
-
-			if(strstr(entry,".db"))
-				{
-					setIconData((char*)entry);
-					printf("\n\n%s\n",iconName);
-					printf("%s\n",iconSet);
-					printf("%s\n",iconThumb);
-					g_free(iconName);
-					g_free(iconSet);
-					g_free(iconThumb);
-				}
 			entry=g_dir_read_name(folder);
-		}
-	}
-return(0);
-}
-
-
-
-int mainz(int argc,char **argv)
-{
-	GKeyFile*	keyfile;
-	gchar**		iconlist;
-	gsize		numstr=0;
-	GError*		error=NULL;
-	
-	keyfile=g_key_file_new();
-	
-	if(!g_key_file_load_from_file(keyfile,"/home/keithhedger/.config/XfceThemeManager/icons/icons.desktop",G_KEY_FILE_NONE,&error))
-		{
-		printf("XXX\n");
-		g_error (error->message);
-  		  return -1;
-		}
-	else
-		{
-		iconlist=g_key_file_get_string_list(keyfile,"Icons","Name",&numstr,&error);
-		if(!iconlist)
-			{
-			g_error( "%s", error->message );
-    			  g_key_file_free( keyfile );
-   			   return -1;
-   			}
-   		g_print( "map: %" G_GSIZE_FORMAT " lines\n", numstr );
-		//printf("%i\n",numstr);
-		//printf("%s\n",iconlist[0]);
+			while(entry!=NULL)
+				{
+					sprintf(buffer,"%s/%s/cursors",localIcons,entry);
+					if (!g_file_test(buffer,G_FILE_TEST_IS_DIR))
+						{
+							sprintf(indexfile,"%s/%s/index.theme",localIcons,entry);
+							sprintf(dbfile,"%s/%s.db",iconsFolder,entry);
+							if(g_key_file_load_from_file(keyfile,indexfile,G_KEY_FILE_NONE,NULL))
+								{
+									name=g_key_file_get_string(keyfile,"Icon Theme","Name",NULL);
+									fd=fopen(dbfile,"w");
+									sprintf(buffer,"%s/%s.png",iconsFolder,entry);
+									makeIcon((char*)entry,(char*)buffer);
+									fprintf(fd,"[Icons]\nName=%s\nThumbnail=%s\nIconset=%s",name,buffer,entry);
+									fclose(fd);
+									g_free(name);
+								}
+						}
+					entry=g_dir_read_name(folder);
+				}
+			g_dir_close(folder);
 		}
 }
-
-
-
 
 int main(int argc,char **argv)
 {
@@ -1111,6 +1088,9 @@ int main(int argc,char **argv)
 	gtk_init(&argc, &argv);
 
 	init();
+
+	if (strcasecmp(argv[1],"-m")==0)
+		rebuildDB();
 
 	window=gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_default_size((GtkWindow*)window,400,470);
