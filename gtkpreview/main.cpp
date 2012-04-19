@@ -888,6 +888,51 @@ GtkWidget *imageBox(char* filename,char* text)
 	return box;
 }
 
+void addNewButtons(GtkWidget* vbox,const char* subfolder,void* callback)
+{
+	char		foldername[4096];
+	char		filename[4096];
+	const gchar*	entry;
+	GDir*		folder;
+	GKeyFile*	keyfile=g_key_file_new();;
+	char*		name;
+	char*		set;
+	char*		thumb;
+	GtkWidget*	button;
+	GtkWidget*	box;
+
+	sprintf(foldername,"%s/.config/XfceThemeManager/%s",getenv("HOME"),subfolder);
+	if(folder=g_dir_open(foldername,0,NULL))
+		{
+			entry=g_dir_read_name(folder);
+			while(entry!=NULL)
+				{
+					if(strstr(entry,".db"))
+						{
+							sprintf(filename,"%s/.config/XfceThemeManager/icons/%s",getenv("HOME"),entry);
+							if(g_key_file_load_from_file(keyfile,filename,G_KEY_FILE_NONE,NULL))
+								{
+									name=g_key_file_get_string(keyfile,"Icons","Name",NULL);
+									set=g_key_file_get_string(keyfile,"Icons","Iconset",NULL);
+									thumb=g_key_file_get_string(keyfile,"Icons","Thumbnail",NULL);
+									sprintf(filename,"%s/.config/XfceThemeManager/icons/%s",getenv("HOME"),thumb);
+									button=gtk_button_new();
+									box=imageBox(filename,name);
+									gtk_widget_set_name(button,set);
+									gtk_button_set_relief((GtkButton*)button,GTK_RELIEF_NONE);
+									gtk_container_add (GTK_CONTAINER (button),box);
+									g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(callback),NULL);
+									gtk_box_pack_start((GtkBox*)vbox,button,false,true,4);
+									g_free(name);
+									g_free(set);
+									g_free(thumb);
+								}
+						}
+					entry=g_dir_read_name(folder);
+				}
+		}
+}
+
 void addButtons(GtkWidget* vbox,const char* subfolder,void* callback,bool uselabel)
 {
 	GtkWidget*	button;
@@ -943,6 +988,93 @@ void init(void)
 	wallStyle=atol(stdout);
 	g_free(stdout);
 }
+
+char*	iconName;
+char*	iconSet;
+char*	iconThumb;
+
+void setIconData(char* entry)
+{
+	char		filename[4096];	
+	GKeyFile*	keyfile;
+
+	sprintf(filename,"%s/.config/XfceThemeManager/icons/%s",getenv("HOME"),entry);
+	keyfile=g_key_file_new();
+
+	if(g_key_file_load_from_file(keyfile,filename,G_KEY_FILE_NONE,NULL))
+		{
+			iconName=g_key_file_get_string(keyfile,"Icons","Name",NULL);
+			iconSet=g_key_file_get_string(keyfile,"Icons","Thumbnail",NULL);
+			iconThumb=g_key_file_get_string(keyfile,"Icons","Iconset",NULL);
+		}
+}
+
+
+int mainAA(int argc,char **argv)
+{
+	char		foldername[4096];
+	char		labelname[4096];
+	const gchar*	entry;
+	GDir*		folder;
+	int		entrylen;
+
+	sprintf(foldername,"%s/.config/XfceThemeManager/icons",getenv("HOME"));
+	if(folder=g_dir_open(foldername,0,NULL))
+	{
+	entry=g_dir_read_name(folder);
+	while(entry!=NULL)
+		{
+
+			if(strstr(entry,".db"))
+				{
+					setIconData((char*)entry);
+					printf("\n\n%s\n",iconName);
+					printf("%s\n",iconSet);
+					printf("%s\n",iconThumb);
+					g_free(iconName);
+					g_free(iconSet);
+					g_free(iconThumb);
+				}
+			entry=g_dir_read_name(folder);
+		}
+	}
+return(0);
+}
+
+
+
+int mainz(int argc,char **argv)
+{
+	GKeyFile*	keyfile;
+	gchar**		iconlist;
+	gsize		numstr=0;
+	GError*		error=NULL;
+	
+	keyfile=g_key_file_new();
+	
+	if(!g_key_file_load_from_file(keyfile,"/home/keithhedger/.config/XfceThemeManager/icons/icons.desktop",G_KEY_FILE_NONE,&error))
+		{
+		printf("XXX\n");
+		g_error (error->message);
+  		  return -1;
+		}
+	else
+		{
+		iconlist=g_key_file_get_string_list(keyfile,"Icons","Name",&numstr,&error);
+		if(!iconlist)
+			{
+			g_error( "%s", error->message );
+    			  g_key_file_free( keyfile );
+   			   return -1;
+   			}
+   		g_print( "map: %" G_GSIZE_FORMAT " lines\n", numstr );
+		//printf("%i\n",numstr);
+		//printf("%s\n",iconlist[0]);
+		}
+}
+
+
+
 
 int main(int argc,char **argv)
 {
@@ -1009,7 +1141,8 @@ int main(int argc,char **argv)
 //icons vbox
 	iconsScrollBox=gtk_scrolled_window_new(NULL,NULL);
 	iconsVbox=gtk_vbox_new(FALSE, 0);
-	addButtons(iconsVbox,"icons",(void*)doIcons,true);
+	//addButtons(iconsVbox,"icons",(void*)doIcons,true);
+	addNewButtons(iconsVbox,"icons",(void*)doIcons);
 	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)iconsScrollBox,iconsVbox);
 
 //cursors
