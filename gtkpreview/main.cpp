@@ -52,8 +52,8 @@ GdkPixbuf*	gtkPixbuf;
 int		boxhite=90;
 int		gtkwidth=200;
 int		gtkheight=50;
-char		cursortheme[2048];
-char		icontheme[2048];
+char		cursorTheme[2048];
+char		iconTheme[2048];
 char		localIcons[4096];
 char		localThemes[4096];
 
@@ -416,7 +416,7 @@ void makeborder(char* folder,char* outframe)
 				gdk_cairo_set_source_pixbuf(cr,gtkPixbuf,leftsidewid,title3hite);
 				cairo_paint_with_alpha(cr,100);
 
-				arrow=cursorprev("left_ptr",cursortheme);
+				arrow=cursorprev("left_ptr",cursorTheme);
 				if(arrow!=NULL)
 					{
 						gdk_cairo_set_source_pixbuf(cr,arrow,boxwid-ritesidewid-ICONSIZE-ICONPAD,title3hite+ICONPAD);
@@ -424,7 +424,7 @@ void makeborder(char* folder,char* outframe)
 						g_object_unref(arrow);
 						
 						theme=gtk_icon_theme_new();
-						gtk_icon_theme_set_custom_theme(theme,icontheme);
+						gtk_icon_theme_set_custom_theme(theme,iconTheme);
 						arrow=gtk_icon_theme_load_icon(theme,"user-home",ICONSIZE,GTK_ICON_LOOKUP_FORCE_SIZE,NULL);
 						if (arrow!=NULL)
 							{
@@ -734,7 +734,7 @@ void getmetafile(char* folder)
 			if (strcasecmp("CursorTheme",word)==0)
 				{
 					word=strtok(NULL,"\n");
-					sprintf(cursortheme,"%s",word);
+					sprintf(cursorTheme,"%s",word);
 				}
 
 
@@ -742,11 +742,11 @@ void getmetafile(char* folder)
 				{
 					word=strtok(NULL,"\n");
 					if(itemExists((char*)"/usr/share/icons/",word)==true)
-						sprintf(icontheme,"%s",word);
+						sprintf(iconTheme,"%s",word);
 
 					sprintf(buffer,"%s/.icons",getenv("HOME"));
 					if(itemExists(buffer,word)==true)
-						sprintf(icontheme,"%s",word);
+						sprintf(iconTheme,"%s",word);
 				}
 
 		}
@@ -803,18 +803,10 @@ void doFrame(GtkWidget* widget,gpointer data)
 {
 	char		command[4096];
 
-	sprintf(command,"%s\"%s\"",XCONFSETFRAME,gtk_widget_get_name(widget));
+	sprintf(command,"%s \"%s\"",XCONFSETFRAME,gtk_widget_get_name(widget));
 	system(command);
 }
 //
-//*******************************************************************
-
-void doMeta(GtkWidget* widget,gpointer data)
-{
-
-
-	printf("meta -- %s\n",gtk_widget_get_name(widget));
-}
 
 //*******************************************************************
 //
@@ -829,6 +821,37 @@ void doControls(GtkWidget* widget,gpointer data)
 }
 //
 //*******************************************************************
+
+
+//*******************************************************************
+//
+//	META
+//
+void doMeta(GtkWidget* widget,gpointer data)
+{
+//	GKeyFile*	keyfile=g_key_file_new();
+//	char		command[4096];
+//	char*		name;
+//	char*		gtkset;
+//	char*		frameset;
+//	char*		iconset;
+//	char*		paperset;
+
+//	if(g_key_file_load_from_file(keyfile,filename,G_KEY_FILE_NONE,NULL))
+//		{
+//			gtkset=g_key_file_get_string(keyfile,"Data","Name",NULL);
+		//	set=g_key_file_get_string(keyfile,"Data","XconfName",NULL);
+		//	thumb=g_key_file_get_string(keyfile,"Data","Thumbnail",NULL);	
+//		}
+	
+	//doFrame(widget,data);
+	//doControls(widget,data);
+	printf("meta -- %s\n",gtk_widget_get_name(widget));
+}
+//
+//*******************************************************************
+
+
 
 //*******************************************************************
 //
@@ -937,7 +960,8 @@ void addNewButtons(GtkWidget* vbox,const char* subfolder,void* callback)
 									thumb=g_key_file_get_string(keyfile,"Data","Thumbnail",NULL);
 									button=gtk_button_new();
 									box=imageBox(thumb,name);
-									gtk_widget_set_name(button,set);
+									//gtk_widget_set_name(button,set);
+									gtk_widget_set_name(button,filename);
 									gtk_button_set_relief((GtkButton*)button,GTK_RELIEF_NONE);
 									gtk_container_add (GTK_CONTAINER (button),box);
 									g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(callback),NULL);
@@ -1038,6 +1062,165 @@ void rebuildDB(void)
 	FILE*		fd;
 
 	GdkPixbuf*	pixbuf;
+
+	char		gtkname[256];
+	char		framename[256];
+	char		iconname[256];
+	char		papername[256];
+	char		indexname[256];
+	char		displayname[256];
+	char		cursorname[256];
+
+	GKeyFile*	metakeyfile=g_key_file_new();
+	gchar*		temp=NULL;
+
+	bool		makedb;
+//build themes
+//gtkprev [theme] gtkthemename /path/to/border /out/path/to/png
+/*
+			gtkwidth=400;
+
+			getmetafile(argv[3]);
+
+			gtkheight=200;
+
+			gtkPixbuf=create_gtk_theme_pixbuf(argv[2]);
+
+			if(gtkPixbuf!=NULL)
+				{
+					getspace(argv[3]);
+					if(itemExists(argv[3],"xfwm4"))
+						makeborder(argv[3],argv[4]);
+					else
+						return(1);
+
+					g_object_unref(gtkPixbuf);
+
+*/
+	g_mkdir_with_parents(metaFolder,493);
+
+	if(folder=g_dir_open(localThemes,0,NULL))
+		{
+			entry=g_dir_read_name(folder);
+			while(entry!=NULL)
+				{
+					gtkname[0]=0;
+					framename[0]=0;
+					iconname[0]=0;
+					papername[0]=0;
+					indexname[0]=0;
+					displayname[0]=0;
+					cursorname[0]=0;
+					makedb=false;
+
+					sprintf(dbfile,"%s/%s.db",metaFolder,entry);
+					sprintf(indexname,"%s/%s/index.theme",localThemes,entry);
+					g_key_file_load_from_file(metakeyfile,indexname,G_KEY_FILE_NONE,NULL);
+
+					if (g_file_test(indexname,G_FILE_TEST_EXISTS))
+						{
+						sprintf(buffer,"%s/%s/xfwm4",localThemes,entry);
+						if (g_file_test(buffer,G_FILE_TEST_IS_DIR))
+							{
+							printf("auto\n");
+							temp=NULL;
+							temp=g_key_file_get_string(metakeyfile,"Desktop Entry","Name",NULL);
+							if(temp==NULL)
+								temp=g_key_file_get_string(metakeyfile,"X-GNOME-Metatheme","Name",NULL);
+							if (temp==NULL)
+								sprintf(displayname,"%s",entry);
+							else
+								{
+									sprintf(displayname,"%s",temp);
+									g_free(temp);
+									temp=NULL;
+								}
+							temp=g_key_file_get_string(metakeyfile,"X-GNOME-Metatheme","GtkTheme",NULL);
+							if (temp!=NULL)
+								{
+									sprintf(gtkname,"%s",temp);
+									g_free(temp);
+									temp=NULL;
+								}
+							temp=g_key_file_get_string(metakeyfile,"X-GNOME-Metatheme","IconTheme",NULL);
+							if (temp!=NULL)
+								{
+									sprintf(iconname,"%s",temp);
+									g_free(temp);
+									temp=NULL;
+								}
+							temp=g_key_file_get_string(metakeyfile,"X-GNOME-Metatheme","CursorTheme",NULL);
+							if (temp!=NULL)
+								{
+									sprintf(cursorname,"%s",temp);
+									g_free(temp);
+									temp=NULL;
+								}
+							temp=g_key_file_get_string(metakeyfile,"X-GNOME-Metatheme","BackgroundImage",NULL);
+							if (temp!=NULL)
+								{
+									sprintf(papername,"%s",temp);
+									g_free(temp);
+									temp=NULL;
+								}
+							makedb=true;
+							}
+						}
+					else
+						{
+							printf("manual\n");
+
+							indexname[0]=0;
+							sprintf(buffer,"%s/%s/xfwm4",localThemes,entry);
+							if (g_file_test(buffer,G_FILE_TEST_IS_DIR))
+								{
+									sprintf(buffer,"%s/%s/gtk-2.0",localThemes,entry);
+									if (g_file_test(buffer,G_FILE_TEST_IS_DIR))
+										{
+											sprintf(displayname,"%s",entry);
+											sprintf(gtkname,"%s",entry);
+											makedb=true;
+										}
+								}
+						}
+					if(makedb==true)
+						{
+							sprintf(framename,"%s",entry);
+							sprintf(dbfile,"%s/%s.db",metaFolder,entry);
+							fd=fopen(dbfile,"w");
+							sprintf(buffer,"%s/%s.png",metaFolder,entry);
+							fprintf(fd,"[Data]\nName=%s\nThumbnail=%s\nGtkTheme=%s\nXfwm4Theme=%s\nIconTheme=%s\nCursorTheme=%s\nBackgroundImage=%s\n"
+							,displayname,buffer,gtkname,framename,iconname,cursorname,papername);
+							fclose(fd);
+							gtkwidth=400;
+							gtkheight=200;
+							sprintf(buffer2,"%s/%s",localThemes,entry);
+							gtkPixbuf=create_gtk_theme_pixbuf(gtkname);
+							if(gtkPixbuf!=NULL)
+								{
+									getspace(buffer);
+									printf("%s\n%s\n",buffer,buffer2);
+									sprintf(iconTheme,"%s",iconname);
+									sprintf(cursorTheme,"%s",cursorname);
+									makeborder(buffer2,buffer);
+									g_object_unref(gtkPixbuf);
+									gtkPixbuf=NULL;
+								}
+
+						}
+					entry=g_dir_read_name(folder);
+				}
+		}
+	
+	g_dir_close(folder);
+
+				
+					
+
+
+
+	gtkwidth=200;
+	gtkheight=50;
 
 //build frames
 //gtkprev [border] /path/to/border /out/path/to/png
@@ -1207,7 +1390,8 @@ int main(int argc,char **argv)
 //themes vbox
 	themesScrollBox=gtk_scrolled_window_new(NULL,NULL);
 	themesVbox=gtk_vbox_new(FALSE, 0);
-	addButtons(themesVbox,"meta",(void*)doMeta,true);
+//	addButtons(themesVbox,"meta",(void*)doMeta,true);
+	addNewButtons(themesVbox,"meta",(void*)doMeta);
 	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)themesScrollBox,themesVbox);
 
 //frames vbox
@@ -1400,8 +1584,8 @@ int mainx(int argc,char **argv)
 			gtkwidth=400;
 			gtkheight=200;
 
-			sprintf(cursortheme,"%s",argv[3]);
-			sprintf(icontheme,"%s",argv[4]);
+			sprintf(cursorTheme,"%s",argv[3]);
+			sprintf(iconTheme,"%s",argv[4]);
 			gtkPixbuf=create_gtk_theme_pixbuf(argv[2]);
 
 			if(gtkPixbuf!=NULL)
