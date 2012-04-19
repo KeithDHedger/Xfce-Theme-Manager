@@ -829,24 +829,28 @@ void doControls(GtkWidget* widget,gpointer data)
 //
 void doMeta(GtkWidget* widget,gpointer data)
 {
-//	GKeyFile*	keyfile=g_key_file_new();
-//	char		command[4096];
-//	char*		name;
-//	char*		gtkset;
-//	char*		frameset;
-//	char*		iconset;
-//	char*		paperset;
+	GKeyFile*	keyfile=g_key_file_new();
+	char		command[4096];
+	char*		cursorset;
+	char*		gtkset;
+	char*		frameset;
+	char*		iconset;
 
-//	if(g_key_file_load_from_file(keyfile,filename,G_KEY_FILE_NONE,NULL))
-//		{
-//			gtkset=g_key_file_get_string(keyfile,"Data","Name",NULL);
-		//	set=g_key_file_get_string(keyfile,"Data","XconfName",NULL);
-		//	thumb=g_key_file_get_string(keyfile,"Data","Thumbnail",NULL);	
-//		}
-	
-	//doFrame(widget,data);
-	//doControls(widget,data);
-	printf("meta -- %s\n",gtk_widget_get_name(widget));
+	if(g_key_file_load_from_file(keyfile,gtk_widget_get_name(widget),G_KEY_FILE_NONE,NULL))
+		{
+			gtkset=g_key_file_get_string(keyfile,"Data","GtkTheme",NULL);
+			frameset=g_key_file_get_string(keyfile,"Data","Xfwm4Theme",NULL);
+			iconset=g_key_file_get_string(keyfile,"Data","IconTheme",NULL);	
+			cursorset=g_key_file_get_string(keyfile,"Data","CursorTheme",NULL);	
+		}
+	sprintf(command,"%s\"%s\"",XCONFSETCONTROLS,gtkset);
+	system(command);
+	sprintf(command,"%s\"%s\"",XCONFSETFRAME,frameset);
+	system(command);
+	sprintf(command,"%s\"%s\"",XCONFSETICONS,iconset);
+	system(command);
+	sprintf(command,"%s\"%s\"",XCONFSETCURSOR,cursorset);
+	system(command);
 }
 //
 //*******************************************************************
@@ -1077,26 +1081,6 @@ void rebuildDB(void)
 	bool		makedb;
 //build themes
 //gtkprev [theme] gtkthemename /path/to/border /out/path/to/png
-/*
-			gtkwidth=400;
-
-			getmetafile(argv[3]);
-
-			gtkheight=200;
-
-			gtkPixbuf=create_gtk_theme_pixbuf(argv[2]);
-
-			if(gtkPixbuf!=NULL)
-				{
-					getspace(argv[3]);
-					if(itemExists(argv[3],"xfwm4"))
-						makeborder(argv[3],argv[4]);
-					else
-						return(1);
-
-					g_object_unref(gtkPixbuf);
-
-*/
 	g_mkdir_with_parents(metaFolder,493);
 
 	if(folder=g_dir_open(localThemes,0,NULL))
@@ -1122,54 +1106,51 @@ void rebuildDB(void)
 						sprintf(buffer,"%s/%s/xfwm4",localThemes,entry);
 						if (g_file_test(buffer,G_FILE_TEST_IS_DIR))
 							{
-							printf("auto\n");
-							temp=NULL;
-							temp=g_key_file_get_string(metakeyfile,"Desktop Entry","Name",NULL);
-							if(temp==NULL)
-								temp=g_key_file_get_string(metakeyfile,"X-GNOME-Metatheme","Name",NULL);
-							if (temp==NULL)
-								sprintf(displayname,"%s",entry);
-							else
-								{
-									sprintf(displayname,"%s",temp);
-									g_free(temp);
-									temp=NULL;
-								}
-							temp=g_key_file_get_string(metakeyfile,"X-GNOME-Metatheme","GtkTheme",NULL);
-							if (temp!=NULL)
-								{
-									sprintf(gtkname,"%s",temp);
-									g_free(temp);
-									temp=NULL;
-								}
-							temp=g_key_file_get_string(metakeyfile,"X-GNOME-Metatheme","IconTheme",NULL);
-							if (temp!=NULL)
-								{
-									sprintf(iconname,"%s",temp);
-									g_free(temp);
-									temp=NULL;
-								}
-							temp=g_key_file_get_string(metakeyfile,"X-GNOME-Metatheme","CursorTheme",NULL);
-							if (temp!=NULL)
-								{
-									sprintf(cursorname,"%s",temp);
-									g_free(temp);
-									temp=NULL;
-								}
-							temp=g_key_file_get_string(metakeyfile,"X-GNOME-Metatheme","BackgroundImage",NULL);
-							if (temp!=NULL)
-								{
-									sprintf(papername,"%s",temp);
-									g_free(temp);
-									temp=NULL;
-								}
-							makedb=true;
+								temp=NULL;
+								temp=g_key_file_get_string(metakeyfile,"Desktop Entry","Name",NULL);
+								if(temp==NULL)
+									temp=g_key_file_get_string(metakeyfile,"X-GNOME-Metatheme","Name",NULL);
+								if (temp==NULL)
+									sprintf(displayname,"%s",entry);
+								else
+									{
+										sprintf(displayname,"%s",temp);
+										g_free(temp);
+										temp=NULL;
+									}
+								temp=g_key_file_get_string(metakeyfile,"X-GNOME-Metatheme","GtkTheme",NULL);
+								if (temp!=NULL)
+									{
+										sprintf(gtkname,"%s",temp);
+										g_free(temp);
+										temp=NULL;
+									}
+								temp=g_key_file_get_string(metakeyfile,"X-GNOME-Metatheme","IconTheme",NULL);
+								if (temp!=NULL)
+									{
+										sprintf(iconname,"%s",temp);
+										g_free(temp);
+										temp=NULL;
+									}
+								temp=g_key_file_get_string(metakeyfile,"X-GNOME-Metatheme","CursorTheme",NULL);
+								if (temp!=NULL)
+									{
+										sprintf(cursorname,"%s",temp);
+										g_free(temp);
+										temp=NULL;
+									}
+								temp=g_key_file_get_string(metakeyfile,"X-GNOME-Metatheme","BackgroundImage",NULL);
+								if (temp!=NULL)
+									{
+										sprintf(papername,"%s",temp);
+										g_free(temp);
+										temp=NULL;
+									}
+								makedb=true;
 							}
 						}
 					else
 						{
-							printf("manual\n");
-
 							indexname[0]=0;
 							sprintf(buffer,"%s/%s/xfwm4",localThemes,entry);
 							if (g_file_test(buffer,G_FILE_TEST_IS_DIR))
@@ -1427,7 +1408,7 @@ int main(int argc,char **argv)
 
 	vgbox=gtk_scrolled_window_new(NULL,NULL);
 	wallpapersVbox=gtk_vbox_new(FALSE, 0);
-	addButtons(wallpapersVbox,"papers",(void*)doWallpapers,false);
+	addNewButtons(wallpapersVbox,"papers",(void*)doWallpapers);
 
 	combo=(GtkComboBoxText*)gtk_combo_box_text_new();
 	gtk_combo_box_text_append_text(combo,"Auto");
