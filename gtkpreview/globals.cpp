@@ -27,10 +27,9 @@ char*		currentTheme;
 //db
 //char		metaFolder[4096];
 char*		metaFolder;
-char		framesFolder[4096];
-char		controlsFolder[4096];
-char		iconsFolder[4096];
-char		cursorsFolder[4096];
-char		wallpapersFolder[4096];
+char*		framesFolder;
+char*		controlsFolder;
+char*		iconsFolder;
+char*		cursorsFolder;
+char*		wallpapersFolder;
 
-char* mf;

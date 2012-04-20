@@ -34,23 +34,25 @@ GdkPixbuf*	gtkPixbuf;
 int		boxhite=90;
 int		gtkwidth=200;
 int		gtkheight=50;
-char		cursorTheme[2048];
-char		iconTheme[2048];
-char		localIcons[4096];
-char		localThemes[4096];
+char*		cursorTheme;
+char*		iconTheme;
+char*		localIcons;
+char*		localThemes;
 
 
 bool itemExists(char* folder,const char* item)
 {
-	char	buffer[4096];
-	struct stat st;
+	char*	buffer;
+	struct	stat st;
+	bool	retval=true;
 
-	sprintf((char*)buffer,"%s/%s",folder,item);
+	asprintf(&buffer,"%s/%s",folder,item);
 
 	if(stat(buffer,&st)!=0)
-        		return(false);
-        else
-        	return(true);
+        	retval=false;
+
+	free(buffer);
+	return(retval);
 }
 
 GdkPixbuf *cursorprev (const char *ptrname,char* themename)
@@ -196,18 +198,18 @@ static const char* image_types[]={"png","svg","gif","jpg","bmp",NULL};
 
 GdkPixbuf* composePixbuf(char* bordername,const char* name)
 {
-	char		pixmapname[2048];
+	char*		pixmapname;
 	GdkPixbuf*	basepixbuf=NULL;
 	GdkPixbuf*	alpha=NULL;
 	int		i=0;
 	gint		width,height;
 
-	sprintf((char*)pixmapname,"%s/xfwm4/%s.xpm",bordername,name);
+	asprintf(&pixmapname,"%s/xfwm4/%s.xpm",bordername,name);
 	basepixbuf=gdk_pixbuf_new_from_file((char*)pixmapname,NULL);
 
 	while ((image_types[i]) && (!alpha))
 		{
-			sprintf((char*)pixmapname,"%s/xfwm4/%s.%s",bordername,name,image_types[i]);
+			asprintf(&pixmapname,"%s/xfwm4/%s.%s",bordername,name,image_types[i]);
         		if (g_file_test(pixmapname,G_FILE_TEST_IS_REGULAR))
             			alpha=gdk_pixbuf_new_from_file(pixmapname,NULL);
         		++i;
@@ -556,12 +558,12 @@ if (menu!=NULL)
 
 void getspace(char* folder)
 {
-	char	filename[2048];
+	char*	filename;
 	FILE*	fp=NULL;
 	char*	offsetstr=NULL;
 	char*	spacestr=NULL;
 
-	sprintf((char*)filename,"%s/xfwm4/themerc",folder);
+	asprintf(&filename,"%s/xfwm4/themerc",folder);
 	fp=fopen(filename,"r");
 
 	if (fp==NULL)
@@ -688,14 +690,14 @@ void getmetafile(char* folder)
 {
 
 	FILE*	fp=NULL;
-	char	filename[2048];
-	char	*word;
-	char	buffer[4096];
+	char*	filename;
+	char*	word;
+	char*	buffer;
 
 	if(itemExists(folder,"index.theme")==false)
 		return;
 
-	sprintf((char*)filename,"%s/index.theme",folder);
+	asprintf(&filename,"%s/index.theme",folder);
 	fp=fopen(filename,"r");
 
 	while (fgets(filename,80,fp)!=NULL)
@@ -704,7 +706,7 @@ void getmetafile(char* folder)
 			if (strcasecmp("CursorTheme",word)==0)
 				{
 					word=strtok(NULL,"\n");
-					sprintf(cursorTheme,"%s",word);
+					asprintf(&cursorTheme,"%s",word);
 				}
 
 
@@ -712,11 +714,11 @@ void getmetafile(char* folder)
 				{
 					word=strtok(NULL,"\n");
 					if(itemExists((char*)"/usr/share/icons/",word)==true)
-						sprintf(iconTheme,"%s",word);
+						asprintf(&iconTheme,"%s",word);
 
-					sprintf(buffer,"%s/.icons",getenv("HOME"));
+					asprintf(&buffer,"%s/.icons",getenv("HOME"));
 					if(itemExists(buffer,word)==true)
-						sprintf(iconTheme,"%s",word);
+						asprintf(&iconTheme,"%s",word);
 				}
 
 		}
@@ -771,9 +773,9 @@ void pickfont(char* currentname)
 //
 void doFrame(GtkWidget* widget,gpointer data)
 {
-	char		command[4096];
+	char*	command;
 
-	sprintf(command,"%s \"%s\"",XCONFSETFRAME,gtk_widget_get_name(widget));
+	asprintf(&command,"%s \"%s\"",XCONFSETFRAME,gtk_widget_get_name(widget));
 	system(command);
 }
 //
@@ -784,9 +786,9 @@ void doFrame(GtkWidget* widget,gpointer data)
 //
 void doControls(GtkWidget* widget,gpointer data)
 {
-	char		command[4096];
+	char*	command;
 
-	sprintf(command,"%s\"%s\"",XCONFSETCONTROLS,gtk_widget_get_name(widget));
+	asprintf(&command,"%s\"%s\"",XCONFSETCONTROLS,gtk_widget_get_name(widget));
 	system(command);
 }
 //
@@ -800,7 +802,7 @@ void doControls(GtkWidget* widget,gpointer data)
 void doMeta(GtkWidget* widget,gpointer data)
 {
 	GKeyFile*	keyfile=g_key_file_new();
-	char		command[4096];
+	char*		command;
 	char*		cursorset;
 	char*		gtkset;
 	char*		frameset;
@@ -813,13 +815,13 @@ void doMeta(GtkWidget* widget,gpointer data)
 			iconset=g_key_file_get_string(keyfile,"Data","IconTheme",NULL);	
 			cursorset=g_key_file_get_string(keyfile,"Data","CursorTheme",NULL);	
 		}
-	sprintf(command,"%s\"%s\"",XCONFSETCONTROLS,gtkset);
+	asprintf(&command,"%s\"%s\"",XCONFSETCONTROLS,gtkset);
 	system(command);
-	sprintf(command,"%s\"%s\"",XCONFSETFRAME,frameset);
+	asprintf(&command,"%s\"%s\"",XCONFSETFRAME,frameset);
 	system(command);
-	sprintf(command,"%s\"%s\"",XCONFSETICONS,iconset);
+	asprintf(&command,"%s\"%s\"",XCONFSETICONS,iconset);
 	system(command);
-	sprintf(command,"%s\"%s\"",XCONFSETCURSOR,cursorset);
+	asprintf(&command,"%s\"%s\"",XCONFSETCURSOR,cursorset);
 	system(command);
 }
 //
@@ -834,9 +836,9 @@ void doMeta(GtkWidget* widget,gpointer data)
 
 void doIcons(GtkWidget* widget,gpointer data)
 {
-	char		command[4096];
+	char*	command;
 
-	sprintf(command,"%s\"%s\"",XCONFSETICONS,gtk_widget_get_name(widget));
+	asprintf(&command,"%s\"%s\"",XCONFSETICONS,gtk_widget_get_name(widget));
 	system(command);
 	system("xfdesktop --reload");
 }
@@ -845,9 +847,9 @@ void doIcons(GtkWidget* widget,gpointer data)
 
 void doCursors(GtkWidget* widget,gpointer data)
 {
-	char		command[4096];
+	char*	command;
 
-	sprintf(command,"%s\"%s\"",XCONFSETCURSOR,gtk_widget_get_name(widget));
+	asprintf(&command,"%s\"%s\"",XCONFSETCURSOR,gtk_widget_get_name(widget));
 	system(command);
 }
 
@@ -857,9 +859,9 @@ void doCursors(GtkWidget* widget,gpointer data)
 //
 void setWallStyle()
 {
-	char		command[4096];
+	char*	command;
 
-	sprintf(command,"%s%i",XCONFSETSTYLE,wallStyle);
+	asprintf(&command,"%s%i",XCONFSETSTYLE,wallStyle);
 	system(command);
 }
 
@@ -872,13 +874,13 @@ void wallStyleChanged(GtkWidget* widget,gpointer data)
 void doWallpapers(GtkWidget* widget,gpointer data)
 {
 
-	char		filename[4096];
+	char*	command;
 
-	sprintf(filename,"%s/.local/share/xfce4/backdrops/%s",getenv("HOME"),gtk_widget_get_name(widget));
-	if (g_file_test(filename,G_FILE_TEST_EXISTS))
+	asprintf(&command,"%s/.local/share/xfce4/backdrops/%s",getenv("HOME"),gtk_widget_get_name(widget));
+	if (g_file_test(command,G_FILE_TEST_EXISTS))
 		{
-			sprintf(filename,"%s \"%s/.local/share/xfce4/backdrops/%s\"",XCONFSETIMAGEPATH,getenv("HOME"),gtk_widget_get_name(widget));
-			system(filename);
+			asprintf(&command,"%s \"%s/.local/share/xfce4/backdrops/%s\"",XCONFSETIMAGEPATH,getenv("HOME"),gtk_widget_get_name(widget));
+			system(command);
 			return;
 		}
 }
@@ -907,8 +909,8 @@ GtkWidget *imageBox(char* filename,char* text)
 
 void addNewButtons(GtkWidget* vbox,const char* subfolder,void* callback)
 {
-	char		foldername[4096];
-	char		filename[4096];
+	char*		foldername;
+	char*		filename;
 	const gchar*	entry;
 	GDir*		folder;
 	GKeyFile*	keyfile=g_key_file_new();
@@ -918,7 +920,7 @@ void addNewButtons(GtkWidget* vbox,const char* subfolder,void* callback)
 	GtkWidget*	button;
 	GtkWidget*	box;
 
-	sprintf(foldername,"%s/.config/XfceThemeManager/%s",getenv("HOME"),subfolder);
+	asprintf(&foldername,"%s/.config/XfceThemeManager/%s",getenv("HOME"),subfolder);
 	if(folder=g_dir_open(foldername,0,NULL))
 		{
 			entry=g_dir_read_name(folder);
@@ -926,7 +928,7 @@ void addNewButtons(GtkWidget* vbox,const char* subfolder,void* callback)
 				{
 					if(strstr(entry,".db"))
 						{
-							sprintf(filename,"%s/.config/XfceThemeManager/%s/%s",getenv("HOME"),subfolder,entry);
+							asprintf(&filename,"%s/.config/XfceThemeManager/%s/%s",getenv("HOME"),subfolder,entry);
 							if(g_key_file_load_from_file(keyfile,filename,G_KEY_FILE_NONE,NULL))
 								{
 									name=g_key_file_get_string(keyfile,"Data","Name",NULL);
@@ -954,22 +956,22 @@ void addButtons(GtkWidget* vbox,const char* subfolder,void* callback,bool uselab
 	GtkWidget*	button;
 	GtkWidget*	box;
 
-	char		foldername[4096];
-	char		labelname[4096];
+	char*		foldername;
+	char*		labelname;
 	const gchar*	entry;
 	GDir*		folder;
 	int		entrylen;
 
-	sprintf(foldername,"%s/.config/XfceThemeManager/%s",getenv("HOME"),subfolder);
+	asprintf(&foldername,"%s/.config/XfceThemeManager/%s",getenv("HOME"),subfolder);
 	folder=g_dir_open(foldername,0,NULL);
 	entry=g_dir_read_name(folder);
 	while(entry!=NULL)
 		{
-			sprintf(foldername,"%s/.config/XfceThemeManager/%s/%s",getenv("HOME"),subfolder,entry);
+			asprintf(&foldername,"%s/.config/XfceThemeManager/%s/%s",getenv("HOME"),subfolder,entry);
 			button=gtk_button_new();
 
 			entrylen=strlen(entry)-4;
-			sprintf(labelname,"%s",entry);
+			asprintf(&labelname,"%s",entry);
 			labelname[entrylen]=0;
 
 			box=imageBox(foldername,labelname);
@@ -998,18 +1000,18 @@ void shutdown(GtkWidget* window,gpointer data)
 void init(void)
 {
 	gchar	*stdout;
-	//char	buffer[4096];
+	//char	buffer;
 
-	sprintf(localIcons,"%s/.icons",getenv("HOME"));
-	sprintf(localThemes,"%s/.themes",getenv("HOME"));
+	asprintf(&localIcons,"%s/.icons",getenv("HOME"));
+	asprintf(&localThemes,"%s/.themes",getenv("HOME"));
 
 	asprintf(&metaFolder,"%s/.config/XfceThemeManager/meta",getenv("HOME"));
 
-	sprintf(framesFolder,"%s/.config/XfceThemeManager/frames",getenv("HOME"));
-	sprintf(controlsFolder,"%s/.config/XfceThemeManager/controls",getenv("HOME"));
-	sprintf(iconsFolder,"%s/.config/XfceThemeManager/icons",getenv("HOME"));
-	sprintf(cursorsFolder,"%s/.config/XfceThemeManager/cursors",getenv("HOME"));
-	sprintf(wallpapersFolder,"%s/.config/XfceThemeManager/wallpapers",getenv("HOME"));
+	asprintf(&framesFolder,"%s/.config/XfceThemeManager/frames",getenv("HOME"));
+	asprintf(&controlsFolder,"%s/.config/XfceThemeManager/controls",getenv("HOME"));
+	asprintf(&iconsFolder,"%s/.config/XfceThemeManager/icons",getenv("HOME"));
+	asprintf(&cursorsFolder,"%s/.config/XfceThemeManager/cursors",getenv("HOME"));
+	asprintf(&wallpapersFolder,"%s/.config/XfceThemeManager/wallpapers",getenv("HOME"));
 
 	g_spawn_command_line_sync("xfconf-query -c xfce4-desktop -vp /backdrop/screen0/monitor0/image-style",&stdout,NULL,NULL,NULL);
 	stdout[strlen(stdout)-1]=0;
@@ -1022,10 +1024,10 @@ void init(void)
 
 void rebuildDB(void)
 {
-	char		buffer[4096];
-	char		buffer2[4096];
-	char		indexfile[4096];
-	char		dbfile[4096];
+	char*		buffer;
+	char*		buffer2;
+	char*		indexfile;
+	char*		dbfile;
 
 	const gchar*	entry;
 	GDir*		folder;
@@ -1038,13 +1040,13 @@ void rebuildDB(void)
 
 	GdkPixbuf*	pixbuf;
 
-	char		gtkname[256];
-	char		framename[256];
-	char		iconname[256];
-	char		papername[256];
-	char		indexname[256];
-	char		displayname[256];
-	char		cursorname[256];
+	char*		gtkname;
+	char*		framename;
+	char*		iconname;
+	char*		papername;
+	char*		indexname;
+	char*		displayname;
+	char*		cursorname;
 
 	GKeyFile*	metakeyfile=g_key_file_new();
 	gchar*		temp=NULL;
@@ -1059,22 +1061,22 @@ void rebuildDB(void)
 			entry=g_dir_read_name(folder);
 			while(entry!=NULL)
 				{
-					gtkname[0]=0;
-					framename[0]=0;
-					iconname[0]=0;
-					papername[0]=0;
-					indexname[0]=0;
-					displayname[0]=0;
-					cursorname[0]=0;
+					gtkname=NULL;
+					framename=NULL;
+					iconname=NULL;
+					papername=NULL;
+					indexname=NULL;
+					displayname=NULL;
+					cursorname=NULL;
 					makedb=false;
 
-					sprintf(dbfile,"%s/%s.db",metaFolder,entry);
-					sprintf(indexname,"%s/%s/index.theme",localThemes,entry);
+					asprintf(&dbfile,"%s/%s.db",metaFolder,entry);
+					asprintf(&indexname,"%s/%s/index.theme",localThemes,entry);
 					g_key_file_load_from_file(metakeyfile,indexname,G_KEY_FILE_NONE,NULL);
 
 					if (g_file_test(indexname,G_FILE_TEST_EXISTS))
 						{
-						sprintf(buffer,"%s/%s/xfwm4",localThemes,entry);
+						asprintf(&buffer,"%s/%s/xfwm4",localThemes,entry);
 						if (g_file_test(buffer,G_FILE_TEST_IS_DIR))
 							{
 								temp=NULL;
@@ -1082,38 +1084,38 @@ void rebuildDB(void)
 								if(temp==NULL)
 									temp=g_key_file_get_string(metakeyfile,"X-GNOME-Metatheme","Name",NULL);
 								if (temp==NULL)
-									sprintf(displayname,"%s",entry);
+									asprintf(&displayname,"%s",entry);
 								else
 									{
-										sprintf(displayname,"%s",temp);
+										asprintf(&displayname,"%s",temp);
 										g_free(temp);
 										temp=NULL;
 									}
 								temp=g_key_file_get_string(metakeyfile,"X-GNOME-Metatheme","GtkTheme",NULL);
 								if (temp!=NULL)
 									{
-										sprintf(gtkname,"%s",temp);
+										asprintf(&gtkname,"%s",temp);
 										g_free(temp);
 										temp=NULL;
 									}
 								temp=g_key_file_get_string(metakeyfile,"X-GNOME-Metatheme","IconTheme",NULL);
 								if (temp!=NULL)
 									{
-										sprintf(iconname,"%s",temp);
+										asprintf(&iconname,"%s",temp);
 										g_free(temp);
 										temp=NULL;
 									}
 								temp=g_key_file_get_string(metakeyfile,"X-GNOME-Metatheme","CursorTheme",NULL);
 								if (temp!=NULL)
 									{
-										sprintf(cursorname,"%s",temp);
+										asprintf(&cursorname,"%s",temp);
 										g_free(temp);
 										temp=NULL;
 									}
 								temp=g_key_file_get_string(metakeyfile,"X-GNOME-Metatheme","BackgroundImage",NULL);
 								if (temp!=NULL)
 									{
-										sprintf(papername,"%s",temp);
+										asprintf(&papername,"%s",temp);
 										g_free(temp);
 										temp=NULL;
 									}
@@ -1123,37 +1125,39 @@ void rebuildDB(void)
 					else
 						{
 							indexname[0]=0;
-							sprintf(buffer,"%s/%s/xfwm4",localThemes,entry);
+							asprintf(&buffer,"%s/%s/xfwm4",localThemes,entry);
 							if (g_file_test(buffer,G_FILE_TEST_IS_DIR))
 								{
-									sprintf(buffer,"%s/%s/gtk-2.0",localThemes,entry);
+									asprintf(&buffer,"%s/%s/gtk-2.0",localThemes,entry);
 									if (g_file_test(buffer,G_FILE_TEST_IS_DIR))
 										{
-											sprintf(displayname,"%s",entry);
-											sprintf(gtkname,"%s",entry);
+											asprintf(&displayname,"%s",entry);
+											asprintf(&gtkname,"%s",entry);
 											makedb=true;
 										}
 								}
 						}
+
+
 					if(makedb==true)
 						{
-							sprintf(framename,"%s",entry);
-							sprintf(dbfile,"%s/%s.db",metaFolder,entry);
+							asprintf(&framename,"%s",entry);
+							asprintf(&dbfile,"%s/%s.db",metaFolder,entry);
 							fd=fopen(dbfile,"w");
-							sprintf(buffer,"%s/%s.png",metaFolder,entry);
+							asprintf(&buffer,"%s/%s.png",metaFolder,entry);
 							fprintf(fd,"[Data]\nName=%s\nThumbnail=%s\nGtkTheme=%s\nXfwm4Theme=%s\nIconTheme=%s\nCursorTheme=%s\nBackgroundImage=%s\n"
 							,displayname,buffer,gtkname,framename,iconname,cursorname,papername);
 							fclose(fd);
 							gtkwidth=400;
 							gtkheight=200;
-							sprintf(buffer2,"%s/%s",localThemes,entry);
+							asprintf(&buffer2,"%s/%s",localThemes,entry);
 							gtkPixbuf=create_gtk_theme_pixbuf(gtkname);
 							if(gtkPixbuf!=NULL)
 								{
 									getspace(buffer);
 									printf("%s\n%s\n",buffer,buffer2);
-									sprintf(iconTheme,"%s",iconname);
-									sprintf(cursorTheme,"%s",cursorname);
+									asprintf(&iconTheme,"%s",iconname);
+									asprintf(&cursorTheme,"%s",cursorname);
 									makeborder(buffer2,buffer);
 									g_object_unref(gtkPixbuf);
 									gtkPixbuf=NULL;
@@ -1165,11 +1169,6 @@ void rebuildDB(void)
 		}
 	
 	g_dir_close(folder);
-
-				
-					
-
-
 
 	gtkwidth=200;
 	gtkheight=50;
@@ -1183,15 +1182,15 @@ void rebuildDB(void)
 			entry=g_dir_read_name(folder);
 			while(entry!=NULL)
 				{
-					sprintf(buffer,"%s/%s/xfwm4",localThemes,entry);
+					asprintf(&buffer,"%s/%s/xfwm4",localThemes,entry);
 					if (g_file_test(buffer,G_FILE_TEST_IS_DIR))
 						{
-							sprintf(dbfile,"%s/%s.db",framesFolder,entry);
+							asprintf(&dbfile,"%s/%s.db",framesFolder,entry);
 							fd=fopen(dbfile,"w");
-							sprintf(buffer,"%s/%s.png",framesFolder,entry);
+							asprintf(&buffer,"%s/%s.png",framesFolder,entry);
 							fprintf(fd,"[Data]\nName=%s\nThumbnail=%s\nXconfName=%s",entry,buffer,entry);
 							fclose(fd);
-							sprintf(buffer2,"%s/%s",localThemes,entry);
+							asprintf(&buffer2,"%s/%s",localThemes,entry);
 							makeborder(buffer2,buffer);
 						}
 					entry=g_dir_read_name(folder);
@@ -1207,13 +1206,13 @@ void rebuildDB(void)
 			entry=g_dir_read_name(folder);
 			while(entry!=NULL)
 				{
-					sprintf(buffer,"%s/%s/gtk-2.0",localThemes,entry);
+					asprintf(&buffer,"%s/%s/gtk-2.0",localThemes,entry);
 					if (g_file_test(buffer,G_FILE_TEST_IS_DIR))
 						{
-							sprintf(dbfile,"%s/%s.db",controlsFolder,entry);
+							asprintf(&dbfile,"%s/%s.db",controlsFolder,entry);
 
 							fd=fopen(dbfile,"w");
-							sprintf(buffer,"%s/%s.png",controlsFolder,entry);
+							asprintf(&buffer,"%s/%s.png",controlsFolder,entry);
 							pixbuf=create_gtk_theme_pixbuf((char*)entry);
 							if(pixbuf!=NULL)
 								{
@@ -1235,16 +1234,16 @@ void rebuildDB(void)
 			entry=g_dir_read_name(folder);
 			while(entry!=NULL)
 				{
-					sprintf(buffer,"%s/%s/cursors",localIcons,entry);
+					asprintf(&buffer,"%s/%s/cursors",localIcons,entry);
 					if (!g_file_test(buffer,G_FILE_TEST_IS_DIR))
 						{
-							sprintf(indexfile,"%s/%s/index.theme",localIcons,entry);
-							sprintf(dbfile,"%s/%s.db",iconsFolder,entry);
+							asprintf(&indexfile,"%s/%s/index.theme",localIcons,entry);
+							asprintf(&dbfile,"%s/%s.db",iconsFolder,entry);
 							if(g_key_file_load_from_file(keyfile,indexfile,G_KEY_FILE_NONE,NULL))
 								{
 									name=g_key_file_get_string(keyfile,"Icon Theme","Name",NULL);
 									fd=fopen(dbfile,"w");
-									sprintf(buffer,"%s/%s.png",iconsFolder,entry);
+									asprintf(&buffer,"%s/%s.png",iconsFolder,entry);
 									makeIcon((char*)entry,(char*)buffer);
 									fprintf(fd,"[Data]\nName=%s\nThumbnail=%s\nXconfName=%s",name,buffer,entry);
 									fclose(fd);
@@ -1264,16 +1263,16 @@ void rebuildDB(void)
 			entry=g_dir_read_name(folder);
 			while(entry!=NULL)
 				{
-					sprintf(buffer,"%s/%s/cursors",localIcons,entry);
+					asprintf(&buffer,"%s/%s/cursors",localIcons,entry);
 					if (g_file_test(buffer,G_FILE_TEST_IS_DIR))
 						{
-							sprintf(indexfile,"%s/%s/index.theme",localIcons,entry);
-							sprintf(dbfile,"%s/%s.db",cursorsFolder,entry);
+							asprintf(&indexfile,"%s/%s/index.theme",localIcons,entry);
+							asprintf(&dbfile,"%s/%s.db",cursorsFolder,entry);
 							if(g_key_file_load_from_file(keyfile,indexfile,G_KEY_FILE_NONE,NULL))
 								{
 									name=g_key_file_get_string(keyfile,"Icon Theme","Name",NULL);
 									fd=fopen(dbfile,"w");
-									sprintf(buffer,"%s/%s.png",cursorsFolder,entry);
+									asprintf(&buffer,"%s/%s.png",cursorsFolder,entry);
 									makecursor((char*)entry,(char*)buffer);
 									fprintf(fd,"[Data]\nName=%s\nThumbnail=%s\nXconfName=%s",name,buffer,entry);
 									fclose(fd);
@@ -1536,8 +1535,8 @@ int mainx(int argc,char **argv)
 			gtkwidth=400;
 			gtkheight=200;
 
-			sprintf(cursorTheme,"%s",argv[3]);
-			sprintf(iconTheme,"%s",argv[4]);
+			asprintf(&cursorTheme,"%s",argv[3]);
+			asprintf(&iconTheme,"%s",argv[4]);
 			gtkPixbuf=create_gtk_theme_pixbuf(argv[2]);
 
 			if(gtkPixbuf!=NULL)
