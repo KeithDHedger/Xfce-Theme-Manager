@@ -27,29 +27,7 @@
 #include <glib/gstdio.h>
 #include <fcntl.h>
 
-#define PADWIDTH 72
-#define MAXBOXWIDTH 240
-#define ICONSIZE 32
-#define ICONPAD 8
-
-#define XCONFSETSTYLE "xfconf-query -nRt int -c xfce4-desktop -vp /backdrop/screen0/monitor0/image-style -s "
-#define XCONFSETBRIGHT "xfconf-query -nRt int -c xfce4-desktop -vp /backdrop/screen0/monitor0/brightness -s "
-#define XCONFSETSATU "xfconf-query -nRt double -c xfce4-desktop -vp /backdrop/screen0/monitor0/saturation -s "
-#define XCONFSETIMAGEPATH "xfconf-query -nRt string -c xfce4-desktop -vp /backdrop/screen0/monitor0/image-path -s "
-
-#define XCONFSETFRAME "xfconf-query -nRt string -c xfwm4 -vp /general/theme -s "
-#define XCONFSETCONTROLS "xfconf-query -nRt string -c xsettings -vp /Net/ThemeName -s "
-#define XCONFSETICONS "xfconf-query -nRt string -c xsettings -vp /Net/IconThemeName -s "
-#define XCONFSETCURSOR "xfconf-query -nRt string -c xsettings -vp /Gtk/CursorThemeName -s "
-
-#define GLOBALICONS "/usr/share/icons"
-#define GLOBALTHEMES "/usr/share/themes"
-
-#define XCONFGETCONTROLS "xfconf-query -c xsettings -vp /Net/ThemeName"
-#define XCONFGETICONS "xfconf-query -c xsettings -vp /Net/IconThemeName"
-#define XCONFGETCURSOR "xfconf-query -c xsettings -vp /Gtk/CursorThemeName"
-#define XCONFGETFRAME "xfconf-query -c xfwm4 -vp /general/theme"
-#define XCONFGETPAPER "xfconf-query -nRt string -c xfce4-desktop -vp /backdrop/screen0/monitor0/image-path"
+#include "globals.h"
 
 int		button_offset,button_spacing;
 GdkPixbuf*	gtkPixbuf;
@@ -61,24 +39,6 @@ char		iconTheme[2048];
 char		localIcons[4096];
 char		localThemes[4096];
 
-//current stuff
-int		wallStyle=0;
-char*		currentGtkTheme;
-
-//db
-char		metaFolder[4096];
-char		framesFolder[4096];
-char		controlsFolder[4096];
-char		iconsFolder[4096];
-char		cursorsFolder[4096];
-char		wallpapersFolder[4096];
-
-char*		currentIconTheme;
-char*		currentWmTheme;
-char*		currentCursorTheme;
-char*		currentWallPaper;
-char*		currentGtkTheme;
-char*		currentTheme;
 
 bool itemExists(char* folder,const char* item)
 {
