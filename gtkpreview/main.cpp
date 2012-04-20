@@ -355,9 +355,18 @@ void init(void)
 {
 	gchar	*stdout;
 
-	asprintf(&localIcons,"%s/.icons",getenv("HOME"));
-	asprintf(&localThemes,"%s/.themes",getenv("HOME"));
-	asprintf(&localPapers,"%s/.local/share/xfce4/backdrops",getenv("HOME"));
+//	asprintf(&localIcons,"%s/.icons",getenv("HOME"));
+//	asprintf(&localThemes,"%s/.themes",getenv("HOME"));
+//	asprintf(&localPapers,"%s/.local/share/xfce4/backdrops",getenv("HOME"));
+
+	asprintf(&themesArray[0],"%s/.themes",getenv("HOME"));
+	asprintf(&themesArray[1],"%s",GLOBALTHEMES);
+	
+	asprintf(&iconsArray[0],"%s/.icons",getenv("HOME"));
+	asprintf(&iconsArray[1],"%s",GLOBALICONS);
+
+	asprintf(&papersArray[0],"%s/.local/share/xfce4/backdrops",getenv("HOME"));
+	asprintf(&papersArray[1],"%s",GLOBALWALLPAPERS);
 
 	asprintf(&metaFolder,"%s/.config/XfceThemeManager/meta",getenv("HOME"));
 

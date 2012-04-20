@@ -37,6 +37,7 @@
 
 #define GLOBALICONS "/usr/share/icons"
 #define GLOBALTHEMES "/usr/share/themes"
+#define GLOBALWALLPAPERS "/usr/share/xfce4/backdrops"
 
 #define XCONFGETCONTROLS "xfconf-query -c xsettings -vp /Net/ThemeName"
 #define XCONFGETICONS "xfconf-query -c xsettings -vp /Net/IconThemeName"
@@ -66,6 +67,12 @@ extern GdkPixbuf*	gtkPixbuf;
 extern int		boxhite;
 extern int		gtkwidth;
 extern int		gtkheight;
+
+//folders
+extern char*		themesArray[2];
+extern char*		iconsArray[2];
+extern char*		papersArray[2];
+
 extern char*		cursorTheme;
 extern char*		iconTheme;
 extern char*		localIcons;

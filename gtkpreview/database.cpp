@@ -73,103 +73,92 @@ void rebuildDB(void)
 //build themes
 //gtkprev [theme] gtkthemename /path/to/border /out/path/to/png
 	g_mkdir_with_parents(metaFolder,493);
-	folder=g_dir_open(localThemes,0,NULL);
-	if(folder!=NULL)
+	for(int i=0;i<2;i++)
 		{
-			entry=g_dir_read_name(folder);
-			while(entry!=NULL)
+			folder=g_dir_open(themesArray[i],0,NULL);
+			if(folder!=NULL)
 				{
-					gtkname=NULL;
-					framename=NULL;
-					iconname=NULL;
-					papername=NULL;
-					indexname=NULL;
-					displayname=NULL;
-					cursorname=NULL;
-					thumbfile=NULL;
-					dbfile=NULL;
-					buffer=NULL;
-					framefolder=NULL;
-
-					makedb=false;
-					asprintf(&dbfile,"%s/%s.db",metaFolder,entry);
-					asprintf(&indexname,"%s/%s/index.theme",localThemes,entry);
-					g_key_file_load_from_file(metakeyfile,indexname,G_KEY_FILE_NONE,NULL);
-
-					if (g_file_test(indexname,G_FILE_TEST_EXISTS))
+					entry=g_dir_read_name(folder);
+					while(entry!=NULL)
 						{
-						asprintf(&buffer,"%s/%s/xfwm4",localThemes,entry);
-						if (g_file_test(buffer,G_FILE_TEST_IS_DIR))
-							{
-								displayname=g_key_file_get_string(metakeyfile,"Desktop Entry","Name",NULL);
-								if(displayname==NULL)
-									displayname=g_key_file_get_string(metakeyfile,"X-GNOME-Metatheme","Name",NULL);
-								if (displayname==NULL)
-									asprintf(&displayname,"%s",entry);
+							makedb=false;
+							asprintf(&dbfile,"%s/%s.db",metaFolder,entry);
+							asprintf(&indexname,"%s/%s/index.theme",themesArray[i],entry);
+							g_key_file_load_from_file(metakeyfile,indexname,G_KEY_FILE_NONE,NULL);
 
-								gtkname=g_key_file_get_string(metakeyfile,"X-GNOME-Metatheme","GtkTheme",NULL);
-								iconname=g_key_file_get_string(metakeyfile,"X-GNOME-Metatheme","IconTheme",NULL);
-								cursorname=g_key_file_get_string(metakeyfile,"X-GNOME-Metatheme","CursorTheme",NULL);
-								papername=g_key_file_get_string(metakeyfile,"X-GNOME-Metatheme","BackgroundImage",NULL);
-
-								makedb=true;
-							}
-						}
-					else
-						{
-							indexname=NULL;
-							asprintf(&buffer,"%s/%s/xfwm4",localThemes,entry);
-							if (g_file_test(buffer,G_FILE_TEST_IS_DIR))
+							if (g_file_test(indexname,G_FILE_TEST_EXISTS))
 								{
-									asprintf(&buffer,"%s/%s/gtk-2.0",localThemes,entry);
+								asprintf(&buffer,"%s/%s/xfwm4",themesArray[i],entry);
+								if (g_file_test(buffer,G_FILE_TEST_IS_DIR))
+									{
+										displayname=g_key_file_get_string(metakeyfile,"Desktop Entry","Name",NULL);
+										if(displayname==NULL)
+											displayname=g_key_file_get_string(metakeyfile,"X-GNOME-Metatheme","Name",NULL);
+										if (displayname==NULL)
+											asprintf(&displayname,"%s",entry);
+
+										gtkname=g_key_file_get_string(metakeyfile,"X-GNOME-Metatheme","GtkTheme",NULL);
+										iconname=g_key_file_get_string(metakeyfile,"X-GNOME-Metatheme","IconTheme",NULL);
+										cursorname=g_key_file_get_string(metakeyfile,"X-GNOME-Metatheme","CursorTheme",NULL);
+										papername=g_key_file_get_string(metakeyfile,"X-GNOME-Metatheme","BackgroundImage",NULL);
+										makedb=true;
+									}
+								}
+							else
+								{
+									indexname=NULL;
+									asprintf(&buffer,"%s/%s/xfwm4",themesArray[i],entry);
 									if (g_file_test(buffer,G_FILE_TEST_IS_DIR))
 										{
-											asprintf(&displayname,"%s",entry);
-											asprintf(&gtkname,"%s",entry);
-											makedb=true;
+											asprintf(&buffer,"%s/%s/gtk-2.0",themesArray[i],entry);
+											if (g_file_test(buffer,G_FILE_TEST_IS_DIR))
+												{
+													asprintf(&displayname,"%s",entry);
+													asprintf(&gtkname,"%s",entry);
+													makedb=true;
+												}
 										}
 								}
-						}
 
-					if(makedb==true)
-						{
-							asprintf(&framename,"%s",entry);
-							asprintf(&dbfile,"%s/%s.db",metaFolder,entry);
-							asprintf(&thumbfile,"%s/%s.png",metaFolder,entry);
-
-							writeDBFile(dbfile,displayname,gtkname,framename,iconname,papername,cursorname,thumbfile);
-
-							gtkwidth=400;
-							gtkheight=200;
-							asprintf(&framefolder,"%s/%s",localThemes,entry);
-							gtkPixbuf=create_gtk_theme_pixbuf(gtkname);
-							if(gtkPixbuf!=NULL)
+							if(makedb==true)
 								{
-									getspace(framefolder);
-									asprintf(&iconTheme,"%s",iconname);
-									asprintf(&cursorTheme,"%s",cursorname);
-									makeborder(framefolder,thumbfile);
-									g_object_unref(gtkPixbuf);
-									gtkPixbuf=NULL;
-								}
+									asprintf(&framename,"%s",entry);
+									asprintf(&dbfile,"%s/%s.db",metaFolder,entry);
+									asprintf(&thumbfile,"%s/%s.png",metaFolder,entry);
 
-							freeAndNull(&dbfile);
-							freeAndNull(&displayname);
-							freeAndNull(&gtkname);
-							freeAndNull(&framename);
-							freeAndNull(&iconname);
-							freeAndNull(&papername);
-							freeAndNull(&cursorname);
-							freeAndNull(&thumbfile);
-							freeAndNull(&indexname);
-							freeAndNull(&buffer);
-							freeAndNull(&framefolder);
+									writeDBFile(dbfile,displayname,gtkname,framename,iconname,papername,cursorname,thumbfile);
+
+									gtkwidth=400;
+									gtkheight=200;
+									asprintf(&framefolder,"%s/%s",themesArray[i],entry);
+									gtkPixbuf=create_gtk_theme_pixbuf(gtkname);
+									if(gtkPixbuf!=NULL)
+										{
+											getspace(framefolder);
+											asprintf(&iconTheme,"%s",iconname);
+											asprintf(&cursorTheme,"%s",cursorname);
+											makeborder(framefolder,thumbfile);
+											g_object_unref(gtkPixbuf);
+											gtkPixbuf=NULL;
+										}
+
+									freeAndNull(&dbfile);
+									freeAndNull(&displayname);
+									freeAndNull(&gtkname);
+									freeAndNull(&framename);
+									freeAndNull(&iconname);
+									freeAndNull(&papername);
+									freeAndNull(&cursorname);
+									freeAndNull(&thumbfile);
+									freeAndNull(&indexname);
+									freeAndNull(&buffer);
+									freeAndNull(&framefolder);
+								}
+							entry=g_dir_read_name(folder);
 						}
-					entry=g_dir_read_name(folder);
 				}
+			g_dir_close(folder);
 		}
-	
-	g_dir_close(folder);
 
 	gtkwidth=200;
 	gtkheight=50;
@@ -178,96 +167,106 @@ void rebuildDB(void)
 //gtkprev [border] /path/to/border /out/path/to/png
 //makeborder(argv[2],argv[3]);
 	g_mkdir_with_parents(framesFolder,493);
-	folder=g_dir_open(localThemes,0,NULL);
-	if(folder!=NULL)
+	for(int i=0;i<2;i++)
 		{
-			entry=g_dir_read_name(folder);
-			while(entry!=NULL)
+			folder=g_dir_open(themesArray[i],0,NULL);
+			if(folder!=NULL)
 				{
-					asprintf(&buffer,"%s/%s/xfwm4",localThemes,entry);
-					if (g_file_test(buffer,G_FILE_TEST_IS_DIR))
-						{
-							asprintf(&dbfile,"%s/%s.db",framesFolder,entry);
-							asprintf(&thumbfile,"%s/%s.png",framesFolder,entry);
-
-							writeDBFile(dbfile,(char*)entry,NULL,(char*)entry,NULL,NULL,NULL,thumbfile);
-
-							asprintf(&framefolder,"%s/%s",localThemes,entry);
-							getspace(framefolder);
-							makeborder(framefolder,thumbfile);
-						}
 					entry=g_dir_read_name(folder);
+					while(entry!=NULL)
+						{
+							asprintf(&buffer,"%s/%s/xfwm4",themesArray[i],entry);
+							if (g_file_test(buffer,G_FILE_TEST_IS_DIR))
+								{
+									asprintf(&dbfile,"%s/%s.db",framesFolder,entry);
+									asprintf(&thumbfile,"%s/%s.png",framesFolder,entry);
 
-					freeAndNull(&buffer);
-					freeAndNull(&framefolder);
-					freeAndNull(&dbfile);
-					freeAndNull(&thumbfile);
+									writeDBFile(dbfile,(char*)entry,NULL,(char*)entry,NULL,NULL,NULL,thumbfile);
+
+									asprintf(&framefolder,"%s/%s",themesArray[i],entry);
+									getspace(framefolder);
+									makeborder(framefolder,thumbfile);
+								}
+							entry=g_dir_read_name(folder);
+
+							freeAndNull(&buffer);
+							freeAndNull(&framefolder);
+							freeAndNull(&dbfile);
+							freeAndNull(&thumbfile);
+						}
+					g_dir_close(folder);
 				}
-			g_dir_close(folder);
 		}
 
 //build controls
 //gtkprev [controls] gtkthemename /out/path/to/png
 	g_mkdir_with_parents(controlsFolder,493);
-	folder=g_dir_open(localThemes,0,NULL);
-	if(folder!=NULL)
+	for(int i=0;i<2;i++)
 		{
-			entry=g_dir_read_name(folder);
-			while(entry!=NULL)
+			folder=g_dir_open(themesArray[i],0,NULL);
+			if(folder!=NULL)
 				{
-					asprintf(&buffer,"%s/%s/gtk-2.0",localThemes,entry);
-					if (g_file_test(buffer,G_FILE_TEST_IS_DIR))
-						{
-							asprintf(&dbfile,"%s/%s.db",controlsFolder,entry);
-							asprintf(&thumbfile,"%s/%s.png",controlsFolder,entry);
-							pixbuf=create_gtk_theme_pixbuf((char*)entry);
-							if(pixbuf!=NULL)
-								{
-									gdk_pixbuf_savev(pixbuf,thumbfile,"png",NULL,NULL,NULL);
-									g_object_unref(pixbuf);
-									writeDBFile(dbfile,(char*)entry,(char*)entry,NULL,NULL,NULL,NULL,thumbfile);
-								}
-						}
 					entry=g_dir_read_name(folder);
+					while(entry!=NULL)
+						{
+							asprintf(&buffer,"%s/%s/gtk-2.0",themesArray[i],entry);
+							if (g_file_test(buffer,G_FILE_TEST_IS_DIR))
+								{
+									asprintf(&dbfile,"%s/%s.db",controlsFolder,entry);
+									asprintf(&thumbfile,"%s/%s.png",controlsFolder,entry);
+									pixbuf=create_gtk_theme_pixbuf((char*)entry);
+									if(pixbuf!=NULL)
+										{
+											gdk_pixbuf_savev(pixbuf,thumbfile,"png",NULL,NULL,NULL);
+											g_object_unref(pixbuf);
+											writeDBFile(dbfile,(char*)entry,(char*)entry,NULL,NULL,NULL,NULL,thumbfile);
+										}
+								}
+							entry=g_dir_read_name(folder);
 
-					freeAndNull(&buffer);
-					freeAndNull(&dbfile);
-					freeAndNull(&thumbfile);
+							freeAndNull(&buffer);
+							freeAndNull(&dbfile);
+							freeAndNull(&thumbfile);
+						}
+					g_dir_close(folder);
 				}
-			g_dir_close(folder);
 		}
 
 //buid icons
 	g_mkdir_with_parents(iconsFolder,493);
-	folder=g_dir_open(localIcons,0,NULL);
-	if(folder!=NULL)
+	for(int i=0;i<2;i++)
 		{
-			entry=g_dir_read_name(folder);
-			while(entry!=NULL)
+			folder=g_dir_open(iconsArray[i],0,NULL);
+			if(folder!=NULL)
 				{
-					asprintf(&buffer,"%s/%s/cursors",localIcons,entry);
-					if (!g_file_test(buffer,G_FILE_TEST_IS_DIR))
-						{
-							asprintf(&indexfile,"%s/%s/index.theme",localIcons,entry);
-							asprintf(&dbfile,"%s/%s.db",iconsFolder,entry);
-							if(g_key_file_load_from_file(keyfile,indexfile,G_KEY_FILE_NONE,NULL))
-								{
-									displayname=g_key_file_get_string(keyfile,"Icon Theme","Name",NULL);
-									asprintf(&thumbfile,"%s/%s.png",iconsFolder,entry);
-									makeIcon((char*)entry,thumbfile);
-									writeDBFile(dbfile,displayname,NULL,NULL,(char*)entry,NULL,NULL,thumbfile);
-								}
-						}
 					entry=g_dir_read_name(folder);
+					while(entry!=NULL)
+						{
+							asprintf(&buffer,"%s/%s/cursors",iconsArray[i],entry);
+							if (!g_file_test(buffer,G_FILE_TEST_IS_DIR))
+								{
+									asprintf(&indexfile,"%s/%s/index.theme",iconsArray[i],entry);
+									asprintf(&dbfile,"%s/%s.db",iconsFolder,entry);
+									if(g_key_file_load_from_file(keyfile,indexfile,G_KEY_FILE_NONE,NULL))
+										{
+											displayname=g_key_file_get_string(keyfile,"Icon Theme","Name",NULL);
+											asprintf(&thumbfile,"%s/%s.png",iconsFolder,entry);
+											makeIcon((char*)entry,thumbfile);
+											writeDBFile(dbfile,displayname,NULL,NULL,(char*)entry,NULL,NULL,thumbfile);
+										}
+								}
+							entry=g_dir_read_name(folder);
 
-					freeAndNull(&buffer);
-					freeAndNull(&displayname);
-					freeAndNull(&indexfile);
-					freeAndNull(&dbfile);
-					freeAndNull(&thumbfile);
+							freeAndNull(&buffer);
+							freeAndNull(&displayname);
+							freeAndNull(&indexfile);
+							freeAndNull(&dbfile);
+							freeAndNull(&thumbfile);
+						}
+					g_dir_close(folder);
 				}
-			g_dir_close(folder);
 		}
+
 //cursors
 //gtkprev [cursors] cursortheme /out/path/to/png
 //makecursor(argv[2],argv[3]);

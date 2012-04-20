@@ -27,7 +27,6 @@ char*		currentGtkTheme;
 char*		currentTheme;
 
 //db
-//char		metaFolder[4096];
 char*		metaFolder;
 char*		framesFolder;
 char*		controlsFolder;
@@ -41,6 +40,12 @@ GdkPixbuf*	gtkPixbuf;
 int		boxhite=90;
 int		gtkwidth=200;
 int		gtkheight=50;
+
+//folders
+char*		themesArray[2];
+char*		iconsArray[2];
+char*		papersArray[2];
+
 char*		cursorTheme;
 char*		iconTheme;
 char*		localIcons;
