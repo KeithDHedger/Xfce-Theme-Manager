@@ -56,7 +56,6 @@ void rebuildDB(void)
 	const gchar*	entry;
 	GDir*		folder;
 	GKeyFile*	keyfile=g_key_file_new();
-	FILE*		fd;
 
 	GdkPixbuf*	pixbuf;
 
@@ -69,14 +68,13 @@ void rebuildDB(void)
 	char*		cursorname;
 
 	GKeyFile*	metakeyfile=g_key_file_new();
-	gchar*		temp=NULL;
 
 	bool		makedb;
 //build themes
 //gtkprev [theme] gtkthemename /path/to/border /out/path/to/png
 	g_mkdir_with_parents(metaFolder,493);
-
-	if(folder=g_dir_open(localThemes,0,NULL))
+	folder=g_dir_open(localThemes,0,NULL);
+	if(folder!=NULL)
 		{
 			entry=g_dir_read_name(folder);
 			while(entry!=NULL)
@@ -180,7 +178,8 @@ void rebuildDB(void)
 //gtkprev [border] /path/to/border /out/path/to/png
 //makeborder(argv[2],argv[3]);
 	g_mkdir_with_parents(framesFolder,493);
-	if(folder=g_dir_open(localThemes,0,NULL))
+	folder=g_dir_open(localThemes,0,NULL);
+	if(folder!=NULL)
 		{
 			entry=g_dir_read_name(folder);
 			while(entry!=NULL)
@@ -210,7 +209,8 @@ void rebuildDB(void)
 //build controls
 //gtkprev [controls] gtkthemename /out/path/to/png
 	g_mkdir_with_parents(controlsFolder,493);
-	if(folder=g_dir_open(localThemes,0,NULL))
+	folder=g_dir_open(localThemes,0,NULL);
+	if(folder!=NULL)
 		{
 			entry=g_dir_read_name(folder);
 			while(entry!=NULL)
@@ -239,7 +239,8 @@ void rebuildDB(void)
 
 //buid icons
 	g_mkdir_with_parents(iconsFolder,493);
-	if(folder=g_dir_open(localIcons,0,NULL))
+	folder=g_dir_open(localIcons,0,NULL);
+	if(folder!=NULL)
 		{
 			entry=g_dir_read_name(folder);
 			while(entry!=NULL)
@@ -272,7 +273,8 @@ void rebuildDB(void)
 //makecursor(argv[2],argv[3]);
 //writeDBFile(dbfile,displayname,gtkname,framename,iconname,papername,cursorname,thumbfile);
 	g_mkdir_with_parents(cursorsFolder,493);
-	if(folder=g_dir_open(localIcons,0,NULL))
+	folder=g_dir_open(localIcons,0,NULL);
+	if(folder!=NULL)
 		{
 			entry=g_dir_read_name(folder);
 			while(entry!=NULL)
@@ -303,7 +305,8 @@ void rebuildDB(void)
 		}
 
 	g_mkdir_with_parents(wallpapersFolder,493);
-	if(folder=g_dir_open(localPapers,0,NULL))
+	folder=g_dir_open(localPapers,0,NULL);
+	if(folder!=NULL)
 		{
 			entry=g_dir_read_name(folder);
 			while(entry!=NULL)
