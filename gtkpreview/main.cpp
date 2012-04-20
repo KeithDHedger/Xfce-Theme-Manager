@@ -178,12 +178,11 @@ void doMeta(GtkWidget* widget,gpointer data)
 					free(paperset);
 			}
 		}
+	system("xfdesktop --reload");
 	g_key_file_free(keyfile);
 }
 //
 //*******************************************************************
-
-
 
 //*******************************************************************
 //
