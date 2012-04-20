@@ -163,7 +163,7 @@ void rebuildDB(void)
 							gtkPixbuf=create_gtk_theme_pixbuf(gtkname);
 							if(gtkPixbuf!=NULL)
 								{
-									getspace(buffer);
+									getspace(framefolder);
 									asprintf(&iconTheme,"%s",iconname);
 									asprintf(&cursorTheme,"%s",cursorname);
 									makeborder(framefolder,thumbfile);
@@ -210,6 +210,7 @@ void rebuildDB(void)
 							writeDBFile(dbfile,(char*)entry,NULL,(char*)entry,NULL,NULL,NULL,thumbfile);
 
 							asprintf(&framefolder,"%s/%s",localThemes,entry);
+							getspace(framefolder);
 							makeborder(framefolder,thumbfile);
 						}
 					entry=g_dir_read_name(folder);
