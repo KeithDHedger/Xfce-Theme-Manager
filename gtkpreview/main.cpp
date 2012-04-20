@@ -103,15 +103,18 @@ void doControls(GtkWidget* widget,gpointer data)
 	char*		controlset;
 
 	if(g_key_file_load_from_file(keyfile,gtk_widget_get_name(widget),G_KEY_FILE_NONE,NULL))
-		controlset=g_key_file_get_string(keyfile,"Data","GtkTheme",NULL);
-
-	if(controlset!=NULL)
 		{
-			asprintf(&command,"%s\"%s\"",XCONFSETCONTROLS,controlset);
-			system(command);
-			free(command);
-			free(controlset);
+			controlset=g_key_file_get_string(keyfile,"Data","GtkTheme",NULL);
+
+			if(controlset!=NULL)
+				{
+					asprintf(&command,"%s\"%s\"",XCONFSETCONTROLS,controlset);
+					system(command);
+					free(command);
+					free(controlset);
+				}
 		}
+	g_key_file_free(keyfile);
 }
 //
 //*******************************************************************
