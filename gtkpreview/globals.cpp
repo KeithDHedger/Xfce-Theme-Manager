@@ -15,6 +15,7 @@
  * Globals.cpp
  */
 #include <gdk-pixbuf/gdk-pixbuf.h>
+#include <stdlib.h>
 
 //current stuff
 int		wallStyle=0;
@@ -44,4 +45,17 @@ char*		cursorTheme;
 char*		iconTheme;
 char*		localIcons;
 char*		localThemes;
+char*		localPapers;
+
+void freeAndNull(char** ptr)
+{
+	if (*ptr!=NULL)
+		{
+			free(*ptr);
+			*ptr=NULL;
+		}
+}
+
+
+
 

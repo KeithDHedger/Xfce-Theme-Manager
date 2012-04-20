@@ -70,7 +70,9 @@ extern char*		cursorTheme;
 extern char*		iconTheme;
 extern char*		localIcons;
 extern char*		localThemes;
+extern char*		localPapers;
 
+extern void freeAndNull(char** ptr);
 
 #endif
 

@@ -897,13 +897,29 @@ void doIcons(GtkWidget* widget,gpointer data)
 //
 //*******************************************************************
 
+//*******************************************************************
+//
+//	CURSORS
+//
 void doCursors(GtkWidget* widget,gpointer data)
 {
-	char*	command;
+	GKeyFile*	keyfile=g_key_file_new();
+	char*		command;
+	char*		cursorset;
 
-	asprintf(&command,"%s\"%s\"",XCONFSETCURSOR,gtk_widget_get_name(widget));
-	system(command);
+	if(g_key_file_load_from_file(keyfile,gtk_widget_get_name(widget),G_KEY_FILE_NONE,NULL))
+		cursorset=g_key_file_get_string(keyfile,"Data","CursorTheme",NULL);
+
+	if(cursorset!=NULL)
+		{
+			asprintf(&command,"%s\"%s\"",XCONFSETCURSOR,cursorset);
+			system(command);
+			free(command);
+			free(cursorset);
+		}
 }
+//
+//*******************************************************************
 
 //*******************************************************************
 //
@@ -925,15 +941,19 @@ void wallStyleChanged(GtkWidget* widget,gpointer data)
 
 void doWallpapers(GtkWidget* widget,gpointer data)
 {
+	GKeyFile*	keyfile=g_key_file_new();
+	char*		command;
+	char*		paperset;
 
-	char*	command;
+	if(g_key_file_load_from_file(keyfile,gtk_widget_get_name(widget),G_KEY_FILE_NONE,NULL))
+		paperset=g_key_file_get_string(keyfile,"Data","BackgroundImage",NULL);
 
-	asprintf(&command,"%s/.local/share/xfce4/backdrops/%s",getenv("HOME"),gtk_widget_get_name(widget));
-	if (g_file_test(command,G_FILE_TEST_EXISTS))
+	if(paperset!=NULL)
 		{
-			asprintf(&command,"%s \"%s/.local/share/xfce4/backdrops/%s\"",XCONFSETPAPER,getenv("HOME"),gtk_widget_get_name(widget));
+			asprintf(&command,"%s\"%s\"",XCONFSETPAPER,paperset);
 			system(command);
-			return;
+			free(command);
+			free(paperset);
 		}
 }
 //
@@ -1052,10 +1072,10 @@ void shutdown(GtkWidget* window,gpointer data)
 void init(void)
 {
 	gchar	*stdout;
-	//char	buffer;
 
 	asprintf(&localIcons,"%s/.icons",getenv("HOME"));
 	asprintf(&localThemes,"%s/.themes",getenv("HOME"));
+	asprintf(&localPapers,"%s/.local/share/xfce4/backdrops",getenv("HOME"));
 
 	asprintf(&metaFolder,"%s/.config/XfceThemeManager/meta",getenv("HOME"));
 
@@ -1167,7 +1187,7 @@ int main(int argc,char **argv)
 
 	vgbox=gtk_scrolled_window_new(NULL,NULL);
 	wallpapersVbox=gtk_vbox_new(FALSE, 0);
-	addNewButtons(wallpapersVbox,"papers",(void*)doWallpapers);
+	addNewButtons(wallpapersVbox,"wallpapers",(void*)doWallpapers);
 
 	combo=(GtkComboBoxText*)gtk_combo_box_text_new();
 	gtk_combo_box_text_append_text(combo,"Auto");
