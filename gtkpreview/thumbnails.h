@@ -19,6 +19,9 @@
 #define _THUMBS_
 
 extern void makecursor(char* theme,char* outPath);
-extern GdkPixbuf *cursorprev (const char *ptrname,char* themename);
+extern GdkPixbuf * create_gtk_theme_pixbuf(char* name);
+extern void makeborder(char* folder,char* outframe);
+extern void getspace(char* folder);
+extern void makeIcon(char* themename,char* outPath);
 
 #endif

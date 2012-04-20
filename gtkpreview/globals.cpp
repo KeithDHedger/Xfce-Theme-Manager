@@ -47,6 +47,8 @@ char*		localIcons;
 char*		localThemes;
 char*		localPapers;
 
+
+
 void freeAndNull(char** ptr)
 {
 	if (*ptr!=NULL)

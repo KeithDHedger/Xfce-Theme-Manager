@@ -15,27 +15,10 @@
  * database.cpp
  */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <glib.h>
-#include <gdk-pixbuf/gdk-pixbuf.h>
-#include <gtk/gtk.h>
 #include <string.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <unistd.h>
-#include <X11/Xcursor/Xcursor.h>
-#include <glib/gstdio.h>
-#include <fcntl.h>
 
 #include "globals.h"
 #include "thumbnails.h"
-
-extern GdkPixbuf * create_gtk_theme_pixbuf(char* name);
-extern void getspace(char* folder);
-extern void makeborder(char* folder,char* outframe);
-extern void makecursor(char* theme,char* outPath);
-extern void makeIcon(char* themename,char* outPath);
 
 void writeDBFile(char* filename,char* name,char* gtk,char* frame,char* icon,char* paper,char* cursor,char* thumb)
 {

@@ -9,7 +9,7 @@ ifeq ($(strip $(PREFIX)),)
 endif
 
 ifeq ($(strip $(CXXFLAGS)),)
-	CXXFLAGS=-O3 -Wall -lXcursor `pkg-config --cflags --libs glib-2.0` `pkg-config --cflags --libs gdk-2.0` `pkg-config --cflags --libs gtk+-2.0`
+	CXXFLAGS=-O3 -Wall -Wunused -Wunused-function -lXcursor `pkg-config --cflags --libs glib-2.0` `pkg-config --cflags --libs gdk-2.0` `pkg-config --cflags --libs gtk+-2.0`
 endif
 
 $(PROGRAM):$(SOURCES)
