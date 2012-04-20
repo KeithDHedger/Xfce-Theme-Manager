@@ -998,11 +998,13 @@ void shutdown(GtkWidget* window,gpointer data)
 void init(void)
 {
 	gchar	*stdout;
+	//char	buffer[4096];
 
 	sprintf(localIcons,"%s/.icons",getenv("HOME"));
 	sprintf(localThemes,"%s/.themes",getenv("HOME"));
 
-	sprintf(metaFolder,"%s/.config/XfceThemeManager/meta",getenv("HOME"));
+	asprintf(&metaFolder,"%s/.config/XfceThemeManager/meta",getenv("HOME"));
+
 	sprintf(framesFolder,"%s/.config/XfceThemeManager/frames",getenv("HOME"));
 	sprintf(controlsFolder,"%s/.config/XfceThemeManager/controls",getenv("HOME"));
 	sprintf(iconsFolder,"%s/.config/XfceThemeManager/icons",getenv("HOME"));

@@ -51,13 +51,14 @@ extern char*		currentGtkTheme;
 extern char*		currentTheme;
 
 //db
-extern char		metaFolder[4096];
+//extern char		metaFolder[4096];
+extern char*		metaFolder;
 extern char		framesFolder[4096];
 extern char		controlsFolder[4096];
 extern char		iconsFolder[4096];
 extern char		cursorsFolder[4096];
 extern char		wallpapersFolder[4096];
 
-
+extern char* mf;
 #endif
 
