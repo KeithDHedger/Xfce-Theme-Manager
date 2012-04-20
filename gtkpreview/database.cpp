@@ -29,6 +29,7 @@
 #include <fcntl.h>
 
 #include "globals.h"
+#include "thumbnails.h"
 
 extern GdkPixbuf * create_gtk_theme_pixbuf(char* name);
 extern void getspace(char* folder);

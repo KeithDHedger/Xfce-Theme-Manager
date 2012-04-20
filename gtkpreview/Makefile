@@ -1,5 +1,5 @@
 PROGRAM=gtkprev
-SOURCES=main.cpp globals.cpp database.cpp
+SOURCES=main.cpp globals.cpp database.cpp thumbnails.cpp
 VERSION=0.0.3
 GUI=xfce-theme-manager
 LAUNCHER=Xfce-Theme-Manager.desktop
