@@ -797,6 +797,7 @@ void doMeta(GtkWidget* widget,gpointer data)
 	char*		gtkset;
 	char*		frameset;
 	char*		iconset;
+	char*		paperset;
 
 	if(g_key_file_load_from_file(keyfile,gtk_widget_get_name(widget),G_KEY_FILE_NONE,NULL))
 		{
@@ -804,15 +805,33 @@ void doMeta(GtkWidget* widget,gpointer data)
 			frameset=g_key_file_get_string(keyfile,"Data","Xfwm4Theme",NULL);
 			iconset=g_key_file_get_string(keyfile,"Data","IconTheme",NULL);	
 			cursorset=g_key_file_get_string(keyfile,"Data","CursorTheme",NULL);	
+			paperset=g_key_file_get_string(keyfile,"Data","BackgroundImage",NULL);	
 		}
-	asprintf(&command,"%s\"%s\"",XCONFSETCONTROLS,gtkset);
-	system(command);
-	asprintf(&command,"%s\"%s\"",XCONFSETFRAME,frameset);
-	system(command);
-	asprintf(&command,"%s\"%s\"",XCONFSETICONS,iconset);
-	system(command);
-	asprintf(&command,"%s\"%s\"",XCONFSETCURSOR,cursorset);
-	system(command);
+	if(gtkset!=NULL)
+		{
+			asprintf(&command,"%s\"%s\"",XCONFSETCONTROLS,gtkset);
+			system(command);
+		}
+	if(frameset!=NULL)
+		{
+			asprintf(&command,"%s\"%s\"",XCONFSETFRAME,frameset);
+			system(command);
+		}
+	if(iconset!=NULL)
+		{
+			asprintf(&command,"%s\"%s\"",XCONFSETICONS,iconset);
+			system(command);
+		}
+	if(cursorset!=NULL)
+		{
+			asprintf(&command,"%s\"%s\"",XCONFSETCURSOR,cursorset);
+			system(command);
+		}
+	if(paperset!=NULL)
+		{
+			asprintf(&command,"%s\"%s\"",XCONFSETPAPER,paperset);
+			system(command);
+		}
 }
 //
 //*******************************************************************
@@ -869,7 +888,7 @@ void doWallpapers(GtkWidget* widget,gpointer data)
 	asprintf(&command,"%s/.local/share/xfce4/backdrops/%s",getenv("HOME"),gtk_widget_get_name(widget));
 	if (g_file_test(command,G_FILE_TEST_EXISTS))
 		{
-			asprintf(&command,"%s \"%s/.local/share/xfce4/backdrops/%s\"",XCONFSETIMAGEPATH,getenv("HOME"),gtk_widget_get_name(widget));
+			asprintf(&command,"%s \"%s/.local/share/xfce4/backdrops/%s\"",XCONFSETPAPER,getenv("HOME"),gtk_widget_get_name(widget));
 			system(command);
 			return;
 		}

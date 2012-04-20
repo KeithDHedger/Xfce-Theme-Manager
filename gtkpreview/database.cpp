@@ -68,6 +68,7 @@ void rebuildDB(void)
 	char*		indexfile;
 	char*		dbfile;
 	char*		thumbfile;
+	char*		framefolder;
 
 	const gchar*	entry;
 	GDir*		folder;
@@ -179,18 +180,18 @@ void rebuildDB(void)
 							asprintf(&dbfile,"%s/%s.db",metaFolder,entry);
 							asprintf(&thumbfile,"%s/%s.png",metaFolder,entry);
 
-							writeDBFile(dbfile,displayname,gtkname,framename,iconname,papername,cursorname,buffer);
+							writeDBFile(dbfile,displayname,gtkname,framename,iconname,papername,cursorname,thumbfile);
 
 							gtkwidth=400;
 							gtkheight=200;
-							asprintf(&buffer2,"%s/%s",localThemes,entry);
+							asprintf(&framefolder,"%s/%s",localThemes,entry);
 							gtkPixbuf=create_gtk_theme_pixbuf(gtkname);
 							if(gtkPixbuf!=NULL)
 								{
-									getspace(buffer2);
+									getspace(buffer);
 									asprintf(&iconTheme,"%s",iconname);
 									asprintf(&cursorTheme,"%s",cursorname);
-									makeborder(buffer2,thumbfile);
+									makeborder(framefolder,thumbfile);
 									g_object_unref(gtkPixbuf);
 									gtkPixbuf=NULL;
 								}
