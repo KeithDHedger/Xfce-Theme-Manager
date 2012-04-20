@@ -59,7 +59,6 @@ void writeDBFile(char* filename,char* name,char* gtk,char* frame,char* icon,char
 
 	fprintf(fd,"%s\n",filedata);
 	fclose(fd);
-
 }
 
 void rebuildDB(void)
@@ -68,6 +67,7 @@ void rebuildDB(void)
 	char*		buffer2;
 	char*		indexfile;
 	char*		dbfile;
+	char*		thumbfile;
 
 	const gchar*	entry;
 	GDir*		folder;
@@ -135,9 +135,6 @@ void rebuildDB(void)
 										asprintf(&gtkname,"%s",temp);
 										g_free(temp);
 									}
-								else
-									asprintf(&gtkname,"");
-
 								temp=g_key_file_get_string(metakeyfile,"X-GNOME-Metatheme","IconTheme",NULL);
 								if (temp!=NULL)
 									{
@@ -156,15 +153,12 @@ void rebuildDB(void)
 										asprintf(&papername,"%s",temp);
 										g_free(temp);
 									}
-								//else
-								//	asprintf(&papername,"");
-
 								makedb=true;
 							}
 						}
 					else
 						{
-							indexname[0]=0;
+							indexname=NULL;
 							asprintf(&buffer,"%s/%s/xfwm4",localThemes,entry);
 							if (g_file_test(buffer,G_FILE_TEST_IS_DIR))
 								{
@@ -183,24 +177,20 @@ void rebuildDB(void)
 						{
 							asprintf(&framename,"%s",entry);
 							asprintf(&dbfile,"%s/%s.db",metaFolder,entry);
-							//fd=fopen(dbfile,"w");
-							asprintf(&buffer,"%s/%s.png",metaFolder,entry);
-							//fprintf(fd,"[Data]\nName=%s\nThumbnail=%s\nGtkTheme=%s\nXfwm4Theme=%s\nIconTheme=%s\nCursorTheme=%s\nBackgroundImage=%s\n"
-							//,displayname,buffer,gtkname,framename,iconname,cursorname,papername);
-							//fclose(fd);
-				//void writeDBFile(char* filename,char* name,char* gtk,char* frame,char* icon,char* paper,char* cursor,char* thumb)
+							asprintf(&thumbfile,"%s/%s.png",metaFolder,entry);
+
 							writeDBFile(dbfile,displayname,gtkname,framename,iconname,papername,cursorname,buffer);
+
 							gtkwidth=400;
 							gtkheight=200;
 							asprintf(&buffer2,"%s/%s",localThemes,entry);
 							gtkPixbuf=create_gtk_theme_pixbuf(gtkname);
 							if(gtkPixbuf!=NULL)
 								{
-									getspace(buffer);
-									//printf("%s\n%s\n",buffer,buffer2);
+									getspace(buffer2);
 									asprintf(&iconTheme,"%s",iconname);
 									asprintf(&cursorTheme,"%s",cursorname);
-									makeborder(buffer2,buffer);
+									makeborder(buffer2,thumbfile);
 									g_object_unref(gtkPixbuf);
 									gtkPixbuf=NULL;
 								}
