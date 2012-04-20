@@ -46,6 +46,10 @@
 #define GLOBALTHEMES "/usr/share/themes"
 
 #define XCONFGETCONTROLS "xfconf-query -c xsettings -vp /Net/ThemeName"
+#define XCONFGETICONS "xfconf-query -c xsettings -vp /Net/IconThemeName"
+#define XCONFGETCURSOR "xfconf-query -c xsettings -vp /Gtk/CursorThemeName"
+#define XCONFGETFRAME "xfconf-query -c xfwm4 -vp /general/theme"
+#define XCONFGETPAPER "xfconf-query -nRt string -c xfce4-desktop -vp /backdrop/screen0/monitor0/image-path"
 
 int		button_offset,button_spacing;
 GdkPixbuf*	gtkPixbuf;
@@ -69,6 +73,12 @@ char		iconsFolder[4096];
 char		cursorsFolder[4096];
 char		wallpapersFolder[4096];
 
+char*		currentIconTheme;
+char*		currentWmTheme;
+char*		currentCursorTheme;
+char*		currentWallPaper;
+char*		currentGtkTheme;
+char*		currentTheme;
 
 bool itemExists(char* folder,const char* item)
 {
@@ -964,7 +974,6 @@ void addNewButtons(GtkWidget* vbox,const char* subfolder,void* callback)
 									thumb=g_key_file_get_string(keyfile,"Data","Thumbnail",NULL);
 									button=gtk_button_new();
 									box=imageBox(thumb,name);
-									//gtk_widget_set_name(button,set);
 									gtk_widget_set_name(button,filename);
 									gtk_button_set_relief((GtkButton*)button,GTK_RELIEF_NONE);
 									gtk_container_add (GTK_CONTAINER (button),box);
