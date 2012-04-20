@@ -29,6 +29,7 @@
 
 #include "globals.h"
 #include "database.h"
+#include "thumbnails.h"
 
 bool itemExists(char* folder,const char* item)
 {
@@ -586,47 +587,6 @@ void getspace(char* folder)
 		fclose(fp);
 }
 
-void makecursor(char* theme,char* outPath)
-{
-	GdkPixbuf*	arrow;
-	GdkPixbuf*	move;
-	GdkPixbuf*	wait;
-	GdkPixbuf*	hand;
-	cairo_surface_t *surface;
-	cairo_t *cr;
-
-	gtkPixbuf=NULL;
-	surface=cairo_image_surface_create(CAIRO_FORMAT_ARGB32,128,32);
-	cr=cairo_create(surface);
-
-	arrow=cursorprev("left_ptr",theme);
-	move=cursorprev("fleur",theme);
-	wait=cursorprev("watch",theme);
-	hand=cursorprev("hand2",theme);
-
-	if (arrow==NULL || move==NULL || wait==NULL || hand==NULL)
-		exit(1);
-	cairo_save (cr);
-		gdk_cairo_set_source_pixbuf(cr,arrow,0,0);
-		cairo_paint_with_alpha(cr,100);
-		gdk_cairo_set_source_pixbuf(cr,move,32,0);
-		cairo_paint_with_alpha(cr,100);
-		gdk_cairo_set_source_pixbuf(cr,wait,64,0);
-		cairo_paint_with_alpha(cr,100);
-		gdk_cairo_set_source_pixbuf(cr,hand,96,0);
-		cairo_paint_with_alpha(cr,100);
-	cairo_restore (cr);
-
-	cairo_surface_write_to_png(surface,outPath);
-
-	g_object_unref(arrow);
-	g_object_unref(move);
-	g_object_unref(wait);
-	g_object_unref(hand);
-
-	cairo_surface_destroy(surface);
-	cairo_destroy(cr);
-}
 
 void makeIcon(char* themename,char* outPath)
 {
