@@ -36,6 +36,32 @@ extern void makeborder(char* folder,char* outframe);
 extern void makecursor(char* theme,char* outPath);
 extern void makeIcon(char* themename,char* outPath);
 
+void writeDBFile(char* filename,char* name,char* gtk,char* frame,char* icon,char* paper,char* cursor,char* thumb)
+{
+
+	FILE*	fd;
+	char*	filedata;
+
+	asprintf(&filedata,"[Data]\nName=%s\nThumbnail=%s\n",name,thumb);
+
+	if (gtk!=NULL)
+		asprintf(&filedata,"%sGtkTheme=%s\n",filedata,gtk);
+	if (frame!=NULL)
+		asprintf(&filedata,"%sXfwm4Theme=%s\n",filedata,frame);
+	if (icon!=NULL)
+		asprintf(&filedata,"%sIconTheme=%s\n",filedata,icon);
+	if (cursor!=NULL)
+		asprintf(&filedata,"%sCursorTheme=%s\n",filedata,cursor);
+	if (paper!=NULL)
+		asprintf(&filedata,"%sBackgroundImage=%s\n",filedata,paper);
+
+	fd=fopen(filename,"w");
+
+	fprintf(fd,"%s\n",filedata);
+	fclose(fd);
+
+}
+
 void rebuildDB(void)
 {
 	char*		buffer;
@@ -93,7 +119,6 @@ void rebuildDB(void)
 						asprintf(&buffer,"%s/%s/xfwm4",localThemes,entry);
 						if (g_file_test(buffer,G_FILE_TEST_IS_DIR))
 							{
-								temp=NULL;
 								temp=g_key_file_get_string(metakeyfile,"Desktop Entry","Name",NULL);
 								if(temp==NULL)
 									temp=g_key_file_get_string(metakeyfile,"X-GNOME-Metatheme","Name",NULL);
@@ -103,36 +128,37 @@ void rebuildDB(void)
 									{
 										asprintf(&displayname,"%s",temp);
 										g_free(temp);
-										temp=NULL;
 									}
 								temp=g_key_file_get_string(metakeyfile,"X-GNOME-Metatheme","GtkTheme",NULL);
 								if (temp!=NULL)
 									{
 										asprintf(&gtkname,"%s",temp);
 										g_free(temp);
-										temp=NULL;
 									}
+								else
+									asprintf(&gtkname,"");
+
 								temp=g_key_file_get_string(metakeyfile,"X-GNOME-Metatheme","IconTheme",NULL);
 								if (temp!=NULL)
 									{
 										asprintf(&iconname,"%s",temp);
 										g_free(temp);
-										temp=NULL;
 									}
 								temp=g_key_file_get_string(metakeyfile,"X-GNOME-Metatheme","CursorTheme",NULL);
 								if (temp!=NULL)
 									{
 										asprintf(&cursorname,"%s",temp);
 										g_free(temp);
-										temp=NULL;
 									}
 								temp=g_key_file_get_string(metakeyfile,"X-GNOME-Metatheme","BackgroundImage",NULL);
 								if (temp!=NULL)
 									{
 										asprintf(&papername,"%s",temp);
 										g_free(temp);
-										temp=NULL;
 									}
+								//else
+								//	asprintf(&papername,"");
+
 								makedb=true;
 							}
 						}
@@ -157,11 +183,13 @@ void rebuildDB(void)
 						{
 							asprintf(&framename,"%s",entry);
 							asprintf(&dbfile,"%s/%s.db",metaFolder,entry);
-							fd=fopen(dbfile,"w");
+							//fd=fopen(dbfile,"w");
 							asprintf(&buffer,"%s/%s.png",metaFolder,entry);
-							fprintf(fd,"[Data]\nName=%s\nThumbnail=%s\nGtkTheme=%s\nXfwm4Theme=%s\nIconTheme=%s\nCursorTheme=%s\nBackgroundImage=%s\n"
-							,displayname,buffer,gtkname,framename,iconname,cursorname,papername);
-							fclose(fd);
+							//fprintf(fd,"[Data]\nName=%s\nThumbnail=%s\nGtkTheme=%s\nXfwm4Theme=%s\nIconTheme=%s\nCursorTheme=%s\nBackgroundImage=%s\n"
+							//,displayname,buffer,gtkname,framename,iconname,cursorname,papername);
+							//fclose(fd);
+				//void writeDBFile(char* filename,char* name,char* gtk,char* frame,char* icon,char* paper,char* cursor,char* thumb)
+							writeDBFile(dbfile,displayname,gtkname,framename,iconname,papername,cursorname,buffer);
 							gtkwidth=400;
 							gtkheight=200;
 							asprintf(&buffer2,"%s/%s",localThemes,entry);
@@ -169,7 +197,7 @@ void rebuildDB(void)
 							if(gtkPixbuf!=NULL)
 								{
 									getspace(buffer);
-									printf("%s\n%s\n",buffer,buffer2);
+									//printf("%s\n%s\n",buffer,buffer2);
 									asprintf(&iconTheme,"%s",iconname);
 									asprintf(&cursorTheme,"%s",cursorname);
 									makeborder(buffer2,buffer);
