@@ -14,6 +14,7 @@
  *
  * Globals.cpp
  */
+#include <gdk-pixbuf/gdk-pixbuf.h>
 
 //current stuff
 int		wallStyle=0;
@@ -32,4 +33,15 @@ char*		controlsFolder;
 char*		iconsFolder;
 char*		cursorsFolder;
 char*		wallpapersFolder;
+
+//to bie gone
+int		button_offset,button_spacing;
+GdkPixbuf*	gtkPixbuf;
+int		boxhite=90;
+int		gtkwidth=200;
+int		gtkheight=50;
+char*		cursorTheme;
+char*		iconTheme;
+char*		localIcons;
+char*		localThemes;
 

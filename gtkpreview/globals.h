@@ -15,6 +15,8 @@
  * Globals.h
  */
 
+#include <gdk-pixbuf/gdk-pixbuf.h>
+
 #ifndef _GLOBALS_
 #define _GLOBALS_
 
@@ -57,6 +59,17 @@ extern char*		controlsFolder;
 extern char*		iconsFolder;
 extern char*		cursorsFolder;
 extern char*		wallpapersFolder;
+
+//to bie gone
+extern int		button_offset,button_spacing;
+extern GdkPixbuf*	gtkPixbuf;
+extern int		boxhite;
+extern int		gtkwidth;
+extern int		gtkheight;
+extern char*		cursorTheme;
+extern char*		iconTheme;
+extern char*		localIcons;
+extern char*		localThemes;
 
 
 #endif
