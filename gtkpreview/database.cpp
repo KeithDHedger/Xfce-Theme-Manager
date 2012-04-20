@@ -219,12 +219,12 @@ void rebuildDB(void)
 					if (g_file_test(buffer,G_FILE_TEST_IS_DIR))
 						{
 							asprintf(&dbfile,"%s/%s.db",framesFolder,entry);
-							fd=fopen(dbfile,"w");
-							asprintf(&buffer,"%s/%s.png",framesFolder,entry);
-							fprintf(fd,"[Data]\nName=%s\nThumbnail=%s\nXconfName=%s",entry,buffer,entry);
-							fclose(fd);
-							asprintf(&buffer2,"%s/%s",localThemes,entry);
-							makeborder(buffer2,buffer);
+							//fd=fopen(dbfile,"w");
+							asprintf(&thumbfile,"%s/%s.png",framesFolder,entry);
+							//fprintf(fd,"[Data]\nName=%s\nThumbnail=%s\nXconfName=%s",entry,buffer,entry);
+							//fclose(fd);
+							asprintf(&framefolder,"%s/%s",localThemes,entry);
+							makeborder(framefolder,thumbfile);
 						}
 					entry=g_dir_read_name(folder);
 				}
