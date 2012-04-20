@@ -219,10 +219,10 @@ void rebuildDB(void)
 					if (g_file_test(buffer,G_FILE_TEST_IS_DIR))
 						{
 							asprintf(&dbfile,"%s/%s.db",framesFolder,entry);
-							//fd=fopen(dbfile,"w");
 							asprintf(&thumbfile,"%s/%s.png",framesFolder,entry);
-							//fprintf(fd,"[Data]\nName=%s\nThumbnail=%s\nXconfName=%s",entry,buffer,entry);
-							//fclose(fd);
+
+							writeDBFile(dbfile,(char*)entry,NULL,(char*)entry,NULL,NULL,NULL,thumbfile);
+
 							asprintf(&framefolder,"%s/%s",localThemes,entry);
 							makeborder(framefolder,thumbfile);
 						}
@@ -243,17 +243,14 @@ void rebuildDB(void)
 					if (g_file_test(buffer,G_FILE_TEST_IS_DIR))
 						{
 							asprintf(&dbfile,"%s/%s.db",controlsFolder,entry);
-
-							fd=fopen(dbfile,"w");
-							asprintf(&buffer,"%s/%s.png",controlsFolder,entry);
+							asprintf(&thumbfile,"%s/%s.png",controlsFolder,entry);
 							pixbuf=create_gtk_theme_pixbuf((char*)entry);
 							if(pixbuf!=NULL)
 								{
-									gdk_pixbuf_savev(pixbuf,buffer,"png",NULL,NULL,NULL);
+									gdk_pixbuf_savev(pixbuf,thumbfile,"png",NULL,NULL,NULL);
 									g_object_unref(pixbuf);
+									writeDBFile(dbfile,(char*)entry,(char*)entry,NULL,NULL,NULL,NULL,thumbfile);
 								}
-							fprintf(fd,"[Data]\nName=%s\nThumbnail=%s\nXconfName=%s",entry,buffer,entry);
-							fclose(fd);
 						}
 					entry=g_dir_read_name(folder);
 				}
@@ -261,6 +258,8 @@ void rebuildDB(void)
 		}
 
 //buid icons
+//writeDBFile(dbfile,displayname,gtkname,framename,iconname,papername,cursorname,thumbfile);
+
 	g_mkdir_with_parents(iconsFolder,493);
 	if(folder=g_dir_open(localIcons,0,NULL))
 		{
@@ -274,12 +273,13 @@ void rebuildDB(void)
 							asprintf(&dbfile,"%s/%s.db",iconsFolder,entry);
 							if(g_key_file_load_from_file(keyfile,indexfile,G_KEY_FILE_NONE,NULL))
 								{
-									name=g_key_file_get_string(keyfile,"Icon Theme","Name",NULL);
-									fd=fopen(dbfile,"w");
-									asprintf(&buffer,"%s/%s.png",iconsFolder,entry);
-									makeIcon((char*)entry,(char*)buffer);
-									fprintf(fd,"[Data]\nName=%s\nThumbnail=%s\nXconfName=%s",name,buffer,entry);
-									fclose(fd);
+									displayname=g_key_file_get_string(keyfile,"Icon Theme","Name",NULL);
+									//fd=fopen(dbfile,"w");
+									asprintf(&thumbfile,"%s/%s.png",iconsFolder,entry);
+									makeIcon((char*)entry,thumbfile);
+									writeDBFile(dbfile,displayname,NULL,NULL,(char*)entry,NULL,NULL,thumbfile);
+									//fprintf(fd,"[Data]\nName=%s\nThumbnail=%s\nXconfName=%s",name,buffer,entry);
+									//fclose(fd);
 									g_free(name);
 								}
 						}

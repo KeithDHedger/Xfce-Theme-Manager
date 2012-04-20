@@ -763,10 +763,22 @@ void pickfont(char* currentname)
 //
 void doFrame(GtkWidget* widget,gpointer data)
 {
-	char*	command;
 
-	asprintf(&command,"%s \"%s\"",XCONFSETFRAME,gtk_widget_get_name(widget));
-	system(command);
+
+	GKeyFile*	keyfile=g_key_file_new();
+	char*		command;
+	char*		frameset;
+
+	if(g_key_file_load_from_file(keyfile,gtk_widget_get_name(widget),G_KEY_FILE_NONE,NULL))
+		frameset=g_key_file_get_string(keyfile,"Data","Xfwm4Theme",NULL);
+
+	if(frameset!=NULL)
+		{
+			asprintf(&command,"%s\"%s\"",XCONFSETFRAME,frameset);
+			system(command);
+			free(command);
+			free(frameset);
+		}
 }
 //
 
@@ -776,10 +788,20 @@ void doFrame(GtkWidget* widget,gpointer data)
 //
 void doControls(GtkWidget* widget,gpointer data)
 {
-	char*	command;
+	GKeyFile*	keyfile=g_key_file_new();
+	char*		command;
+	char*		controlset;
 
-	asprintf(&command,"%s\"%s\"",XCONFSETCONTROLS,gtk_widget_get_name(widget));
-	system(command);
+	if(g_key_file_load_from_file(keyfile,gtk_widget_get_name(widget),G_KEY_FILE_NONE,NULL))
+		controlset=g_key_file_get_string(keyfile,"Data","GtkTheme",NULL);
+
+	if(controlset!=NULL)
+		{
+			asprintf(&command,"%s\"%s\"",XCONFSETCONTROLS,controlset);
+			system(command);
+			free(command);
+			free(controlset);
+		}
 }
 //
 //*******************************************************************
@@ -811,26 +833,36 @@ void doMeta(GtkWidget* widget,gpointer data)
 		{
 			asprintf(&command,"%s\"%s\"",XCONFSETCONTROLS,gtkset);
 			system(command);
+			free(command);
+			free(gtkset);
 		}
 	if(frameset!=NULL)
 		{
 			asprintf(&command,"%s\"%s\"",XCONFSETFRAME,frameset);
 			system(command);
+			free(command);
+			free(frameset);
 		}
 	if(iconset!=NULL)
 		{
 			asprintf(&command,"%s\"%s\"",XCONFSETICONS,iconset);
 			system(command);
+			free(command);
+			free(iconset);
 		}
 	if(cursorset!=NULL)
 		{
 			asprintf(&command,"%s\"%s\"",XCONFSETCURSOR,cursorset);
 			system(command);
+			free(command);
+			free(cursorset);
 		}
 	if(paperset!=NULL)
 		{
 			asprintf(&command,"%s\"%s\"",XCONFSETPAPER,paperset);
 			system(command);
+			free(command);
+			free(paperset);
 		}
 }
 //
@@ -845,10 +877,21 @@ void doMeta(GtkWidget* widget,gpointer data)
 
 void doIcons(GtkWidget* widget,gpointer data)
 {
-	char*	command;
+	GKeyFile*	keyfile=g_key_file_new();
+	char*		command;
+	char*		iconset;
 
-	asprintf(&command,"%s\"%s\"",XCONFSETICONS,gtk_widget_get_name(widget));
-	system(command);
+	if(g_key_file_load_from_file(keyfile,gtk_widget_get_name(widget),G_KEY_FILE_NONE,NULL))
+		iconset=g_key_file_get_string(keyfile,"Data","IconTheme",NULL);
+
+	if(iconset!=NULL)
+		{
+			asprintf(&command,"%s\"%s\"",XCONFSETICONS,iconset);
+			system(command);
+			free(command);
+			free(iconset);
+		}
+
 	system("xfdesktop --reload");
 }
 //
