@@ -29,3 +29,6 @@ uninstall:
 clean:
 	rm $(PROGRAM)
 
+pkg:
+	tar --exclude .svn -cvzf Xfce-Theme-Manager-$(VERSION).tar.gz src Xfce-Theme-Manager.desktop README Makefile
+
