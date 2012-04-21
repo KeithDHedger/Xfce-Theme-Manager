@@ -370,6 +370,14 @@ void shutdown(GtkWidget* window,gpointer data)
 	gtk_main_quit();
 }
 
+void rerunAndBuild(GtkWidget* window,gpointer data)
+{
+	char *const	datax[]={"xfce-theme-manager","-m",NULL};
+
+	gtk_main_quit();
+	execvp("xfce-theme-manager",datax);
+}
+
 void init(void)
 {
 	gchar	*stdout;
@@ -557,6 +565,7 @@ int main(int argc,char **argv)
 
 	button=gtk_button_new_with_label("Rebuild DB");
 	gtk_box_pack_start(GTK_BOX(buttonHbox),button, false,false,0);
+	g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(rerunAndBuild),NULL);
 
 	gtk_box_pack_start(GTK_BOX(vbox),buttonHbox, false,false, 8);
 
@@ -573,7 +582,7 @@ int main(int argc,char **argv)
 	gtk_main();
 
 }
-
+//
 //gtkprev [border] /path/to/border /out/path/to/png
 //gtkprev [controls] gtkthemename /out/path/to/png
 //gtkprev [theme] gtkthemename /path/to/border /out/path/to/png
