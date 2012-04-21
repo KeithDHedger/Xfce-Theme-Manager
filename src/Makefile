@@ -1,7 +1,6 @@
-PROGRAM=gtkprev
+PROGRAM=Xfce-Theme-Manager
 SOURCES=main.cpp globals.cpp database.cpp thumbnails.cpp
-VERSION=0.0.3
-GUI=xfce-theme-manager
+VERSION=0.1.0
 LAUNCHER=Xfce-Theme-Manager.desktop
 
 ifeq ($(strip $(PREFIX)),)
@@ -21,19 +20,12 @@ install:
 	rm $(PROGRAM)||true
 	g++ $(CXXFLAGS) -o $(PROGRAM) $(SOURCES)
 	strip $(PROGRAM)
-	chmod +x ../$(GUI)
-	cp $(PROGRAM) ../$(GUI) $(DESTDIR)$(PREFIX)/bin
-	cp ../$(LAUNCHER) $(DESTDIR)$(PREFIX)/share/applications
-
-install-helper:
-	mkdir -p $(DESTDIR)$(PREFIX)/bin
-	rm $(PROGRAM)||true
-	g++ $(CXXFLAGS) -o $(PROGRAM) $(SOURCES)
-	strip $(PROGRAM)
-	cp $(PROGRAM) $(DESTDIR)$(PREFIX)/bin
+	cp -p $(PROGRAM) $(DESTDIR)$(PREFIX)/bin
+	cp $(LAUNCHER) $(DESTDIR)$(PREFIX)/share/applications
 
 uninstall:
-	rm $(DESTDIR)$(PREFIX)/bin/$(PROGRAM) $(DESTDIR)$(PREFIX)/share/applications/$(LAUNCHER) $(DESTDIR)$(PREFIX)/bin/$(GUI)
+	rm $(DESTDIR)$(PREFIX)/bin/$(PROGRAM) $(DESTDIR)$(PREFIX)/share/applications/$(LAUNCHER)
+
 clean:
 	rm $(PROGRAM)
 

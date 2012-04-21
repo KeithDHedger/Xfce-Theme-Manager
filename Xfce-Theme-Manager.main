@@ -23,10 +23,9 @@ init ()
 	export OLDICONS=$(xfconf-query -c xsettings -vp /Net/IconThemeName)
 	export OLDBORDER=$(xfconf-query -c xfwm4 -vp /general/theme)
 	export OLDCONTROLS=$(xfconf-query -c xsettings -vp /Net/ThemeName)
-	export OLDCONTROLS=$(xfconf-query -c xsettings -vp /Net/ThemeName)
 	export OLDCURSOR=$(xfconf-query -c xsettings -vp /Gtk/CursorThemeName)
 	export OLDWMFONT=$(xfconf-query -c xfwm4 -vp /general/title_font)
-	OLDAPPFONT=$(xfconf-query -c xsettings -vp /Gtk/FontName)
+	export OLDAPPFONT=$(xfconf-query -c xsettings -vp /Gtk/FontName)
 
 	export -f setframe
 	export -f setcontrols
