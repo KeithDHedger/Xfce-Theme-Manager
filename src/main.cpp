@@ -281,6 +281,25 @@ void doWallpapers(GtkWidget* widget,gpointer data)
 //
 //*******************************************************************
 
+//*******************************************************************
+//
+// RESET THEME
+void resetTheme(GtkWidget* widget,gpointer data)
+{
+	char		command[256];
+
+	sprintf(command,"%s\"%s\"",XCONFSETCONTROLS,currentGtkTheme);
+	system(command);
+	sprintf(command,"%s\"%s\"",XCONFSETFRAME,currentWmTheme);
+	system(command);
+	sprintf(command,"%s\"%s\"",XCONFSETICONS,currentIconTheme);
+	system(command);
+	sprintf(command,"%s\"%s\"",XCONFSETCURSOR,currentCursorTheme);
+	system(command);
+	sprintf(command,"%s\"%s\"",XCONFSETPAPER,currentWallPaper);
+	system(command);
+}
+
 GtkWidget *imageBox(char* filename,char* text)
 {
 	GtkWidget*	box;
@@ -355,10 +374,6 @@ void init(void)
 {
 	gchar	*stdout;
 
-//	asprintf(&localIcons,"%s/.icons",getenv("HOME"));
-//	asprintf(&localThemes,"%s/.themes",getenv("HOME"));
-//	asprintf(&localPapers,"%s/.local/share/xfce4/backdrops",getenv("HOME"));
-
 	asprintf(&themesArray[0],"%s/.themes",getenv("HOME"));
 	asprintf(&themesArray[1],"%s",GLOBALTHEMES);
 	
@@ -383,15 +398,28 @@ void init(void)
 
 	g_spawn_command_line_sync(XCONFGETCONTROLS,&currentGtkTheme,NULL,NULL,NULL);
 	currentGtkTheme[strlen(currentGtkTheme)-1]=0;
+	
+	g_spawn_command_line_sync(XCONFGETICONS,&currentIconTheme,NULL,NULL,NULL);
+	currentIconTheme[strlen(currentIconTheme)-1]=0;
+
+	g_spawn_command_line_sync(XCONFGETCURSOR,&currentCursorTheme,NULL,NULL,NULL);
+	currentCursorTheme[strlen(currentCursorTheme)-1]=0;
+
+	g_spawn_command_line_sync(XCONFGETFRAME,&currentWmTheme,NULL,NULL,NULL);
+	currentWmTheme[strlen(currentWmTheme)-1]=0;
+
+	g_spawn_command_line_sync(XCONFGETPAPER,&currentWallPaper,NULL,NULL,NULL);
+	currentWallPaper[strlen(currentWallPaper)-1]=0;
 }
 
 int main(int argc,char **argv)
 {
-	GtkWidget*	window;
-	GtkWidget*	vbox;
+	GtkWidget*		window;
+	GtkWidget*		vbox;
 	GtkNotebook*	notebook;
-
-	GtkWidget*	label;
+	GtkWidget*		buttonHbox;
+	GtkWidget*		label;
+	GtkWidget*		button;
 
 //themes tab
 	GtkWidget*	themesVbox;
@@ -414,8 +442,7 @@ int main(int argc,char **argv)
 	GtkWidget*	wallpapersVbox;
 	GtkWidget*	wallpapersScrollBox;
 	GtkComboBoxText* combo;
-//general
-	GtkWidget*	vgbox;
+	GtkWidget*	paperVbox;
 
 	gtk_init(&argc, &argv);
 
@@ -475,7 +502,7 @@ int main(int argc,char **argv)
 //wallpapers
 	wallpapersScrollBox=gtk_vbox_new(FALSE, 0);
 
-	vgbox=gtk_scrolled_window_new(NULL,NULL);
+	paperVbox=gtk_scrolled_window_new(NULL,NULL);
 	wallpapersVbox=gtk_vbox_new(FALSE, 0);
 	addNewButtons(wallpapersVbox,"wallpapers",(void*)doWallpapers);
 
@@ -490,8 +517,8 @@ int main(int argc,char **argv)
 	g_signal_connect_after(G_OBJECT(combo),"changed",G_CALLBACK(wallStyleChanged),NULL);
 
 	gtk_box_pack_start((GtkBox*)wallpapersScrollBox,(GtkWidget*)combo,false,true,4);
-	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)vgbox,wallpapersVbox);
-	gtk_container_add (GTK_CONTAINER (wallpapersScrollBox), vgbox);
+	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)paperVbox,wallpapersVbox);
+	gtk_container_add (GTK_CONTAINER (wallpapersScrollBox), paperVbox);
 
 //main notebook
 	notebook=(GtkNotebook*)gtk_notebook_new();
@@ -518,7 +545,30 @@ int main(int argc,char **argv)
 
 //add notebook to window
 	gtk_container_add(GTK_CONTAINER(vbox),(GtkWidget*)notebook);
-	
+
+	gtk_box_pack_start(GTK_BOX(vbox),gtk_hseparator_new(),false,false,4);
+
+//do buttons
+	buttonHbox=gtk_hbox_new(true,0);
+
+	button=gtk_button_new_with_label("Reset Theme");
+	gtk_box_pack_start(GTK_BOX(buttonHbox),button, false,false,0);
+	g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(resetTheme),NULL);
+
+	button=gtk_button_new_with_label("Rebuild DB");
+	gtk_box_pack_start(GTK_BOX(buttonHbox),button, false,false,0);
+
+	gtk_box_pack_start(GTK_BOX(vbox),buttonHbox, false,false, 8);
+
+	buttonHbox=gtk_hbox_new(true,0);
+	button=gtk_button_new_from_stock(GTK_STOCK_QUIT);
+	g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(shutdown),NULL);
+
+	gtk_box_pack_start(GTK_BOX(vbox),gtk_hseparator_new(),false,false,0);
+
+	gtk_box_pack_start(GTK_BOX(buttonHbox),button, false,false,8);
+	gtk_box_pack_start(GTK_BOX(vbox),buttonHbox, false,false,8);
+
 	gtk_widget_show_all(window);
 	gtk_main();
 

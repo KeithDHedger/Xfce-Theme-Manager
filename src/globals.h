@@ -51,7 +51,6 @@ extern char*		currentWmTheme;
 extern char*		currentCursorTheme;
 extern char*		currentWallPaper;
 extern char*		currentGtkTheme;
-extern char*		currentTheme;
 
 //db
 extern char*		metaFolder;
@@ -75,9 +74,6 @@ extern char*		papersArray[2];
 
 extern char*		cursorTheme;
 extern char*		iconTheme;
-extern char*		localIcons;
-extern char*		localThemes;
-extern char*		localPapers;
 
 extern void freeAndNull(char** ptr);
 

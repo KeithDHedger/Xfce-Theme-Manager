@@ -24,7 +24,6 @@ char*		currentWmTheme;
 char*		currentCursorTheme;
 char*		currentWallPaper;
 char*		currentGtkTheme;
-char*		currentTheme;
 
 //db
 char*		metaFolder;
@@ -48,11 +47,6 @@ char*		papersArray[2];
 
 char*		cursorTheme;
 char*		iconTheme;
-char*		localIcons;
-char*		localThemes;
-char*		localPapers;
-
-
 
 void freeAndNull(char** ptr)
 {
