@@ -28,6 +28,7 @@ GtkWidget*		progressWindow;
 GtkWidget*		progressBar;
 int 			wallStyle;
 GtkComboBoxText*	comboBox;
+GtkNotebook*	advanced;
 
 void respond(GtkFontSelectionDialog* dialog,gint response,gpointer data)
 {
@@ -139,7 +140,7 @@ void doMeta(GtkWidget* widget,gpointer data)
 	char*		frameset;
 	char*		iconset;
 	char*		paperset;
-	char*		controlset;
+
 	GtkSettings *settings=gtk_settings_get_default();;
 
 	if(g_key_file_load_from_file(keyfile,gtk_widget_get_name(widget),G_KEY_FILE_NONE,NULL))
@@ -381,6 +382,12 @@ void addNewButtons(GtkWidget* vbox,const char* subfolder,void* callback)
 		}
 }
 
+void launchCompEd(GtkWidget* window,gpointer data)
+{
+	system("xfce4-composite-editor");
+}
+
+
 void shutdown(GtkWidget* window,gpointer data)
 {
 	gtk_main_quit();
@@ -392,6 +399,22 @@ void rerunAndBuild(GtkWidget* window,gpointer data)
 
 	gtk_main_quit();
 	execvp("xfce-theme-manager",datax);
+}
+
+void showAdvanced(GtkWidget* widget,gpointer data)
+{
+	gboolean	state=gtk_toggle_button_get_active((GtkToggleButton*)widget);
+
+	if (state==true)
+		{
+			gtk_notebook_set_current_page(advanced,1);
+			printf("in\n");
+		}
+	else
+		{
+			printf("out\n");
+			gtk_notebook_set_current_page(advanced,0);
+		}
 }
 
 void init(void)
@@ -458,7 +481,6 @@ void makeProgressBar(void)
 
 gboolean updateBarTimer(gpointer data)
 {	
-
 	if(GTK_IS_PROGRESS_BAR((GtkProgressBar*)progressBar))
 		{
 			gtk_progress_bar_pulse((GtkProgressBar*)progressBar);
@@ -499,6 +521,9 @@ int main(int argc,char **argv)
 	GtkWidget*	wallpapersScrollBox;
 	GtkWidget*	paperVbox;
 
+//advanced
+	GtkWidget*	advancedVbox;
+	GtkWidget*	advancedScrollBox;
 
 	g_thread_init(NULL);
 	gdk_threads_init();
@@ -577,9 +602,12 @@ int main(int argc,char **argv)
 	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)paperVbox,wallpapersVbox);
 	gtk_container_add (GTK_CONTAINER (wallpapersScrollBox), paperVbox);
 
-//main notebook
-	notebook=(GtkNotebook*)gtk_notebook_new();
 
+//notebook
+	notebook=(GtkNotebook*)gtk_notebook_new();
+	advanced=(GtkNotebook*)gtk_notebook_new();
+ 	gtk_notebook_set_show_tabs(advanced,false);
+ 
 //pages
 	label=gtk_label_new("Themes");
 	gtk_notebook_append_page(notebook,themesScrollBox,label);
@@ -599,9 +627,25 @@ int main(int argc,char **argv)
 	label=gtk_label_new("Wallpapers");
 	gtk_notebook_append_page(notebook,wallpapersScrollBox,label);
 
+	gtk_notebook_append_page(advanced,(GtkWidget*)notebook,NULL);
+
+//do advanced gui
+	advancedScrollBox=gtk_scrolled_window_new(NULL,NULL);
+	advancedVbox=gtk_vbox_new(FALSE, 0);
+
+	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_label_new("Launch Xfce-Composite-Editor"),false,false,2);
+	button=gtk_button_new_with_label("Xfce-Composite-Editor");
+	g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(launchCompEd),NULL);
+	gtk_box_pack_start(GTK_BOX(advancedVbox),button,false,false,8);
+	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_hseparator_new(),false,false,4);
+
+	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)advancedScrollBox,advancedVbox);
+	label=gtk_label_new("Icons");
+	gtk_notebook_append_page(advanced,advancedScrollBox,label);
+
 
 //add notebook to window
-	gtk_container_add(GTK_CONTAINER(vbox),(GtkWidget*)notebook);
+	gtk_container_add(GTK_CONTAINER(vbox),(GtkWidget*)advanced);
 
 	gtk_box_pack_start(GTK_BOX(vbox),gtk_hseparator_new(),false,false,4);
 
@@ -615,6 +659,10 @@ int main(int argc,char **argv)
 	button=gtk_button_new_with_label("Rebuild DB");
 	gtk_box_pack_start(GTK_BOX(buttonHbox),button, false,false,0);
 	g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(rerunAndBuild),NULL);
+
+	button=gtk_toggle_button_new_with_label("Advanced");
+	gtk_box_pack_start(GTK_BOX(buttonHbox),button, false,false,0);
+	g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(showAdvanced),NULL);
 
 	gtk_box_pack_start(GTK_BOX(vbox),buttonHbox, false,false, 8);
 
