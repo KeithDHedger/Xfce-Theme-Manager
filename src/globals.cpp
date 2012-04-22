@@ -19,7 +19,7 @@
 #include <gtk/gtk.h>
 
 //current stuff
-int		wallStyle=0;
+int		currentWallStyle=0;
 char*		currentIconTheme;
 char*		currentWmTheme;
 char*		currentCursorTheme;
@@ -27,6 +27,7 @@ char*		currentWallPaper;
 char*		currentGtkTheme;
 
 //db
+char*		dbFolder;
 char*		metaFolder;
 char*		framesFolder;
 char*		controlsFolder;
@@ -48,8 +49,6 @@ char*		papersArray[2];
 
 char*		cursorTheme;
 char*		iconTheme;
-GtkWidget*	pbox;
-GtkSettings *hold;
 
 void freeAndNull(char** ptr)
 {

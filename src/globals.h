@@ -46,7 +46,7 @@
 #define XCONFGETFRAME "xfconf-query -c xfwm4 -vp /general/theme"
 #define XCONFGETPAPER "xfconf-query -nRt string -c xfce4-desktop -vp /backdrop/screen0/monitor0/image-path"
 
-extern int		wallStyle;
+extern int			currentWallStyle;
 extern char*		currentIconTheme;
 extern char*		currentWmTheme;
 extern char*		currentCursorTheme;
@@ -54,6 +54,7 @@ extern char*		currentWallPaper;
 extern char*		currentGtkTheme;
 
 //db
+extern char*		dbFolder;
 extern char*		metaFolder;
 extern char*		framesFolder;
 extern char*		controlsFolder;
@@ -78,7 +79,6 @@ extern char*		iconTheme;
 
 extern void freeAndNull(char** ptr);
 
-extern GtkWidget*		pbox;
-extern GtkSettings *hold;
+
 #endif
 

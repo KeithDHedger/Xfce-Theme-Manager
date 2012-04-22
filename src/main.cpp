@@ -23,7 +23,11 @@
 #include "database.h"
 #include "thumbnails.h"
 
-bool whoops=false;
+bool			whoops=false;
+GtkWidget*		progressWindow;
+GtkWidget*		progressBar;
+int 			wallStyle;
+GtkComboBoxText*	comboBox;
 
 void respond(GtkFontSelectionDialog* dialog,gint response,gpointer data)
 {
@@ -101,6 +105,7 @@ void doControls(GtkWidget* widget,gpointer data)
 	GKeyFile*	keyfile=g_key_file_new();
 	char*		command;
 	char*		controlset;
+	GtkSettings *settings=gtk_settings_get_default();;
 
 	if(g_key_file_load_from_file(keyfile,gtk_widget_get_name(widget),G_KEY_FILE_NONE,NULL))
 		{
@@ -110,6 +115,7 @@ void doControls(GtkWidget* widget,gpointer data)
 				{
 					asprintf(&command,"%s\"%s\"",XCONFSETCONTROLS,controlset);
 					system(command);
+					g_object_set(settings,"gtk-theme-name",controlset,"gtk-color-scheme","default",NULL);
 					free(command);
 					free(controlset);
 				}
@@ -133,6 +139,8 @@ void doMeta(GtkWidget* widget,gpointer data)
 	char*		frameset;
 	char*		iconset;
 	char*		paperset;
+	char*		controlset;
+	GtkSettings *settings=gtk_settings_get_default();;
 
 	if(g_key_file_load_from_file(keyfile,gtk_widget_get_name(widget),G_KEY_FILE_NONE,NULL))
 		{
@@ -146,6 +154,7 @@ void doMeta(GtkWidget* widget,gpointer data)
 				{
 					asprintf(&command,"%s\"%s\"",XCONFSETCONTROLS,gtkset);
 					system(command);
+					g_object_set(settings,"gtk-theme-name",gtkset,"gtk-color-scheme","default",NULL);
 					free(command);
 					free(gtkset);
 				}
@@ -244,6 +253,7 @@ void doCursors(GtkWidget* widget,gpointer data)
 //
 //	WALPAPERS
 //
+
 void setWallStyle()
 {
 	char*	command;
@@ -287,6 +297,7 @@ void doWallpapers(GtkWidget* widget,gpointer data)
 void resetTheme(GtkWidget* widget,gpointer data)
 {
 	char		command[256];
+	GtkSettings *settings=gtk_settings_get_default();;
 
 	sprintf(command,"%s\"%s\"",XCONFSETCONTROLS,currentGtkTheme);
 	system(command);
@@ -298,6 +309,11 @@ void resetTheme(GtkWidget* widget,gpointer data)
 	system(command);
 	sprintf(command,"%s\"%s\"",XCONFSETPAPER,currentWallPaper);
 	system(command);
+	sprintf(command,"%s%i",XCONFSETSTYLE,currentWallStyle);
+	system(command);
+
+	g_object_set(settings,"gtk-theme-name",currentGtkTheme,"gtk-color-scheme","default",NULL);
+	gtk_combo_box_set_active((GtkComboBox*)comboBox,currentWallStyle);
 }
 
 GtkWidget *imageBox(char* filename,char* text)
@@ -372,11 +388,10 @@ void shutdown(GtkWidget* window,gpointer data)
 
 void rerunAndBuild(GtkWidget* window,gpointer data)
 {
-	char *const	datax[]={"xfce-theme-manager","-m",NULL};
+	char*	datax[]={(char*)"xfce-theme-manager",(char*)"-m",NULL};
 
-//	gtk_main_quit();
-//	execvp("xfce-theme-manager",datax);
-rebuildDB(NULL);
+	gtk_main_quit();
+	execvp("xfce-theme-manager",datax);
 }
 
 void init(void)
@@ -392,8 +407,9 @@ void init(void)
 	asprintf(&papersArray[0],"%s/.local/share/xfce4/backdrops",getenv("HOME"));
 	asprintf(&papersArray[1],"%s",GLOBALWALLPAPERS);
 
-	asprintf(&metaFolder,"%s/.config/XfceThemeManager/meta",getenv("HOME"));
 
+	asprintf(&dbFolder,"%s/.config/XfceThemeManager",getenv("HOME"));
+	asprintf(&metaFolder,"%s/.config/XfceThemeManager/meta",getenv("HOME"));
 	asprintf(&framesFolder,"%s/.config/XfceThemeManager/frames",getenv("HOME"));
 	asprintf(&controlsFolder,"%s/.config/XfceThemeManager/controls",getenv("HOME"));
 	asprintf(&iconsFolder,"%s/.config/XfceThemeManager/icons",getenv("HOME"));
@@ -402,7 +418,7 @@ void init(void)
 
 	g_spawn_command_line_sync("xfconf-query -c xfce4-desktop -vp /backdrop/screen0/monitor0/image-style",&stdout,NULL,NULL,NULL);
 	stdout[strlen(stdout)-1]=0;
-	wallStyle=atol(stdout);
+	currentWallStyle=atol(stdout);
 	g_free(stdout);
 
 	g_spawn_command_line_sync(XCONFGETCONTROLS,&currentGtkTheme,NULL,NULL,NULL);
@@ -421,49 +437,35 @@ void init(void)
 	currentWallPaper[strlen(currentWallPaper)-1]=0;
 }
 
-gboolean updateBarTimerxx(gpointer data)
-{
-//	GtkSettings *hold;
-//	hold=gtk_settings_get_default();
-//	g_object_set(hold,"gtk-theme-name",currentGtkTheme,"gtk-color-scheme","default",NULL);
-	
-	gtk_progress_bar_pulse((GtkProgressBar*)pbox);
-//	gtk_widget_queue_draw(pbox);
-	//g_main_context_iteration(NULL,false);
-	return(true);
-}
-
-GtkWidget*		Pwindow;
-//GtkSettings *hold;
 void makeProgressBar(void)
 {
-
 	GtkWidget*		vbox;
 
-	Pwindow=gtk_window_new(GTK_WINDOW_TOPLEVEL);
-	gtk_window_set_default_size((GtkWindow*)Pwindow,400,40);
+	progressWindow=gtk_window_new(GTK_WINDOW_TOPLEVEL);
+	gtk_window_set_default_size((GtkWindow*)progressWindow,400,40);
+	gtk_window_set_title((GtkWindow*)progressWindow,"Re-Building Database, Please Wait...");
 	vbox=gtk_vbox_new(FALSE, 0);
-	pbox=gtk_progress_bar_new();
-	gtk_progress_bar_pulse((GtkProgressBar*)pbox);
+	progressBar=gtk_progress_bar_new();
+	gtk_progress_bar_pulse((GtkProgressBar*)progressBar);
 
-	gtk_progress_bar_set_orientation((GtkProgressBar*)pbox,GTK_PROGRESS_LEFT_TO_RIGHT);
+	gtk_progress_bar_set_orientation((GtkProgressBar*)progressBar,GTK_PROGRESS_LEFT_TO_RIGHT);
 
-	gtk_box_pack_start(GTK_BOX(vbox),pbox,false,false,8);
-	gtk_container_add(GTK_CONTAINER(Pwindow),vbox);
+	gtk_box_pack_start(GTK_BOX(vbox),progressBar,false,false,8);
+	gtk_container_add(GTK_CONTAINER(progressWindow),vbox);
 
-	//gtk_widget_show_all(window);
+	gtk_widget_show_all(progressWindow);
 }
 
 gboolean updateBarTimer(gpointer data)
 {	
-//	GtkSettings *hold;
-//	hold=gtk_settings_get_default();
-//	g_object_set(hold,"gtk-theme-name",currentGtkTheme,"gtk-color-scheme","default",NULL);
 
-	gtk_progress_bar_pulse((GtkProgressBar*)pbox);
-	//gtk_widget_queue_draw(pbox);
-	//g_main_context_iteration(NULL,false);
-	return(true);
+	if(GTK_IS_PROGRESS_BAR((GtkProgressBar*)progressBar))
+		{
+			gtk_progress_bar_pulse((GtkProgressBar*)progressBar);
+			return(true);
+		}
+	else
+		return(false);
 }
 
 int main(int argc,char **argv)
@@ -495,7 +497,6 @@ int main(int argc,char **argv)
 //wallpapers tab
 	GtkWidget*	wallpapersVbox;
 	GtkWidget*	wallpapersScrollBox;
-	GtkComboBoxText* combo;
 	GtkWidget*	paperVbox;
 
 
@@ -504,38 +505,18 @@ int main(int argc,char **argv)
 	gtk_init(&argc, &argv);
 
 	init();
-//rebuildDB(NULL);
-	makeProgressBar();
-	hold=gtk_settings_get_default();
 
-gdk_threads_enter();
-	gint func_ref = g_timeout_add (100, updateBarTimer, NULL);
-	g_thread_create(rebuildDB,NULL,false,NULL);
-	gtk_widget_show_all(Pwindow);
-	gtk_main();
-gdk_threads_leave();
-printf("OK\n");
-exit(0);
-//	GtkSettings *hold;
-//	hold=gtk_settings_get_default();
+	if (argc==2 && strcasecmp(argv[1],"-m")==0)
+		{
+		makeProgressBar();
 
-
-//	if (argc==2 && strcasecmp(argv[1],"-m")==0)
-//		{
-			
-			//makeProgress(NULL);
-			//gint func_ref = g_timeout_add (100, updateBarTimer, NULL);
-			//g_main_context_iteration(NULL,false);
-			//updateBarTimer(NULL);
-
-//			g_thread_create(makeProgress,NULL,false,NULL);
-//			gint func_ref = g_timeout_add (100, updateBarTimer, NULL);
-			//gtk_main();
-			//g_main_context_iteration(NULL,false);
-//			rebuildDB(NULL);
-//		}
-
-//	g_object_set(hold,"gtk-theme-name",currentGtkTheme,"gtk-color-scheme","default",NULL);
+		gdk_threads_enter();
+			g_timeout_add (100, updateBarTimer, NULL);
+			g_thread_create(rebuildDB,NULL,false,NULL);
+			gtk_main();
+		gdk_threads_leave();
+		gtk_widget_destroy(progressWindow);
+		}
 
 	window=gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_default_size((GtkWindow*)window,400,470);
@@ -548,35 +529,30 @@ exit(0);
 //themes vbox
 	themesScrollBox=gtk_scrolled_window_new(NULL,NULL);
 	themesVbox=gtk_vbox_new(FALSE, 0);
-//	addButtons(themesVbox,"meta",(void*)doMeta,true);
 	addNewButtons(themesVbox,"meta",(void*)doMeta);
 	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)themesScrollBox,themesVbox);
 
 //frames vbox
 	framesScrollBox=gtk_scrolled_window_new(NULL,NULL);
 	framesVbox=gtk_vbox_new(FALSE, 0);
-//	addButtons(framesVbox,"wmf",(void*)doFrame,true);
 	addNewButtons(framesVbox,"frames",(void*)doFrame);
 	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)framesScrollBox,framesVbox);
 
 //controls vbox
 	controlsScrollBox=gtk_scrolled_window_new(NULL,NULL);
 	controlsVbox=gtk_vbox_new(FALSE, 0);
-//	addButtons(controlsVbox,"conts",(void*)doControls,true);
 	addNewButtons(controlsVbox,"controls",(void*)doControls);
 	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)controlsScrollBox,controlsVbox);
 
 //icons vbox
 	iconsScrollBox=gtk_scrolled_window_new(NULL,NULL);
 	iconsVbox=gtk_vbox_new(FALSE, 0);
-	//addButtons(iconsVbox,"icons",(void*)doIcons,true);
 	addNewButtons(iconsVbox,"icons",(void*)doIcons);
 	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)iconsScrollBox,iconsVbox);
 
 //cursors
 	cursorsScrollBox=gtk_scrolled_window_new(NULL,NULL);
 	cursorsVbox=gtk_vbox_new(FALSE, 0);
-//	addButtons(cursorsVbox,"cursors",(void*)doCursors,true);
 	addNewButtons(cursorsVbox,"cursors",(void*)doCursors);
 	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)cursorsScrollBox,cursorsVbox);
 
@@ -587,17 +563,17 @@ exit(0);
 	wallpapersVbox=gtk_vbox_new(FALSE, 0);
 	addNewButtons(wallpapersVbox,"wallpapers",(void*)doWallpapers);
 
-	combo=(GtkComboBoxText*)gtk_combo_box_text_new();
-	gtk_combo_box_text_append_text(combo,"Auto");
-	gtk_combo_box_text_append_text(combo,"Centered");
-	gtk_combo_box_text_append_text(combo,"Tiled");
-	gtk_combo_box_text_append_text(combo,"Stretched");
-	gtk_combo_box_text_append_text(combo,"Scaled");
-	gtk_combo_box_text_append_text(combo,"Zoomed");
-	gtk_combo_box_set_active((GtkComboBox*)combo,wallStyle);
-	g_signal_connect_after(G_OBJECT(combo),"changed",G_CALLBACK(wallStyleChanged),NULL);
+	comboBox=(GtkComboBoxText*)gtk_combo_box_text_new();
+	gtk_combo_box_text_append_text(comboBox,"Auto");
+	gtk_combo_box_text_append_text(comboBox,"Centered");
+	gtk_combo_box_text_append_text(comboBox,"Tiled");
+	gtk_combo_box_text_append_text(comboBox,"Stretched");
+	gtk_combo_box_text_append_text(comboBox,"Scaled");
+	gtk_combo_box_text_append_text(comboBox,"Zoomed");
+	gtk_combo_box_set_active((GtkComboBox*)comboBox,currentWallStyle);
+	g_signal_connect_after(G_OBJECT(comboBox),"changed",G_CALLBACK(wallStyleChanged),NULL);
 
-	gtk_box_pack_start((GtkBox*)wallpapersScrollBox,(GtkWidget*)combo,false,true,4);
+	gtk_box_pack_start((GtkBox*)wallpapersScrollBox,(GtkWidget*)comboBox,false,true,4);
 	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)paperVbox,wallpapersVbox);
 	gtk_container_add (GTK_CONTAINER (wallpapersScrollBox), paperVbox);
 
