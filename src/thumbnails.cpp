@@ -200,7 +200,7 @@ GdkPixbuf * create_gtk_theme_pixbuf(char* name)
 	retval=pixbuf;
 	gtk_widget_destroy(window);
 	g_object_unref(pixmap);
-
+	g_object_set(hold,"gtk-theme-name",currentGtkTheme,"gtk-color-scheme","default",NULL);
 	return retval;
 }
 

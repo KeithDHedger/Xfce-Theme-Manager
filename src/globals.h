@@ -16,6 +16,7 @@
  */
 
 #include <gdk-pixbuf/gdk-pixbuf.h>
+#include <gtk/gtk.h>
 
 #ifndef _GLOBALS_
 #define _GLOBALS_
@@ -77,5 +78,7 @@ extern char*		iconTheme;
 
 extern void freeAndNull(char** ptr);
 
+extern GtkWidget*		pbox;
+extern GtkSettings *hold;
 #endif
 

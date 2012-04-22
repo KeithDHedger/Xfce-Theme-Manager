@@ -18,6 +18,6 @@
 #ifndef _DATABASE_
 #define _DATABASE_
 
-void rebuildDB(void);
+gpointer rebuildDB(gpointer data);
 
 #endif

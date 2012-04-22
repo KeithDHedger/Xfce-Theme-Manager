@@ -16,6 +16,7 @@
  */
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <stdlib.h>
+#include <gtk/gtk.h>
 
 //current stuff
 int		wallStyle=0;
@@ -47,6 +48,8 @@ char*		papersArray[2];
 
 char*		cursorTheme;
 char*		iconTheme;
+GtkWidget*	pbox;
+GtkSettings *hold;
 
 void freeAndNull(char** ptr)
 {

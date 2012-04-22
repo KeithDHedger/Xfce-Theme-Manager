@@ -19,7 +19,127 @@
 
 #include "globals.h"
 #include "thumbnails.h"
+#include <gtk/gtk.h>
 
+#if 0
+gboolean pulsebar(gpointer data)
+{
+GdkEvent* event;
+
+event=gdk_event_new(GDK_EXPOSE);
+	gdk_event_put(event);
+
+	gtk_progress_bar_pulse((GtkProgressBar*)pbox);
+	return(true);
+}
+
+gpointer updateBarTimerZZZZ(gpointer data)
+{
+	//GtkSettings *hold;
+//	hold=gtk_settings_get_default();
+	//g_object_set(hold,"gtk-theme-name",currentGtkTheme,"gtk-color-scheme","default",NULL);
+
+gint func_ref = g_timeout_add (100, pulsebar, NULL);
+printf("AAAAAAAAAAAAAAAAAAAAAAAAAAA\n");
+//gtk_main();
+
+//
+GdkEvent* event;
+
+event=gdk_event_new(GDK_EXPOSE);
+
+//while(true)
+{
+	printf("XXXXXXXXXXXXXXXXX\n");
+	gtk_progress_bar_pulse((GtkProgressBar*)pbox);
+	gtk_widget_queue_draw(pbox);
+	//g_main_context_iteration(NULL,false);
+	//gtk_main_iteration_do               (true);
+	//gtk_main_do_event(event);
+event=gdk_event_new(GDK_EXPOSE);
+	gdk_event_put(event);
+	//gtk_main_do_event(event);
+	//gtk_main_iteration();
+	g_main_context_iteration(NULL,false);
+}
+//	return(true);
+}
+	GtkWidget*		windowp;
+
+
+gpointer makeProgresswin(gpointer data)
+{
+	GtkWidget*		vbox;
+
+
+	windowp=gtk_window_new(GTK_WINDOW_TOPLEVEL);
+	gtk_window_set_default_size((GtkWindow*)windowp,400,40);
+	vbox=gtk_vbox_new(FALSE, 0);
+	pbox=gtk_progress_bar_new();
+	gtk_progress_bar_pulse((GtkProgressBar*)pbox);
+
+	gtk_progress_bar_set_orientation((GtkProgressBar*)pbox,GTK_PROGRESS_LEFT_TO_RIGHT);
+
+	gtk_box_pack_start(GTK_BOX(vbox),pbox,false,false,8);
+	gtk_container_add(GTK_CONTAINER(windowp),vbox);
+//	gint func_ref = g_timeout_add (100, updateBarTimer, NULL);
+
+
+//	GMainLoop *   ml=g_main_loop_new(NULL,false);
+	gtk_widget_show_all(windowp);
+//	gint func_ref = g_timeout_add (100, updateBarTimer, NULL);
+//	  g_main_loop_run                     (ml);
+	
+	
+//	while(true)
+//		{
+//		gtk_progress_bar_pulse((GtkProgressBar*)pbox);
+//		gtk_widget_queue_draw(pbox);
+  //  		g_main_context_iteration(NULL,false);
+    //		}
+	//gtk_widget_show(window);
+	//g_idle_add(lengthy_func_done, NULL);
+//	gtk_main;
+}
+
+#if 0
+gpointer makeProgress(gpointer data)
+{
+	GtkWidget*		window;
+	GtkWidget*		vbox;
+
+
+	window=gtk_window_new(GTK_WINDOW_TOPLEVEL);
+	gtk_window_set_default_size((GtkWindow*)window,400,40);
+	vbox=gtk_vbox_new(FALSE, 0);
+	pbox=gtk_progress_bar_new();
+	gtk_progress_bar_pulse((GtkProgressBar*)pbox);
+
+	gtk_progress_bar_set_orientation((GtkProgressBar*)pbox,GTK_PROGRESS_LEFT_TO_RIGHT);
+
+	gtk_box_pack_start(GTK_BOX(vbox),pbox,false,false,8);
+	gtk_container_add(GTK_CONTAINER(window),vbox);
+//	gint func_ref = g_timeout_add (100, updateBarTimer, NULL);
+
+
+	GMainLoop *   ml=g_main_loop_new(NULL,false);
+	gtk_widget_show_all(window);
+	gint func_ref = g_timeout_add (100, updateBarTimer, NULL);
+	  g_main_loop_run                     (ml);
+	
+	
+//	while(true)
+//		{
+//		gtk_progress_bar_pulse((GtkProgressBar*)pbox);
+//		gtk_widget_queue_draw(pbox);
+  //  		g_main_context_iteration(NULL,false);
+    //		}
+	//gtk_widget_show(window);
+	//g_idle_add(lengthy_func_done, NULL);
+//	gtk_main;
+}
+#endif
+#endif
 void writeDBFile(char* filename,char* name,char* gtk,char* frame,char* icon,char* paper,char* cursor,char* thumb)
 {
 
@@ -45,7 +165,7 @@ void writeDBFile(char* filename,char* name,char* gtk,char* frame,char* icon,char
 	fclose(fd);
 }
 
-void rebuildDB(void)
+gpointer rebuildDB(gpointer data)
 {
 	char*		buffer;
 	char*		indexfile;
@@ -71,8 +191,10 @@ void rebuildDB(void)
 
 	bool		makedb;
 	char*		hidden;
-//build themes
-//gtkprev [theme] gtkthemename /path/to/border /out/path/to/png
+
+
+
+#if 1
 	g_mkdir_with_parents(metaFolder,493);
 	for(int i=0;i<2;i++)
 		{
@@ -132,7 +254,9 @@ void rebuildDB(void)
 									gtkwidth=400;
 									gtkheight=200;
 									asprintf(&framefolder,"%s/%s",themesArray[i],entry);
+									gdk_threads_enter();
 									gtkPixbuf=create_gtk_theme_pixbuf(gtkname);
+									gdk_threads_leave();
 									if(gtkPixbuf!=NULL)
 										{
 											getspace(framefolder);
@@ -157,12 +281,15 @@ void rebuildDB(void)
 								}
 							entry=g_dir_read_name(folder);
 						}
+					g_dir_close(folder);
 				}
-			g_dir_close(folder);
 		}
+
+#endif
 
 	gtkwidth=200;
 	gtkheight=50;
+
 
 //build frames
 //gtkprev [border] /path/to/border /out/path/to/png
@@ -199,6 +326,7 @@ void rebuildDB(void)
 				}
 		}
 
+#if 1
 //build controls
 //gtkprev [controls] gtkthemename /out/path/to/png
 	g_mkdir_with_parents(controlsFolder,493);
@@ -215,7 +343,10 @@ void rebuildDB(void)
 								{
 									asprintf(&dbfile,"%s/%s.db",controlsFolder,entry);
 									asprintf(&thumbfile,"%s/%s.png",controlsFolder,entry);
+									gdk_threads_enter();
 									pixbuf=create_gtk_theme_pixbuf((char*)entry);
+									gdk_threads_leave();
+									
 									if(pixbuf!=NULL)
 										{
 											gdk_pixbuf_savev(pixbuf,thumbfile,"png",NULL,NULL,NULL);
@@ -232,6 +363,7 @@ void rebuildDB(void)
 					g_dir_close(folder);
 				}
 		}
+#endif
 
 //buid icons
 	g_mkdir_with_parents(iconsFolder,493);
@@ -348,6 +480,12 @@ void rebuildDB(void)
 					g_dir_close(folder);
 				}
 		}
+
+gtk_main_quit();
+
+return(NULL);
+
+	return NULL;
 }
 
 
