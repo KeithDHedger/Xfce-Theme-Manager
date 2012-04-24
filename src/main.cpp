@@ -406,16 +406,53 @@ void showAdvanced(GtkWidget* widget,gpointer data)
 	gboolean	state=gtk_toggle_button_get_active((GtkToggleButton*)widget);
 
 	if (state==true)
-		{
-			gtk_notebook_set_current_page(advanced,1);
-			printf("in\n");
-		}
+		gtk_notebook_set_current_page(advanced,1);
 	else
-		{
-			printf("out\n");
-			gtk_notebook_set_current_page(advanced,0);
-		}
+		gtk_notebook_set_current_page(advanced,0);
 }
+
+void resetBright(GtkWidget* widget,gpointer data)
+{
+	char*		command;
+
+	gtk_range_set_value((GtkRange*)data,0);
+	asprintf(&command,"%s 0",XCONFSETBRIGHT);
+	system(command);
+	freeAndNull(&command);
+
+}
+
+void setBright(GtkWidget* widget,gpointer data)
+{
+	char*		command;
+	gdouble	val=gtk_range_get_value((GtkRange*)widget);
+	
+	asprintf(&command,"%s\"%i\"",XCONFSETBRIGHT,(int)val);
+	system(command);
+	freeAndNull(&command);
+}
+
+void resetSatu(GtkWidget* widget,gpointer data)
+{
+	char*		command;
+
+	gtk_range_set_value((GtkRange*)data,1.0);
+	asprintf(&command,"%s 1.0",XCONFSETSATU);
+	system(command);
+	freeAndNull(&command);
+
+}
+
+void setSatu(GtkWidget* widget,gpointer data)
+{
+	char*		command;
+	gdouble	val=gtk_range_get_value((GtkRange*)widget);
+	
+	asprintf(&command,"%s\"%f\"",XCONFSETSATU,val);
+	system(command);
+	freeAndNull(&command);
+}
+
 
 void init(void)
 {
@@ -524,6 +561,8 @@ int main(int argc,char **argv)
 //advanced
 	GtkWidget*	advancedVbox;
 	GtkWidget*	advancedScrollBox;
+	GtkWidget*	advancedHbox;
+	GtkWidget*	advancedRange;
 
 	g_thread_init(NULL);
 	gdk_threads_init();
@@ -633,6 +672,7 @@ int main(int argc,char **argv)
 	advancedScrollBox=gtk_scrolled_window_new(NULL,NULL);
 	advancedVbox=gtk_vbox_new(FALSE, 0);
 
+//comp ed
 	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_label_new("Launch Xfce-Composite-Editor"),false,false,2);
 	button=gtk_button_new_with_label("Xfce-Composite-Editor");
 	g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(launchCompEd),NULL);
@@ -640,9 +680,37 @@ int main(int argc,char **argv)
 	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_hseparator_new(),false,false,4);
 
 	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)advancedScrollBox,advancedVbox);
-	label=gtk_label_new("Icons");
-	gtk_notebook_append_page(advanced,advancedScrollBox,label);
+	gtk_notebook_append_page(advanced,advancedScrollBox,NULL);
 
+//back drop aadj
+	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_label_new("Backdrop Adjustments"),false,false,2);
+	advancedHbox=gtk_hbox_new(false,0);
+	button=gtk_button_new_with_label("Reset");
+	gtk_box_pack_start(GTK_BOX(advancedHbox),button, false,false,8);
+	advancedRange=gtk_hscale_new_with_range(-128,127,1);
+	gtk_scale_set_value_pos((GtkScale*)advancedRange,GTK_POS_LEFT);
+	gtk_range_set_value((GtkRange*)advancedRange,0);
+	g_signal_connect_after(G_OBJECT(advancedRange),"value-changed",G_CALLBACK(setBright),NULL);
+	gtk_range_set_update_policy((GtkRange*)advancedRange,GTK_UPDATE_DISCONTINUOUS);
+	g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(resetBright),(gpointer)advancedRange);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),advancedRange, true,true,0);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),gtk_label_new("Brightness"), false,false,4);
+	gtk_box_pack_start(GTK_BOX(advancedVbox),advancedHbox, false,false,2);
+
+	advancedHbox=gtk_hbox_new(false,0);
+	button=gtk_button_new_with_label("Reset");
+	gtk_box_pack_start(GTK_BOX(advancedHbox),button, false,false,8);
+	advancedRange=gtk_hscale_new_with_range(-10.0,10,0.1);
+	gtk_scale_set_value_pos((GtkScale*)advancedRange,GTK_POS_LEFT);
+	gtk_range_set_value((GtkRange*)advancedRange,1.0);
+	g_signal_connect_after(G_OBJECT(advancedRange),"value-changed",G_CALLBACK(setSatu),NULL);
+	gtk_range_set_update_policy((GtkRange*)advancedRange,GTK_UPDATE_DISCONTINUOUS);
+	g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(resetSatu),(gpointer)advancedRange);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),advancedRange, true,true,0);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),gtk_label_new("Saturation"), false,false,4);
+	gtk_box_pack_start(GTK_BOX(advancedVbox),advancedHbox, false,false,2);
+
+	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_hseparator_new(),false,false,4);
 
 //add notebook to window
 	gtk_container_add(GTK_CONTAINER(vbox),(GtkWidget*)advanced);
