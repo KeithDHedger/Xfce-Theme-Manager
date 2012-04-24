@@ -25,6 +25,7 @@ char*		currentWmTheme;
 char*		currentCursorTheme;
 char*		currentWallPaper;
 char*		currentGtkTheme;
+char*		currentButtonLayout;
 
 //db
 char*		dbFolder;

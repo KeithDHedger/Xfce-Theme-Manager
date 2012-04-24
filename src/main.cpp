@@ -453,6 +453,24 @@ void setSatu(GtkWidget* widget,gpointer data)
 	freeAndNull(&command);
 }
 
+void resetLayout(GtkWidget* widget,gpointer data)
+{
+	char*		command;
+
+	gtk_entry_set_text((GtkEntry*)data,currentButtonLayout);
+	asprintf(&command,"%s \"%s\"",XCONFSETLAYOUT,currentButtonLayout);
+	system(command);
+	freeAndNull(&command);
+}
+
+void changeLayout(GtkWidget* widget,gpointer data)
+{
+	char*		command;
+
+	asprintf(&command,"%s \"%s\"",XCONFSETLAYOUT,gtk_entry_get_text((GtkEntry*)widget));
+	system(command);
+	freeAndNull(&command);
+}
 
 void init(void)
 {
@@ -495,6 +513,9 @@ void init(void)
 
 	g_spawn_command_line_sync(XCONFGETPAPER,&currentWallPaper,NULL,NULL,NULL);
 	currentWallPaper[strlen(currentWallPaper)-1]=0;
+
+	g_spawn_command_line_sync(XCONFGETLAYOUT,&currentButtonLayout,NULL,NULL,NULL);
+	currentButtonLayout[strlen(currentButtonLayout)-1]=0;
 }
 
 void makeProgressBar(void)
@@ -563,6 +584,7 @@ int main(int argc,char **argv)
 	GtkWidget*	advancedScrollBox;
 	GtkWidget*	advancedHbox;
 	GtkWidget*	advancedRange;
+	GtkWidget*	advancedEntry;
 
 	g_thread_init(NULL);
 	gdk_threads_init();
@@ -710,6 +732,22 @@ int main(int argc,char **argv)
 	gtk_box_pack_start(GTK_BOX(advancedHbox),gtk_label_new("Saturation"), false,false,4);
 	gtk_box_pack_start(GTK_BOX(advancedVbox),advancedHbox, false,false,2);
 
+	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_hseparator_new(),false,false,4);
+
+//buton layot
+	advancedHbox=gtk_hbox_new(false,0);
+	button=gtk_button_new_with_label("Reset");
+	gtk_box_pack_start(GTK_BOX(advancedHbox),button, false,false,8);
+	advancedEntry=gtk_entry_new();
+	gtk_entry_set_text((GtkEntry*)advancedEntry,currentButtonLayout);
+	g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(resetLayout),(gpointer)advancedEntry);
+
+	g_signal_connect_after(G_OBJECT(advancedEntry),"key-release-event",G_CALLBACK(changeLayout),NULL);
+
+	gtk_box_pack_start(GTK_BOX(advancedHbox),advancedEntry, false,false,2);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),gtk_label_new("Button Layout"), false,false,4);
+
+	gtk_box_pack_start(GTK_BOX(advancedVbox),advancedHbox, false,false,2);
 	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_hseparator_new(),false,false,4);
 
 //add notebook to window

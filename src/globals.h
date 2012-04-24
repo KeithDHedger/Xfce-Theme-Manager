@@ -36,6 +36,8 @@
 #define XCONFSETCURSOR "xfconf-query -nRt string -c xsettings -vp /Gtk/CursorThemeName -s "
 #define XCONFSETPAPER "xfconf-query -nRt string -c xfce4-desktop -vp /backdrop/screen0/monitor0/image-path -s "
 
+#define XCONFSETLAYOUT "xfconf-query -c xfwm4 -vp /general/button_layout -s"
+
 #define GLOBALICONS "/usr/share/icons"
 #define GLOBALTHEMES "/usr/share/themes"
 #define GLOBALWALLPAPERS "/usr/share/xfce4/backdrops"
@@ -45,6 +47,7 @@
 #define XCONFGETCURSOR "xfconf-query -c xsettings -vp /Gtk/CursorThemeName"
 #define XCONFGETFRAME "xfconf-query -c xfwm4 -vp /general/theme"
 #define XCONFGETPAPER "xfconf-query -nRt string -c xfce4-desktop -vp /backdrop/screen0/monitor0/image-path"
+#define XCONFGETLAYOUT "xfconf-query -c xfwm4 -vp /general/button_layout"
 
 extern int			currentWallStyle;
 extern char*		currentIconTheme;
@@ -52,6 +55,7 @@ extern char*		currentWmTheme;
 extern char*		currentCursorTheme;
 extern char*		currentWallPaper;
 extern char*		currentGtkTheme;
+extern char*		currentButtonLayout;
 
 //db
 extern char*		dbFolder;
