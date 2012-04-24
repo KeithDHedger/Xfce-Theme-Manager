@@ -426,7 +426,7 @@ void setBright(GtkWidget* widget,gpointer data)
 {
 	char*		command;
 	gdouble	val=gtk_range_get_value((GtkRange*)widget);
-	
+
 	asprintf(&command,"%s\"%i\"",XCONFSETBRIGHT,(int)val);
 	system(command);
 	freeAndNull(&command);
@@ -440,7 +440,6 @@ void resetSatu(GtkWidget* widget,gpointer data)
 	asprintf(&command,"%s 1.0",XCONFSETSATU);
 	system(command);
 	freeAndNull(&command);
-
 }
 
 void setSatu(GtkWidget* widget,gpointer data)
