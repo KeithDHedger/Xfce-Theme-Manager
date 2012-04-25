@@ -421,15 +421,21 @@ void resetBright(GtkWidget* widget,gpointer data)
 	freeAndNull(&command);
 
 }
+//#include <vgamouse.h> 
 
 void setBright(GtkWidget* widget,gpointer data)
 {
 	char*		command;
 	gdouble	val=gtk_range_get_value((GtkRange*)widget);
 
+//	int state;
+//	state=mouse_getbutton();
+//	printf("XXXXXXXXXXXXXXXX\n");
+
 	asprintf(&command,"%s\"%i\"",XCONFSETBRIGHT,(int)val);
 	system(command);
 	freeAndNull(&command);
+	
 }
 
 void resetSatu(GtkWidget* widget,gpointer data)
@@ -712,7 +718,12 @@ int main(int argc,char **argv)
 	gtk_scale_set_value_pos((GtkScale*)advancedRange,GTK_POS_LEFT);
 	gtk_range_set_value((GtkRange*)advancedRange,0);
 	g_signal_connect_after(G_OBJECT(advancedRange),"value-changed",G_CALLBACK(setBright),NULL);
-	/////gtk_range_set_update_policy((GtkRange*)advancedRange,GTK_UPDATE_DISCONTINUOUS);
+
+
+//	g_signal_connect_after(G_OBJECT(advancedRange),"button-release-event",G_CALLBACK(setBright),NULL);
+
+	gtk_range_set_update_policy((GtkRange*)advancedRange,GTK_UPDATE_DISCONTINUOUS);
+
 	g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(resetBright),(gpointer)advancedRange);
 	gtk_box_pack_start(GTK_BOX(advancedHbox),advancedRange, true,true,0);
 	gtk_box_pack_start(GTK_BOX(advancedHbox),gtk_label_new("Brightness"), false,false,4);
@@ -725,7 +736,9 @@ int main(int argc,char **argv)
 	gtk_scale_set_value_pos((GtkScale*)advancedRange,GTK_POS_LEFT);
 	gtk_range_set_value((GtkRange*)advancedRange,1.0);
 	g_signal_connect_after(G_OBJECT(advancedRange),"value-changed",G_CALLBACK(setSatu),NULL);
-	/////gtk_range_set_update_policy((GtkRange*)advancedRange,GTK_UPDATE_DISCONTINUOUS);
+
+	gtk_range_set_update_policy((GtkRange*)advancedRange,GTK_UPDATE_DISCONTINUOUS);
+
 	g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(resetSatu),(gpointer)advancedRange);
 	gtk_box_pack_start(GTK_BOX(advancedHbox),advancedRange, true,true,0);
 	gtk_box_pack_start(GTK_BOX(advancedHbox),gtk_label_new("Saturation"), false,false,4);
