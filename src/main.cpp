@@ -477,6 +477,20 @@ void changeLayout(GtkWidget* widget,gpointer data)
 	freeAndNull(&command);
 }
 
+void setTitlePos(GtkWidget* widget,gpointer data)
+{
+	char*		command;
+
+	gboolean	state=gtk_toggle_button_get_active((GtkToggleButton*)widget);
+
+	if (state==true)
+		{
+			asprintf(&command,"%s %s",XCONFSETTITLEPOS,(char*)data);
+			system(command);
+			freeAndNull(&command);
+		}
+}
+
 void init(void)
 {
 	gchar	*stdout;
@@ -521,6 +535,10 @@ void init(void)
 
 	g_spawn_command_line_sync(XCONFGETLAYOUT,&currentButtonLayout,NULL,NULL,NULL);
 	currentButtonLayout[strlen(currentButtonLayout)-1]=0;
+
+	g_spawn_command_line_sync(XCONFGETTITLEPOS,&currentTitlePos,NULL,NULL,NULL);
+	currentTitlePos[strlen(currentTitlePos)-1]=0;
+
 }
 
 void makeProgressBar(void)
@@ -590,6 +608,8 @@ int main(int argc,char **argv)
 	GtkWidget*	advancedHbox;
 	GtkWidget*	advancedRange;
 	GtkWidget*	advancedEntry;
+//	GSList*	advancedGroup;
+	GtkWidget*	firstRadio;
 
 	g_thread_init(NULL);
 	gdk_threads_init();
@@ -758,6 +778,29 @@ int main(int argc,char **argv)
 
 	gtk_box_pack_start(GTK_BOX(advancedHbox),advancedEntry, false,false,2);
 	gtk_box_pack_start(GTK_BOX(advancedHbox),gtk_label_new("Button Layout"), false,false,4);
+
+	gtk_box_pack_start(GTK_BOX(advancedVbox),advancedHbox, false,false,2);
+	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_hseparator_new(),false,false,4);
+
+//titlepos
+	advancedHbox=gtk_hbox_new(false,0);
+	firstRadio=gtk_radio_button_new_with_label (NULL, "Left");
+	g_signal_connect_after(G_OBJECT(firstRadio),"toggled",G_CALLBACK(setTitlePos),(void*)"left");
+	if(strcasecmp(currentTitlePos,"left")==0)
+		gtk_toggle_button_set_active((GtkToggleButton*)firstRadio,true);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),firstRadio,false,false,0);
+
+	button=gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON (firstRadio),"Centre");
+	g_signal_connect_after(G_OBJECT(button),"toggled",G_CALLBACK(setTitlePos),(void*)"center");
+	if(strcasecmp(currentTitlePos,"center")==0)
+		gtk_toggle_button_set_active((GtkToggleButton*)button,true);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),button,false,false,0);
+
+	button=gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON (firstRadio),"Right");
+	g_signal_connect_after(G_OBJECT(button),"toggled",G_CALLBACK(setTitlePos),(void*)"right");
+	if(strcasecmp(currentTitlePos,"right")==0)
+		gtk_toggle_button_set_active((GtkToggleButton*)button,true);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),button,false,false,0);
 
 	gtk_box_pack_start(GTK_BOX(advancedVbox),advancedHbox, false,false,2);
 	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_hseparator_new(),false,false,4);
