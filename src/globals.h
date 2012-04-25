@@ -39,6 +39,9 @@
 #define XCONFSETLAYOUT "xfconf-query -c xfwm4 -vp /general/button_layout -s"
 #define XCONFSETTITLEPOS "xfconf-query -c xfwm4 -vp /general/title_alignment -s "
 
+#define XCONFSETWMFONT "xfconf-query -c xfwm4 -vp /general/title_font -s "
+#define XCONFSETAPPFONT "xfconf-query -c xsettings -vp /Gtk/FontName -s "
+
 #define GLOBALICONS "/usr/share/icons"
 #define GLOBALTHEMES "/usr/share/themes"
 #define GLOBALWALLPAPERS "/usr/share/xfce4/backdrops"
@@ -52,6 +55,9 @@
 #define XCONFGETLAYOUT "xfconf-query -c xfwm4 -vp /general/button_layout"
 #define XCONFGETTITLEPOS "xfconf-query -c xfwm4 -vp /general/title_alignment"
 
+#define XCONFGETWMFONT "xfconf-query -c xfwm4 -vp /general/title_font"
+#define XCONFGETAPPFONT "xfconf-query -c xsettings -vp /Gtk/FontName"
+
 extern int			currentWallStyle;
 extern char*		currentIconTheme;
 extern char*		currentWmTheme;
@@ -60,6 +66,8 @@ extern char*		currentWallPaper;
 extern char*		currentGtkTheme;
 extern char*		currentButtonLayout;
 extern char*		currentTitlePos;
+extern char*		currentWMFont;
+extern char*		currentAppFont;
 
 //db
 extern char*		dbFolder;

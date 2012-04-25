@@ -27,6 +27,8 @@ char*		currentWallPaper;
 char*		currentGtkTheme;
 char*		currentButtonLayout;
 char*		currentTitlePos;
+char*		currentWMFont;
+char*		currentAppFont;
 
 //db
 char*		dbFolder;

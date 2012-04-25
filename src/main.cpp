@@ -491,6 +491,33 @@ void setTitlePos(GtkWidget* widget,gpointer data)
 		}
 }
 
+void setFont(GtkWidget* widget,gpointer data)
+{
+	char*		command;
+
+	if((long)data==0)
+		asprintf(&command,"%s \"%s\"",XCONFSETWMFONT,gtk_font_button_get_font_name((GtkFontButton*)widget));
+	else
+		asprintf(&command,"%s \"%s\"",XCONFSETAPPFONT,gtk_font_button_get_font_name((GtkFontButton*)widget));
+
+	system(command);
+	freeAndNull(&command);
+}
+
+void resetFont(GtkWidget* widget,gpointer data)
+{
+	char*		command;
+
+	if((long)data==0)
+		asprintf(&command,"%s \"%s\"",XCONFSETWMFONT,currentWMFont);
+	else
+		asprintf(&command,"%s \"%s\"",XCONFSETAPPFONT,currentAppFont);
+
+	system(command);
+	freeAndNull(&command);
+}
+
+
 void init(void)
 {
 	gchar	*stdout;
@@ -538,6 +565,12 @@ void init(void)
 
 	g_spawn_command_line_sync(XCONFGETTITLEPOS,&currentTitlePos,NULL,NULL,NULL);
 	currentTitlePos[strlen(currentTitlePos)-1]=0;
+
+	g_spawn_command_line_sync(XCONFGETWMFONT,&currentWMFont,NULL,NULL,NULL);
+	currentWMFont[strlen(currentWMFont)-1]=0;
+
+	g_spawn_command_line_sync(XCONFGETAPPFONT,&currentAppFont,NULL,NULL,NULL);
+	currentAppFont[strlen(currentAppFont)-1]=0;
 
 }
 
@@ -783,7 +816,8 @@ int main(int argc,char **argv)
 	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_hseparator_new(),false,false,4);
 
 //titlepos
-	advancedHbox=gtk_hbox_new(false,0);
+	advancedHbox=gtk_hbox_new(true,0);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),gtk_label_new("Title Position"), false,false,2);
 	firstRadio=gtk_radio_button_new_with_label (NULL, "Left");
 	g_signal_connect_after(G_OBJECT(firstRadio),"toggled",G_CALLBACK(setTitlePos),(void*)"left");
 	if(strcasecmp(currentTitlePos,"left")==0)
@@ -804,6 +838,32 @@ int main(int argc,char **argv)
 
 	gtk_box_pack_start(GTK_BOX(advancedVbox),advancedHbox, false,false,2);
 	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_hseparator_new(),false,false,4);
+
+//fonts
+//wmfont
+	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_label_new("Font Selection"), false,false,4);
+	advancedHbox=gtk_hbox_new(false,0);
+	button=gtk_button_new_with_label("Reset");
+	g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(resetFont),(void*)0);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),button, false,false,1);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),gtk_label_new("WM Font"), false,false,1);
+	button=gtk_font_button_new_with_font(currentWMFont);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),button, true,false,1);
+	g_signal_connect_after(G_OBJECT(button),"font-set",G_CALLBACK(setFont),(void*)1);
+	gtk_box_pack_start(GTK_BOX(advancedVbox),advancedHbox, false,false,4);
+//appfont
+	advancedHbox=gtk_hbox_new(false,0);
+	button=gtk_button_new_with_label("Reset");
+	g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(resetFont),(void*)1);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),button, false,false,1);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),gtk_label_new("App Font"), false,false,1);
+	button=gtk_font_button_new_with_font(currentAppFont);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),button, true,false,1);
+	g_signal_connect_after(G_OBJECT(button),"font-set",G_CALLBACK(setFont),(void*)1);
+	gtk_box_pack_start(GTK_BOX(advancedVbox),advancedHbox, false,false,4);
+
+	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_hseparator_new(),false,false,4);
+
 
 //add notebook to window
 	gtk_container_add(GTK_CONTAINER(vbox),(GtkWidget*)advanced);
