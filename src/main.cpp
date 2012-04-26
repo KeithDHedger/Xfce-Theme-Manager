@@ -421,16 +421,11 @@ void resetBright(GtkWidget* widget,gpointer data)
 	freeAndNull(&command);
 
 }
-//#include <vgamouse.h> 
 
 void setBright(GtkWidget* widget,gpointer data)
 {
 	char*		command;
 	gdouble	val=gtk_range_get_value((GtkRange*)widget);
-
-//	int state;
-//	state=mouse_getbutton();
-//	printf("XXXXXXXXXXXXXXXX\n");
 
 	asprintf(&command,"%s\"%i\"",XCONFSETBRIGHT,(int)val);
 	system(command);
@@ -765,52 +760,51 @@ int main(int argc,char **argv)
 //back drop aadj
 	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_label_new("Backdrop Adjustments"),false,false,2);
 	advancedHbox=gtk_hbox_new(false,0);
-	button=gtk_button_new_with_label("Reset");
-	gtk_box_pack_start(GTK_BOX(advancedHbox),button, false,false,8);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),gtk_label_new("Brightness"), false,false,4);
+
+//bright
 	advancedRange=gtk_hscale_new_with_range(-128,127,1);
 	gtk_scale_set_value_pos((GtkScale*)advancedRange,GTK_POS_LEFT);
 	gtk_range_set_value((GtkRange*)advancedRange,0);
 	g_signal_connect_after(G_OBJECT(advancedRange),"value-changed",G_CALLBACK(setBright),NULL);
-
-
-//	g_signal_connect_after(G_OBJECT(advancedRange),"button-release-event",G_CALLBACK(setBright),NULL);
-
 	gtk_range_set_update_policy((GtkRange*)advancedRange,GTK_UPDATE_DISCONTINUOUS);
-
-	g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(resetBright),(gpointer)advancedRange);
 	gtk_box_pack_start(GTK_BOX(advancedHbox),advancedRange, true,true,0);
-	gtk_box_pack_start(GTK_BOX(advancedHbox),gtk_label_new("Brightness"), false,false,4);
 	gtk_box_pack_start(GTK_BOX(advancedVbox),advancedHbox, false,false,2);
 
-	advancedHbox=gtk_hbox_new(false,0);
 	button=gtk_button_new_with_label("Reset");
+	g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(resetBright),(gpointer)advancedRange);
 	gtk_box_pack_start(GTK_BOX(advancedHbox),button, false,false,8);
+
+//satu
+	advancedHbox=gtk_hbox_new(false,0);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),gtk_label_new("Saturation"), false,false,4);
+
 	advancedRange=gtk_hscale_new_with_range(-10.0,10,0.1);
 	gtk_scale_set_value_pos((GtkScale*)advancedRange,GTK_POS_LEFT);
 	gtk_range_set_value((GtkRange*)advancedRange,1.0);
 	g_signal_connect_after(G_OBJECT(advancedRange),"value-changed",G_CALLBACK(setSatu),NULL);
-
 	gtk_range_set_update_policy((GtkRange*)advancedRange,GTK_UPDATE_DISCONTINUOUS);
-
-	g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(resetSatu),(gpointer)advancedRange);
 	gtk_box_pack_start(GTK_BOX(advancedHbox),advancedRange, true,true,0);
-	gtk_box_pack_start(GTK_BOX(advancedHbox),gtk_label_new("Saturation"), false,false,4);
 	gtk_box_pack_start(GTK_BOX(advancedVbox),advancedHbox, false,false,2);
+
+	button=gtk_button_new_with_label("Reset");
+	g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(resetSatu),(gpointer)advancedRange);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),button, false,false,8);
 
 	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_hseparator_new(),false,false,4);
 
-//buton layot
+//buton layout
 	advancedHbox=gtk_hbox_new(false,0);
-	button=gtk_button_new_with_label("Reset");
-	gtk_box_pack_start(GTK_BOX(advancedHbox),button, false,false,8);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),gtk_label_new("Button Layout"), false,false,4);
+
 	advancedEntry=gtk_entry_new();
 	gtk_entry_set_text((GtkEntry*)advancedEntry,currentButtonLayout);
-	g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(resetLayout),(gpointer)advancedEntry);
-
 	g_signal_connect_after(G_OBJECT(advancedEntry),"key-release-event",G_CALLBACK(changeLayout),NULL);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),advancedEntry, true,true,2);
 
-	gtk_box_pack_start(GTK_BOX(advancedHbox),advancedEntry, false,false,2);
-	gtk_box_pack_start(GTK_BOX(advancedHbox),gtk_label_new("Button Layout"), false,false,4);
+	button=gtk_button_new_with_label("Reset");
+	g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(resetLayout),(gpointer)advancedEntry);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),button, false,false,8);
 
 	gtk_box_pack_start(GTK_BOX(advancedVbox),advancedHbox, false,false,2);
 	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_hseparator_new(),false,false,4);
@@ -848,7 +842,7 @@ int main(int argc,char **argv)
 	gtk_box_pack_start(GTK_BOX(advancedHbox),button, false,false,1);
 	gtk_box_pack_start(GTK_BOX(advancedHbox),gtk_label_new("WM Font"), false,false,1);
 	button=gtk_font_button_new_with_font(currentWMFont);
-	gtk_box_pack_start(GTK_BOX(advancedHbox),button, true,false,1);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),button, true,true,1);
 	g_signal_connect_after(G_OBJECT(button),"font-set",G_CALLBACK(setFont),(void*)1);
 	gtk_box_pack_start(GTK_BOX(advancedVbox),advancedHbox, false,false,4);
 //appfont
@@ -858,7 +852,7 @@ int main(int argc,char **argv)
 	gtk_box_pack_start(GTK_BOX(advancedHbox),button, false,false,1);
 	gtk_box_pack_start(GTK_BOX(advancedHbox),gtk_label_new("App Font"), false,false,1);
 	button=gtk_font_button_new_with_font(currentAppFont);
-	gtk_box_pack_start(GTK_BOX(advancedHbox),button, true,false,1);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),button, true,true,1);
 	g_signal_connect_after(G_OBJECT(button),"font-set",G_CALLBACK(setFont),(void*)1);
 	gtk_box_pack_start(GTK_BOX(advancedVbox),advancedHbox, false,false,4);
 
