@@ -493,10 +493,17 @@ void resetFont(GtkWidget* widget,gpointer data)
 	char*		command;
 
 	if((long)data==0)
-		asprintf(&command,"%s \"%s\"",XCONFSETWMFONT,currentWMFont);
+		{
+			asprintf(&command,"%s \"%s\"",XCONFSETWMFONT,currentWMFont);
+			gtk_font_button_set_font_name((GtkFontButton*)wmFontButton,currentWMFont);
+		}
 	else
-		asprintf(&command,"%s \"%s\"",XCONFSETAPPFONT,currentAppFont);
+		{
+			asprintf(&command,"%s \"%s\"",XCONFSETAPPFONT,currentAppFont);
+			gtk_font_button_set_font_name((GtkFontButton*)appFontButton,currentAppFont);
+		}
 
+	//button=gtk_font_button_new_with_font(currentWMFont);
 	system(command);
 	freeAndNull(&command);
 }
@@ -804,9 +811,9 @@ int main(int argc,char **argv)
 	advancedHbox=gtk_hbox_new(false,0);
 	gtk_box_pack_start(GTK_BOX(advancedHbox),gtk_label_new("WM Font "), false,false,1);
 
-	button=gtk_font_button_new_with_font(currentWMFont);
-	g_signal_connect_after(G_OBJECT(button),"font-set",G_CALLBACK(setFont),(void*)1);
-	gtk_box_pack_start(GTK_BOX(advancedHbox),button, true,true,1);
+	wmFontButton=gtk_font_button_new_with_font(currentWMFont);
+	g_signal_connect_after(G_OBJECT(wmFontButton),"font-set",G_CALLBACK(setFont),(void*)0);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),wmFontButton, true,true,1);
 
 	button=gtk_button_new_with_label("Reset");
 	g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(resetFont),(void*)0);
@@ -818,9 +825,9 @@ int main(int argc,char **argv)
 	advancedHbox=gtk_hbox_new(false,0);
 	gtk_box_pack_start(GTK_BOX(advancedHbox),gtk_label_new("App Font"), false,false,1);
 
-	button=gtk_font_button_new_with_font(currentAppFont);
-	g_signal_connect_after(G_OBJECT(button),"font-set",G_CALLBACK(setFont),(void*)1);
-	gtk_box_pack_start(GTK_BOX(advancedHbox),button, true,true,1);
+	appFontButton=gtk_font_button_new_with_font(currentAppFont);
+	g_signal_connect_after(G_OBJECT(appFontButton),"font-set",G_CALLBACK(setFont),(void*)1);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),appFontButton, true,true,1);
 
 	button=gtk_button_new_with_label("Reset");
 	g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(resetFont),(void*)1);
@@ -829,14 +836,6 @@ int main(int argc,char **argv)
 	gtk_box_pack_start(GTK_BOX(advancedVbox),advancedHbox, false,false,4);
 
 	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_hseparator_new(),false,false,4);
-
-//dnd install
-	button=gtk_frame_new(NULL);
-	gtk_drag_dest_set(button,GTK_DEST_DEFAULT_ALL,NULL,0,GDK_ACTION_COPY);
-	gtk_drag_dest_add_uri_targets(button);
-	g_signal_connect (G_OBJECT(button),"drag_data_received",G_CALLBACK(dropUri), NULL);
-	gtk_container_add(GTK_CONTAINER(button),gtk_label_new("Drop A Theme/Gtk/Wm Package Here To Install..."));
-	gtk_box_pack_start(GTK_BOX(advancedVbox),button, true,true,0);
 
 //add notebook to window
 	gtk_container_add(GTK_CONTAINER(vbox),(GtkWidget*)advanced);
@@ -869,9 +868,13 @@ int main(int argc,char **argv)
 	gtk_box_pack_start(GTK_BOX(buttonHbox),button, false,false,8);
 	gtk_box_pack_start(GTK_BOX(vbox),buttonHbox, false,false,8);
 
+//do dnd
+	gtk_drag_dest_set(vbox,GTK_DEST_DEFAULT_ALL,NULL,0,GDK_ACTION_COPY);
+	gtk_drag_dest_add_uri_targets(vbox);
+	g_signal_connect (G_OBJECT(vbox),"drag_data_received",G_CALLBACK(dropUri), NULL);
+
 	gtk_widget_show_all(window);
 	gtk_main();
-
 }
 //
 //gtkprev [border] /path/to/border /out/path/to/png

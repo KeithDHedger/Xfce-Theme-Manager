@@ -54,6 +54,8 @@ char*		papersArray[2];
 char*		cursorTheme;
 char*		iconTheme;
 
+GtkWidget*		appFontButton;
+GtkWidget*		wmFontButton;
 GtkWidget*		window;
 
 void freeAndNull(char** ptr)
