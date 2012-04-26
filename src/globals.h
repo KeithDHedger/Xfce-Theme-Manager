@@ -93,6 +93,8 @@ extern char*		papersArray[2];
 extern char*		cursorTheme;
 extern char*		iconTheme;
 
+extern GtkWidget*		window;
+
 extern void freeAndNull(char** ptr);
 
 

@@ -589,7 +589,6 @@ gboolean updateBarTimer(gpointer data)
 
 int main(int argc,char **argv)
 {
-	GtkWidget*		window;
 	GtkWidget*		vbox;
 	GtkNotebook*	notebook;
 	GtkWidget*		buttonHbox;

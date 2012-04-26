@@ -22,6 +22,14 @@
 
 #include "globals.h"
 
+//information!
+void infoDialog(const char* message,char* filename,GtkMessageType type)
+{
+	GtkWidget*	dialog=gtk_message_dialog_new((GtkWindow*)window,GTK_DIALOG_DESTROY_WITH_PARENT,type,GTK_BUTTONS_CLOSE,"%s - %s",message,filename);
+	gtk_dialog_run(GTK_DIALOG(dialog));
+	gtk_widget_destroy(dialog);
+}
+
 //set title position
 void setTitlePos(GtkWidget* widget,gpointer data)
 {
@@ -39,23 +47,56 @@ void setTitlePos(GtkWidget* widget,gpointer data)
 
 void extractAndInstall(char* filename)
 {
-	char*		command;
+	char		command[4096];
 	gchar*	stdout=NULL;
 	gchar*	stderr=NULL;
-	
-	asprintf(&command,"tar --wildcards -tf %s */gtkrc",filename);
-	g_spawn_command_line_sync(command,&stdout,&stderr,NULL,NULL);
+	int		retval;
+
+	sprintf(command,"tar --wildcards -tf %s */gtkrc",filename);
+	g_spawn_command_line_sync((char*)command,&stdout,&stderr,NULL,NULL);
 	if (stdout!=NULL)
 		{
 			stdout[strlen(stdout)-1]=0;
 			if(strlen(stdout)>1)
-				printf("Its a gtk\n");
+				{
+					sprintf(command,"tar -C %s -xf %s",themesArray[0],filename);
+					retval=system(command);
+				}
 		}
+
+	sprintf(command,"tar --wildcards -tf %s */themerc",filename);
+	g_spawn_command_line_sync((char*)command,&stdout,&stderr,NULL,NULL);
+	if (stdout!=NULL)
+		{
+			stdout[strlen(stdout)-1]=0;
+			if(strlen(stdout)>1)
+				{
+					sprintf(command,"tar -C %s -xf %s",themesArray[0],filename);
+					retval=system(command);
+				}
+		}
+
+	sprintf(command,"tar --wildcards -tf %s */index.theme",filename);
+	g_spawn_command_line_sync((char*)command,&stdout,&stderr,NULL,NULL);
+	if (stdout!=NULL)
+		{
+			stdout[strlen(stdout)-1]=0;
+			if(strlen(stdout)>1)
+				{
+					sprintf(command,"tar -C %s -xf %s",iconsArray[0],filename);
+					retval=system(command);
+				}
+		}
+
+
+
+	if(retval==0)
+		infoDialog("Installed",filename,GTK_MESSAGE_INFO);
+	else
+		infoDialog("Can't Install",filename,GTK_MESSAGE_ERROR);
 
 	freeAndNull(&stdout);
 	freeAndNull(&stderr);
-	freeAndNull(&command);
-
 }
 
 //dnd install
@@ -70,7 +111,6 @@ void dropUri(GtkWidget *widget,GdkDragContext *context,gint x,gint y,GtkSelectio
 			filename=g_filename_from_uri(array[j],NULL,NULL);
 			if(g_str_has_suffix(filename,".tgz")||g_str_has_suffix(filename,".gz")||g_str_has_suffix(filename,".zip"))
 				{
-					//printf("file %i = %s\n",j,filename);
 					extractAndInstall(filename);
 				}
 			freeAndNull(&filename);
