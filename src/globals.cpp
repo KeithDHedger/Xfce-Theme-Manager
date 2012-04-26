@@ -57,6 +57,8 @@ char*		iconTheme;
 GtkWidget*		appFontButton;
 GtkWidget*		wmFontButton;
 GtkWidget*		window;
+GtkComboBoxText*	styleComboBox;
+int 			wallStyle;
 
 void freeAndNull(char** ptr)
 {

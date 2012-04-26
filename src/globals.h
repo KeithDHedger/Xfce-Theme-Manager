@@ -96,6 +96,8 @@ extern char*		iconTheme;
 extern GtkWidget*		appFontButton;
 extern GtkWidget*		wmFontButton;
 extern GtkWidget*		window;
+extern GtkComboBoxText*	styleComboBox;
+extern int 			wallStyle;
 
 extern void freeAndNull(char** ptr);
 

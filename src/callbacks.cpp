@@ -162,3 +162,34 @@ void dropUri(GtkWidget *widget,GdkDragContext *context,gint x,gint y,GtkSelectio
 	g_strfreev(array);
 }
 
+void doWallpapers(GtkWidget* widget,gpointer data)
+{
+	GKeyFile*	keyfile=g_key_file_new();
+	char*		command;
+	char*		paperset;
+
+	if(g_key_file_load_from_file(keyfile,gtk_widget_get_name(widget),G_KEY_FILE_NONE,NULL))
+		{
+			paperset=g_key_file_get_string(keyfile,"Data","BackgroundImage",NULL);
+
+			if(paperset!=NULL)
+				{
+					asprintf(&command,"%s\"%s\"",XCONFSETPAPER,paperset);
+					system(command);
+					free(command);
+					free(paperset);
+				}
+		}
+	g_key_file_free(keyfile);
+}
+
+void wallStyleChanged(GtkWidget* widget,gpointer data)
+{
+	char*	command;
+
+	wallStyle=gtk_combo_box_get_active((GtkComboBox*)widget);
+	asprintf(&command,"%s%i",XCONFSETSTYLE,wallStyle);
+	system(command);
+}
+
+

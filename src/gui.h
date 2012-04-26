@@ -18,6 +18,8 @@
 #ifndef _GUI_
 #define _GUI_
 
+void addNewButtons(GtkWidget* vbox,const char* subfolder,void* callback);
+GtkWidget* buildWallpapers(GtkWidget* wallpapersScrollBox);
 GtkWidget* buildTitlePos(void);
 
 #endif
