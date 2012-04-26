@@ -1,5 +1,5 @@
 PROGRAM=xfce-theme-manager
-SOURCES=src/main.cpp src/globals.cpp src/database.cpp src/thumbnails.cpp
+SOURCES=src/main.cpp src/globals.cpp src/database.cpp src/thumbnails.cpp src/gui.cpp src/callbacks.cpp
 VERSION=0.1.0
 LAUNCHER=Xfce-Theme-Manager.desktop
 

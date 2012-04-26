@@ -22,6 +22,7 @@
 #include "globals.h"
 #include "database.h"
 #include "thumbnails.h"
+#include "gui.h"
 
 bool			whoops=false;
 GtkWidget*		progressWindow;
@@ -472,19 +473,6 @@ void changeLayout(GtkWidget* widget,gpointer data)
 	freeAndNull(&command);
 }
 
-void setTitlePos(GtkWidget* widget,gpointer data)
-{
-	char*		command;
-
-	gboolean	state=gtk_toggle_button_get_active((GtkToggleButton*)widget);
-
-	if (state==true)
-		{
-			asprintf(&command,"%s %s",XCONFSETTITLEPOS,(char*)data);
-			system(command);
-			freeAndNull(&command);
-		}
-}
 
 void setFont(GtkWidget* widget,gpointer data)
 {
@@ -636,8 +624,6 @@ int main(int argc,char **argv)
 	GtkWidget*	advancedHbox;
 	GtkWidget*	advancedRange;
 	GtkWidget*	advancedEntry;
-//	GSList*	advancedGroup;
-	GtkWidget*	firstRadio;
 
 	g_thread_init(NULL);
 	gdk_threads_init();
@@ -809,51 +795,38 @@ int main(int argc,char **argv)
 	gtk_box_pack_start(GTK_BOX(advancedVbox),advancedHbox, false,false,2);
 	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_hseparator_new(),false,false,4);
 
-//titlepos
-	advancedHbox=gtk_hbox_new(true,0);
-	gtk_box_pack_start(GTK_BOX(advancedHbox),gtk_label_new("Title Position"), false,false,2);
-	firstRadio=gtk_radio_button_new_with_label (NULL, "Left");
-	g_signal_connect_after(G_OBJECT(firstRadio),"toggled",G_CALLBACK(setTitlePos),(void*)"left");
-	if(strcasecmp(currentTitlePos,"left")==0)
-		gtk_toggle_button_set_active((GtkToggleButton*)firstRadio,true);
-	gtk_box_pack_start(GTK_BOX(advancedHbox),firstRadio,false,false,0);
-
-	button=gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON (firstRadio),"Centre");
-	g_signal_connect_after(G_OBJECT(button),"toggled",G_CALLBACK(setTitlePos),(void*)"center");
-	if(strcasecmp(currentTitlePos,"center")==0)
-		gtk_toggle_button_set_active((GtkToggleButton*)button,true);
-	gtk_box_pack_start(GTK_BOX(advancedHbox),button,false,false,0);
-
-	button=gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON (firstRadio),"Right");
-	g_signal_connect_after(G_OBJECT(button),"toggled",G_CALLBACK(setTitlePos),(void*)"right");
-	if(strcasecmp(currentTitlePos,"right")==0)
-		gtk_toggle_button_set_active((GtkToggleButton*)button,true);
-	gtk_box_pack_start(GTK_BOX(advancedHbox),button,false,false,0);
-
-	gtk_box_pack_start(GTK_BOX(advancedVbox),advancedHbox, false,false,2);
+//buildTitlePos
+	gtk_box_pack_start(GTK_BOX(advancedVbox),buildTitlePos(), false,false,2);
 	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_hseparator_new(),false,false,4);
 
 //fonts
 //wmfont
 	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_label_new("Font Selection"), false,false,4);
 	advancedHbox=gtk_hbox_new(false,0);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),gtk_label_new("WM Font "), false,false,1);
+
+	button=gtk_font_button_new_with_font(currentWMFont);
+	g_signal_connect_after(G_OBJECT(button),"font-set",G_CALLBACK(setFont),(void*)1);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),button, true,true,1);
+
 	button=gtk_button_new_with_label("Reset");
 	g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(resetFont),(void*)0);
 	gtk_box_pack_start(GTK_BOX(advancedHbox),button, false,false,1);
-	gtk_box_pack_start(GTK_BOX(advancedHbox),gtk_label_new("WM Font"), false,false,1);
-	button=gtk_font_button_new_with_font(currentWMFont);
-	gtk_box_pack_start(GTK_BOX(advancedHbox),button, true,true,1);
-	g_signal_connect_after(G_OBJECT(button),"font-set",G_CALLBACK(setFont),(void*)1);
+
 	gtk_box_pack_start(GTK_BOX(advancedVbox),advancedHbox, false,false,4);
+
 //appfont
 	advancedHbox=gtk_hbox_new(false,0);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),gtk_label_new("App Font"), false,false,1);
+
+	button=gtk_font_button_new_with_font(currentAppFont);
+	g_signal_connect_after(G_OBJECT(button),"font-set",G_CALLBACK(setFont),(void*)1);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),button, true,true,1);
+
 	button=gtk_button_new_with_label("Reset");
 	g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(resetFont),(void*)1);
 	gtk_box_pack_start(GTK_BOX(advancedHbox),button, false,false,1);
-	gtk_box_pack_start(GTK_BOX(advancedHbox),gtk_label_new("App Font"), false,false,1);
-	button=gtk_font_button_new_with_font(currentAppFont);
-	gtk_box_pack_start(GTK_BOX(advancedHbox),button, true,true,1);
-	g_signal_connect_after(G_OBJECT(button),"font-set",G_CALLBACK(setFont),(void*)1);
+
 	gtk_box_pack_start(GTK_BOX(advancedVbox),advancedHbox, false,false,4);
 
 	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_hseparator_new(),false,false,4);
