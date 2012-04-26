@@ -52,3 +52,5 @@ GtkWidget* buildTitlePos(void)
 
 	return(advancedHbox);
 }
+
+

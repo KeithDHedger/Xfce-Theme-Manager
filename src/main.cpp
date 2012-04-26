@@ -23,6 +23,7 @@
 #include "database.h"
 #include "thumbnails.h"
 #include "gui.h"
+#include "callbacks.h"
 
 bool			whoops=false;
 GtkWidget*		progressWindow;
@@ -500,29 +501,6 @@ void resetFont(GtkWidget* widget,gpointer data)
 	freeAndNull(&command);
 }
 
-void doDrop(GtkWidget* widget,gpointer data)
-{
-	char*		command;
-
-//	asprintf(&command,"%s \"%s\"",XCONFSETLAYOUT,gtk_entry_get_text((GtkEntry*)widget));
-//	system(command);
-//	freeAndNull(&command);
-printf("XXXXXXXXXXXXX\n");
-}
-
-void drag_drop_handl(GtkWidget *widget,GdkDragContext *context,gint x,gint y,GtkSelectionData *selection_data,guint info,guint32 time,gpointer user_data)
-{
-	printf("dropped\n");
-	
-
-gchar ** array=gtk_selection_data_get_uris         (selection_data);
-char* text2=g_filename_from_uri(array[0],NULL,NULL);
-	printf("dropped data=%s --- %s\n",(char*)array[0],text2);
-
- g_strfreev(array);
- freeAndNull(&text2);
-
-}
 void init(void)
 {
 	gchar	*stdout;
@@ -853,12 +831,13 @@ int main(int argc,char **argv)
 
 	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_hseparator_new(),false,false,4);
 
-//drop
-	button=gtk_label_new("Drop An Archive Here...");
-	gtk_drag_dest_set(button,GTK_DEST_DEFAULT_ALL,NULL,0,GDK_ACTION_LINK);
+//dnd install
+	button=gtk_frame_new(NULL);
+	gtk_drag_dest_set(button,GTK_DEST_DEFAULT_ALL,NULL,0,GDK_ACTION_COPY);
 	gtk_drag_dest_add_uri_targets(button);
-	g_signal_connect (G_OBJECT(button),"drag_data_received",G_CALLBACK(drag_drop_handl), NULL);
-	gtk_box_pack_start(GTK_BOX(advancedVbox),button, false,false,0);
+	g_signal_connect (G_OBJECT(button),"drag_data_received",G_CALLBACK(dropUri), NULL);
+	gtk_container_add(GTK_CONTAINER(button),gtk_label_new("Drop A Theme/Gtk/Wm Package Here To Install..."));
+	gtk_box_pack_start(GTK_BOX(advancedVbox),button, true,true,0);
 
 //add notebook to window
 	gtk_container_add(GTK_CONTAINER(vbox),(GtkWidget*)advanced);

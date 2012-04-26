@@ -22,6 +22,7 @@
 
 #include "globals.h"
 
+//set title position
 void setTitlePos(GtkWidget* widget,gpointer data)
 {
 	char*		command;
@@ -36,4 +37,45 @@ void setTitlePos(GtkWidget* widget,gpointer data)
 		}
 }
 
+void extractAndInstall(char* filename)
+{
+	char*		command;
+	gchar*	stdout=NULL;
+	gchar*	stderr=NULL;
+	
+	asprintf(&command,"tar --wildcards -tf %s */gtkrc",filename);
+	g_spawn_command_line_sync(command,&stdout,&stderr,NULL,NULL);
+	if (stdout!=NULL)
+		{
+			stdout[strlen(stdout)-1]=0;
+			if(strlen(stdout)>1)
+				printf("Its a gtk\n");
+		}
+
+	freeAndNull(&stdout);
+	freeAndNull(&stderr);
+	freeAndNull(&command);
+
+}
+
+//dnd install
+void dropUri(GtkWidget *widget,GdkDragContext *context,gint x,gint y,GtkSelectionData *selection_data,guint info,guint32 time,gpointer user_data)
+{
+	gchar**	array=gtk_selection_data_get_uris(selection_data);
+	int		cnt=g_strv_length(array);
+	char*		filename;
+
+	for(int j=0;j<cnt;j++)
+		{
+			filename=g_filename_from_uri(array[j],NULL,NULL);
+			if(g_str_has_suffix(filename,".tgz")||g_str_has_suffix(filename,".gz")||g_str_has_suffix(filename,".zip"))
+				{
+					//printf("file %i = %s\n",j,filename);
+					extractAndInstall(filename);
+				}
+			freeAndNull(&filename);
+		}
+
+	g_strfreev(array);
+}
 

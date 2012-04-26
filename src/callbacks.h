@@ -26,5 +26,6 @@
 #define _CALLBACKS_
 
 void setTitlePos(GtkWidget* widget,gpointer data);
+void dropUri(GtkWidget *widget,GdkDragContext *context,gint x,gint y,GtkSelectionData *selection_data,guint info,guint32 time,gpointer user_data);
 
 #endif
