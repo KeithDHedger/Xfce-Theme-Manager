@@ -78,13 +78,6 @@ extern char*		iconsFolder;
 extern char*		cursorsFolder;
 extern char*		wallpapersFolder;
 
-//to bie gone
-extern int		button_offset,button_spacing;
-extern GdkPixbuf*	gtkPixbuf;
-extern int		boxhite;
-extern int		gtkwidth;
-extern int		gtkheight;
-
 //folders
 extern char*		themesArray[2];
 extern char*		iconsArray[2];
@@ -99,12 +92,17 @@ extern GtkWidget*		window;
 extern GtkComboBoxText*	styleComboBox;
 extern int 			wallStyle;
 
-extern GtkWidget*	themesScrollBox;
-extern GtkWidget*	framesScrollBox;
-extern GtkWidget*	controlsScrollBox;
-extern GtkWidget*	iconsScrollBox;
-extern GtkWidget*	cursorsScrollBox;
-extern GtkWidget*	wallpapersScrollBox;
+extern GtkWidget*		themesScrollBox;
+extern GtkWidget*		framesScrollBox;
+extern GtkWidget*		controlsScrollBox;
+extern GtkWidget*		iconsScrollBox;
+extern GtkWidget*		cursorsScrollBox;
+extern GtkWidget*		wallpapersScrollBox;
+extern GtkNotebook*	advanced;
+
+extern int			controlHeight;
+extern int			controlWidth;
+extern GdkPixbuf*			controlsPixbuf;
 
 extern void freeAndNull(char** ptr);
 

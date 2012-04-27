@@ -28,46 +28,6 @@
 bool			whoops=false;
 GtkWidget*		progressWindow;
 GtkWidget*		progressBar;
-GtkNotebook*	advanced;
-
-void respond(GtkFontSelectionDialog* dialog,gint response,gpointer data)
-{
-	gchar* font;
-
-	switch(response)
-		{
-			case (GTK_RESPONSE_APPLY):
-			case (GTK_RESPONSE_OK):
-				font=gtk_font_selection_dialog_get_font_name(dialog);
-				printf("%s\n",font);
-				g_free(font);
-				break;
-			default:
-				whoops=true;
-		}
-
-	gtk_main_quit();
-}
-
-void pickfont(char* currentname)
-{
-	GtkWidget*	dialog;
-	
-	dialog=gtk_font_selection_dialog_new("Please Pick A Font");
-	gtk_font_selection_dialog_set_font_name(GTK_FONT_SELECTION_DIALOG(dialog),currentname);
-	gtk_font_selection_dialog_set_preview_text(GTK_FONT_SELECTION_DIALOG(dialog),"The Quick Brown Fox Jumped Over The Lazy Dog");
-	g_signal_connect_after(G_OBJECT(dialog),"response",G_CALLBACK(respond), NULL);
-
-	gtk_widget_show_all(dialog);
-	gtk_main();
-
-	gtk_widget_destroy(GTK_WIDGET(dialog));
-
-	if(whoops==true)
-		printf("%s\n",currentname);
-
-	return;
-}
 
 // RESET THEME
 void resetTheme(GtkWidget* widget,gpointer data)
@@ -92,9 +52,6 @@ void resetTheme(GtkWidget* widget,gpointer data)
 	gtk_combo_box_set_active((GtkComboBox*)styleComboBox,currentWallStyle);
 }
 
-
-
-
 void shutdown(GtkWidget* window,gpointer data)
 {
 	gtk_main_quit();
@@ -117,8 +74,6 @@ void showAdvanced(GtkWidget* widget,gpointer data)
 	else
 		gtk_notebook_set_current_page(advanced,0);
 }
-
-
 
 void init(void)
 {

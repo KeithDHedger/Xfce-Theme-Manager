@@ -19,40 +19,33 @@
 #include <gtk/gtk.h>
 
 //current stuff
-int		currentWallStyle=0;
-char*		currentIconTheme;
-char*		currentWmTheme;
-char*		currentCursorTheme;
-char*		currentWallPaper;
-char*		currentGtkTheme;
-char*		currentButtonLayout;
-char*		currentTitlePos;
-char*		currentWMFont;
-char*		currentAppFont;
+int			currentWallStyle=0;
+char*			currentIconTheme;
+char*			currentWmTheme;
+char*			currentCursorTheme;
+char*			currentWallPaper;
+char*			currentGtkTheme;
+char*			currentButtonLayout;
+char*			currentTitlePos;
+char*			currentWMFont;
+char*			currentAppFont;
 
 //db
-char*		dbFolder;
-char*		metaFolder;
-char*		framesFolder;
-char*		controlsFolder;
-char*		iconsFolder;
-char*		cursorsFolder;
-char*		wallpapersFolder;
-
-//to bie gone
-int		button_offset,button_spacing;
-GdkPixbuf*	gtkPixbuf;
-int		boxhite=90;
-int		gtkwidth=200;
-int		gtkheight=50;
+char*			dbFolder;
+char*			metaFolder;
+char*			framesFolder;
+char*			controlsFolder;
+char*			iconsFolder;
+char*			cursorsFolder;
+char*			wallpapersFolder;
 
 //folders
-char*		themesArray[2];
-char*		iconsArray[2];
-char*		papersArray[2];
+char*			themesArray[2];
+char*			iconsArray[2];
+char*			papersArray[2];
 
-char*		cursorTheme;
-char*		iconTheme;
+char*			cursorTheme;
+char*			iconTheme;
 
 GtkWidget*		appFontButton;
 GtkWidget*		wmFontButton;
@@ -60,12 +53,17 @@ GtkWidget*		window;
 GtkComboBoxText*	styleComboBox;
 int 			wallStyle;
 
-GtkWidget*	themesScrollBox;
-GtkWidget*	framesScrollBox;
-GtkWidget*	controlsScrollBox;
-GtkWidget*	iconsScrollBox;
-GtkWidget*	cursorsScrollBox;
-GtkWidget*	wallpapersScrollBox;
+GtkWidget*		themesScrollBox;
+GtkWidget*		framesScrollBox;
+GtkWidget*		controlsScrollBox;
+GtkWidget*		iconsScrollBox;
+GtkWidget*		cursorsScrollBox;
+GtkWidget*		wallpapersScrollBox;
+GtkNotebook*	advanced;
+
+int			controlHeight=50;
+int			controlWidth=200;
+GdkPixbuf*		controlsPixbuf;
 
 void freeAndNull(char** ptr)
 {

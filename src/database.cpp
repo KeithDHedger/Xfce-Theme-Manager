@@ -138,20 +138,20 @@ gpointer rebuildDB(gpointer data)
 
 									writeDBFile(dbfile,displayname,gtkname,framename,iconname,papername,cursorname,thumbfile);
 
-									gtkwidth=400;
-									gtkheight=200;
+									controlWidth=400;
+									controlHeight=200;
 									asprintf(&framefolder,"%s/%s",themesArray[i],entry);
 									gdk_threads_enter();
-									gtkPixbuf=create_gtk_theme_pixbuf(gtkname);
+									controlsPixbuf=create_gtk_theme_pixbuf(gtkname);
 									gdk_threads_leave();
-									if(gtkPixbuf!=NULL)
+									if(controlsPixbuf!=NULL)
 										{
 											getspace(framefolder);
 											asprintf(&iconTheme,"%s",iconname);
 											asprintf(&cursorTheme,"%s",cursorname);
 											makeborder(framefolder,thumbfile);
-											g_object_unref(gtkPixbuf);
-											gtkPixbuf=NULL;
+											g_object_unref(controlsPixbuf);
+											controlsPixbuf=NULL;
 										}
 
 									freeAndNull(&dbfile);
@@ -172,8 +172,8 @@ gpointer rebuildDB(gpointer data)
 				}
 		}
 
-	gtkwidth=200;
-	gtkheight=50;
+	controlWidth=200;
+	controlHeight=50;
 
 //build frames
 //gtkprev [border] /path/to/border /out/path/to/png

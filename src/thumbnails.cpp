@@ -23,6 +23,9 @@
 
 #include "globals.h"
 
+int			boxhite=90;
+int			button_offset,button_spacing;
+
 GdkPixbuf *cursorprev (const char *ptrname,char* themename)
 {
 	XcursorImage	*image;
@@ -74,7 +77,7 @@ void makecursor(char* theme,char* outPath)
 	cairo_surface_t *surface;
 	cairo_t *cr;
 
-	gtkPixbuf=NULL;
+	controlsPixbuf=NULL;
 	surface=cairo_image_surface_create(CAIRO_FORMAT_ARGB32,128,32);
 	cr=cairo_create(surface);
 
@@ -157,7 +160,7 @@ GdkPixbuf * create_gtk_theme_pixbuf(char* name)
 
 	window=gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	
-	gtk_window_set_default_size((GtkWindow*)window,gtkwidth,gtkheight);
+	gtk_window_set_default_size((GtkWindow*)window,controlWidth,controlHeight);
 
 	vbox=gtk_vbox_new(FALSE, 0);
 	gtk_container_add(GTK_CONTAINER(window), vbox);
@@ -392,10 +395,10 @@ void makeborder(char* folder,char* outframe)
 
 //do theme
 
-	if (gtkPixbuf!=NULL)
+	if (controlsPixbuf!=NULL)
 		{
 			cairo_save (cr);
-				gdk_cairo_set_source_pixbuf(cr,gtkPixbuf,leftsidewid,title3hite);
+				gdk_cairo_set_source_pixbuf(cr,controlsPixbuf,leftsidewid,title3hite);
 				cairo_paint_with_alpha(cr,100);
 
 				arrow=cursorprev("left_ptr",cursorTheme);
@@ -616,7 +619,7 @@ void makeIcon(char* themename,char* outPath)
 	cairo_t		*cr;
 	GtkIconTheme*	theme=NULL;
 
-	gtkPixbuf=NULL;
+	controlsPixbuf=NULL;
 	surface=cairo_image_surface_create(CAIRO_FORMAT_ARGB32,128,32);
 	cr=cairo_create(surface);
 
