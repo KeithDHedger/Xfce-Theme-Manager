@@ -152,10 +152,10 @@ void buildPages(void)
 	addNewButtons(vbox,"meta",(void*)doMeta);
 	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)themesScrollBox,vbox);
 	
-	framesScrollBox=gtk_scrolled_window_new(NULL,NULL);
-	vbox=gtk_vbox_new(FALSE, 0);
-	addNewButtons(vbox,"frames",(void*)doFrame);
-	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)framesScrollBox,vbox);
+//	framesScrollBox=gtk_scrolled_window_new(NULL,NULL);
+	framesVBox=gtk_vbox_new(FALSE, 0);
+	addNewButtons(framesVBox,"frames",(void*)doFrame);
+	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)framesScrollBox,framesVBox);
 	
 	controlsScrollBox=gtk_scrolled_window_new(NULL,NULL);
 	vbox=gtk_vbox_new(FALSE, 0);

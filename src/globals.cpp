@@ -59,6 +59,14 @@ GtkWidget*		controlsScrollBox;
 GtkWidget*		iconsScrollBox;
 GtkWidget*		cursorsScrollBox;
 GtkWidget*		wallpapersScrollBox;
+
+GtkWidget*		themesVBox;
+GtkWidget*		framesVBox;
+GtkWidget*		controlsVBox;
+GtkWidget*		iconsVBox;
+GtkWidget*		cursorsVBox;
+GtkWidget*		wallpapersVBox;
+
 GtkNotebook*	advanced;
 
 int			controlHeight=50;
@@ -66,6 +74,7 @@ int			controlWidth=200;
 GdkPixbuf*		controlsPixbuf;
 
 //bool			updateDB=false;
+GtkNotebook*	notebook;
 
 void freeAndNull(char** ptr)
 {

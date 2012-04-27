@@ -163,7 +163,7 @@ gboolean updateBarTimer(gpointer data)
 int main(int argc,char **argv)
 {
 	GtkWidget*		vbox;
-	GtkNotebook*	notebook;
+//	GtkNotebook*	notebook;
 	GtkWidget*		buttonHbox;
 	GtkWidget*		label;
 	GtkWidget*		button;
@@ -198,6 +198,7 @@ int main(int argc,char **argv)
 	vbox=gtk_vbox_new(FALSE, 0);
 	gtk_container_add(GTK_CONTAINER(window),(GtkWidget*)vbox);
 
+	framesScrollBox=gtk_scrolled_window_new(NULL,NULL);
 	buildPages();
 
 //notebook

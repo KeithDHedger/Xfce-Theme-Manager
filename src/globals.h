@@ -98,12 +98,21 @@ extern GtkWidget*		controlsScrollBox;
 extern GtkWidget*		iconsScrollBox;
 extern GtkWidget*		cursorsScrollBox;
 extern GtkWidget*		wallpapersScrollBox;
+
+extern GtkWidget*		themesVBox;
+extern GtkWidget*		framesVBox;
+extern GtkWidget*		controlsVBox;
+extern GtkWidget*		iconsVBox;
+extern GtkWidget*		cursorsVBox;
+extern GtkWidget*		wallpapersVBox;
+
 extern GtkNotebook*	advanced;
 
 extern int			controlHeight;
 extern int			controlWidth;
 extern GdkPixbuf*		controlsPixbuf;
 //extern bool			updateDB;
+extern	GtkNotebook*	notebook;
 
 extern void freeAndNull(char** ptr);
 

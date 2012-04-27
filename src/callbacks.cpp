@@ -120,12 +120,79 @@ void extractAndInstall(char* filename)
 	freeAndNull(&stderr);
 }
 
+//frame
+void doFrame(GtkWidget* widget,gpointer data)
+{
+
+
+	GKeyFile*	keyfile=g_key_file_new();
+	char*		command;
+	char*		frameset;
+
+	if(g_key_file_load_from_file(keyfile,gtk_widget_get_name(widget),G_KEY_FILE_NONE,NULL))
+		{
+			frameset=g_key_file_get_string(keyfile,"Data","Xfwm4Theme",NULL);
+
+			if(frameset!=NULL)
+				{
+					asprintf(&command,"%s\"%s\"",XCONFSETFRAME,frameset);
+					system(command);
+					free(command);
+					free(frameset);
+				}
+		}
+	g_key_file_free(keyfile);
+}
+
+extern void buildPages(void);
+extern gpointer rebuildDB(gpointer data);
+extern void addNewButtons(GtkWidget* vbox,const char* subfolder,void* callback);
+
 void rerunAndUpdate(void)
 {
-	char*	datax[]={(char*)"xfce-theme-manager",(char*)"-u",NULL};
+	//char*	datax[]={(char*)"xfce-theme-manager",(char*)"-u",NULL};
 
-	gtk_main_quit();
-	execvp("xfce-theme-manager",datax);
+	//gtk_main_quit();
+	//execvp("xfce-theme-manager",datax);
+	rebuildDB((void*)1);
+	GtkWidget*	label;
+
+//	gtk_widget_destroy(themesScrollBox);
+	gtk_widget_destroy(framesVBox);
+
+	framesVBox=gtk_vbox_new(FALSE, 0);
+	addNewButtons(framesVBox,"frames",(void*)doFrame);
+	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)framesScrollBox,framesVBox);
+gtk_widget_show_all(window);
+//	gtk_widget_destroy(controlsScrollBox);
+//	gtk_widget_destroy(iconsScrollBox);
+//	gtk_widget_destroy(cursorsScrollBox);
+//	gtk_widget_destroy(wallpapersScrollBox);
+//	gtk_notebook_remove_page(notebook,0);
+//	gtk_notebook_remove_page(notebook,1);
+//	gtk_notebook_remove_page(notebook,2);
+//	gtk_notebook_remove_page(notebook,3);
+//	gtk_notebook_remove_page(notebook,4);
+//	buildPages();
+
+//	label=gtk_label_new("Themes");
+//	gtk_notebook_append_page(notebook,themesScrollBox,label);
+
+//	label=gtk_label_new("Window Borders");
+//	gtk_notebook_append_page(notebook,framesScrollBox,label);
+
+//	label=gtk_label_new("Controls");
+//	gtk_notebook_append_page(notebook,controlsScrollBox,label);
+
+//	label=gtk_label_new("Icons");
+//	gtk_notebook_append_page(notebook,iconsScrollBox,label);
+
+//	label=gtk_label_new("Cursors");
+//	gtk_notebook_append_page(notebook,cursorsScrollBox,label);
+
+//	label=gtk_label_new("Wallpapers");
+//	gtk_notebook_append_page(notebook,wallpapersScrollBox,label);
+	//gtk_notebook_append_page(advanced,(GtkWidget*)notebook,NULL);
 }
 
 
@@ -261,30 +328,6 @@ void doMeta(GtkWidget* widget,gpointer data)
 			}
 		}
 	system("xfdesktop --reload");
-	g_key_file_free(keyfile);
-}
-
-//frame
-void doFrame(GtkWidget* widget,gpointer data)
-{
-
-
-	GKeyFile*	keyfile=g_key_file_new();
-	char*		command;
-	char*		frameset;
-
-	if(g_key_file_load_from_file(keyfile,gtk_widget_get_name(widget),G_KEY_FILE_NONE,NULL))
-		{
-			frameset=g_key_file_get_string(keyfile,"Data","Xfwm4Theme",NULL);
-
-			if(frameset!=NULL)
-				{
-					asprintf(&command,"%s\"%s\"",XCONFSETFRAME,frameset);
-					system(command);
-					free(command);
-					free(frameset);
-				}
-		}
 	g_key_file_free(keyfile);
 }
 
