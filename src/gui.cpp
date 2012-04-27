@@ -89,7 +89,7 @@ void addNewButtons(GtkWidget* vbox,const char* subfolder,void* callback)
 }
 
 //wallpapers
-GtkWidget* buildWallpapers(GtkWidget* wallpapersScrollBox)
+voidbuildWallpapers(void)
 {
 	GtkWidget*	wallpapersVbox;
 	GtkWidget*	paperVbox;
@@ -147,34 +147,38 @@ void buildPages(void)
 {
 	GtkWidget*	vbox;
 
-	themesScrollBox=gtk_scrolled_window_new(NULL,NULL);
-	vbox=gtk_vbox_new(FALSE, 0);
-	addNewButtons(vbox,"meta",(void*)doMeta);
-	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)themesScrollBox,vbox);
+//	themesScrollBox=gtk_scrolled_window_new(NULL,NULL);
+	themesVBox=gtk_vbox_new(FALSE, 0);
+	addNewButtons(themesVBox,"meta",(void*)doMeta);
+	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)themesScrollBox,themesVBox);
 	
 //	framesScrollBox=gtk_scrolled_window_new(NULL,NULL);
 	framesVBox=gtk_vbox_new(FALSE, 0);
 	addNewButtons(framesVBox,"frames",(void*)doFrame);
 	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)framesScrollBox,framesVBox);
 	
-	controlsScrollBox=gtk_scrolled_window_new(NULL,NULL);
-	vbox=gtk_vbox_new(FALSE, 0);
-	addNewButtons(vbox,"controls",(void*)doControls);
-	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)controlsScrollBox,vbox);
+//	controlsScrollBox=gtk_scrolled_window_new(NULL,NULL);
+	controlsVBox=gtk_vbox_new(FALSE, 0);
+	addNewButtons(controlsVBox,"controls",(void*)doControls);
+	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)controlsScrollBox,controlsVBox);
 
-	iconsScrollBox=gtk_scrolled_window_new(NULL,NULL);
-	vbox=gtk_vbox_new(FALSE, 0);
-	addNewButtons(vbox,"icons",(void*)doIcons);
-	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)iconsScrollBox,vbox);
+//	iconsScrollBox=gtk_scrolled_window_new(NULL,NULL);
+	iconsVBox=gtk_vbox_new(FALSE, 0);
+	addNewButtons(iconsVBox,"icons",(void*)doIcons);
+	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)iconsScrollBox,iconsVBox);
 
-	cursorsScrollBox=gtk_scrolled_window_new(NULL,NULL);
-	vbox=gtk_vbox_new(FALSE, 0);
-	addNewButtons(vbox,"cursors",(void*)doCursors);
-	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)cursorsScrollBox,vbox);
+//	cursorsScrollBox=gtk_scrolled_window_new(NULL,NULL);
+	cursorsVBox=gtk_vbox_new(FALSE, 0);
+	addNewButtons(cursorsVBox,"cursors",(void*)doCursors);
+	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)cursorsScrollBox,cursorsVBox);
 
-	wallpapersScrollBox=gtk_vbox_new(FALSE, 0);
-	gtk_container_add (GTK_CONTAINER (wallpapersScrollBox),buildWallpapers(wallpapersScrollBox));
+//	wallpapersScrollBox=gtk_vbox_new(FALSE, 0);
+	wallpapersVBox=gtk_vbox_new(FALSE, 0);
+	buildWallpapers();
+	gtk_container_add (GTK_CONTAINER (wallpapersScrollBox),wallpapersVBox());
+
 }
+
 	
 void buildAdvancedGtui(GtkWidget* advancedScrollBox)
 {

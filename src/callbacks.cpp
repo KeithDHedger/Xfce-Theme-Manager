@@ -158,11 +158,19 @@ void rerunAndUpdate(void)
 	GtkWidget*	label;
 
 //	gtk_widget_destroy(themesScrollBox);
+	gtk_widget_destroy(themesVBox);
 	gtk_widget_destroy(framesVBox);
+	gtk_widget_destroy(controlsVBox);
+	gtk_widget_destroy(iconsVBox);
+	gtk_widget_destroy(cursorsVBox);
+	buildPages();
+//	gtk_widget_destroy(framesVBox);
 
-	framesVBox=gtk_vbox_new(FALSE, 0);
-	addNewButtons(framesVBox,"frames",(void*)doFrame);
-	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)framesScrollBox,framesVBox);
+//	framesVBox=gtk_vbox_new(FALSE, 0);
+//	addNewButtons(framesVBox,"frames",(void*)doFrame);
+//	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)framesScrollBox,framesVBox);
+
+
 gtk_widget_show_all(window);
 //	gtk_widget_destroy(controlsScrollBox);
 //	gtk_widget_destroy(iconsScrollBox);

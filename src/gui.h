@@ -19,7 +19,7 @@
 #define _GUI_
 
 void addNewButtons(GtkWidget* vbox,const char* subfolder,void* callback);
-GtkWidget* buildWallpapers(GtkWidget* wallpapersScrollBox);
+void buildWallpapers(void);
 GtkWidget* buildTitlePos(void);
 void buildPages(void);
 void buildAdvancedGtui(GtkWidget* advancedScrollBox);
