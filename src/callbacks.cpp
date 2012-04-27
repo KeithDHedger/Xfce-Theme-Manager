@@ -120,6 +120,15 @@ void extractAndInstall(char* filename)
 	freeAndNull(&stderr);
 }
 
+void rerunAndUpdate(void)
+{
+	char*	datax[]={(char*)"xfce-theme-manager",(char*)"-u",NULL};
+
+	gtk_main_quit();
+	execvp("xfce-theme-manager",datax);
+}
+
+
 //dnd install
 void dropUri(GtkWidget *widget,GdkDragContext *context,gint x,gint y,GtkSelectionData *selection_data,guint info,guint32 time,gpointer user_data)
 {
@@ -160,6 +169,7 @@ void dropUri(GtkWidget *widget,GdkDragContext *context,gint x,gint y,GtkSelectio
 		}
 
 	g_strfreev(array);
+	rerunAndUpdate();
 }
 
 void doWallpapers(GtkWidget* widget,gpointer data)

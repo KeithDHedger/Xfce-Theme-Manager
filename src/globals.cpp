@@ -65,6 +65,8 @@ int			controlHeight=50;
 int			controlWidth=200;
 GdkPixbuf*		controlsPixbuf;
 
+//bool			updateDB=false;
+
 void freeAndNull(char** ptr)
 {
 	if (*ptr!=NULL)

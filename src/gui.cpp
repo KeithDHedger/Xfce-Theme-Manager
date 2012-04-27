@@ -174,9 +174,7 @@ void buildPages(void)
 
 	wallpapersScrollBox=gtk_vbox_new(FALSE, 0);
 	gtk_container_add (GTK_CONTAINER (wallpapersScrollBox),buildWallpapers(wallpapersScrollBox));
-
 }
-
 	
 void buildAdvancedGtui(GtkWidget* advancedScrollBox)
 {

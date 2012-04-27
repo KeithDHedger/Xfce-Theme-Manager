@@ -102,7 +102,8 @@ extern GtkNotebook*	advanced;
 
 extern int			controlHeight;
 extern int			controlWidth;
-extern GdkPixbuf*			controlsPixbuf;
+extern GdkPixbuf*		controlsPixbuf;
+//extern bool			updateDB;
 
 extern void freeAndNull(char** ptr);
 
