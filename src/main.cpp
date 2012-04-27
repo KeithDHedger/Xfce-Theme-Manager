@@ -202,7 +202,7 @@ int main(int argc,char **argv)
 	controlsScrollBox=gtk_scrolled_window_new(NULL,NULL);
 	iconsScrollBox=gtk_scrolled_window_new(NULL,NULL);
 	cursorsScrollBox=gtk_scrolled_window_new(NULL,NULL);
-	wallpapersScrollBox=gtk_vbox_new(FALSE, 0);
+	wallpapersScrollBox=gtk_scrolled_window_new(NULL,NULL);
 
 	buildPages();
 

@@ -87,15 +87,15 @@ void addNewButtons(GtkWidget* vbox,const char* subfolder,void* callback)
 				}
 		}
 }
-
+#if 0
 //wallpapers
-voidbuildWallpapers(void)
+void buildWallpapers(void)
 {
 	GtkWidget*	wallpapersVbox;
 	GtkWidget*	paperVbox;
 
-	paperVbox=gtk_scrolled_window_new(NULL,NULL);
-	wallpapersVbox=gtk_vbox_new(FALSE, 0);
+//	paperVbox=gtk_scrolled_window_new(NULL,NULL);
+//	wallpapersVbox=gtk_vbox_new(FALSE, 0);
 	addNewButtons(wallpapersVbox,"wallpapers",(void*)doWallpapers);
 
 	styleComboBox=(GtkComboBoxText*)gtk_combo_box_text_new();
@@ -108,11 +108,11 @@ voidbuildWallpapers(void)
 	gtk_combo_box_set_active((GtkComboBox*)styleComboBox,currentWallStyle);
 	g_signal_connect_after(G_OBJECT(styleComboBox),"changed",G_CALLBACK(wallStyleChanged),NULL);
 
-	gtk_box_pack_start((GtkBox*)wallpapersScrollBox,(GtkWidget*)styleComboBox,false,true,4);
-	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)paperVbox,wallpapersVbox);
-	return(paperVbox);
+	//gtk_box_pack_start((GtkBox*)wallpapersScrollBox,(GtkWidget*)styleComboBox,false,true,4);
+	//gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)paperVbox,wallpapersVbox);
+	//return(paperVbox);
 }
-
+#endif
 //titlepos
 GtkWidget* buildTitlePos(void)
 {
@@ -171,12 +171,29 @@ void buildPages(void)
 	cursorsVBox=gtk_vbox_new(FALSE, 0);
 	addNewButtons(cursorsVBox,"cursors",(void*)doCursors);
 	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)cursorsScrollBox,cursorsVBox);
+#if 0
+	vbox=gtk_vbox_new(FALSE, 0);
+	styleComboBox=(GtkComboBoxText*)gtk_combo_box_text_new();
+	gtk_combo_box_text_append_text(styleComboBox,"Auto");
+	gtk_combo_box_text_append_text(styleComboBox,"Centered");
+	gtk_combo_box_text_append_text(styleComboBox,"Tiled");
+	gtk_combo_box_text_append_text(styleComboBox,"Stretched");
+	gtk_combo_box_text_append_text(styleComboBox,"Scaled");
+	gtk_combo_box_text_append_text(styleComboBox,"Zoomed");
+	gtk_combo_box_set_active((GtkComboBox*)styleComboBox,currentWallStyle);
+	g_signal_connect_after(G_OBJECT(styleComboBox),"changed",G_CALLBACK(wallStyleChanged),NULL);
+	gtk_box_pack_start((GtkBox*)vbox,(GtkWidget*)styleComboBox,false,true,4);
+	
+//	wallpapersVBox=gtk_vbox_new(FALSE, 0);
+//	addNewButtons(wallpapersVBox,"wallpapers",(void*)doWallpapers);
+//	gtk_box_pack_start((GtkBox*)vbox,(GtkWidget*)wallpapersVBox,false,true,4);
+//	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)wallpapersScrollBox,vbox);
 
-//	wallpapersScrollBox=gtk_vbox_new(FALSE, 0);
-	wallpapersVBox=gtk_vbox_new(FALSE, 0);
-	buildWallpapers();
-	gtk_container_add (GTK_CONTAINER (wallpapersScrollBox),wallpapersVBox());
+	//gtk_box_pack_start((GtkBox*)wallpapersScrollBox,(GtkWidget*)vbox,false,true,4);
+	//gtk_box_pack_start((GtkBox*)vbox,(GtkWidget*)wallpapersScrollBox,false,true,4);
 
+	//gtk_container_add (GTK_CONTAINER(wallpapersScrollBox),vbox);
+#endif
 }
 
 	
