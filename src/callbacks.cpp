@@ -192,4 +192,262 @@ void wallStyleChanged(GtkWidget* widget,gpointer data)
 	system(command);
 }
 
+//do meta theme
+void doMeta(GtkWidget* widget,gpointer data)
+{
+	GKeyFile*	keyfile=g_key_file_new();
+	char*		command;
+	char*		cursorset;
+	char*		gtkset;
+	char*		frameset;
+	char*		iconset;
+	char*		paperset;
+
+	GtkSettings *settings=gtk_settings_get_default();;
+
+	if(g_key_file_load_from_file(keyfile,gtk_widget_get_name(widget),G_KEY_FILE_NONE,NULL))
+		{
+			gtkset=g_key_file_get_string(keyfile,"Data","GtkTheme",NULL);
+			frameset=g_key_file_get_string(keyfile,"Data","Xfwm4Theme",NULL);
+			iconset=g_key_file_get_string(keyfile,"Data","IconTheme",NULL);	
+			cursorset=g_key_file_get_string(keyfile,"Data","CursorTheme",NULL);	
+			paperset=g_key_file_get_string(keyfile,"Data","BackgroundImage",NULL);	
+		
+			if(gtkset!=NULL)
+				{
+					asprintf(&command,"%s\"%s\"",XCONFSETCONTROLS,gtkset);
+					system(command);
+					g_object_set(settings,"gtk-theme-name",gtkset,"gtk-color-scheme","default",NULL);
+					free(command);
+					free(gtkset);
+				}
+			if(frameset!=NULL)
+				{
+					asprintf(&command,"%s\"%s\"",XCONFSETFRAME,frameset);
+					system(command);
+					free(command);
+					free(frameset);
+				}
+			if(iconset!=NULL)
+				{
+					asprintf(&command,"%s\"%s\"",XCONFSETICONS,iconset);
+					system(command);
+					free(command);
+					free(iconset);
+				}
+			if(cursorset!=NULL)
+				{
+					asprintf(&command,"%s\"%s\"",XCONFSETCURSOR,cursorset);
+					system(command);
+					free(command);
+					free(cursorset);
+				}
+			if(paperset!=NULL)
+				{
+					asprintf(&command,"%s\"%s\"",XCONFSETPAPER,paperset);
+					system(command);
+					free(command);
+					free(paperset);
+			}
+		}
+	system("xfdesktop --reload");
+	g_key_file_free(keyfile);
+}
+
+//frame
+void doFrame(GtkWidget* widget,gpointer data)
+{
+
+
+	GKeyFile*	keyfile=g_key_file_new();
+	char*		command;
+	char*		frameset;
+
+	if(g_key_file_load_from_file(keyfile,gtk_widget_get_name(widget),G_KEY_FILE_NONE,NULL))
+		{
+			frameset=g_key_file_get_string(keyfile,"Data","Xfwm4Theme",NULL);
+
+			if(frameset!=NULL)
+				{
+					asprintf(&command,"%s\"%s\"",XCONFSETFRAME,frameset);
+					system(command);
+					free(command);
+					free(frameset);
+				}
+		}
+	g_key_file_free(keyfile);
+}
+
+//controls
+void doControls(GtkWidget* widget,gpointer data)
+{
+	GKeyFile*	keyfile=g_key_file_new();
+	char*		command;
+	char*		controlset;
+	GtkSettings *settings=gtk_settings_get_default();;
+
+	if(g_key_file_load_from_file(keyfile,gtk_widget_get_name(widget),G_KEY_FILE_NONE,NULL))
+		{
+			controlset=g_key_file_get_string(keyfile,"Data","GtkTheme",NULL);
+
+			if(controlset!=NULL)
+				{
+					asprintf(&command,"%s\"%s\"",XCONFSETCONTROLS,controlset);
+					system(command);
+					g_object_set(settings,"gtk-theme-name",controlset,"gtk-color-scheme","default",NULL);
+					free(command);
+					free(controlset);
+				}
+		}
+	g_key_file_free(keyfile);
+}
+
+//icons
+void doIcons(GtkWidget* widget,gpointer data)
+{
+	GKeyFile*	keyfile=g_key_file_new();
+	char*		command;
+	char*		iconset;
+
+	if(g_key_file_load_from_file(keyfile,gtk_widget_get_name(widget),G_KEY_FILE_NONE,NULL))
+		{
+			iconset=g_key_file_get_string(keyfile,"Data","IconTheme",NULL);
+
+			if(iconset!=NULL)
+				{
+					asprintf(&command,"%s\"%s\"",XCONFSETICONS,iconset);
+					system(command);
+					free(command);
+					free(iconset);
+				}
+		}
+	system("xfdesktop --reload");
+	g_key_file_free(keyfile);
+}
+
+//cursors
+void doCursors(GtkWidget* widget,gpointer data)
+{
+	GKeyFile*	keyfile=g_key_file_new();
+	char*		command;
+	char*		cursorset;
+
+	if(g_key_file_load_from_file(keyfile,gtk_widget_get_name(widget),G_KEY_FILE_NONE,NULL))
+		{
+			cursorset=g_key_file_get_string(keyfile,"Data","CursorTheme",NULL);
+
+			if(cursorset!=NULL)
+				{
+					asprintf(&command,"%s\"%s\"",XCONFSETCURSOR,cursorset);
+					system(command);
+					free(command);
+					free(cursorset);
+				}
+		}
+	g_key_file_free(keyfile);
+}
+
+void launchCompEd(GtkWidget* window,gpointer data)
+{
+	system("xfce4-composite-editor");
+}
+
+void resetBright(GtkWidget* widget,gpointer data)
+{
+	char*		command;
+
+	gtk_range_set_value((GtkRange*)data,0);
+	asprintf(&command,"%s 0",XCONFSETBRIGHT);
+	system(command);
+	freeAndNull(&command);
+
+}
+
+void setBright(GtkWidget* widget,gpointer data)
+{
+	char*		command;
+	gdouble	val=gtk_range_get_value((GtkRange*)widget);
+
+	asprintf(&command,"%s\"%i\"",XCONFSETBRIGHT,(int)val);
+	system(command);
+	freeAndNull(&command);
+	
+}
+
+void resetSatu(GtkWidget* widget,gpointer data)
+{
+	char*		command;
+
+	gtk_range_set_value((GtkRange*)data,1.0);
+	asprintf(&command,"%s 1.0",XCONFSETSATU);
+	system(command);
+	freeAndNull(&command);
+}
+
+void setSatu(GtkWidget* widget,gpointer data)
+{
+	char*		command;
+	gdouble	val=gtk_range_get_value((GtkRange*)widget);
+	
+	asprintf(&command,"%s\"%f\"",XCONFSETSATU,val);
+	system(command);
+	freeAndNull(&command);
+}
+
+void resetLayout(GtkWidget* widget,gpointer data)
+{
+	char*		command;
+
+	gtk_entry_set_text((GtkEntry*)data,currentButtonLayout);
+	asprintf(&command,"%s \"%s\"",XCONFSETLAYOUT,currentButtonLayout);
+	system(command);
+	freeAndNull(&command);
+}
+
+void changeLayout(GtkWidget* widget,gpointer data)
+{
+	char*		command;
+
+	asprintf(&command,"%s \"%s\"",XCONFSETLAYOUT,gtk_entry_get_text((GtkEntry*)widget));
+	system(command);
+	freeAndNull(&command);
+}
+
+
+void setFont(GtkWidget* widget,gpointer data)
+{
+	char*		command;
+
+	if((long)data==0)
+		asprintf(&command,"%s \"%s\"",XCONFSETWMFONT,gtk_font_button_get_font_name((GtkFontButton*)widget));
+	else
+		asprintf(&command,"%s \"%s\"",XCONFSETAPPFONT,gtk_font_button_get_font_name((GtkFontButton*)widget));
+
+	system(command);
+	freeAndNull(&command);
+}
+
+void resetFont(GtkWidget* widget,gpointer data)
+{
+	char*		command;
+
+	if((long)data==0)
+		{
+			asprintf(&command,"%s \"%s\"",XCONFSETWMFONT,currentWMFont);
+			gtk_font_button_set_font_name((GtkFontButton*)wmFontButton,currentWMFont);
+		}
+	else
+		{
+			asprintf(&command,"%s \"%s\"",XCONFSETAPPFONT,currentAppFont);
+			gtk_font_button_set_font_name((GtkFontButton*)appFontButton,currentAppFont);
+		}
+
+	system(command);
+	freeAndNull(&command);
+}
+
+
+
+
+
 

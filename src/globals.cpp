@@ -60,6 +60,13 @@ GtkWidget*		window;
 GtkComboBoxText*	styleComboBox;
 int 			wallStyle;
 
+GtkWidget*	themesScrollBox;
+GtkWidget*	framesScrollBox;
+GtkWidget*	controlsScrollBox;
+GtkWidget*	iconsScrollBox;
+GtkWidget*	cursorsScrollBox;
+GtkWidget*	wallpapersScrollBox;
+
 void freeAndNull(char** ptr)
 {
 	if (*ptr!=NULL)

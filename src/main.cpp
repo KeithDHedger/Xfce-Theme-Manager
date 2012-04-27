@@ -69,189 +69,6 @@ void pickfont(char* currentname)
 	return;
 }
 
-//*******************************************************************
-//
-//	FRAMES
-//
-void doFrame(GtkWidget* widget,gpointer data)
-{
-
-
-	GKeyFile*	keyfile=g_key_file_new();
-	char*		command;
-	char*		frameset;
-
-	if(g_key_file_load_from_file(keyfile,gtk_widget_get_name(widget),G_KEY_FILE_NONE,NULL))
-		{
-			frameset=g_key_file_get_string(keyfile,"Data","Xfwm4Theme",NULL);
-
-			if(frameset!=NULL)
-				{
-					asprintf(&command,"%s\"%s\"",XCONFSETFRAME,frameset);
-					system(command);
-					free(command);
-					free(frameset);
-				}
-		}
-	g_key_file_free(keyfile);
-}
-//
-
-//*******************************************************************
-//
-//	CONTROLS
-//
-void doControls(GtkWidget* widget,gpointer data)
-{
-	GKeyFile*	keyfile=g_key_file_new();
-	char*		command;
-	char*		controlset;
-	GtkSettings *settings=gtk_settings_get_default();;
-
-	if(g_key_file_load_from_file(keyfile,gtk_widget_get_name(widget),G_KEY_FILE_NONE,NULL))
-		{
-			controlset=g_key_file_get_string(keyfile,"Data","GtkTheme",NULL);
-
-			if(controlset!=NULL)
-				{
-					asprintf(&command,"%s\"%s\"",XCONFSETCONTROLS,controlset);
-					system(command);
-					g_object_set(settings,"gtk-theme-name",controlset,"gtk-color-scheme","default",NULL);
-					free(command);
-					free(controlset);
-				}
-		}
-	g_key_file_free(keyfile);
-}
-//
-//*******************************************************************
-
-
-//*******************************************************************
-//
-//	META
-//
-void doMeta(GtkWidget* widget,gpointer data)
-{
-	GKeyFile*	keyfile=g_key_file_new();
-	char*		command;
-	char*		cursorset;
-	char*		gtkset;
-	char*		frameset;
-	char*		iconset;
-	char*		paperset;
-
-	GtkSettings *settings=gtk_settings_get_default();;
-
-	if(g_key_file_load_from_file(keyfile,gtk_widget_get_name(widget),G_KEY_FILE_NONE,NULL))
-		{
-			gtkset=g_key_file_get_string(keyfile,"Data","GtkTheme",NULL);
-			frameset=g_key_file_get_string(keyfile,"Data","Xfwm4Theme",NULL);
-			iconset=g_key_file_get_string(keyfile,"Data","IconTheme",NULL);	
-			cursorset=g_key_file_get_string(keyfile,"Data","CursorTheme",NULL);	
-			paperset=g_key_file_get_string(keyfile,"Data","BackgroundImage",NULL);	
-		
-			if(gtkset!=NULL)
-				{
-					asprintf(&command,"%s\"%s\"",XCONFSETCONTROLS,gtkset);
-					system(command);
-					g_object_set(settings,"gtk-theme-name",gtkset,"gtk-color-scheme","default",NULL);
-					free(command);
-					free(gtkset);
-				}
-			if(frameset!=NULL)
-				{
-					asprintf(&command,"%s\"%s\"",XCONFSETFRAME,frameset);
-					system(command);
-					free(command);
-					free(frameset);
-				}
-			if(iconset!=NULL)
-				{
-					asprintf(&command,"%s\"%s\"",XCONFSETICONS,iconset);
-					system(command);
-					free(command);
-					free(iconset);
-				}
-			if(cursorset!=NULL)
-				{
-					asprintf(&command,"%s\"%s\"",XCONFSETCURSOR,cursorset);
-					system(command);
-					free(command);
-					free(cursorset);
-				}
-			if(paperset!=NULL)
-				{
-					asprintf(&command,"%s\"%s\"",XCONFSETPAPER,paperset);
-					system(command);
-					free(command);
-					free(paperset);
-			}
-		}
-	system("xfdesktop --reload");
-	g_key_file_free(keyfile);
-}
-//
-//*******************************************************************
-
-//*******************************************************************
-//
-//	ICONS
-//
-
-void doIcons(GtkWidget* widget,gpointer data)
-{
-	GKeyFile*	keyfile=g_key_file_new();
-	char*		command;
-	char*		iconset;
-
-	if(g_key_file_load_from_file(keyfile,gtk_widget_get_name(widget),G_KEY_FILE_NONE,NULL))
-		{
-			iconset=g_key_file_get_string(keyfile,"Data","IconTheme",NULL);
-
-			if(iconset!=NULL)
-				{
-					asprintf(&command,"%s\"%s\"",XCONFSETICONS,iconset);
-					system(command);
-					free(command);
-					free(iconset);
-				}
-		}
-	system("xfdesktop --reload");
-	g_key_file_free(keyfile);
-}
-//
-//*******************************************************************
-
-//*******************************************************************
-//
-//	CURSORS
-//
-void doCursors(GtkWidget* widget,gpointer data)
-{
-	GKeyFile*	keyfile=g_key_file_new();
-	char*		command;
-	char*		cursorset;
-
-	if(g_key_file_load_from_file(keyfile,gtk_widget_get_name(widget),G_KEY_FILE_NONE,NULL))
-		{
-			cursorset=g_key_file_get_string(keyfile,"Data","CursorTheme",NULL);
-
-			if(cursorset!=NULL)
-				{
-					asprintf(&command,"%s\"%s\"",XCONFSETCURSOR,cursorset);
-					system(command);
-					free(command);
-					free(cursorset);
-				}
-		}
-	g_key_file_free(keyfile);
-}
-//
-//*******************************************************************
-
-//*******************************************************************
-//
 // RESET THEME
 void resetTheme(GtkWidget* widget,gpointer data)
 {
@@ -276,10 +93,6 @@ void resetTheme(GtkWidget* widget,gpointer data)
 }
 
 
-void launchCompEd(GtkWidget* window,gpointer data)
-{
-	system("xfce4-composite-editor");
-}
 
 
 void shutdown(GtkWidget* window,gpointer data)
@@ -305,99 +118,7 @@ void showAdvanced(GtkWidget* widget,gpointer data)
 		gtk_notebook_set_current_page(advanced,0);
 }
 
-void resetBright(GtkWidget* widget,gpointer data)
-{
-	char*		command;
 
-	gtk_range_set_value((GtkRange*)data,0);
-	asprintf(&command,"%s 0",XCONFSETBRIGHT);
-	system(command);
-	freeAndNull(&command);
-
-}
-
-void setBright(GtkWidget* widget,gpointer data)
-{
-	char*		command;
-	gdouble	val=gtk_range_get_value((GtkRange*)widget);
-
-	asprintf(&command,"%s\"%i\"",XCONFSETBRIGHT,(int)val);
-	system(command);
-	freeAndNull(&command);
-	
-}
-
-void resetSatu(GtkWidget* widget,gpointer data)
-{
-	char*		command;
-
-	gtk_range_set_value((GtkRange*)data,1.0);
-	asprintf(&command,"%s 1.0",XCONFSETSATU);
-	system(command);
-	freeAndNull(&command);
-}
-
-void setSatu(GtkWidget* widget,gpointer data)
-{
-	char*		command;
-	gdouble	val=gtk_range_get_value((GtkRange*)widget);
-	
-	asprintf(&command,"%s\"%f\"",XCONFSETSATU,val);
-	system(command);
-	freeAndNull(&command);
-}
-
-void resetLayout(GtkWidget* widget,gpointer data)
-{
-	char*		command;
-
-	gtk_entry_set_text((GtkEntry*)data,currentButtonLayout);
-	asprintf(&command,"%s \"%s\"",XCONFSETLAYOUT,currentButtonLayout);
-	system(command);
-	freeAndNull(&command);
-}
-
-void changeLayout(GtkWidget* widget,gpointer data)
-{
-	char*		command;
-
-	asprintf(&command,"%s \"%s\"",XCONFSETLAYOUT,gtk_entry_get_text((GtkEntry*)widget));
-	system(command);
-	freeAndNull(&command);
-}
-
-
-void setFont(GtkWidget* widget,gpointer data)
-{
-	char*		command;
-
-	if((long)data==0)
-		asprintf(&command,"%s \"%s\"",XCONFSETWMFONT,gtk_font_button_get_font_name((GtkFontButton*)widget));
-	else
-		asprintf(&command,"%s \"%s\"",XCONFSETAPPFONT,gtk_font_button_get_font_name((GtkFontButton*)widget));
-
-	system(command);
-	freeAndNull(&command);
-}
-
-void resetFont(GtkWidget* widget,gpointer data)
-{
-	char*		command;
-
-	if((long)data==0)
-		{
-			asprintf(&command,"%s \"%s\"",XCONFSETWMFONT,currentWMFont);
-			gtk_font_button_set_font_name((GtkFontButton*)wmFontButton,currentWMFont);
-		}
-	else
-		{
-			asprintf(&command,"%s \"%s\"",XCONFSETAPPFONT,currentAppFont);
-			gtk_font_button_set_font_name((GtkFontButton*)appFontButton,currentAppFont);
-		}
-
-	system(command);
-	freeAndNull(&command);
-}
 
 void init(void)
 {
@@ -493,31 +214,11 @@ int main(int argc,char **argv)
 	GtkWidget*		label;
 	GtkWidget*		button;
 
-//themes tab
-	GtkWidget*	themesVbox;
-	GtkWidget*	themesScrollBox;
-
-//frames tab
-	GtkWidget*	framesScrollBox;
-	GtkWidget*	framesVbox;
-
-//controls tab
-	GtkWidget*	controlsVbox;
-	GtkWidget*	controlsScrollBox;
-//icons tab
-	GtkWidget*	iconsVbox;
-	GtkWidget*	iconsScrollBox;
-//cursors tab
-	GtkWidget*	cursorsVbox;
-	GtkWidget*	cursorsScrollBox;
-//wallpapers tab
-	GtkWidget*	wallpapersScrollBox;
-//advanced
-	GtkWidget*	advancedVbox;
+//	GtkWidget*	advancedVbox;
 	GtkWidget*	advancedScrollBox;
-	GtkWidget*	advancedHbox;
-	GtkWidget*	advancedRange;
-	GtkWidget*	advancedEntry;
+//	GtkWidget*	advancedHbox;
+//	GtkWidget*	advancedRange;
+//	GtkWidget*	advancedEntry;
 
 	g_thread_init(NULL);
 	gdk_threads_init();
@@ -545,40 +246,7 @@ int main(int argc,char **argv)
 	vbox=gtk_vbox_new(FALSE, 0);
 	gtk_container_add(GTK_CONTAINER(window),(GtkWidget*)vbox);
 
-//themes vbox
-	themesScrollBox=gtk_scrolled_window_new(NULL,NULL);
-	themesVbox=gtk_vbox_new(FALSE, 0);
-	addNewButtons(themesVbox,"meta",(void*)doMeta);
-	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)themesScrollBox,themesVbox);
-
-//frames vbox
-	framesScrollBox=gtk_scrolled_window_new(NULL,NULL);
-	framesVbox=gtk_vbox_new(FALSE, 0);
-	addNewButtons(framesVbox,"frames",(void*)doFrame);
-	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)framesScrollBox,framesVbox);
-
-//controls vbox
-	controlsScrollBox=gtk_scrolled_window_new(NULL,NULL);
-	controlsVbox=gtk_vbox_new(FALSE, 0);
-	addNewButtons(controlsVbox,"controls",(void*)doControls);
-	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)controlsScrollBox,controlsVbox);
-
-//icons vbox
-	iconsScrollBox=gtk_scrolled_window_new(NULL,NULL);
-	iconsVbox=gtk_vbox_new(FALSE, 0);
-	addNewButtons(iconsVbox,"icons",(void*)doIcons);
-	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)iconsScrollBox,iconsVbox);
-
-//cursors
-	cursorsScrollBox=gtk_scrolled_window_new(NULL,NULL);
-	cursorsVbox=gtk_vbox_new(FALSE, 0);
-	addNewButtons(cursorsVbox,"cursors",(void*)doCursors);
-	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)cursorsScrollBox,cursorsVbox);
-
-//wallpapers
-
-	wallpapersScrollBox=gtk_vbox_new(FALSE, 0);
-	gtk_container_add (GTK_CONTAINER (wallpapersScrollBox),buildWallpapers(wallpapersScrollBox));
+	buildPages();
 
 //notebook
 	notebook=(GtkNotebook*)gtk_notebook_new();
@@ -608,6 +276,12 @@ int main(int argc,char **argv)
 
 //do advanced gui
 	advancedScrollBox=gtk_scrolled_window_new(NULL,NULL);
+	buildAdvancedGtui(advancedScrollBox);
+	gtk_notebook_append_page(advanced,advancedScrollBox,NULL);
+
+#if 0	
+	
+	
 	advancedVbox=gtk_vbox_new(FALSE, 0);
 
 //comp ed
@@ -707,6 +381,7 @@ int main(int argc,char **argv)
 	gtk_box_pack_start(GTK_BOX(advancedVbox),advancedHbox, false,false,4);
 
 	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_hseparator_new(),false,false,4);
+#endif
 
 //add notebook to window
 	gtk_container_add(GTK_CONTAINER(vbox),(GtkWidget*)advanced);

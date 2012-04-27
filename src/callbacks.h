@@ -29,5 +29,19 @@ void setTitlePos(GtkWidget* widget,gpointer data);
 void dropUri(GtkWidget *widget,GdkDragContext *context,gint x,gint y,GtkSelectionData *selection_data,guint info,guint32 time,gpointer user_data);
 void doWallpapers(GtkWidget* widget,gpointer data);
 void wallStyleChanged(GtkWidget* widget,gpointer data);
+void doMeta(GtkWidget* widget,gpointer data);
+void doFrame(GtkWidget* widget,gpointer data);
+void doControls(GtkWidget* widget,gpointer data);
+void doIcons(GtkWidget* widget,gpointer data);
+void doCursors(GtkWidget* widget,gpointer data);
+void launchCompEd(GtkWidget* window,gpointer data);
+void resetBright(GtkWidget* widget,gpointer data);
+void setBright(GtkWidget* widget,gpointer data);
+void resetSatu(GtkWidget* widget,gpointer data);
+void setSatu(GtkWidget* widget,gpointer data);
+void resetLayout(GtkWidget* widget,gpointer data);
+void changeLayout(GtkWidget* widget,gpointer data);
+void setFont(GtkWidget* widget,gpointer data);
+void resetFont(GtkWidget* widget,gpointer data);
 
 #endif

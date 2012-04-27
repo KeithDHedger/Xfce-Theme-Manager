@@ -143,4 +143,157 @@ GtkWidget* buildTitlePos(void)
 	return(advancedHbox);
 }
 
+void buildPages(void)
+{
+	GtkWidget*	vbox;
+
+	themesScrollBox=gtk_scrolled_window_new(NULL,NULL);
+	vbox=gtk_vbox_new(FALSE, 0);
+	addNewButtons(vbox,"meta",(void*)doMeta);
+	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)themesScrollBox,vbox);
+	
+	framesScrollBox=gtk_scrolled_window_new(NULL,NULL);
+	vbox=gtk_vbox_new(FALSE, 0);
+	addNewButtons(vbox,"frames",(void*)doFrame);
+	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)framesScrollBox,vbox);
+	
+	controlsScrollBox=gtk_scrolled_window_new(NULL,NULL);
+	vbox=gtk_vbox_new(FALSE, 0);
+	addNewButtons(vbox,"controls",(void*)doControls);
+	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)controlsScrollBox,vbox);
+
+	iconsScrollBox=gtk_scrolled_window_new(NULL,NULL);
+	vbox=gtk_vbox_new(FALSE, 0);
+	addNewButtons(vbox,"icons",(void*)doIcons);
+	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)iconsScrollBox,vbox);
+
+	cursorsScrollBox=gtk_scrolled_window_new(NULL,NULL);
+	vbox=gtk_vbox_new(FALSE, 0);
+	addNewButtons(vbox,"cursors",(void*)doCursors);
+	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)cursorsScrollBox,vbox);
+
+	wallpapersScrollBox=gtk_vbox_new(FALSE, 0);
+	gtk_container_add (GTK_CONTAINER (wallpapersScrollBox),buildWallpapers(wallpapersScrollBox));
+
+}
+
+	
+void buildAdvancedGtui(GtkWidget* advancedScrollBox)
+{
+	GtkWidget*	advancedVbox;
+	GtkWidget*	advancedHbox;
+	GtkWidget*	advancedRange;
+	GtkWidget*	advancedEntry;
+	GtkWidget*	button;
+
+	advancedVbox=gtk_vbox_new(FALSE, 0);
+
+//comp ed
+	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_label_new("Launch Xfce-Composite-Editor"),false,false,2);
+	button=gtk_button_new_with_label("Xfce-Composite-Editor");
+	g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(launchCompEd),NULL);
+	gtk_box_pack_start(GTK_BOX(advancedVbox),button,false,false,8);
+	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_hseparator_new(),false,false,4);
+
+//	gtk_notebook_append_page(advanced,advancedScrollBox,NULL);
+
+//back drop aadj
+	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_label_new("Backdrop Adjustments"),false,false,2);
+	advancedHbox=gtk_hbox_new(false,0);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),gtk_label_new("Brightness"), false,false,4);
+
+//bright
+	advancedRange=gtk_hscale_new_with_range(-128,127,1);
+	gtk_scale_set_value_pos((GtkScale*)advancedRange,GTK_POS_LEFT);
+	gtk_range_set_value((GtkRange*)advancedRange,0);
+	g_signal_connect_after(G_OBJECT(advancedRange),"value-changed",G_CALLBACK(setBright),NULL);
+	gtk_range_set_update_policy((GtkRange*)advancedRange,GTK_UPDATE_DISCONTINUOUS);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),advancedRange, true,true,0);
+	gtk_box_pack_start(GTK_BOX(advancedVbox),advancedHbox, false,false,2);
+
+	button=gtk_button_new_with_label("Reset");
+	g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(resetBright),(gpointer)advancedRange);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),button, false,false,8);
+
+//satu
+	advancedHbox=gtk_hbox_new(false,0);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),gtk_label_new("Saturation"), false,false,4);
+
+	advancedRange=gtk_hscale_new_with_range(-10.0,10,0.1);
+	gtk_scale_set_value_pos((GtkScale*)advancedRange,GTK_POS_LEFT);
+	gtk_range_set_value((GtkRange*)advancedRange,1.0);
+	g_signal_connect_after(G_OBJECT(advancedRange),"value-changed",G_CALLBACK(setSatu),NULL);
+	gtk_range_set_update_policy((GtkRange*)advancedRange,GTK_UPDATE_DISCONTINUOUS);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),advancedRange, true,true,0);
+	gtk_box_pack_start(GTK_BOX(advancedVbox),advancedHbox, false,false,2);
+
+	button=gtk_button_new_with_label("Reset");
+	g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(resetSatu),(gpointer)advancedRange);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),button, false,false,8);
+
+	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_hseparator_new(),false,false,4);
+
+//buton layout
+	advancedHbox=gtk_hbox_new(false,0);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),gtk_label_new("Button Layout"), false,false,4);
+
+	advancedEntry=gtk_entry_new();
+	gtk_entry_set_text((GtkEntry*)advancedEntry,currentButtonLayout);
+	g_signal_connect_after(G_OBJECT(advancedEntry),"key-release-event",G_CALLBACK(changeLayout),NULL);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),advancedEntry, true,true,2);
+
+	button=gtk_button_new_with_label("Reset");
+	g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(resetLayout),(gpointer)advancedEntry);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),button, false,false,8);
+
+	gtk_box_pack_start(GTK_BOX(advancedVbox),advancedHbox, false,false,2);
+	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_hseparator_new(),false,false,4);
+
+//buildTitlePos
+	gtk_box_pack_start(GTK_BOX(advancedVbox),buildTitlePos(), false,false,2);
+	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_hseparator_new(),false,false,4);
+
+//fonts
+//wmfont
+	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_label_new("Font Selection"), false,false,4);
+	advancedHbox=gtk_hbox_new(false,0);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),gtk_label_new("WM Font "), false,false,1);
+
+	wmFontButton=gtk_font_button_new_with_font(currentWMFont);
+	g_signal_connect_after(G_OBJECT(wmFontButton),"font-set",G_CALLBACK(setFont),(void*)0);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),wmFontButton, true,true,1);
+
+	button=gtk_button_new_with_label("Reset");
+	g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(resetFont),(void*)0);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),button, false,false,1);
+
+	gtk_box_pack_start(GTK_BOX(advancedVbox),advancedHbox, false,false,4);
+
+//appfont
+	advancedHbox=gtk_hbox_new(false,0);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),gtk_label_new("App Font"), false,false,1);
+
+	appFontButton=gtk_font_button_new_with_font(currentAppFont);
+	g_signal_connect_after(G_OBJECT(appFontButton),"font-set",G_CALLBACK(setFont),(void*)1);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),appFontButton, true,true,1);
+
+	button=gtk_button_new_with_label("Reset");
+	g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(resetFont),(void*)1);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),button, false,false,1);
+
+	gtk_box_pack_start(GTK_BOX(advancedVbox),advancedHbox, false,false,4);
+
+	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_hseparator_new(),false,false,4);
+	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)advancedScrollBox,advancedVbox);
+
+}
+
+
+
+
+
+
+
+
+
 

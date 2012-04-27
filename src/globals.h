@@ -99,6 +99,13 @@ extern GtkWidget*		window;
 extern GtkComboBoxText*	styleComboBox;
 extern int 			wallStyle;
 
+extern GtkWidget*	themesScrollBox;
+extern GtkWidget*	framesScrollBox;
+extern GtkWidget*	controlsScrollBox;
+extern GtkWidget*	iconsScrollBox;
+extern GtkWidget*	cursorsScrollBox;
+extern GtkWidget*	wallpapersScrollBox;
+
 extern void freeAndNull(char** ptr);
 
 
