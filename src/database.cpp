@@ -263,7 +263,6 @@ gpointer rebuildDB(gpointer data)
 									freeAndNull(&buffer);
 									freeAndNull(&dbfile);
 									freeAndNull(&thumbfile);
-									//freeAndNull(&gtkname);
 								}
 							entry=g_dir_read_name(folder);
 						}
@@ -317,7 +316,6 @@ gpointer rebuildDB(gpointer data)
 //cursors
 //gtkprev [cursors] cursortheme /out/path/to/png
 //makecursor(argv[2],argv[3]);
-//writeDBFile(dbfile,displayname,gtkname,framename,iconname,papername,cursorname,thumbfile);
 	g_mkdir_with_parents(cursorsFolder,493);
 	for(int i=0;i<2;i++)
 		{

@@ -202,9 +202,8 @@ int main(int argc,char **argv)
 	controlsScrollBox=gtk_scrolled_window_new(NULL,NULL);
 	iconsScrollBox=gtk_scrolled_window_new(NULL,NULL);
 	cursorsScrollBox=gtk_scrolled_window_new(NULL,NULL);
-	//wallpapersScrollBox=gtk_scrolled_window_new(NULL,NULL);
-	//wallpapersMainVbox=gtk_scrolled_window_new(NULL,NULL);
-wallpapersScrollBox=gtk_vbox_new(true, 0);
+	wallpapersMainBox=gtk_vbox_new(true, 0);
+
 	buildPages();
 
 //notebook
@@ -229,7 +228,7 @@ wallpapersScrollBox=gtk_vbox_new(true, 0);
 	gtk_notebook_append_page(notebook,cursorsScrollBox,label);
 
 	label=gtk_label_new("Wallpapers");
-	gtk_notebook_append_page(notebook,wallpapersScrollBox,label);
+	gtk_notebook_append_page(notebook,wallpapersMainBox,label);
 
 	gtk_notebook_append_page(advanced,(GtkWidget*)notebook,NULL);
 

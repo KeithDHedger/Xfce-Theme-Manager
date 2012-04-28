@@ -58,7 +58,7 @@ GtkWidget*		framesScrollBox;
 GtkWidget*		controlsScrollBox;
 GtkWidget*		iconsScrollBox;
 GtkWidget*		cursorsScrollBox;
-GtkWidget*		wallpapersScrollBox;
+GtkWidget*		wallpapersMainBox;
 
 GtkWidget*		themesVBox;
 GtkWidget*		framesVBox;
@@ -74,8 +74,6 @@ int			controlWidth=200;
 GdkPixbuf*		controlsPixbuf;
 
 GtkNotebook*	notebook;
-
-//GtkWidget* wallpapersMainVbox;
 
 void freeAndNull(char** ptr)
 {

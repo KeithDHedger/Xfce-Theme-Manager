@@ -51,7 +51,6 @@ void addNewButtons(GtkWidget* vbox,const char* subfolder,void* callback)
 	GDir*		folder;
 	GKeyFile*	keyfile=g_key_file_new();
 	char*		name;
-	char*		set;
 	char*		thumb;
 	GtkWidget*	button;
 	GtkWidget*	box;
@@ -69,7 +68,6 @@ void addNewButtons(GtkWidget* vbox,const char* subfolder,void* callback)
 							if(g_key_file_load_from_file(keyfile,filename,G_KEY_FILE_NONE,NULL))
 								{
 									name=g_key_file_get_string(keyfile,"Data","Name",NULL);
-									set=g_key_file_get_string(keyfile,"Data","XconfName",NULL);
 									thumb=g_key_file_get_string(keyfile,"Data","Thumbnail",NULL);
 									button=gtk_button_new();
 									box=imageBox(thumb,name);
@@ -79,7 +77,6 @@ void addNewButtons(GtkWidget* vbox,const char* subfolder,void* callback)
 									g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(callback),NULL);
 									gtk_box_pack_start((GtkBox*)vbox,button,false,true,4);
 									g_free(name);
-									g_free(set);
 									g_free(thumb);
 								}
 						}
@@ -87,32 +84,7 @@ void addNewButtons(GtkWidget* vbox,const char* subfolder,void* callback)
 				}
 		}
 }
-#if 0
-//wallpapers
-void buildWallpapers(void)
-{
-	GtkWidget*	wallpapersVbox;
-	GtkWidget*	paperVbox;
 
-//	paperVbox=gtk_scrolled_window_new(NULL,NULL);
-//	wallpapersVbox=gtk_vbox_new(FALSE, 0);
-	addNewButtons(wallpapersVbox,"wallpapers",(void*)doWallpapers);
-
-	styleComboBox=(GtkComboBoxText*)gtk_combo_box_text_new();
-	gtk_combo_box_text_append_text(styleComboBox,"Auto");
-	gtk_combo_box_text_append_text(styleComboBox,"Centered");
-	gtk_combo_box_text_append_text(styleComboBox,"Tiled");
-	gtk_combo_box_text_append_text(styleComboBox,"Stretched");
-	gtk_combo_box_text_append_text(styleComboBox,"Scaled");
-	gtk_combo_box_text_append_text(styleComboBox,"Zoomed");
-	gtk_combo_box_set_active((GtkComboBox*)styleComboBox,currentWallStyle);
-	g_signal_connect_after(G_OBJECT(styleComboBox),"changed",G_CALLBACK(wallStyleChanged),NULL);
-
-	//gtk_box_pack_start((GtkBox*)wallpapersScrollBox,(GtkWidget*)styleComboBox,false,true,4);
-	//gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)paperVbox,wallpapersVbox);
-	//return(paperVbox);
-}
-#endif
 //titlepos
 GtkWidget* buildTitlePos(void)
 {
@@ -146,32 +118,24 @@ GtkWidget* buildTitlePos(void)
 void buildPages(void)
 {
 	GtkWidget*	vbox;
-GtkWidget* wallscroll;
+	GtkWidget* wallscroll;
 
-//	themesScrollBox=gtk_scrolled_window_new(NULL,NULL);
 	themesVBox=gtk_vbox_new(FALSE, 0);
 	addNewButtons(themesVBox,"meta",(void*)doMeta);
 	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)themesScrollBox,themesVBox);
 
-//	framesScrollBox=gtk_scrolled_window_new(NULL,NULL);
 	framesVBox=gtk_vbox_new(FALSE, 0);
 	addNewButtons(framesVBox,"frames",(void*)doFrame);
 	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)framesScrollBox,framesVBox);
 
-	
-//	controlsScrollBox=gtk_scrolled_window_new(NULL,NULL);
 	controlsVBox=gtk_vbox_new(FALSE, 0);
 	addNewButtons(controlsVBox,"controls",(void*)doControls);
 	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)controlsScrollBox,controlsVBox);
 
-
-//	iconsScrollBox=gtk_scrolled_window_new(NULL,NULL);
 	iconsVBox=gtk_vbox_new(FALSE, 0);
 	addNewButtons(iconsVBox,"icons",(void*)doIcons);
 	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)iconsScrollBox,iconsVBox);
 
-
-//	cursorsScrollBox=gtk_scrolled_window_new(NULL,NULL);
 	cursorsVBox=gtk_vbox_new(FALSE, 0);
 	addNewButtons(cursorsVBox,"cursors",(void*)doCursors);
 	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)cursorsScrollBox,cursorsVBox);
@@ -195,10 +159,9 @@ GtkWidget* wallscroll;
 
 	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)wallscroll,vbox);
 	gtk_box_pack_start((GtkBox*)wallpapersVBox,(GtkWidget*)wallscroll,true,true,4);
-	gtk_container_add (GTK_CONTAINER(wallpapersScrollBox),wallpapersVBox);
+	gtk_container_add (GTK_CONTAINER(wallpapersMainBox),wallpapersVBox);
 }
 
-	
 void buildAdvancedGtui(GtkWidget* advancedScrollBox)
 {
 	GtkWidget*	advancedVbox;
@@ -215,8 +178,6 @@ void buildAdvancedGtui(GtkWidget* advancedScrollBox)
 	g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(launchCompEd),NULL);
 	gtk_box_pack_start(GTK_BOX(advancedVbox),button,false,false,8);
 	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_hseparator_new(),false,false,4);
-
-//	gtk_notebook_append_page(advanced,advancedScrollBox,NULL);
 
 //back drop aadj
 	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_label_new("Backdrop Adjustments"),false,false,2);
