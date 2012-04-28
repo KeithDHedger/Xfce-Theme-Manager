@@ -73,8 +73,9 @@ int			controlHeight=50;
 int			controlWidth=200;
 GdkPixbuf*		controlsPixbuf;
 
-//bool			updateDB=false;
 GtkNotebook*	notebook;
+
+//GtkWidget* wallpapersMainVbox;
 
 void freeAndNull(char** ptr)
 {

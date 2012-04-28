@@ -72,8 +72,8 @@ gpointer rebuildDB(gpointer data)
 
 	GKeyFile*	metakeyfile=g_key_file_new();
 
-	bool		makedb;
-	char*		hidden;
+	bool		makedb=false;
+	char*		hidden=NULL;
 
 	long		makeornot=(long)data;
 
@@ -148,9 +148,15 @@ gpointer rebuildDB(gpointer data)
 											controlWidth=400;
 											controlHeight=200;
 											asprintf(&framefolder,"%s/%s",themesArray[i],entry);
-											gdk_threads_enter();
+											if (makeornot==0)
+												{
+													gdk_threads_enter();
+														controlsPixbuf=create_gtk_theme_pixbuf(gtkname);
+													gdk_threads_leave();
+												}
+											else
 												controlsPixbuf=create_gtk_theme_pixbuf(gtkname);
-											gdk_threads_leave();
+
 											if(controlsPixbuf!=NULL)
 												{
 													getspace(framefolder);
@@ -236,20 +242,28 @@ gpointer rebuildDB(gpointer data)
 									if (g_file_test(buffer,G_FILE_TEST_IS_DIR))
 										{
 											asprintf(&thumbfile,"%s/%s.png",controlsFolder,entry);
-											gdk_threads_enter();
-												pixbuf=create_gtk_theme_pixbuf((char*)entry);
-											gdk_threads_leave();
-
-											if(pixbuf!=NULL)
+											controlsPixbuf=NULL;
+											if (makeornot==0)
 												{
-													gdk_pixbuf_savev(pixbuf,thumbfile,"png",NULL,NULL,NULL);
-													g_object_unref(pixbuf);
+													gdk_threads_enter();
+														controlsPixbuf=create_gtk_theme_pixbuf((char*)entry);
+													gdk_threads_leave();
+												}
+											else
+												controlsPixbuf=create_gtk_theme_pixbuf((char*)entry);
+
+											if(controlsPixbuf!=NULL)
+												{
+													gdk_pixbuf_savev(controlsPixbuf,thumbfile,"png",NULL,NULL,NULL);
+													g_object_unref(controlsPixbuf);
+													controlsPixbuf=NULL;
 													writeDBFile(dbfile,(char*)entry,(char*)entry,NULL,NULL,NULL,NULL,thumbfile);
 												}
 										}
 									freeAndNull(&buffer);
 									freeAndNull(&dbfile);
 									freeAndNull(&thumbfile);
+									//freeAndNull(&gtkname);
 								}
 							entry=g_dir_read_name(folder);
 						}
@@ -286,15 +300,15 @@ gpointer rebuildDB(gpointer data)
 														}
 												}
 										}
-
-									freeAndNull(&buffer);
-									freeAndNull(&displayname);
-									freeAndNull(&indexfile);
-									freeAndNull(&dbfile);
-									freeAndNull(&thumbfile);
-									freeAndNull(&hidden);
 								}
 							entry=g_dir_read_name(folder);
+
+							freeAndNull(&buffer);
+							freeAndNull(&displayname);
+							freeAndNull(&indexfile);
+							freeAndNull(&dbfile);
+							freeAndNull(&thumbfile);
+							freeAndNull(&hidden);
 						}
 					g_dir_close(folder);
 				}
@@ -368,6 +382,7 @@ gpointer rebuildDB(gpointer data)
 									pixbuf=gdk_pixbuf_new_from_file_at_size(buffer,-1,64,NULL);
 									gdk_pixbuf_savev(pixbuf,thumbfile,"png",NULL,NULL,NULL);
 									g_object_unref(pixbuf);
+									pixbuf=NULL;
 
 									freeAndNull(&buffer);
 									freeAndNull(&displayname);

@@ -112,7 +112,10 @@ extern int			controlHeight;
 extern int			controlWidth;
 extern GdkPixbuf*		controlsPixbuf;
 //extern bool			updateDB;
-extern	GtkNotebook*	notebook;
+extern GtkNotebook*	notebook;
+
+
+//extern GtkWidget* wallpapersMainVbox;
 
 extern void freeAndNull(char** ptr);
 

@@ -45,7 +45,7 @@ void setTitlePos(GtkWidget* widget,gpointer data)
 		}
 }
 
-void installWallpaper(char* filename)
+int installWallpaper(char* filename)
 {
 	char*		command;
 	int		retval=-1;
@@ -59,9 +59,10 @@ void installWallpaper(char* filename)
 		infoDialog("Can't Install",filename,GTK_MESSAGE_ERROR);
 
 	freeAndNull(&command);
+	return(retval);
 }
 
-void extractAndInstall(char* filename)
+int extractAndInstall(char* filename)
 {
 	char		command[4096];
 	gchar*	stdout=NULL;
@@ -118,6 +119,7 @@ void extractAndInstall(char* filename)
 
 	freeAndNull(&stdout);
 	freeAndNull(&stderr);
+	return(retval);
 }
 
 //frame
@@ -154,8 +156,10 @@ void rerunAndUpdate(void)
 
 	//gtk_main_quit();
 	//execvp("xfce-theme-manager",datax);
+
 	rebuildDB((void*)1);
 	GtkWidget*	label;
+
 
 //	gtk_widget_destroy(themesScrollBox);
 	gtk_widget_destroy(themesVBox);
@@ -163,6 +167,7 @@ void rerunAndUpdate(void)
 	gtk_widget_destroy(controlsVBox);
 	gtk_widget_destroy(iconsVBox);
 	gtk_widget_destroy(cursorsVBox);
+	gtk_widget_destroy(wallpapersVBox);
 	buildPages();
 //	gtk_widget_destroy(framesVBox);
 
@@ -212,6 +217,7 @@ void dropUri(GtkWidget *widget,GdkDragContext *context,gint x,gint y,GtkSelectio
 	char*		filename;
 	const char*	ziptype[]={".tgz",".gz",".zip",".tar",".bz2",NULL};
 	const char* pictype[]={".jpg",".png",".bmp",".gif",NULL};
+	bool		doupdate=false;
 
 //themes
 	for(int j=0;j<cnt;j++)
@@ -221,7 +227,7 @@ void dropUri(GtkWidget *widget,GdkDragContext *context,gint x,gint y,GtkSelectio
 				{
 					if(g_str_has_suffix(filename,ziptype[k]))
 						{
-							extractAndInstall(filename);
+							doupdate=extractAndInstall(filename);
 							break;
 						}
 				}
@@ -236,7 +242,7 @@ void dropUri(GtkWidget *widget,GdkDragContext *context,gint x,gint y,GtkSelectio
 				{
 					if(g_str_has_suffix(filename,pictype[k]))
 						{
-							installWallpaper(filename);
+							doupdate=installWallpaper(filename);
 							break;
 						}
 				}
@@ -244,7 +250,9 @@ void dropUri(GtkWidget *widget,GdkDragContext *context,gint x,gint y,GtkSelectio
 		}
 
 	g_strfreev(array);
-	rerunAndUpdate();
+
+	if(doupdate==0)
+		rerunAndUpdate();
 }
 
 void doWallpapers(GtkWidget* widget,gpointer data)

@@ -202,8 +202,9 @@ int main(int argc,char **argv)
 	controlsScrollBox=gtk_scrolled_window_new(NULL,NULL);
 	iconsScrollBox=gtk_scrolled_window_new(NULL,NULL);
 	cursorsScrollBox=gtk_scrolled_window_new(NULL,NULL);
-	wallpapersScrollBox=gtk_scrolled_window_new(NULL,NULL);
-
+	//wallpapersScrollBox=gtk_scrolled_window_new(NULL,NULL);
+	//wallpapersMainVbox=gtk_scrolled_window_new(NULL,NULL);
+wallpapersScrollBox=gtk_vbox_new(true, 0);
 	buildPages();
 
 //notebook
