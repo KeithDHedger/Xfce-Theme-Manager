@@ -43,6 +43,15 @@ GtkWidget *imageBox(char* filename,char* text)
 	return box;
 }
 
+void freeNames(gpointer data)
+{
+	freeAndNull((char**)&data);
+}
+gint sortFunc(gconstpointer a,gconstpointer b)
+{
+	return(strcasecmp((const char*)a,(const char*)b));
+}
+
 void addNewButtons(GtkWidget* vbox,const char* subfolder,void* callback)
 {
 	char*		foldername;
@@ -55,6 +64,9 @@ void addNewButtons(GtkWidget* vbox,const char* subfolder,void* callback)
 	GtkWidget*	button;
 	GtkWidget*	box;
 
+	GSList *	entrylist=NULL;
+	char*		entryname;
+
 	asprintf(&foldername,"%s/.config/XfceThemeManager/%s",getenv("HOME"),subfolder);
 	folder=g_dir_open(foldername,0,NULL);
 	if(folder!=NULL)
@@ -62,26 +74,39 @@ void addNewButtons(GtkWidget* vbox,const char* subfolder,void* callback)
 			entry=g_dir_read_name(folder);
 			while(entry!=NULL)
 				{
-					if(strstr(entry,".db"))
-						{
-							asprintf(&filename,"%s/.config/XfceThemeManager/%s/%s",getenv("HOME"),subfolder,entry);
-							if(g_key_file_load_from_file(keyfile,filename,G_KEY_FILE_NONE,NULL))
-								{
-									name=g_key_file_get_string(keyfile,"Data","Name",NULL);
-									thumb=g_key_file_get_string(keyfile,"Data","Thumbnail",NULL);
-									button=gtk_button_new();
-									box=imageBox(thumb,name);
-									gtk_widget_set_name(button,filename);
-									gtk_button_set_relief((GtkButton*)button,GTK_RELIEF_NONE);
-									gtk_container_add (GTK_CONTAINER (button),box);
-									g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(callback),NULL);
-									gtk_box_pack_start((GtkBox*)vbox,button,false,true,4);
-									g_free(name);
-									g_free(thumb);
-								}
-						}
+				if(strstr(entry,".db"))
+					{
+						asprintf(&entryname,"%s",entry);
+						entrylist=g_slist_prepend(entrylist,(void*)entryname);
+					}
 					entry=g_dir_read_name(folder);
 				}
+			g_dir_close(folder);
+		}
+
+	if(entrylist!=NULL)
+		{
+			entrylist=g_slist_sort(entrylist,sortFunc);
+
+			for (int j=0;j<(int)g_slist_length(entrylist);j++)
+				{
+					asprintf(&filename,"%s/.config/XfceThemeManager/%s/%s",getenv("HOME"),subfolder,(char*)g_slist_nth_data(entrylist,j));
+					if(g_key_file_load_from_file(keyfile,filename,G_KEY_FILE_NONE,NULL))
+						{
+							name=g_key_file_get_string(keyfile,"Data","Name",NULL);
+							thumb=g_key_file_get_string(keyfile,"Data","Thumbnail",NULL);
+							button=gtk_button_new();
+							box=imageBox(thumb,name);
+							gtk_widget_set_name(button,filename);
+							gtk_button_set_relief((GtkButton*)button,GTK_RELIEF_NONE);
+							gtk_container_add (GTK_CONTAINER (button),box);
+							g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(callback),NULL);
+							gtk_box_pack_start((GtkBox*)vbox,button,false,true,4);
+							g_free(name);
+							g_free(thumb);
+						}
+			 	}
+			g_slist_free_full(entrylist,freeNames);
 		}
 }
 

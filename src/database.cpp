@@ -96,7 +96,7 @@ gpointer rebuildDB(gpointer data)
 					entry=g_dir_read_name(folder);
 					while(entry!=NULL)
 						{
-							asprintf(&dbfile,"%s/%s.db",metaFolder,entry);
+							asprintf(&dbfile,"%s/%i.%s.db",metaFolder,i,entry);
 							if(!g_file_test(dbfile,G_FILE_TEST_EXISTS))
 								{
 									makedb=false;
@@ -140,7 +140,7 @@ gpointer rebuildDB(gpointer data)
 									if(makedb==true)
 										{
 											asprintf(&framename,"%s",entry);
-											asprintf(&dbfile,"%s/%s.db",metaFolder,entry);
+											//asprintf(&dbfile,"%s/%i.%s.db",metaFolder,i,entry);
 											asprintf(&thumbfile,"%s/%s.png",metaFolder,entry);
 
 											writeDBFile(dbfile,displayname,gtkname,framename,iconname,papername,cursorname,thumbfile);
@@ -201,7 +201,7 @@ gpointer rebuildDB(gpointer data)
 					entry=g_dir_read_name(folder);
 					while(entry!=NULL)
 						{
-							asprintf(&dbfile,"%s/%s.db",framesFolder,entry);
+							asprintf(&dbfile,"%s/%i.%s.db",framesFolder,i,entry);
 							if(!g_file_test(dbfile,G_FILE_TEST_EXISTS))
 								{
 									asprintf(&buffer,"%s/%s/xfwm4",themesArray[i],entry);
@@ -235,7 +235,7 @@ gpointer rebuildDB(gpointer data)
 					entry=g_dir_read_name(folder);
 					while(entry!=NULL)
 						{
-							asprintf(&dbfile,"%s/%s.db",controlsFolder,entry);
+							asprintf(&dbfile,"%s/%i.%s.db",controlsFolder,i,entry);
 							if(!g_file_test(dbfile,G_FILE_TEST_EXISTS))
 								{
 									asprintf(&buffer,"%s/%s/gtk-2.0",themesArray[i],entry);
@@ -280,7 +280,7 @@ gpointer rebuildDB(gpointer data)
 					entry=g_dir_read_name(folder);
 					while(entry!=NULL)
 						{
-							asprintf(&dbfile,"%s/%s.db",iconsFolder,entry);
+							asprintf(&dbfile,"%s/%i.%s.db",iconsFolder,i,entry);
 							if(!g_file_test(dbfile,G_FILE_TEST_EXISTS))
 								{
 									asprintf(&buffer,"%s/%s/cursors",iconsArray[i],entry);
@@ -325,7 +325,7 @@ gpointer rebuildDB(gpointer data)
 					entry=g_dir_read_name(folder);
 					while(entry!=NULL)
 						{
-							asprintf(&dbfile,"%s/%s.db",cursorsFolder,entry);
+							asprintf(&dbfile,"%s/%i.%s.db",cursorsFolder,i,entry);
 							if(!g_file_test(dbfile,G_FILE_TEST_EXISTS))
 								{
 									asprintf(&buffer,"%s/%s/cursors",iconsArray[i],entry);
@@ -362,7 +362,7 @@ gpointer rebuildDB(gpointer data)
 					entry=g_dir_read_name(folder);
 					while(entry!=NULL)
 						{
-							asprintf(&dbfile,"%s/%s.db",wallpapersFolder,entry);
+							asprintf(&dbfile,"%s/%i.%s.db",wallpapersFolder,i,entry);
 							if(!g_file_test(dbfile,G_FILE_TEST_EXISTS))
 								{
 									asprintf(&thumbfile,"%s/%s.png",wallpapersFolder,entry);
