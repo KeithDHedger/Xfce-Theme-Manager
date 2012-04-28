@@ -28,7 +28,7 @@ xfce-theme-manager [-m] [-u]
 -m force a make of all the thumbnails for meta-themes/frames/controls/cursors and icons.
 -u just build misssing thumbnails
 
-To install a theme/gtk/icon/cursor/border/wallpaper just drag and drop the archive ( wallpapers do not need to be archived ) anywhere on the main window and if posible the theme etc will be installed into the correct place, all installations are local, supported archive types are:".tgz",".gz",".zip",".tar",".bz2", supported wallpaper types are:".jpg",".png",".bmp",".gif" anything else you will have to install yourself.
+To install a theme/gtk/icon/cursor/border/wallpaper just drag and drop the archive ( wallpapers should not be archived ) anywhere on the main window and if posible the theme etc will be installed into the correct place, all installations are local, supported archive types are:"*.tgz","*.gz","*.zip","*.tar","*.bz2", supported wallpaper types are:"*.jpg","*.png","*.bmp","*.gif" anything else you will have to install yourself.
 
 The thumbnails are stored in ${HOME}/.config/XfceThemeManager
 The first time you use Xfce-Theme-Manager you should either run it from the command line with the -m switch or click on the "Rebuld DB" button, the first build of the DB can take a while so be patient!
