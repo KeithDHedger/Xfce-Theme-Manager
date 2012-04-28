@@ -377,6 +377,7 @@ void launchCompEd(GtkWidget* window,gpointer data)
 	system("xfce4-composite-editor");
 }
 
+bool flag=false;
 void resetBright(GtkWidget* widget,gpointer data)
 {
 	char*		command;
@@ -396,8 +397,17 @@ void setBright(GtkWidget* widget,gpointer data)
 	asprintf(&command,"%s\"%i\"",XCONFSETBRIGHT,(int)val);
 	system(command);
 	freeAndNull(&command);
+		flag=true;
+
 	
 }
+void setBrightEnd(GtkWidget* widget,gpointer data)
+{
+if (flag==true)
+printf("bend\n");
+	
+}
+
 
 void resetSatu(GtkWidget* widget,gpointer data)
 {

@@ -37,6 +37,7 @@ void doCursors(GtkWidget* widget,gpointer data);
 void launchCompEd(GtkWidget* window,gpointer data);
 void resetBright(GtkWidget* widget,gpointer data);
 void setBright(GtkWidget* widget,gpointer data);
+void setBrightEnd(GtkWidget* widget,gpointer data);
 void resetSatu(GtkWidget* widget,gpointer data);
 void setSatu(GtkWidget* widget,gpointer data);
 void resetLayout(GtkWidget* widget,gpointer data);

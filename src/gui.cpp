@@ -214,6 +214,7 @@ void buildAdvancedGtui(GtkWidget* advancedScrollBox)
 	gtk_scale_set_value_pos((GtkScale*)advancedRange,GTK_POS_LEFT);
 	gtk_range_set_value((GtkRange*)advancedRange,0);
 	g_signal_connect_after(G_OBJECT(advancedRange),"value-changed",G_CALLBACK(setBright),NULL);
+	g_signal_connect_after(G_OBJECT(advancedRange),"event-after",G_CALLBACK(setBrightEnd),NULL);
 #if 0
 to redo
 	gtk_range_set_update_policy((GtkRange*)advancedRange,GTK_UPDATE_DISCONTINUOUS);
