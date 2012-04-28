@@ -214,7 +214,10 @@ void buildAdvancedGtui(GtkWidget* advancedScrollBox)
 	gtk_scale_set_value_pos((GtkScale*)advancedRange,GTK_POS_LEFT);
 	gtk_range_set_value((GtkRange*)advancedRange,0);
 	g_signal_connect_after(G_OBJECT(advancedRange),"value-changed",G_CALLBACK(setBright),NULL);
+#if 0
+to redo
 	gtk_range_set_update_policy((GtkRange*)advancedRange,GTK_UPDATE_DISCONTINUOUS);
+#endif
 	gtk_box_pack_start(GTK_BOX(advancedHbox),advancedRange, true,true,0);
 	gtk_box_pack_start(GTK_BOX(advancedVbox),advancedHbox, false,false,2);
 
@@ -230,7 +233,10 @@ void buildAdvancedGtui(GtkWidget* advancedScrollBox)
 	gtk_scale_set_value_pos((GtkScale*)advancedRange,GTK_POS_LEFT);
 	gtk_range_set_value((GtkRange*)advancedRange,1.0);
 	g_signal_connect_after(G_OBJECT(advancedRange),"value-changed",G_CALLBACK(setSatu),NULL);
+#if 0
+to redo
 	gtk_range_set_update_policy((GtkRange*)advancedRange,GTK_UPDATE_DISCONTINUOUS);
+#endif
 	gtk_box_pack_start(GTK_BOX(advancedHbox),advancedRange, true,true,0);
 	gtk_box_pack_start(GTK_BOX(advancedVbox),advancedHbox, false,false,2);
 
@@ -268,6 +274,7 @@ void buildAdvancedGtui(GtkWidget* advancedScrollBox)
 
 	wmFontButton=gtk_font_button_new_with_font(currentWMFont);
 	g_signal_connect_after(G_OBJECT(wmFontButton),"font-set",G_CALLBACK(setFont),(void*)0);
+	gtk_font_button_set_use_font((GtkFontButton*)wmFontButton,true);
 	gtk_box_pack_start(GTK_BOX(advancedHbox),wmFontButton, true,true,1);
 
 	button=gtk_button_new_with_label("Reset");
@@ -281,6 +288,7 @@ void buildAdvancedGtui(GtkWidget* advancedScrollBox)
 	gtk_box_pack_start(GTK_BOX(advancedHbox),gtk_label_new("App Font"), false,false,1);
 
 	appFontButton=gtk_font_button_new_with_font(currentAppFont);
+	gtk_font_button_set_use_font((GtkFontButton*)appFontButton,true);
 	g_signal_connect_after(G_OBJECT(appFontButton),"font-set",G_CALLBACK(setFont),(void*)1);
 	gtk_box_pack_start(GTK_BOX(advancedHbox),appFontButton, true,true,1);
 
