@@ -36,10 +36,14 @@ void doIcons(GtkWidget* widget,gpointer data);
 void doCursors(GtkWidget* widget,gpointer data);
 void launchCompEd(GtkWidget* window,gpointer data);
 void resetBright(GtkWidget* widget,gpointer data);
-void setBright(GtkWidget* widget,gpointer data);
-void setBrightEnd(GtkWidget* widget,gpointer data);
+
+//void valChanged(GtkWidget* widget,gpointer data);
+gboolean setBright(GtkWidget *widget, GdkEvent *event, gpointer user_data);
+
 void resetSatu(GtkWidget* widget,gpointer data);
-void setSatu(GtkWidget* widget,gpointer data);
+//void setSatu(GtkWidget* widget,gpointer data);
+gboolean setSatu(GtkWidget *widget, GdkEvent *event, gpointer user_data);
+
 void resetLayout(GtkWidget* widget,gpointer data);
 void changeLayout(GtkWidget* widget,gpointer data);
 void setFont(GtkWidget* widget,gpointer data);

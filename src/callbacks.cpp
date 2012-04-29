@@ -389,26 +389,58 @@ void resetBright(GtkWidget* widget,gpointer data)
 
 }
 
-void setBright(GtkWidget* widget,gpointer data)
+//void valChanged(GtkWidget* widget,gpointer data)
+//{
+//	char*		command;
+
+//	gtk_range_set_value((GtkRange*)data,0);
+//	asprintf(&command,"%s 0",XCONFSETBRIGHT);
+//	system(command);
+//	freeAndNull(&command);
+
+//}
+
+gboolean setBright(GtkWidget *widget, GdkEvent *event, gpointer user_data)
 {
 	char*		command;
-	gdouble	val=gtk_range_get_value((GtkRange*)widget);
+	
+	gdouble val=gtk_range_get_value((GtkRange*)widget);
 
 	asprintf(&command,"%s\"%i\"",XCONFSETBRIGHT,(int)val);
 	system(command);
 	freeAndNull(&command);
-		flag=true;
-
-	
+	return false;
 }
-void setBrightEnd(GtkWidget* widget,gpointer data)
+#if 0
+gboolean setBrightEnd(GtkWidget *widget, GdkEvent *event, gpointer user_data)
 {
-if (flag==true)
-printf("bend\n");
-	
+	char*		command;
+//if (flag==true)
+//printf("bend\n");
+	//    gdouble saved = *(gdouble *)user_data;
+	gdouble value=gtk_range_get_value((GtkRange *)widget);
+	printf("xxx%i\n",int(value));
+   // if (saved != value) {
+    //    *(gdouble *)user_data = value;
+   //     fprintf(stdout, "button_release_event at %g\n", (double)value);
+    //    fflush(stdout);
+   // } else {
+   //     fprintf(stdout, "button_release_event ignored\n");
+    //    fflush(stdout);
+   // }
+
+    /* Do propagate this event further. */
+	if(value!=bright)
+		{
+			asprintf(&command,"%s\"%i\"",XCONFSETBRIGHT,(int)value);
+			system(command);
+			freeAndNull(&command);
+			printf("here\n");
+		}
+    return FALSE;
 }
 
-
+#endif
 void resetSatu(GtkWidget* widget,gpointer data)
 {
 	char*		command;
@@ -419,7 +451,7 @@ void resetSatu(GtkWidget* widget,gpointer data)
 	freeAndNull(&command);
 }
 
-void setSatu(GtkWidget* widget,gpointer data)
+gboolean setSatu(GtkWidget *widget, GdkEvent *event, gpointer user_data)
 {
 	char*		command;
 	gdouble	val=gtk_range_get_value((GtkRange*)widget);
@@ -427,6 +459,7 @@ void setSatu(GtkWidget* widget,gpointer data)
 	asprintf(&command,"%s\"%f\"",XCONFSETSATU,val);
 	system(command);
 	freeAndNull(&command);
+	return false;
 }
 
 void resetLayout(GtkWidget* widget,gpointer data)
