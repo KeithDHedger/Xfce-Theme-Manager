@@ -213,12 +213,8 @@ void buildAdvancedGtui(GtkWidget* advancedScrollBox)
 	advancedRange=gtk_hscale_new_with_range(-128,127,1);
 	gtk_scale_set_value_pos((GtkScale*)advancedRange,GTK_POS_LEFT);
 	gtk_range_set_value((GtkRange*)advancedRange,0);
-//	g_signal_connect_after(G_OBJECT(advancedRange),"value-changed",G_CALLBACK(valChanged),NULL);
+
 	g_signal_connect(G_OBJECT(advancedRange), "button-release-event", G_CALLBACK(setBright),NULL);
-#if 0
-to redo
-	gtk_range_set_update_policy((GtkRange*)advancedRange,GTK_UPDATE_DISCONTINUOUS);
-#endif
 	gtk_box_pack_start(GTK_BOX(advancedHbox),advancedRange, true,true,0);
 	gtk_box_pack_start(GTK_BOX(advancedVbox),advancedHbox, false,false,2);
 
@@ -233,13 +229,8 @@ to redo
 	advancedRange=gtk_hscale_new_with_range(-10.0,10,0.1);
 	gtk_scale_set_value_pos((GtkScale*)advancedRange,GTK_POS_LEFT);
 	gtk_range_set_value((GtkRange*)advancedRange,1.0);
-//	g_signal_connect_after(G_OBJECT(advancedRange),"value-changed",G_CALLBACK(setSatu),NULL);
 	g_signal_connect(G_OBJECT(advancedRange), "button-release-event", G_CALLBACK(setSatu),NULL);
 
-#if 0
-to redo
-	gtk_range_set_update_policy((GtkRange*)advancedRange,GTK_UPDATE_DISCONTINUOUS);
-#endif
 	gtk_box_pack_start(GTK_BOX(advancedHbox),advancedRange, true,true,0);
 	gtk_box_pack_start(GTK_BOX(advancedVbox),advancedHbox, false,false,2);
 
