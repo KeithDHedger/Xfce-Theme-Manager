@@ -420,65 +420,16 @@ void doMeta(GtkWidget* widget,gpointer data)
 						{
 							sprintf(generalBuffer,"%s\"%s\"",(char*)xconf[j],keydata);
 							system(generalBuffer);
+							if(j==4)
+								gtk_combo_box_set_active((GtkComboBox*)styleComboBox,atoi(keydata));
+							if(j==11)
+								g_object_set(settings,"gtk-theme-name",keydata,"gtk-color-scheme","default",NULL);
+
 							freeAndNull(&keydata);
 						}
 				}
 		}
-#if 0
 
-			gtkset=g_key_file_get_string(keyfile,"Data","GtkTheme",NULL);
-			frameset=g_key_file_get_string(keyfile,"Data","Xfwm4Theme",NULL);
-			iconset=g_key_file_get_string(keyfile,"Data","IconTheme",NULL);	
-			cursorset=g_key_file_get_string(keyfile,"Data","CursorTheme",NULL);	
-			paperset=g_key_file_get_string(keyfile,"Data","BackgroundImage",NULL);	
-			styleset=g_key_file_get_string(keyfile,"Data","BackdropStyle",NULL);	
-		
-			if(styleset!=NULL)
-				{
-					asprintf(&command,"%s\"%s\"",XCONFSETSTYLE,styleset);
-					system(command);
-					gtk_combo_box_set_active((GtkComboBox*)styleComboBox,atoi(styleset));
-					free(command);
-					free(styleset);
-				}
-			if(gtkset!=NULL)
-				{
-					asprintf(&command,"%s\"%s\"",XCONFSETCONTROLS,gtkset);
-					system(command);
-					g_object_set(settings,"gtk-theme-name",gtkset,"gtk-color-scheme","default",NULL);
-					free(command);
-					free(gtkset);
-				}
-			if(frameset!=NULL)
-				{
-					asprintf(&command,"%s\"%s\"",XCONFSETFRAME,frameset);
-					system(command);
-					free(command);
-					free(frameset);
-				}
-			if(iconset!=NULL)
-				{
-					asprintf(&command,"%s\"%s\"",XCONFSETICONS,iconset);
-					system(command);
-					free(command);
-					free(iconset);
-				}
-			if(cursorset!=NULL)
-				{
-					asprintf(&command,"%s\"%s\"",XCONFSETCURSOR,cursorset);
-					system(command);
-					free(command);
-					free(cursorset);
-				}
-			if(paperset!=NULL)
-				{
-					asprintf(&command,"%s\"%s\"",XCONFSETPAPER,paperset);
-					system(command);
-					free(command);
-					free(paperset);
-				}
-#endif
-	//	}
 	system("xfdesktop --reload");
 	g_key_file_free(keyfile);
 }
@@ -505,6 +456,8 @@ void doControls(GtkWidget* widget,gpointer data)
 				}
 		}
 	g_key_file_free(keyfile);
+	if(settings!=NULL)
+		g_free(settings);
 }
 
 //icons
