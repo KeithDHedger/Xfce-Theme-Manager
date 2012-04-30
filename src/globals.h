@@ -112,7 +112,6 @@ extern int			controlHeight;
 extern int			controlWidth;
 extern GdkPixbuf*		controlsPixbuf;
 extern GtkNotebook*	notebook;
-extern GtkWidget*		fileChooser;
 
 extern void freeAndNull(char** ptr);
 
