@@ -24,40 +24,70 @@
 #include "gui.h"
 #include "database.h"
 
-//save theme
-void saveTheme(GtkWidget* window,gpointer data)
+//char	buffer[4096];
+char		filedata[1024];
+
+void buildCustomDB(const char* xconfline,const char* key)
 {
-	char	buffer[4096];
 	char*	stdout;
-	FILE*	fd;
-	char*	filedata;
-	char*	filename="/home/keithhedger/.config/XfceThemeManager/meta/00.custom.db";
 
-	fd=fopen(filename,"w");
-
-	asprintf(&filedata,"[Data]\nName=%s\nThumbnail=%s\n","custom","thumbnail.png");
-	g_spawn_command_line_sync(XCONFGETCONTROLS,&stdout,NULL,NULL,NULL);
+	g_spawn_command_line_sync(xconfline,&stdout,NULL,NULL,NULL);
 	stdout[strlen(stdout)-1]=0;
 
 	if (stdout!=NULL)
 		{
-			asprintf(&filedata,"%sGtkTheme=%s\n",filedata,stdout);
+			sprintf(filedata,"%s%s=%s\n",filedata,key,stdout);
 			freeAndNull(&stdout);
 		}
-//	if (frame!=NULL)
-//		asprintf(&filedata,"%sXfwm4Theme=%s\n",filedata,frame);
-//	if (icon!=NULL)
-//		asprintf(&filedata,"%sIconTheme=%s\n",filedata,icon);
-//	if (cursor!=NULL)
-//		asprintf(&filedata,"%sCursorTheme=%s\n",filedata,cursor);
-//	if (paper!=NULL)
-//		asprintf(&filedata,"%sBackgroundImage=%s\n",filedata,paper);
-//
-//	fd=fopen(filename,"w");
+}
+
+GtkWidget*	saveThemeAs;
+char*		filename;
+
+void response(GtkDialog *dialog,gint response_id,gpointer user_data)
+{
+	switch (response_id)
+		{
+			case GTK_RESPONSE_OK:
+				filename=gtk_file_chooser_get_filename((GtkFileChooser*)dialog);
+				break;
+			case GTK_RESPONSE_CANCEL:
+				printf("cancel\n");
+				break;
+		}
+	gtk_widget_destroy(saveThemeAs);
+}
+
+//save theme
+void saveTheme(GtkWidget* window,gpointer data)
+{
+	FILE*		fd;
+	char*		dbname;
+
+	saveThemeAs=gtk_file_chooser_dialog_new("save",NULL,GTK_FILE_CHOOSER_ACTION_SAVE,GTK_STOCK_CANCEL,GTK_RESPONSE_CANCEL,GTK_STOCK_SAVE,GTK_RESPONSE_OK,NULL);
+	g_signal_connect(G_OBJECT(saveThemeAs),"response",G_CALLBACK(response),NULL);
+	gtk_dialog_run((GtkDialog *)saveThemeAs);
+
+	asprintf(&dbname,"%s.db",filename);
+	fd=fopen(dbname,"w");
+
+	sprintf(filedata,"[Data]\nName=%s\nThumbnail=%s.png\n","custom",filename);
+	buildCustomDB(XCONFGETCONTROLS,"GtkTheme");
+	buildCustomDB(XCONFGETICONS,"IconTheme");
+	buildCustomDB(XCONFGETCURSOR,"CursorTheme");
+	buildCustomDB(XCONFGETFRAME,"Xfwm4Theme");
+	buildCustomDB(XCONFGETPAPER,"BackgroundImage");
+	buildCustomDB(XCONFGETLAYOUT,"TitleButtonLayout");
+	buildCustomDB(XCONFGETTITLEPOS,"TitlePosition");
+	buildCustomDB(XCONFGETWMFONT,"WMFont");
+	buildCustomDB(XCONFGETAPPFONT,"AppFont");
 
 	fprintf(fd,"%s\n",filedata);
 	fclose(fd);
 
+	//freeAndNull(&filedata);
+	freeAndNull(&filename);
+	freeAndNull(&dbname);
 //	g_spawn_command_line_sync(XCONFGETCONTROLS,&stdout,NULL,NULL,NULL);
 //	stdout[strlen(stdout)-1]=0;
 //	printf("%s\n",stdout);

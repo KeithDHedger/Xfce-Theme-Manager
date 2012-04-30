@@ -74,6 +74,7 @@ int			controlWidth=200;
 GdkPixbuf*		controlsPixbuf;
 
 GtkNotebook*	notebook;
+GtkWidget*		fileChooser;
 
 void freeAndNull(char** ptr)
 {

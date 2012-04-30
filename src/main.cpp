@@ -241,9 +241,20 @@ int main(int argc,char **argv)
 	gtk_box_pack_start(GTK_BOX(buttonHbox),button, false,false,0);
 	g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(resetTheme),NULL);
 
+	//button=gtk_button_new_from_stock(GTK_STOCK_SAVE);
 	button=gtk_button_new_with_label("Save Theme");
 	gtk_box_pack_start(GTK_BOX(buttonHbox),button, false,false,0);
 	g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(saveTheme),NULL);
+
+	//fileChooser=gtk_file_chooser_button_new("Save Theme",GTK_FILE_CHOOSER_ACTION_OPEN);
+	//gtk_button_new_with_label("Save Theme");
+	//fileChooser=gtk_file_chooser_dialog_new("Save Theme",(GtkWindow*)window,GTK_FILE_CHOOSER_ACTION_SAVE,NULL);
+	//fileChooser=gtk_file_chooser_button_new("Save Theme",GTK_FILE_CHOOSER_ACTION_OPEN);
+	//gtk_file_chooser_set_action((GtkFileChooser*)fileChooser,GTK_FILE_CHOOSER_ACTION_SAVE);
+	//gtk_box_pack_start(GTK_BOX(buttonHbox),fileChooser, false,false,0);
+	//g_signal_connect_after(G_OBJECT(fileChooser),"clicked",G_CALLBACK(saveTheme),NULL);
+	//g_signal_connect(G_OBJECT(GTK_FILE_SELECTION(fileChooser)->ok_button),"clicked",G_CALLBACK(saveTheme),NULL);
+	//g_signal_connect_swapped(G_OBJECT((GtkFileChooser*)(fileChooser)->cancel_button),"clicked",G_CALLBACK(gtk_widget_destroy),G_OBJECT(fileChooser));
 
 	button=gtk_toggle_button_new_with_label("Advanced");
 	gtk_box_pack_start(GTK_BOX(buttonHbox),button, false,false,0);
