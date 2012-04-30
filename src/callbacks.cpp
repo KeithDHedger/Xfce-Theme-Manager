@@ -27,11 +27,42 @@
 //save theme
 void saveTheme(GtkWidget* window,gpointer data)
 {
-//	char*	datax[]={(char*)"xfce-theme-manager",(char*)"-m",NULL};
+	char	buffer[4096];
+	char*	stdout;
+	FILE*	fd;
+	char*	filedata;
+	char*	filename="/home/keithhedger/.config/XfceThemeManager/meta/00.custom.db";
 
-//	gtk_main_quit();
-//	execvp("xfce-theme-manager",datax);
-printf("save\n");
+	fd=fopen(filename,"w");
+
+	asprintf(&filedata,"[Data]\nName=%s\nThumbnail=%s\n","custom","thumbnail.png");
+	g_spawn_command_line_sync(XCONFGETCONTROLS,&stdout,NULL,NULL,NULL);
+	stdout[strlen(stdout)-1]=0;
+
+	if (stdout!=NULL)
+		{
+			asprintf(&filedata,"%sGtkTheme=%s\n",filedata,stdout);
+			freeAndNull(&stdout);
+		}
+//	if (frame!=NULL)
+//		asprintf(&filedata,"%sXfwm4Theme=%s\n",filedata,frame);
+//	if (icon!=NULL)
+//		asprintf(&filedata,"%sIconTheme=%s\n",filedata,icon);
+//	if (cursor!=NULL)
+//		asprintf(&filedata,"%sCursorTheme=%s\n",filedata,cursor);
+//	if (paper!=NULL)
+//		asprintf(&filedata,"%sBackgroundImage=%s\n",filedata,paper);
+//
+//	fd=fopen(filename,"w");
+
+	fprintf(fd,"%s\n",filedata);
+	fclose(fd);
+
+//	g_spawn_command_line_sync(XCONFGETCONTROLS,&stdout,NULL,NULL,NULL);
+//	stdout[strlen(stdout)-1]=0;
+//	printf("%s\n",stdout);
+
+
 }
 
 //rebuild db

@@ -96,7 +96,7 @@ gpointer rebuildDB(gpointer data)
 					entry=g_dir_read_name(folder);
 					while(entry!=NULL)
 						{
-							asprintf(&dbfile,"%s/%i.%s.db",metaFolder,i,entry);
+							asprintf(&dbfile,"%s/%i.%s.db",metaFolder,i+1,entry);
 							if(!g_file_test(dbfile,G_FILE_TEST_EXISTS))
 								{
 									makedb=false;
