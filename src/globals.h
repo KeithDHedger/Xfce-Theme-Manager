@@ -36,7 +36,7 @@
 #define XCONFSETCURSOR "xfconf-query -nRt string -c xsettings -vp /Gtk/CursorThemeName -s "
 #define XCONFSETPAPER "xfconf-query -nRt string -c xfce4-desktop -vp /backdrop/screen0/monitor0/image-path -s "
 
-#define XCONFSETLAYOUT "xfconf-query -c xfwm4 -vp /general/button_layout -s"
+#define XCONFSETLAYOUT "xfconf-query -c xfwm4 -vp /general/button_layout -s "
 #define XCONFSETTITLEPOS "xfconf-query -c xfwm4 -vp /general/title_alignment -s "
 
 #define XCONFSETWMFONT "xfconf-query -c xfwm4 -vp /general/title_font -s "
@@ -119,6 +119,8 @@ extern int			controlHeight;
 extern int			controlWidth;
 extern GdkPixbuf*		controlsPixbuf;
 extern GtkNotebook*	notebook;
+
+extern char			generalBuffer[4096];
 
 extern void freeAndNull(char** ptr);
 

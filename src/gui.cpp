@@ -170,17 +170,6 @@ void buildPages(void)
 	wallscroll=gtk_scrolled_window_new(NULL,NULL);
 	wallpapersVBox=gtk_vbox_new(FALSE, 0);
 	
-	styleComboBox=(GtkComboBoxText*)gtk_combo_box_text_new();
-	gtk_combo_box_text_append_text(styleComboBox,"Auto");
-	gtk_combo_box_text_append_text(styleComboBox,"Centered");
-	gtk_combo_box_text_append_text(styleComboBox,"Tiled");
-	gtk_combo_box_text_append_text(styleComboBox,"Stretched");
-	gtk_combo_box_text_append_text(styleComboBox,"Scaled");
-	gtk_combo_box_text_append_text(styleComboBox,"Zoomed");
-	gtk_combo_box_set_active((GtkComboBox*)styleComboBox,currentWallStyle);
-	g_signal_connect_after(G_OBJECT(styleComboBox),"changed",G_CALLBACK(wallStyleChanged),NULL);
-	gtk_box_pack_start((GtkBox*)wallpapersVBox,(GtkWidget*)styleComboBox,false,true,4);
-	
 	vbox=gtk_vbox_new(FALSE, 0);
 	addNewButtons(vbox,"wallpapers",(void*)doWallpapers);
 

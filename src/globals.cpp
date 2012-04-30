@@ -78,6 +78,8 @@ GdkPixbuf*		controlsPixbuf;
 
 GtkNotebook*	notebook;
 
+char			generalBuffer[4096];
+
 void freeAndNull(char** ptr)
 {
 	if (*ptr!=NULL)

@@ -85,7 +85,6 @@ void saveTheme(GtkWidget* window,gpointer data)
 	char		buffer[1024];
 	bool		flag=false;
 	char*		holdgtk=currentGtkTheme;
-	int		holdstyle=currentWallStyle;
 
 	filename=NULL;
 
@@ -165,12 +164,7 @@ void saveTheme(GtkWidget* window,gpointer data)
 		}
 
 	if (flag==true)
-		{
-			int style=gtk_combo_box_get_active((GtkComboBox*)styleComboBox);
-			rerunAndUpdate();
-			currentWallStyle=holdstyle;
-			gtk_combo_box_set_active((GtkComboBox*)styleComboBox,style);
-		}
+		rerunAndUpdate();
 }
 
 //rebuild db
@@ -382,27 +376,71 @@ void wallStyleChanged(GtkWidget* widget,gpointer data)
 	system(command);
 }
 
+/*
+TitleButtonLayout=O|SHMC
+TitlePosition=center
+WMFont=Burton's Nightmare Bold 12
+AppFont=Sans 10
+BackdropStyle=3
+BackdropBright=0
+BackdropSatu=1.000000
+*/
+
 //do meta theme
 void doMeta(GtkWidget* widget,gpointer data)
 {
 	GKeyFile*	keyfile=g_key_file_new();
-	char*		command;
-	char*		cursorset;
-	char*		gtkset;
-	char*		frameset;
-	char*		iconset;
-	char*		paperset;
+	//char		command[4096];
+	//char*		cursorset;
+	//char*		gtkset;
+//	char*		frameset;
+//	char*		iconset;
+//	char*		paperset;
+//	char*		styleset;
+//	char*		layout;
+//	char*		titlepos;
+//	char*		wmfont;
+//	char*		appfont;
+//	char*		bright;
+//	char*		satu;
+	int		keycnt=12;
+	char*		keydata=NULL;
 
+	const char*		keys[]={"CursorTheme","Xfwm4Theme","IconTheme","BackgroundImage","BackdropStyle","TitleButtonLayout","TitlePosition","WMFont","AppFont","BackdropBright","BackdropSatu","GtkTheme"};
+	const char*		xconf[]={XCONFSETCURSOR,XCONFSETFRAME,XCONFSETICONS,XCONFSETPAPER,XCONFSETSTYLE,XCONFSETLAYOUT,XCONFSETTITLEPOS,XCONFSETWMFONT,XCONFSETAPPFONT,XCONFSETBRIGHT,XCONFSETSATU,XCONFSETCONTROLS};
+	
 	GtkSettings *settings=gtk_settings_get_default();;
 
 	if(g_key_file_load_from_file(keyfile,gtk_widget_get_name(widget),G_KEY_FILE_NONE,NULL))
 		{
+			for (int j=0;j<keycnt;j++)
+				{
+					keydata=g_key_file_get_string(keyfile,"Data",(char*)keys[j],NULL);
+					if(keydata!=NULL)
+						{
+							sprintf(generalBuffer,"%s\"%s\"",(char*)xconf[j],keydata);
+							system(generalBuffer);
+							freeAndNull(&keydata);
+						}
+				}
+		}
+#if 0
+
 			gtkset=g_key_file_get_string(keyfile,"Data","GtkTheme",NULL);
 			frameset=g_key_file_get_string(keyfile,"Data","Xfwm4Theme",NULL);
 			iconset=g_key_file_get_string(keyfile,"Data","IconTheme",NULL);	
 			cursorset=g_key_file_get_string(keyfile,"Data","CursorTheme",NULL);	
 			paperset=g_key_file_get_string(keyfile,"Data","BackgroundImage",NULL);	
+			styleset=g_key_file_get_string(keyfile,"Data","BackdropStyle",NULL);	
 		
+			if(styleset!=NULL)
+				{
+					asprintf(&command,"%s\"%s\"",XCONFSETSTYLE,styleset);
+					system(command);
+					gtk_combo_box_set_active((GtkComboBox*)styleComboBox,atoi(styleset));
+					free(command);
+					free(styleset);
+				}
 			if(gtkset!=NULL)
 				{
 					asprintf(&command,"%s\"%s\"",XCONFSETCONTROLS,gtkset);
@@ -438,8 +476,9 @@ void doMeta(GtkWidget* widget,gpointer data)
 					system(command);
 					free(command);
 					free(paperset);
-			}
-		}
+				}
+#endif
+	//	}
 	system("xfdesktop --reload");
 	g_key_file_free(keyfile);
 }
