@@ -144,7 +144,7 @@ GtkWidget* buildTitlePos(void)
 void buildPages(void)
 {
 	GtkWidget*	vbox;
-	GtkWidget* wallscroll;
+	GtkWidget*	wallscroll;
 
 	themesVBox=gtk_vbox_new(FALSE, 0);
 	addNewButtons(themesVBox,"custom",(void*)doMeta);

@@ -21,20 +21,7 @@
 #include "thumbnails.h"
 #include <gtk/gtk.h>
 #include <stdlib.h>
-#if 0
-char* findFrameFolder(char* name)
-{
-	for(int i=0;i<2;i++)
-		{
-			folder=g_dir_open(themesArray[i],0,NULL);
-			if(folder!=NULL)
-				{
-					entry=g_dir_read_name(folder);
-					while(entry!=NULL)
-						{
 
-}
-#endif
 void writeDBFile(char* filename,char* name,char* gtk,char* frame,char* icon,char* paper,char* cursor,char* thumb)
 {
 
@@ -62,35 +49,32 @@ void writeDBFile(char* filename,char* name,char* gtk,char* frame,char* icon,char
 
 gpointer rebuildDB(gpointer data)
 {
-	char*		buffer=NULL;
-	char*		indexfile=NULL;
-	char*		dbfile=NULL;
-	char*		thumbfile=NULL;
-	char*		framefolder=NULL;
-	char*		command=NULL;
+	char*			buffer=NULL;
+	char*			indexfile=NULL;
+	char*			dbfile=NULL;
+	char*			thumbfile=NULL;
+	char*			framefolder=NULL;
 
 	const gchar*	entry=NULL;
-	GDir*		folder;
-	GKeyFile*	keyfile=g_key_file_new();
+	GDir*			folder;
+	GKeyFile*		keyfile=g_key_file_new();
 
-	GdkPixbuf*	pixbuf;
+	GdkPixbuf*		pixbuf;
 
-	char*		gtkname=NULL;
-	char*		framename=NULL;
-	char*		iconname=NULL;
-	char*		papername=NULL;
-	char*		indexname=NULL;
-	char*		displayname=NULL;
-	char*		cursorname=NULL;
+	char*			gtkname=NULL;
+	char*			framename=NULL;
+	char*			iconname=NULL;
+	char*			papername=NULL;
+	char*			indexname=NULL;
+	char*			displayname=NULL;
+	char*			cursorname=NULL;
 
-	GKeyFile*	metakeyfile=g_key_file_new();
+	GKeyFile*		metakeyfile=g_key_file_new();
 
-	bool		makedb=false;
-	char*		hidden=NULL;
-
-	char		remdir[1024];
-
-	long		makeornot=(long)data;
+	bool			makedb=false;
+	char*			hidden=NULL;
+	char			remdir[1024];
+	long			makeornot=(long)data;
 
 	if (makeornot==0)
 		{
@@ -110,6 +94,7 @@ gpointer rebuildDB(gpointer data)
 					system(remdir);
 				}
 		}
+
 	g_mkdir_with_parents(metaFolder,493);
 	for(int i=0;i<2;i++)
 		{

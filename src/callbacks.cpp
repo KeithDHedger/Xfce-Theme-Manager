@@ -27,10 +27,8 @@
 
 
 char		filedata[1024];
-GtkWidget*	getFilename;
 GtkWidget*	entryBox;
 char*		filename;
-
 
 void buildCustomDB(const char* xconfline,const char* key)
 {
@@ -71,13 +69,13 @@ void response(GtkDialog *dialog,gint response_id,gpointer user_data)
 				asprintf(&filename,"%s",gtk_entry_get_text((GtkEntry*)entryBox));
 				break;
 		}
-
-	gtk_widget_destroy(getFilename);
+	gtk_widget_destroy((GtkWidget*)dialog);
 }
 
 //save theme
 void saveTheme(GtkWidget* window,gpointer data)
 {
+	GtkWidget*	getFilename;
 	GtkWidget*	content_area;
 	FILE*		fd=NULL;
 	char*		dbname;
@@ -87,6 +85,7 @@ void saveTheme(GtkWidget* window,gpointer data)
 	char		buffer[1024];
 	bool		flag=false;
 	char*		holdgtk=currentGtkTheme;
+	int		holdstyle=currentWallStyle;
 
 	filename=NULL;
 
@@ -98,26 +97,25 @@ void saveTheme(GtkWidget* window,gpointer data)
 	gtk_entry_set_activates_default((GtkEntry*)entryBox,true);
 	gtk_container_add(GTK_CONTAINER(content_area),entryBox);
 
-
 	gtk_widget_show  (entryBox);
 	gtk_dialog_run((GtkDialog *)getFilename);
 
-	g_spawn_command_line_sync(XCONFGETCONTROLS,&gtk,NULL,NULL,NULL);
-	gtk[strlen(gtk)-1]=0;
-	g_spawn_command_line_sync(XCONFGETFRAME,&frame,NULL,NULL,NULL);
-	frame[strlen(frame)-1]=0;
-	g_spawn_command_line_sync(XCONFGETICONS,&iconTheme,NULL,NULL,NULL);
-	iconTheme[strlen(iconTheme)-1]=0;
-	g_spawn_command_line_sync(XCONFGETCURSOR,&cursorTheme,NULL,NULL,NULL);
-	cursorTheme[strlen(cursorTheme)-1]=0;
-	asprintf(&thumbfile,"%s/%s.png",customFolder,filename);
-
-	sprintf(buffer,"%s/%s",themesArray[0],frame);
-	if (!g_file_test(buffer, G_FILE_TEST_IS_DIR))
-		sprintf(buffer,"%s/%s",themesArray[1],frame);
-
 	if (filename!=NULL && strlen(filename)>0)
 		{
+			g_spawn_command_line_sync(XCONFGETCONTROLS,&gtk,NULL,NULL,NULL);
+			gtk[strlen(gtk)-1]=0;
+			g_spawn_command_line_sync(XCONFGETFRAME,&frame,NULL,NULL,NULL);
+			frame[strlen(frame)-1]=0;
+			g_spawn_command_line_sync(XCONFGETICONS,&iconTheme,NULL,NULL,NULL);
+			iconTheme[strlen(iconTheme)-1]=0;
+			g_spawn_command_line_sync(XCONFGETCURSOR,&cursorTheme,NULL,NULL,NULL);
+			cursorTheme[strlen(cursorTheme)-1]=0;
+			asprintf(&thumbfile,"%s/%s.png",customFolder,filename);
+
+			sprintf(buffer,"%s/%s",themesArray[0],frame);
+			if (!g_file_test(buffer, G_FILE_TEST_IS_DIR))
+				sprintf(buffer,"%s/%s",themesArray[1],frame);
+
 			g_mkdir_with_parents(customFolder,493);
 			asprintf(&dbname,"%s/%s.db",customFolder,filename);
 			fd=fopen(dbname,"w");
@@ -151,8 +149,6 @@ void saveTheme(GtkWidget* window,gpointer data)
 							getspace(buffer);
 							makeborder(buffer,thumbfile);
 							g_object_unref(controlsPixbuf);
-							freeAndNull(&iconTheme);
-							freeAndNull(&cursorTheme);
 							controlsPixbuf=NULL;
 							controlWidth=200;
 							controlHeight=50;
@@ -160,10 +156,21 @@ void saveTheme(GtkWidget* window,gpointer data)
 					flag=true;
 				}
 			freeAndNull(&dbname);
+			freeAndNull(&filename);
+			freeAndNull(&gtk);
+			freeAndNull(&frame);
+			freeAndNull(&iconTheme);
+			freeAndNull(&cursorTheme);
+			freeAndNull(&thumbfile);
 		}
-	freeAndNull(&filename);
+
 	if (flag==true)
-		rerunAndUpdate();
+		{
+			int style=gtk_combo_box_get_active((GtkComboBox*)styleComboBox);
+			rerunAndUpdate();
+			currentWallStyle=holdstyle;
+			gtk_combo_box_set_active((GtkComboBox*)styleComboBox,style);
+		}
 }
 
 //rebuild db

@@ -25,7 +25,6 @@
 #include "gui.h"
 #include "callbacks.h"
 
-bool			whoops=false;
 GtkWidget*		progressWindow;
 GtkWidget*		progressBar;
 
@@ -131,7 +130,6 @@ void init(void)
 	stdout[strlen(stdout)-1]=0;
 	currentSatu=atof(stdout);
 	g_free(stdout);
-
 }
 
 void makeProgressBar(void)
