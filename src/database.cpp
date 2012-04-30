@@ -88,18 +88,28 @@ gpointer rebuildDB(gpointer data)
 	bool		makedb=false;
 	char*		hidden=NULL;
 
+	char		remdir[1024];
+
 	long		makeornot=(long)data;
 
 	if (makeornot==0)
 		{
 			if (g_file_test(dbFolder,G_FILE_TEST_IS_DIR))
 				{
-					asprintf(&command,"rm -r %s",dbFolder);
-					system(command);
-					freeAndNull(&command);
+					sprintf(remdir,"rm -r %s",metaFolder);
+					system(remdir);
+					sprintf(remdir,"rm -r %s",framesFolder);
+					system(remdir);
+					sprintf(remdir,"rm -r %s",controlsFolder);
+					system(remdir);
+					sprintf(remdir,"rm -r %s",iconsFolder);
+					system(remdir);
+					sprintf(remdir,"rm -r %s",cursorsFolder);
+					system(remdir);
+					sprintf(remdir,"rm -r %s",wallpapersFolder);
+					system(remdir);
 				}
 		}
-
 	g_mkdir_with_parents(metaFolder,493);
 	for(int i=0;i<2;i++)
 		{
@@ -109,7 +119,7 @@ gpointer rebuildDB(gpointer data)
 					entry=g_dir_read_name(folder);
 					while(entry!=NULL)
 						{
-							asprintf(&dbfile,"%s/%i.%s.db",metaFolder,i+1,entry);
+							asprintf(&dbfile,"%s/%i.%s.db",metaFolder,i,entry);
 							if(!g_file_test(dbfile,G_FILE_TEST_EXISTS))
 								{
 									makedb=false;

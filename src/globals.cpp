@@ -40,6 +40,7 @@ char*			controlsFolder;
 char*			iconsFolder;
 char*			cursorsFolder;
 char*			wallpapersFolder;
+char*			customFolder;
 
 //folders
 char*			themesArray[2];

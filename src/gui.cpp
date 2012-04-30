@@ -147,6 +147,7 @@ void buildPages(void)
 	GtkWidget* wallscroll;
 
 	themesVBox=gtk_vbox_new(FALSE, 0);
+	addNewButtons(themesVBox,"custom",(void*)doMeta);
 	addNewButtons(themesVBox,"meta",(void*)doMeta);
 	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)themesScrollBox,themesVBox);
 

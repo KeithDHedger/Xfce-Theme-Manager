@@ -88,6 +88,7 @@ void init(void)
 	asprintf(&iconsFolder,"%s/.config/XfceThemeManager/icons",getenv("HOME"));
 	asprintf(&cursorsFolder,"%s/.config/XfceThemeManager/cursors",getenv("HOME"));
 	asprintf(&wallpapersFolder,"%s/.config/XfceThemeManager/wallpapers",getenv("HOME"));
+	asprintf(&customFolder,"%s/.config/XfceThemeManager/custom",getenv("HOME"));
 
 	g_spawn_command_line_sync(XCONFGETSTYLE,&stdout,NULL,NULL,NULL);
 	stdout[strlen(stdout)-1]=0;

@@ -83,6 +83,7 @@ extern char*		controlsFolder;
 extern char*		iconsFolder;
 extern char*		cursorsFolder;
 extern char*		wallpapersFolder;
+extern char*		customFolder;
 
 //folders
 extern char*		themesArray[2];
