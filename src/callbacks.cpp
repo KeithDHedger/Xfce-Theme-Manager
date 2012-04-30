@@ -23,6 +23,7 @@
 #include "globals.h"
 #include "gui.h"
 #include "database.h"
+#include "thumbnails.h"
 
 
 char		filedata[1024];
@@ -45,6 +46,23 @@ void buildCustomDB(const char* xconfline,const char* key)
 		}
 }
 
+//update gui
+void rerunAndUpdate(void)
+{
+	rebuildDB((void*)1);
+
+	gtk_widget_destroy(themesVBox);
+	gtk_widget_destroy(framesVBox);
+	gtk_widget_destroy(controlsVBox);
+	gtk_widget_destroy(iconsVBox);
+	gtk_widget_destroy(cursorsVBox);
+	gtk_widget_destroy(wallpapersVBox);
+
+	buildPages();
+
+	gtk_widget_show_all(window);
+}
+
 void response(GtkDialog *dialog,gint response_id,gpointer user_data)
 {
 	switch (response_id)
@@ -61,9 +79,13 @@ void response(GtkDialog *dialog,gint response_id,gpointer user_data)
 void saveTheme(GtkWidget* window,gpointer data)
 {
 	GtkWidget*	content_area;
-	FILE*		fd;
+	FILE*		fd=NULL;
 	char*		dbname;
-	
+	char*		gtk;
+	char*		frame;
+	char*		thumbfile;
+	char		buffer[1024];
+
 	filename=NULL;
 
 	getFilename=gtk_dialog_new_with_buttons("Enter Name For Theme...",NULL,GTK_DIALOG_MODAL,GTK_STOCK_CANCEL,GTK_RESPONSE_CANCEL,GTK_STOCK_OK,GTK_RESPONSE_OK,NULL);
@@ -74,27 +96,63 @@ void saveTheme(GtkWidget* window,gpointer data)
 	gtk_widget_show  (entryBox);
 	gtk_dialog_run((GtkDialog *)getFilename);
 
-	if (filename!=NULL)
+	g_spawn_command_line_sync(XCONFGETCONTROLS,&gtk,NULL,NULL,NULL);
+	gtk[strlen(gtk)-1]=0;
+	g_spawn_command_line_sync(XCONFGETFRAME,&frame,NULL,NULL,NULL);
+	frame[strlen(frame)-1]=0;
+	g_spawn_command_line_sync(XCONFGETICONS,&iconTheme,NULL,NULL,NULL);
+	iconTheme[strlen(iconTheme)-1]=0;
+	g_spawn_command_line_sync(XCONFGETCURSOR,&cursorTheme,NULL,NULL,NULL);
+	cursorTheme[strlen(cursorTheme)-1]=0;
+	asprintf(&thumbfile,"%s/0.%s.png",metaFolder,filename);
+
+	sprintf(buffer,"%s/%s",themesArray[0],frame);
+	if (!g_file_test(buffer, G_FILE_TEST_IS_DIR))
+		sprintf(buffer,"%s/%s",themesArray[1],frame);
+
+	if (filename!=NULL && strlen(filename)>0)
 		{
 			asprintf(&dbname,"%s/0.%s.db",metaFolder,filename);
 			fd=fopen(dbname,"w");
+			if(fd!=NULL)
+				{
+					sprintf(filedata,"[Data]\nName=%s\nThumbnail=%s\n",filename,thumbfile);
+					buildCustomDB(XCONFGETCONTROLS,"GtkTheme");
+					buildCustomDB(XCONFGETICONS,"IconTheme");
+					buildCustomDB(XCONFGETCURSOR,"CursorTheme");
+					buildCustomDB(XCONFGETFRAME,"Xfwm4Theme");
+					buildCustomDB(XCONFGETPAPER,"BackgroundImage");
+					buildCustomDB(XCONFGETLAYOUT,"TitleButtonLayout");
+					buildCustomDB(XCONFGETTITLEPOS,"TitlePosition");
+					buildCustomDB(XCONFGETWMFONT,"WMFont");
+					buildCustomDB(XCONFGETAPPFONT,"AppFont");
+					buildCustomDB(XCONFGETSTYLE,"BackdropStyle");
+					buildCustomDB(XCONFGETBRIGHT,"BackdropBright");
+					buildCustomDB(XCONFGETSATU,"BackdropSatu");
 
-			sprintf(filedata,"[Data]\nName=%s\nThumbnail=%s.png\n","custom",filename);
-			buildCustomDB(XCONFGETCONTROLS,"GtkTheme");
-			buildCustomDB(XCONFGETICONS,"IconTheme");
-			buildCustomDB(XCONFGETCURSOR,"CursorTheme");
-			buildCustomDB(XCONFGETFRAME,"Xfwm4Theme");
-			buildCustomDB(XCONFGETPAPER,"BackgroundImage");
-			buildCustomDB(XCONFGETLAYOUT,"TitleButtonLayout");
-			buildCustomDB(XCONFGETTITLEPOS,"TitlePosition");
-			buildCustomDB(XCONFGETWMFONT,"WMFont");
-			buildCustomDB(XCONFGETAPPFONT,"AppFont");
+					fprintf(fd,"%s\n",filedata);
+					fclose(fd);
+				}
 
-			fprintf(fd,"%s\n",filedata);
-			fclose(fd);
+			controlWidth=400;
+			controlHeight=200;
+			controlsPixbuf=create_gtk_theme_pixbuf(gtk);
+
+			if(controlsPixbuf!=NULL)
+				{
+					getspace(buffer);
+					makeborder(buffer,thumbfile);
+					g_object_unref(controlsPixbuf);
+					freeAndNull(&iconTheme);
+					freeAndNull(&cursorTheme);
+					controlsPixbuf=NULL;
+					controlWidth=200;
+					controlHeight=50;
+				}
 
 			freeAndNull(&filename);
 			freeAndNull(&dbname);
+			rerunAndUpdate();
 		}
 }
 
@@ -229,23 +287,6 @@ void doFrame(GtkWidget* widget,gpointer data)
 				}
 		}
 	g_key_file_free(keyfile);
-}
-
-void rerunAndUpdate(void)
-{
-
-	rebuildDB((void*)1);
-
-	gtk_widget_destroy(themesVBox);
-	gtk_widget_destroy(framesVBox);
-	gtk_widget_destroy(controlsVBox);
-	gtk_widget_destroy(iconsVBox);
-	gtk_widget_destroy(cursorsVBox);
-	gtk_widget_destroy(wallpapersVBox);
-
-	buildPages();
-
-	gtk_widget_show_all(window);
 }
 
 //dnd install

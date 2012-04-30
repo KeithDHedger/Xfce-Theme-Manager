@@ -58,6 +58,10 @@
 #define XCONFGETWMFONT "xfconf-query -c xfwm4 -vp /general/title_font"
 #define XCONFGETAPPFONT "xfconf-query -c xsettings -vp /Gtk/FontName"
 
+#define XCONFGETSTYLE "xfconf-query -nRt int -c xfce4-desktop -vp /backdrop/screen0/monitor0/image-style"
+#define XCONFGETBRIGHT "xfconf-query -nRt int -c xfce4-desktop -vp /backdrop/screen0/monitor0/brightness"
+#define XCONFGETSATU "xfconf-query -nRt double -c xfce4-desktop -vp /backdrop/screen0/monitor0/saturation"
+
 extern int			currentWallStyle;
 extern char*		currentIconTheme;
 extern char*		currentWmTheme;
@@ -68,6 +72,8 @@ extern char*		currentButtonLayout;
 extern char*		currentTitlePos;
 extern char*		currentWMFont;
 extern char*		currentAppFont;
+extern int			currentBright;
+extern double		currentSatu;
 
 //db
 extern char*		dbFolder;

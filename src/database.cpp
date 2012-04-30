@@ -21,7 +21,20 @@
 #include "thumbnails.h"
 #include <gtk/gtk.h>
 #include <stdlib.h>
+#if 0
+char* findFrameFolder(char* name)
+{
+	for(int i=0;i<2;i++)
+		{
+			folder=g_dir_open(themesArray[i],0,NULL);
+			if(folder!=NULL)
+				{
+					entry=g_dir_read_name(folder);
+					while(entry!=NULL)
+						{
 
+}
+#endif
 void writeDBFile(char* filename,char* name,char* gtk,char* frame,char* icon,char* paper,char* cursor,char* thumb)
 {
 
@@ -140,7 +153,6 @@ gpointer rebuildDB(gpointer data)
 									if(makedb==true)
 										{
 											asprintf(&framename,"%s",entry);
-											//asprintf(&dbfile,"%s/%i.%s.db",metaFolder,i,entry);
 											asprintf(&thumbfile,"%s/%s.png",metaFolder,entry);
 
 											writeDBFile(dbfile,displayname,gtkname,framename,iconname,papername,cursorname,thumbfile);

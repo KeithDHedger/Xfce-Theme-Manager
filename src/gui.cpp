@@ -217,12 +217,12 @@ void buildAdvancedGtui(GtkWidget* advancedScrollBox)
 //back drop aadj
 	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_label_new("Backdrop Adjustments"),false,false,2);
 	advancedHbox=gtk_hbox_new(false,0);
-	gtk_box_pack_start(GTK_BOX(advancedHbox),gtk_label_new("Brightness"), false,false,4);
 
 //bright
+	gtk_box_pack_start(GTK_BOX(advancedHbox),gtk_label_new("Brightness"), false,false,4);
 	advancedRange=gtk_hscale_new_with_range(-128,127,1);
 	gtk_scale_set_value_pos((GtkScale*)advancedRange,GTK_POS_LEFT);
-	gtk_range_set_value((GtkRange*)advancedRange,0);
+	gtk_range_set_value((GtkRange*)advancedRange,currentBright);
 
 	g_signal_connect(G_OBJECT(advancedRange), "button-release-event", G_CALLBACK(setBright),NULL);
 	gtk_box_pack_start(GTK_BOX(advancedHbox),advancedRange, true,true,0);
@@ -238,7 +238,7 @@ void buildAdvancedGtui(GtkWidget* advancedScrollBox)
 
 	advancedRange=gtk_hscale_new_with_range(-10.0,10,0.1);
 	gtk_scale_set_value_pos((GtkScale*)advancedRange,GTK_POS_LEFT);
-	gtk_range_set_value((GtkRange*)advancedRange,1.0);
+	gtk_range_set_value((GtkRange*)advancedRange,currentSatu);
 	g_signal_connect(G_OBJECT(advancedRange), "button-release-event", G_CALLBACK(setSatu),NULL);
 
 	gtk_box_pack_start(GTK_BOX(advancedHbox),advancedRange, true,true,0);

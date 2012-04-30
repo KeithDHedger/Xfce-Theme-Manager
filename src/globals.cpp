@@ -19,7 +19,7 @@
 #include <gtk/gtk.h>
 
 //current stuff
-int			currentWallStyle=0;
+int			currentWallStyle;
 char*			currentIconTheme;
 char*			currentWmTheme;
 char*			currentCursorTheme;
@@ -29,6 +29,8 @@ char*			currentButtonLayout;
 char*			currentTitlePos;
 char*			currentWMFont;
 char*			currentAppFont;
+int			currentBright;
+double		currentSatu;
 
 //db
 char*			dbFolder;
