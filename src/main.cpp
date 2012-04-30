@@ -57,14 +57,6 @@ void shutdown(GtkWidget* window,gpointer data)
 	gtk_main_quit();
 }
 
-void rerunAndBuild(GtkWidget* window,gpointer data)
-{
-	char*	datax[]={(char*)"xfce-theme-manager",(char*)"-m",NULL};
-
-	gtk_main_quit();
-	execvp("xfce-theme-manager",datax);
-}
-
 void showAdvanced(GtkWidget* widget,gpointer data)
 {
 	gboolean	state=gtk_toggle_button_get_active((GtkToggleButton*)widget);
@@ -249,9 +241,9 @@ int main(int argc,char **argv)
 	gtk_box_pack_start(GTK_BOX(buttonHbox),button, false,false,0);
 	g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(resetTheme),NULL);
 
-	button=gtk_button_new_with_label("Rebuild DB");
+	button=gtk_button_new_with_label("Save Theme");
 	gtk_box_pack_start(GTK_BOX(buttonHbox),button, false,false,0);
-	g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(rerunAndBuild),NULL);
+	g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(saveTheme),NULL);
 
 	button=gtk_toggle_button_new_with_label("Advanced");
 	gtk_box_pack_start(GTK_BOX(buttonHbox),button, false,false,0);

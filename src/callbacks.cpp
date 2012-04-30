@@ -24,6 +24,25 @@
 #include "gui.h"
 #include "database.h"
 
+//save theme
+void saveTheme(GtkWidget* window,gpointer data)
+{
+//	char*	datax[]={(char*)"xfce-theme-manager",(char*)"-m",NULL};
+
+//	gtk_main_quit();
+//	execvp("xfce-theme-manager",datax);
+printf("save\n");
+}
+
+//rebuild db
+void rerunAndBuild(GtkWidget* window,gpointer data)
+{
+	char*	datax[]={(char*)"xfce-theme-manager",(char*)"-m",NULL};
+
+	gtk_main_quit();
+	execvp("xfce-theme-manager",datax);
+}
+
 //information!
 void infoDialog(const char* message,char* filename,GtkMessageType type)
 {

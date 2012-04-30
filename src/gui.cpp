@@ -47,6 +47,7 @@ void freeNames(gpointer data)
 {
 	freeAndNull((char**)&data);
 }
+
 gint sortFunc(gconstpointer a,gconstpointer b)
 {
 	return(strcasecmp((const char*)a,(const char*)b));
@@ -196,6 +197,15 @@ void buildAdvancedGtui(GtkWidget* advancedScrollBox)
 	GtkWidget*	button;
 
 	advancedVbox=gtk_vbox_new(FALSE, 0);
+
+//database
+	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_label_new("Re-Build The Database"),false,false,2);
+	advancedHbox=gtk_hbox_new(true,4);
+	button=gtk_button_new_with_label("Rebuild DB");
+	gtk_box_pack_start(GTK_BOX(advancedHbox),button, false,false,4);
+	g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(rerunAndBuild),NULL);
+	gtk_box_pack_start(GTK_BOX(advancedVbox),advancedHbox, false,false,4);
+	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_hseparator_new(),false,false,4);
 
 //comp ed
 	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_label_new("Launch Xfce-Composite-Editor"),false,false,2);
