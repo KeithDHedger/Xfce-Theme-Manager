@@ -29,7 +29,7 @@ void saveTheme(GtkWidget* window,gpointer data);
 
 void rerunAndBuild(GtkWidget* window,gpointer data);
 
-void setTitlePos(GtkWidget* widget,gpointer data);
+void setTitlePos(GtkComboBoxText* widget,gpointer data);
 void dropUri(GtkWidget *widget,GdkDragContext *context,gint x,gint y,GtkSelectionData *selection_data,guint info,guint32 time,gpointer user_data);
 void doWallpapers(GtkWidget* widget,gpointer data);
 void wallStyleChanged(GtkWidget* widget,gpointer data);

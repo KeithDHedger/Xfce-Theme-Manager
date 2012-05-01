@@ -185,17 +185,19 @@ void infoDialog(const char* message,char* filename,GtkMessageType type)
 }
 
 //set title position
-void setTitlePos(GtkWidget* widget,gpointer data)
+void setTitlePos(GtkComboBoxText* widget,gpointer data)
 {
 	char*		command;
+	char*		text=NULL;
 
-	gboolean	state=gtk_toggle_button_get_active((GtkToggleButton*)widget);
+	text=gtk_combo_box_text_get_active_text(widget);
 
-	if (state==true)
+	if(text!=NULL)
 		{
-			asprintf(&command,"%s %s",XCONFSETTITLEPOS,(char*)data);
+			asprintf(&command,"%s %s",XCONFSETTITLEPOS,text);
 			system(command);
 			freeAndNull(&command);
+			freeAndNull(&text);
 		}
 }
 
@@ -376,33 +378,10 @@ void wallStyleChanged(GtkWidget* widget,gpointer data)
 	system(command);
 }
 
-/*
-TitleButtonLayout=O|SHMC
-TitlePosition=center
-WMFont=Burton's Nightmare Bold 12
-AppFont=Sans 10
-BackdropStyle=3
-BackdropBright=0
-BackdropSatu=1.000000
-*/
-
 //do meta theme
 void doMeta(GtkWidget* widget,gpointer data)
 {
 	GKeyFile*	keyfile=g_key_file_new();
-	//char		command[4096];
-	//char*		cursorset;
-	//char*		gtkset;
-//	char*		frameset;
-//	char*		iconset;
-//	char*		paperset;
-//	char*		styleset;
-//	char*		layout;
-//	char*		titlepos;
-//	char*		wmfont;
-//	char*		appfont;
-//	char*		bright;
-//	char*		satu;
 	int		keycnt=12;
 	char*		keydata=NULL;
 
@@ -420,11 +399,33 @@ void doMeta(GtkWidget* widget,gpointer data)
 						{
 							sprintf(generalBuffer,"%s\"%s\"",(char*)xconf[j],keydata);
 							system(generalBuffer);
-							if(j==4)
-								gtk_combo_box_set_active((GtkComboBox*)styleComboBox,atoi(keydata));
-							if(j==11)
-								g_object_set(settings,"gtk-theme-name",keydata,"gtk-color-scheme","default",NULL);
-
+							switch (j)
+								{
+									case 4:
+										gtk_combo_box_set_active((GtkComboBox*)styleComboBox,atoi(keydata));
+										break;
+									case 5:
+										gtk_entry_set_text((GtkEntry*)layoutEntry,keydata);
+										break;
+									case 6:
+										gtk_combo_box_set_active((GtkComboBox*)titlePos,positionToInt(keydata));
+										break;
+									case 7:
+										 gtk_font_button_set_font_name((GtkFontButton*)wmFontButton,keydata);
+										break;
+									case 8:
+										 gtk_font_button_set_font_name((GtkFontButton*)appFontButton,keydata);
+										break;
+									case 9:
+										gtk_range_set_value((GtkRange*)briteRange,atoi(keydata));
+										break;
+									case 10:
+										gtk_range_set_value((GtkRange*)satuRange,atof(keydata));
+										break;
+									case 11:
+										g_object_set(settings,"gtk-theme-name",keydata,"gtk-color-scheme","default",NULL);
+										break;
+								}
 							freeAndNull(&keydata);
 						}
 				}

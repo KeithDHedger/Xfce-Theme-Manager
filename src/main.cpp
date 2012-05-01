@@ -248,7 +248,7 @@ int main(int argc,char **argv)
 
 //do advanced gui
 	advancedScrollBox=gtk_scrolled_window_new(NULL,NULL);
-	buildAdvancedGtui(advancedScrollBox);
+	buildAdvancedGui(advancedScrollBox);
 	gtk_notebook_append_page(advanced,advancedScrollBox,NULL);
 
 //add notebook to window

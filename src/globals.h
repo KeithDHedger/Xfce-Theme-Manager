@@ -93,11 +93,16 @@ extern char*		papersArray[2];
 extern char*		cursorTheme;
 extern char*		iconTheme;
 
+//widgets
 extern GtkWidget*		appFontButton;
 extern GtkWidget*		wmFontButton;
 extern GtkWidget*		window;
 extern GtkComboBoxText*	styleComboBox;
 extern int 			wallStyle;
+extern GtkWidget*		layoutEntry;
+extern GtkComboBoxText*	titlePos;
+extern GtkWidget*		briteRange;
+extern GtkWidget*		satuRange;
 
 extern GtkWidget*		themesScrollBox;
 extern GtkWidget*		framesScrollBox;
@@ -123,7 +128,7 @@ extern GtkNotebook*	notebook;
 extern char			generalBuffer[4096];
 
 extern void freeAndNull(char** ptr);
-
+extern int positionToInt(char* pos);
 
 #endif
 

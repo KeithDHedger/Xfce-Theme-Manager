@@ -22,6 +22,6 @@ void addNewButtons(GtkWidget* vbox,const char* subfolder,void* callback);
 void buildWallpapers(void);
 GtkWidget* buildTitlePos(void);
 void buildPages(void);
-void buildAdvancedGtui(GtkWidget* advancedScrollBox);
+void buildAdvancedGui(GtkWidget* advancedScrollBox);
 
 #endif

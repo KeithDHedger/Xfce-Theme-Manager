@@ -114,30 +114,15 @@ void addNewButtons(GtkWidget* vbox,const char* subfolder,void* callback)
 //titlepos
 GtkWidget* buildTitlePos(void)
 {
-	GtkWidget*	advancedHbox;
-	GtkWidget*	firstRadio;
-	GtkWidget*	button;
-
-	advancedHbox=gtk_hbox_new(true,0);
-	gtk_box_pack_start(GTK_BOX(advancedHbox),gtk_label_new("Title Position"), false,false,2);
-	firstRadio=gtk_radio_button_new_with_label (NULL, "Left");
-	g_signal_connect_after(G_OBJECT(firstRadio),"toggled",G_CALLBACK(setTitlePos),(void*)"left");
-	if(strcasecmp(currentTitlePos,"left")==0)
-		gtk_toggle_button_set_active((GtkToggleButton*)firstRadio,true);
-	gtk_box_pack_start(GTK_BOX(advancedHbox),firstRadio,false,false,0);
-
-	button=gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON (firstRadio),"Centre");
-	g_signal_connect_after(G_OBJECT(button),"toggled",G_CALLBACK(setTitlePos),(void*)"center");
-	if(strcasecmp(currentTitlePos,"center")==0)
-		gtk_toggle_button_set_active((GtkToggleButton*)button,true);
-	gtk_box_pack_start(GTK_BOX(advancedHbox),button,false,false,0);
-
-	button=gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON (firstRadio),"Right");
-	g_signal_connect_after(G_OBJECT(button),"toggled",G_CALLBACK(setTitlePos),(void*)"right");
-	if(strcasecmp(currentTitlePos,"right")==0)
-		gtk_toggle_button_set_active((GtkToggleButton*)button,true);
-	gtk_box_pack_start(GTK_BOX(advancedHbox),button,false,false,0);
-
+	GtkWidget*	advancedHbox=gtk_hbox_new(false,0);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),gtk_label_new("Title Position"), false,false,8);
+	titlePos=(GtkComboBoxText*)gtk_combo_box_text_new();
+	gtk_combo_box_text_append_text(titlePos,"Left");
+	gtk_combo_box_text_append_text(titlePos,"Centre");
+	gtk_combo_box_text_append_text(titlePos,"Right");
+	gtk_combo_box_set_active((GtkComboBox*)titlePos,positionToInt(currentTitlePos));
+	g_signal_connect_after(G_OBJECT(titlePos),"changed",G_CALLBACK(setTitlePos),NULL);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),(GtkWidget*)titlePos,false,false,0);
 	return(advancedHbox);
 }
 
@@ -178,12 +163,11 @@ void buildPages(void)
 	gtk_container_add (GTK_CONTAINER(wallpapersMainBox),wallpapersVBox);
 }
 
-void buildAdvancedGtui(GtkWidget* advancedScrollBox)
+void buildAdvancedGui(GtkWidget* advancedScrollBox)
 {
 	GtkWidget*	advancedVbox;
 	GtkWidget*	advancedHbox;
 	GtkWidget*	advancedRange;
-	GtkWidget*	advancedEntry;
 	GtkWidget*	button;
 
 	advancedVbox=gtk_vbox_new(FALSE, 0);
@@ -213,6 +197,7 @@ void buildAdvancedGtui(GtkWidget* advancedScrollBox)
 	advancedRange=gtk_hscale_new_with_range(-128,127,1);
 	gtk_scale_set_value_pos((GtkScale*)advancedRange,GTK_POS_LEFT);
 	gtk_range_set_value((GtkRange*)advancedRange,currentBright);
+	briteRange=advancedRange;
 
 	g_signal_connect(G_OBJECT(advancedRange), "button-release-event", G_CALLBACK(setBright),NULL);
 	gtk_box_pack_start(GTK_BOX(advancedHbox),advancedRange, true,true,0);
@@ -230,6 +215,7 @@ void buildAdvancedGtui(GtkWidget* advancedScrollBox)
 	gtk_scale_set_value_pos((GtkScale*)advancedRange,GTK_POS_LEFT);
 	gtk_range_set_value((GtkRange*)advancedRange,currentSatu);
 	g_signal_connect(G_OBJECT(advancedRange), "button-release-event", G_CALLBACK(setSatu),NULL);
+	satuRange=advancedRange;
 
 	gtk_box_pack_start(GTK_BOX(advancedHbox),advancedRange, true,true,0);
 	gtk_box_pack_start(GTK_BOX(advancedVbox),advancedHbox, false,false,2);
@@ -244,13 +230,13 @@ void buildAdvancedGtui(GtkWidget* advancedScrollBox)
 	advancedHbox=gtk_hbox_new(false,0);
 	gtk_box_pack_start(GTK_BOX(advancedHbox),gtk_label_new("Button Layout"), false,false,4);
 
-	advancedEntry=gtk_entry_new();
-	gtk_entry_set_text((GtkEntry*)advancedEntry,currentButtonLayout);
-	g_signal_connect_after(G_OBJECT(advancedEntry),"key-release-event",G_CALLBACK(changeLayout),NULL);
-	gtk_box_pack_start(GTK_BOX(advancedHbox),advancedEntry, true,true,2);
+	layoutEntry=gtk_entry_new();
+	gtk_entry_set_text((GtkEntry*)layoutEntry,currentButtonLayout);
+	g_signal_connect_after(G_OBJECT(layoutEntry),"key-release-event",G_CALLBACK(changeLayout),NULL);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),layoutEntry, true,true,2);
 
 	button=gtk_button_new_with_label("Reset");
-	g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(resetLayout),(gpointer)advancedEntry);
+	g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(resetLayout),(gpointer)layoutEntry);
 	gtk_box_pack_start(GTK_BOX(advancedHbox),button, false,false,8);
 
 	gtk_box_pack_start(GTK_BOX(advancedVbox),advancedHbox, false,false,2);
