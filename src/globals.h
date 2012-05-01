@@ -68,6 +68,7 @@ extern char*		currentWmTheme;
 extern char*		currentCursorTheme;
 extern char*		currentWallPaper;
 extern char*		currentGtkTheme;
+
 extern char*		currentButtonLayout;
 extern char*		currentTitlePos;
 extern char*		currentWMFont;

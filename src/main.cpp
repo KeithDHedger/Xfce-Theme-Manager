@@ -46,9 +46,28 @@ void resetTheme(GtkWidget* widget,gpointer data)
 	system(command);
 	sprintf(command,"%s%i",XCONFSETSTYLE,currentWallStyle);
 	system(command);
+	sprintf(command,"%s\"%s\"",XCONFSETLAYOUT,currentButtonLayout);
+	system(command);
+	sprintf(command,"%s\"%s\"",XCONFSETTITLEPOS,currentTitlePos);
+	system(command);
+	sprintf(command,"%s\"%s\"",XCONFSETWMFONT,currentWMFont);
+	system(command);
+	sprintf(command,"%s\"%s\"",XCONFSETAPPFONT,currentAppFont);
+	system(command);
+	sprintf(command,"%s%i",XCONFSETBRIGHT,currentBright);
+	system(command);
+	sprintf(command,"%s%f",XCONFSETSATU,currentSatu);
+	system(command);
+
+	gtk_combo_box_set_active((GtkComboBox*)styleComboBox,currentWallStyle);
+	gtk_entry_set_text((GtkEntry*)layoutEntry,currentButtonLayout);
+	gtk_combo_box_set_active((GtkComboBox*)titlePos,positionToInt(currentTitlePos));
+	gtk_font_button_set_font_name((GtkFontButton*)wmFontButton,currentWMFont);
+	gtk_font_button_set_font_name((GtkFontButton*)appFontButton,currentAppFont);
+	gtk_range_set_value((GtkRange*)briteRange,currentBright);
+	gtk_range_set_value((GtkRange*)satuRange,currentSatu);
 
 	g_object_set(settings,"gtk-theme-name",currentGtkTheme,"gtk-color-scheme","default",NULL);
-	gtk_combo_box_set_active((GtkComboBox*)styleComboBox,currentWallStyle);
 }
 
 void shutdown(GtkWidget* window,gpointer data)
