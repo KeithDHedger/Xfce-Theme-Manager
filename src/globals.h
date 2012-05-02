@@ -52,6 +52,9 @@
 #define XCONFGETBRIGHT "xfconf-query -nRt int -c xfce4-desktop -vp /backdrop/screen0/monitor0/brightness"
 #define XCONFGETSATU "xfconf-query -nRt double -c xfce4-desktop -vp /backdrop/screen0/monitor0/saturation"
 
+#define XCONFGETCURSORSIZE "xfconf-query -nRt int -c xsettings -vp /Gtk/CursorThemeSize"
+#define XCONFSETCURSORSIZE "xfconf-query -nRt int -c xsettings -vp /Gtk/CursorThemeSize -s "
+
 extern int			currentWallStyle;
 extern char*		currentIconTheme;
 extern char*		currentWmTheme;
@@ -65,6 +68,7 @@ extern char*		currentWMFont;
 extern char*		currentAppFont;
 extern int			currentBright;
 extern double		currentSatu;
+extern int			currentCursSize;
 
 //db
 extern char*		dbFolder;
@@ -94,6 +98,7 @@ extern GtkWidget*		layoutEntry;
 extern GtkComboBoxText*	titlePos;
 extern GtkWidget*		briteRange;
 extern GtkWidget*		satuRange;
+extern GtkWidget*		cursorSize;
 
 extern GtkWidget*		themesScrollBox;
 extern GtkWidget*		framesScrollBox;

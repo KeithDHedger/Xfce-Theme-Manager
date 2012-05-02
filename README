@@ -63,7 +63,8 @@ Please send them direct to me at: kdhedger@yahoo.co.uk posting them on xfce-look
 
 Changelog:
 
-0.1.5	'Reset Theme' now resets controls in advanced tab.
+0.1.5	Re-added cursor size to advanced.
+	'Reset Theme' now resets controls in advanced tab.
 	Added 'Save Theme', now saves complete custom themes.
 	Moved 'Rebuild DB' to 'Advanced tab.
 	Brightness/Saturation now only update on button up.

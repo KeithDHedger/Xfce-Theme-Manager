@@ -40,4 +40,7 @@ void changeLayout(GtkWidget* widget,gpointer data);
 void setFont(GtkWidget* widget,gpointer data);
 void resetFont(GtkWidget* widget,gpointer data);
 
+void setCursSize(GtkWidget* widget,gpointer data);
+void resetCursSize(GtkWidget* widget,gpointer data);
+
 #endif

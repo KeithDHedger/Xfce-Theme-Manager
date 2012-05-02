@@ -57,6 +57,8 @@ void resetTheme(GtkWidget* widget,gpointer data)
 	system(generalBuffer);
 	sprintf(generalBuffer,"%s%f",XCONFSETSATU,currentSatu);
 	system(generalBuffer);
+	sprintf(generalBuffer,"%s%i",XCONFSETCURSORSIZE,currentCursSize);
+	system(generalBuffer);
 
 	gtk_combo_box_set_active((GtkComboBox*)styleComboBox,currentWallStyle);
 	gtk_entry_set_text((GtkEntry*)layoutEntry,currentButtonLayout);
@@ -65,6 +67,7 @@ void resetTheme(GtkWidget* widget,gpointer data)
 	gtk_font_button_set_font_name((GtkFontButton*)appFontButton,currentAppFont);
 	gtk_range_set_value((GtkRange*)briteRange,currentBright);
 	gtk_range_set_value((GtkRange*)satuRange,currentSatu);
+	gtk_range_set_value((GtkRange*)cursorSize,currentCursSize);
 
 	g_object_set(settings,"gtk-theme-name",currentGtkTheme,"gtk-color-scheme","default",NULL);
 }
@@ -148,6 +151,12 @@ void init(void)
 	stdout[strlen(stdout)-1]=0;
 	currentSatu=atof(stdout);
 	g_free(stdout);
+
+	g_spawn_command_line_sync(XCONFGETCURSORSIZE,&stdout,NULL,NULL,NULL);
+	stdout[strlen(stdout)-1]=0;
+	currentCursSize=atoi(stdout);
+	g_free(stdout);
+
 }
 
 void makeProgressBar(void)

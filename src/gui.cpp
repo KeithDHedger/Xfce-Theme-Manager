@@ -283,11 +283,40 @@ void buildAdvancedGui(GtkWidget* advancedScrollBox)
 
 	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_hseparator_new(),false,false,4);
 	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)advancedScrollBox,advancedVbox);
+	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_hseparator_new(),false,false,4);
+
+//cursor size
+	advancedHbox=gtk_hbox_new(false,0);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),gtk_label_new("Cursor Size"), false,false,4);
+	cursorSize=gtk_hscale_new_with_range(16,48,1);
+	gtk_scale_set_value_pos((GtkScale*)cursorSize,GTK_POS_LEFT);
+	gtk_range_set_value((GtkRange*)cursorSize,currentCursSize);
+	g_signal_connect(G_OBJECT(cursorSize), "value-changed",G_CALLBACK(setCursSize),NULL);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),cursorSize, true,true,0);
+
+	button=gtk_button_new_with_label("Reset");
+	g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(resetCursSize),NULL);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),button, false,false,8);
+	gtk_box_pack_start(GTK_BOX(advancedVbox),advancedHbox, false,false,2);
 
 }
 
 
+#if 0
+	advancedRange=gtk_hscale_new_with_range(-128,127,1);
+	gtk_scale_set_value_pos((GtkScale*)advancedRange,GTK_POS_LEFT);
+	gtk_range_set_value((GtkRange*)advancedRange,currentBright);
+	briteRange=advancedRange;
 
+	g_signal_connect(G_OBJECT(advancedRange), "button-release-event", G_CALLBACK(setBright),NULL);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),advancedRange, true,true,0);
+	gtk_box_pack_start(GTK_BOX(advancedVbox),advancedHbox, false,false,2);
+
+	button=gtk_button_new_with_label("Reset");
+	g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(resetBright),(gpointer)advancedRange);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),button, false,false,8);
+
+#endif
 
 
 

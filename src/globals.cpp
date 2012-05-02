@@ -22,6 +22,7 @@ char*			currentWMFont;
 char*			currentAppFont;
 int			currentBright;
 double		currentSatu;
+int			currentCursSize;
 
 //db
 char*			dbFolder;
@@ -51,7 +52,7 @@ GtkWidget*		layoutEntry;
 GtkComboBoxText*	titlePos;
 GtkWidget*		briteRange;
 GtkWidget*		satuRange;
-
+GtkWidget*		cursorSize;
 
 GtkWidget*		themesScrollBox;
 GtkWidget*		framesScrollBox;

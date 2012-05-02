@@ -125,6 +125,7 @@ void saveTheme(GtkWidget* window,gpointer data)
 					buildCustomDB(XCONFGETSTYLE,"BackdropStyle");
 					buildCustomDB(XCONFGETBRIGHT,"BackdropBright");
 					buildCustomDB(XCONFGETSATU,"BackdropSatu");
+					buildCustomDB(XCONFGETCURSORSIZE,"CursorSize");
 
 					fprintf(fd,"%s\n",filedata);
 					fclose(fd);
@@ -371,12 +372,12 @@ void wallStyleChanged(GtkWidget* widget,gpointer data)
 void doMeta(GtkWidget* widget,gpointer data)
 {
 	GKeyFile*	keyfile=g_key_file_new();
-	int		keycnt=12;
+	int		keycnt=13;
 	char*		keydata=NULL;
 
-	const char*		keys[]={"CursorTheme","Xfwm4Theme","IconTheme","BackgroundImage","BackdropStyle","TitleButtonLayout","TitlePosition","WMFont","AppFont","BackdropBright","BackdropSatu","GtkTheme"};
-	const char*		xconf[]={XCONFSETCURSOR,XCONFSETFRAME,XCONFSETICONS,XCONFSETPAPER,XCONFSETSTYLE,XCONFSETLAYOUT,XCONFSETTITLEPOS,XCONFSETWMFONT,XCONFSETAPPFONT,XCONFSETBRIGHT,XCONFSETSATU,XCONFSETCONTROLS};
-	
+	const char*		keys[]={"CursorTheme","Xfwm4Theme","IconTheme","BackgroundImage","BackdropStyle","TitleButtonLayout","TitlePosition","WMFont","AppFont","BackdropBright","BackdropSatu","GtkTheme","CursorSize"};
+	const char*		xconf[]={XCONFSETCURSOR,XCONFSETFRAME,XCONFSETICONS,XCONFSETPAPER,XCONFSETSTYLE,XCONFSETLAYOUT,XCONFSETTITLEPOS,XCONFSETWMFONT,XCONFSETAPPFONT,XCONFSETBRIGHT,XCONFSETSATU,XCONFSETCONTROLS,XCONFSETCURSORSIZE};
+
 	GtkSettings *settings=gtk_settings_get_default();;
 
 	if(g_key_file_load_from_file(keyfile,gtk_widget_get_name(widget),G_KEY_FILE_NONE,NULL))
@@ -413,6 +414,9 @@ void doMeta(GtkWidget* widget,gpointer data)
 										break;
 									case 11:
 										g_object_set(settings,"gtk-theme-name",keydata,"gtk-color-scheme","default",NULL);
+										break;
+									case 12:
+										gtk_range_set_value((GtkRange*)cursorSize,atoi(keydata));
 										break;
 								}
 							freeAndNull(&keydata);
@@ -591,6 +595,27 @@ void resetFont(GtkWidget* widget,gpointer data)
 			gtk_font_button_set_font_name((GtkFontButton*)appFontButton,currentAppFont);
 		}
 
+	system(command);
+	freeAndNull(&command);
+}
+
+void setCursSize(GtkWidget* widget,gpointer data)
+{
+	char*		command;
+	
+	gdouble val=gtk_range_get_value((GtkRange*)widget);
+
+	asprintf(&command,"%s\"%i\"",XCONFSETCURSORSIZE,(int)val);
+	system(command);
+	freeAndNull(&command);
+}
+
+void resetCursSize(GtkWidget* widget,gpointer data)
+{
+	char*		command;
+
+	gtk_range_set_value((GtkRange*)cursorSize,16);
+	asprintf(&command,"%s 16",XCONFSETCURSORSIZE);
 	system(command);
 	freeAndNull(&command);
 }
