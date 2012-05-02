@@ -51,10 +51,7 @@ If you have a source based pkg manager like slackware the dev files for glib etc
 
 You may have to run  xfce4-panel --restart to see the Xfce-Theme-Manager menu item in settings.
 
-TODO:
-Add 'missing icons' icon.
-Make title bar more accurate (tile instead of stretch).
-etc
+If you are upgrading from an older version please rebuild the DB ( fro the "Advanced" tab ).
 
 ***************************************
 BUGS:
