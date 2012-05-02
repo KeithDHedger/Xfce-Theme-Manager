@@ -77,7 +77,7 @@ void saveTheme(GtkWidget* window,gpointer data)
 	char*		thumbfile;
 	bool		flag=false;
 	char*		holdgtk=currentGtkTheme;
-
+	char		buffer[2048];
 	filename=NULL;
 
 	getFilename=gtk_dialog_new_with_buttons("Enter Name For Theme...",NULL,GTK_DIALOG_MODAL,GTK_STOCK_CANCEL,GTK_RESPONSE_CANCEL,GTK_STOCK_OK,GTK_RESPONSE_OK,NULL);
@@ -103,9 +103,9 @@ void saveTheme(GtkWidget* window,gpointer data)
 			cursorTheme[strlen(cursorTheme)-1]=0;
 			asprintf(&thumbfile,"%s/%s.png",customFolder,filename);
 
-			sprintf(generalBuffer,"%s/%s",themesArray[0],frame);
-			if (!g_file_test(generalBuffer, G_FILE_TEST_IS_DIR))
-				sprintf(generalBuffer,"%s/%s",themesArray[1],frame);
+			sprintf(buffer,"%s/%s",themesArray[0],frame);
+			if (!g_file_test(buffer, G_FILE_TEST_IS_DIR))
+				sprintf(buffer,"%s/%s",themesArray[1],frame);
 
 			g_mkdir_with_parents(customFolder,493);
 			asprintf(&dbname,"%s/%s.db",customFolder,filename);
@@ -137,8 +137,8 @@ void saveTheme(GtkWidget* window,gpointer data)
 
 					if(controlsPixbuf!=NULL)
 						{
-							getspace(generalBuffer);
-							makeborder(generalBuffer,thumbfile);
+							getspace(buffer);
+							makeborder(buffer,thumbfile);
 							g_object_unref(controlsPixbuf);
 							controlsPixbuf=NULL;
 							controlWidth=200;

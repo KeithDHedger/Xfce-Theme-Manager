@@ -116,14 +116,14 @@ void addNewButtons(GtkWidget* vbox,const char* subfolder,void* callback)
 GtkWidget* buildTitlePos(void)
 {
 	GtkWidget*	advancedHbox=gtk_hbox_new(false,0);
-	gtk_box_pack_start(GTK_BOX(advancedHbox),gtk_label_new("Title Position"), false,false,8);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),gtk_label_new("Title Position"), false,false,4);
 	titlePos=(GtkComboBoxText*)gtk_combo_box_text_new();
 	gtk_combo_box_text_append_text(titlePos,"Left");
 	gtk_combo_box_text_append_text(titlePos,"Centre");
 	gtk_combo_box_text_append_text(titlePos,"Right");
 	gtk_combo_box_set_active((GtkComboBox*)titlePos,positionToInt(currentTitlePos));
 	g_signal_connect_after(G_OBJECT(titlePos),"changed",G_CALLBACK(setTitlePos),NULL);
-	gtk_box_pack_start(GTK_BOX(advancedHbox),(GtkWidget*)titlePos,false,false,0);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),(GtkWidget*)titlePos,true,true,8);
 	return(advancedHbox);
 }
 
@@ -184,9 +184,11 @@ void buildAdvancedGui(GtkWidget* advancedScrollBox)
 
 //comp ed
 	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_label_new("Launch Xfce-Composite-Editor"),false,false,2);
+	advancedHbox=gtk_hbox_new(true,4);
 	button=gtk_button_new_with_label("Xfce-Composite-Editor");
 	g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(launchCompEd),NULL);
-	gtk_box_pack_start(GTK_BOX(advancedVbox),button,false,false,8);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),button, false,false,4);
+	gtk_box_pack_start(GTK_BOX(advancedVbox),advancedHbox,false,false,8);
 	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_hseparator_new(),false,false,4);
 
 //back drop aadj
@@ -244,14 +246,14 @@ void buildAdvancedGui(GtkWidget* advancedScrollBox)
 	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_hseparator_new(),false,false,4);
 
 //buildTitlePos
-	gtk_box_pack_start(GTK_BOX(advancedVbox),buildTitlePos(), false,false,2);
+	gtk_box_pack_start(GTK_BOX(advancedVbox),buildTitlePos(), false,false,0);
 	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_hseparator_new(),false,false,4);
 
 //fonts
 //wmfont
 	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_label_new("Font Selection"), false,false,4);
 	advancedHbox=gtk_hbox_new(false,0);
-	gtk_box_pack_start(GTK_BOX(advancedHbox),gtk_label_new("WM Font "), false,false,1);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),gtk_label_new("WM Font "), false,false,4);
 
 	wmFontButton=gtk_font_button_new_with_font(currentWMFont);
 	g_signal_connect_after(G_OBJECT(wmFontButton),"font-set",G_CALLBACK(setFont),(void*)0);
@@ -266,7 +268,7 @@ void buildAdvancedGui(GtkWidget* advancedScrollBox)
 
 //appfont
 	advancedHbox=gtk_hbox_new(false,0);
-	gtk_box_pack_start(GTK_BOX(advancedHbox),gtk_label_new("App Font"), false,false,1);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),gtk_label_new("App Font"), false,false,4);
 
 	appFontButton=gtk_font_button_new_with_font(currentAppFont);
 	gtk_font_button_set_use_font((GtkFontButton*)appFontButton,true);
