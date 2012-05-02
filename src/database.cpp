@@ -340,12 +340,12 @@ gpointer rebuildDB(gpointer data)
 										{
 											asprintf(&indexfile,"%s/%s/index.theme",iconsArray[i],entry);
 											if(g_key_file_load_from_file(keyfile,indexfile,G_KEY_FILE_NONE,NULL))
-												{
-													displayname=g_key_file_get_string(keyfile,"Icon Theme","Name",NULL);
-													asprintf(&thumbfile,"%s/%s.png",cursorsFolder,entry);
-													makecursor((char*)entry,thumbfile);
-													writeDBFile(dbfile,displayname,NULL,NULL,NULL,NULL,(char*)entry,thumbfile);
-												}
+												displayname=g_key_file_get_string(keyfile,"Icon Theme","Name",NULL);
+											else
+												asprintf(&displayname,entry);
+											asprintf(&thumbfile,"%s/%s.png",cursorsFolder,entry);
+											makecursor((char*)entry,thumbfile);
+											writeDBFile(dbfile,displayname,NULL,NULL,NULL,NULL,(char*)entry,thumbfile);
 										}
 
 									freeAndNull(&buffer);
