@@ -31,33 +31,32 @@ GtkWidget*		progressBar;
 // RESET THEME
 void resetTheme(GtkWidget* widget,gpointer data)
 {
-	char		command[256];
 	GtkSettings *settings=gtk_settings_get_default();;
 
-	sprintf(command,"%s\"%s\"",XCONFSETCONTROLS,currentGtkTheme);
-	system(command);
-	sprintf(command,"%s\"%s\"",XCONFSETFRAME,currentWmTheme);
-	system(command);
-	sprintf(command,"%s\"%s\"",XCONFSETICONS,currentIconTheme);
-	system(command);
-	sprintf(command,"%s\"%s\"",XCONFSETCURSOR,currentCursorTheme);
-	system(command);
-	sprintf(command,"%s\"%s\"",XCONFSETPAPER,currentWallPaper);
-	system(command);
-	sprintf(command,"%s%i",XCONFSETSTYLE,currentWallStyle);
-	system(command);
-	sprintf(command,"%s\"%s\"",XCONFSETLAYOUT,currentButtonLayout);
-	system(command);
-	sprintf(command,"%s\"%s\"",XCONFSETTITLEPOS,currentTitlePos);
-	system(command);
-	sprintf(command,"%s\"%s\"",XCONFSETWMFONT,currentWMFont);
-	system(command);
-	sprintf(command,"%s\"%s\"",XCONFSETAPPFONT,currentAppFont);
-	system(command);
-	sprintf(command,"%s%i",XCONFSETBRIGHT,currentBright);
-	system(command);
-	sprintf(command,"%s%f",XCONFSETSATU,currentSatu);
-	system(command);
+	sprintf(generalBuffer,"%s\"%s\"",XCONFSETCONTROLS,currentGtkTheme);
+	system(generalBuffer);
+	sprintf(generalBuffer,"%s\"%s\"",XCONFSETFRAME,currentWmTheme);
+	system(generalBuffer);
+	sprintf(generalBuffer,"%s\"%s\"",XCONFSETICONS,currentIconTheme);
+	system(generalBuffer);
+	sprintf(generalBuffer,"%s\"%s\"",XCONFSETCURSOR,currentCursorTheme);
+	system(generalBuffer);
+	sprintf(generalBuffer,"%s\"%s\"",XCONFSETPAPER,currentWallPaper);
+	system(generalBuffer);
+	sprintf(generalBuffer,"%s%i",XCONFSETSTYLE,currentWallStyle);
+	system(generalBuffer);
+	sprintf(generalBuffer,"%s\"%s\"",XCONFSETLAYOUT,currentButtonLayout);
+	system(generalBuffer);
+	sprintf(generalBuffer,"%s\"%s\"",XCONFSETTITLEPOS,currentTitlePos);
+	system(generalBuffer);
+	sprintf(generalBuffer,"%s\"%s\"",XCONFSETWMFONT,currentWMFont);
+	system(generalBuffer);
+	sprintf(generalBuffer,"%s\"%s\"",XCONFSETAPPFONT,currentAppFont);
+	system(generalBuffer);
+	sprintf(generalBuffer,"%s%i",XCONFSETBRIGHT,currentBright);
+	system(generalBuffer);
+	sprintf(generalBuffer,"%s%f",XCONFSETSATU,currentSatu);
+	system(generalBuffer);
 
 	gtk_combo_box_set_active((GtkComboBox*)styleComboBox,currentWallStyle);
 	gtk_entry_set_text((GtkEntry*)layoutEntry,currentButtonLayout);
@@ -100,13 +99,13 @@ void init(void)
 
 
 	asprintf(&dbFolder,"%s/.config/XfceThemeManager",getenv("HOME"));
-	asprintf(&metaFolder,"%s/.config/XfceThemeManager/meta",getenv("HOME"));
-	asprintf(&framesFolder,"%s/.config/XfceThemeManager/frames",getenv("HOME"));
-	asprintf(&controlsFolder,"%s/.config/XfceThemeManager/controls",getenv("HOME"));
-	asprintf(&iconsFolder,"%s/.config/XfceThemeManager/icons",getenv("HOME"));
-	asprintf(&cursorsFolder,"%s/.config/XfceThemeManager/cursors",getenv("HOME"));
-	asprintf(&wallpapersFolder,"%s/.config/XfceThemeManager/wallpapers",getenv("HOME"));
-	asprintf(&customFolder,"%s/.config/XfceThemeManager/custom",getenv("HOME"));
+	asprintf(&metaFolder,"%s/meta",dbFolder);
+	asprintf(&framesFolder,"%s/frames",dbFolder);
+	asprintf(&controlsFolder,"%s/controls",dbFolder);
+	asprintf(&iconsFolder,"%s/icons",dbFolder);
+	asprintf(&cursorsFolder,"%s/cursors",dbFolder);
+	asprintf(&wallpapersFolder,"%s/wallpapers",dbFolder);
+	asprintf(&customFolder,"%s/custom",dbFolder);
 
 	g_spawn_command_line_sync(XCONFGETSTYLE,&stdout,NULL,NULL,NULL);
 	stdout[strlen(stdout)-1]=0;
@@ -235,7 +234,6 @@ int main(int argc,char **argv)
 	gtk_combo_box_set_active((GtkComboBox*)styleComboBox,currentWallStyle);
 	g_signal_connect_after(G_OBJECT(styleComboBox),"changed",G_CALLBACK(wallStyleChanged),NULL);
 	gtk_box_pack_start((GtkBox*)wallpapersMainBox,(GtkWidget*)styleComboBox,false,false,4);
-
 
 	buildPages();
 

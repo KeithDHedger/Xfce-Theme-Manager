@@ -75,7 +75,6 @@ void saveTheme(GtkWidget* window,gpointer data)
 	char*		gtk;
 	char*		frame;
 	char*		thumbfile;
-	char		buffer[1024];
 	bool		flag=false;
 	char*		holdgtk=currentGtkTheme;
 
@@ -104,9 +103,9 @@ void saveTheme(GtkWidget* window,gpointer data)
 			cursorTheme[strlen(cursorTheme)-1]=0;
 			asprintf(&thumbfile,"%s/%s.png",customFolder,filename);
 
-			sprintf(buffer,"%s/%s",themesArray[0],frame);
-			if (!g_file_test(buffer, G_FILE_TEST_IS_DIR))
-				sprintf(buffer,"%s/%s",themesArray[1],frame);
+			sprintf(generalBuffer,"%s/%s",themesArray[0],frame);
+			if (!g_file_test(generalBuffer, G_FILE_TEST_IS_DIR))
+				sprintf(generalBuffer,"%s/%s",themesArray[1],frame);
 
 			g_mkdir_with_parents(customFolder,493);
 			asprintf(&dbname,"%s/%s.db",customFolder,filename);
@@ -138,8 +137,8 @@ void saveTheme(GtkWidget* window,gpointer data)
 
 					if(controlsPixbuf!=NULL)
 						{
-							getspace(buffer);
-							makeborder(buffer,thumbfile);
+							getspace(generalBuffer);
+							makeborder(generalBuffer,thumbfile);
 							g_object_unref(controlsPixbuf);
 							controlsPixbuf=NULL;
 							controlWidth=200;
@@ -213,52 +212,51 @@ int installWallpaper(char* filename)
 
 int extractAndInstall(char* filename)
 {
-	char		command[4096];
 	gchar*	stdout=NULL;
 	gchar*	stderr=NULL;
 	int		retval=-1;
 
 	while(true)
 	{
-	sprintf(command,"tar --wildcards -tf %s */gtkrc",filename);
-	g_spawn_command_line_sync((char*)command,&stdout,&stderr,NULL,NULL);
-	if (stdout!=NULL)
-		{
-			stdout[strlen(stdout)-1]=0;
-			if(strlen(stdout)>1)
-				{
-					sprintf(command,"tar -C %s -xf %s",themesArray[0],filename);
-					retval=system(command);
-					break;
-				}
-		}
+		sprintf(generalBuffer,"tar --wildcards -tf %s */gtkrc",filename);
+		g_spawn_command_line_sync((char*)generalBuffer,&stdout,&stderr,NULL,NULL);
+		if (stdout!=NULL)
+			{
+				stdout[strlen(stdout)-1]=0;
+				if(strlen(stdout)>1)
+					{
+						sprintf(generalBuffer,"tar -C %s -xf %s",themesArray[0],filename);
+						retval=system(generalBuffer);
+						break;
+					}
+			}
 
-	sprintf(command,"tar --wildcards -tf %s */themerc",filename);
-	g_spawn_command_line_sync((char*)command,&stdout,&stderr,NULL,NULL);
-	if (stdout!=NULL)
-		{
-			stdout[strlen(stdout)-1]=0;
-			if(strlen(stdout)>1)
-				{
-					sprintf(command,"tar -C %s -xf %s",themesArray[0],filename);
-					retval=system(command);
-					break;
-				}
-		}
+		sprintf(generalBuffer,"tar --wildcards -tf %s */themerc",filename);
+		g_spawn_command_line_sync((char*)generalBuffer,&stdout,&stderr,NULL,NULL);
+		if (stdout!=NULL)
+			{
+				stdout[strlen(stdout)-1]=0;
+				if(strlen(stdout)>1)
+					{
+						sprintf(generalBuffer,"tar -C %s -xf %s",themesArray[0],filename);
+						retval=system(generalBuffer);
+						break;
+					}
+			}
 
-	sprintf(command,"tar --wildcards -tf %s */index.theme",filename);
-	g_spawn_command_line_sync((char*)command,&stdout,&stderr,NULL,NULL);
-	if (stdout!=NULL)
-		{
-			stdout[strlen(stdout)-1]=0;
-			if(strlen(stdout)>1)
+		sprintf(generalBuffer,"tar --wildcards -tf %s */index.theme",filename);
+		g_spawn_command_line_sync((char*)generalBuffer,&stdout,&stderr,NULL,NULL);
+			if (stdout!=NULL)
 				{
-					sprintf(command,"tar -C %s -xf %s",iconsArray[0],filename);
-					retval=system(command);
-					break;
+					stdout[strlen(stdout)-1]=0;
+					if(strlen(stdout)>1)
+						{
+							sprintf(generalBuffer,"tar -C %s -xf %s",iconsArray[0],filename);
+							retval=system(generalBuffer);
+							break;
+						}
 				}
-		}
-	break;
+		break;
 	}
 
 	if(retval==0)
@@ -274,8 +272,6 @@ int extractAndInstall(char* filename)
 //frame
 void doFrame(GtkWidget* widget,gpointer data)
 {
-
-
 	GKeyFile*	keyfile=g_key_file_new();
 	char*		command;
 	char*		frameset;
@@ -288,8 +284,8 @@ void doFrame(GtkWidget* widget,gpointer data)
 				{
 					asprintf(&command,"%s\"%s\"",XCONFSETFRAME,frameset);
 					system(command);
-					free(command);
-					free(frameset);
+					freeAndNull(&command);
+					freeAndNull(&frameset);
 				}
 		}
 	g_key_file_free(keyfile);
@@ -358,8 +354,8 @@ void doWallpapers(GtkWidget* widget,gpointer data)
 					free(command);
 					free(paperset);
 				}
+			g_key_file_free(keyfile);
 		}
-	g_key_file_free(keyfile);
 }
 
 void wallStyleChanged(GtkWidget* widget,gpointer data)
@@ -422,10 +418,10 @@ void doMeta(GtkWidget* widget,gpointer data)
 							freeAndNull(&keydata);
 						}
 				}
+			g_key_file_free(keyfile);
 		}
 
 	system("xfdesktop --reload");
-	g_key_file_free(keyfile);
 }
 
 //controls
@@ -450,8 +446,8 @@ void doControls(GtkWidget* widget,gpointer data)
 					freeAndNull(&command);
 					freeAndNull(&controlset);
 				}
+			g_key_file_free(keyfile);
 		}
-	g_key_file_free(keyfile);
 }
 
 //icons
@@ -469,12 +465,12 @@ void doIcons(GtkWidget* widget,gpointer data)
 				{
 					asprintf(&command,"%s\"%s\"",XCONFSETICONS,iconset);
 					system(command);
-					free(command);
-					free(iconset);
+					freeAndNull(&command);
+					freeAndNull(&iconset);
 				}
+			g_key_file_free(keyfile);
 		}
 	system("xfdesktop --reload");
-	g_key_file_free(keyfile);
 }
 
 //cursors
@@ -492,11 +488,11 @@ void doCursors(GtkWidget* widget,gpointer data)
 				{
 					asprintf(&command,"%s\"%s\"",XCONFSETCURSOR,cursorset);
 					system(command);
-					free(command);
-					free(cursorset);
+					freeAndNull(&command);
+					freeAndNull(&cursorset);
 				}
+			g_key_file_free(keyfile);
 		}
-	g_key_file_free(keyfile);
 }
 
 void launchCompEd(GtkWidget* window,gpointer data)
@@ -512,7 +508,6 @@ void resetBright(GtkWidget* widget,gpointer data)
 	asprintf(&command,"%s 0",XCONFSETBRIGHT);
 	system(command);
 	freeAndNull(&command);
-
 }
 
 gboolean setBright(GtkWidget *widget, GdkEvent *event, gpointer user_data)
@@ -524,7 +519,8 @@ gboolean setBright(GtkWidget *widget, GdkEvent *event, gpointer user_data)
 	asprintf(&command,"%s\"%i\"",XCONFSETBRIGHT,(int)val);
 	system(command);
 	freeAndNull(&command);
-	return false;
+
+	return(false);
 }
 
 void resetSatu(GtkWidget* widget,gpointer data)
@@ -545,7 +541,7 @@ gboolean setSatu(GtkWidget *widget, GdkEvent *event, gpointer user_data)
 	asprintf(&command,"%s\"%f\"",XCONFSETSATU,val);
 	system(command);
 	freeAndNull(&command);
-	return false;
+	return(false);
 }
 
 void resetLayout(GtkWidget* widget,gpointer data)
@@ -566,7 +562,6 @@ void changeLayout(GtkWidget* widget,gpointer data)
 	system(command);
 	freeAndNull(&command);
 }
-
 
 void setFont(GtkWidget* widget,gpointer data)
 {
@@ -599,9 +594,4 @@ void resetFont(GtkWidget* widget,gpointer data)
 	system(command);
 	freeAndNull(&command);
 }
-
-
-
-
-
 

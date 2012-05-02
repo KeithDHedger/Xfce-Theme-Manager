@@ -65,25 +65,24 @@ gpointer rebuildDB(gpointer data)
 
 	bool			makedb=false;
 	char*			hidden=NULL;
-	char			remdir[1024];
 	long			makeornot=(long)data;
 
 	if (makeornot==0)
 		{
 			if (g_file_test(dbFolder,G_FILE_TEST_IS_DIR))
 				{
-					sprintf(remdir,"rm -r %s",metaFolder);
-					system(remdir);
-					sprintf(remdir,"rm -r %s",framesFolder);
-					system(remdir);
-					sprintf(remdir,"rm -r %s",controlsFolder);
-					system(remdir);
-					sprintf(remdir,"rm -r %s",iconsFolder);
-					system(remdir);
-					sprintf(remdir,"rm -r %s",cursorsFolder);
-					system(remdir);
-					sprintf(remdir,"rm -r %s",wallpapersFolder);
-					system(remdir);
+					sprintf(generalBuffer,"rm -r %s",metaFolder);
+					system(generalBuffer);
+					sprintf(generalBuffer,"rm -r %s",framesFolder);
+					system(generalBuffer);
+					sprintf(generalBuffer,"rm -r %s",controlsFolder);
+					system(generalBuffer);
+					sprintf(generalBuffer,"rm -r %s",iconsFolder);
+					system(generalBuffer);
+					sprintf(generalBuffer,"rm -r %s",cursorsFolder);
+					system(generalBuffer);
+					sprintf(generalBuffer,"rm -r %s",wallpapersFolder);
+					system(generalBuffer);
 				}
 		}
 
@@ -391,6 +390,9 @@ gpointer rebuildDB(gpointer data)
 					g_dir_close(folder);
 				}
 		}
+
+	g_key_file_free(metakeyfile);
+	g_key_file_free(keyfile);
 
 	if (makeornot==0)
 		gtk_main_quit();

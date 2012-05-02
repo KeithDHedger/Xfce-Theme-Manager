@@ -40,7 +40,7 @@ GtkWidget *imageBox(char* filename,char* text)
 	gtk_box_pack_start(GTK_BOX (box),image,FALSE,FALSE,3);
 	gtk_box_pack_start(GTK_BOX (box),label,FALSE,FALSE,3);
 
-	return box;
+	return(box);
 }
 
 void freeNames(gpointer data)
@@ -109,6 +109,7 @@ void addNewButtons(GtkWidget* vbox,const char* subfolder,void* callback)
 			 	}
 			g_slist_free_full(entrylist,freeNames);
 		}
+	g_key_file_free(keyfile);
 }
 
 //titlepos

@@ -572,7 +572,6 @@ if (menu!=NULL)
 
 void getspace(char* folder)
 {
-	char	buffer[64];
 	char*	filename;
 	FILE*	fp=NULL;
 	char*	offsetstr;
@@ -590,18 +589,18 @@ void getspace(char* folder)
 			return;
 		}
 
-	while (fgets(buffer,64,fp)!=NULL)
+	while (fgets(generalBuffer,64,fp)!=NULL)
 		{
 			offsetstr=NULL;
 			spacestr=NULL;
-			offsetstr=strstr((char*)&buffer,"button_offset=");
-			spacestr=strstr((char*)&buffer,"button_spacing=");
+			offsetstr=strstr((char*)&generalBuffer,"button_offset=");
+			spacestr=strstr((char*)&generalBuffer,"button_spacing=");
 			
 			if (offsetstr!=NULL)
-					button_offset=atoi((char*)&buffer[14]);
+					button_offset=atoi((char*)&generalBuffer[14]);
 
 			if (spacestr!=NULL)
-					button_spacing=atoi((char*)&buffer[15]);
+					button_spacing=atoi((char*)&generalBuffer[15]);
 		}
 
 	freeAndNull(&filename);
