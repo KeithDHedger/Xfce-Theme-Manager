@@ -441,7 +441,9 @@ void doControls(GtkWidget* widget,gpointer data)
 	GKeyFile*	keyfile=g_key_file_new();
 	char*		command;
 	char*		controlset;
-	GtkSettings *settings=gtk_settings_get_default();;
+	GtkSettings *settings;
+
+	settings=gtk_settings_get_default();
 
 	if(g_key_file_load_from_file(keyfile,gtk_widget_get_name(widget),G_KEY_FILE_NONE,NULL))
 		{
@@ -452,13 +454,11 @@ void doControls(GtkWidget* widget,gpointer data)
 					asprintf(&command,"%s\"%s\"",XCONFSETCONTROLS,controlset);
 					system(command);
 					g_object_set(settings,"gtk-theme-name",controlset,"gtk-color-scheme","default",NULL);
-					free(command);
-					free(controlset);
+					freeAndNull(&command);
+					freeAndNull(&controlset);
 				}
 		}
 	g_key_file_free(keyfile);
-	if(settings!=NULL)
-		g_free(settings);
 }
 
 //icons
