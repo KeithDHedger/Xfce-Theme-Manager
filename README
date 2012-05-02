@@ -63,7 +63,9 @@ Please send them direct to me at: kdhedger@yahoo.co.uk posting them on xfce-look
 
 Changelog:
 
-0.1.5	Moved 'Rebuild DB' to 'Advanced tab.
+0.1.5	'Reset Theme' now resets controls in advanced tab.
+	Added 'Save Theme', now saves complete custom themes.
+	Moved 'Rebuild DB' to 'Advanced tab.
 	Brightness/Saturation now only update on button up.
 
 0.1.4	Should now be gtk3 compliant.
