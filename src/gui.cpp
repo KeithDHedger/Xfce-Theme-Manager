@@ -283,7 +283,6 @@ void buildAdvancedGui(GtkWidget* advancedScrollBox)
 
 	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_hseparator_new(),false,false,4);
 	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)advancedScrollBox,advancedVbox);
-	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_hseparator_new(),false,false,4);
 
 //cursor size
 	advancedHbox=gtk_hbox_new(false,0);
@@ -298,7 +297,6 @@ void buildAdvancedGui(GtkWidget* advancedScrollBox)
 	g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(resetCursSize),NULL);
 	gtk_box_pack_start(GTK_BOX(advancedHbox),button, false,false,8);
 	gtk_box_pack_start(GTK_BOX(advancedVbox),advancedHbox, false,false,2);
-
 }
 
 
