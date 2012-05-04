@@ -222,13 +222,19 @@ GdkPixbuf * create_gtk_theme_pixbuf(char* name)
 
 static const char* image_types[]={"png","svg","gif","jpg","bmp",NULL};
 
-GdkPixbuf* composePixbuf(char* bordername,const char* name)
+GdkPixbuf* composePixbuf(char* bordername,const char* name,int wantmissing)
 {
 	char*		pixmapname;
 	GdkPixbuf*	basepixbuf=NULL;
 	GdkPixbuf*	alpha=NULL;
 	int		i=0;
 	gint		width,height;
+	GdkPixbuf*	returnpixbuf=missingImage;
+
+	if(wantmissing==1)
+		returnpixbuf=NULL;
+	if(wantmissing==2)
+		returnpixbuf=blankImage;
 
 	asprintf(&pixmapname,"%s/xfwm4/%s.xpm",bordername,name);
 	basepixbuf=gdk_pixbuf_new_from_file((char*)pixmapname,NULL);
@@ -250,10 +256,7 @@ GdkPixbuf* composePixbuf(char* bordername,const char* name)
 			if (GDK_IS_PIXBUF(basepixbuf))
  				return (basepixbuf);
  			else
- 				{
- 					printf("alpha check %s/xfwm4/%s.xpm not valid\n",bordername,name);
- 					return(NULL);
- 				}
+ 				return(returnpixbuf);
  		}
 
 /* We have no XPM canvas and found a suitable image, use it... */
@@ -262,44 +265,48 @@ GdkPixbuf* composePixbuf(char* bordername,const char* name)
 			if (GDK_IS_PIXBUF(alpha))
  				return (alpha);
  			else
- 				{
- 					printf("base check %s/xfwm4/%s.%s not valid\n",bordername,name,image_types[i]);
- 					return(NULL);
- 				}
+				return(returnpixbuf);
  		}
 
 	if(GDK_IS_PIXBUF(alpha) && GDK_IS_PIXBUF(basepixbuf))
 		{
 			width=MIN(gdk_pixbuf_get_width(basepixbuf),gdk_pixbuf_get_width (alpha));
 			height=MIN(gdk_pixbuf_get_height(basepixbuf),gdk_pixbuf_get_height (alpha));
-
 			gdk_pixbuf_composite(alpha,basepixbuf,0,0,width,height,0,0,1.0,1.0,GDK_INTERP_NEAREST,0xFF);
 			g_object_unref (alpha);
 			return basepixbuf;
 		}
 	else
-		return(NULL);
+		return(returnpixbuf);
+}
+
+GdkPixbuf* checkPixBuf(GdkPixbuf* pixbuf)
+{
+	if (GDK_IS_PIXBUF(pixbuf))
+ 		return (pixbuf);
+ 	else
+ 		return(missingImage);
 }
 
 void makeborder(char* folder,char* outframe)
 {
-	GdkPixbuf*	topleft;
-	GdkPixbuf*	toprite;
-	GdkPixbuf*	title1;
-	GdkPixbuf*	title2;
-	GdkPixbuf*	title3;
-	GdkPixbuf*	title4;
-	GdkPixbuf*	title5;
-	GdkPixbuf*	riteside;
-	GdkPixbuf*	leftside;
-	GdkPixbuf*	bottomleft;
-	GdkPixbuf*	bottomrite;
-	GdkPixbuf*	bottom;
-	GdkPixbuf*	close;
-	GdkPixbuf*	max;
-	GdkPixbuf*	min;
-	GdkPixbuf*	menu;
-	GdkPixbuf*	arrow;
+	GdkPixbuf*	topleft=NULL;
+	GdkPixbuf*	toprite=NULL;
+	GdkPixbuf*	title1=NULL;
+	GdkPixbuf*	title2=NULL;
+	GdkPixbuf*	title3=NULL;
+	GdkPixbuf*	title4=NULL;
+	GdkPixbuf*	title5=NULL;
+	GdkPixbuf*	riteside=NULL;
+	GdkPixbuf*	leftside=NULL;
+	GdkPixbuf*	bottomleft=NULL;
+	GdkPixbuf*	bottomrite=NULL;
+	GdkPixbuf*	bottom=NULL;
+	GdkPixbuf*	close=NULL;
+	GdkPixbuf*	max=NULL;
+	GdkPixbuf*	min=NULL;
+	GdkPixbuf*	menu=NULL;
+	GdkPixbuf*	arrow=NULL;
 
 	GtkIconTheme*	theme;
 	
@@ -322,24 +329,22 @@ void makeborder(char* folder,char* outframe)
 	cairo_surface_t *surface;
 	cairo_t *cr;
 
-	topleft=composePixbuf(folder,"top-left-active");
-	toprite=composePixbuf(folder,"top-right-active");
-	title1=composePixbuf(folder,"title-1-active");
-	title2=composePixbuf(folder,"title-2-active");
-	title3=composePixbuf(folder,"title-3-active");
-	title4=composePixbuf(folder,"title-4-active");
-	title5=composePixbuf(folder,"title-5-active");
-	riteside=composePixbuf(folder,"right-active");
-	leftside=composePixbuf(folder,"left-active");
-	bottomleft=composePixbuf(folder,"bottom-left-active");
-	bottomrite=composePixbuf(folder,"bottom-right-active");
-	bottom=composePixbuf(folder,"bottom-active");
-	close=composePixbuf(folder,"close-active");
-	max=composePixbuf(folder,"maximize-active");
-	min=composePixbuf(folder,"hide-active");
-	menu=composePixbuf(folder,"menu-active");
-
-//check valid pixmaps
+	topleft=composePixbuf(folder,"top-left-active",0);
+	toprite=composePixbuf(folder,"top-right-active",0);
+	title1=composePixbuf(folder,"title-1-active",0);
+	title2=composePixbuf(folder,"title-2-active",1);
+	title3=composePixbuf(folder,"title-3-active",0);
+	title4=composePixbuf(folder,"title-4-active",1);
+	title5=composePixbuf(folder,"title-5-active",0);
+	riteside=composePixbuf(folder,"right-active",0);
+	leftside=composePixbuf(folder,"left-active",0);
+	bottomleft=composePixbuf(folder,"bottom-left-active",0);
+	bottomrite=composePixbuf(folder,"bottom-right-active",0);
+	bottom=composePixbuf(folder,"bottom-active",0);
+	close=composePixbuf(folder,"close-active",1);
+	max=composePixbuf(folder,"maximize-active",1);
+	min=composePixbuf(folder,"hide-active",1);
+	menu=composePixbuf(folder,"menu-active",1);
 
 	if (title1!=NULL)
 		{
@@ -384,7 +389,7 @@ void makeborder(char* folder,char* outframe)
 	
 	ritesidewid=gdk_pixbuf_get_width((const GdkPixbuf *)riteside);
 	ritesidehite=gdk_pixbuf_get_height((const GdkPixbuf *)riteside);
-	
+
 	bottomwid=gdk_pixbuf_get_width((const GdkPixbuf *)bottom);
 	bottomhite=gdk_pixbuf_get_height((const GdkPixbuf *)bottom);
 
@@ -577,31 +582,38 @@ hiteoffset=0;
 
 	cairo_surface_write_to_png(surface,outframe);
 
-	g_object_unref(topleft);
-	g_object_unref(toprite);
-if (title1!=NULL)
-	g_object_unref(title1);
-if (title2!=NULL)
-	g_object_unref(title2);
-if (title3!=NULL)
-	g_object_unref(title3);
-if (title4!=NULL)
-	g_object_unref(title4);
-if (title5!=NULL)
-	g_object_unref(title5);
-	g_object_unref(riteside);
-	g_object_unref(leftside);
-	g_object_unref(bottomleft);
-	g_object_unref(bottomrite);
-	g_object_unref(bottom);
-if (close!=NULL)
-	g_object_unref(close);
-if (max!=NULL)
-	g_object_unref(max);
-if (min!=NULL)
-	g_object_unref(min);
-if (menu!=NULL)
-	g_object_unref(menu);
+	if (topleft!=NULL && topleft!=missingImage)
+		g_object_unref(topleft);
+	if (toprite!=NULL && toprite!=missingImage)
+		g_object_unref(toprite);
+	if (title1!=NULL && title1!=missingImage)
+		g_object_unref(title1);
+	if (title2!=NULL && title2!=missingImage)
+		g_object_unref(title2);
+	if (title3!=NULL && title3!=missingImage)
+		g_object_unref(title3);
+	if (title4!=NULL && title4!=missingImage)
+		g_object_unref(title4);
+	if (title5!=NULL && title5!=missingImage)
+		g_object_unref(title5);
+	if (riteside!=NULL && riteside!=missingImage)
+		g_object_unref(riteside);
+	if (leftside!=NULL && leftside!=missingImage)
+		g_object_unref(leftside);
+	if (bottomleft!=NULL && bottomleft!=missingImage)
+		g_object_unref(bottomleft);
+	if (bottomrite!=NULL && bottomrite!=missingImage)
+		g_object_unref(bottomrite);
+	if (bottom!=NULL && bottom!=missingImage)
+		g_object_unref(bottom);
+	if (close!=NULL && close!=missingImage)
+		g_object_unref(close);
+	if (max!=NULL && max!=missingImage)
+		g_object_unref(max);
+	if (min!=NULL && min!=missingImage)
+		g_object_unref(min);
+	if (menu!=NULL && menu!=missingImage)
+		g_object_unref(menu);
 
 	cairo_surface_destroy(surface);
 	cairo_destroy(cr);

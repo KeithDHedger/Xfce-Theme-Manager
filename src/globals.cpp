@@ -79,6 +79,9 @@ GtkNotebook*	notebook;
 
 char			generalBuffer[4096];
 
+GdkPixbuf*		missingImage;
+GdkPixbuf*		blankImage;
+
 void freeAndNull(char** ptr)
 {
 	if (*ptr!=NULL)

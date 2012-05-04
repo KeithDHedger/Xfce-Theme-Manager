@@ -124,6 +124,9 @@ extern GtkNotebook*	notebook;
 
 extern char			generalBuffer[4096];
 
+extern GdkPixbuf*		missingImage;
+extern GdkPixbuf*		blankImage;
+
 extern void freeAndNull(char** ptr);
 extern int positionToInt(char* pos);
 

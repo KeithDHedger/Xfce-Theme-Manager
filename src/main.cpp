@@ -25,6 +25,51 @@
 #include "gui.h"
 #include "callbacks.h"
 
+static const char* error_xpm[]=
+	{
+		"16 16 2 1",
+		" 	c #FF0000",
+		".	c #FFFFFF",
+		" .............. ",
+		". ............ .",
+		".. .......... ..",
+		"... ........ ...",
+		".... ...... ....",
+		"..... .... .....",
+		"...... .. ......",
+		".......  .......",
+		".......  .......",
+		"...... .. ......",
+		"..... .... .....",
+		".... ...... ....",
+		"... ........ ...",
+		".. .......... ..",
+		". ............ .",
+		" .............. "
+	};
+
+static const char * blank_xpm[]=
+	{
+		"16 16 1 1",
+		" 	c None",
+		"                ",
+		"                ",
+		"                ",
+		"                ",
+		"                ",
+		"                ",
+		"                ",
+		"                ",
+		"                ",
+		"                ",
+		"                ",
+		"                ",
+		"                ",
+		"                ",
+		"                ",
+		"                "
+	};
+
 GtkWidget*		progressWindow;
 GtkWidget*		progressBar;
 
@@ -161,6 +206,8 @@ void init(void)
 	currentCursSize=atoi(stdout);
 	g_free(stdout);
 
+	missingImage=gdk_pixbuf_new_from_xpm_data((const char**)error_xpm);
+	blankImage=gdk_pixbuf_new_from_xpm_data((const char**)blank_xpm);
 }
 
 void makeProgressBar(void)
@@ -207,6 +254,10 @@ int main(int argc,char **argv)
 
 	init();
 
+//makeborder("/home/keithhedger/.themes/AllHallowsEve","/home/keithhedger/.config/XfceThemeManager");
+//makeborder("/home/keithhedger/.themes/AllHallowsEve","/home/keithhedger/.config/XfceThemeManager");
+//makeborder("/home/keithhedger/.themes/AllHallowsEve","/home/keithhedger/.config/XfceThemeManager");
+//exit(0);
 	if (argc==2 && strcasecmp(argv[1],"-m")==0)
 		{
 			makeProgressBar();
