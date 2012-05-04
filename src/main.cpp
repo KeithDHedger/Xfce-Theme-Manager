@@ -254,10 +254,6 @@ int main(int argc,char **argv)
 
 	init();
 
-//makeborder("/home/keithhedger/.themes/AllHallowsEve","/home/keithhedger/.config/XfceThemeManager");
-//makeborder("/home/keithhedger/.themes/AllHallowsEve","/home/keithhedger/.config/XfceThemeManager");
-//makeborder("/home/keithhedger/.themes/AllHallowsEve","/home/keithhedger/.config/XfceThemeManager");
-//exit(0);
 	if (argc==2 && strcasecmp(argv[1],"-m")==0)
 		{
 			makeProgressBar();

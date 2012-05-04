@@ -300,25 +300,6 @@ void buildAdvancedGui(GtkWidget* advancedScrollBox)
 }
 
 
-#if 0
-	advancedRange=gtk_hscale_new_with_range(-128,127,1);
-	gtk_scale_set_value_pos((GtkScale*)advancedRange,GTK_POS_LEFT);
-	gtk_range_set_value((GtkRange*)advancedRange,currentBright);
-	briteRange=advancedRange;
-
-	g_signal_connect(G_OBJECT(advancedRange), "button-release-event", G_CALLBACK(setBright),NULL);
-	gtk_box_pack_start(GTK_BOX(advancedHbox),advancedRange, true,true,0);
-	gtk_box_pack_start(GTK_BOX(advancedVbox),advancedHbox, false,false,2);
-
-	button=gtk_button_new_with_label("Reset");
-	g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(resetBright),(gpointer)advancedRange);
-	gtk_box_pack_start(GTK_BOX(advancedHbox),button, false,false,8);
-
-#endif
-
-
-
-
 
 
 
