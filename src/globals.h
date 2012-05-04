@@ -84,6 +84,7 @@ extern char*		customFolder;
 extern char*		themesArray[2];
 extern char*		iconsArray[2];
 extern char*		papersArray[2];
+extern char*		homeFolder;
 
 extern char*		cursorTheme;
 extern char*		iconTheme;

@@ -86,19 +86,31 @@ void makecursor(char* theme,char* outPath)
 	wait=cursorprev("watch",theme);
 	hand=cursorprev("hand2",theme);
 
-	if (arrow==NULL || move==NULL || wait==NULL || hand==NULL)
-		exit(1);
-	cairo_save (cr);
-		gdk_cairo_set_source_pixbuf(cr,arrow,0,0);
-		cairo_paint_with_alpha(cr,100);
-		gdk_cairo_set_source_pixbuf(cr,move,32,0);
-		cairo_paint_with_alpha(cr,100);
-		gdk_cairo_set_source_pixbuf(cr,wait,64,0);
-		cairo_paint_with_alpha(cr,100);
-		gdk_cairo_set_source_pixbuf(cr,hand,96,0);
-		cairo_paint_with_alpha(cr,100);
-	cairo_restore (cr);
+	if (arrow==NULL && move==NULL && wait==NULL && hand==NULL)
+		return;
 
+	cairo_save (cr);
+		if(arrow!=NULL)
+			{
+				gdk_cairo_set_source_pixbuf(cr,arrow,0,0);
+				cairo_paint_with_alpha(cr,100);
+			}
+		if(arrow!=NULL)
+			{
+				gdk_cairo_set_source_pixbuf(cr,move,32,0);
+				cairo_paint_with_alpha(cr,100);
+			}
+		if(arrow!=NULL)
+			{
+				gdk_cairo_set_source_pixbuf(cr,wait,64,0);
+				cairo_paint_with_alpha(cr,100);
+			}
+		if(arrow!=NULL)
+			{
+				gdk_cairo_set_source_pixbuf(cr,hand,96,0);
+				cairo_paint_with_alpha(cr,100);
+			}
+	cairo_restore (cr);
 	cairo_surface_write_to_png(surface,outPath);
 
 	g_object_unref(arrow);
@@ -225,25 +237,48 @@ GdkPixbuf* composePixbuf(char* bordername,const char* name)
 		{
 			asprintf(&pixmapname,"%s/xfwm4/%s.%s",bordername,name,image_types[i]);
         		if (g_file_test(pixmapname,G_FILE_TEST_IS_REGULAR))
+        			{
             			alpha=gdk_pixbuf_new_from_file(pixmapname,NULL);
+            			break;
+            		}
         		++i;
 		}
 /* We have no suitable image to layer on top of the XPM, stop here... */
-	if (!alpha)
- 			return (basepixbuf);
+	
+	if (alpha==NULL)
+		{
+			if (GDK_IS_PIXBUF(basepixbuf))
+ 				return (basepixbuf);
+ 			else
+ 				{
+ 					printf("alpha check %s/xfwm4/%s.xpm not valid\n",bordername,name);
+ 					return(NULL);
+ 				}
+ 		}
 
 /* We have no XPM canvas and found a suitable image, use it... */
-    if (!basepixbuf)
-        return (alpha);
+	if (basepixbuf==NULL)
+ 		{
+			if (GDK_IS_PIXBUF(alpha))
+ 				return (alpha);
+ 			else
+ 				{
+ 					printf("base check %s/xfwm4/%s.%s not valid\n",bordername,name,image_types[i]);
+ 					return(NULL);
+ 				}
+ 		}
 
-	width=MIN(gdk_pixbuf_get_width(basepixbuf),gdk_pixbuf_get_width (alpha));
-	height=MIN(gdk_pixbuf_get_height(basepixbuf),gdk_pixbuf_get_height (alpha));
+	if(GDK_IS_PIXBUF(alpha) && GDK_IS_PIXBUF(basepixbuf))
+		{
+			width=MIN(gdk_pixbuf_get_width(basepixbuf),gdk_pixbuf_get_width (alpha));
+			height=MIN(gdk_pixbuf_get_height(basepixbuf),gdk_pixbuf_get_height (alpha));
 
-	gdk_pixbuf_composite(alpha,basepixbuf,0,0,width,height,0,0,1.0,1.0,GDK_INTERP_NEAREST,0xFF);
-
-	g_object_unref (alpha);
-
-	return basepixbuf;
+			gdk_pixbuf_composite(alpha,basepixbuf,0,0,width,height,0,0,1.0,1.0,GDK_INTERP_NEAREST,0xFF);
+			g_object_unref (alpha);
+			return basepixbuf;
+		}
+	else
+		return(NULL);
 }
 
 void makeborder(char* folder,char* outframe)
@@ -303,6 +338,8 @@ void makeborder(char* folder,char* outframe)
 	max=composePixbuf(folder,"maximize-active");
 	min=composePixbuf(folder,"hide-active");
 	menu=composePixbuf(folder,"menu-active");
+
+//check valid pixmaps
 
 	if (title1!=NULL)
 		{

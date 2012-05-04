@@ -334,11 +334,11 @@ gpointer rebuildDB(gpointer data)
 												displayname=g_key_file_get_string(keyfile,"Icon Theme","Name",NULL);
 											else
 												asprintf(&displayname,entry);
+
 											asprintf(&thumbfile,"%s/%s.png",cursorsFolder,entry);
 											makecursor((char*)entry,thumbfile);
 											writeDBFile(dbfile,displayname,NULL,NULL,NULL,NULL,(char*)entry,thumbfile);
 										}
-
 									freeAndNull(&buffer);
 									freeAndNull(&displayname);
 									freeAndNull(&indexfile);
@@ -348,6 +348,7 @@ gpointer rebuildDB(gpointer data)
 							entry=g_dir_read_name(folder);
 						}
 					g_dir_close(folder);
+					folder=NULL;
 				}
 		}
 

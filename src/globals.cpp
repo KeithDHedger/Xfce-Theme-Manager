@@ -38,6 +38,7 @@ char*			customFolder;
 char*			themesArray[2];
 char*			iconsArray[2];
 char*			papersArray[2];
+char*			homeFolder;
 
 char*			cursorTheme;
 char*			iconTheme;

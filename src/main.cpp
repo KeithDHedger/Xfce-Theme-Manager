@@ -90,18 +90,22 @@ void showAdvanced(GtkWidget* widget,gpointer data)
 void init(void)
 {
 	gchar	*stdout;
+	homeFolder=(char*)g_get_home_dir();
 
-	asprintf(&themesArray[0],"%s/.themes",getenv("HOME"));
+	if(strcmp(getenv("HOME"),homeFolder)!=0)
+		setenv("HOME",homeFolder,1);
+
+	asprintf(&themesArray[0],"%s/.themes",homeFolder);
 	asprintf(&themesArray[1],"%s",GLOBALTHEMES);
 	
-	asprintf(&iconsArray[0],"%s/.icons",getenv("HOME"));
+	asprintf(&iconsArray[0],"%s/.icons",homeFolder);
 	asprintf(&iconsArray[1],"%s",GLOBALICONS);
 
-	asprintf(&papersArray[0],"%s/.local/share/xfce4/backdrops",getenv("HOME"));
+	asprintf(&papersArray[0],"%s/.local/share/xfce4/backdrops",homeFolder);
 	asprintf(&papersArray[1],"%s",GLOBALWALLPAPERS);
 
 
-	asprintf(&dbFolder,"%s/.config/XfceThemeManager",getenv("HOME"));
+	asprintf(&dbFolder,"%s/.config/XfceThemeManager",homeFolder);
 	asprintf(&metaFolder,"%s/meta",dbFolder);
 	asprintf(&framesFolder,"%s/frames",dbFolder);
 	asprintf(&controlsFolder,"%s/controls",dbFolder);
