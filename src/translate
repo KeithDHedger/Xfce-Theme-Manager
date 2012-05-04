@@ -4,7 +4,7 @@ cd $(dirname "$0")
 
 ENGLISH="Themes;Window Borders;Controls;Icons;Cursors;Wallpapers;Re-Build The Database;Rebuild DB;Launch Xfce-Composite-Editor;Backdrop Adjustments;Brightness;Saturation;Reset;Button Layout;Font Selection;WM Font;App Font;Cursor Size;Reset Theme;Save Theme;Advanced;Title Position;END"
 
-SPANISH="Temas;Bordes De Ventana;Controles;Iconos;Cursores;Fondos De Pantalla;Re-Crear La Base De Datos;Reconstruir DB;Lanzamiento Xfce-Composite-Editor;Ajustes De Telón De Fondo;Brillo;Saturación;Reajustar;Diseño De Los Botones;Selección De Fuentes;WM Fuente;Aplicación De Fuentes;Tamaño Del Cursor;Restablecer Tema;Guardar Tema;Avanzado;Título Del Puesto;"
+SPANISH="Temas;Bordes De Ventana;Controles;Iconos;Cursores;Fondos De Pantalla;Re-Crear La Base De Datos;Reconstruir DB;Lanzamiento Xfce-Composite-Editor;Ajustes De Telón De Fondo;Brillo;Saturación;Reajustar;Diseño De Los Botones;Selección De Fuentes;WM Fuente;Aplicación De Fuentes;Tamaño Del Cursor;Restablecer Tema;Guardar Tema;Avanzado;Título Del Puesto;END"
 
 
 language=$(echo ${LANG:0:2})
@@ -22,8 +22,7 @@ case $language in
 						fromstr="${fromstr#?*;}"
 						toword="${tostr%%;?*}"
 						tostr="${tostr#?*;}"
-						#echo $REPLY "---"${fromword}"==="${toword}"+++"
-						sed -i "s/$fromword/$toword/g" "$REPLY"
+						sed -i "s/\"$fromword\"/\"$toword\"/g" "$REPLY"
 					done
 					
 			done < <(find "./" -maxdepth 1 -mindepth 1)
