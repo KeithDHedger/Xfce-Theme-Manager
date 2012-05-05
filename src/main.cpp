@@ -77,6 +77,7 @@ GtkWidget*		progressBar;
 void resetTheme(GtkWidget* widget,gpointer data)
 {
 	GtkSettings *settings=gtk_settings_get_default();;
+	char*		satval;
 
 	sprintf(generalBuffer,"%s\"%s\"",XCONFSETCONTROLS,currentGtkTheme);
 	system(generalBuffer);
@@ -100,7 +101,8 @@ void resetTheme(GtkWidget* widget,gpointer data)
 	system(generalBuffer);
 	sprintf(generalBuffer,"%s%i",XCONFSETBRIGHT,currentBright);
 	system(generalBuffer);
-	sprintf(generalBuffer,"%s%f",XCONFSETSATU,currentSatu);
+	satval=doubleToStr(currentSatu);
+	sprintf(generalBuffer,"%s\"%s\"",XCONFSETSATU,satval);
 	system(generalBuffer);
 	sprintf(generalBuffer,"%s%i",XCONFSETCURSORSIZE,currentCursSize);
 	system(generalBuffer);
@@ -115,6 +117,7 @@ void resetTheme(GtkWidget* widget,gpointer data)
 	gtk_range_set_value((GtkRange*)cursorSize,currentCursSize);
 
 	g_object_set(settings,"gtk-theme-name",currentGtkTheme,"gtk-color-scheme","default",NULL);
+	freeAndNull(&satval);
 }
 
 void shutdown(GtkWidget* window,gpointer data)

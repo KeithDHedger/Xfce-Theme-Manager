@@ -352,6 +352,7 @@ gpointer rebuildDB(gpointer data)
 				}
 		}
 
+//wallpapers
 	g_mkdir_with_parents(wallpapersFolder,493);
 	for(int i=0;i<2;i++)
 		{
@@ -361,30 +362,34 @@ gpointer rebuildDB(gpointer data)
 					entry=g_dir_read_name(folder);
 					while(entry!=NULL)
 						{
-							asprintf(&dbfile,"%s/%i.%s.db",wallpapersFolder,i,entry);
-							if(!g_file_test(dbfile,G_FILE_TEST_EXISTS))
+							sprintf(generalBuffer,"%s/%s",papersArray[i],entry);
+							if(g_file_test(generalBuffer,G_FILE_TEST_IS_DIR)==false)
 								{
-									asprintf(&thumbfile,"%s/%s.png",wallpapersFolder,entry);
-									asprintf(&displayname,"%s",entry);
-									for(int j=strlen(displayname);j>0;j--)
+									asprintf(&dbfile,"%s/%i.%s.db",wallpapersFolder,i,entry);
+									if(!g_file_test(dbfile,G_FILE_TEST_EXISTS))
 										{
-											if(displayname[j]=='.')
+											asprintf(&thumbfile,"%s/%s.png",wallpapersFolder,entry);
+											asprintf(&displayname,"%s",entry);
+											for(int j=strlen(displayname);j>0;j--)
 												{
-													displayname[j]=0;
-													break;
+													if(displayname[j]=='.')
+														{
+															displayname[j]=0;
+															break;
+														}
 												}
-										}
-									asprintf(&buffer,"%s/%s",papersArray[i],entry);
-									writeDBFile(dbfile,displayname,NULL,NULL,NULL,buffer,NULL,thumbfile);
-									pixbuf=gdk_pixbuf_new_from_file_at_size(buffer,-1,64,NULL);
-									gdk_pixbuf_savev(pixbuf,thumbfile,"png",NULL,NULL,NULL);
-									g_object_unref(pixbuf);
-									pixbuf=NULL;
+											asprintf(&buffer,"%s/%s",papersArray[i],entry);
+											writeDBFile(dbfile,displayname,NULL,NULL,NULL,buffer,NULL,thumbfile);
+											pixbuf=gdk_pixbuf_new_from_file_at_size(buffer,-1,64,NULL);
+											gdk_pixbuf_savev(pixbuf,thumbfile,"png",NULL,NULL,NULL);
+											g_object_unref(pixbuf);
+											pixbuf=NULL;
 
-									freeAndNull(&buffer);
-									freeAndNull(&displayname);
-									freeAndNull(&dbfile);
-									freeAndNull(&thumbfile);
+											freeAndNull(&buffer);
+											freeAndNull(&displayname);
+											freeAndNull(&dbfile);
+											freeAndNull(&thumbfile);
+										}
 								}
 							entry=g_dir_read_name(folder);
 						}

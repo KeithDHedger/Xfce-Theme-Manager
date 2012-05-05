@@ -374,6 +374,7 @@ void doMeta(GtkWidget* widget,gpointer data)
 	GKeyFile*	keyfile=g_key_file_new();
 	int		keycnt=13;
 	char*		keydata=NULL;
+	char*		comma;
 
 	const char*		keys[]={"CursorTheme","Xfwm4Theme","IconTheme","BackgroundImage","BackdropStyle","TitleButtonLayout","TitlePosition","WMFont","AppFont","BackdropBright","BackdropSatu","GtkTheme","CursorSize"};
 	const char*		xconf[]={XCONFSETCURSOR,XCONFSETFRAME,XCONFSETICONS,XCONFSETPAPER,XCONFSETSTYLE,XCONFSETLAYOUT,XCONFSETTITLEPOS,XCONFSETWMFONT,XCONFSETAPPFONT,XCONFSETBRIGHT,XCONFSETSATU,XCONFSETCONTROLS,XCONFSETCURSORSIZE};
@@ -411,6 +412,11 @@ void doMeta(GtkWidget* widget,gpointer data)
 										break;
 									case 10:
 										gtk_range_set_value((GtkRange*)satuRange,atof(keydata));
+										comma=strchr(keydata,',');
+										if(comma!=NULL)
+											*comma='.';	
+										sprintf(generalBuffer,"%s\"%s\"",(char*)xconf[j],keydata);
+										system(generalBuffer);
 										break;
 									case 11:
 										g_object_set(settings,"gtk-theme-name",keydata,"gtk-color-scheme","default",NULL);
@@ -540,16 +546,11 @@ void resetSatu(GtkWidget* widget,gpointer data)
 gboolean setSatu(GtkWidget *widget, GdkEvent *event, gpointer user_data)
 {
 	char*		command;
-	char*		doublestr=NULL;
-	char*		comma=NULL;
+	char*		doublestr;
 
 	gdouble	val=gtk_range_get_value((GtkRange*)widget);
 
-	asprintf(&doublestr,"%f",val);
-	comma=strchr(doublestr,',');
-	if(comma!=NULL)
-		*comma='.';	
-
+	doublestr=doubleToStr(val);
 	asprintf(&command,"%s\"%s\"",XCONFSETSATU,doublestr);
 	system(command);
 	freeAndNull(&command);

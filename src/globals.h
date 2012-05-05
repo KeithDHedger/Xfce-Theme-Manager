@@ -141,6 +141,7 @@ extern int			langID;
 
 extern void freeAndNull(char** ptr);
 extern int positionToInt(char* pos);
+extern char* doubleToStr(double num);
 
 #endif
 
