@@ -73,6 +73,8 @@ static const char * blank_xpm[]=
 GtkWidget*		progressWindow;
 GtkWidget*		progressBar;
 
+const char*		langStr[][2]={{"Themes","Window Borders"},{"Temas","Bordes De Ventana"}};
+
 // RESET THEME
 void resetTheme(GtkWidget* widget,gpointer data)
 {
