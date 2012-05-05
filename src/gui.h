@@ -15,8 +15,12 @@
  * gui.h
  */
 
+#include "globals.h"
+
 #ifndef _GUI_
 #define _GUI_
+
+extern const char*	langStr[][STOPWORD];
 
 void addNewButtons(GtkWidget* vbox,const char* subfolder,void* callback);
 void buildWallpapers(void);

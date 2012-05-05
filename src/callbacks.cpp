@@ -540,11 +540,20 @@ void resetSatu(GtkWidget* widget,gpointer data)
 gboolean setSatu(GtkWidget *widget, GdkEvent *event, gpointer user_data)
 {
 	char*		command;
+	char*		doublestr=NULL;
+	char*		comma=NULL;
+
 	gdouble	val=gtk_range_get_value((GtkRange*)widget);
-	
-	asprintf(&command,"%s\"%f\"",XCONFSETSATU,val);
+
+	asprintf(&doublestr,"%f",val);
+	comma=strchr(doublestr,',');
+	if(comma!=NULL)
+		*comma='.';	
+
+	asprintf(&command,"%s\"%s\"",XCONFSETSATU,doublestr);
 	system(command);
 	freeAndNull(&command);
+	freeAndNull(&doublestr);
 	return(false);
 }
 

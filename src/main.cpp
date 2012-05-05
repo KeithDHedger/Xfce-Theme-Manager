@@ -73,8 +73,6 @@ static const char * blank_xpm[]=
 GtkWidget*		progressWindow;
 GtkWidget*		progressBar;
 
-const char*		langStr[][2]={{"Themes","Window Borders"},{"Temas","Bordes De Ventana"}};
-
 // RESET THEME
 void resetTheme(GtkWidget* widget,gpointer data)
 {
@@ -210,6 +208,13 @@ void init(void)
 
 	missingImage=gdk_pixbuf_new_from_xpm_data((const char**)error_xpm);
 	blankImage=gdk_pixbuf_new_from_xpm_data((const char**)blank_xpm);
+
+	if(strncmp(getenv("LANG"),"es",2)==0)
+		langID=1;
+	else
+		langID=0;
+
+	
 }
 
 void makeProgressBar(void)
@@ -255,6 +260,13 @@ int main(int argc,char **argv)
 	gtk_init(&argc, &argv);
 
 	init();
+
+//	printf("%s\n",langStr[langID][0]);
+//	printf("%s\n",_trans(1));
+//	printf("%s - %s\n",_trans(TITLEPOS),_trans(REBUILDTHEDB));
+//
+//exit(0);
+
 
 	if (argc==2 && strcasecmp(argv[1],"-m")==0)
 		{
@@ -305,22 +317,22 @@ int main(int argc,char **argv)
  	gtk_notebook_set_show_tabs(advanced,false);
  
 //pages
-	label=gtk_label_new("Themes");
+	label=gtk_label_new(_translate(THEMES));
 	gtk_notebook_append_page(notebook,themesScrollBox,label);
 
-	label=gtk_label_new("Window Borders");
+	label=gtk_label_new(_translate(WMBORDERS));
 	gtk_notebook_append_page(notebook,framesScrollBox,label);
 
-	label=gtk_label_new("Controls");
+	label=gtk_label_new(_translate(CONTROLS));
 	gtk_notebook_append_page(notebook,controlsScrollBox,label);
 
-	label=gtk_label_new("Icons");
+	label=gtk_label_new(_translate(ICONS));
 	gtk_notebook_append_page(notebook,iconsScrollBox,label);
 
-	label=gtk_label_new("Cursors");
+	label=gtk_label_new(_translate(CURSORS));
 	gtk_notebook_append_page(notebook,cursorsScrollBox,label);
 
-	label=gtk_label_new("Wallpapers");
+	label=gtk_label_new(_translate(WALLPAPERS));
 	gtk_notebook_append_page(notebook,wallpapersMainBox,label);
 
 	gtk_notebook_append_page(advanced,(GtkWidget*)notebook,NULL);
@@ -338,15 +350,15 @@ int main(int argc,char **argv)
 //do buttons
 	buttonHbox=gtk_hbox_new(true,0);
 
-	button=gtk_button_new_with_label("Reset Theme");
+	button=gtk_button_new_with_label(_translate(RESETTHEME));
 	gtk_box_pack_start(GTK_BOX(buttonHbox),button, false,false,0);
 	g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(resetTheme),NULL);
 
-	button=gtk_button_new_with_label("Save Theme");
+	button=gtk_button_new_with_label(_translate(SAVETHEME));
 	gtk_box_pack_start(GTK_BOX(buttonHbox),button, false,false,0);
 	g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(saveTheme),NULL);
 
-	button=gtk_toggle_button_new_with_label("Advanced");
+	button=gtk_toggle_button_new_with_label(_translate(ADVANCED));
 	gtk_box_pack_start(GTK_BOX(buttonHbox),button, false,false,0);
 	g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(showAdvanced),NULL);
 

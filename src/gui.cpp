@@ -23,6 +23,8 @@
 #include "globals.h"
 #include "callbacks.h"
 
+const char*		langStr[][STOPWORD]={{"Themes","Window Borders","Controls","Icons","Cursors","Wallpapers","Re-Build The Database","Rebuild DB","Launch Xfce-Composite-Editor","Backdrop Adjustments","Brightness","Saturation","Reset","Button Layout","Font Selection","WM Font","App Font","Cursor Size","Reset Theme","Save Theme","Advanced","Title Position"},{"Temas","Bordes De Ventana","Controles","Iconos","Cursores","Fondos De Pantalla","Re-Crear La Base De Datos","Reconstruir DB","Lanzar Xfce-Composite-Editor","Ajustes De Fondo De Escritorio","Brillo","Saturación","Reiniciar","Orden De Los Botones","Selección De Fuentes","Fuente De WM","Fuentes De Aplicación","Tamaño Del Cursor","Restablecer Tema","Guardar Tema","Avanzado","Posición Del Título"}};
+
 GtkWidget *imageBox(char* filename,char* text)
 {
 	GtkWidget*	box;
@@ -116,7 +118,7 @@ void addNewButtons(GtkWidget* vbox,const char* subfolder,void* callback)
 GtkWidget* buildTitlePos(void)
 {
 	GtkWidget*	advancedHbox=gtk_hbox_new(false,0);
-	gtk_box_pack_start(GTK_BOX(advancedHbox),gtk_label_new("Title Position"), false,false,4);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),gtk_label_new(_translate(TITLEPOS)), false,false,4);
 	titlePos=(GtkComboBoxText*)gtk_combo_box_text_new();
 	gtk_combo_box_text_append_text(titlePos,"Left");
 	gtk_combo_box_text_append_text(titlePos,"Centre");
@@ -174,16 +176,16 @@ void buildAdvancedGui(GtkWidget* advancedScrollBox)
 	advancedVbox=gtk_vbox_new(FALSE, 0);
 
 //database
-	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_label_new("Re-Build The Database"),false,false,2);
+	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_label_new(_translate(REBUILDTHEDB)),false,false,2);
 	advancedHbox=gtk_hbox_new(true,4);
-	button=gtk_button_new_with_label("Rebuild DB");
+	button=gtk_button_new_with_label(_translate(REBUILDDB));
 	gtk_box_pack_start(GTK_BOX(advancedHbox),button, false,false,4);
 	g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(rerunAndBuild),NULL);
 	gtk_box_pack_start(GTK_BOX(advancedVbox),advancedHbox, false,false,4);
 	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_hseparator_new(),false,false,4);
 
 //comp ed
-	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_label_new("Launch Xfce-Composite-Editor"),false,false,2);
+	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_label_new(_translate(LAUNCHXCE)),false,false,2);
 	advancedHbox=gtk_hbox_new(true,4);
 	button=gtk_button_new_with_label("Xfce-Composite-Editor");
 	g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(launchCompEd),NULL);
@@ -192,11 +194,11 @@ void buildAdvancedGui(GtkWidget* advancedScrollBox)
 	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_hseparator_new(),false,false,4);
 
 //back drop aadj
-	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_label_new("Backdrop Adjustments"),false,false,2);
+	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_label_new(_translate(BACKDROPADJ)),false,false,2);
 	advancedHbox=gtk_hbox_new(false,0);
 
 //bright
-	gtk_box_pack_start(GTK_BOX(advancedHbox),gtk_label_new("Brightness"), false,false,4);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),gtk_label_new(_translate(BRITE)), false,false,4);
 	advancedRange=gtk_hscale_new_with_range(-128,127,1);
 	gtk_scale_set_value_pos((GtkScale*)advancedRange,GTK_POS_LEFT);
 	gtk_range_set_value((GtkRange*)advancedRange,currentBright);
@@ -206,15 +208,15 @@ void buildAdvancedGui(GtkWidget* advancedScrollBox)
 	gtk_box_pack_start(GTK_BOX(advancedHbox),advancedRange, true,true,0);
 	gtk_box_pack_start(GTK_BOX(advancedVbox),advancedHbox, false,false,2);
 
-	button=gtk_button_new_with_label("Reset");
+	button=gtk_button_new_with_label(_translate(RESET));
 	g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(resetBright),(gpointer)advancedRange);
 	gtk_box_pack_start(GTK_BOX(advancedHbox),button, false,false,8);
 
 //satu
 	advancedHbox=gtk_hbox_new(false,0);
-	gtk_box_pack_start(GTK_BOX(advancedHbox),gtk_label_new("Saturation"), false,false,4);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),gtk_label_new(_translate(SATU)), false,false,4);
 
-	advancedRange=gtk_hscale_new_with_range(-10.0,10,0.1);
+	advancedRange=gtk_hscale_new_with_range(-10,10,0.1);
 	gtk_scale_set_value_pos((GtkScale*)advancedRange,GTK_POS_LEFT);
 	gtk_range_set_value((GtkRange*)advancedRange,currentSatu);
 	g_signal_connect(G_OBJECT(advancedRange), "button-release-event", G_CALLBACK(setSatu),NULL);
@@ -223,7 +225,7 @@ void buildAdvancedGui(GtkWidget* advancedScrollBox)
 	gtk_box_pack_start(GTK_BOX(advancedHbox),advancedRange, true,true,0);
 	gtk_box_pack_start(GTK_BOX(advancedVbox),advancedHbox, false,false,2);
 
-	button=gtk_button_new_with_label("Reset");
+	button=gtk_button_new_with_label(_translate(RESET));
 	g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(resetSatu),(gpointer)advancedRange);
 	gtk_box_pack_start(GTK_BOX(advancedHbox),button, false,false,8);
 
@@ -231,14 +233,14 @@ void buildAdvancedGui(GtkWidget* advancedScrollBox)
 
 //buton layout
 	advancedHbox=gtk_hbox_new(false,0);
-	gtk_box_pack_start(GTK_BOX(advancedHbox),gtk_label_new("Button Layout"), false,false,4);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),gtk_label_new(_translate(BUTTONLAYOUT)), false,false,4);
 
 	layoutEntry=gtk_entry_new();
 	gtk_entry_set_text((GtkEntry*)layoutEntry,currentButtonLayout);
 	g_signal_connect_after(G_OBJECT(layoutEntry),"key-release-event",G_CALLBACK(changeLayout),NULL);
 	gtk_box_pack_start(GTK_BOX(advancedHbox),layoutEntry, true,true,2);
 
-	button=gtk_button_new_with_label("Reset");
+	button=gtk_button_new_with_label(_translate(RESET));
 	g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(resetLayout),(gpointer)layoutEntry);
 	gtk_box_pack_start(GTK_BOX(advancedHbox),button, false,false,8);
 
@@ -251,16 +253,16 @@ void buildAdvancedGui(GtkWidget* advancedScrollBox)
 
 //fonts
 //wmfont
-	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_label_new("Font Selection"), false,false,4);
+	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_label_new(_translate(FONTSELECT)), false,false,4);
 	advancedHbox=gtk_hbox_new(false,0);
-	gtk_box_pack_start(GTK_BOX(advancedHbox),gtk_label_new("WM Font "), false,false,4);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),gtk_label_new(_translate(WMFONT)), false,false,4);
 
 	wmFontButton=gtk_font_button_new_with_font(currentWMFont);
 	g_signal_connect_after(G_OBJECT(wmFontButton),"font-set",G_CALLBACK(setFont),(void*)0);
 	gtk_font_button_set_use_font((GtkFontButton*)wmFontButton,true);
 	gtk_box_pack_start(GTK_BOX(advancedHbox),wmFontButton, true,true,1);
 
-	button=gtk_button_new_with_label("Reset");
+	button=gtk_button_new_with_label(_translate(RESET));
 	g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(resetFont),(void*)0);
 	gtk_box_pack_start(GTK_BOX(advancedHbox),button, false,false,1);
 
@@ -268,14 +270,14 @@ void buildAdvancedGui(GtkWidget* advancedScrollBox)
 
 //appfont
 	advancedHbox=gtk_hbox_new(false,0);
-	gtk_box_pack_start(GTK_BOX(advancedHbox),gtk_label_new("App Font"), false,false,4);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),gtk_label_new(_translate(APPFONT)), false,false,4);
 
 	appFontButton=gtk_font_button_new_with_font(currentAppFont);
 	gtk_font_button_set_use_font((GtkFontButton*)appFontButton,true);
 	g_signal_connect_after(G_OBJECT(appFontButton),"font-set",G_CALLBACK(setFont),(void*)1);
 	gtk_box_pack_start(GTK_BOX(advancedHbox),appFontButton, true,true,1);
 
-	button=gtk_button_new_with_label("Reset");
+	button=gtk_button_new_with_label(_translate(RESET));
 	g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(resetFont),(void*)1);
 	gtk_box_pack_start(GTK_BOX(advancedHbox),button, false,false,1);
 
@@ -286,14 +288,14 @@ void buildAdvancedGui(GtkWidget* advancedScrollBox)
 
 //cursor size
 	advancedHbox=gtk_hbox_new(false,0);
-	gtk_box_pack_start(GTK_BOX(advancedHbox),gtk_label_new("Cursor Size"), false,false,4);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),gtk_label_new(_translate(CURSORSIZE)), false,false,4);
 	cursorSize=gtk_hscale_new_with_range(16,48,1);
 	gtk_scale_set_value_pos((GtkScale*)cursorSize,GTK_POS_LEFT);
 	gtk_range_set_value((GtkRange*)cursorSize,currentCursSize);
 	g_signal_connect(G_OBJECT(cursorSize), "value-changed",G_CALLBACK(setCursSize),NULL);
 	gtk_box_pack_start(GTK_BOX(advancedHbox),cursorSize, true,true,0);
 
-	button=gtk_button_new_with_label("Reset");
+	button=gtk_button_new_with_label(_translate(RESET));
 	g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(resetCursSize),NULL);
 	gtk_box_pack_start(GTK_BOX(advancedHbox),button, false,false,8);
 	gtk_box_pack_start(GTK_BOX(advancedVbox),advancedHbox, false,false,2);
