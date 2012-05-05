@@ -32,17 +32,14 @@ To install a theme/gtk/icon/cursor/border/wallpaper just drag and drop the archi
 
 The thumbnails are stored in ${HOME}/.config/XfceThemeManager
 The first time you use Xfce-Theme-Manager you should either run it from the command line with the -m switch or click on the "Rebuld DB" button, the first build of the DB can take a while so be patient!
-The DB only needs updating if you add/change/remove a theme/icon etc set.
+The DB is updated automatically on drag'n'drop, if you do a lot of adding and removeing of themes/icons etc you may want to run Re-build DB from the advanced tab.
 
 Meta Themes are themes that contain a gtk2 folder and an xfwm4 folder (ie window frames and controls), if their is a gnome-like theme.index file that also specifies an icon set this will be used as well.
 
-***************TODO****************
-If you change an individual setting ( window border, icon etc ) the 'Custom' theme will be updated and can be clicked on to set a theme like any other meta theme.
-You will lose your custom meta-theme if you rebuild the DB either from the command line or from the GUI.
-***************TODO****************
+Spanish is now catered for if you have set the 'LANG' enviroment variable properly, other translations are invited email me for a list to be translated.
 
 INSTALL:
-Extract the archive say into /tmp, cd into /tmp/Xfce-Theme-Manager/gtkpreview, run sudo make install, this will iinstall both the gtkprev app and the Xfce-Theme-Manager GUI.
+Extract the archive say into /tmp, cd into /tmp/Xfce-Theme-Manager, run sudo make install, this will iinstall the Xfce-Theme-Manager GUI.
 The GUI can be run from the command line or from the settings menu.
 
 There is no configure script as the makefile is very simple, default is to install in /usr/local/bin this can be changed by setting the PREFIX variable prior to make install.
@@ -59,6 +56,15 @@ Please send them direct to me at: kdhedger@yahoo.co.uk posting them on xfce-look
 ***************************************
 
 Changelog:
+
+0.1.7 Updated README.
+	Ignore sub-folders embedded in 'Backdrop' folders as per Xfce gui.
+	added fix for commas instead of points in sliders.
+	Added spanish translation (thanks to Pablo Morales Romero for his help)
+	Bug fix for malformed xfwm4 themes.
+	Removed abnormal exit on no cursor pixmaps.
+
+0.1.6	Private bug fixing.
 
 0.1.5	Re-added cursor size to advanced.
 	'Reset Theme' now resets controls in advanced tab.
