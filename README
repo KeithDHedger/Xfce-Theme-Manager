@@ -42,6 +42,7 @@ Spanish is now catered for if you have set the 'LANG' enviroment variable proper
 INSTALL:
 Extract the archive say into /tmp, cd into /tmp/Xfce-Theme-Manager, run sudo make install, this will iinstall the Xfce-Theme-Manager GUI and the desktop file.
 The GUI can be run from the command line or from the settings menu.
+The GUI can be manually installed and/or run from the main folder.
 
 There is no configure script as the makefile is very simple, default is to install in /usr/local/bin this can be changed by setting the PREFIX variable prior to make install.
 
