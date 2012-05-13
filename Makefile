@@ -22,7 +22,7 @@ install:
 	strip $(PROGRAM)
 	cp -p $(PROGRAM) $(DESTDIR)$(PREFIX)/bin
 	cp $(LAUNCHER) $(DESTDIR)$(PREFIX)/share/applications
-
+	cp $(PROGRAM).png /usr/share/pixmaps
 uninstall:
 	rm $(DESTDIR)$(PREFIX)/bin/$(PROGRAM) $(DESTDIR)$(PREFIX)/share/applications/$(LAUNCHER)
 

@@ -6,5 +6,5 @@ Comment=
 Terminal=false
 Type=Application
 Categories=Gnome;GTK;;Settings;DesktopSettings;X-XFCE;X-XFCE-SettingsDialog;
-Icon=xfce4-settings
+Icon=xfce-theme-manager
 Exec=xfce-theme-manager
