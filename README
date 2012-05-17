@@ -59,6 +59,9 @@ Please send them direct to me at: kdhedger@yahoo.co.uk posting them on xfce-look
 
 Changelog:
 
+0.1.8	Finally redone border preview to use tile instead of stretch, more accurate.
+	Adde Application Icon.
+
 0.1.7 Updated README.
 	Ignore sub-folders embedded in 'Backdrop' folders as per Xfce gui.
 	added fix for commas instead of points in sliders.

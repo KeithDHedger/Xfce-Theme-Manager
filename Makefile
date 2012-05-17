@@ -1,6 +1,6 @@
 PROGRAM=xfce-theme-manager
 SOURCES=src/main.cpp src/globals.cpp src/database.cpp src/thumbnails.cpp src/gui.cpp src/callbacks.cpp
-VERSION=0.1.7
+VERSION=0.1.8
 LAUNCHER=Xfce-Theme-Manager.desktop
 
 ifeq ($(strip $(PREFIX)),)
@@ -22,13 +22,13 @@ install:
 	strip $(PROGRAM)
 	cp -p $(PROGRAM) $(DESTDIR)$(PREFIX)/bin
 	cp $(LAUNCHER) $(DESTDIR)$(PREFIX)/share/applications
-	cp $(PROGRAM).png /usr/share/pixmaps
+	cp $(PROGRAM).png $(DESTDIR)/usr/share/pixmaps
 uninstall:
-	rm $(DESTDIR)$(PREFIX)/bin/$(PROGRAM) $(DESTDIR)$(PREFIX)/share/applications/$(LAUNCHER)
+	rm $(DESTDIR)$(PREFIX)/bin/$(PROGRAM) $(DESTDIR)$(PREFIX)/share/applications/$(LAUNCHER) $(DESTDIR)/usr/share/pixmaps/$(PROGRAM).png
 
 clean:
 	rm $(PROGRAM)
 
 pkg:
-	tar --exclude .svn -cvzf Xfce-Theme-Manager-$(VERSION).tar.gz src Xfce-Theme-Manager.desktop README Makefile
+	tar --exclude .svn -cvzf Xfce-Theme-Manager-$(VERSION).tar.gz src Xfce-Theme-Manager.desktop README Makefile $(PROGRAM).png
 
