@@ -492,8 +492,34 @@ void makeborder(char* folder,char* outframe)
 	if (title3!=NULL)
 		{
 			cairo_save (cr);
-				gdk_cairo_set_source_pixbuf(cr,gdk_pixbuf_scale_simple(title3,padwid,title3hite,GDK_INTERP_BILINEAR),topleftwid+lsegwid+title2wid,0);
+				//cairo_surface_t *surface3=cairo_image_surface_create(CAIRO_FORMAT_ARGB32,title3wid,title3hite);
+				//cairo_t * cr3=cairo_create(surface3);
+
+				GdkPixbuf *temp=gdk_pixbuf_scale_simple(title3,padwid,title3hite,GDK_INTERP_BILINEAR);
+				printf("width=%i hite=%i twid=%i thite=%i\n",topleftwid+lsegwid+title2wid,title3hite,title3wid,title3hite);
+				//cairo_pattern_set_extend ((cairo_pattern_t*)cr,CAIRO_EXTEND_REPEAT);
+//				gdk_cairo_set_source_pixbuf(cr,gdk_pixbuf_scale_simple(title3,padwid,title3hite,GDK_INTERP_BILINEAR),topleftwid+lsegwid+title2wid,0);
+				//gdk_cairo_set_source_pixbuf(cr,title3,0,0);
+				
+				gdk_pixbuf_copy_area(title3,0,0,gdk_pixbuf_get_width((const GdkPixbuf *)temp),title3hite,temp,0,0);
+				
+				//gdk_pixbuf_scale(title3,temp
+                          ///                               GdkPixbuf *dest,
+                             //                            int dest_x,
+                               //                          int dest_y,
+                                 //                        int dest_width,
+                                   //                      int dest_height,
+                                     //                    double offset_x,
+                                       //                  double offset_y,
+                                         //                double scale_x,
+                                           //              double scale_y,
+                                             //            GdkInterpType interp_type);
+                        gdk_cairo_set_source_pixbuf(cr,temp,topleftwid+lsegwid+title2wid,0);
+				
 				cairo_paint_with_alpha(cr,100);
+				//cairo_paint_with_alpha(cr,100);
+				//cairo_surface_destroy(surface3);
+				//cairo_destroy(cr3);
 			cairo_restore (cr);
 		}
 //title4
