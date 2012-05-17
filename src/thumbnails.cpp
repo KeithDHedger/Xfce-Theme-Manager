@@ -476,15 +476,22 @@ void makeborder(char* folder,char* outframe)
 	if (title1!=NULL)
 		{
 			cairo_save (cr);
-				gdk_cairo_set_source_pixbuf(cr,gdk_pixbuf_scale_simple(title1,lsegwid,title3hite,GDK_INTERP_BILINEAR),topleftwid,0);
+				gdk_cairo_set_source_pixbuf(cr,title1,0,0);
+				cairo_pattern_set_extend(cairo_get_source(cr),CAIRO_EXTEND_REPEAT);
+				cairo_rectangle(cr,topleftwid,0,lsegwid,title1hite);
+ 				cairo_clip(cr);
 				cairo_paint_with_alpha(cr,100);
 			cairo_restore (cr);
 		}
+
 //title2
 	if (title2!=NULL)
 		{
 			cairo_save (cr);
 				gdk_cairo_set_source_pixbuf(cr,title2,topleftwid+lsegwid,0);
+				cairo_pattern_set_extend(cairo_get_source(cr),CAIRO_EXTEND_REPEAT);
+				cairo_rectangle(cr,topleftwid+lsegwid,0,title2wid,title2hite);
+ 				cairo_clip(cr);
 				cairo_paint_with_alpha(cr,100);
 			cairo_restore (cr);
 		}
@@ -504,6 +511,9 @@ void makeborder(char* folder,char* outframe)
 		{
 			cairo_save (cr);
 				gdk_cairo_set_source_pixbuf(cr,title4,topleftwid+lsegwid+title2wid+padwid,0);
+				cairo_pattern_set_extend(cairo_get_source(cr),CAIRO_EXTEND_REPEAT);
+				cairo_rectangle(cr,topleftwid+lsegwid+title2wid+padwid,0,title4wid,title3hite);
+ 				cairo_clip(cr);
 				cairo_paint_with_alpha(cr,100);
 			cairo_restore (cr);
 		}
@@ -511,7 +521,10 @@ void makeborder(char* folder,char* outframe)
 	if (title5!=NULL)
 		{
 			cairo_save (cr);
-				gdk_cairo_set_source_pixbuf(cr,gdk_pixbuf_scale_simple(title5,rsegwid,title3hite,GDK_INTERP_BILINEAR),topleftwid+lsegwid+title2wid+padwid+title4wid,0);
+				gdk_cairo_set_source_pixbuf(cr,title5,topleftwid+lsegwid+title2wid+padwid+title4wid,0);
+				cairo_pattern_set_extend(cairo_get_source(cr),CAIRO_EXTEND_REPEAT);
+				cairo_rectangle(cr,topleftwid+lsegwid+title2wid+padwid+title4wid,0,rsegwid,title3hite);
+ 				cairo_clip(cr);
 				cairo_paint_with_alpha(cr,100);
 			cairo_restore (cr);
 		}
