@@ -95,20 +95,20 @@ void customTheme(GtkWidget* window,gpointer data)
 	gchar*	stdout;
 	char*		customname=NULL;
 
-//	bool		dofree=false;
-
 	if (metaThemeSelected==NULL)
 		{
 			g_spawn_command_line_sync(XCONFGETFRAME,&stdout,NULL,NULL,NULL);
 			stdout[strlen(stdout)-1]=0;
-			asprintf(customname,"%s Custom",stdout);
+			asprintf(&customname,"%s Custom",stdout);
+			g_free(stdout);
 		}
 	else
 		{
-			asprintf(customname,"%s Custom",metaThemeSelected);
+			if(g_str_has_suffix((const gchar *)metaThemeSelected,"Custom"))
+				asprintf(&customname,"%s",metaThemeSelected);
+			else
+				asprintf(&customname,"%s Custom",metaThemeSelected);
 		}
-
-	g_free(stdout);
 
 	getFilename=gtk_dialog_new_with_buttons("Enter Name For Theme...",NULL,GTK_DIALOG_MODAL,GTK_STOCK_CANCEL,GTK_RESPONSE_CANCEL,GTK_STOCK_SAVE,GTK_RESPONSE_OK,GTK_STOCK_DELETE,100,NULL);
 	gtk_dialog_set_default_response((GtkDialog*)getFilename,GTK_RESPONSE_OK);
@@ -188,8 +188,6 @@ void customTheme(GtkWidget* window,gpointer data)
 			freeAndNull(&thumbfile);
 		}
 
-//	if (dofree==true)
-//	g_free(stdout);
 	freeAndNull(&customname);
 
 	if (flag==true)
