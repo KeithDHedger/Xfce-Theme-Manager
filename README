@@ -50,7 +50,7 @@ If you have a source based pkg manager like slackware the dev files for glib etc
 
 You may have to run  xfce4-panel --restart to see the Xfce-Theme-Manager menu item in settings.
 
-If you are upgrading from an older version please rebuild the DB ( fro the "Advanced" tab ).
+If you are upgrading from an older version please rebuild the DB ( from the "Advanced" tab ).
 
 ***************************************
 BUGS:
@@ -60,7 +60,8 @@ Please send them direct to me at: kdhedger@yahoo.co.uk posting them on xfce-look
 Changelog:
 
 0.1.8	Finally redone border preview to use tile instead of stretch, more accurate.
-	Adde Application Icon.
+	Added Application Icon.
+	Changed 'Save Theme' to 'Custom Theme' button to now add/delete themes.
 
 0.1.7 Updated README.
 	Ignore sub-folders embedded in 'Backdrop' folders as per Xfce gui.
