@@ -93,16 +93,22 @@ void customTheme(GtkWidget* window,gpointer data)
 	char		buffer[2048];
 	filename=NULL;
 	gchar*	stdout;
-	bool		dofree=false;
+	char*		customname=NULL;
+
+//	bool		dofree=false;
 
 	if (metaThemeSelected==NULL)
 		{
 			g_spawn_command_line_sync(XCONFGETFRAME,&stdout,NULL,NULL,NULL);
 			stdout[strlen(stdout)-1]=0;
-			dofree=true;
+			asprintf(customname,"%s Custom",stdout);
 		}
 	else
-		stdout=metaThemeSelected;
+		{
+			asprintf(customname,"%s Custom",metaThemeSelected);
+		}
+
+	g_free(stdout);
 
 	getFilename=gtk_dialog_new_with_buttons("Enter Name For Theme...",NULL,GTK_DIALOG_MODAL,GTK_STOCK_CANCEL,GTK_RESPONSE_CANCEL,GTK_STOCK_SAVE,GTK_RESPONSE_OK,GTK_STOCK_DELETE,100,NULL);
 	gtk_dialog_set_default_response((GtkDialog*)getFilename,GTK_RESPONSE_OK);
@@ -110,7 +116,7 @@ void customTheme(GtkWidget* window,gpointer data)
 	content_area=gtk_dialog_get_content_area(GTK_DIALOG(getFilename));
 
 	entryBox=gtk_entry_new();
-	gtk_entry_set_text((GtkEntry*)entryBox,stdout);
+	gtk_entry_set_text((GtkEntry*)entryBox,customname);
 	gtk_entry_set_activates_default((GtkEntry*)entryBox,true);
 	gtk_container_add(GTK_CONTAINER(content_area),entryBox);
 
@@ -182,8 +188,9 @@ void customTheme(GtkWidget* window,gpointer data)
 			freeAndNull(&thumbfile);
 		}
 
-	if (dofree==true)
-		g_free(stdout);
+//	if (dofree==true)
+//	g_free(stdout);
+	freeAndNull(&customname);
 
 	if (flag==true)
 		rerunAndUpdate();
@@ -412,7 +419,6 @@ void doMeta(GtkWidget* widget,gpointer data)
 
 	if(g_key_file_load_from_file(keyfile,gtk_widget_get_name(widget),G_KEY_FILE_NONE,NULL))
 		{
-			//metaThemeSelected=(char*)gtk_widget_get_name(widget);
 			metaThemeSelected=g_key_file_get_string(keyfile,"Data",(char*)"Name",NULL);
 			for (int j=0;j<keycnt;j++)
 				{
