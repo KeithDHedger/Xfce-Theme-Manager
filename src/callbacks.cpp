@@ -61,6 +61,18 @@ void response(GtkDialog *dialog,gint response_id,gpointer user_data)
 			case GTK_RESPONSE_OK:
 				asprintf(&filename,"%s",gtk_entry_get_text((GtkEntry*)entryBox));
 				break;
+			case DELETETHEME:
+				asprintf(&filename,"%s",gtk_entry_get_text((GtkEntry*)entryBox));
+				if (filename!=NULL && strlen(filename)>0)
+					{
+						sprintf(generalBuffer,"%s/%s.db",customFolder,filename);
+						remove(generalBuffer);
+						sprintf(generalBuffer,"%s/%s.png",customFolder,filename);
+						remove(generalBuffer);
+						freeAndNull(&filename);
+						rerunAndUpdate();
+					}
+				break;
 		}
 	gtk_widget_destroy((GtkWidget*)dialog);
 }
@@ -80,7 +92,7 @@ void saveTheme(GtkWidget* window,gpointer data)
 	char		buffer[2048];
 	filename=NULL;
 
-	getFilename=gtk_dialog_new_with_buttons("Enter Name For Theme...",NULL,GTK_DIALOG_MODAL,GTK_STOCK_CANCEL,GTK_RESPONSE_CANCEL,GTK_STOCK_OK,GTK_RESPONSE_OK,NULL);
+	getFilename=gtk_dialog_new_with_buttons("Enter Name For Theme...",NULL,GTK_DIALOG_MODAL,GTK_STOCK_CANCEL,GTK_RESPONSE_CANCEL,GTK_STOCK_SAVE,GTK_RESPONSE_OK,GTK_STOCK_DELETE,100,NULL);
 	gtk_dialog_set_default_response((GtkDialog*)getFilename,GTK_RESPONSE_OK);
 	g_signal_connect(G_OBJECT(getFilename),"response",G_CALLBACK(response),NULL);
 	content_area=gtk_dialog_get_content_area(GTK_DIALOG(getFilename));

@@ -20,7 +20,7 @@
 #ifndef _GUI_
 #define _GUI_
 
-extern const char*	langStr[][STOPWORD];
+extern const char* langStr[][STOPWORD];
 
 void addNewButtons(GtkWidget* vbox,const char* subfolder,void* callback);
 void buildWallpapers(void);

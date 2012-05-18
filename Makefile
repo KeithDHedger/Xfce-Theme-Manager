@@ -16,15 +16,16 @@ $(PROGRAM):$(SOURCES)
 	strip $(PROGRAM)
 
 install:
-	mkdir -p $(DESTDIR)$(PREFIX)/bin $(DESTDIR)$(PREFIX)/share/applications
+	mkdir -p $(DESTDIR)$(PREFIX)/bin $(DESTDIR)$(PREFIX)/share/applications $(DESTDIR)$(PREFIX)/share/pixmaps
 	rm $(PROGRAM)||true
 	g++ $(CXXFLAGS) -o $(PROGRAM) $(SOURCES)
 	strip $(PROGRAM)
 	cp -p $(PROGRAM) $(DESTDIR)$(PREFIX)/bin
 	cp $(LAUNCHER) $(DESTDIR)$(PREFIX)/share/applications
-	cp $(PROGRAM).png $(DESTDIR)/usr/share/pixmaps
+	cp $(PROGRAM).png $(DESTDIR)$(PREFIX)/share/pixmaps
+
 uninstall:
-	rm $(DESTDIR)$(PREFIX)/bin/$(PROGRAM) $(DESTDIR)$(PREFIX)/share/applications/$(LAUNCHER) $(DESTDIR)/usr/share/pixmaps/$(PROGRAM).png
+	rm $(DESTDIR)$(PREFIX)/bin/$(PROGRAM) $(DESTDIR)$(PREFIX)/share/applications/$(LAUNCHER) $(DESTDIR)$(PREFIX)/share/pixmaps/$(PROGRAM).png
 
 clean:
 	rm $(PROGRAM)
