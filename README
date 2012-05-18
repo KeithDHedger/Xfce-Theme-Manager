@@ -61,7 +61,7 @@ Changelog:
 
 0.1.8	Finally redone border preview to use tile instead of stretch, more accurate.
 	Added Application Icon.
-	Changed 'Save Theme' to 'Custom Theme' button to now add/delete themes.
+	Changed 'Save Theme' to 'Custom Theme' button to now add/delete custom themes.
 
 0.1.7 Updated README.
 	Ignore sub-folders embedded in 'Backdrop' folders as per Xfce gui.
