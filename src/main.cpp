@@ -264,13 +264,6 @@ int main(int argc,char **argv)
 
 	init();
 
-//	printf("%s\n",langStr[langID][0]);
-//	printf("%s\n",_trans(1));
-//	printf("%s - %s\n",_trans(TITLEPOS),_trans(REBUILDTHEDB));
-//
-//exit(0);
-
-
 	if (argc==2 && strcasecmp(argv[1],"-m")==0)
 		{
 			makeProgressBar();
@@ -357,9 +350,9 @@ int main(int argc,char **argv)
 	gtk_box_pack_start(GTK_BOX(buttonHbox),button, false,false,0);
 	g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(resetTheme),NULL);
 
-	button=gtk_button_new_with_label(_translate(SAVETHEME));
+	button=gtk_button_new_with_label(_translate(CUSTOMTHEME));
 	gtk_box_pack_start(GTK_BOX(buttonHbox),button, false,false,0);
-	g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(saveTheme),NULL);
+	g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(customTheme),NULL);
 
 	button=gtk_toggle_button_new_with_label(_translate(ADVANCED));
 	gtk_box_pack_start(GTK_BOX(buttonHbox),button, false,false,0);

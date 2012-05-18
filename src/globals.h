@@ -59,13 +59,7 @@
 
 #define _translate(x) langStr[langID][x]
 
-enum words {THEMES=0,WMBORDERS,CONTROLS,ICONS,CURSORS,WALLPAPERS,REBUILDTHEDB,REBUILDDB,LAUNCHXCE,BACKDROPADJ,BRITE,SATU,RESET,BUTTONLAYOUT,FONTSELECT,WMFONT,APPFONT,CURSORSIZE,RESETTHEME,SAVETHEME,ADVANCED,TITLEPOS,STOPWORD};
-
-//extern const char*			langStr[][22];
-
-//ENGLISH="Themes;Window Borders;Controls;Icons;Cursors;Wallpapers;Re-Build The Database;Rebuild DB;Launch Xfce-Composite-Editor;Backdrop Adjustments;Brightness;Saturation;Reset;Button Layout;Font Selection;WM Font;App Font;Cursor Size;Reset Theme;Save Theme;Advanced;Title Position;END"
-
-//SPANISH="Temas;Bordes De Ventana;Controles;Iconos;Cursores;Fondos De Pantalla;Re-Crear La Base De Datos;Reconstruir DB;Lanzar Xfce-Composite-Editor;Ajustes De Fondo De Escritorio;Brillo;Saturación;Reiniciar;Orden De Los Botones;Selección De Fuentes;Fuente De WM;Fuentes De Aplicación;Tamaño Del Cursor;Restablecer Tema;Guardar Tema;Avanzado;Posición Del Título;END"
+enum words {THEMES=0,WMBORDERS,CONTROLS,ICONS,CURSORS,WALLPAPERS,REBUILDTHEDB,REBUILDDB,LAUNCHXCE,BACKDROPADJ,BRITE,SATU,RESET,BUTTONLAYOUT,FONTSELECT,WMFONT,APPFONT,CURSORSIZE,RESETTHEME,CUSTOMTHEME,ADVANCED,TITLEPOS,STOPWORD};
 
 extern int			currentWallStyle;
 extern char*		currentIconTheme;

@@ -15,7 +15,7 @@
 #ifndef _CALLBACKS_
 #define _CALLBACKS_
 
-void saveTheme(GtkWidget* window,gpointer data);
+void customTheme(GtkWidget* window,gpointer data);
 
 void rerunAndBuild(GtkWidget* window,gpointer data);
 
