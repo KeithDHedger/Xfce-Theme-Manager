@@ -59,6 +59,16 @@ Please send them direct to me at: kdhedger@yahoo.co.uk posting them on xfce-look
 
 Changelog:
 
+0.1.10 Added German translation, thanks to Martin F. Schumann for that.
+	Removed warnings from xconf about user settings not set.
+	Added "Custom" when saving custom theme if needed.
+	Fixed minor memory leak.
+	New application icon.
+	Minor bug fix when using comma instead of point ( again! )
+	Code clean.
+
+0.1.9 Internal release.
+
 0.1.8	Finally redone border preview to use tile instead of stretch, more accurate.
 	Added Application Icon.
 	Changed 'Save Theme' to 'Custom Theme' button to now add/delete custom themes.
