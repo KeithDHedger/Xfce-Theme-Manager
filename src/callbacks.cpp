@@ -93,14 +93,16 @@ void customTheme(GtkWidget* window,gpointer data)
 	char		buffer[2048];
 	filename=NULL;
 	gchar*	stdout;
+	gchar*	stderr;
 	char*		customname=NULL;
 
 	if (metaThemeSelected==NULL)
 		{
-			g_spawn_command_line_sync(XCONFGETFRAME,&stdout,NULL,NULL,NULL);
+			g_spawn_command_line_sync(XCONFGETFRAME,&stdout,&stderr,NULL,NULL);
 			stdout[strlen(stdout)-1]=0;
 			asprintf(&customname,"%s Custom",stdout);
 			g_free(stdout);
+			g_free(stderr);
 		}
 	else
 		{
@@ -125,15 +127,22 @@ void customTheme(GtkWidget* window,gpointer data)
 
 	if (filename!=NULL && strlen(filename)>0)
 		{
-			g_spawn_command_line_sync(XCONFGETCONTROLS,&gtk,NULL,NULL,NULL);
+			g_spawn_command_line_sync(XCONFGETCONTROLS,&gtk,&stderr,NULL,NULL);
 			gtk[strlen(gtk)-1]=0;
-			g_spawn_command_line_sync(XCONFGETFRAME,&frame,NULL,NULL,NULL);
+			g_free(stderr);
+			
+			g_spawn_command_line_sync(XCONFGETFRAME,&frame,&stderr,NULL,NULL);
 			frame[strlen(frame)-1]=0;
-			g_spawn_command_line_sync(XCONFGETICONS,&iconTheme,NULL,NULL,NULL);
+			g_free(stderr);
+
+			g_spawn_command_line_sync(XCONFGETICONS,&iconTheme,&stderr,NULL,NULL);
 			iconTheme[strlen(iconTheme)-1]=0;
-			g_spawn_command_line_sync(XCONFGETCURSOR,&cursorTheme,NULL,NULL,NULL);
+			g_free(stderr);
+
+			g_spawn_command_line_sync(XCONFGETCURSOR,&cursorTheme,&stderr,NULL,NULL);
 			cursorTheme[strlen(cursorTheme)-1]=0;
 			asprintf(&thumbfile,"%s/%s.png",customFolder,filename);
+			g_free(stderr);
 
 			sprintf(buffer,"%s/%s",themesArray[0],frame);
 			if (!g_file_test(buffer, G_FILE_TEST_IS_DIR))
@@ -261,6 +270,7 @@ int extractAndInstall(char* filename)
 	{
 		sprintf(generalBuffer,"tar --wildcards -tf %s */gtkrc",filename);
 		g_spawn_command_line_sync((char*)generalBuffer,&stdout,&stderr,NULL,NULL);
+		freeAndNull(&stderr);
 		if (stdout!=NULL)
 			{
 				stdout[strlen(stdout)-1]=0;
@@ -274,6 +284,7 @@ int extractAndInstall(char* filename)
 
 		sprintf(generalBuffer,"tar --wildcards -tf %s */themerc",filename);
 		g_spawn_command_line_sync((char*)generalBuffer,&stdout,&stderr,NULL,NULL);
+		freeAndNull(&stderr);
 		if (stdout!=NULL)
 			{
 				stdout[strlen(stdout)-1]=0;
@@ -287,6 +298,7 @@ int extractAndInstall(char* filename)
 
 		sprintf(generalBuffer,"tar --wildcards -tf %s */index.theme",filename);
 		g_spawn_command_line_sync((char*)generalBuffer,&stdout,&stderr,NULL,NULL);
+		freeAndNull(&stderr);
 			if (stdout!=NULL)
 				{
 					stdout[strlen(stdout)-1]=0;
@@ -306,7 +318,7 @@ int extractAndInstall(char* filename)
 		infoDialog("Can't Install",filename,GTK_MESSAGE_ERROR);
 
 	freeAndNull(&stdout);
-	freeAndNull(&stderr);
+
 	return(retval);
 }
 
