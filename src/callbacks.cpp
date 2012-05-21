@@ -100,16 +100,16 @@ void customTheme(GtkWidget* window,gpointer data)
 		{
 			g_spawn_command_line_sync(XCONFGETFRAME,&stdout,&stderr,NULL,NULL);
 			stdout[strlen(stdout)-1]=0;
-			asprintf(&customname,"%s Custom",stdout);
+			asprintf(&customname,"%s %s",stdout,_translate(CUSTOM));
 			g_free(stdout);
 			g_free(stderr);
 		}
 	else
 		{
-			if(g_str_has_suffix((const gchar *)metaThemeSelected,"Custom"))
+			if(g_str_has_suffix((const gchar *)metaThemeSelected,_translate(CUSTOM)))
 				asprintf(&customname,"%s",metaThemeSelected);
 			else
-				asprintf(&customname,"%s Custom",metaThemeSelected);
+				asprintf(&customname,"%s %s",metaThemeSelected,_translate(CUSTOM));
 		}
 
 	getFilename=gtk_dialog_new_with_buttons(_translate(ENTERNAME),NULL,GTK_DIALOG_MODAL,GTK_STOCK_CANCEL,GTK_RESPONSE_CANCEL,GTK_STOCK_SAVE,GTK_RESPONSE_OK,GTK_STOCK_DELETE,100,NULL);
@@ -441,8 +441,6 @@ void doMeta(GtkWidget* widget,gpointer data)
 					keydata=g_key_file_get_string(keyfile,"Data",(char*)keys[j],NULL);
 					if(keydata!=NULL)
 						{
-							sprintf(generalBuffer,"%s\"%s\"",(char*)xconf[j],keydata);
-							system(generalBuffer);
 							switch (j)
 								{
 									case 4:
@@ -467,9 +465,7 @@ void doMeta(GtkWidget* widget,gpointer data)
 										gtk_range_set_value((GtkRange*)satuRange,atof(keydata));
 										comma=strchr(keydata,',');
 										if(comma!=NULL)
-											*comma='.';	
-										sprintf(generalBuffer,"%s\"%s\"",(char*)xconf[j],keydata);
-										system(generalBuffer);
+											*comma='.';										
 										break;
 									case 11:
 										g_object_set(settings,"gtk-theme-name",keydata,"gtk-color-scheme","default",NULL);
@@ -478,6 +474,8 @@ void doMeta(GtkWidget* widget,gpointer data)
 										gtk_range_set_value((GtkRange*)cursorSize,atoi(keydata));
 										break;
 								}
+							sprintf(generalBuffer,"%s\"%s\"",(char*)xconf[j],keydata);
+							system(generalBuffer);
 							freeAndNull(&keydata);
 						}
 				}
