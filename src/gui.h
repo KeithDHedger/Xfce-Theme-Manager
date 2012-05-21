@@ -21,6 +21,7 @@
 #define _GUI_
 
 extern const char* langStr[][STOPWORD];
+extern const char* titlePosStr[][3];
 
 void addNewButtons(GtkWidget* vbox,const char* subfolder,void* callback);
 void buildWallpapers(void);

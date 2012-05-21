@@ -23,7 +23,13 @@
 #include "globals.h"
 #include "callbacks.h"
 
-const char* langStr[][STOPWORD]={{"Themes","Window Borders","Controls","Icons","Cursors","Wallpapers","Re-Build The Database","Rebuild DB","Launch Xfce-Composite-Editor","Backdrop Adjustments","Brightness","Saturation","Reset","Button Layout","Font Selection","WM Font","App Font","Cursor Size","Reset Theme","Custom Theme","Advanced","Title Position"},{"Temas","Bordes De Ventana","Controles","Iconos","Cursores","Fondos De Pantalla","Re-Crear La Base De Datos","Reconstruir DB","Lanzar Xfce-Composite-Editor","Ajustes De Fondo De Escritorio","Brillo","Saturación","Reiniciar","Orden De Los Botones","Selección De Fuentes","Fuente De WM","Fuentes De Aplicación","Tamaño Del Cursor","Restablecer Tema","Personalizado Tema","Avanzado","Posición Del Título"}};
+const char* langStr[][STOPWORD]={
+{"Themes","Window Borders","Controls","Icons","Cursors","Wallpapers","Re-Build The Database","Rebuild DB","Launch Xfce-Composite-Editor","Backdrop Adjustments","Brightness","Saturation","Reset","Button Layout","Font Selection","WM Font","App Font","Cursor Size","Reset Theme","Custom Theme","Advanced","Title Position","Enter Name for Theme...","Left","Centre","Right"},
+
+{"Temas","Bordes De Ventana","Controles","Iconos","Cursores","Fondos De Pantalla","Re-Crear La Base De Datos","Reconstruir DB","Lanzar Xfce-Composite-Editor","Ajustes De Fondo De Escritorio","Brillo","Saturación","Reiniciar","Orden De Los Botones","Selección De Fuentes","Fuente De WM","Fuentes De Aplicación","Tamaño Del Cursor","Restablecer Tema","Personalizado Tema","Avanzado","Posición Del Título","Ingrese el nombre del Tema...","Izquierda","Centro","Derecho"},
+
+{"Oberfläche","Fenster","Schaltflächen","Symbole","Mauszeiger","Hintergründe","Datenbank neu anlegen","DB erneuern","Xfce-Composite-Editor starten","Hintergrund-Anpassung","Helligkeit","Sättigung","Zurücksetzen","Anordnung der Schaltflächen","Schrift","Fensterschrift","Anwendungsschrift","Größe des Mauszeigers","Oberfläche zurücksetzen","Benutzerdefinierte Oberfläche","Erweitert","Position des Fenstertitels","Name für Oberfläche eingeben...","Links","Mitte","Rechts"}
+};
 
 GtkWidget *imageBox(char* filename,char* text)
 {
@@ -120,9 +126,9 @@ GtkWidget* buildTitlePos(void)
 	GtkWidget*	advancedHbox=gtk_hbox_new(false,0);
 	gtk_box_pack_start(GTK_BOX(advancedHbox),gtk_label_new(_translate(TITLEPOS)), false,false,4);
 	titlePos=(GtkComboBoxText*)gtk_combo_box_text_new();
-	gtk_combo_box_text_append_text(titlePos,"Left");
-	gtk_combo_box_text_append_text(titlePos,"Centre");
-	gtk_combo_box_text_append_text(titlePos,"Right");
+	gtk_combo_box_text_append_text(titlePos, _translate(LEFT));
+	gtk_combo_box_text_append_text(titlePos,_translate(CENTRE));
+	gtk_combo_box_text_append_text(titlePos,_translate(RIGHT));
 	gtk_combo_box_set_active((GtkComboBox*)titlePos,positionToInt(currentTitlePos));
 	g_signal_connect_after(G_OBJECT(titlePos),"changed",G_CALLBACK(setTitlePos),NULL);
 	gtk_box_pack_start(GTK_BOX(advancedHbox),(GtkWidget*)titlePos,true,true,8);

@@ -110,7 +110,7 @@ void customTheme(GtkWidget* window,gpointer data)
 				asprintf(&customname,"%s Custom",metaThemeSelected);
 		}
 
-	getFilename=gtk_dialog_new_with_buttons("Enter Name For Theme...",NULL,GTK_DIALOG_MODAL,GTK_STOCK_CANCEL,GTK_RESPONSE_CANCEL,GTK_STOCK_SAVE,GTK_RESPONSE_OK,GTK_STOCK_DELETE,100,NULL);
+	getFilename=gtk_dialog_new_with_buttons(_translate(ENTERNAME),NULL,GTK_DIALOG_MODAL,GTK_STOCK_CANCEL,GTK_RESPONSE_CANCEL,GTK_STOCK_SAVE,GTK_RESPONSE_OK,GTK_STOCK_DELETE,100,NULL);
 	gtk_dialog_set_default_response((GtkDialog*)getFilename,GTK_RESPONSE_OK);
 	g_signal_connect(G_OBJECT(getFilename),"response",G_CALLBACK(response),NULL);
 	content_area=gtk_dialog_get_content_area(GTK_DIALOG(getFilename));
@@ -221,6 +221,8 @@ void setTitlePos(GtkComboBoxText* widget,gpointer data)
 
 	if(text!=NULL)
 		{
+			//printf("%i\n",gtk_combo_box_get_active((GtkComboBox*)widget));
+			switch ()
 			asprintf(&command,"%s %s",XCONFSETTITLEPOS,text);
 			system(command);
 			freeAndNull(&command);

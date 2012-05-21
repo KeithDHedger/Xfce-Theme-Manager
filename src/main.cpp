@@ -212,12 +212,11 @@ void init(void)
 	missingImage=gdk_pixbuf_new_from_xpm_data((const char**)error_xpm);
 	blankImage=gdk_pixbuf_new_from_xpm_data((const char**)blank_xpm);
 
+	langID=ENGLISH;	
 	if(strncmp(getenv("LANG"),"es",2)==0)
-		langID=1;
-	else
-		langID=0;
-
-	
+		langID=SPANISH;
+	if(strncmp(getenv("LANG"),"de",2)==0)
+		langID=GERMAN;
 }
 
 void makeProgressBar(void)
