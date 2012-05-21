@@ -215,29 +215,23 @@ void infoDialog(const char* message,char* filename,GtkMessageType type)
 void setTitlePos(GtkComboBoxText* widget,gpointer data)
 {
 	char*		command;
-	char*		text=NULL;
 	int		position=gtk_combo_box_get_active((GtkComboBox*)widget);
 
-	text=gtk_combo_box_text_get_active_text(widget);
-
-	if(text!=NULL)
+	switch (position)
 		{
-			switch (position)
-				{
-					case 0:
-						asprintf(&command,"%s %s",XCONFSETTITLEPOS,"Left");
-						break;
-					case 1:
-						asprintf(&command,"%s %s",XCONFSETTITLEPOS,"Centre");
-						break;
-					case 2:
-						asprintf(&command,"%s %s",XCONFSETTITLEPOS,"Right");
-						break;
-				}
-			system(command);
-			freeAndNull(&command);
-			freeAndNull(&text);
+			case 0:
+				asprintf(&command,"%s %s",XCONFSETTITLEPOS,"Left");
+				break;
+			case 1:
+				asprintf(&command,"%s %s",XCONFSETTITLEPOS,"Centre");
+				break;
+			case 2:
+				asprintf(&command,"%s %s",XCONFSETTITLEPOS,"Right");
+				break;
 		}
+	
+	system(command);
+	freeAndNull(&command);
 }
 
 int installWallpaper(char* filename)

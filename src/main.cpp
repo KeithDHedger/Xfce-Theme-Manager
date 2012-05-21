@@ -294,12 +294,12 @@ int main(int argc,char **argv)
 	wallpapersMainBox=gtk_vbox_new(false, 0);
 
 	styleComboBox=(GtkComboBoxText*)gtk_combo_box_text_new();
-	gtk_combo_box_text_append_text(styleComboBox,"Auto");
-	gtk_combo_box_text_append_text(styleComboBox,"Centered");
-	gtk_combo_box_text_append_text(styleComboBox,"Tiled");
-	gtk_combo_box_text_append_text(styleComboBox,"Stretched");
-	gtk_combo_box_text_append_text(styleComboBox,"Scaled");
-	gtk_combo_box_text_append_text(styleComboBox,"Zoomed");
+	gtk_combo_box_text_append_text(styleComboBox,_translate(AUTO));
+	gtk_combo_box_text_append_text(styleComboBox,_translate(CENTRED));
+	gtk_combo_box_text_append_text(styleComboBox,_translate(TILED));
+	gtk_combo_box_text_append_text(styleComboBox,_translate(STRETCH));
+	gtk_combo_box_text_append_text(styleComboBox,_translate(SCALE));
+	gtk_combo_box_text_append_text(styleComboBox,_translate(ZOOM));
 	gtk_combo_box_set_active((GtkComboBox*)styleComboBox,currentWallStyle);
 	g_signal_connect_after(G_OBJECT(styleComboBox),"changed",G_CALLBACK(wallStyleChanged),NULL);
 	gtk_box_pack_start((GtkBox*)wallpapersMainBox,(GtkWidget*)styleComboBox,false,false,4);
