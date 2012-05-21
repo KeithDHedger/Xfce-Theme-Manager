@@ -272,6 +272,12 @@ int main(int argc,char **argv)
 
 	init();
 
+	if (argc==2 && strcasecmp(argv[1],"-v")==0)
+		{
+			printf("Xfce-Theme-Manager Version %s \n",VERSION);
+			return 0;
+		}
+
 	if (argc==2 && strcasecmp(argv[1],"-m")==0)
 		{
 			makeProgressBar();
