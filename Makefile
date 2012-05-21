@@ -1,6 +1,6 @@
 PROGRAM=xfce-theme-manager
 SOURCES=src/main.cpp src/globals.cpp src/database.cpp src/thumbnails.cpp src/gui.cpp src/callbacks.cpp
-VERSION=0.1.9r2
+VERSION=0.1.10
 LAUNCHER=Xfce-Theme-Manager.desktop
 
 ifeq ($(strip $(PREFIX)),)
