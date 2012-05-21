@@ -216,14 +216,24 @@ void setTitlePos(GtkComboBoxText* widget,gpointer data)
 {
 	char*		command;
 	char*		text=NULL;
+	int		position=gtk_combo_box_get_active((GtkComboBox*)widget);
 
 	text=gtk_combo_box_text_get_active_text(widget);
 
 	if(text!=NULL)
 		{
-			//printf("%i\n",gtk_combo_box_get_active((GtkComboBox*)widget));
-			switch ()
-			asprintf(&command,"%s %s",XCONFSETTITLEPOS,text);
+			switch (position)
+				{
+					case 0:
+						asprintf(&command,"%s %s",XCONFSETTITLEPOS,"Left");
+						break;
+					case 1:
+						asprintf(&command,"%s %s",XCONFSETTITLEPOS,"Centre");
+						break;
+					case 2:
+						asprintf(&command,"%s %s",XCONFSETTITLEPOS,"Right");
+						break;
+				}
 			system(command);
 			freeAndNull(&command);
 			freeAndNull(&text);
