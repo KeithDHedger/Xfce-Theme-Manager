@@ -283,19 +283,17 @@ int main(int argc,char **argv)
 	GtkWidget*		button;
 	GtkWidget*		advancedScrollBox;
 
-	g_thread_init(NULL);
-	gdk_threads_init();
-	gtk_init(&argc, &argv);
-
-	init();
-
 	if (argc==2 && strcasecmp(argv[1],"-v")==0)
 		{
 			printf("Xfce-Theme-Manager Version %s \nCopyright K.D.Hedger 2012, kdhedger@yahoo.co.uk\n",VERSION);
 			return 0;
 		}
 
+	g_thread_init(NULL);
+	gdk_threads_init();
+	gtk_init(&argc, &argv);
 
+	init();
 
 	if (argc==2 && strcasecmp(argv[1],"-m")==0)
 		{
