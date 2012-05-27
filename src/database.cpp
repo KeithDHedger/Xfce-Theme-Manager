@@ -311,6 +311,7 @@ gpointer rebuildDB(gpointer data)
 				}
 		}
 
+printf("XXXXXXX\n");
 //cursors
 //gtkprev [cursors] cursortheme /out/path/to/png
 //makecursor(argv[2],argv[3]);
@@ -336,7 +337,9 @@ gpointer rebuildDB(gpointer data)
 												asprintf(&displayname,entry);
 
 											asprintf(&thumbfile,"%s/%s.png",cursorsFolder,entry);
+											printf("in %s thumb %s\n",(char*)entry,thumbfile);
 											makecursor((char*)entry,thumbfile);
+											printf("out %s thumb %s\n",(char*)entry,thumbfile);
 											writeDBFile(dbfile,displayname,NULL,NULL,NULL,NULL,(char*)entry,thumbfile);
 										}
 									freeAndNull(&buffer);

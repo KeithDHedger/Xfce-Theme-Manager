@@ -137,8 +137,9 @@ void showAdvanced(GtkWidget* widget,gpointer data)
 
 void init(void)
 {
-	gchar	*stdout;
-	gchar	*stderr;
+	gchar	*stdout=NULL;
+	gchar	*stderr=NULL;
+	gint   retval=0;
 
 	homeFolder=(char*)g_get_home_dir();
 
@@ -164,59 +165,75 @@ void init(void)
 	asprintf(&wallpapersFolder,"%s/wallpapers",dbFolder);
 	asprintf(&customFolder,"%s/custom",dbFolder);
 
-	g_spawn_command_line_sync(XCONFGETSTYLE,&stdout,&stderr,NULL,NULL);
-	stdout[strlen(stdout)-1]=0;
-	currentWallStyle=atol(stdout);
-	g_free(stdout);
-	g_free(stderr);
+	g_spawn_command_line_sync(XCONFGETSTYLE,&stdout,&stderr,&retval,NULL);
 
-	g_spawn_command_line_sync(XCONFGETCONTROLS,&currentGtkTheme,NULL,NULL,NULL);
-	currentGtkTheme[strlen(currentGtkTheme)-1]=0;
+	if (retval==0)
+		{
+			stdout[strlen(stdout)-1]=0;
+			currentWallStyle=atol(stdout);
+		}
+
+	freeAndNull(&stdout);
+	freeAndNull(&stderr);
+
+	g_spawn_command_line_sync(XCONFGETCONTROLS,&currentGtkTheme,NULL,&retval,NULL);
+	if (retval==0)
+		currentGtkTheme[strlen(currentGtkTheme)-1]=0;
 	
-	g_spawn_command_line_sync(XCONFGETICONS,&currentIconTheme,NULL,NULL,NULL);
-	currentIconTheme[strlen(currentIconTheme)-1]=0;
+	g_spawn_command_line_sync(XCONFGETICONS,&currentIconTheme,NULL,&retval,NULL);
+	if (retval==0)
+		currentIconTheme[strlen(currentIconTheme)-1]=0;
 
-	g_spawn_command_line_sync(XCONFGETCURSOR,&currentCursorTheme,NULL,NULL,NULL);
-	currentCursorTheme[strlen(currentCursorTheme)-1]=0;
+	g_spawn_command_line_sync(XCONFGETCURSOR,&currentCursorTheme,NULL,&retval,NULL);
+	if (retval==0)
+		currentCursorTheme[strlen(currentCursorTheme)-1]=0;
 
-	g_spawn_command_line_sync(XCONFGETFRAME,&currentWmTheme,NULL,NULL,NULL);
-	currentWmTheme[strlen(currentWmTheme)-1]=0;
+	g_spawn_command_line_sync(XCONFGETFRAME,&currentWmTheme,NULL,&retval,NULL);
+	if (retval==0)
+		currentWmTheme[strlen(currentWmTheme)-1]=0;
 
-	g_spawn_command_line_sync(XCONFGETPAPER,&currentWallPaper,&stderr,NULL,NULL);
-	currentWallPaper[strlen(currentWallPaper)-1]=0;
-	g_free(stderr);
+	g_spawn_command_line_sync(XCONFGETPAPER,&currentWallPaper,NULL,&retval,NULL);
+	if (retval==0)
+			currentWallPaper[strlen(currentWallPaper)-1]=0;
 
-	g_spawn_command_line_sync(XCONFGETLAYOUT,&currentButtonLayout,&stderr,NULL,NULL);
+	g_spawn_command_line_sync(XCONFGETLAYOUT,&currentButtonLayout,&stderr,&retval,NULL);
 	currentButtonLayout[strlen(currentButtonLayout)-1]=0;
-	g_free(stderr);
 
-	g_spawn_command_line_sync(XCONFGETTITLEPOS,&currentTitlePos,&stderr,NULL,NULL);
-	currentTitlePos[strlen(currentTitlePos)-1]=0;
-	g_free(stderr);
+	g_spawn_command_line_sync(XCONFGETTITLEPOS,&currentTitlePos,NULL,&retval,NULL);
+	if (retval==0)
+		currentTitlePos[strlen(currentTitlePos)-1]=0;
 
-	g_spawn_command_line_sync(XCONFGETWMFONT,&currentWMFont,NULL,NULL,NULL);
-	currentWMFont[strlen(currentWMFont)-1]=0;
+	g_spawn_command_line_sync(XCONFGETWMFONT,&currentWMFont,NULL,&retval,NULL);
+	if (retval==0)
+		currentWMFont[strlen(currentWMFont)-1]=0;
 
-	g_spawn_command_line_sync(XCONFGETAPPFONT,&currentAppFont,NULL,NULL,NULL);
-	currentAppFont[strlen(currentAppFont)-1]=0;
+	g_spawn_command_line_sync(XCONFGETAPPFONT,&currentAppFont,NULL,&retval,NULL);
+	if (retval==0)
+		currentAppFont[strlen(currentAppFont)-1]=0;
 
-	g_spawn_command_line_sync(XCONFGETBRIGHT,&stdout,&stderr,NULL,NULL);
-	stdout[strlen(stdout)-1]=0;
-	currentBright=atoi(stdout);
-	g_free(stdout);
-	g_free(stderr);
+	g_spawn_command_line_sync(XCONFGETBRIGHT,&stdout,NULL,&retval,NULL);
+	if (retval==0)
+		{
+			stdout[strlen(stdout)-1]=0;
+			currentBright=atoi(stdout);
+		}
+	freeAndNull(&stdout);
 
-	g_spawn_command_line_sync(XCONFGETSATU,&stdout,&stderr,NULL,NULL);
-	stdout[strlen(stdout)-1]=0;
-	currentSatu=atof(stdout);
-	g_free(stdout);
-	g_free(stderr);
+	g_spawn_command_line_sync(XCONFGETSATU,&stdout,NULL,&retval,NULL);
+	if (retval==0)
+		{
+			stdout[strlen(stdout)-1]=0;
+			currentSatu=atof(stdout);
+		}
+	freeAndNull(&stdout);
 
-	g_spawn_command_line_sync(XCONFGETCURSORSIZE,&stdout,&stderr,NULL,NULL);
-	stdout[strlen(stdout)-1]=0;
-	currentCursSize=atoi(stdout);
-	g_free(stdout);
-	g_free(stderr);
+	g_spawn_command_line_sync(XCONFGETCURSORSIZE,&stdout,NULL,&retval,NULL);
+	if (retval==0)
+		{
+			stdout[strlen(stdout)-1]=0;
+			currentCursSize=atoi(stdout);
+		}
+	freeAndNull(&stdout);
 
 	missingImage=gdk_pixbuf_new_from_xpm_data((const char**)error_xpm);
 	blankImage=gdk_pixbuf_new_from_xpm_data((const char**)blank_xpm);
@@ -274,9 +291,11 @@ int main(int argc,char **argv)
 
 	if (argc==2 && strcasecmp(argv[1],"-v")==0)
 		{
-			printf("Xfce-Theme-Manager Version %s \n",VERSION);
+			printf("Xfce-Theme-Manager Version %s \nCopyright K.D.Hedger 2012, kdhedger@yahoo.co.uk\n",VERSION);
 			return 0;
 		}
+
+
 
 	if (argc==2 && strcasecmp(argv[1],"-m")==0)
 		{

@@ -95,17 +95,17 @@ void makecursor(char* theme,char* outPath)
 				gdk_cairo_set_source_pixbuf(cr,arrow,0,0);
 				cairo_paint_with_alpha(cr,100);
 			}
-		if(arrow!=NULL)
+		if(move!=NULL)
 			{
 				gdk_cairo_set_source_pixbuf(cr,move,32,0);
 				cairo_paint_with_alpha(cr,100);
 			}
-		if(arrow!=NULL)
+		if(wait!=NULL)
 			{
 				gdk_cairo_set_source_pixbuf(cr,wait,64,0);
 				cairo_paint_with_alpha(cr,100);
 			}
-		if(arrow!=NULL)
+		if(hand!=NULL)
 			{
 				gdk_cairo_set_source_pixbuf(cr,hand,96,0);
 				cairo_paint_with_alpha(cr,100);
