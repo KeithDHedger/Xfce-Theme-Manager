@@ -250,7 +250,10 @@ void makeProgressBar(void)
 	GtkWidget*		vbox;
 
 	progressWindow=gtk_window_new(GTK_WINDOW_TOPLEVEL);
-	gtk_window_set_default_size((GtkWindow*)progressWindow,400,40);
+	gtk_widget_set_size_request(progressWindow,400,40);
+	gtk_window_set_deletable((GtkWindow*)progressWindow,false);
+	gtk_window_set_resizable((GtkWindow*)progressWindow,false);
+	gtk_window_set_type_hint((GtkWindow*)progressWindow,GDK_WINDOW_TYPE_HINT_DIALOG);
 	gtk_window_set_title((GtkWindow*)progressWindow,"Re-Building Database, Please Wait...");
 	vbox=gtk_vbox_new(FALSE, 0);
 	progressBar=gtk_progress_bar_new();

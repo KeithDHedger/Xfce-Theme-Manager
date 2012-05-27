@@ -93,7 +93,6 @@ void customTheme(GtkWidget* window,gpointer data)
 	char		buffer[2048];
 	filename=NULL;
 	gchar*	stdout;
-	gchar*	stderr;
 	char*		customname=NULL;
 	gint   	spawnret=0;
 
