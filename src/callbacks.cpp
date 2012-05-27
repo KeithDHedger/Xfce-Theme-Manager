@@ -27,12 +27,12 @@ char*		metaThemeSelected=NULL;
 void buildCustomDB(const char* xconfline,const char* key)
 {
 	char*	stdout;
+	gint   spawnret=0;
 
-	g_spawn_command_line_sync(xconfline,&stdout,NULL,NULL,NULL);
-	stdout[strlen(stdout)-1]=0;
-
-	if (stdout!=NULL)
+	g_spawn_command_line_sync(xconfline,&stdout,NULL,&spawnret,NULL);
+	if (spawnret==0)
 		{
+			stdout[strlen(stdout)-1]=0;
 			sprintf(filedata,"%s%s=%s\n",filedata,key,stdout);
 			freeAndNull(&stdout);
 		}
@@ -95,14 +95,17 @@ void customTheme(GtkWidget* window,gpointer data)
 	gchar*	stdout;
 	gchar*	stderr;
 	char*		customname=NULL;
+	gint   	spawnret=0;
 
 	if (metaThemeSelected==NULL)
 		{
-			g_spawn_command_line_sync(XCONFGETFRAME,&stdout,&stderr,NULL,NULL);
-			stdout[strlen(stdout)-1]=0;
-			asprintf(&customname,"%s %s",stdout,_translate(CUSTOM));
-			g_free(stdout);
-			g_free(stderr);
+			g_spawn_command_line_sync(XCONFGETFRAME,&stdout,NULL,&spawnret,NULL);
+			if (spawnret==0)
+				{
+					stdout[strlen(stdout)-1]=0;
+					asprintf(&customname,"%s %s",stdout,_translate(CUSTOM));
+					freeAndNull(&stdout);
+				}
 		}
 	else
 		{
@@ -127,22 +130,24 @@ void customTheme(GtkWidget* window,gpointer data)
 
 	if (filename!=NULL && strlen(filename)>0)
 		{
-			g_spawn_command_line_sync(XCONFGETCONTROLS,&gtk,&stderr,NULL,NULL);
-			gtk[strlen(gtk)-1]=0;
-			g_free(stderr);
+			g_spawn_command_line_sync(XCONFGETCONTROLS,&gtk,NULL,&spawnret,NULL);
+			if (spawnret==0)
+				gtk[strlen(gtk)-1]=0;
+
 			
-			g_spawn_command_line_sync(XCONFGETFRAME,&frame,&stderr,NULL,NULL);
-			frame[strlen(frame)-1]=0;
-			g_free(stderr);
+			g_spawn_command_line_sync(XCONFGETFRAME,&frame,NULL,&spawnret,NULL);
+			if (spawnret==0)
+				frame[strlen(frame)-1]=0;
 
-			g_spawn_command_line_sync(XCONFGETICONS,&iconTheme,&stderr,NULL,NULL);
-			iconTheme[strlen(iconTheme)-1]=0;
-			g_free(stderr);
+			g_spawn_command_line_sync(XCONFGETICONS,&iconTheme,NULL,&spawnret,NULL);
+			if (spawnret==0)
+				iconTheme[strlen(iconTheme)-1]=0;
 
-			g_spawn_command_line_sync(XCONFGETCURSOR,&cursorTheme,&stderr,NULL,NULL);
-			cursorTheme[strlen(cursorTheme)-1]=0;
+			g_spawn_command_line_sync(XCONFGETCURSOR,&cursorTheme,NULL,&spawnret,NULL);
+			if (spawnret==0)
+				cursorTheme[strlen(cursorTheme)-1]=0;
+
 			asprintf(&thumbfile,"%s/%s.png",customFolder,filename);
-			g_free(stderr);
 
 			sprintf(buffer,"%s/%s",themesArray[0],frame);
 			if (!g_file_test(buffer, G_FILE_TEST_IS_DIR))
@@ -263,52 +268,55 @@ int installWallpaper(char* filename)
 int extractAndInstall(char* filename)
 {
 	gchar*	stdout=NULL;
-	gchar*	stderr=NULL;
 	int		retval=-1;
+	gint		spawnret=-1;
 
 	while(true)
 	{
 		sprintf(generalBuffer,"tar --wildcards -tf %s */gtkrc",filename);
-		g_spawn_command_line_sync((char*)generalBuffer,&stdout,&stderr,NULL,NULL);
-		freeAndNull(&stderr);
-		if (stdout!=NULL)
+		g_spawn_command_line_sync((char*)generalBuffer,&stdout,NULL,&spawnret,NULL);
+		if (spawnret==0)
 			{
 				stdout[strlen(stdout)-1]=0;
 				if(strlen(stdout)>1)
 					{
 						sprintf(generalBuffer,"tar -C %s -xf %s",themesArray[0],filename);
 						retval=system(generalBuffer);
+						freeAndNull(&stdout);
 						break;
 					}
+				freeAndNull(&stdout);
 			}
 
 		sprintf(generalBuffer,"tar --wildcards -tf %s */themerc",filename);
-		g_spawn_command_line_sync((char*)generalBuffer,&stdout,&stderr,NULL,NULL);
-		freeAndNull(&stderr);
-		if (stdout!=NULL)
+		g_spawn_command_line_sync((char*)generalBuffer,&stdout,NULL,&spawnret,NULL);
+		if (spawnret==0)
 			{
 				stdout[strlen(stdout)-1]=0;
 				if(strlen(stdout)>1)
 					{
 						sprintf(generalBuffer,"tar -C %s -xf %s",themesArray[0],filename);
 						retval=system(generalBuffer);
+						freeAndNull(&stdout);
 						break;
 					}
+				freeAndNull(&stdout);
 			}
 
 		sprintf(generalBuffer,"tar --wildcards -tf %s */index.theme",filename);
-		g_spawn_command_line_sync((char*)generalBuffer,&stdout,&stderr,NULL,NULL);
-		freeAndNull(&stderr);
-			if (stdout!=NULL)
-				{
-					stdout[strlen(stdout)-1]=0;
-					if(strlen(stdout)>1)
-						{
-							sprintf(generalBuffer,"tar -C %s -xf %s",iconsArray[0],filename);
-							retval=system(generalBuffer);
-							break;
-						}
-				}
+		g_spawn_command_line_sync((char*)generalBuffer,&stdout,NULL,&spawnret,NULL);
+		if (spawnret==0)
+			{
+				stdout[strlen(stdout)-1]=0;
+				if(strlen(stdout)>1)
+					{
+						sprintf(generalBuffer,"tar -C %s -xf %s",iconsArray[0],filename);
+						retval=system(generalBuffer);
+						freeAndNull(&stdout);
+						break;
+					}
+				freeAndNull(&stdout);
+			}
 		break;
 	}
 
