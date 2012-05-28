@@ -167,7 +167,7 @@ void init(void)
 
 
 
-	g_spawn_command_line_sync(XCONFGETSTYLE,&stdout,NULL,&retval,NULL);
+	g_spawn_command_line_sync(XCONFGETSTYLE,&stdout,&stderr,&retval,NULL);
 
 	if (retval==0)
 		{
@@ -178,64 +178,76 @@ void init(void)
 	freeAndNull(&stdout);
 	freeAndNull(&stderr);
 
-	g_spawn_command_line_sync(XCONFGETCONTROLS,&currentGtkTheme,NULL,&retval,NULL);
+	g_spawn_command_line_sync(XCONFGETCONTROLS,&currentGtkTheme,&stderr,&retval,NULL);
 	if (retval==0)
 		currentGtkTheme[strlen(currentGtkTheme)-1]=0;
+	freeAndNull(&stderr);
 	
-	g_spawn_command_line_sync(XCONFGETICONS,&currentIconTheme,NULL,&retval,NULL);
+	g_spawn_command_line_sync(XCONFGETICONS,&currentIconTheme,&stderr,&retval,NULL);
 	if (retval==0)
 		currentIconTheme[strlen(currentIconTheme)-1]=0;
+	freeAndNull(&stderr);
 
-	g_spawn_command_line_sync(XCONFGETCURSOR,&currentCursorTheme,NULL,&retval,NULL);
+	g_spawn_command_line_sync(XCONFGETCURSOR,&currentCursorTheme,&stderr,&retval,NULL);
 	if (retval==0)
 		currentCursorTheme[strlen(currentCursorTheme)-1]=0;
+	freeAndNull(&stderr);
 
-	g_spawn_command_line_sync(XCONFGETFRAME,&currentWmTheme,NULL,&retval,NULL);
+	g_spawn_command_line_sync(XCONFGETFRAME,&currentWmTheme,&stderr,&retval,NULL);
 	if (retval==0)
 		currentWmTheme[strlen(currentWmTheme)-1]=0;
 
-	g_spawn_command_line_sync(XCONFGETPAPER,&currentWallPaper,NULL,&retval,NULL);
+	g_spawn_command_line_sync(XCONFGETPAPER,&currentWallPaper,&stderr,&retval,NULL);
 	if (retval==0)
 			currentWallPaper[strlen(currentWallPaper)-1]=0;
+	freeAndNull(&stderr);
 
 	g_spawn_command_line_sync(XCONFGETLAYOUT,&currentButtonLayout,&stderr,&retval,NULL);
-	currentButtonLayout[strlen(currentButtonLayout)-1]=0;
+	if (retval==0)
+		currentButtonLayout[strlen(currentButtonLayout)-1]=0;
+	freeAndNull(&stderr);
 
-	g_spawn_command_line_sync(XCONFGETTITLEPOS,&currentTitlePos,NULL,&retval,NULL);
+	g_spawn_command_line_sync(XCONFGETTITLEPOS,&currentTitlePos,&stderr,&retval,NULL);
 	if (retval==0)
 		currentTitlePos[strlen(currentTitlePos)-1]=0;
+	freeAndNull(&stderr);
 
-	g_spawn_command_line_sync(XCONFGETWMFONT,&currentWMFont,NULL,&retval,NULL);
+	g_spawn_command_line_sync(XCONFGETWMFONT,&currentWMFont,&stderr,&retval,NULL);
 	if (retval==0)
 		currentWMFont[strlen(currentWMFont)-1]=0;
+	freeAndNull(&stderr);
 
-	g_spawn_command_line_sync(XCONFGETAPPFONT,&currentAppFont,NULL,&retval,NULL);
+	g_spawn_command_line_sync(XCONFGETAPPFONT,&currentAppFont,&stderr,&retval,NULL);
 	if (retval==0)
 		currentAppFont[strlen(currentAppFont)-1]=0;
+	freeAndNull(&stderr);
 
-	g_spawn_command_line_sync(XCONFGETBRIGHT,&stdout,NULL,&retval,NULL);
+	g_spawn_command_line_sync(XCONFGETBRIGHT,&stdout,&stderr,&retval,NULL);
 	if (retval==0)
 		{
 			stdout[strlen(stdout)-1]=0;
 			currentBright=atoi(stdout);
 		}
 	freeAndNull(&stdout);
+	freeAndNull(&stderr);
 
-	g_spawn_command_line_sync(XCONFGETSATU,&stdout,NULL,&retval,NULL);
+	g_spawn_command_line_sync(XCONFGETSATU,&stdout,&stderr,&retval,NULL);
 	if (retval==0)
 		{
 			stdout[strlen(stdout)-1]=0;
 			currentSatu=atof(stdout);
 		}
 	freeAndNull(&stdout);
+	freeAndNull(&stderr);
 
-	g_spawn_command_line_sync(XCONFGETCURSORSIZE,&stdout,NULL,&retval,NULL);
+	g_spawn_command_line_sync(XCONFGETCURSORSIZE,&stdout,&stderr,&retval,NULL);
 	if (retval==0)
 		{
 			stdout[strlen(stdout)-1]=0;
 			currentCursSize=atoi(stdout);
 		}
 	freeAndNull(&stdout);
+	freeAndNull(&stderr);
 	missingImage=gdk_pixbuf_new_from_xpm_data((const char**)error_xpm);
 	blankImage=gdk_pixbuf_new_from_xpm_data((const char**)blank_xpm);
 
