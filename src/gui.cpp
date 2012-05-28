@@ -103,8 +103,8 @@ void addNewButtons(GtkWidget* vbox,const char* subfolder,void* callback)
 							gtk_container_add (GTK_CONTAINER (button),box);
 							g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(callback),NULL);
 							gtk_box_pack_start((GtkBox*)vbox,button,false,true,4);
-							g_free(name);
-							g_free(thumb);
+							freeAndNull(&name);
+							freeAndNull(&thumb);
 						}
 			 	}
 			g_slist_free_full(entrylist,freeNames);
