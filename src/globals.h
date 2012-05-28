@@ -11,8 +11,6 @@
 #ifndef _GLOBALS_
 #define _GLOBALS_
 
-//#define VERSION "0.1.10"
-
 #define PADWIDTH 72
 #define MAXBOXWIDTH 240
 #define ICONSIZE 32

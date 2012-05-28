@@ -165,7 +165,9 @@ void init(void)
 	asprintf(&wallpapersFolder,"%s/wallpapers",dbFolder);
 	asprintf(&customFolder,"%s/custom",dbFolder);
 
-	g_spawn_command_line_sync(XCONFGETSTYLE,&stdout,&stderr,&retval,NULL);
+
+
+	g_spawn_command_line_sync(XCONFGETSTYLE,&stdout,NULL,&retval,NULL);
 
 	if (retval==0)
 		{
@@ -234,15 +236,19 @@ void init(void)
 			currentCursSize=atoi(stdout);
 		}
 	freeAndNull(&stdout);
-
 	missingImage=gdk_pixbuf_new_from_xpm_data((const char**)error_xpm);
 	blankImage=gdk_pixbuf_new_from_xpm_data((const char**)blank_xpm);
 
-	langID=ENGLISH;	
-	if(strncmp(getenv("LANG"),"es",2)==0)
-		langID=SPANISH;
-	if(strncmp(getenv("LANG"),"de",2)==0)
-		langID=GERMAN;
+	langID=ENGLISH;
+
+	stdout=getenv("LANG");
+	if (stdout!=NULL)
+		{
+			if(strncmp("es",stdout,2)==0)
+				langID=SPANISH;
+			if(strncmp("de",stdout,2)==0)
+				langID=GERMAN;
+		}	
 }
 
 void makeProgressBar(void)
@@ -297,6 +303,7 @@ int main(int argc,char **argv)
 	gtk_init(&argc, &argv);
 
 	init();
+
 
 	if (argc==2 && strcasecmp(argv[1],"-m")==0)
 		{
