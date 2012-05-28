@@ -9,7 +9,7 @@ ifeq ($(strip $(PREFIX)),)
 endif
 
 ifeq ($(strip $(CXXFLAGS)),)
-	CXXFLAGS=-O3 -Wall -Wunused -Wunused-function -lXcursor `pkg-config --cflags --libs glib-2.0` `pkg-config --cflags --libs gdk-2.0` `pkg-config --cflags --libs gtk+-2.0` -DVERSION=\"$(VERSION)\" -DGTK_DISABLE_DEPRECATED -DGTK_DISABLE_SINGLE_INCLUDES -DGDK_DISABLE_DEPRECATED -DGSEAL_ENABLE
+	CXXFLAGS=-O3 -Wall -Wunused -Wunused-function -lXcursor `pkg-config --cflags --libs glib-2.0` `pkg-config --cflags --libs gdk-2.0` `pkg-config --cflags --libs gtk+-2.0` -DGTK_DISABLE_DEPRECATED -DGTK_DISABLE_SINGLE_INCLUDES -DGDK_DISABLE_DEPRECATED -DGSEAL_ENABLE
 endif
 
 $(PROGRAM):$(SOURCES)
