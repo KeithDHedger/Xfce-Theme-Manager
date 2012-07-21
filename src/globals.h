@@ -11,7 +11,7 @@
 #ifndef _GLOBALS_
 #define _GLOBALS_
 
-#define VERSION "0.1.11"
+#define VERSION "0.1.12"
 
 #define PADWIDTH 72
 #define MAXBOXWIDTH 240
@@ -58,6 +58,19 @@
 
 #define XCONFGETCURSORSIZE "xfconf-query -nRt int -c xsettings -vp /Gtk/CursorThemeSize"
 #define XCONFSETCURSORSIZE "xfconf-query -nRt int -c xsettings -vp /Gtk/CursorThemeSize -s "
+
+#define XMTGETSHOWSYSTEM  "xfconf-query -c xfcethemer -p /ShowGlobal"
+#define XMTSETSHOWSYSTEM  "xfconf-query -nt int -c xfcethemer -p /ShowGlobal -s "
+#define XMTGETSHOWMETA "xfconf-query -c xfcethemer -p /ShowGlobal"
+#define XMTSETSHOWMETA  "xfconf-query -nt int -c xfcethemer -p /ShowMeta -s "
+#define XMTGETSHOWGTK "xfconf-query -c xfcethemer -p /ShowGtk"
+#define XMTSETSHOWGTK  "xfconf-query -nt int -c xfcethemer -p /ShowGtk -s "
+#define XMTGETSHOWWMB "xfconf-query -c xfcethemer -p /ShowDecs"
+#define XMTSETSHOWWMB  "xfconf-query -nt int -c xfcethemer -p /ShowDecs -s "
+#define XMTGETSHOWICONS "xfconf-query -c xfcethemer -p /ShowIcons"
+#define XMTSETSHOWICONS  "xfconf-query -nt int -c xfcethemer -p /ShowIcons -s "
+#define XMTGETSHOWPAPER "xfconf-query -c xfcethemer -p /ShowBackdrop"
+#define XMTSETSHOWPAPEr  "xfconf-query -nt int -c xfcethemer -p /ShowBackdrop -s "
 
 #define _translate(x) langStr[langID][x]
 
@@ -129,7 +142,14 @@ extern GtkWidget*		iconsVBox;
 extern GtkWidget*		cursorsVBox;
 extern GtkWidget*		wallpapersVBox;
 
+//advanced
 extern GtkNotebook*	advanced;
+extern GtkWidget*		showsystem;
+extern GtkWidget*		showmeta;
+extern GtkWidget*		showborder;
+extern GtkWidget*		showgtk;
+extern GtkWidget*		showicons;
+extern GtkWidget*		showpaper;
 
 extern int			controlHeight;
 extern int			controlWidth;

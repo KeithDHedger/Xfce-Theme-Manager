@@ -71,7 +71,15 @@ GtkWidget*		iconsVBox;
 GtkWidget*		cursorsVBox;
 GtkWidget*		wallpapersVBox;
 
+//advanced
 GtkNotebook*	advanced;
+GtkWidget*		showsystem;
+GtkWidget*		showmeta;
+GtkWidget*		showborder;
+GtkWidget*		showgtk;
+GtkWidget*		showicons;
+GtkWidget*		showpaper;
+
 
 int			controlHeight=50;
 int			controlWidth=200;

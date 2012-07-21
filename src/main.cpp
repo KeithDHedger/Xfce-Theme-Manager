@@ -260,7 +260,9 @@ void init(void)
 				langID=SPANISH;
 			if(strncmp("de",stdout,2)==0)
 				langID=GERMAN;
-		}	
+		}
+//init my configs
+	
 }
 
 void makeProgressBar(void)

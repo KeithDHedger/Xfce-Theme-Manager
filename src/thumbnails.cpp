@@ -315,14 +315,13 @@ void makeborder(char* folder,char* outframe)
 	int		closehite=0,maxhite=0,minhite=0,menuhite=0;
 	int		topleftwid=0,toplefthite=0,topritewid=0,topritehite=0;
 	int		bottomleftwid=0,bottomlefthite=0,bottomritewid=0,bottomritehite=0;
-	int		leftsidewid=0,leftsidehite=0,ritesidewid=0,ritesidehite=0;
-	int		bottomwid=0,bottomhite=0;
-
-	int		title1wid=0,title1hite=0;
+	int		leftsidewid=0,ritesidewid=0;
+	int		bottomhite=0;
+	int		title1hite=0;
 	int		title2wid=0,title2hite=0;
-	int		title3wid=0,title3hite=0;
+	int		title3hite=0;
 	int		title4wid=0,title4hite=0;
-	int		title5wid=0,title5hite=0;
+	int		title5wid=0;
 
 	int		padwid=PADWIDTH;
 
@@ -348,7 +347,6 @@ void makeborder(char* folder,char* outframe)
 
 	if (title1!=NULL)
 		{
-			title1wid=gdk_pixbuf_get_width((const GdkPixbuf *)title1);
 			title1hite=gdk_pixbuf_get_height((const GdkPixbuf *)title1);
 		}
 	if (title2!=NULL)
@@ -358,7 +356,6 @@ void makeborder(char* folder,char* outframe)
 		}
 	if (title3!=NULL)
 		{
-			title3wid=gdk_pixbuf_get_width((const GdkPixbuf *)title3);
 			title3hite=gdk_pixbuf_get_height((const GdkPixbuf *)title3);
 		}
 	if (title4!=NULL)
@@ -369,7 +366,6 @@ void makeborder(char* folder,char* outframe)
 	if (title5!=NULL)
 		{
 			title5wid=gdk_pixbuf_get_width((const GdkPixbuf *)title5);
-			title5hite=gdk_pixbuf_get_height((const GdkPixbuf *)title5);
 		}
 
 	topleftwid=gdk_pixbuf_get_width((const GdkPixbuf *)topleft);
@@ -385,12 +381,9 @@ void makeborder(char* folder,char* outframe)
 	bottomritehite=gdk_pixbuf_get_height((const GdkPixbuf *)bottomrite);
 
 	leftsidewid=gdk_pixbuf_get_width((const GdkPixbuf *)leftside);
-	leftsidehite=gdk_pixbuf_get_height((const GdkPixbuf *)leftside);
 	
 	ritesidewid=gdk_pixbuf_get_width((const GdkPixbuf *)riteside);
-	ritesidehite=gdk_pixbuf_get_height((const GdkPixbuf *)riteside);
 
-	bottomwid=gdk_pixbuf_get_width((const GdkPixbuf *)bottom);
 	bottomhite=gdk_pixbuf_get_height((const GdkPixbuf *)bottom);
 
 	if(close!=NULL)
@@ -512,7 +505,7 @@ void makeborder(char* folder,char* outframe)
 			cairo_save (cr);
 				gdk_cairo_set_source_pixbuf(cr,title4,topleftwid+lsegwid+title2wid+padwid,0);
 				cairo_pattern_set_extend(cairo_get_source(cr),CAIRO_EXTEND_REPEAT);
-				cairo_rectangle(cr,topleftwid+lsegwid+title2wid+padwid,0,title4wid,title3hite);
+				cairo_rectangle(cr,topleftwid+lsegwid+title2wid+padwid,0,title4wid,title4hite);
  				cairo_clip(cr);
 				cairo_paint_with_alpha(cr,100);
 			cairo_restore (cr);
@@ -521,7 +514,7 @@ void makeborder(char* folder,char* outframe)
 	if (title5!=NULL)
 		{
 			cairo_save (cr);
-				gdk_cairo_set_source_pixbuf(cr,title5,topleftwid+lsegwid+title2wid+padwid+title4wid,0);
+				gdk_cairo_set_source_pixbuf(cr,title5,topleftwid+lsegwid+title2wid+padwid+title5wid,0);
 				cairo_pattern_set_extend(cairo_get_source(cr),CAIRO_EXTEND_REPEAT);
 				cairo_rectangle(cr,topleftwid+lsegwid+title2wid+padwid+title4wid,0,rsegwid,title3hite);
  				cairo_clip(cr);
@@ -585,12 +578,14 @@ hiteoffset=0;
 //max
 		if(max!=NULL)
 			{
+				hiteoffset=(title3hite-maxhite)/2;
 				gdk_cairo_set_source_pixbuf(cr,max,boxwid-button_offset-ritesidewid-closewid-maxwid-button_spacing,hiteoffset);
 				cairo_paint_with_alpha(cr,100);
 			}
 //min
 		if(min!=NULL)
 			{
+				hiteoffset=(title3hite-minhite)/2;
 				gdk_cairo_set_source_pixbuf(cr,min,boxwid-button_offset-ritesidewid-closewid-maxwid-minwid-button_spacing-button_spacing,hiteoffset);
 				cairo_paint_with_alpha(cr,100);
 			}
