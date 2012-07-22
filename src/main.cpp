@@ -308,11 +308,29 @@ void init(void)
 	freeAndNull(&stdout);
 	freeAndNull(&stderr);
 
+	g_spawn_command_line_sync(XMTGETSHOWCURSORS,&stdout,&stderr,&retval,NULL);
+	if (retval==0)
+		{
+			stdout[strlen(stdout)-1]=0;
+			showCursors=atoi(stdout);
+		}
+	freeAndNull(&stdout);
+	freeAndNull(&stderr);
+
 	g_spawn_command_line_sync(XMTGETSHOWPAPER,&stdout,&stderr,&retval,NULL);
 	if (retval==0)
 		{
 			stdout[strlen(stdout)-1]=0;
 			showBackdrop=atoi(stdout);
+		}
+	freeAndNull(&stdout);
+	freeAndNull(&stderr);
+
+	g_spawn_command_line_sync(XMTGETSHOWCUSTOM,&stdout,&stderr,&retval,NULL);
+	if (retval==0)
+		{
+			stdout[strlen(stdout)-1]=0;
+			showOnlyCustom=atoi(stdout);
 		}
 	freeAndNull(&stdout);
 	freeAndNull(&stderr);
@@ -372,7 +390,6 @@ int main(int argc,char **argv)
 
 	init();
 
-
 	if (argc==2 && strcasecmp(argv[1],"-m")==0)
 		{
 			makeProgressBar();
@@ -389,7 +406,7 @@ int main(int argc,char **argv)
 			rebuildDB((void*)1);
 
 	window=gtk_window_new(GTK_WINDOW_TOPLEVEL);
-	gtk_window_set_default_size((GtkWindow*)window,400,470);
+	gtk_window_set_default_size((GtkWindow*)window,440,470);
 	g_signal_connect_after(G_OBJECT(window),"destroy",G_CALLBACK(shutdown),NULL);
 
 //main window vbox

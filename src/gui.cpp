@@ -93,12 +93,16 @@ void addNewButtons(GtkWidget* vbox,const char* subfolder,void* callback)
 									flag=true;
 								if ((strcmp(subfolder,"wallpapers")==0 && showBackdrop==1) || entry[0]=='0')
 									flag=true;
+								if (strcmp(subfolder,"custom")==0)
+									flag=true;
 							}
 						else
 							{
 								if (entry[0]=='0')
 									flag=true;
 							}
+
+						
 
 						if (flag==true)
 							{
@@ -351,6 +355,10 @@ void buildAdvancedGui(GtkWidget* advancedScrollBox)
 	gtk_toggle_button_set_active((GtkToggleButton*)iconsCheck,showIcons);
 	g_signal_connect_after(G_OBJECT(iconsCheck),"toggled",G_CALLBACK(changeViewWhat),(gpointer)ICONS);
 
+	cursorsCheck=gtk_check_button_new_with_label("Cursors");
+	gtk_toggle_button_set_active((GtkToggleButton*)cursorsCheck,showCursors);
+	g_signal_connect_after(G_OBJECT(cursorsCheck),"toggled",G_CALLBACK(changeViewWhat),(gpointer)CURSORS);
+
 	paperCheck=gtk_check_button_new_with_label("Wallpaper");
 	gtk_toggle_button_set_active((GtkToggleButton*)paperCheck,showBackdrop);
 	g_signal_connect_after(G_OBJECT(paperCheck),"toggled",G_CALLBACK(changeViewWhat),(gpointer)WALLPAPERS);
@@ -360,6 +368,7 @@ void buildAdvancedGui(GtkWidget* advancedScrollBox)
 	gtk_box_pack_start(GTK_BOX(advancedHbox),borderCheck, true,true,0);
 	gtk_box_pack_start(GTK_BOX(advancedHbox),gtkCheck, true,true,0);
 	gtk_box_pack_start(GTK_BOX(advancedHbox),iconsCheck, true,true,0);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),cursorsCheck, true,true,0);
 	gtk_box_pack_start(GTK_BOX(advancedHbox),paperCheck, true,true,0);
 	gtk_box_pack_start(GTK_BOX(advancedVbox),advancedHbox,false,false,2);
 }

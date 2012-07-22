@@ -69,8 +69,12 @@
 #define XMTSETSHOWWMB  "xfconf-query -nt int -c xfcethemer -p /ShowDecs -s "
 #define XMTGETSHOWICONS "xfconf-query -c xfcethemer -p /ShowIcons"
 #define XMTSETSHOWICONS  "xfconf-query -nt int -c xfcethemer -p /ShowIcons -s "
+#define XMTGETSHOWCURSORS "xfconf-query -c xfcethemer -p /ShowCursors"
+#define XMTSETSHOWCURSORS  "xfconf-query -nt int -c xfcethemer -p /ShowCursors -s "
 #define XMTGETSHOWPAPER "xfconf-query -c xfcethemer -p /ShowBackdrop"
 #define XMTSETSHOWPAPER  "xfconf-query -nt int -c xfcethemer -p /ShowBackdrop -s "
+#define XMTGETSHOWCUSTOM "xfconf-query -c xfcethemer -p /ShowOnlyCustom"
+#define XMTSETSHOWCUSTOM "xfconf-query -nt int -c xfcethemer -p /ShowOnlyCustom -s "
 
 #define _translate(x) langStr[langID][x]
 
@@ -149,7 +153,9 @@ extern GtkWidget*		metaCheck;
 extern GtkWidget*		borderCheck;
 extern GtkWidget*		gtkCheck;
 extern GtkWidget*		iconsCheck;
+extern GtkWidget*		cursorsCheck;
 extern GtkWidget*		paperCheck;
+extern GtkWidget*		onlyCustomCheck;
 
 extern int			controlHeight;
 extern int			controlWidth;
@@ -169,7 +175,9 @@ extern int			showMeta;
 extern int			showGtk;
 extern int			showDecs;
 extern int			showIcons;
+extern int			showCursors;
 extern int			showBackdrop;
+extern int			showOnlyCustom;
 
 extern void freeAndNull(char** ptr);
 extern int positionToInt(char* pos);

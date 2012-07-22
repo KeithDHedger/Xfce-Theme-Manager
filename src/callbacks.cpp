@@ -92,6 +92,11 @@ void changeViewWhat(GtkWidget* widget,gpointer data)
 				asprintf(&command,"%s %i",XMTSETSHOWICONS,showIcons);
 				break;
 
+			case CURSORS:
+				showCursors=(int)gtk_toggle_button_get_active((GtkToggleButton*)widget);
+				asprintf(&command,"%s %i",XMTSETSHOWCURSORS,showCursors);
+				break;
+
 			case WALLPAPERS:
 				showBackdrop=(int)gtk_toggle_button_get_active((GtkToggleButton*)widget);
 				asprintf(&command,"%s %i",XMTSETSHOWPAPER,showBackdrop);
