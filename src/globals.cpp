@@ -73,12 +73,12 @@ GtkWidget*		wallpapersVBox;
 
 //advanced
 GtkNotebook*	advanced;
-GtkWidget*		showsystem;
-GtkWidget*		showmeta;
-GtkWidget*		showborder;
-GtkWidget*		showgtk;
-GtkWidget*		showicons;
-GtkWidget*		showpaper;
+GtkWidget*		systemCheck;
+GtkWidget*		metaCheck;
+GtkWidget*		borderCheck;
+GtkWidget*		gtkCheck;
+GtkWidget*		iconsCheck;
+GtkWidget*		paperCheck;
 
 
 int			controlHeight=50;
@@ -92,6 +92,14 @@ char			generalBuffer[4096];
 GdkPixbuf*		missingImage;
 GdkPixbuf*		blankImage;
 int			langID;
+
+//config stuff
+int			showGlobal=1;
+int			showMeta=1;
+int			showGtk=1;
+int			showDecs=1;
+int			showIcons=1;
+int			showBackdrop=1;
 
 const char* langStr[][STOPWORD]={
 {"Themes","Window Borders","Controls","Icons","Cursors","Wallpapers","Re-Build The Database","Rebuild DB","Launch Xfce-Composite-Editor","Backdrop Adjustments","Brightness","Saturation","Reset","Button Layout","Font Selection","WM Font","App Font","Cursor Size","Reset Theme","Custom Theme","Advanced","Title Position","Enter Name for Theme...","Left","Centre","Right","Auto","Centered","Tiled","Stretched","Scaled","Zoomed","Custom"},

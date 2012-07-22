@@ -144,12 +144,12 @@ extern GtkWidget*		wallpapersVBox;
 
 //advanced
 extern GtkNotebook*	advanced;
-extern GtkWidget*		showsystem;
-extern GtkWidget*		showmeta;
-extern GtkWidget*		showborder;
-extern GtkWidget*		showgtk;
-extern GtkWidget*		showicons;
-extern GtkWidget*		showpaper;
+extern GtkWidget*		systemCheck;
+extern GtkWidget*		metaCheck;
+extern GtkWidget*		borderCheck;
+extern GtkWidget*		gtkCheck;
+extern GtkWidget*		iconsCheck;
+extern GtkWidget*		paperCheck;
 
 extern int			controlHeight;
 extern int			controlWidth;
@@ -162,6 +162,14 @@ extern GdkPixbuf*		missingImage;
 extern GdkPixbuf*		blankImage;
 
 extern int			langID;
+
+//config stuff
+extern int			showGlobal;
+extern int			showMeta;
+extern int			showGtk;
+extern int			showDecs;
+extern int			showIcons;
+extern int			showBackdrop;
 
 extern void freeAndNull(char** ptr);
 extern int positionToInt(char* pos);

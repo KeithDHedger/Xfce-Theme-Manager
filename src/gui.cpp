@@ -301,20 +301,25 @@ void buildAdvancedGui(GtkWidget* advancedScrollBox)
 //database stuff
 	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_hseparator_new(),false,false,4);
 	advancedHbox=gtk_hbox_new(false,0);
-	showsystem=gtk_check_button_new_with_label("Show Global");
-	gtk_box_pack_start(GTK_BOX(advancedHbox),showsystem, true,true,0);
+
+	systemCheck=gtk_check_button_new_with_label("Show Global");
+	gtk_toggle_button_set_active((GtkToggleButton*)systemCheck,showGlobal);
+	g_signal_connect_after(G_OBJECT(systemCheck),"toggled",G_CALLBACK(changeView),NULL);
+
+	gtk_box_pack_start(GTK_BOX(advancedHbox),systemCheck, true,true,0);
 	gtk_box_pack_start(GTK_BOX(advancedVbox),advancedHbox,false,false,2);
-	showmeta=gtk_check_button_new_with_label("Meta");
-	showborder=gtk_check_button_new_with_label("Decorations");
-	showgtk=gtk_check_button_new_with_label("Controls");
-	showicons=gtk_check_button_new_with_label("Icons");
-	showpaper=gtk_check_button_new_with_label("Wallpaper");
+
+	metaCheck=gtk_check_button_new_with_label("Meta");
+	borderCheck=gtk_check_button_new_with_label("Decorations");
+	gtkCheck=gtk_check_button_new_with_label("Controls");
+	iconsCheck=gtk_check_button_new_with_label("Icons");
+	paperCheck=gtk_check_button_new_with_label("Wallpaper");
 	advancedHbox=gtk_hbox_new(false,0);
-	gtk_box_pack_start(GTK_BOX(advancedHbox),showmeta, true,true,0);
-	gtk_box_pack_start(GTK_BOX(advancedHbox),showborder, true,true,0);
-	gtk_box_pack_start(GTK_BOX(advancedHbox),showgtk, true,true,0);
-	gtk_box_pack_start(GTK_BOX(advancedHbox),showicons, true,true,0);
-	gtk_box_pack_start(GTK_BOX(advancedHbox),showpaper, true,true,0);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),metaCheck, true,true,0);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),borderCheck, true,true,0);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),gtkCheck, true,true,0);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),iconsCheck, true,true,0);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),paperCheck, true,true,0);
 	gtk_box_pack_start(GTK_BOX(advancedVbox),advancedHbox,false,false,2);
 }
 

@@ -248,6 +248,7 @@ void init(void)
 		}
 	freeAndNull(&stdout);
 	freeAndNull(&stderr);
+
 	missingImage=gdk_pixbuf_new_from_xpm_data((const char**)error_xpm);
 	blankImage=gdk_pixbuf_new_from_xpm_data((const char**)blank_xpm);
 
@@ -262,7 +263,14 @@ void init(void)
 				langID=GERMAN;
 		}
 //init my configs
-	
+	g_spawn_command_line_sync(XMTGETSHOWSYSTEM,&stdout,&stderr,&retval,NULL);
+	if (retval==0)
+		{
+			stdout[strlen(stdout)-1]=0;
+			showGlobal=atoi(stdout);
+		}
+	freeAndNull(&stdout);
+	freeAndNull(&stderr);
 }
 
 void makeProgressBar(void)
@@ -428,6 +436,8 @@ int main(int argc,char **argv)
 	gtk_drag_dest_set(vbox,GTK_DEST_DEFAULT_ALL,NULL,0,GDK_ACTION_COPY);
 	gtk_drag_dest_add_uri_targets(vbox);
 	g_signal_connect (G_OBJECT(vbox),"drag_data_received",G_CALLBACK(dropUri), NULL);
+
+	doSetConfigs();
 
 	gtk_widget_show_all(window);
 	gtk_main();

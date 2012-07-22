@@ -24,6 +24,29 @@ GtkWidget*	entryBox;
 char*		filename;
 char*		metaThemeSelected=NULL;
 
+//do config stuff
+void doSetConfigs(void)
+{
+	gtk_widget_set_sensitive(metaCheck,showGlobal);
+	gtk_widget_set_sensitive(borderCheck,showGlobal);
+	gtk_widget_set_sensitive(gtkCheck,showGlobal);
+	gtk_widget_set_sensitive(iconsCheck,showGlobal);
+	gtk_widget_set_sensitive(paperCheck,showGlobal);
+}
+
+void changeView(GtkWidget* widget,gpointer data)
+{	
+	char*		command;
+	showGlobal=(int)gtk_toggle_button_get_active((GtkToggleButton*)widget);
+
+	asprintf(&command,"%s %i",XMTSETSHOWSYSTEM,showGlobal);
+
+	system(command);
+	freeAndNull(&command);
+
+	doSetConfigs();
+}
+
 void buildCustomDB(const char* xconfline,const char* key)
 {
 	char*	stdout;
