@@ -310,12 +310,25 @@ void buildAdvancedGui(GtkWidget* advancedScrollBox)
 	gtk_box_pack_start(GTK_BOX(advancedVbox),advancedHbox,false,false,2);
 
 	metaCheck=gtk_check_button_new_with_label("Meta");
-	g_signal_connect_after(G_OBJECT(metaCheck),"toggled",G_CALLBACK(changeViewWhat),(gpointer)1);
+	gtk_toggle_button_set_active((GtkToggleButton*)metaCheck,showMeta);
+	g_signal_connect_after(G_OBJECT(metaCheck),"toggled",G_CALLBACK(changeViewWhat),(gpointer)THEMES);
 
 	borderCheck=gtk_check_button_new_with_label("Decorations");
+	gtk_toggle_button_set_active((GtkToggleButton*)borderCheck,showDecs);
+	g_signal_connect_after(G_OBJECT(borderCheck),"toggled",G_CALLBACK(changeViewWhat),(gpointer)WMBORDERS);
+
 	gtkCheck=gtk_check_button_new_with_label("Controls");
+	gtk_toggle_button_set_active((GtkToggleButton*)gtkCheck,showGtk);
+	g_signal_connect_after(G_OBJECT(gtkCheck),"toggled",G_CALLBACK(changeViewWhat),(gpointer)CONTROLS);
+
 	iconsCheck=gtk_check_button_new_with_label("Icons");
+	gtk_toggle_button_set_active((GtkToggleButton*)iconsCheck,showIcons);
+	g_signal_connect_after(G_OBJECT(iconsCheck),"toggled",G_CALLBACK(changeViewWhat),(gpointer)ICONS);
+
 	paperCheck=gtk_check_button_new_with_label("Wallpaper");
+	gtk_toggle_button_set_active((GtkToggleButton*)paperCheck,showBackdrop);
+	g_signal_connect_after(G_OBJECT(paperCheck),"toggled",G_CALLBACK(changeViewWhat),(gpointer)WALLPAPERS);
+
 	advancedHbox=gtk_hbox_new(false,0);
 	gtk_box_pack_start(GTK_BOX(advancedHbox),metaCheck, true,true,0);
 	gtk_box_pack_start(GTK_BOX(advancedHbox),borderCheck, true,true,0);

@@ -61,7 +61,7 @@
 
 #define XMTGETSHOWSYSTEM  "xfconf-query -c xfcethemer -p /ShowGlobal"
 #define XMTSETSHOWSYSTEM  "xfconf-query -nt int -c xfcethemer -p /ShowGlobal -s "
-#define XMTGETSHOWMETA "xfconf-query -c xfcethemer -p /ShowGlobal"
+#define XMTGETSHOWMETA "xfconf-query -c xfcethemer -p /ShowMeta"
 #define XMTSETSHOWMETA  "xfconf-query -nt int -c xfcethemer -p /ShowMeta -s "
 #define XMTGETSHOWGTK "xfconf-query -c xfcethemer -p /ShowGtk"
 #define XMTSETSHOWGTK  "xfconf-query -nt int -c xfcethemer -p /ShowGtk -s "
@@ -70,7 +70,7 @@
 #define XMTGETSHOWICONS "xfconf-query -c xfcethemer -p /ShowIcons"
 #define XMTSETSHOWICONS  "xfconf-query -nt int -c xfcethemer -p /ShowIcons -s "
 #define XMTGETSHOWPAPER "xfconf-query -c xfcethemer -p /ShowBackdrop"
-#define XMTSETSHOWPAPEr  "xfconf-query -nt int -c xfcethemer -p /ShowBackdrop -s "
+#define XMTSETSHOWPAPER  "xfconf-query -nt int -c xfcethemer -p /ShowBackdrop -s "
 
 #define _translate(x) langStr[langID][x]
 

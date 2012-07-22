@@ -53,9 +53,29 @@ void changeViewWhat(GtkWidget* widget,gpointer data)
 
 	switch ((long)data)
 		{
-			case 1:
+			case THEMES:
 				showMeta=(int)gtk_toggle_button_get_active((GtkToggleButton*)widget);
 				asprintf(&command,"%s %i",XMTSETSHOWMETA,showMeta);
+				break;
+
+			case WMBORDERS:
+				showDecs=(int)gtk_toggle_button_get_active((GtkToggleButton*)widget);
+				asprintf(&command,"%s %i",XMTSETSHOWWMB,showDecs);
+				break;
+
+			case CONTROLS:
+				showGtk=(int)gtk_toggle_button_get_active((GtkToggleButton*)widget);
+				asprintf(&command,"%s %i",XMTSETSHOWGTK,showGtk);
+				break;
+
+			case ICONS:
+				showIcons=(int)gtk_toggle_button_get_active((GtkToggleButton*)widget);
+				asprintf(&command,"%s %i",XMTSETSHOWICONS,showIcons);
+				break;
+
+			case WALLPAPERS:
+				showBackdrop=(int)gtk_toggle_button_get_active((GtkToggleButton*)widget);
+				asprintf(&command,"%s %i",XMTSETSHOWPAPER,showBackdrop);
 				break;
 		}
 	system(command);

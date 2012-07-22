@@ -271,6 +271,52 @@ void init(void)
 		}
 	freeAndNull(&stdout);
 	freeAndNull(&stderr);
+
+	g_spawn_command_line_sync(XMTGETSHOWMETA,&stdout,&stderr,&retval,NULL);
+	if (retval==0)
+		{
+			stdout[strlen(stdout)-1]=0;
+			showMeta=atoi(stdout);
+		}
+	freeAndNull(&stdout);
+	freeAndNull(&stderr);
+
+	g_spawn_command_line_sync(XMTGETSHOWGTK,&stdout,&stderr,&retval,NULL);
+	if (retval==0)
+		{
+			stdout[strlen(stdout)-1]=0;
+			showGtk=atoi(stdout);
+		}
+	freeAndNull(&stdout);
+	freeAndNull(&stderr);
+
+	g_spawn_command_line_sync(XMTGETSHOWWMB,&stdout,&stderr,&retval,NULL);
+	if (retval==0)
+		{
+			stdout[strlen(stdout)-1]=0;
+			showDecs=atoi(stdout);
+		}
+	freeAndNull(&stdout);
+	freeAndNull(&stderr);
+
+	g_spawn_command_line_sync(XMTGETSHOWICONS,&stdout,&stderr,&retval,NULL);
+	if (retval==0)
+		{
+			stdout[strlen(stdout)-1]=0;
+			showIcons=atoi(stdout);
+		}
+	freeAndNull(&stdout);
+	freeAndNull(&stderr);
+
+	g_spawn_command_line_sync(XMTGETSHOWPAPER,&stdout,&stderr,&retval,NULL);
+	if (retval==0)
+		{
+			stdout[strlen(stdout)-1]=0;
+			showBackdrop=atoi(stdout);
+		}
+	freeAndNull(&stdout);
+	freeAndNull(&stderr);
+
 }
 
 void makeProgressBar(void)
