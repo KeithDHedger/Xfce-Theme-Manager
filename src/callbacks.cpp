@@ -99,6 +99,7 @@ void changeViewWhat(GtkWidget* widget,gpointer data)
 		}
 	system(command);
 	freeAndNull(&command);
+	rerunAndUpdate(false);
 }
 
 void buildCustomDB(const char* xconfline,const char* key)

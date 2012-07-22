@@ -81,7 +81,18 @@ void addNewButtons(GtkWidget* vbox,const char* subfolder,void* callback)
 					{
 						if (showGlobal==1)
 							{
-								flag=true;
+								if ((strcmp(subfolder,"meta")==0 && showMeta==1) || entry[0]=='0')
+									flag=true;
+								if ((strcmp(subfolder,"controls")==0 && showGtk==1) || entry[0]=='0')
+									flag=true;
+								if ((strcmp(subfolder,"cursors")==0) || entry[0]=='0')
+									flag=true;
+								if ((strcmp(subfolder,"frames")==0 && showDecs==1) || entry[0]=='0')
+									flag=true;
+								if ((strcmp(subfolder,"icons")==0 && showIcons==1) || entry[0]=='0')
+									flag=true;
+								if ((strcmp(subfolder,"wallpapers")==0 && showBackdrop==1) || entry[0]=='0')
+									flag=true;
 							}
 						else
 							{
