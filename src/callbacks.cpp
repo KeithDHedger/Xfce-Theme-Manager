@@ -50,6 +50,7 @@ void doSetConfigs(void)
 	gtk_widget_set_sensitive(gtkCheck,showGlobal);
 	gtk_widget_set_sensitive(iconsCheck,showGlobal);
 	gtk_widget_set_sensitive(paperCheck,showGlobal);
+	gtk_widget_set_sensitive(cursorsCheck,showGlobal);
 }
 
 void changeView(GtkWidget* widget,gpointer data)
@@ -100,6 +101,11 @@ void changeViewWhat(GtkWidget* widget,gpointer data)
 			case WALLPAPERS:
 				showBackdrop=(int)gtk_toggle_button_get_active((GtkToggleButton*)widget);
 				asprintf(&command,"%s %i",XMTSETSHOWPAPER,showBackdrop);
+				break;
+
+			case CUSTOMTHEME:
+				showOnlyCustom=(int)gtk_toggle_button_get_active((GtkToggleButton*)widget);
+				asprintf(&command,"%s %i",XMTSETSHOWCUSTOM,showOnlyCustom);
 				break;
 		}
 	system(command);

@@ -81,17 +81,20 @@ void addNewButtons(GtkWidget* vbox,const char* subfolder,void* callback)
 					{
 						if (showGlobal==1)
 							{
-								if ((strcmp(subfolder,"meta")==0 && showMeta==1) || entry[0]=='0')
+								if ((strcmp(subfolder,"meta")==0 && showMeta==1))
+									{
+										if (showOnlyCustom==0)
+											flag=true;
+									}
+								if ((strcmp(subfolder,"controls")==0 && showGtk==1) || (strcmp(subfolder,"controls")==0 && entry[0]=='0'))
 									flag=true;
-								if ((strcmp(subfolder,"controls")==0 && showGtk==1) || entry[0]=='0')
+								if ((strcmp(subfolder,"cursors")==0 && showCursors==1) || (strcmp(subfolder,"cursors")==0 && entry[0]=='0'))
 									flag=true;
-								if ((strcmp(subfolder,"cursors")==0) || entry[0]=='0')
+								if ((strcmp(subfolder,"frames")==0 && showDecs==1) || (strcmp(subfolder,"frames")==0 && entry[0]=='0'))
 									flag=true;
-								if ((strcmp(subfolder,"frames")==0 && showDecs==1) || entry[0]=='0')
+								if ((strcmp(subfolder,"icons")==0 && showIcons==1) || (strcmp(subfolder,"icons")==0 && entry[0]=='0'))
 									flag=true;
-								if ((strcmp(subfolder,"icons")==0 && showIcons==1) || entry[0]=='0')
-									flag=true;
-								if ((strcmp(subfolder,"wallpapers")==0 && showBackdrop==1) || entry[0]=='0')
+								if ((strcmp(subfolder,"wallpapers")==0 && showBackdrop==1) || (strcmp(subfolder,"wallpapers")==0 && entry[0]=='0'))
 									flag=true;
 								if (strcmp(subfolder,"custom")==0)
 									flag=true;
@@ -100,9 +103,11 @@ void addNewButtons(GtkWidget* vbox,const char* subfolder,void* callback)
 							{
 								if (entry[0]=='0')
 									flag=true;
+								if ((strcmp(subfolder,"meta")==0 && showOnlyCustom==1))
+									flag=false;
+								if (strcmp(subfolder,"custom")==0)
+									flag=true;
 							}
-
-						
 
 						if (flag==true)
 							{
@@ -330,13 +335,20 @@ void buildAdvancedGui(GtkWidget* advancedScrollBox)
 
 //database stuff
 	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_hseparator_new(),false,false,4);
+	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_label_new("View Options"),false,false,2);
 	advancedHbox=gtk_hbox_new(false,0);
+
 
 	systemCheck=gtk_check_button_new_with_label("Show Global");
 	gtk_toggle_button_set_active((GtkToggleButton*)systemCheck,showGlobal);
 	g_signal_connect_after(G_OBJECT(systemCheck),"toggled",G_CALLBACK(changeView),NULL);
-
 	gtk_box_pack_start(GTK_BOX(advancedHbox),systemCheck, true,true,0);
+
+	onlyCustomCheck=gtk_check_button_new_with_label("Show Only Custom Themes");
+	gtk_toggle_button_set_active((GtkToggleButton*)onlyCustomCheck,showOnlyCustom);
+	g_signal_connect_after(G_OBJECT(onlyCustomCheck),"toggled",G_CALLBACK(changeViewWhat),(gpointer)CUSTOMTHEME);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),onlyCustomCheck, true,true,0);
+
 	gtk_box_pack_start(GTK_BOX(advancedVbox),advancedHbox,false,false,2);
 
 	metaCheck=gtk_check_button_new_with_label("Meta");
