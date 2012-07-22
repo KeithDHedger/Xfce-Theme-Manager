@@ -47,6 +47,21 @@ void changeView(GtkWidget* widget,gpointer data)
 	doSetConfigs();
 }
 
+void changeViewWhat(GtkWidget* widget,gpointer data)
+{
+	char*		command;
+
+	switch ((long)data)
+		{
+			case 1:
+				showMeta=(int)gtk_toggle_button_get_active((GtkToggleButton*)widget);
+				asprintf(&command,"%s %i",XMTSETSHOWMETA,showMeta);
+				break;
+		}
+	system(command);
+	freeAndNull(&command);
+}
+
 void buildCustomDB(const char* xconfline,const char* key)
 {
 	char*	stdout;

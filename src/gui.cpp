@@ -310,6 +310,8 @@ void buildAdvancedGui(GtkWidget* advancedScrollBox)
 	gtk_box_pack_start(GTK_BOX(advancedVbox),advancedHbox,false,false,2);
 
 	metaCheck=gtk_check_button_new_with_label("Meta");
+	g_signal_connect_after(G_OBJECT(metaCheck),"toggled",G_CALLBACK(changeViewWhat),(gpointer)1);
+
 	borderCheck=gtk_check_button_new_with_label("Decorations");
 	gtkCheck=gtk_check_button_new_with_label("Controls");
 	iconsCheck=gtk_check_button_new_with_label("Icons");
