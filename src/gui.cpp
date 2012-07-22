@@ -336,49 +336,52 @@ void buildAdvancedGui(GtkWidget* advancedScrollBox)
 //database stuff
 	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_hseparator_new(),false,false,4);
 	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_label_new(_translate(VIEW)),false,false,2);
-	advancedHbox=gtk_hbox_new(false,0);
+	advancedHbox=gtk_hbox_new(true,0);
 
 
-	systemCheck=gtk_check_button_new_with_label("Show Global");
+	systemCheck=gtk_check_button_new_with_label(_translate(GLOBAL));
 	gtk_toggle_button_set_active((GtkToggleButton*)systemCheck,showGlobal);
 	g_signal_connect_after(G_OBJECT(systemCheck),"toggled",G_CALLBACK(changeView),NULL);
 	gtk_box_pack_start(GTK_BOX(advancedHbox),systemCheck, true,true,0);
 
-	onlyCustomCheck=gtk_check_button_new_with_label("Show Only Custom Themes");
+	onlyCustomCheck=gtk_check_button_new_with_label(_translate(CUSTOMMETA));
 	gtk_toggle_button_set_active((GtkToggleButton*)onlyCustomCheck,showOnlyCustom);
 	g_signal_connect_after(G_OBJECT(onlyCustomCheck),"toggled",G_CALLBACK(changeViewWhat),(gpointer)CUSTOMTHEME);
 	gtk_box_pack_start(GTK_BOX(advancedHbox),onlyCustomCheck, true,true,0);
 
 	gtk_box_pack_start(GTK_BOX(advancedVbox),advancedHbox,false,false,2);
 
-	metaCheck=gtk_check_button_new_with_label("Meta");
+	metaCheck=gtk_check_button_new_with_label(_translate(THEMES));
 	gtk_toggle_button_set_active((GtkToggleButton*)metaCheck,showMeta);
 	g_signal_connect_after(G_OBJECT(metaCheck),"toggled",G_CALLBACK(changeViewWhat),(gpointer)THEMES);
 
-	borderCheck=gtk_check_button_new_with_label("Decorations");
+	borderCheck=gtk_check_button_new_with_label(_translate(WMBORDERS));
 	gtk_toggle_button_set_active((GtkToggleButton*)borderCheck,showDecs);
 	g_signal_connect_after(G_OBJECT(borderCheck),"toggled",G_CALLBACK(changeViewWhat),(gpointer)WMBORDERS);
 
-	gtkCheck=gtk_check_button_new_with_label("Controls");
+	gtkCheck=gtk_check_button_new_with_label(_translate(CONTROLS));
 	gtk_toggle_button_set_active((GtkToggleButton*)gtkCheck,showGtk);
 	g_signal_connect_after(G_OBJECT(gtkCheck),"toggled",G_CALLBACK(changeViewWhat),(gpointer)CONTROLS);
 
-	iconsCheck=gtk_check_button_new_with_label("Icons");
+	iconsCheck=gtk_check_button_new_with_label(_translate(ICONS));
 	gtk_toggle_button_set_active((GtkToggleButton*)iconsCheck,showIcons);
 	g_signal_connect_after(G_OBJECT(iconsCheck),"toggled",G_CALLBACK(changeViewWhat),(gpointer)ICONS);
 
-	cursorsCheck=gtk_check_button_new_with_label("Cursors");
+	cursorsCheck=gtk_check_button_new_with_label(_translate(CURSORS));
 	gtk_toggle_button_set_active((GtkToggleButton*)cursorsCheck,showCursors);
 	g_signal_connect_after(G_OBJECT(cursorsCheck),"toggled",G_CALLBACK(changeViewWhat),(gpointer)CURSORS);
 
-	paperCheck=gtk_check_button_new_with_label("Wallpaper");
+	paperCheck=gtk_check_button_new_with_label(_translate(WALLPAPERS));
 	gtk_toggle_button_set_active((GtkToggleButton*)paperCheck,showBackdrop);
 	g_signal_connect_after(G_OBJECT(paperCheck),"toggled",G_CALLBACK(changeViewWhat),(gpointer)WALLPAPERS);
 
-	advancedHbox=gtk_hbox_new(false,0);
+	advancedHbox=gtk_hbox_new(true,0);
 	gtk_box_pack_start(GTK_BOX(advancedHbox),metaCheck, true,true,0);
 	gtk_box_pack_start(GTK_BOX(advancedHbox),borderCheck, true,true,0);
 	gtk_box_pack_start(GTK_BOX(advancedHbox),gtkCheck, true,true,0);
+	gtk_box_pack_start(GTK_BOX(advancedVbox),advancedHbox,false,false,2);
+
+	advancedHbox=gtk_hbox_new(true,0);
 	gtk_box_pack_start(GTK_BOX(advancedHbox),iconsCheck, true,true,0);
 	gtk_box_pack_start(GTK_BOX(advancedHbox),cursorsCheck, true,true,0);
 	gtk_box_pack_start(GTK_BOX(advancedHbox),paperCheck, true,true,0);

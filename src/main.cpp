@@ -406,7 +406,7 @@ int main(int argc,char **argv)
 			rebuildDB((void*)1);
 
 	window=gtk_window_new(GTK_WINDOW_TOPLEVEL);
-	gtk_window_set_default_size((GtkWindow*)window,440,470);
+	gtk_window_set_default_size((GtkWindow*)window,420,470);
 	g_signal_connect_after(G_OBJECT(window),"destroy",G_CALLBACK(shutdown),NULL);
 
 //main window vbox
