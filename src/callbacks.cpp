@@ -24,6 +24,24 @@ GtkWidget*	entryBox;
 char*		filename;
 char*		metaThemeSelected=NULL;
 
+//update gui
+void rerunAndUpdate(bool rebuild)
+{
+	if (rebuild==true)
+		rebuildDB((void*)1);
+
+	gtk_widget_destroy(themesVBox);
+	gtk_widget_destroy(framesVBox);
+	gtk_widget_destroy(controlsVBox);
+	gtk_widget_destroy(iconsVBox);
+	gtk_widget_destroy(cursorsVBox);
+	gtk_widget_destroy(wallpapersVBox);
+
+	buildPages();
+
+	gtk_widget_show_all(window);
+}
+
 //do config stuff
 void doSetConfigs(void)
 {
@@ -45,6 +63,7 @@ void changeView(GtkWidget* widget,gpointer data)
 	freeAndNull(&command);
 
 	doSetConfigs();
+	rerunAndUpdate(false);
 }
 
 void changeViewWhat(GtkWidget* widget,gpointer data)
@@ -96,23 +115,6 @@ void buildCustomDB(const char* xconfline,const char* key)
 		}
 }
 
-//update gui
-void rerunAndUpdate(void)
-{
-	rebuildDB((void*)1);
-
-	gtk_widget_destroy(themesVBox);
-	gtk_widget_destroy(framesVBox);
-	gtk_widget_destroy(controlsVBox);
-	gtk_widget_destroy(iconsVBox);
-	gtk_widget_destroy(cursorsVBox);
-	gtk_widget_destroy(wallpapersVBox);
-
-	buildPages();
-
-	gtk_widget_show_all(window);
-}
-
 void response(GtkDialog *dialog,gint response_id,gpointer user_data)
 {
 	switch (response_id)
@@ -129,7 +131,7 @@ void response(GtkDialog *dialog,gint response_id,gpointer user_data)
 						sprintf(generalBuffer,"%s/%s.png",customFolder,filename);
 						remove(generalBuffer);
 						freeAndNull(&filename);
-						rerunAndUpdate();
+						rerunAndUpdate(true);
 					}
 				break;
 		}
@@ -262,7 +264,7 @@ void customTheme(GtkWidget* window,gpointer data)
 	freeAndNull(&customname);
 
 	if (flag==true)
-		rerunAndUpdate();
+		rerunAndUpdate(true);
 }
 
 //rebuild db
@@ -452,7 +454,7 @@ void dropUri(GtkWidget *widget,GdkDragContext *context,gint x,gint y,GtkSelectio
 	g_strfreev(array);
 
 	if(doupdate==0)
-		rerunAndUpdate();
+		rerunAndUpdate(true);
 }
 
 void doWallpapers(GtkWidget* widget,gpointer data)

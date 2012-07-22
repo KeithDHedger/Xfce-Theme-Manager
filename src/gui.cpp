@@ -67,6 +67,7 @@ void addNewButtons(GtkWidget* vbox,const char* subfolder,void* callback)
 
 	GSList *	entrylist=NULL;
 	char*		entryname;
+	bool		flag=false;
 
 	asprintf(&foldername,"%s/.config/XfceThemeManager/%s",homeFolder,subfolder);
 	folder=g_dir_open(foldername,0,NULL);
@@ -75,10 +76,24 @@ void addNewButtons(GtkWidget* vbox,const char* subfolder,void* callback)
 			entry=g_dir_read_name(folder);
 			while(entry!=NULL)
 				{
+				flag=false;
 				if(strstr(entry,".db"))
 					{
-						asprintf(&entryname,"%s",entry);
-						entrylist=g_slist_prepend(entrylist,(void*)entryname);
+						if (showGlobal==1)
+							{
+								flag=true;
+							}
+						else
+							{
+								if (entry[0]=='0')
+									flag=true;
+							}
+
+						if (flag==true)
+							{
+								asprintf(&entryname,"%s",entry);
+								entrylist=g_slist_prepend(entrylist,(void*)entryname);
+							}
 					}
 					entry=g_dir_read_name(folder);
 				}
