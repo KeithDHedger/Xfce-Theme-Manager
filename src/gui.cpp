@@ -335,7 +335,7 @@ void buildAdvancedGui(GtkWidget* advancedScrollBox)
 
 //database stuff
 	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_hseparator_new(),false,false,4);
-	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_label_new("View Options"),false,false,2);
+	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_label_new(_translate(VIEW)),false,false,2);
 	advancedHbox=gtk_hbox_new(false,0);
 
 
