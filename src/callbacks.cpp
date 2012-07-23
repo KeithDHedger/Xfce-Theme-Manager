@@ -520,7 +520,7 @@ void removeTheme(const char* name)
 		return;
 	
 	GtkWidget*	getFilename;
-	getFilename=gtk_dialog_new_with_buttons("Delete",NULL,GTK_DIALOG_MODAL,GTK_STOCK_CANCEL,GTK_RESPONSE_CANCEL,GTK_STOCK_DELETE,DELETETHEME,NULL);
+	getFilename=gtk_dialog_new_with_buttons(_translate(REMOVETHEME),NULL,GTK_DIALOG_MODAL,GTK_STOCK_CANCEL,GTK_RESPONSE_CANCEL,GTK_STOCK_DELETE,DELETETHEME,NULL);
 	gtk_dialog_set_default_response((GtkDialog*)getFilename,GTK_RESPONSE_CANCEL);
 	g_signal_connect(G_OBJECT(getFilename),"response",G_CALLBACK(deleteCustom),NULL);
 	gtk_dialog_run((GtkDialog *)getFilename);
