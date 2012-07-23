@@ -199,6 +199,32 @@ void buildPages(void)
 	gtk_container_add (GTK_CONTAINER(wallpapersMainBox),wallpapersVBox);
 }
 
+//	const char* authors[]={"K.D.Hedger <kdhedger@yahoo.co.uk>",NULL};
+//	const char* copyright[] ={"Copyright \xc2\xa9 2012 K.D.Hedger"};
+//
+//	const char* comments[] = {"An intergrated Theme manager for Xfce4.10"};
+
+void doAbout(GtkWidget* widget,gpointer data)
+{
+//	gtk_show_about_dialog (NULL,"program-name","Xfce Theme Manager","logo-icon-name","/usr/share/pixmaps/xfce-theme-manager.png","title","Xfce Theme Manager",NULL);
+
+	const char* authors[]={"K.D.Hedger <kdhedger@yahoo.co.uk>",NULL};
+
+	const char copyright[] ="Copyright \xc2\xa9 2012 K.D.Hedger";
+
+	const char comments[] = "An intergrated Theme manager for Xfce4.10";
+
+	gtk_show_about_dialog (NULL,
+			       "authors", authors,
+			       "comments", comments,
+			       "copyright", copyright,
+			       "version", VERSION,
+			       "website", "http://keithhedger.hostingsiteforfree.com/index.html",
+			       "program-name", "Xfce-Theme-Manager",
+			       "logo-icon-name", GTK_STOCK_EDIT,
+			       NULL); 
+}
+
 void buildAdvancedGui(GtkWidget* advancedScrollBox)
 {
 	GtkWidget*	advancedVbox;
@@ -207,6 +233,13 @@ void buildAdvancedGui(GtkWidget* advancedScrollBox)
 	GtkWidget*	button;
 
 	advancedVbox=gtk_vbox_new(FALSE, 0);
+//about
+	button=gtk_button_new_from_stock(GTK_STOCK_ABOUT);
+	g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(doAbout),NULL);
+	advancedHbox=gtk_hbox_new(true,4);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),button, false,false,4);
+	gtk_box_pack_start(GTK_BOX(advancedVbox),advancedHbox, false,false,4);
+	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_hseparator_new(),false,false,4);
 
 //database
 	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_label_new(_translate(REBUILDTHEDB)),false,false,2);
