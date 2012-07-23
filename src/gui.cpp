@@ -199,30 +199,14 @@ void buildPages(void)
 	gtk_container_add (GTK_CONTAINER(wallpapersMainBox),wallpapersVBox);
 }
 
-//	const char* authors[]={"K.D.Hedger <kdhedger@yahoo.co.uk>",NULL};
-//	const char* copyright[] ={"Copyright \xc2\xa9 2012 K.D.Hedger"};
-//
-//	const char* comments[] = {"An intergrated Theme manager for Xfce4.10"};
-
 void doAbout(GtkWidget* widget,gpointer data)
 {
-//	gtk_show_about_dialog (NULL,"program-name","Xfce Theme Manager","logo-icon-name","/usr/share/pixmaps/xfce-theme-manager.png","title","Xfce Theme Manager",NULL);
+	const char*	authors[]={"K.D.Hedger <kdhedger@yahoo.co.uk>",NULL};
+	const char	copyright[] ="Copyright \xc2\xa9 2012 K.D.Hedger";
+	const char	comments[] = "An intergrated Theme manager for Xfce4.10";
+	const char*	translators="Spanish translation thanks to Pablo Romero.\nGerman translation thanks to Martin F. Schumann.";
 
-	const char* authors[]={"K.D.Hedger <kdhedger@yahoo.co.uk>",NULL};
-
-	const char copyright[] ="Copyright \xc2\xa9 2012 K.D.Hedger";
-
-	const char comments[] = "An intergrated Theme manager for Xfce4.10";
-
-	gtk_show_about_dialog (NULL,
-			       "authors", authors,
-			       "comments", comments,
-			       "copyright", copyright,
-			       "version", VERSION,
-			       "website", "http://keithhedger.hostingsiteforfree.com/index.html",
-			       "program-name", "Xfce-Theme-Manager",
-			       "logo-icon-name", GTK_STOCK_EDIT,
-			       NULL); 
+	gtk_show_about_dialog (NULL,"authors", authors,"translator-credits",translators,"comments", comments,"copyright", copyright,"version", VERSION,"website", "http://keithhedger.hostingsiteforfree.com/index.html","program-name", "Xfce-Theme-Manager","logo-icon-name", "xfce-theme-manager", NULL); 
 }
 
 void buildAdvancedGui(GtkWidget* advancedScrollBox)

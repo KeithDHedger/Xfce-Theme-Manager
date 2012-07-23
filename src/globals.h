@@ -11,7 +11,7 @@
 #ifndef _GLOBALS_
 #define _GLOBALS_
 
-#define VERSION "0.1.12"
+#define VERSION "0.1.13"
 
 #define PADWIDTH 72
 #define MAXBOXWIDTH 240

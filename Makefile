@@ -13,6 +13,7 @@ ifeq ($(strip $(CXXFLAGS)),)
 endif
 
 $(PROGRAM):$(SOURCES)
+	sed -i "s/^#define VERSION.*/#define VERSION \"$(VERSION)\"/" src/globals.h
 	g++ $(CXXFLAGS) -o $(PROGRAM) $(SOURCES)
 	strip $(PROGRAM)
 
