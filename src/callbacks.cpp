@@ -23,6 +23,7 @@ char		filedata[1024];
 GtkWidget*	entryBox;
 char*		filename;
 char*		metaThemeSelected=NULL;
+bool		destroy=false;
 
 //update gui
 void rerunAndUpdate(bool rebuild)
@@ -499,18 +500,63 @@ void wallStyleChanged(GtkWidget* widget,gpointer data)
 	system(command);
 }
 
+void deleteCustom(GtkDialog *dialog,gint response_id,gpointer user_data)
+{
+	destroy=false;
+	gtk_widget_destroy((GtkWidget*)dialog);
+	switch (response_id)
+		{
+			case DELETETHEME:
+				destroy=true;
+				break;
+		}
+}
+
+void removeTheme(const char* name)
+{
+	int		namelen;
+
+	if(strstr(name,".config/XfceThemeManager/custom")==NULL)
+		return;
+	
+	GtkWidget*	getFilename;
+	getFilename=gtk_dialog_new_with_buttons("Delete",NULL,GTK_DIALOG_MODAL,GTK_STOCK_CANCEL,GTK_RESPONSE_CANCEL,GTK_STOCK_DELETE,DELETETHEME,NULL);
+	gtk_dialog_set_default_response((GtkDialog*)getFilename,GTK_RESPONSE_CANCEL);
+	g_signal_connect(G_OBJECT(getFilename),"response",G_CALLBACK(deleteCustom),NULL);
+	gtk_dialog_run((GtkDialog *)getFilename);
+	if (destroy==true)
+		{
+			namelen=strlen(name);
+			sprintf(generalBuffer,"%s",name);
+			remove(name);
+			generalBuffer[namelen-2]='p';
+			generalBuffer[namelen-1]='n';
+			generalBuffer[namelen]='g';
+			generalBuffer[namelen+1]=0;
+			remove(generalBuffer);
+			rerunAndUpdate(true);
+		}
+}
+
 //do meta theme
 void doMeta(GtkWidget* widget,gpointer data)
 {
-	GKeyFile*	keyfile=g_key_file_new();
-	int		keycnt=13;
-	char*		keydata=NULL;
-	char*		comma;
-
+	GKeyFile*		keyfile=g_key_file_new();
+	int			keycnt=13;
+	char*			keydata=NULL;
+	char*			comma;
+	GdkModifierType	mask;
 	const char*		keys[]={"CursorTheme","Xfwm4Theme","IconTheme","BackgroundImage","BackdropStyle","TitleButtonLayout","TitlePosition","WMFont","AppFont","BackdropBright","BackdropSatu","GtkTheme","CursorSize"};
 	const char*		xconf[]={XCONFSETCURSOR,XCONFSETFRAME,XCONFSETICONS,XCONFSETPAPER,XCONFSETSTYLE,XCONFSETLAYOUT,XCONFSETTITLEPOS,XCONFSETWMFONT,XCONFSETAPPFONT,XCONFSETBRIGHT,XCONFSETSATU,XCONFSETCONTROLS,XCONFSETCURSORSIZE};
 
 	GtkSettings *settings=gtk_settings_get_default();;
+
+	gdk_window_get_pointer(NULL,NULL,NULL,&mask);
+	if (GDK_CONTROL_MASK & mask )
+		{
+			removeTheme(gtk_widget_get_name(widget));
+			return;
+		}
 
 	if(g_key_file_load_from_file(keyfile,gtk_widget_get_name(widget),G_KEY_FILE_NONE,NULL))
 		{
