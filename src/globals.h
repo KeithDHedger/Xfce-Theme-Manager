@@ -76,6 +76,11 @@
 #define XMTGETSHOWCUSTOM "xfconf-query -c xfcethemer -p /ShowOnlyCustom"
 #define XMTSETSHOWCUSTOM "xfconf-query -nt int -c xfcethemer -p /ShowOnlyCustom -s "
 
+#define XMTGETWINWID "xfconf-query -c xfcethemer -p /WindowWidth"
+#define XMTGETWINHITE "xfconf-query -c xfcethemer -p /WindowHeight"
+#define XMTSETWINWID "xfconf-query -nt int -c xfcethemer -p /WindowWidth -s "
+#define XMTSETWINHITE "xfconf-query -nt int -c xfcethemer -p /WindowHeight -s "
+
 #define _translate(x) langStr[langID][x]
 
 #define ENGLISH 0
@@ -178,6 +183,8 @@ extern int			showIcons;
 extern int			showCursors;
 extern int			showBackdrop;
 extern int			showOnlyCustom;
+extern int			winWid;
+extern int			winHite;
 
 extern void freeAndNull(char** ptr);
 extern int positionToInt(char* pos);

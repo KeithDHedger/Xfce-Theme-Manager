@@ -120,8 +120,13 @@ void resetTheme(GtkWidget* widget,gpointer data)
 	freeAndNull(&satval);
 }
 
-void shutdown(GtkWidget* window,gpointer data)
+void shutdown(GtkWidget* widget,gpointer data)
 {
+	gtk_window_get_size((GtkWindow*)window,&winWid,&winHite);
+	sprintf(generalBuffer,"%s%i",XMTSETWINWID,winWid);
+	system(generalBuffer);
+	sprintf(generalBuffer,"%s%i",XMTSETWINHITE,winHite);
+	system(generalBuffer);
 	gtk_main_quit();
 }
 
@@ -335,6 +340,24 @@ void init(void)
 	freeAndNull(&stdout);
 	freeAndNull(&stderr);
 
+	g_spawn_command_line_sync(XMTGETWINWID,&stdout,&stderr,&retval,NULL);
+	if (retval==0)
+		{
+			stdout[strlen(stdout)-1]=0;
+			winWid=atoi(stdout);
+		}
+	freeAndNull(&stdout);
+	freeAndNull(&stderr);
+
+	g_spawn_command_line_sync(XMTGETWINHITE,&stdout,&stderr,&retval,NULL);
+	if (retval==0)
+		{
+			stdout[strlen(stdout)-1]=0;
+			winHite=atoi(stdout);
+		}
+	freeAndNull(&stdout);
+	freeAndNull(&stderr);
+
 }
 
 void makeProgressBar(void)
@@ -406,8 +429,9 @@ int main(int argc,char **argv)
 			rebuildDB((void*)1);
 
 	window=gtk_window_new(GTK_WINDOW_TOPLEVEL);
-	gtk_window_set_default_size((GtkWindow*)window,420,470);
-	g_signal_connect_after(G_OBJECT(window),"destroy",G_CALLBACK(shutdown),NULL);
+	gtk_window_set_position((GtkWindow*)window,GTK_WIN_POS_CENTER);
+	gtk_window_set_default_size((GtkWindow*)window,winWid,winHite);
+	g_signal_connect(G_OBJECT(window),"delete-event",G_CALLBACK(shutdown),NULL);
 
 //main window vbox
 	vbox=gtk_vbox_new(FALSE, 0);
@@ -488,7 +512,7 @@ int main(int argc,char **argv)
 
 	buttonHbox=gtk_hbox_new(true,0);
 	button=gtk_button_new_from_stock(GTK_STOCK_QUIT);
-	g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(shutdown),NULL);
+	g_signal_connect(G_OBJECT(button),"clicked",G_CALLBACK(shutdown),NULL);
 
 	gtk_box_pack_start(GTK_BOX(vbox),gtk_hseparator_new(),false,false,0);
 
