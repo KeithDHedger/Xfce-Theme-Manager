@@ -89,7 +89,7 @@ Extract the archive say into /tmp, cd into /tmp/Xfce-Theme-Manager-(VERSION), ru
 The GUI can be run from the command line or from the settings menu.
 The GUI can be manually installed and/or run from the main folder.
 
-There is no configure script as the makefile is very simple, default is to install in /usr/local/bin this can be changed by setting the PREFIX variable prior to make install ( PREFIX="/usr" make install ).
+There is no configure script as the makefile is very simple, default is to install in /usr/local/bin this can be changed by setting the PREFIX variable prior to make install ( sudo make install PREFIX=/usr ).
 
 If you have a source based pkg manager like slackware the dev files for glib etc should already be installed, if you are using a debian based install you may have to install the dev packages as well, probably somthing along the lines of glib2-dev/gdk2-dev check your installation documentation for further details.
 

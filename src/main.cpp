@@ -431,6 +431,7 @@ int main(int argc,char **argv)
 	window=gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_position((GtkWindow*)window,GTK_WIN_POS_CENTER);
 	gtk_window_set_default_size((GtkWindow*)window,winWid,winHite);
+	gtk_window_set_title((GtkWindow*)window,"Xfce Theme Manager");
 	g_signal_connect(G_OBJECT(window),"delete-event",G_CALLBACK(shutdown),NULL);
 
 //main window vbox
