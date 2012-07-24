@@ -1,0 +1,141 @@
+
+# ------------------------------------------------- -----
+#
+# Xfce-Theme-Manager
+# #
+# © 2012 K.D.Hedger
+# Kdhedger@yahoo.co.uk
+#
+# Unter der GPL freigegeben, dh, was du willst mit ihm
+# #
+# ------------------------------------------------- -----
+
+DEPENDENCIES:
+
+glib-2.0
+gdk-2.0
+cairo
+
+****************************************************
+EXTERNE ANWENDUNGEN (Optional):
+
+Xfce4-Composite-Editor zur Verfügung hier:
+
+****************************************************
+
+VERBRAUCH:
+xfce-theme-manager [-m] [-u]
+
+-m Kraft, die eine von den Miniaturansichten für meta-themes/frames/controls/cursors und Symbole machen.
+-u gerade bauen misssing Thumbnails
+
+Um ein Theme zu installieren gtk/Icon/Cursor/Grenze/Tapeten einfach per Drag & Drop das Archiv (Tapeten dürfen nicht archiviert werden) überall auf dem Hauptfenster und wenn das Thema posible etc in den richtigen Ort installiert werden, sind alle Installationen vor Ort , unterstützt Archiv-Typen sind: ". * tgz", ". * gz", "* zip.", "* Teer.", "* bz2.", unterstützt Tapeten-Typen sind: ". * jpg", "*. png "," *. bmp "," *. gif "alles andere muss man sich zu installieren.
+
+Die Thumbnails werden gespeichert in $ {HOME}/.config/XfceThemeManager
+Das erste Mal, wenn Sie Xfce-Theme-Manager sollten Sie entweder führen Sie es von der Kommandozeile mit der Option-m oder klicken Sie auf den "Rebuld DB"-Button, der erste der DB aufbauen kann eine Weile dauern, also Geduld!
+
+Die DB wird automatisch auf Drag'n'Drop aktualisiert, wenn Sie eine Menge von Zusatz-und removeing ​​von Themen / Icons usw. möchten Sie vielleicht wieder aufzubauen DB auf der Registerkarte Erweitert laufen zu tun.
+
+Meta Themen sind Themen, die einen Ordner und eine gtk2 xfwm4 Ordner (zB Fensterrahmen und Kontrollen) enthalten, wenn ihr ein gnome-Datei, die wie theme.index legt auch ein Symbol setzen diese auch genutzt werden.
+
+Spanisch/Deutsch jetzt ist gesorgt, wenn Sie den 'lang' Umgebungsvariable richtig gesetzt sind andere Übersetzungen eingeladen mailen Sie mir für eine Liste übersetzt werden.
+
+INSTALL:
+Entpacken Sie das Archiv sagen, in / tmp, CD in / tmp / Xfce-Theme-Manager, wenn Sie von der Befehlszeile extrahieren möchten Sie vielleicht, um das Archiv in einem Unterordner erste Stelle zu setzen, führen Sie sudo make install, wird dies iinstall die Xfce- Theme-Manager GUI und der Desktop-Datei.
+The GUI can be run from the command line or from the settings menu. Die GUI lässt sich von der Kommandozeile oder aus dem Menü Einstellungen ausgeführt werden.
+The GUI can be manually installed and/or run from the main folder. Die GUI kann manuell installiert werden und / oder laufen aus dem Hauptordner.
+
+There is no configure script as the makefile is very simple, default is to install in /usr/local/bin this can be changed by setting the PREFIX variable prior to make install. Es gibt kein configure-Skript wie das Makefile ist sehr einfach, ist standardmäßig in / usr / local / bin dies, indem Sie die Variable PREFIX vor make install installieren kann geändert werden.
+
+If you have a source based pkg manager like slackware the dev files for glib etc should already be installed, if you are using a debian based install you may have to install the dev packages as well, probably somthing along the lines of glib2-dev/gdk2-dev check your installation documentation for further details. Wenn Sie eine Quelle der Basis pkg-Manager wie die Slackware-dev Dateien für die GLib etc sollte bereits installiert sein, wenn Sie eine Debian-basierte Installation müssen Sie die dev-Pakete ebenfalls installieren können, sind wahrscheinlich somthing entlang der Linien von glib2-dev / gdk2-dev überprüfen Sie Ihre Installations-Dokumentation für weitere Details.
+
+You may have to run  xfce4-panel --restart to see the Xfce-Theme-Manager menu item in settings. Eventuell müssen Sie xfce4-panel laufen - neu zu starten, um die Xfce-Theme-Manager im Menüpunkt Einstellungen zu sehen.
+
+If you are upgrading from an older version please rebuild the DB ( from the "Advanced" tab ). Wenn Sie von einer älteren Version upgraden Sie bitte den Wiederaufbau der DB (aus der Registerkarte "Erweitert").
+
+*************************************** ***************************************
+BUGS: BUGS:
+Please send them direct to me at: kdhedger@yahoo.co.uk posting them on xfce-look etc gets too messy! Bitte senden Sie diese direkt an mich unter: kdhedger@yahoo.co.uk Veröffentlichung auf xfce-Look bekommt etc zu unübersichtlich!
+*************************************** ***************************************
+
+Changelog: Changelog:
+
+0.1.10 Added German translation, thanks to Martin F. Schumann for that. 0.1.10 Hinzugefügt deutsche Übersetzung, Danke an Martin F. Schumann dafür.
+	Removed warnings from xconf about user settings not set. Entfernt Warnungen von xconf zu Benutzereinstellungen nicht festgelegt.
+	Added "Custom" when saving custom theme if needed. Hinzugefügt "Benutzerdefiniert" beim Speichern von benutzerdefinierten Designs, wenn nötig.
+	Fixed minor memory leak. Fixed minor Speicherverlust.
+	New application icon. Neues Programm-Icon.
+	Minor bug fix when using comma instead of point ( again! ) Kleiner Fehler bei der Verwendung von Komma anstatt Punkt (schon wieder)
+	Code clean. Code sauber.
+
+0.1.9 Internal release. 0.1.9 Interne Freigabe.
+
+0.1.8	Finally redone border preview to use tile instead of stretch, more accurate. 0.1.8 Schließlich erneuert Grenze Vorschau auf Kachel statt Stretch, genauer zu benutzen.
+	Added Application Icon. Hinzugefügt Programmsymbol.
+	Changed 'Save Theme' to 'Custom Theme' button to now add/delete custom themes. Changed "Design speichern" auf "Custom Theme"-Taste, um nun Hinzufügen / Löschen von benutzerdefinierten Designs.
+
+0.1.7 Updated README. 0.1.7 Aktualisiert README.
+	Ignore sub-folders embedded in 'Backdrop' folders as per Xfce gui. Ignorieren Unterordner in "Backdrop" Ordner nach Xfce GUI eingebettet ist.
+	added fix for commas instead of points in sliders. hinzugefügt Fix für Kommas anstelle von Punkten im Schieber.
+	Added spanish translation (thanks to Pablo Morales Romero for his help) Spanische Übersetzung (Dank an Pablo Morales Romero für seine Hilfe)
+	Bug fix for malformed xfwm4 themes. Bugfix für fehlerhaften xfwm4 Themen.
+	Removed abnormal exit on no cursor pixmaps. Entfernt abnorme Ausfahrt auf keinen Cursor pixmaps.
+
+0.1.6	Private bug fixing. 0.1.6 Privat Bugfixing.
+
+0.1.5	Re-added cursor size to advanced. 0.1.5 Cursor Größe zu fortgeschrittenen wieder hinzugefügt.
+	'Reset Theme' now resets controls in advanced tab. 'Reset Theme' setzt jetzt Kontrollen in die Registerkarte Erweitert.
+	Added 'Save Theme', now saves complete custom themes. Hinzugefügt 'Save Theme', speichert nun komplett benutzerdefinierte Themen.
+	Moved 'Rebuild DB' to 'Advanced tab. 'Bewegt Rebuild DB' bis 'die Registerkarte Erweitert.
+	Brightness/Saturation now only update on button up. Helligkeit / Sättigung jetzt nur auf den Knopf bis zu aktualisieren.
+
+0.1.4	Should now be gtk3 compliant. 0.1.4 Sollte nun gtk3 kompatibel sein.
+	Removed manual 'Update DB' button as update is now automatic. Entfernt Handbuch 'update db "-Taste ist nun als Update automatisch.
+	First release of completely rewritten code into 'c' mainly for speed improvements. Erstes Release der vollständig Code in 'c' vor allem für Verbesserungen in der Geschwindigkeit umgeschrieben.
+	Sort alphabetically and user first then system. Alphabetisch sortieren und Benutzer zum ersten Mal dann System.
+	Automatic DB update on successful install of theme etc. Automatische DB-Update auf die erfolgreiche Installation des Themas usw.
+	Full drag'N'drop for installation of themes, icons backdrops etc. Volle Drag'n'Drop für die Installation von Themes, Icons usw. Kulissen
+	Re-arranged advanced page. Erweiterte Seite neu arrangiert.
+	Font buttons show font name in font style. Font-Tasten zeigen Schriftnamen in Schriftart.
+	Multi-threaded progress bar. Multi-threaded Fortschrittsbalken.
+
+0.1.3	Private release versions. 0.1.3 Privat Release-Versionen.
+0.0.9 0.0.9
+
+0.0.8	Tweaked helper app to show render overlays in previews properly. 0.0.8 Tweaked Hilfsanwendung, um Render-Overlays in der Vorschau richtig zu zeigen.
+	Added Cursor size,title position and button layout to advanced. Hinzugefügt Cursor-Größe, Position und Titel Button-Layout bis zum Fortgeschrittenen.
+	Added 'Install Theme/Wallpaper' to advanced. Hinzugefügt 'Install Theme / Wallpaper' bis zum Fortgeschrittenen.
+	Added WM/App font selector to gui and helper app. Hinzugefügt WM / font App-Wahlschalter auf GUI und Hilfsanwendung.
+	Moved window brightness/saturation to advanced. Verschoben Fenster Helligkeit / Sättigung bis zum Fortgeschrittenen.
+	Added launch 'Xfce4-Composite-Editor' to advanced. Hinzugefügt Launch 'xfce4-Composite-Editor' bis zum Fortgeschrittenen.
+	Added 'Advanced' option. Hinzugefügt "Erweitert"-Option.
+
+0.0.7	Added Wallpaper Section. 0.0.7 Hinzugefügt Wallpaper Sektion.
+	Tested under Xfce 4.10. Getestet unter Xfce 4,10.
+	Adds properties to xconf if not defined. Fügt Eigenschaften zu xconf wenn nicht definiert.
+	Refresh Xfce desktop when changing icons. Aktualisieren Xfce-Desktop beim Wechsel Ikonen.
+	Tweaked the Makefile to take acount of Fedora's mucking about with the linker! Neues auf dem Makefile zu acount von Fedora Herumfummeln mit dem Linker zu nehmen!
+
+0.0.6	Icon themes now handled by helper app hopefully no more 'missing' icons in the gui. 0.0.6 Icon Themen jetzt durch Hilfsanwendung hoffentlich nicht mehr "fehlenden" Symbole in der GUI handhaben.
+	Meta-Themes now include 'Home' icon and 'Left' pointer in preview. Meta-Themes nun auch "Home"-Symbol und 'Links' Zeiger in der Vorschau.
+	Size of Meta-Theme previews nor more consistant. Größe der Meta-Theme Previews noch mehr consistant.
+	Numerous minor bug fix's. Zahlreiche kleinere Fehler behoben ist.
+
+0.0.5	Added Custom preview. 0.0.5 Hinzugefügt Vorschau.
+	Numerous bug fix's for badly formed themes. Zahlreiche Bug-Fix ist für schlecht gebildet Themen.
+	Code clean up. Code sauber auf.
+
+0.0.4b	Fixed a bug where imagemagick swallows stdin 0.0.4b wurde ein Fehler behoben imagemagick schluckt stdin
+	Added Cursor theme tab. Hinzugefügt Cursor Thema Reiter.
+	Added cursor previews to helper app. Hinzugefügt Cursor Previews Hilfsanwendung.
+	Fixed another "spaces in file name" bug Ein weitere "Leerzeichen in Datei-Namen" Bug
+
+0.0.03b	Large numbers of themes now supported >200. 0.0.03b Eine große Anzahl von Themen jetzt> 200 unterstützt.
+	Fixed some bugs with themes with spaces in their names. Fixed some bugs mit Themen mit Leerzeichen im Namen.
+
+0.0.2b	Re-wrote helper app to create window frame thumbnails 0.0.2b Re-schrieb Hilfsanwendung zu Fensterrahmen Thumbnails erstellen
+0.0.1b	1st release into the wild 0.0.1b erste Auswilderung
+
+Enjoy! Viel Spaß!
+
+<script>_addload(function(){_setupIW();_csi('en','de','out.txt');});</script>

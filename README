@@ -28,6 +28,8 @@ xfce-theme-manager [-m] [-u]
 -m force a make of all the thumbnails for meta-themes/frames/controls/cursors and icons.
 -u just build misssing thumbnails
 
+ADVANCED TAB:
+
 To install a theme/gtk/icon/cursor/border/wallpaper just drag and drop the archive ( wallpapers should not be archived ) anywhere on the main window and if posible the theme etc will be installed into the correct place, all installations are local, supported archive types are:"*.tgz","*.gz","*.zip","*.tar","*.bz2", supported wallpaper types are:"*.jpg","*.png","*.bmp","*.gif" anything else you will have to install yourself.
 
 The thumbnails are stored in ${HOME}/.config/XfceThemeManager
@@ -37,14 +39,14 @@ The DB is updated automatically on drag'n'drop, if you do a lot of adding and re
 
 Meta Themes are themes that contain a gtk2 folder and an xfwm4 folder (ie window frames and controls), if their is a gnome-like theme.index file that also specifies an icon set this will be used as well.
 
-Spanish is now catered for if you have set the 'LANG' enviroment variable properly, other translations are invited email me for a list to be translated.
+Spanish/German is now catered for if you have set the 'LANG' enviroment variable properly, other translations are invited email me for a list to be translated.
 
 INSTALL:
-Extract the archive say into /tmp, cd into /tmp/Xfce-Theme-Manager, if you are extracting from the command line you may want to put the archive in a subfolder first, run sudo make install, this will iinstall the Xfce-Theme-Manager GUI and the desktop file.
+Extract the archive say into /tmp, cd into /tmp/Xfce-Theme-Manager-(VERSION), run sudo make install, this will install the Xfce-Theme-Manager GUI and the desktop file.
 The GUI can be run from the command line or from the settings menu.
 The GUI can be manually installed and/or run from the main folder.
 
-There is no configure script as the makefile is very simple, default is to install in /usr/local/bin this can be changed by setting the PREFIX variable prior to make install.
+There is no configure script as the makefile is very simple, default is to install in /usr/local/bin this can be changed by setting the PREFIX variable prior to make install ( PREFIX="/usr" make install ).
 
 If you have a source based pkg manager like slackware the dev files for glib etc should already be installed, if you are using a debian based install you may have to install the dev packages as well, probably somthing along the lines of glib2-dev/gdk2-dev check your installation documentation for further details.
 
@@ -58,6 +60,20 @@ Please send them direct to me at: kdhedger@yahoo.co.uk posting them on xfce-look
 ***************************************
 
 Changelog:
+
+0.1.14 Added "About" dialog.
+	Added display options to "Advanced"
+	Added CNTRL-click on Custom theme to delete.
+
+0.1.13 Internal release.
+
+0.1.12 Bug fix/hack for buggy xfwm4-settings.
+
+0.1.11 Bug fix for badly formed/non-existent LANG env var.
+	Bug fix for cursor preview.
+	Plugged some memory leaks.
+	Tidied up rebuilding db dialog ( removed close button etc).
+	Minor changes to Makefile/README.
 
 0.1.10 Added German translation, thanks to Martin F. Schumann for that.
 	Removed warnings from xconf about user settings not set.
