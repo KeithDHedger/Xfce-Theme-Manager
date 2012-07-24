@@ -1,6 +1,6 @@
 PROGRAM=xfce-theme-manager
 SOURCES=src/main.cpp src/globals.cpp src/database.cpp src/thumbnails.cpp src/gui.cpp src/callbacks.cpp
-VERSION=0.1.13
+VERSION=0.1.14
 
 LAUNCHER=Xfce-Theme-Manager.desktop
 
@@ -13,7 +13,6 @@ ifeq ($(strip $(CXXFLAGS)),)
 endif
 
 $(PROGRAM):$(SOURCES)
-	sed -i "s/^#define VERSION.*/#define VERSION \"$(VERSION)\"/" src/globals.h
 	g++ $(CXXFLAGS) -o $(PROGRAM) $(SOURCES)
 	strip $(PROGRAM)
 
@@ -38,4 +37,6 @@ pkg:
 	tar --exclude .svn -cvzf Xfce-Theme-Manager-$(VERSION).tar.gz Xfce-Theme-Manager-$(VERSION)
 	rm -r Xfce-Theme-Manager-$(VERSION)
 
+version:
+	sed -i "s/^#define VERSION.*/#define VERSION \"$(VERSION)\"/" src/globals.h
 

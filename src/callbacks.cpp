@@ -500,31 +500,17 @@ void wallStyleChanged(GtkWidget* widget,gpointer data)
 	system(command);
 }
 
-void deleteCustom(GtkDialog *dialog,gint response_id,gpointer user_data)
-{
-	destroy=false;
-	gtk_widget_destroy((GtkWidget*)dialog);
-	switch (response_id)
-		{
-			case DELETETHEME:
-				destroy=true;
-				break;
-		}
-}
-
 void removeTheme(const char* name)
 {
 	int		namelen;
+	GtkWidget*	dialog;
 
 	if(strstr(name,".config/XfceThemeManager/custom")==NULL)
 		return;
-	
-	GtkWidget*	getFilename;
-	getFilename=gtk_dialog_new_with_buttons(_translate(REMOVETHEME),NULL,GTK_DIALOG_MODAL,GTK_STOCK_CANCEL,GTK_RESPONSE_CANCEL,GTK_STOCK_DELETE,DELETETHEME,NULL);
-	gtk_dialog_set_default_response((GtkDialog*)getFilename,GTK_RESPONSE_CANCEL);
-	g_signal_connect(G_OBJECT(getFilename),"response",G_CALLBACK(deleteCustom),NULL);
-	gtk_dialog_run((GtkDialog *)getFilename);
-	if (destroy==true)
+
+	dialog=gtk_message_dialog_new(NULL,GTK_DIALOG_DESTROY_WITH_PARENT,GTK_MESSAGE_WARNING,GTK_BUTTONS_YES_NO,"%s:\n%s",_translate(REMOVETHEME),name);
+
+	if(gtk_dialog_run (GTK_DIALOG(dialog))==GTK_RESPONSE_YES)
 		{
 			namelen=strlen(name);
 			sprintf(generalBuffer,"%s",name);
@@ -536,6 +522,8 @@ void removeTheme(const char* name)
 			remove(generalBuffer);
 			rerunAndUpdate(true);
 		}
+
+	gtk_widget_destroy (dialog);
 }
 
 //do meta theme
