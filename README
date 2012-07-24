@@ -107,6 +107,7 @@ Changelog:
 0.1.14 Added "About" dialog.
 	Added display options to "Advanced"
 	Added CNTRL-click on Custom theme to delete.
+	Added save window size on exit.
 
 0.1.13 Internal release.
 
