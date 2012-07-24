@@ -28,11 +28,53 @@ xfce-theme-manager [-m] [-u]
 -m force a make of all the thumbnails for meta-themes/frames/controls/cursors and icons.
 -u just build misssing thumbnails
 
-ADVANCED TAB:
+[Reset Theme]
+	Discard all changes.
+[Custom Theme]
+	Enter a custom theme name to save/delete, you can also quickly delete a custom theme by control-clicking a custom theme thumbnail.
+
+[Advanced Tab]
+	[About]
+		Credits and stuff.
+	[Rebuild DB]
+		Rebuild the database.
+	[Xfce-Composite-Editor]
+		Run the composit editor ( if installed, see above ).
+	[Backdrop Adjustments]
+		Set Brightness/Saturation of the wallpaper.
+	[Button Layout]
+		The layout of close, maximize etc. ( some themes may overide this ).
+	[Title Position]
+		Placement of the window title,  ( some themes may overide this ).
+	[Font Selection]
+		Title bar/application font.
+	[Cursor Size]
+		Set the cursor size if the cursor theme suports it, some do some don't.
+	[View Options]
+		[Show system Themes]
+			Show globally installed theme parts.
+		[Only show Custom Themes]
+			Only shows meta themes that you have created, auto generated meta themes are not shown.
+		[Themes]
+			Show globally installed meta themes.
+		[Window Borders]
+			Show globally installed Xwm4 themes.
+		[Controls]
+			Show globally installed Gtk themes.
+		[Icons]
+			Show globally installed icon themes.
+		[Cursors]
+			Show globally installed mouse themes.
+		[Wallpapers]
+			Show globally installed wallpapers.
+
+Locally installed themes parts are always shown except for meta themes if the [Only show Custom Themes] is checked.
+You can quickly delete a custom theme by holding control and clicking on the thumbnail, only custom themes you have created can be deleted and only the database entry is removed nothing is uninstalled from your system.
 
 To install a theme/gtk/icon/cursor/border/wallpaper just drag and drop the archive ( wallpapers should not be archived ) anywhere on the main window and if posible the theme etc will be installed into the correct place, all installations are local, supported archive types are:"*.tgz","*.gz","*.zip","*.tar","*.bz2", supported wallpaper types are:"*.jpg","*.png","*.bmp","*.gif" anything else you will have to install yourself.
 
-The thumbnails are stored in ${HOME}/.config/XfceThemeManager
+The thumbnails are stored in ${HOME}/.config/XfceThemeManager.
+
 The first time you use Xfce-Theme-Manager you should either run it from the command line with the -m switch or click on the "Rebuld DB" button, the first build of the DB can take a while so be patient!
 
 The DB is updated automatically on drag'n'drop, if you do a lot of adding and removeing of themes/icons etc you may want to run Re-build DB from the advanced tab.
@@ -42,7 +84,8 @@ Meta Themes are themes that contain a gtk2 folder and an xfwm4 folder (ie window
 Spanish/German is now catered for if you have set the 'LANG' enviroment variable properly, other translations are invited email me for a list to be translated.
 
 INSTALL:
-Extract the archive say into /tmp, cd into /tmp/Xfce-Theme-Manager-(VERSION), run sudo make install, this will install the Xfce-Theme-Manager GUI and the desktop file.
+Extract the archive say into /tmp, cd into /tmp/Xfce-Theme-Manager-(VERSION), run sudo make install, this will install the Xfce-Theme-Manager GUI, icon and the desktop file.
+
 The GUI can be run from the command line or from the settings menu.
 The GUI can be manually installed and/or run from the main folder.
 
