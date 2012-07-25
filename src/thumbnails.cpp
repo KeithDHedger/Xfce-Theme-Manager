@@ -577,7 +577,10 @@ void makeborder(char* folder,char* outframe)
 
 //bottom
 	cairo_save (cr);
-		gdk_cairo_set_source_pixbuf(cr,gdk_pixbuf_scale_simple(bottom,boxwid-bottomritewid-bottomleftwid,bottomhite,GDK_INTERP_BILINEAR),bottomleftwid,boxhite-bottomhite);
+		gdk_cairo_set_source_pixbuf(cr,bottom,bottomleftwid,boxhite-bottomhite);
+		cairo_pattern_set_extend(cairo_get_source(cr),CAIRO_EXTEND_REPEAT);
+		cairo_rectangle(cr,bottomleftwid,boxhite-bottomhite,boxwid-bottomritewid-bottomleftwid,bottomhite);
+ 		cairo_clip(cr);
 		cairo_paint_with_alpha(cr,100);
 	cairo_restore (cr);
 
