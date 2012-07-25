@@ -33,7 +33,7 @@ clean:
 
 pkg:
 	mkdir Xfce-Theme-Manager-$(VERSION)
-	cp -r src Xfce-Theme-Manager.desktop README Makefile $(PROGRAM).png Xfce-Theme-Manager-$(VERSION)
+	cp -r src Xfce-Theme-Manager.desktop README README.de README.es Makefile $(PROGRAM).png Xfce-Theme-Manager-$(VERSION)
 	tar --exclude .svn -cvzf Xfce-Theme-Manager-$(VERSION).tar.gz Xfce-Theme-Manager-$(VERSION)
 	rm -r Xfce-Theme-Manager-$(VERSION)
 
