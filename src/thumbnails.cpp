@@ -285,7 +285,8 @@ GdkPixbuf* checkPixBuf(GdkPixbuf* pixbuf)
 	if (GDK_IS_PIXBUF(pixbuf))
  		return (pixbuf);
  	else
- 		return(missingImage);
+ 		//return(missingImage);
+ 		return(NULL);
 }
 
 void makeborder(char* folder,char* outframe)
@@ -335,8 +336,8 @@ void makeborder(char* folder,char* outframe)
 	title3=composePixbuf(folder,"title-3-active",0);
 	title4=composePixbuf(folder,"title-4-active",1);
 	title5=composePixbuf(folder,"title-5-active",0);
-	riteside=composePixbuf(folder,"right-active",0);
-	leftside=composePixbuf(folder,"left-active",0);
+	riteside=composePixbuf(folder,"right-active",1);
+	leftside=composePixbuf(folder,"left-active",1);
 	bottomleft=composePixbuf(folder,"bottom-left-active",0);
 	bottomrite=composePixbuf(folder,"bottom-right-active",0);
 	bottom=composePixbuf(folder,"bottom-active",0);
@@ -349,11 +350,13 @@ void makeborder(char* folder,char* outframe)
 		{
 			title1hite=gdk_pixbuf_get_height((const GdkPixbuf *)title1);
 		}
+
 	if (title2!=NULL)
 		{
 			title2wid=gdk_pixbuf_get_width((const GdkPixbuf *)title2);
 			title2hite=gdk_pixbuf_get_height((const GdkPixbuf *)title2);
 		}
+
 	if (title3!=NULL)
 		{
 			title3hite=gdk_pixbuf_get_height((const GdkPixbuf *)title3);
@@ -381,10 +384,16 @@ void makeborder(char* folder,char* outframe)
 	bottomritehite=gdk_pixbuf_get_height((const GdkPixbuf *)bottomrite);
 
 	leftsidewid=gdk_pixbuf_get_width((const GdkPixbuf *)leftside);
-	
 	ritesidewid=gdk_pixbuf_get_width((const GdkPixbuf *)riteside);
 
 	bottomhite=gdk_pixbuf_get_height((const GdkPixbuf *)bottom);
+
+	if (title2wid<0)
+		title2=0;
+	if (title4wid<0)
+		title4=0;
+	if (title5wid<0)
+		title5=0;
 
 	if(close!=NULL)
 		{
@@ -407,14 +416,11 @@ void makeborder(char* folder,char* outframe)
 			menuhite=gdk_pixbuf_get_height((const GdkPixbuf *)menu);
 		}
 
-	lsegwid=menuwid+button_spacing+1;
-	rsegwid=closewid+maxwid+minwid+(button_spacing*3)+1;
-	boxwid=topleftwid+lsegwid+title2wid+PADWIDTH+title4wid+rsegwid+topritewid;
-	if (boxwid<MAXBOXWIDTH)
-		{
-			padwid=MAXBOXWIDTH-(topleftwid+lsegwid+title2wid+title4wid+rsegwid+topritewid);
-			boxwid=MAXBOXWIDTH;
-		}
+	lsegwid=menuwid+button_spacing;
+	rsegwid=closewid+maxwid+minwid+(button_spacing*3);
+
+	padwid=MAXBOXWIDTH-(topleftwid+lsegwid+title2wid+title4wid+rsegwid+topritewid);
+	boxwid=MAXBOXWIDTH;
 
 	if (boxhite-bottomhite-title3hite<ICONPAD+ICONPAD+ICONSIZE+title3hite+bottomhite)
 		boxhite=title3hite+ICONPAD+ICONPAD+ICONSIZE+bottomhite;
@@ -424,16 +430,16 @@ void makeborder(char* folder,char* outframe)
 
 	if (boxhite-bottomlefthite-toplefthite<=0)
 		boxhite=bottomritehite+topritehite+10;
-
-		
+	
 	surface=cairo_image_surface_create(CAIRO_FORMAT_ARGB32,boxwid,boxhite);
 	cr=cairo_create(surface);
 
 //do theme
-
 	if (controlsPixbuf!=NULL)
 		{
 			cairo_save (cr);
+				cairo_rectangle(cr,leftsidewid,title3hite,MAXBOXWIDTH-ritesidewid-leftsidewid,boxhite-bottomhite-title3hite);
+				cairo_clip(cr);
 				gdk_cairo_set_source_pixbuf(cr,controlsPixbuf,leftsidewid,title3hite);
 				cairo_paint_with_alpha(cr,100);
 
@@ -456,6 +462,14 @@ void makeborder(char* folder,char* outframe)
 						if(theme!=NULL)
 							g_object_unref(theme);
 					}
+			cairo_restore (cr);
+		}
+	else
+		{
+			cairo_save (cr);
+				cairo_set_source_rgb(cr,1,1,1);
+				cairo_rectangle(cr,leftsidewid,title3hite,MAXBOXWIDTH-ritesidewid-leftsidewid,boxhite-bottomhite-title3hite);
+				cairo_fill(cr);
 			cairo_restore (cr);
 		}
 
@@ -488,6 +502,7 @@ void makeborder(char* folder,char* outframe)
 				cairo_paint_with_alpha(cr,100);
 			cairo_restore (cr);
 		}
+
 //title3
 	if (title3!=NULL)
 		{
@@ -499,6 +514,7 @@ void makeborder(char* folder,char* outframe)
 				cairo_paint_with_alpha(cr,100);
 			cairo_restore (cr);
 		}
+
 //title4
 	if (title4!=NULL)
 		{
@@ -510,6 +526,7 @@ void makeborder(char* folder,char* outframe)
 				cairo_paint_with_alpha(cr,100);
 			cairo_restore (cr);
 		}
+
 //title5
 	if (title5!=NULL)
 		{
@@ -528,17 +545,23 @@ void makeborder(char* folder,char* outframe)
 		cairo_paint_with_alpha(cr,100);
 	cairo_restore (cr);
 
-//leftside	
+//leftside
+	if (leftside!=NULL)
+		{
 	cairo_save (cr);
 		gdk_cairo_set_source_pixbuf(cr,gdk_pixbuf_scale_simple(leftside,leftsidewid,boxhite-bottomlefthite-toplefthite,GDK_INTERP_BILINEAR),0,toplefthite);
 		cairo_paint_with_alpha(cr,100);
 	cairo_restore (cr);
+		}
 
 //riteside
+	if (riteside!=NULL)
+		{
 	cairo_save (cr);
 		gdk_cairo_set_source_pixbuf(cr,gdk_pixbuf_scale_simple(riteside,ritesidewid,boxhite-bottomritehite-topritehite,GDK_INTERP_BILINEAR),boxwid-ritesidewid,topritehite);
 		cairo_paint_with_alpha(cr,100);
 	cairo_restore (cr);
+		}
 
 //bottomleft
 	cairo_save (cr);
