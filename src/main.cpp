@@ -227,7 +227,6 @@ void init(void)
 
 	freeAndNull(&stdout);
 	freeAndNull(&stderr);
-
 }
 
 void makeProgressBar(void)

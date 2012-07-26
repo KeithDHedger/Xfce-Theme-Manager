@@ -106,7 +106,6 @@ int			showBackdrop=1;
 int			showOnlyCustom=0;
 int			winWid=420;
 int			winHite=470;
-
 int			gotXCE=0;
 
 const char* langStr[][STOPWORD]={
@@ -178,7 +177,6 @@ void setValue(const char* command,dataType type,void* ptr)
 						stdout[strlen(stdout)-1]=0;
 						*(double*)ptr=atof(stdout);
 						break;
-						
 				}
 		}
 	freeAndNull(&stdout);
