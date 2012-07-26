@@ -153,6 +153,39 @@ char* doubleToStr(double num)
 	return(doublestr);
 }
 
+void setValue(const char* command,dataType type,void* ptr)
+{
+	gchar	*stdout=NULL;
+	gchar	*stderr=NULL;
+	gint   retval=0;
+
+	if (retval==0)
+		{
+			switch(type)
+				{
+					case INT:
+						g_spawn_command_line_sync(command,&stdout,&stderr,&retval,NULL);
+						stdout[strlen(stdout)-1]=0;
+						*(int*)ptr=atoi(stdout);
+						break;
+
+					case STRING:
+						g_spawn_command_line_sync(command,&stdout,&stderr,&retval,NULL);
+						stdout[strlen(stdout)-1]=0;
+						asprintf((char**)ptr,"%s",stdout);
+						break;
+
+					case FLOAT:
+						g_spawn_command_line_sync(command,&stdout,&stderr,&retval,NULL);
+						stdout[strlen(stdout)-1]=0;
+						*(double*)ptr=atof(stdout);
+						break;
+						
+				}
+		}
+	freeAndNull(&stdout);
+	freeAndNull(&stderr);
+}
 
 
 

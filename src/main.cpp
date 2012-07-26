@@ -140,27 +140,6 @@ void showAdvanced(GtkWidget* widget,gpointer data)
 		gtk_notebook_set_current_page(advanced,0);
 }
 
-void setIntValue(const char* command,dataType type,void* ptr)
-{
-	gchar	*stdout=NULL;
-	gchar	*stderr=NULL;
-	gint   retval=0;
-
-	g_spawn_command_line_sync(command,&stdout,&stderr,&retval,NULL);
-	if (retval==0)
-		{
-			switch(type)
-				{
-					case INT:
-						stdout[strlen(stdout)-1]=0;
-						*(int*)ptr=atoi(stdout);
-						break;
-				}
-		}
-	freeAndNull(&stdout);
-	freeAndNull(&stderr);
-}
-
 void init(void)
 {
 	gchar	*stdout=NULL;
@@ -181,7 +160,6 @@ void init(void)
 	asprintf(&papersArray[0],"%s/.local/share/xfce4/backdrops",homeFolder);
 	asprintf(&papersArray[1],"%s",GLOBALWALLPAPERS);
 
-
 	asprintf(&dbFolder,"%s/.config/XfceThemeManager",homeFolder);
 	asprintf(&metaFolder,"%s/meta",dbFolder);
 	asprintf(&framesFolder,"%s/frames",dbFolder);
@@ -190,91 +168,31 @@ void init(void)
 	asprintf(&cursorsFolder,"%s/cursors",dbFolder);
 	asprintf(&wallpapersFolder,"%s/wallpapers",dbFolder);
 	asprintf(&customFolder,"%s/custom",dbFolder);
-
-
-
-	g_spawn_command_line_sync(XCONFGETSTYLE,&stdout,&stderr,&retval,NULL);
-
-	if (retval==0)
-		{
-			stdout[strlen(stdout)-1]=0;
-			currentWallStyle=atol(stdout);
-		}
-
-	freeAndNull(&stdout);
-	freeAndNull(&stderr);
-
-	g_spawn_command_line_sync(XCONFGETCONTROLS,&currentGtkTheme,&stderr,&retval,NULL);
-	if (retval==0)
-		currentGtkTheme[strlen(currentGtkTheme)-1]=0;
-	freeAndNull(&stderr);
 	
-	g_spawn_command_line_sync(XCONFGETICONS,&currentIconTheme,&stderr,&retval,NULL);
-	if (retval==0)
-		currentIconTheme[strlen(currentIconTheme)-1]=0;
-	freeAndNull(&stderr);
+//gtk
+	setValue(XCONFGETCONTROLS,STRING,&currentGtkTheme);
 
-	g_spawn_command_line_sync(XCONFGETCURSOR,&currentCursorTheme,&stderr,&retval,NULL);
-	if (retval==0)
-		currentCursorTheme[strlen(currentCursorTheme)-1]=0;
-	freeAndNull(&stderr);
+//icons
+	setValue(XCONFGETICONS,STRING,&currentIconTheme);
 
-	g_spawn_command_line_sync(XCONFGETFRAME,&currentWmTheme,&stderr,&retval,NULL);
-	if (retval==0)
-		currentWmTheme[strlen(currentWmTheme)-1]=0;
+//window manager
+	setValue(XCONFGETTITLEPOS,STRING,&currentTitlePos);
+	setValue(XCONFGETLAYOUT,STRING,&currentButtonLayout);
+	setValue(XCONFGETFRAME,STRING,&currentWmTheme);
 
-	g_spawn_command_line_sync(XCONFGETPAPER,&currentWallPaper,&stderr,&retval,NULL);
-	if (retval==0)
-			currentWallPaper[strlen(currentWallPaper)-1]=0;
-	freeAndNull(&stderr);
+//font
+	setValue(XCONFGETWMFONT,STRING,&currentWMFont);
+	setValue(XCONFGETAPPFONT,STRING,&currentAppFont);
 
-	g_spawn_command_line_sync(XCONFGETLAYOUT,&currentButtonLayout,&stderr,&retval,NULL);
-	if (retval==0)
-		currentButtonLayout[strlen(currentButtonLayout)-1]=0;
-	freeAndNull(&stderr);
+//backdrop
+	setValue(XCONFGETBRIGHT,INT,&currentBright);
+	setValue(XCONFGETSATU,FLOAT,&currentSatu);
+	setValue(XCONFGETPAPER,STRING,&currentWallPaper);
+	setValue(XCONFGETSTYLE,INT,&currentWallStyle);
 
-	g_spawn_command_line_sync(XCONFGETTITLEPOS,&currentTitlePos,&stderr,&retval,NULL);
-	if (retval==0)
-		currentTitlePos[strlen(currentTitlePos)-1]=0;
-	freeAndNull(&stderr);
-
-	g_spawn_command_line_sync(XCONFGETWMFONT,&currentWMFont,&stderr,&retval,NULL);
-	if (retval==0)
-		currentWMFont[strlen(currentWMFont)-1]=0;
-	freeAndNull(&stderr);
-
-	g_spawn_command_line_sync(XCONFGETAPPFONT,&currentAppFont,&stderr,&retval,NULL);
-	if (retval==0)
-		currentAppFont[strlen(currentAppFont)-1]=0;
-	freeAndNull(&stderr);
-
-//	g_spawn_command_line_sync(XCONFGETBRIGHT,&stdout,&stderr,&retval,NULL);
-//	if (retval==0)
-//		{
-//			stdout[strlen(stdout)-1]=0;
-//			currentBright=atoi(stdout);
-//		}
-//	freeAndNull(&stdout);
-//	freeAndNull(&stderr);
-	setIntValue(XCONFGETBRIGHT,INT,&currentBright);
-
-	g_spawn_command_line_sync(XCONFGETSATU,&stdout,&stderr,&retval,NULL);
-	if (retval==0)
-		{
-			stdout[strlen(stdout)-1]=0;
-			currentSatu=atof(stdout);
-		}
-	freeAndNull(&stdout);
-	freeAndNull(&stderr);
-
-	g_spawn_command_line_sync(XCONFGETCURSORSIZE,&stdout,&stderr,&retval,NULL);
-	if (retval==0)
-		{
-			stdout[strlen(stdout)-1]=0;
-			currentCursSize=atoi(stdout);
-		}
-	freeAndNull(&stdout);
-	freeAndNull(&stderr);
+//mouse
+	setValue(XCONFGETCURSORSIZE,INT,&currentCursSize);
+	setValue(XCONFGETCURSOR,STRING,&currentCursorTheme);
 
 	missingImage=gdk_pixbuf_new_from_xpm_data((const char**)error_xpm);
 	blankImage=gdk_pixbuf_new_from_xpm_data((const char**)blank_xpm);
@@ -290,96 +208,18 @@ void init(void)
 				langID=GERMAN;
 		}
 //init my configs
-	g_spawn_command_line_sync(XMTGETSHOWSYSTEM,&stdout,&stderr,&retval,NULL);
-	if (retval==0)
-		{
-			stdout[strlen(stdout)-1]=0;
-			showGlobal=atoi(stdout);
-		}
-	freeAndNull(&stdout);
-	freeAndNull(&stderr);
 
-	g_spawn_command_line_sync(XMTGETSHOWMETA,&stdout,&stderr,&retval,NULL);
-	if (retval==0)
-		{
-			stdout[strlen(stdout)-1]=0;
-			showMeta=atoi(stdout);
-		}
-	freeAndNull(&stdout);
-	freeAndNull(&stderr);
+	setValue(XMTGETSHOWSYSTEM,INT,&showGlobal);
+	setValue(XMTGETSHOWMETA,INT,&showMeta);
+	setValue(XMTGETSHOWGTK,INT,&showGtk);
+	setValue(XMTGETSHOWWMB,INT,&showDecs);
+	setValue(XMTGETSHOWCURSORS,INT,&showCursors);
+	setValue(XMTGETSHOWICONS,INT,&showIcons);
+	setValue(XMTGETSHOWPAPER,INT,&showBackdrop);
+	setValue(XMTGETSHOWCUSTOM,INT,&showOnlyCustom);
 
-	g_spawn_command_line_sync(XMTGETSHOWGTK,&stdout,&stderr,&retval,NULL);
-	if (retval==0)
-		{
-			stdout[strlen(stdout)-1]=0;
-			showGtk=atoi(stdout);
-		}
-	freeAndNull(&stdout);
-	freeAndNull(&stderr);
-
-	g_spawn_command_line_sync(XMTGETSHOWWMB,&stdout,&stderr,&retval,NULL);
-	if (retval==0)
-		{
-			stdout[strlen(stdout)-1]=0;
-			showDecs=atoi(stdout);
-		}
-	freeAndNull(&stdout);
-	freeAndNull(&stderr);
-
-	g_spawn_command_line_sync(XMTGETSHOWICONS,&stdout,&stderr,&retval,NULL);
-	if (retval==0)
-		{
-			stdout[strlen(stdout)-1]=0;
-			showIcons=atoi(stdout);
-		}
-	freeAndNull(&stdout);
-	freeAndNull(&stderr);
-
-	g_spawn_command_line_sync(XMTGETSHOWCURSORS,&stdout,&stderr,&retval,NULL);
-	if (retval==0)
-		{
-			stdout[strlen(stdout)-1]=0;
-			showCursors=atoi(stdout);
-		}
-	freeAndNull(&stdout);
-	freeAndNull(&stderr);
-
-	g_spawn_command_line_sync(XMTGETSHOWPAPER,&stdout,&stderr,&retval,NULL);
-	if (retval==0)
-		{
-			stdout[strlen(stdout)-1]=0;
-			showBackdrop=atoi(stdout);
-		}
-	freeAndNull(&stdout);
-	freeAndNull(&stderr);
-
-	g_spawn_command_line_sync(XMTGETSHOWCUSTOM,&stdout,&stderr,&retval,NULL);
-	if (retval==0)
-		{
-			stdout[strlen(stdout)-1]=0;
-			showOnlyCustom=atoi(stdout);
-		}
-	freeAndNull(&stdout);
-	freeAndNull(&stderr);
-
-	g_spawn_command_line_sync(XMTGETWINWID,&stdout,&stderr,&retval,NULL);
-	if (retval==0)
-		{
-			stdout[strlen(stdout)-1]=0;
-			winWid=atoi(stdout);
-		}
-	freeAndNull(&stdout);
-	freeAndNull(&stderr);
-
-	g_spawn_command_line_sync(XMTGETWINHITE,&stdout,&stderr,&retval,NULL);
-	if (retval==0)
-		{
-			stdout[strlen(stdout)-1]=0;
-			winHite=atoi(stdout);
-		}
-	freeAndNull(&stdout);
-	freeAndNull(&stderr);
-
+	setValue(XMTGETWINWID,INT,&winWid);
+	setValue(XMTGETWINHITE,INT,&winHite);
 
 	g_spawn_command_line_sync("which xfce4-composite-editor",&stdout,&stderr,&retval,NULL);
 	if (retval==0)
