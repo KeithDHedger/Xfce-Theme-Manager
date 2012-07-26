@@ -23,7 +23,8 @@ Changelog:
 	Don't show "Xfce-Composite-Editor" button if not installed.
 	Frame thumbnails now show white background instead of tranparent.
 	Frame/Meta thumbnails show rounded corners and bottom properly.
- 
+	Code clean.
+
 0.1.13 Internal release.
 
 0.1.12 Bug fix/hack for buggy xfwm4-settings.

@@ -91,7 +91,7 @@ The GUI can be manually installed and/or run from the main folder.
 
 There is no configure script as the makefile is very simple, default is to install in /usr/local/bin this can be changed by setting the PREFIX variable prior to make install ( sudo make install PREFIX=/usr ).
 
-If you have a source based pkg manager like slackware the dev files for glib etc should already be installed, if you are using a debian based install you may have to install the dev packages as well, probably somthing along the lines of glib2-dev/gdk2-dev check your installation documentation for further details.
+If you have a source based pkg manager like slackware the dev files for glib etc should already be installed, if you are using a debian based install you may have to install the dev packages as well, probably something along the lines of glib2-dev/gdk2-dev check your installation documentation for further details.
 
 You may have to run  xfce4-panel --restart to see the Xfce-Theme-Manager menu item in settings.
 
@@ -101,99 +101,6 @@ If you are upgrading from an older version please rebuild the DB ( from the "Adv
 BUGS:
 Please send them direct to me at: kdhedger@yahoo.co.uk posting them on xfce-look etc gets too messy!
 ***************************************
-
-Changelog:
-
-0.1.14 Added "About" dialog.
-	Added display options to "Advanced"
-	Added CNTRL-click on Custom theme to delete.
-	Added save window size on exit.
-
-0.1.13 Internal release.
-
-0.1.12 Bug fix/hack for buggy xfwm4-settings.
-
-0.1.11 Bug fix for badly formed/non-existent LANG env var.
-	Bug fix for cursor preview.
-	Plugged some memory leaks.
-	Tidied up rebuilding db dialog ( removed close button etc).
-	Minor changes to Makefile/README.
-
-0.1.10 Added German translation, thanks to Martin F. Schumann for that.
-	Removed warnings from xconf about user settings not set.
-	Added "Custom" when saving custom theme if needed.
-	Fixed minor memory leak.
-	New application icon.
-	Minor bug fix when using comma instead of point ( again! )
-	Code clean.
-
-0.1.9 Internal release.
-
-0.1.8	Finally redone border preview to use tile instead of stretch, more accurate.
-	Added Application Icon.
-	Changed 'Save Theme' to 'Custom Theme' button to now add/delete custom themes.
-
-0.1.7 Updated README.
-	Ignore sub-folders embedded in 'Backdrop' folders as per Xfce gui.
-	added fix for commas instead of points in sliders.
-	Added spanish translation (thanks to Pablo Morales Romero for his help)
-	Bug fix for malformed xfwm4 themes.
-	Removed abnormal exit on no cursor pixmaps.
-
-0.1.6	Private bug fixing.
-
-0.1.5	Re-added cursor size to advanced.
-	'Reset Theme' now resets controls in advanced tab.
-	Added 'Save Theme', now saves complete custom themes.
-	Moved 'Rebuild DB' to 'Advanced tab.
-	Brightness/Saturation now only update on button up.
-
-0.1.4	Should now be gtk3 compliant.
-	Removed manual 'Update DB' button as update is now automatic.
-	First release of completely rewritten code into 'c' mainly for speed improvements.
-	Sort alphabetically and user first then system.
-	Automatic DB update on successful install of theme etc.
-	Full drag'N'drop for installation of themes, icons backdrops etc.
-	Re-arranged advanced page.
-	Font buttons show font name in font style.
-	Multi-threaded progress bar.
-
-0.1.3	Private release versions.
-0.0.9
-
-0.0.8	Tweaked helper app to show render overlays in previews properly.
-	Added Cursor size,title position and button layout to advanced.
-	Added 'Install Theme/Wallpaper' to advanced.
-	Added WM/App font selector to gui and helper app.
-	Moved window brightness/saturation to advanced.
-	Added launch 'Xfce4-Composite-Editor' to advanced.
-	Added 'Advanced' option.
-	
-0.0.7	Added Wallpaper Section.
-	Tested under Xfce 4.10.
-	Adds properties to xconf if not defined.
-	Refresh Xfce desktop when changing icons.
-	Tweaked the Makefile to take acount of Fedora's mucking about with the linker!
-
-0.0.6	Icon themes now handled by helper app hopefully no more 'missing' icons in the gui.
-	Meta-Themes now include 'Home' icon and 'Left' pointer in preview.
-	Size of Meta-Theme previews nor more consistant.
-	Numerous minor bug fix's.
-
-0.0.5	Added Custom preview.
-	Numerous bug fix's for badly formed themes.
-	Code clean up.
-
-0.0.4b	Fixed a bug where imagemagick swallows stdin
-	Added Cursor theme tab.
-	Added cursor previews to helper app.
-	Fixed another "spaces in file name" bug
-
-0.0.03b	Large numbers of themes now supported >200.
-	Fixed some bugs with themes with spaces in their names.
-
-0.0.2b	Re-wrote helper app to create window frame thumbnails
-0.0.1b	1st release into the wild
 
 Enjoy!
 
