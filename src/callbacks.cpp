@@ -202,22 +202,10 @@ void customTheme(GtkWidget* window,gpointer data)
 
 	if (filename!=NULL && strlen(filename)>0)
 		{
-			g_spawn_command_line_sync(XCONFGETCONTROLS,&gtk,NULL,&spawnret,NULL);
-			if (spawnret==0)
-				gtk[strlen(gtk)-1]=0;
-
-			
-			g_spawn_command_line_sync(XCONFGETFRAME,&frame,NULL,&spawnret,NULL);
-			if (spawnret==0)
-				frame[strlen(frame)-1]=0;
-
-			g_spawn_command_line_sync(XCONFGETICONS,&iconTheme,NULL,&spawnret,NULL);
-			if (spawnret==0)
-				iconTheme[strlen(iconTheme)-1]=0;
-
-			g_spawn_command_line_sync(XCONFGETCURSOR,&cursorTheme,NULL,&spawnret,NULL);
-			if (spawnret==0)
-				cursorTheme[strlen(cursorTheme)-1]=0;
+			setValue(XCONFGETCONTROLS,STRING,&gtk);
+			setValue(XCONFGETFRAME,STRING,&frame);
+			setValue(XCONFGETICONS,STRING,&iconTheme);
+			setValue(XCONFGETCURSOR,STRING,&cursorTheme);
 
 			asprintf(&thumbfile,"%s/%s.png",customFolder,filename);
 
