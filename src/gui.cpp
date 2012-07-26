@@ -201,10 +201,10 @@ void buildPages(void)
 
 void doAbout(GtkWidget* widget,gpointer data)
 {
-	const char*	authors[]={"K.D.Hedger <kdhedger@yahoo.co.uk>",NULL};
+	const char*	authors[]={"K.D.Hedger <kdhedger@yahoo.co.uk>\n",NULL};
 	const char	copyright[] ="Copyright \xc2\xa9 2012 K.D.Hedger";
 	const char	comments[] = "An intergrated Theme manager for Xfce4.10";
-	const char*	translators="Spanish translation thanks to Pablo Romero.\nGerman translation thanks to Martin F. Schumann.";
+	const char*	translators="Spanish translation:\nPablo Romero.\n\nGerman translation:\nMartin F. Schumann. http://mfs.name";
 
 	gtk_show_about_dialog (NULL,"authors", authors,"translator-credits",translators,"comments", comments,"copyright", copyright,"version", VERSION,"website", "http://keithhedger.hostingsiteforfree.com/index.html","program-name", "Xfce-Theme-Manager","logo-icon-name", "xfce-theme-manager", NULL); 
 }
@@ -235,14 +235,16 @@ void buildAdvancedGui(GtkWidget* advancedScrollBox)
 	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_hseparator_new(),false,false,4);
 
 //comp ed
-	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_label_new(_translate(LAUNCHXCE)),false,false,2);
-	advancedHbox=gtk_hbox_new(true,4);
-	button=gtk_button_new_with_label("Xfce-Composite-Editor");
-	g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(launchCompEd),NULL);
-	gtk_box_pack_start(GTK_BOX(advancedHbox),button, false,false,4);
-	gtk_box_pack_start(GTK_BOX(advancedVbox),advancedHbox,false,false,8);
-	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_hseparator_new(),false,false,4);
-
+	if (gotXCE==1)
+		{
+			gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_label_new(_translate(LAUNCHXCE)),false,false,2);
+			advancedHbox=gtk_hbox_new(true,4);
+			button=gtk_button_new_with_label("Xfce-Composite-Editor");
+			g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(launchCompEd),NULL);
+			gtk_box_pack_start(GTK_BOX(advancedHbox),button, false,false,4);
+			gtk_box_pack_start(GTK_BOX(advancedVbox),advancedHbox,false,false,8);
+			gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_hseparator_new(),false,false,4);
+		}
 //back drop aadj
 	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_label_new(_translate(BACKDROPADJ)),false,false,2);
 	advancedHbox=gtk_hbox_new(false,0);

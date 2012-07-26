@@ -140,6 +140,27 @@ void showAdvanced(GtkWidget* widget,gpointer data)
 		gtk_notebook_set_current_page(advanced,0);
 }
 
+void setIntValue(const char* command,dataType type,void* ptr)
+{
+	gchar	*stdout=NULL;
+	gchar	*stderr=NULL;
+	gint   retval=0;
+
+	g_spawn_command_line_sync(command,&stdout,&stderr,&retval,NULL);
+	if (retval==0)
+		{
+			switch(type)
+				{
+					case INT:
+						stdout[strlen(stdout)-1]=0;
+						*(int*)ptr=atoi(stdout);
+						break;
+				}
+		}
+	freeAndNull(&stdout);
+	freeAndNull(&stderr);
+}
+
 void init(void)
 {
 	gchar	*stdout=NULL;
@@ -227,14 +248,15 @@ void init(void)
 		currentAppFont[strlen(currentAppFont)-1]=0;
 	freeAndNull(&stderr);
 
-	g_spawn_command_line_sync(XCONFGETBRIGHT,&stdout,&stderr,&retval,NULL);
-	if (retval==0)
-		{
-			stdout[strlen(stdout)-1]=0;
-			currentBright=atoi(stdout);
-		}
-	freeAndNull(&stdout);
-	freeAndNull(&stderr);
+//	g_spawn_command_line_sync(XCONFGETBRIGHT,&stdout,&stderr,&retval,NULL);
+//	if (retval==0)
+//		{
+//			stdout[strlen(stdout)-1]=0;
+//			currentBright=atoi(stdout);
+//		}
+//	freeAndNull(&stdout);
+//	freeAndNull(&stderr);
+	setIntValue(XCONFGETBRIGHT,INT,&currentBright);
 
 	g_spawn_command_line_sync(XCONFGETSATU,&stdout,&stderr,&retval,NULL);
 	if (retval==0)
@@ -355,6 +377,14 @@ void init(void)
 			stdout[strlen(stdout)-1]=0;
 			winHite=atoi(stdout);
 		}
+	freeAndNull(&stdout);
+	freeAndNull(&stderr);
+
+
+	g_spawn_command_line_sync("which xfce4-composite-editor",&stdout,&stderr,&retval,NULL);
+	if (retval==0)
+		gotXCE=1;
+
 	freeAndNull(&stdout);
 	freeAndNull(&stderr);
 
