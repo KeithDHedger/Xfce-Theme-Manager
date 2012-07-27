@@ -204,7 +204,7 @@ void doAbout(GtkWidget* widget,gpointer data)
 	const char*	authors[]={"K.D.Hedger <kdhedger@yahoo.co.uk>\n",NULL};
 	const char	copyright[] ="Copyright \xc2\xa9 2012 K.D.Hedger";
 	const char	comments[] = "An intergrated theme manager for Xfce4.10";
-	const char*	translators="Spanish translation:\nPablo Romero.\n\nGerman translation:\nMartin F. Schumann. http://mfs.name";
+	const char*	translators="Spanish translation:\nPablo Morales Romero <pg.morales.romero@gmail.com>.\n\nGerman translation:\nMartin F. Schumann. http://mfs.name";
 
 	gtk_show_about_dialog (NULL,"authors", authors,"translator-credits",translators,"comments", comments,"copyright", copyright,"version", VERSION,"website", "http://keithhedger.hostingsiteforfree.com/index.html","program-name", "Xfce-Theme-Manager","logo-icon-name", "xfce-theme-manager", NULL); 
 }
