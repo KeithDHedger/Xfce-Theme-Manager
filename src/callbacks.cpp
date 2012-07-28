@@ -104,7 +104,7 @@ void changeViewWhat(GtkWidget* widget,gpointer data)
 				asprintf(&command,"%s %i",XMTSETSHOWPAPER,showBackdrop);
 				break;
 
-			case CUSTOMTHEME:
+			case CUSTOMMETA:
 				showOnlyCustom=(int)gtk_toggle_button_get_active((GtkToggleButton*)widget);
 				asprintf(&command,"%s %i",XMTSETSHOWCUSTOM,showOnlyCustom);
 				break;

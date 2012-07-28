@@ -365,7 +365,7 @@ void buildAdvancedGui(GtkWidget* advancedScrollBox)
 
 	onlyCustomCheck=gtk_check_button_new_with_label(_translate(CUSTOMMETA));
 	gtk_toggle_button_set_active((GtkToggleButton*)onlyCustomCheck,showOnlyCustom);
-	g_signal_connect_after(G_OBJECT(onlyCustomCheck),"toggled",G_CALLBACK(changeViewWhat),(gpointer)CUSTOMTHEME);
+	g_signal_connect_after(G_OBJECT(onlyCustomCheck),"toggled",G_CALLBACK(changeViewWhat),(gpointer)CUSTOMMETA);
 	gtk_box_pack_start(GTK_BOX(advancedHbox),onlyCustomCheck, true,true,0);
 
 	gtk_box_pack_start(GTK_BOX(advancedVbox),advancedHbox,false,false,2);
