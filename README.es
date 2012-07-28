@@ -105,11 +105,12 @@ Por favor, envíelas directamente a mí en: kdhedger@yahoo.co.uk Su publicación
 
 Cambios:
 
-0.1.14 Se agregó diálogo "Acerca de".
+0.1.15 Añadir el uso de xfce_titled_dialog para integrar visualmente mejor con el estándar de configuración de interfaz gráfica de usuario de Xfce.
+	Se agregó diálogo "Acerca de".
 	Añadidas opciones de visualización en "Opciones avanzadas"
 	Añadido CNTRL-clic en el tema personalizado para eliminar.
 
-0.1.13 Lanzamiento interno.
+0.1.13/14 Lanzamiento interno.
 
 0.1.12 Corrección de errores/hack para xfwm4-settings defectuoso.
 

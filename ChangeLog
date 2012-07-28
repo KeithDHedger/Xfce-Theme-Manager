@@ -16,7 +16,8 @@ Please send them direct to me at: kdhedger@yahoo.co.uk posting them on xfce-look
 
 Changelog:
 
-0.1.14 Added "About" dialog.
+0.1.15 Add use of xfce_titled_dialog to visually integrate better with the standard xfce settings GUI's.
+	Added "About" dialog.
 	Added display options to "Advanced"
 	Added CNTRL-click on Custom theme to delete.
 	Added save window size on exit.
@@ -25,7 +26,7 @@ Changelog:
 	Frame/Meta thumbnails show rounded corners and bottom properly.
 	Code clean.
 
-0.1.13 Internal release.
+0.1.13/14 Internal release.
 
 0.1.12 Bug fix/hack for buggy xfwm4-settings.
 

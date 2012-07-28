@@ -106,11 +106,12 @@ Auf xfce-Look ist es zu unübersichtlich!
 
 Changelog:
 
-0.1.14 "About"-Dialog hinzugefügt.
+0.1.15 Fügen Sie der xfce_titled_dialog visuell bessere Integration in den Standard-Einstellungen xfce GUIs.
+	"About"-Dialog hinzugefügt.
 	Anzeige-Optionen unter "Erweitert" hinzugefügt.
 	STRG-Klick zum Löschen benutzerdefinierter Oberflächen ermöglicht.
 
-0.1.13 Interne Freigabe.
+0.1.13/14 Interne Freigabe.
 
 0.1.12 Bug fix/hack für fehlerhafte xfwm4-Einstellungen.
 
