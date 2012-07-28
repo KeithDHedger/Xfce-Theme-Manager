@@ -1,106 +1,201 @@
-# ------------------------------------------------- -----
+# -------------------------------------------------------
 #
 # Xfce-Theme-Manager
 #
 # © 2012 K.D.Hedger
-# Kdhedger@yahoo.co.uk
+# kdhedger@yahoo.co.uk
 #
-# Unter der GPL freigegeben, dh, was du willst mit ihm
+# Unter GPL freigegeben. D.h., machen Sie damit, was Sie wollen.
 #
-# ------------------------------------------------- -----
+# -------------------------------------------------------
 
-DEPENDENCIES:
+ABHÄNGIGKEITEN:
 
 glib-2.0
 gdk-2.0
 cairo
 
 **************************************************
-EXTERNE ANWENDUNGEN (Optional):
+WEITERE ANWENDUNGEN (Optional):
 
-Xfce4-Composite-Editor zur Verfügung hier:
+Xfce4-Composite-Editor. Download hier:
 http://gtk-apps.org/content/show.php/Xfce4-Composite-Editor?content=149523&PHPSESSID=f9317d406c1ed0e51799fb6b6a1e3e32
 **************************************************
 
-VERBRAUCH:
+GEBRAUCH:
 xfce-theme-manager [-m] [-u]
 
--m Kraft, die eine von den Miniaturansichten für meta-themes/frames/controls/cursors und Symbole machen.
--u gerade bauen misssing Thumbnails
+-m erzwingt die Neuerstellung aller Vorschaubilder für Oberflächen/Rahmen/Schaltflächen/Symbole und Mauszeiger
+-u nur fehlende Vorschaubilder erstellen
 
-[Zurücksetzen Theme]
+[Oberfläche Zurücksetzen]
 	Alle Änderungen verwerfen.
-[Custom Theme]
-	Geben Sie ein benutzerdefiniertes Design-Namen zu speichern / löschen, können Sie auch schnell löschen Sie ein benutzerdefiniertes Design durch Strg-Klick ein benutzerdefiniertes Design Miniaturansicht.
+[Benutzerdefinierte Oberfläche]
+	Speichern/Löschen einer Oberfläche unter einem benutzerdefinierten Namen. Zum schnellen Löschen einer benutzerdefinierten Oberfläche: STRG-Klick auf ein Vorschaubild.
 
-[Advanced Tab]
+[Erweitert-Register]
 	[Infos]
 		Credits und so.
-	[Rebuild DB]
+	[DB erneuern]
 		Erstellen Sie die Datenbank.
 	[Xfce-Composite-Editor]
-		Führen Sie den Composit-Editor (falls installiert, siehe oben).
-	[Backdrop Anpassungen]
-		Stellen Sie Helligkeit/Sättigung der Tapete.
-	[Button Layout]
-		Das Layout der Nähe, maximieren usw. (einige Themen kann dies overide).
-	[Titel-Position]
-		Die Platzierung des Fenstertitel, (manche Themen kann dies overide).
-	[Font-Auswahl]
-		Titel: Bar/font Anwendung.
-	[Cursor-Format]
-		Setzen Sie den Cursor Größe, wenn der Cursor Thema suports es, noch einige andere nicht.
+		Ausführen des Xfce-Composite-Editors (falls installiert, siehe oben).
+	[Hintergrund-Anpassung]
+		Stelle Helligkeit/Sättigung des Hintergrunds ein.
+	[Anordnung der Schaltflächen]
+		Position der Schaltflächen (Schließen, Maximieren, etc.) einstellen.
+	[Position des Fenstertitels]
+		Die Platzierung des Fenstertitels (manche Oberflächen ignorieren diese Einstellung).
+	[Schrift-Auswahl]
+		Schrift der Titelzeile und von Anwendungen anpassen.
+	[Größe des Mauszeigers]
+		Größe des Mauszeigers einstellen (manche Oberflächen ignorieren diese Einstellung).
 	[Anzeige-Optionen]
-		[Zeige System Themes]
-			Zeige weltweit installierten Thema Teilen.
-		[Link nur zeigen Custom Themes]
-			Nur zeigt Meta-Themen, die Sie erstellt haben, automatisch generierten Meta-Themen werden nicht gezeigt.
-		[Themen]
-			Zeige weltweit installierten Meta-Themen.
+		[Zeige System-Oberflächen]
+			Zeige systemweit installierte Oberflächen.
+		[Nur benutzerdefinierte Oberflächen anzeigen]
+			Zeigt nur Meta-Oberflächen, die Sie erstellt haben. Automatisch erstellte Meta-Oberflächen werden nicht gezeigt.
+		[Oberflächen]
+			Zeige systemweit installierte Meta-Oberflächen.
 		[Fensterrahmen]
-			Anzeigen global Xwm4 Themen installiert.
-		[Controls] [Controls]
-			GTK-Themen anzeigen weltweit installiert.
+			Zeige systemweit installierte Xfwm4-Oberflächen.
+		[Steuerelemente]
+			Zeige systemweit installierte Gtk-Oberflächen.
 		[Symbole]
-			Zeige weltweit installierten Icon-Themen.
-		[Cursor]
-			Zeige weltweit installierten Maus Themen.
-		[Bilder]
-			Zeige weltweit installierten Tapeten.
+			Zeige systemweit installierte Icons.
+		[Mauszeiger]
+			Zeige systemweit installierte Mauszeiger.
+		[Hintergründe]
+			Zeige systemweit installierte Hintegrundbilder.
 
-Lokal installierte Themen Teile stets mit Ausnahme von Meta-Themen angezeigt, wenn die [Link nur für Custom Themes zeigen] wird überprüft.
-Sie können schnell löschen Sie ein benutzerdefiniertes Design, indem Steuerung und Klick auf das Vorschaubild, nur benutzerdefinierte Themen die Sie erstellt haben, können gelöscht und nur die Datenbank-Eintrag entfernt wird, wird nichts von Ihrem System deinstalliert.
+Lokal installierte Oberflächen werden immer gezeigt. Ausnahme: Meta-Oberflächen, falls [Nur benutzerdefinierte Oberflächen anzeigen] ausgewählt ist.
 
-Um ein Theme zu installieren /gtk/Icon/Cursor/Grenze/Tapeten einfach per Drag & Drop das Archiv (Tapeten dürfen nicht archiviert werden) überall auf dem Hauptfenster und wenn das Thema posible etc in den richtigen Ort installiert werden, sind alle Installationen vor Ort , unterstützt Archiv-Typen sind: ". * tgz", ". * gz", "* zip.", "* Teer.", "* bz2.", unterstützt Tapeten-Typen sind: ". * jpg", "*. png "," *. bmp "," *. gif "alles andere muss man sich zu installieren.
+Um Oberflächen/Gtk-Oberflächen/Symbole/Mauszeiger/Fensterrahmen/Hintergrundbilder zu installieren, ziehen Sie die Archivdatei (Hintergrundbilder sollten nicht archiviert sein) irgendwo in das Hauptfenster. Wenn möglich, wird die Oberfläche etc. am richtigen Ort (immer lokal) installiert. 
+Unterstützte Archiv-Typen sind: *.tgz, *.gz, *.zip, *.tar, *.bz2,
+unterstützte Hintergrund-Typen sind: *.jpg, *.png, *.bmp, *.gif. Alle andere Dateitypen müssen Sie von Hand installieren.
 
-Die Thumbnails werden in $ {HOME}/.config/XfceThemeManager gespeichert.
+Die Vorschaubilder werden in $ {HOME}/.config/XfceThemeManager gespeichert.
 
-Das erste Mal, wenn Sie Xfce-Theme-Manager sollten Sie entweder führen Sie es von der Kommandozeile mit der Option-m oder klicken Sie auf den "Rebuld DB"-Button, der erste der DB aufbauen kann eine Weile dauern, also Geduld!
+Das erste Mal, wenn Sie Xfce-Theme-Manager benutzen, sollten Sie entweder von der Kommandozeile mit der "-m"-Option starten oder auf den "DB erneuern"-Knopf klicken. Das erste Erstellen der Datenbank kann eine Weile dauern.
 
-Die DB wird automatisch auf Drag'n'Drop aktualisiert, wenn Sie eine Menge von Zusatz-und removeing ​​von Themen / Icons usw. möchten Sie vielleicht wieder aufzubauen DB auf der Registerkarte Erweitert laufen zu tun.
+Die Datenbank wird bei der Installation von Oberflächen etc. durch Drag&Drop automatisch aktualisiert. Wenn Sie oft Oberflächen/Symbole usw. hinzufügen und löschen, können Sie auch "Datenbank neu anlegen" unter "Erweitert" benutzen.
 
-Meta Themen sind Themen, die einen Ordner und eine gtk2 xfwm4 Ordner (zB Fensterrahmen und Kontrollen) enthalten, wenn ihr ein gnome-Datei, die wie theme.index legt auch ein Symbol setzen diese auch genutzt werden.
+Meta-Oberflächen sind Oberflächen, die einen Gtk2- und einen xfwm4-Ordner enthalten (d.h. Fensterrahmen und Knöpfe). Wenn es eine theme.index-Datei gibt, die eine Symbol-Zusammenstellung festlegt (wie bei Gnome-Oberflächen), wird diese auch benutzt.
 
-Spanisch/Deutsch jetzt ist gesorgt, wenn Sie den 'lang' Umgebungsvariable richtig gesetzt sind weitere Übersetzungen eingeladen mailen Sie mir für eine Liste übersetzt werden.
+Die Sprache der Anwendung richtet sich nach der "LANG"-Umgebungsvariable. Momentan verfügbar sind Englisch (Standard), Deutsch und Spanisch. Sollten Sie Interesse haben, das Programm in eine andere Sprache zu übersetzen, freue ich mich über eine E-Mail von Ihnen.
 
-INSTALL:
-Entpacken Sie das Archiv sagen, in /tmp, CD in /tmp/Xfce-Theme-Manager-(Version), sudo make install, dies wird die Xfce-Theme-Manager GUI, das Symbol und die Desktop-Datei zu installieren.
+INSTALLATION:
+Entpacken Sie das Archiv z.B. in /tmp, wechseln Sie (cd) in /tmp/Xfce-Theme-Manager-(VERSION) und führen Sie sudo make install aus. Das installiert die Xfce-Theme-Manager GUI, das Symbol und die desktop-Datei.
 
-Die GUI lässt sich von der Kommandozeile oder aus dem Menü Einstellungen ausgeführt werden.
-Die GUI kann manuell installiert werden und / oder laufen aus dem Hauptordner.
+Die GUI lässt sich von der Kommandozeile oder aus dem Einstellungs-Menü ausführen.
+Die GUI kann manuell installiert werden und/oder aus dem Hauptordner laufen.
 
-Es gibt kein Skript wie das Makefile zu konfigurieren ist sehr einfach, ist standardmäßig in /usr/local/bin dies, indem Sie die Variable PREFIX vor der Installation machen kann geändert werden installiert (PREFIX = "/usr" make install).
+Es gibt kein configure-Skript, da das Makefile sehr einfach gehalten ist. Standardmäßig wird das Programm in /usr/local/bin installiert. Der Installationspfad kann aber durch Setzen der PREFIX-Variable geändert werden, z.B. PREFIX="/usr" make install.
 
-Wenn Sie eine Quelle der Basis pkg-Manager wie die Slackware-dev Dateien für die GLib etc sollte bereits installiert sein, wenn Sie eine Debian-basierte Installation müssen Sie die dev-Pakete ebenfalls installieren können, sind wahrscheinlich somthing entlang der Linien von glib2-dev/gdk2-dev überprüfen Sie Ihre Installations-Dokumentation für weitere Details.
+Wenn Sie eine Quellcode-basierte Paketverwaltung benutzen (wie z.B. in Slackware), sollten die Entwicklungsdateien für glib usw. schon installiert sein. Falls sie Binärpakete verwenden (wie z.B. bei Debian), müssen Sie wahrscheinlich Pakete wie glib2-dev oder gdk2-dev installieren. Bitte schauen Sie in die Installations-Dokumentation für Details.
 
-Eventuell müssen Sie xfce4-panel laufen - neu zu starten, um die Xfce-Theme-Manager im Menüpunkt Einstellungen zu sehen.
+Eventuell müssen Sie xfce4-panel --restart ausführen, bevor Sie das Xfce-Theme-Manager-Symbol im Einstellungs-Menü sehen.
 
-Wenn Sie von einer älteren Version upgraden Sie bitte den Wiederaufbau der DB (aus der Registerkarte "Erweitert").
+Wenn Sie von einer älteren Version des Xfce-Theme-Manager upgraden, legen Sie bitte die Datenbank neu an (Registerkarte "Erweitert").
 
 ***************************************
 BUGS:
-Bitte senden Sie diese direkt an mich unter: kdhedger@yahoo.co.uk Veröffentlichung auf xfce-Look bekommt etc zu unübersichtlich!
+Bitte per Mail direkt an mich unter: kdhedger@yahoo.co.uk 
+Auf xfce-Look ist es zu unübersichtlich!
 ***************************************
 
-Viel Spaß!
+Changelog:
+
+0.1.14 "About"-Dialog hinzugefügt.
+	Anzeige-Optionen unter "Erweitert" hinzugefügt.
+	STRG-Klick zum Löschen benutzerdefinierter Oberflächen ermöglicht.
+
+0.1.13 Interne Freigabe.
+
+0.1.12 Bug fix/hack für fehlerhafte xfwm4-Einstellungen.
+
+0.1.11 Bugfix für schlechte oder fehlende LANG Umgebungsvariable.
+	Bug fix für Mauszeiger-Vorschau.
+	Einige Speicherlecks gestopft.
+	"DB erneuern"-Dialog aufgeräumt (Schließen-Button entfernt usw.).
+	Kleinere Änderungen an Makefile/README.
+
+0.1.10 Deutsche Übersetzung hinzugefügt, Dank an Martin F. Schumann dafür.
+	Warnungen von xfconf wegen nicht gesetzter Benutzer-Einstellungen entfernt.
+	"Benutzerdefiniert" beim Speichern von benutzerdefinierten Oberflächen hinzugefügt, wenn nötig.
+	Kleineres Speicherleck behoben.
+	Neues Programm-Symbol.
+	Kleiner Fehler bei der Verwendung von Komma anstatt Punkt (schon wieder) behoben.
+	Code gesäubert.
+
+0.1.9 Interne Freigabe.
+
+0.1.8 Rahmen-Vorschau benutzt jetzt Kacheln statt Strecken.
+	Programm-Symbol hinzugefügt.
+	"Oberfläche Speichern"-Knopf in "Benutzerdefinierte Oberfläche" umbenannt, um benutzerdefinierte Oberflächen zu Speichern/Löschen.
+
+0.1.7 README aktualisiert.
+	Ignoriere Unterordner in "Backdrop"-Ordner, wie bei der Xfce GUI.
+	Bugfix für Kommas statt Punkten in Schiebereglern.
+	Spanische Übersetzung hinzugefügt (Dank an Pablo Morales Romero für seine Hilfe)
+	Bugfix für schlechte xfwm4 Oberflächen
+	Programmabsturz behoben, wenn keine Mauszeiger-Pixmaps exisieren.
+
+0.1.6 Private Version.
+
+0.1.5 Mauszeiger-Größe wieder zu "Erweitert" hinzugefügt.
+	"Oberfläche Zurücksetzen" setzt jetzt auch die Einstellungen unter "Erweitert" zurück.
+	"Oberfläche speichern" hinzugefügt. Speichert jetzt ganze benutzerdefinierte Oberflächen.
+	"DB erneuern" auf "Erweitert"-Registerkarte verschoben.
+	Helligkeit/Sättigung werden nur bei Knopf-Hoch aktualisiert.
+
+0.1.4 Sollte nun gtk3-kompatibel sein.
+	"DB aktualisieren"-Knopf entfernt, weil die Aktualisierung jetzt automatisch durchgeführt wird.
+	Erste Veröffentlichung komplett in C (wegen höherer Geschwindigkeit)
+	Sortierung ist jetzt alphabetisch und Benutzer- vor System-Oberflächen.
+	Automatische DB-Aktualisierung bei Installation von Oberflächen usw.
+	Volle Drag&Drop-Unterstützung für Installation von Oberflächen, Symbolen, Hintergründen etc.
+	"Erweitert"-Seite neu gestaltet.
+	"Schrift"-Knöpfe zeigen Schrift-Name an.
+	Neuer Fortschrittsbalken.
+
+0.1.3 Private Version.
+0.0.9
+
+0.0.8 Hilfsanwendung angepasst, um Render-Overlays in der Vorschau richtig anzuzeigen.
+	Mauszeiger-Größe, Titel-Position und Knopf-Anordnung unter "Erweitert" hinzugefügt.
+	"Oberfläche/Hintergrund installieren" hinzugefügt.
+	Fenster-/Anwendungs-Schriftart kann jetzt in GUI und Hilfsanwendung ausgewählt werden.
+	Fenster-Sättigung/Helligkeit unter "Erweitert" verschoben.
+	"Xfce4-Composite-Editor starten" hinzugefügt.
+	"Erweitert"-Seite hinzugefügt.
+
+0.0.7 Hintegrund-Konfiguration hinzugefügt.
+	Unter Xfce 4.10 getestet.
+	Fügt Eigenschaften zu xfconf hinzu, falls es sie noch nicht gibt.
+	Xfce-Desktop neu laden, wenn Symbole geändert werden.
+	Makefile angepasst, dass sie auch mit Fedora zurecht kommt.
+
+0.0.6 Symbole werden jetzt von der Hilfsanwendung bedient, sodass hoffentliche keine fehlenden Symbole in der GUI mehr auftauchen.
+	Meta-Oberflächen beinhalten jetzt auch "Home"-Symbol und "Links"-Pfeil in der Vorschau.
+	Größe der Meta-Oberflächen-Vorschau nicht mehr konsistent.
+	Zahlreiche kleinere Bugfixes.
+
+0.0.5 Vorschau für benutzerdefinierte Oberflächen hinzugefügt.
+	Zahlreiche Bugfixes für schlechte Oberflächen.
+	Code-Bereinigung.
+
+0.0.4b Bugfix: imagemagick schluckt stdin
+	Mauszeiger-Registerkarte hinzugefügt.
+	Mauszeiger-Vorschau zur Hilfsanwendung hinzugefügt.
+	Noch einen "Leerzeichen im Dateinamen"-Fehler behoben.
+
+0.0.03b Eine große Anzahl von Oberflächen (>200) wird jetzt unterstützt.
+	Ein paar Fehler wegen Leerzeichen im Dateinamen behoben.
+
+0.0.2b Hilfsanwendung neu geschrieben, um Rahmen-Vorschauen zu ermöglichen.
+
+0.0.1b Erste Veröffentlichung
+
+Viel Spaß mit dem Programm!
 
