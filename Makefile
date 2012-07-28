@@ -8,8 +8,15 @@ ifeq ($(strip $(PREFIX)),)
 	PREFIX=/usr/local
 endif
 
+TESTFORLIBXFCEUI=$(shell pkg-config --exists libxfce4ui-1 2>/dev/null;echo $$?)
+
+ifeq ($(TESTFORLIBXFCEUI),0)
+	USELIBXFCEUI="-DGOT_LIBXFCEUI"
+	LIBXFCEUI=`pkg-config --cflags --libs libxfce4ui-1`	
+endif
+
 ifeq ($(strip $(CXXFLAGS)),)
-	CXXFLAGS=-O3 -Wall -Wunused -Wunused-function -lXcursor `pkg-config --cflags --libs glib-2.0` `pkg-config --cflags --libs gdk-2.0` `pkg-config --cflags --libs gtk+-2.0` -DGTK_DISABLE_DEPRECATED -DGTK_DISABLE_SINGLE_INCLUDES -DGDK_DISABLE_DEPRECATED -DGSEAL_ENABLE
+	CXXFLAGS=-O3 -Wall -Wunused -Wunused-function -lXcursor `pkg-config --cflags --libs glib-2.0` `pkg-config --cflags --libs gdk-2.0` `pkg-config --cflags --libs gtk+-2.0` -DGTK_DISABLE_DEPRECATED -DGTK_DISABLE_SINGLE_INCLUDES -DGDK_DISABLE_DEPRECATED -DGSEAL_ENABLE $(LIBXFCEUI) $(USELIBXFCEUI)
 endif
 
 $(PROGRAM):$(SOURCES)

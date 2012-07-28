@@ -25,6 +25,10 @@
 #include "gui.h"
 #include "callbacks.h"
 
+#ifdef GOT_LIBXFCEUI
+#include <libxfce4ui/libxfce4ui.h>
+#endif
+
 static const char* error_xpm[]=
 	{
 		"16 16 2 1",
@@ -297,15 +301,27 @@ int main(int argc,char **argv)
 	if (argc==2 && strcasecmp(argv[1],"-u")==0)
 			rebuildDB((void*)1);
 
+#ifdef GOT_LIBXFCEUI
+	window=xfce_titled_dialog_new();
+	xfce_titled_dialog_set_subtitle((XfceTitledDialog*)window,"Integrated theme editor");
+	vbox=gtk_dialog_get_content_area((GtkDialog *)window);
+#else
 	window=gtk_window_new(GTK_WINDOW_TOPLEVEL);
+	vbox=gtk_vbox_new(FALSE, 0);
+	gtk_container_add(GTK_CONTAINER(window),(GtkWidget*)vbox);
+#endif
+
 	gtk_window_set_position((GtkWindow*)window,GTK_WIN_POS_CENTER);
 	gtk_window_set_default_size((GtkWindow*)window,winWid,winHite);
 	gtk_window_set_title((GtkWindow*)window,"Xfce Theme Manager");
+
+	gtk_window_set_icon_name((GtkWindow*)window,"preferences-desktop-theme");
+
 	g_signal_connect(G_OBJECT(window),"delete-event",G_CALLBACK(shutdown),NULL);
 
 //main window vbox
-	vbox=gtk_vbox_new(FALSE, 0);
-	gtk_container_add(GTK_CONTAINER(window),(GtkWidget*)vbox);
+	
+	//vbox=((GtkDialog*)window)->vbox;
 
 	themesScrollBox=gtk_scrolled_window_new(NULL,NULL);
 	framesScrollBox=gtk_scrolled_window_new(NULL,NULL);
