@@ -303,7 +303,7 @@ int main(int argc,char **argv)
 
 #ifdef GOT_LIBXFCEUI
 	window=xfce_titled_dialog_new();
-	xfce_titled_dialog_set_subtitle((XfceTitledDialog*)window,"Integrated theme editor");
+	xfce_titled_dialog_set_subtitle((XfceTitledDialog*)window,_translate(SUBTITLE));
 	vbox=gtk_dialog_get_content_area((GtkDialog *)window);
 #else
 	window=gtk_window_new(GTK_WINDOW_TOPLEVEL);
@@ -320,8 +320,6 @@ int main(int argc,char **argv)
 	g_signal_connect(G_OBJECT(window),"delete-event",G_CALLBACK(shutdown),NULL);
 
 //main window vbox
-	
-	//vbox=((GtkDialog*)window)->vbox;
 
 	themesScrollBox=gtk_scrolled_window_new(NULL,NULL);
 	framesScrollBox=gtk_scrolled_window_new(NULL,NULL);
