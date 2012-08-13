@@ -23,57 +23,24 @@
 #include "globals.h"
 #include "callbacks.h"
 
-bool isCurrent(char* text)
-{
-	if ((strcasecmp(currentGtkTheme,text)==0) || (strcasecmp(currentIconTheme,text)==0) )
-		return(true);
-	else
-		return(false);
-}
-
 GtkWidget *imageBox(char* filename,char* text)
 {
 	GtkWidget*	box;
-	GtkWidget*	hbox;
 	GtkWidget*	label;
 	GtkWidget*	image;
-	GtkWidget*	stockimage=gtk_image_new_from_stock(GTK_STOCK_YES,GTK_ICON_SIZE_BUTTON);;
-	GtkWidget*	stockimage2=gtk_image_new_from_pixbuf(blankImage);
-
-
-//	char*		markup;
 
     /* Create box for image and label */
 	box=gtk_vbox_new(FALSE, 0);
-	hbox=gtk_hbox_new(FALSE, 0);
-	gtk_container_set_border_width(GTK_CONTAINER (box),0);
+	gtk_container_set_border_width(GTK_CONTAINER (box), 2);
 
 	image=gtk_image_new_from_file(filename);
 	label=gtk_label_new(text);
 
-	gtk_box_pack_start(GTK_BOX (box),image,TRUE,TRUE,0);
-	gtk_box_pack_start(GTK_BOX (box),label,TRUE,TRUE,0);
-	if (isCurrent(text)==true)
-		{
-			gtk_box_pack_end(GTK_BOX (hbox),stockimage,FALSE,FALSE,0);
-			gtk_box_pack_start(GTK_BOX (hbox),stockimage2,FALSE,FALSE,0);
-//			markup=g_markup_printf_escaped("<span fgcolor=\"white\" bgcolor=\"black\"><b>%s</b></span>",text);
-//			gtk_label_set_markup (GTK_LABEL(label),markup);
-//			g_free (markup);
-		}
-	gtk_box_pack_start(GTK_BOX(hbox),box,TRUE,TRUE,0);
-
-//if ((strcasecmp(currentGtkTheme,text)==0) || (strcasecmp(currentIconTheme,text)==0) )
-//	{
-//		markup = g_markup_printf_escaped ("<span font_style=\"italic\" font_weight=\"bold\">%s</span>",text);
-//		gtk_label_set_markup (GTK_LABEL(label),markup);
-//		g_free (markup);
-//	}
-
     /* Pack the image and label into the box */
-//	gtk_box_pack_start(GTK_BOX (box),hbox,FALSE,FALSE,3);
+	gtk_box_pack_start(GTK_BOX (box),image,FALSE,FALSE,3);
+	gtk_box_pack_start(GTK_BOX (box),label,FALSE,FALSE,3);
 
-	return(hbox);
+	return(box);
 }
 
 void freeNames(gpointer data)
@@ -167,12 +134,7 @@ void addNewButtons(GtkWidget* vbox,const char* subfolder,void* callback)
 							button=gtk_button_new();
 							box=imageBox(thumb,name);
 							gtk_widget_set_name(button,filename);
-
-							//if (isCurrent(name)==true)
-							//	gtk_button_set_relief((GtkButton*)button,GTK_RELIEF_NORMAL);
-							//else
-								gtk_button_set_relief((GtkButton*)button,GTK_RELIEF_NONE);
-
+							gtk_button_set_relief((GtkButton*)button,GTK_RELIEF_NONE);
 							gtk_container_add (GTK_CONTAINER (button),box);
 							g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(callback),NULL);
 							gtk_box_pack_start((GtkBox*)vbox,button,false,true,4);
