@@ -14,7 +14,7 @@
 #include <gtk/gtk.h>
 #include <stdlib.h>
 
-void writeDBFile(char* filename,char* name,char* gtk,char* frame,char* icon,char* paper,char* cursor,char* thumb)
+void writeDBFile(char* filename,char* name,char* gtk,char* frame,char* icon,char* paper,char* cursor,char* thumb,bool ismeta)
 {
 
 	FILE*	fd;
@@ -22,17 +22,33 @@ void writeDBFile(char* filename,char* name,char* gtk,char* frame,char* icon,char
 
 	asprintf(&filedata,"[Data]\nName=%s\nThumbnail=%s\n",name,thumb);
 
-	if (gtk!=NULL)
-		asprintf(&filedata,"%sGtkTheme=%s\n",filedata,gtk);
-	if (frame!=NULL)
-		asprintf(&filedata,"%sXfwm4Theme=%s\n",filedata,frame);
-	if (icon!=NULL)
-		asprintf(&filedata,"%sIconTheme=%s\n",filedata,icon);
-	if (cursor!=NULL)
-		asprintf(&filedata,"%sCursorTheme=%s\n",filedata,cursor);
-	if (paper!=NULL)
-		asprintf(&filedata,"%sBackgroundImage=%s\n",filedata,paper);
-
+	if (ismeta==true)
+		{
+			if (gtk!=NULL)
+				asprintf(&filedata,"%sGtkTheme=%s\n",filedata,gtk);
+			if (frame!=NULL)
+				asprintf(&filedata,"%sXfwm4Theme=%s\n",filedata,frame);
+			if (icon!=NULL)
+				asprintf(&filedata,"%sIconTheme=%s\n",filedata,icon);
+			if (cursor!=NULL)
+				asprintf(&filedata,"%sCursorTheme=%s\n",filedata,cursor);
+			if (paper!=NULL)
+				asprintf(&filedata,"%sBackgroundImage=%s\n",filedata,paper);
+		}
+	else
+		{
+			if (gtk!=NULL)
+				asprintf(&filedata,"%sThemeName=%s\n",filedata,gtk);
+			if (frame!=NULL)
+				asprintf(&filedata,"%sThemeName=%s\n",filedata,frame);
+			if (icon!=NULL)
+				asprintf(&filedata,"%sThemeName=%s\n",filedata,icon);
+			if (cursor!=NULL)
+				asprintf(&filedata,"%sThemeName=%s\n",filedata,cursor);
+			if (paper!=NULL)
+				asprintf(&filedata,"%sThemeName=%s\n",filedata,paper);
+		}
+	
 	fd=fopen(filename,"w");
 
 	fprintf(fd,"%s\n",filedata);
@@ -141,7 +157,7 @@ gpointer rebuildDB(gpointer data)
 											asprintf(&framename,"%s",entry);
 											asprintf(&thumbfile,"%s/%s.png",metaFolder,entry);
 
-											writeDBFile(dbfile,displayname,gtkname,framename,iconname,papername,cursorname,thumbfile);
+											writeDBFile(dbfile,displayname,gtkname,framename,iconname,papername,cursorname,thumbfile,true);
 
 											controlWidth=400;
 											controlHeight=200;
@@ -206,7 +222,7 @@ gpointer rebuildDB(gpointer data)
 									if (g_file_test(buffer,G_FILE_TEST_IS_DIR))
 										{
 											asprintf(&thumbfile,"%s/%s.png",framesFolder,entry);
-											writeDBFile(dbfile,(char*)entry,NULL,(char*)entry,NULL,NULL,NULL,thumbfile);
+											writeDBFile(dbfile,(char*)entry,NULL,(char*)entry,NULL,NULL,NULL,thumbfile,false);
 											asprintf(&framefolder,"%s/%s",themesArray[i],entry);
 											getspace(framefolder);
 											makeborder(framefolder,thumbfile);
@@ -255,7 +271,7 @@ gpointer rebuildDB(gpointer data)
 													gdk_pixbuf_savev(controlsPixbuf,thumbfile,"png",NULL,NULL,NULL);
 													g_object_unref(controlsPixbuf);
 													controlsPixbuf=NULL;
-													writeDBFile(dbfile,(char*)entry,(char*)entry,NULL,NULL,NULL,NULL,thumbfile);
+													writeDBFile(dbfile,(char*)entry,(char*)entry,NULL,NULL,NULL,NULL,thumbfile,false);
 												}
 										}
 									freeAndNull(&buffer);
@@ -293,7 +309,7 @@ gpointer rebuildDB(gpointer data)
 															displayname=g_key_file_get_string(keyfile,"Icon Theme","Name",NULL);
 															asprintf(&thumbfile,"%s/%s.png",iconsFolder,entry);
 															makeIcon((char*)entry,thumbfile);
-															writeDBFile(dbfile,displayname,NULL,NULL,(char*)entry,NULL,NULL,thumbfile);
+															writeDBFile(dbfile,displayname,NULL,NULL,(char*)entry,NULL,NULL,thumbfile,false);
 														}
 												}
 										}
@@ -337,7 +353,7 @@ gpointer rebuildDB(gpointer data)
 
 											asprintf(&thumbfile,"%s/%s.png",cursorsFolder,entry);
 											makecursor((char*)entry,thumbfile);
-											writeDBFile(dbfile,displayname,NULL,NULL,NULL,NULL,(char*)entry,thumbfile);
+											writeDBFile(dbfile,displayname,NULL,NULL,NULL,NULL,(char*)entry,thumbfile,false);
 										}
 									freeAndNull(&buffer);
 									freeAndNull(&displayname);
@@ -379,7 +395,7 @@ gpointer rebuildDB(gpointer data)
 														}
 												}
 											asprintf(&buffer,"%s/%s",papersArray[i],entry);
-											writeDBFile(dbfile,displayname,NULL,NULL,NULL,buffer,NULL,thumbfile);
+											writeDBFile(dbfile,displayname,NULL,NULL,NULL,buffer,NULL,thumbfile,false);
 											pixbuf=gdk_pixbuf_new_from_file_at_size(buffer,-1,64,NULL);
 											gdk_pixbuf_savev(pixbuf,thumbfile,"png",NULL,NULL,NULL);
 											g_object_unref(pixbuf);

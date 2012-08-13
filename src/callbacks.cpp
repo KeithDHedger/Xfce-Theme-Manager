@@ -399,7 +399,7 @@ void doFrame(GtkWidget* widget,gpointer data)
 
 	if(g_key_file_load_from_file(keyfile,gtk_widget_get_name(widget),G_KEY_FILE_NONE,NULL))
 		{
-			frameset=g_key_file_get_string(keyfile,"Data","Xfwm4Theme",NULL);
+			frameset=g_key_file_get_string(keyfile,"Data","ThemeName",NULL);
 
 			if(frameset!=NULL)
 				{
@@ -466,7 +466,7 @@ void doWallpapers(GtkWidget* widget,gpointer data)
 
 	if(g_key_file_load_from_file(keyfile,gtk_widget_get_name(widget),G_KEY_FILE_NONE,NULL))
 		{
-			paperset=g_key_file_get_string(keyfile,"Data","BackgroundImage",NULL);
+			paperset=g_key_file_get_string(keyfile,"Data","ThemeName",NULL);
 
 			if(paperset!=NULL)
 				{
@@ -598,7 +598,7 @@ void doControls(GtkWidget* widget,gpointer data)
 
 	if(g_key_file_load_from_file(keyfile,gtk_widget_get_name(widget),G_KEY_FILE_NONE,NULL))
 		{
-			controlset=g_key_file_get_string(keyfile,"Data","GtkTheme",NULL);
+			controlset=g_key_file_get_string(keyfile,"Data","ThemeName",NULL);
 
 			if(controlset!=NULL)
 				{
@@ -621,7 +621,7 @@ void doIcons(GtkWidget* widget,gpointer data)
 
 	if(g_key_file_load_from_file(keyfile,gtk_widget_get_name(widget),G_KEY_FILE_NONE,NULL))
 		{
-			iconset=g_key_file_get_string(keyfile,"Data","IconTheme",NULL);
+			iconset=g_key_file_get_string(keyfile,"Data","ThemeName",NULL);
 
 			if(iconset!=NULL)
 				{
@@ -644,7 +644,7 @@ void doCursors(GtkWidget* widget,gpointer data)
 
 	if(g_key_file_load_from_file(keyfile,gtk_widget_get_name(widget),G_KEY_FILE_NONE,NULL))
 		{
-			cursorset=g_key_file_get_string(keyfile,"Data","CursorTheme",NULL);
+			cursorset=g_key_file_get_string(keyfile,"Data","ThemeName",NULL);
 
 			if(cursorset!=NULL)
 				{
