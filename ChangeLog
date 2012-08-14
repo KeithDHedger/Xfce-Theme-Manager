@@ -15,6 +15,10 @@ Please send them direct to me at: kdhedger@yahoo.co.uk posting them on xfce-look
 ***************************************
 
 Changelog:
+0.1.17 Added marker to UI to show current theme pieces.
+	Database clean up and made more consistent.
+
+0.1.16 Minor bugfix/code clean.
 
 0.1.15 Add use of xfce_titled_dialog to visually integrate better with the standard xfce settings GUI's.
 	Added "About" dialog.
