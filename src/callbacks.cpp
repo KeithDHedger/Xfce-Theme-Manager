@@ -31,6 +31,12 @@ void rerunAndUpdate(bool rebuild)
 	if (rebuild==true)
 		rebuildDB((void*)1);
 
+	setValue(XCONFGETCONTROLS,STRING,&lastGtkTheme);
+	setValue(XCONFGETICONS,STRING,&lastIconTheme);
+	setValue(XCONFGETFRAME,STRING,&lastWmTheme);
+	setValue(XCONFGETPAPER,STRING,&lastWallPaper);
+	setValue(XCONFGETCURSOR,STRING,&lastCursorTheme);
+
 	gtk_widget_destroy(themesVBox);
 	gtk_widget_destroy(framesVBox);
 	gtk_widget_destroy(controlsVBox);
@@ -407,6 +413,7 @@ void doFrame(GtkWidget* widget,gpointer data)
 					system(command);
 					freeAndNull(&command);
 					freeAndNull(&frameset);
+					rerunAndUpdate(false);
 				}
 		}
 	g_key_file_free(keyfile);
@@ -474,6 +481,7 @@ void doWallpapers(GtkWidget* widget,gpointer data)
 					system(command);
 					free(command);
 					free(paperset);
+					rerunAndUpdate(false);
 				}
 			g_key_file_free(keyfile);
 		}
@@ -518,12 +526,12 @@ void removeTheme(const char* name)
 void doMeta(GtkWidget* widget,gpointer data)
 {
 	GKeyFile*		keyfile=g_key_file_new();
-	int			keycnt=13;
+	int			keycnt=14;
 	char*			keydata=NULL;
 	char*			comma;
 	GdkModifierType	mask;
-	const char*		keys[]={"CursorTheme","Xfwm4Theme","IconTheme","BackgroundImage","BackdropStyle","TitleButtonLayout","TitlePosition","WMFont","AppFont","BackdropBright","BackdropSatu","GtkTheme","CursorSize"};
-	const char*		xconf[]={XCONFSETCURSOR,XCONFSETFRAME,XCONFSETICONS,XCONFSETPAPER,XCONFSETSTYLE,XCONFSETLAYOUT,XCONFSETTITLEPOS,XCONFSETWMFONT,XCONFSETAPPFONT,XCONFSETBRIGHT,XCONFSETSATU,XCONFSETCONTROLS,XCONFSETCURSORSIZE};
+	const char*		keys[]={"CursorTheme","Xfwm4Theme","IconTheme","BackgroundImage","BackdropStyle","TitleButtonLayout","TitlePosition","WMFont","AppFont","BackdropBright","BackdropSatu","GtkTheme","CursorSize","Name"};
+	const char*		xconf[]={XCONFSETCURSOR,XCONFSETFRAME,XCONFSETICONS,XCONFSETPAPER,XCONFSETSTYLE,XCONFSETLAYOUT,XCONFSETTITLEPOS,XCONFSETWMFONT,XCONFSETAPPFONT,XCONFSETBRIGHT,XCONFSETSATU,XCONFSETCONTROLS,XCONFSETCURSORSIZE,XMTSETMETATHEME};
 
 	GtkSettings *settings=gtk_settings_get_default();;
 
@@ -578,6 +586,7 @@ void doMeta(GtkWidget* widget,gpointer data)
 							sprintf(generalBuffer,"%s\"%s\"",(char*)xconf[j],keydata);
 							system(generalBuffer);
 							freeAndNull(&keydata);
+							rerunAndUpdate(false);
 						}
 				}
 			g_key_file_free(keyfile);
@@ -607,7 +616,6 @@ void doControls(GtkWidget* widget,gpointer data)
 					g_object_set(settings,"gtk-theme-name",controlset,"gtk-color-scheme","default",NULL);
 					freeAndNull(&command);
 					freeAndNull(&controlset);
-					setValue(XCONFGETCONTROLS,STRING,&lastGtkTheme);
 					rerunAndUpdate(false);
 				}
 			g_key_file_free(keyfile);
@@ -631,6 +639,7 @@ void doIcons(GtkWidget* widget,gpointer data)
 					system(command);
 					freeAndNull(&command);
 					freeAndNull(&iconset);
+					rerunAndUpdate(false);
 				}
 			g_key_file_free(keyfile);
 		}
@@ -654,7 +663,6 @@ void doCursors(GtkWidget* widget,gpointer data)
 					system(command);
 					freeAndNull(&command);
 					freeAndNull(&cursorset);
-					setValue(XCONFGETCURSOR,STRING,&lastCursorTheme);
 					rerunAndUpdate(false);
 				}
 			g_key_file_free(keyfile);

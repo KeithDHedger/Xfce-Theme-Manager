@@ -25,21 +25,22 @@
 
 bool isCurrent(char* themename,const char* catagory)
 {
-//	if ((strcasecmp(lastGtkTheme,text)==0) || (strcasecmp(lastIconTheme,text)==0) || (strcasecmp(lastWmTheme,text)==0) || (strcasecmp(lastCursorTheme,text)==0) || (strcasecmp(lastWallPaper,text)==0) )
 	bool	retval=false;
+
 	if (themename!=NULL)
 		{
 			if ((strcasecmp(lastGtkTheme,themename)==0) && (strcasecmp("controls",catagory)==0))
 				retval=true;
 			if ((strcasecmp(lastCursorTheme,themename)==0) && (strcasecmp("cursors",catagory)==0))
 				retval=true;
+			if ((strcasecmp(lastWmTheme,themename)==0) && (strcasecmp("frames",catagory)==0))
+				retval=true;
+			if ((strcasecmp(lastIconTheme,themename)==0) && (strcasecmp("icons",catagory)==0))
+				retval=true;
+			if ((strcasecmp(lastWallPaper,themename)==0) && (strcasecmp("wallpapers",catagory)==0))
+				retval=true;
 		}
 
-//if (strcasecmp("cursors",catagory)==0)
-//	{
-//		printf ("icthme %s\n cat %s\n text %s\n",lastCursorTheme,catagory,themename);
-//	}
-		
 	return(retval);
 }
 
@@ -70,28 +71,6 @@ GtkWidget *imageBox(char* filename,char* text,const char* catagory,char* themena
 	gtk_box_pack_start(GTK_BOX(hbox),box,TRUE,TRUE,0);
 
 	return(hbox);
-}
-
-
-
-GtkWidget *XimageBox(char* filename,char* text)
-{
-	GtkWidget*	box;
-	GtkWidget*	label;
-	GtkWidget*	image;
-
-    /* Create box for image and label */
-	box=gtk_vbox_new(FALSE, 0);
-	gtk_container_set_border_width(GTK_CONTAINER (box), 2);
-
-	image=gtk_image_new_from_file(filename);
-	label=gtk_label_new(text);
-
-    /* Pack the image and label into the box */
-	gtk_box_pack_start(GTK_BOX (box),image,FALSE,FALSE,3);
-	gtk_box_pack_start(GTK_BOX (box),label,FALSE,FALSE,3);
-
-	return(box);
 }
 
 void freeNames(gpointer data)

@@ -110,6 +110,15 @@ void resetTheme(GtkWidget* widget,gpointer data)
 	system(generalBuffer);
 	sprintf(generalBuffer,"%s%i",XCONFSETCURSORSIZE,currentCursSize);
 	system(generalBuffer);
+	sprintf(generalBuffer,"%s\"%s\"",XMTSETMETATHEME,currentMetaTheme);
+	system(generalBuffer);
+
+	setValue(XCONFGETCONTROLS,STRING,&lastGtkTheme);
+	setValue(XCONFGETICONS,STRING,&lastIconTheme);
+	setValue(XCONFGETFRAME,STRING,&lastWmTheme);
+	setValue(XCONFGETPAPER,STRING,&lastWallPaper);
+	setValue(XCONFGETCURSOR,STRING,&lastCursorTheme);
+	setValue(XCONFGETCURSOR,STRING,&lastMetaTheme);
 
 	gtk_combo_box_set_active((GtkComboBox*)styleComboBox,currentWallStyle);
 	gtk_entry_set_text((GtkEntry*)layoutEntry,currentButtonLayout);
@@ -122,6 +131,7 @@ void resetTheme(GtkWidget* widget,gpointer data)
 
 	g_object_set(settings,"gtk-theme-name",currentGtkTheme,"gtk-color-scheme","default",NULL);
 	freeAndNull(&satval);
+	rerunAndUpdate(false);
 }
 
 void shutdown(GtkWidget* widget,gpointer data)
@@ -226,6 +236,9 @@ void init(void)
 	setValue(XMTGETSHOWICONS,INT,&showIcons);
 	setValue(XMTGETSHOWPAPER,INT,&showBackdrop);
 	setValue(XMTGETSHOWCUSTOM,INT,&showOnlyCustom);
+
+	setValue(XMTGETMETATHEME,STRING,&currentMetaTheme);
+	setValue(XMTGETMETATHEME,STRING,&lastMetaTheme);
 
 	setValue(XMTGETWINWID,INT,&winWid);
 	setValue(XMTGETWINHITE,INT,&winHite);

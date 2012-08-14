@@ -81,6 +81,9 @@
 #define XMTSETWINWID "xfconf-query -nt int -c xfcethemer -p /WindowWidth -s "
 #define XMTSETWINHITE "xfconf-query -nt int -c xfcethemer -p /WindowHeight -s "
 
+#define XMTGETMETATHEME "xfconf-query -c xfcethemer -p /MetaTheme"
+#define XMTSETMETATHEME "xfconf-query -nt string -c xfcethemer -p /MetaTheme -s "
+
 #define _translate(x) langStr[langID][x]
 
 #define ENGLISH 0
@@ -107,12 +110,14 @@ extern char*		currentAppFont;
 extern int			currentBright;
 extern double		currentSatu;
 extern int			currentCursSize;
+extern char*		currentMetaTheme;
 
 extern char*		lastGtkTheme;
 extern char*		lastIconTheme;
 extern char*		lastWmTheme;
 extern char*		lastCursorTheme;
 extern char*		lastWallPaper;
+extern char*		lastMetaTheme;
 
 //db
 extern char*		dbFolder;
