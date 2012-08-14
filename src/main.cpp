@@ -345,7 +345,6 @@ int main(int argc,char **argv)
 	iconsScrollBox=gtk_scrolled_window_new(NULL,NULL);
 	cursorsScrollBox=gtk_scrolled_window_new(NULL,NULL);
 	wallpapersMainBox=gtk_vbox_new(false, 0);
-
 	styleComboBox=(GtkComboBoxText*)gtk_combo_box_text_new();
 	gtk_combo_box_text_append_text(styleComboBox,_translate(AUTO));
 	gtk_combo_box_text_append_text(styleComboBox,_translate(CENTRED));

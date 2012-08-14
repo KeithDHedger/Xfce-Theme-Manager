@@ -42,8 +42,11 @@ bool isCurrent(char* themename,const char* catagory,char* name)
 		}
 	else
 		{
-			if ((strcasecmp(lastMetaTheme,name)==0) && ((strcasecmp("meta",catagory)==0) || (strcasecmp("custom",catagory)==0) ))
-			retval=true;
+			if (lastMetaTheme!=NULL)
+				{
+					if ((strcasecmp(lastMetaTheme,name)==0) && ((strcasecmp("meta",catagory)==0) || (strcasecmp("custom",catagory)==0) ))
+					retval=true;
+				}
 		}
 
 	return(retval);
