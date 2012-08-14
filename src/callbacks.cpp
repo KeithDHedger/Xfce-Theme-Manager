@@ -78,7 +78,7 @@ void changeView(GtkWidget* widget,gpointer data)
 	freeAndNull(&command);
 
 	doSetConfigs();
-	rerunAndUpdate(false,false);
+	rerunAndUpdate(false,true);
 }
 
 void changeViewWhat(GtkWidget* widget,gpointer data)
@@ -124,7 +124,7 @@ void changeViewWhat(GtkWidget* widget,gpointer data)
 		}
 	system(command);
 	freeAndNull(&command);
-	rerunAndUpdate(false,false);
+	rerunAndUpdate(false,true);
 }
 
 void buildCustomDB(const char* xconfline,const char* key)
