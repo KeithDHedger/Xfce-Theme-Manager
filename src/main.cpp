@@ -131,7 +131,7 @@ void resetTheme(GtkWidget* widget,gpointer data)
 
 	g_object_set(settings,"gtk-theme-name",currentGtkTheme,"gtk-color-scheme","default",NULL);
 	freeAndNull(&satval);
-	rerunAndUpdate(false);
+	rerunAndUpdate(false,true);
 }
 
 void shutdown(GtkWidget* widget,gpointer data)

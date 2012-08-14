@@ -55,12 +55,13 @@ GtkWidget *imageBox(char* filename,char* text,const char* catagory,char* themena
 	GtkWidget*	hbox;
 	GtkWidget*	label;
 	GtkWidget*	image;
-	GtkWidget*	stockimage=gtk_image_new_from_stock(GTK_STOCK_YES,GTK_ICON_SIZE_BUTTON);;
+	GtkWidget*	stockimage=gtk_image_new_from_stock(GTK_STOCK_YES,GTK_ICON_SIZE_SMALL_TOOLBAR);;
 	GtkWidget*	stockimage2=gtk_image_new_from_pixbuf(blankImage);
+	GtkWidget*	stockimage3=gtk_image_new_from_pixbuf(blankImage);
 
     /* Create box for image and label */
 	box=gtk_vbox_new(FALSE, 0);
-	hbox=gtk_hbox_new(FALSE, 0);
+	hbox=gtk_hbox_new(FALSE, 40);
 	gtk_container_set_border_width(GTK_CONTAINER (box),0);
 
 	image=gtk_image_new_from_file(filename);
@@ -73,6 +74,12 @@ GtkWidget *imageBox(char* filename,char* text,const char* catagory,char* themena
 			gtk_box_pack_end(GTK_BOX (hbox),stockimage,FALSE,FALSE,0);
 			gtk_box_pack_start(GTK_BOX (hbox),stockimage2,FALSE,FALSE,0);
 		}
+	else
+		{
+			gtk_box_pack_end(GTK_BOX (hbox),stockimage2,FALSE,FALSE,0);
+			gtk_box_pack_start(GTK_BOX (hbox),stockimage3,FALSE,FALSE,0);
+		}
+
 	gtk_box_pack_start(GTK_BOX(hbox),box,TRUE,TRUE,0);
 
 	return(hbox);

@@ -1,7 +1,5 @@
 /*
  *
- *
- *
  * K.D.Hedger 2012 <kdheger@yahoo.co.uk>
  *
  *
@@ -41,6 +39,9 @@ void rerunAndUpdate(bool rebuild,bool resetmeta)
 	else
 		{
 			freeAndNull(&lastMetaTheme);
+			asprintf(&lastMetaTheme,"DEADBEEFANDOXO");
+			sprintf(generalBuffer,"%s\"\"",XMTSETMETATHEME);
+			system(generalBuffer);
 		}
 
 	gtk_widget_destroy(themesVBox);
@@ -77,7 +78,7 @@ void changeView(GtkWidget* widget,gpointer data)
 	freeAndNull(&command);
 
 	doSetConfigs();
-	rerunAndUpdate(false);
+	rerunAndUpdate(false,false);
 }
 
 void changeViewWhat(GtkWidget* widget,gpointer data)
@@ -123,7 +124,7 @@ void changeViewWhat(GtkWidget* widget,gpointer data)
 		}
 	system(command);
 	freeAndNull(&command);
-	rerunAndUpdate(false);
+	rerunAndUpdate(false,false);
 }
 
 void buildCustomDB(const char* xconfline,const char* key)
@@ -156,7 +157,7 @@ void response(GtkDialog *dialog,gint response_id,gpointer user_data)
 						sprintf(generalBuffer,"%s/%s.png",customFolder,filename);
 						remove(generalBuffer);
 						freeAndNull(&filename);
-						rerunAndUpdate(true);
+						rerunAndUpdate(true,true);
 					}
 				break;
 		}
@@ -264,7 +265,13 @@ void customTheme(GtkWidget* window,gpointer data)
 							controlHeight=50;
 						}
 					flag=true;
+
+					freeAndNull(&lastMetaTheme);
+					asprintf(&lastMetaTheme,"%s",filename);
+					sprintf(generalBuffer,"%s\"%s\"",XMTSETMETATHEME,lastMetaTheme);
+					system(generalBuffer);
 				}
+
 			freeAndNull(&dbname);
 			freeAndNull(&filename);
 			freeAndNull(&gtk);
@@ -277,7 +284,7 @@ void customTheme(GtkWidget* window,gpointer data)
 	freeAndNull(&customname);
 
 	if (flag==true)
-		rerunAndUpdate(true);
+		rerunAndUpdate(true,true);
 }
 
 //rebuild db
@@ -419,7 +426,7 @@ void doFrame(GtkWidget* widget,gpointer data)
 					system(command);
 					freeAndNull(&command);
 					freeAndNull(&frameset);
-					rerunAndUpdate(false);
+					rerunAndUpdate(false,false);
 				}
 		}
 	g_key_file_free(keyfile);
@@ -468,7 +475,7 @@ void dropUri(GtkWidget *widget,GdkDragContext *context,gint x,gint y,GtkSelectio
 	g_strfreev(array);
 
 	if(doupdate==0)
-		rerunAndUpdate(true);
+		rerunAndUpdate(true,true);
 }
 
 void doWallpapers(GtkWidget* widget,gpointer data)
@@ -487,7 +494,7 @@ void doWallpapers(GtkWidget* widget,gpointer data)
 					system(command);
 					free(command);
 					free(paperset);
-					rerunAndUpdate(false);
+					rerunAndUpdate(false,false);
 				}
 			g_key_file_free(keyfile);
 		}
@@ -522,7 +529,7 @@ void removeTheme(const char* name)
 			generalBuffer[namelen]='g';
 			generalBuffer[namelen+1]=0;
 			remove(generalBuffer);
-			rerunAndUpdate(true);
+			rerunAndUpdate(true,true);
 		}
 
 	gtk_widget_destroy (dialog);
@@ -592,7 +599,7 @@ void doMeta(GtkWidget* widget,gpointer data)
 							sprintf(generalBuffer,"%s\"%s\"",(char*)xconf[j],keydata);
 							system(generalBuffer);
 							freeAndNull(&keydata);
-							rerunAndUpdate(false);
+							rerunAndUpdate(false,true);
 						}
 				}
 			g_key_file_free(keyfile);
@@ -622,7 +629,7 @@ void doControls(GtkWidget* widget,gpointer data)
 					g_object_set(settings,"gtk-theme-name",controlset,"gtk-color-scheme","default",NULL);
 					freeAndNull(&command);
 					freeAndNull(&controlset);
-					rerunAndUpdate(false);
+					rerunAndUpdate(false,false);
 				}
 			g_key_file_free(keyfile);
 		}
@@ -645,7 +652,7 @@ void doIcons(GtkWidget* widget,gpointer data)
 					system(command);
 					freeAndNull(&command);
 					freeAndNull(&iconset);
-					rerunAndUpdate(false);
+					rerunAndUpdate(false,false);
 				}
 			g_key_file_free(keyfile);
 		}
@@ -669,7 +676,7 @@ void doCursors(GtkWidget* widget,gpointer data)
 					system(command);
 					freeAndNull(&command);
 					freeAndNull(&cursorset);
-					rerunAndUpdate(false);
+					rerunAndUpdate(false,false);
 				}
 			g_key_file_free(keyfile);
 		}
