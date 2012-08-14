@@ -607,6 +607,8 @@ void doControls(GtkWidget* widget,gpointer data)
 					g_object_set(settings,"gtk-theme-name",controlset,"gtk-color-scheme","default",NULL);
 					freeAndNull(&command);
 					freeAndNull(&controlset);
+					setValue(XCONFGETCONTROLS,STRING,&lastGtkTheme);
+					rerunAndUpdate(false);
 				}
 			g_key_file_free(keyfile);
 		}
@@ -652,6 +654,8 @@ void doCursors(GtkWidget* widget,gpointer data)
 					system(command);
 					freeAndNull(&command);
 					freeAndNull(&cursorset);
+					setValue(XCONFGETCURSOR,STRING,&lastCursorTheme);
+					rerunAndUpdate(false);
 				}
 			g_key_file_free(keyfile);
 		}

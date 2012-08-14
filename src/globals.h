@@ -108,6 +108,12 @@ extern int			currentBright;
 extern double		currentSatu;
 extern int			currentCursSize;
 
+extern char*		lastGtkTheme;
+extern char*		lastIconTheme;
+extern char*		lastWmTheme;
+extern char*		lastCursorTheme;
+extern char*		lastWallPaper;
+
 //db
 extern char*		dbFolder;
 extern char*		metaFolder;

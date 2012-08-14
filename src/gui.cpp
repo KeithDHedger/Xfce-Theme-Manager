@@ -23,7 +23,58 @@
 #include "globals.h"
 #include "callbacks.h"
 
-GtkWidget *imageBox(char* filename,char* text)
+bool isCurrent(char* themename,const char* catagory)
+{
+//	if ((strcasecmp(lastGtkTheme,text)==0) || (strcasecmp(lastIconTheme,text)==0) || (strcasecmp(lastWmTheme,text)==0) || (strcasecmp(lastCursorTheme,text)==0) || (strcasecmp(lastWallPaper,text)==0) )
+	bool	retval=false;
+	if (themename!=NULL)
+		{
+			if ((strcasecmp(lastGtkTheme,themename)==0) && (strcasecmp("controls",catagory)==0))
+				retval=true;
+			if ((strcasecmp(lastCursorTheme,themename)==0) && (strcasecmp("cursors",catagory)==0))
+				retval=true;
+		}
+
+//if (strcasecmp("cursors",catagory)==0)
+//	{
+//		printf ("icthme %s\n cat %s\n text %s\n",lastCursorTheme,catagory,themename);
+//	}
+		
+	return(retval);
+}
+
+GtkWidget *imageBox(char* filename,char* text,const char* catagory,char* themename)
+{
+	GtkWidget*	box;
+	GtkWidget*	hbox;
+	GtkWidget*	label;
+	GtkWidget*	image;
+	GtkWidget*	stockimage=gtk_image_new_from_stock(GTK_STOCK_YES,GTK_ICON_SIZE_BUTTON);;
+	GtkWidget*	stockimage2=gtk_image_new_from_pixbuf(blankImage);
+
+    /* Create box for image and label */
+	box=gtk_vbox_new(FALSE, 0);
+	hbox=gtk_hbox_new(FALSE, 0);
+	gtk_container_set_border_width(GTK_CONTAINER (box),0);
+
+	image=gtk_image_new_from_file(filename);
+	label=gtk_label_new(text);
+
+	gtk_box_pack_start(GTK_BOX (box),image,TRUE,TRUE,0);
+	gtk_box_pack_start(GTK_BOX (box),label,TRUE,TRUE,0);
+	if (isCurrent(themename,catagory)==true)
+		{
+			gtk_box_pack_end(GTK_BOX (hbox),stockimage,FALSE,FALSE,0);
+			gtk_box_pack_start(GTK_BOX (hbox),stockimage2,FALSE,FALSE,0);
+		}
+	gtk_box_pack_start(GTK_BOX(hbox),box,TRUE,TRUE,0);
+
+	return(hbox);
+}
+
+
+
+GtkWidget *XimageBox(char* filename,char* text)
 {
 	GtkWidget*	box;
 	GtkWidget*	label;
@@ -62,6 +113,7 @@ void addNewButtons(GtkWidget* vbox,const char* subfolder,void* callback)
 	GKeyFile*	keyfile=g_key_file_new();
 	char*		name;
 	char*		thumb;
+	char*		themename=NULL;
 	GtkWidget*	button;
 	GtkWidget*	box;
 
@@ -131,8 +183,9 @@ void addNewButtons(GtkWidget* vbox,const char* subfolder,void* callback)
 						{
 							name=g_key_file_get_string(keyfile,"Data","Name",NULL);
 							thumb=g_key_file_get_string(keyfile,"Data","Thumbnail",NULL);
+							themename=g_key_file_get_string(keyfile,"Data","ThemeName",NULL);
 							button=gtk_button_new();
-							box=imageBox(thumb,name);
+							box=imageBox(thumb,name,subfolder,themename);
 							gtk_widget_set_name(button,filename);
 							gtk_button_set_relief((GtkButton*)button,GTK_RELIEF_NONE);
 							gtk_container_add (GTK_CONTAINER (button),box);

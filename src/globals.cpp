@@ -26,6 +26,12 @@ int			currentBright;
 double		currentSatu;
 int			currentCursSize;
 
+char*			lastGtkTheme;
+char*			lastIconTheme;
+char*			lastWmTheme;
+char*			lastCursorTheme;
+char*			lastWallPaper;
+
 //db
 char*			dbFolder;
 char*			metaFolder;

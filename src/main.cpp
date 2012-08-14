@@ -175,14 +175,17 @@ void init(void)
 	
 //gtk
 	setValue(XCONFGETCONTROLS,STRING,&currentGtkTheme);
+	setValue(XCONFGETCONTROLS,STRING,&lastGtkTheme);
 
 //icons
 	setValue(XCONFGETICONS,STRING,&currentIconTheme);
+	setValue(XCONFGETICONS,STRING,&lastIconTheme);
 
 //window manager
 	setValue(XCONFGETTITLEPOS,STRING,&currentTitlePos);
 	setValue(XCONFGETLAYOUT,STRING,&currentButtonLayout);
 	setValue(XCONFGETFRAME,STRING,&currentWmTheme);
+	setValue(XCONFGETFRAME,STRING,&lastWmTheme);
 
 //font
 	setValue(XCONFGETWMFONT,STRING,&currentWMFont);
@@ -193,10 +196,12 @@ void init(void)
 	setValue(XCONFGETSATU,FLOAT,&currentSatu);
 	setValue(XCONFGETPAPER,STRING,&currentWallPaper);
 	setValue(XCONFGETSTYLE,INT,&currentWallStyle);
+	setValue(XCONFGETPAPER,STRING,&lastWallPaper);
 
 //mouse
 	setValue(XCONFGETCURSORSIZE,INT,&currentCursSize);
 	setValue(XCONFGETCURSOR,STRING,&currentCursorTheme);
+	setValue(XCONFGETCURSOR,STRING,&lastCursorTheme);
 
 	missingImage=gdk_pixbuf_new_from_xpm_data((const char**)error_xpm);
 	blankImage=gdk_pixbuf_new_from_xpm_data((const char**)blank_xpm);
