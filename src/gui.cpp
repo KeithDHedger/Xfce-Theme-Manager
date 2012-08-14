@@ -455,7 +455,3 @@ void buildAdvancedGui(GtkWidget* advancedScrollBox)
 	gtk_box_pack_start(GTK_BOX(advancedVbox),advancedHbox,false,false,2);
 }
 
-
-
-
-
