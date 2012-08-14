@@ -26,7 +26,7 @@ char*		metaThemeSelected=NULL;
 bool		destroy=false;
 
 //update gui
-void rerunAndUpdate(bool rebuild)
+void rerunAndUpdate(bool rebuild,bool resetmeta)
 {
 	if (rebuild==true)
 		rebuildDB((void*)1);
@@ -36,7 +36,12 @@ void rerunAndUpdate(bool rebuild)
 	setValue(XCONFGETFRAME,STRING,&lastWmTheme);
 	setValue(XCONFGETPAPER,STRING,&lastWallPaper);
 	setValue(XCONFGETCURSOR,STRING,&lastCursorTheme);
-	setValue(XMTGETMETATHEME,STRING,&lastMetaTheme);
+	if(resetmeta==true)
+		setValue(XMTGETMETATHEME,STRING,&lastMetaTheme);
+	else
+		{
+			freeAndNull(&lastMetaTheme);
+		}
 
 	gtk_widget_destroy(themesVBox);
 	gtk_widget_destroy(framesVBox);

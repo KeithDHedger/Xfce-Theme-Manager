@@ -18,7 +18,7 @@
 void customTheme(GtkWidget* window,gpointer data);
 
 void rerunAndBuild(GtkWidget* window,gpointer data);
-void rerunAndUpdate(bool rebuild);
+void rerunAndUpdate(bool rebuild,bool resetmeta);
 
 void setTitlePos(GtkComboBoxText* widget,gpointer data);
 void dropUri(GtkWidget *widget,GdkDragContext *context,gint x,gint y,GtkSelectionData *selection_data,guint info,guint32 time,gpointer user_data);
