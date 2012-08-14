@@ -36,6 +36,7 @@ void rerunAndUpdate(bool rebuild)
 	setValue(XCONFGETFRAME,STRING,&lastWmTheme);
 	setValue(XCONFGETPAPER,STRING,&lastWallPaper);
 	setValue(XCONFGETCURSOR,STRING,&lastCursorTheme);
+	setValue(XMTGETMETATHEME,STRING,&lastMetaTheme);
 
 	gtk_widget_destroy(themesVBox);
 	gtk_widget_destroy(framesVBox);

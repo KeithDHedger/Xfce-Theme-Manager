@@ -23,7 +23,7 @@
 #include "globals.h"
 #include "callbacks.h"
 
-bool isCurrent(char* themename,const char* catagory)
+bool isCurrent(char* themename,const char* catagory,char* name)
 {
 	bool	retval=false;
 
@@ -39,6 +39,11 @@ bool isCurrent(char* themename,const char* catagory)
 				retval=true;
 			if ((strcasecmp(lastWallPaper,themename)==0) && (strcasecmp("wallpapers",catagory)==0))
 				retval=true;
+		}
+	else
+		{
+			if ((strcasecmp(lastMetaTheme,name)==0) && ((strcasecmp("meta",catagory)==0) || (strcasecmp("custom",catagory)==0) ))
+			retval=true;
 		}
 
 	return(retval);
@@ -63,7 +68,7 @@ GtkWidget *imageBox(char* filename,char* text,const char* catagory,char* themena
 
 	gtk_box_pack_start(GTK_BOX (box),image,TRUE,TRUE,0);
 	gtk_box_pack_start(GTK_BOX (box),label,TRUE,TRUE,0);
-	if (isCurrent(themename,catagory)==true)
+	if (isCurrent(themename,catagory,text)==true)
 		{
 			gtk_box_pack_end(GTK_BOX (hbox),stockimage,FALSE,FALSE,0);
 			gtk_box_pack_start(GTK_BOX (hbox),stockimage2,FALSE,FALSE,0);
