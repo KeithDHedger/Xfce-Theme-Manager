@@ -283,9 +283,18 @@ gboolean updateBarTimer(gpointer data)
 	else
 		return(false);
 }
+#include <iostream>
+#include <string>
+
+using namespace std;
 
 int main(int argc,char **argv)
 {
+ string s0 ("2nd hello world");
+ cout << s0 + "abc";
+ // return 0;
+
+
 	GtkWidget*		vbox;
 	GtkWidget*		buttonHbox;
 	GtkWidget*		label;
@@ -429,6 +438,7 @@ int main(int argc,char **argv)
 
 	gtk_widget_show_all(window);
 	gtk_main();
+	return(0);
 }
 //
 //gtkprev [border] /path/to/border /out/path/to/png
