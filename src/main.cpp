@@ -291,7 +291,9 @@ int main(int argc,char **argv)
 	GtkWidget*		label;
 	GtkWidget*		button;
 	GtkWidget*		advancedScrollBox;
+	gboolean		dbexists;
 
+                                                       
 	if (argc==2 && strcasecmp(argv[1],"-v")==0)
 		{
 			printf("Xfce-Theme-Manager Version %s \nCopyright K.D.Hedger 2012, kdhedger@yahoo.co.uk\n",VERSION);
@@ -304,7 +306,10 @@ int main(int argc,char **argv)
 
 	init();
 
-	if (argc==2 && strcasecmp(argv[1],"-m")==0)
+	sprintf(generalBuffer,"%s/.config/XfceThemeManager",homeFolder);
+	dbexists=g_file_test(generalBuffer,G_FILE_TEST_IS_DIR);
+
+	if ((argc==2 && strcasecmp(argv[1],"-m")==0) || (dbexists==false))
 		{
 			makeProgressBar();
 
