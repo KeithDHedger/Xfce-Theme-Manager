@@ -135,15 +135,27 @@ void freeAndNull(char** ptr)
 
 int positionToInt(char* pos)
 {
-	if(strcasecmp(pos,"left")==0)
-		return(0);
+	gchar	*stdout=NULL;
+	gchar	*stderr=NULL;
+	gint   retval=0;
 
-	if(strcasecmp(pos,"center")==0)
-		return(1);
+	if (pos!=NULL)
+		{
+			if(strcasecmp(pos,"left")==0)
+				return(0);
 
-	if(strcasecmp(pos,"right")==0)
-		return(2);
+			if(strcasecmp(pos,"center")==0)
+				return(1);
 
+			if(strcasecmp(pos,"right")==0)
+				return(2);
+		}
+	else
+		{
+			asprintf(&currentTitlePos,"%s","center");
+			sprintf(generalBuffer,"%s\"%s\"",XCONFSETTITLEPOS,currentTitlePos);
+			g_spawn_command_line_sync(generalBuffer,&stdout,&stderr,&retval,NULL);
+		}
 	return(1);
 }
 

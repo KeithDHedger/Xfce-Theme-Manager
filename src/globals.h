@@ -20,44 +20,44 @@
 
 #define DELETETHEME 100
 
-#define XCONFSETSTYLE "xfconf-query -nRt int -c xfce4-desktop -vp /backdrop/screen0/monitor0/image-style -s "
-#define XCONFSETBRIGHT "xfconf-query -nRt int -c xfce4-desktop -vp /backdrop/screen0/monitor0/brightness -s "
-#define XCONFSETSATU "xfconf-query -nRt double -c xfce4-desktop -vp /backdrop/screen0/monitor0/saturation -s "
+#define XCONFSETSTYLE "xfconf-query -nRt int -c xfce4-desktop -p /backdrop/screen0/monitor0/image-style -s "
+#define XCONFSETBRIGHT "xfconf-query -nRt int -c xfce4-desktop -p /backdrop/screen0/monitor0/brightness -s "
+#define XCONFSETSATU "xfconf-query -nRt double -c xfce4-desktop -p /backdrop/screen0/monitor0/saturation -s "
 
-#define XCONFSETFRAME "xfconf-query -nRt string -c xfwm4 -vp /general/theme -s "
-#define XCONFSETCONTROLS "xfconf-query -nRt string -c xsettings -vp /Net/ThemeName -s "
-#define XCONFSETICONS "xfconf-query -nRt string -c xsettings -vp /Net/IconThemeName -s "
-#define XCONFSETCURSOR "xfconf-query -nRt string -c xsettings -vp /Gtk/CursorThemeName -s "
-#define XCONFSETPAPER "xfconf-query -nRt string -c xfce4-desktop -vp /backdrop/screen0/monitor0/image-path -s "
+#define XCONFSETFRAME "xfconf-query -nRt string -c xfwm4 -p /general/theme -s "
+#define XCONFSETCONTROLS "xfconf-query -nRt string -c xsettings -p /Net/ThemeName -s "
+#define XCONFSETICONS "xfconf-query -nRt string -c xsettings -p /Net/IconThemeName -s "
+#define XCONFSETCURSOR "xfconf-query -nRt string -c xsettings -p /Gtk/CursorThemeName -s "
+#define XCONFSETPAPER "xfconf-query -nRt string -c xfce4-desktop -p /backdrop/screen0/monitor0/image-path -s "
 
-#define XCONFSETLAYOUT "xfconf-query -c xfwm4 -vp /general/button_layout -s "
-#define XCONFSETTITLEPOS "xfconf-query -c xfwm4 -vp /general/title_alignment -s "
+#define XCONFSETLAYOUT "xfconf-query -c xfwm4 -p /general/button_layout -s "
+#define XCONFSETTITLEPOS "xfconf-query -c xfwm4 -p /general/title_alignment -s "
 
-#define XCONFSETWMFONT "xfconf-query -c xfwm4 -vp /general/title_font -s "
-#define XCONFSETAPPFONT "xfconf-query -c xsettings -vp /Gtk/FontName -s "
+#define XCONFSETWMFONT "xfconf-query -c xfwm4 -p /general/title_font -s "
+#define XCONFSETAPPFONT "xfconf-query -c xsettings -p /Gtk/FontName -s "
 
 #define GLOBALICONS "/usr/share/icons"
 #define GLOBALTHEMES "/usr/share/themes"
 #define GLOBALWALLPAPERS "/usr/share/xfce4/backdrops"
 
-#define XCONFGETCONTROLS "xfconf-query -c xsettings -vp /Net/ThemeName"
-#define XCONFGETICONS "xfconf-query -c xsettings -vp /Net/IconThemeName"
-#define XCONFGETCURSOR "xfconf-query -c xsettings -vp /Gtk/CursorThemeName"
-#define XCONFGETFRAME "xfconf-query -c xfwm4 -vp /general/theme"
+#define XCONFGETCONTROLS "xfconf-query -c xsettings -p /Net/ThemeName"
+#define XCONFGETICONS "xfconf-query -c xsettings -p /Net/IconThemeName"
+#define XCONFGETCURSOR "xfconf-query -c xsettings -p /Gtk/CursorThemeName"
+#define XCONFGETFRAME "xfconf-query -c xfwm4 -p /general/theme"
 #define XCONFGETPAPER "xfconf-query -nRt string -c xfce4-desktop -vp /backdrop/screen0/monitor0/image-path"
 
-#define XCONFGETLAYOUT "xfconf-query -c xfwm4 -vp /general/button_layout"
-#define XCONFGETTITLEPOS "xfconf-query -c xfwm4 -vp /general/title_alignment"
+#define XCONFGETLAYOUT "xfconf-query -c xfwm4 -p /general/button_layout"
+#define XCONFGETTITLEPOS "xfconf-query -c xfwm4 -p /general/title_alignment"
 
-#define XCONFGETWMFONT "xfconf-query -c xfwm4 -vp /general/title_font"
-#define XCONFGETAPPFONT "xfconf-query -c xsettings -vp /Gtk/FontName"
+#define XCONFGETWMFONT "xfconf-query -c xfwm4 -p /general/title_font"
+#define XCONFGETAPPFONT "xfconf-query -c xsettings -p /Gtk/FontName"
 
-#define XCONFGETSTYLE "xfconf-query -nRt int -c xfce4-desktop -vp /backdrop/screen0/monitor0/image-style"
-#define XCONFGETBRIGHT "xfconf-query -nRt int -c xfce4-desktop -vp /backdrop/screen0/monitor0/brightness"
-#define XCONFGETSATU "xfconf-query -nRt double -c xfce4-desktop -vp /backdrop/screen0/monitor0/saturation"
+#define XCONFGETSTYLE "xfconf-query -nRt int -c xfce4-desktop -p /backdrop/screen0/monitor0/image-style"
+#define XCONFGETBRIGHT "xfconf-query -nRt int -c xfce4-desktop -p /backdrop/screen0/monitor0/brightness"
+#define XCONFGETSATU "xfconf-query -nRt double -c xfce4-desktop -p /backdrop/screen0/monitor0/saturation"
 
-#define XCONFGETCURSORSIZE "xfconf-query -nRt int -c xsettings -vp /Gtk/CursorThemeSize"
-#define XCONFSETCURSORSIZE "xfconf-query -nRt int -c xsettings -vp /Gtk/CursorThemeSize -s "
+#define XCONFGETCURSORSIZE "xfconf-query -nRt int -c xsettings -p /Gtk/CursorThemeSize"
+#define XCONFSETCURSORSIZE "xfconf-query -nRt int -c xsettings -p /Gtk/CursorThemeSize -s "
 
 #define XMTGETSHOWSYSTEM  "xfconf-query -c xfcethemer -p /ShowGlobal"
 #define XMTSETSHOWSYSTEM  "xfconf-query -nt int -c xfcethemer -p /ShowGlobal -s "
