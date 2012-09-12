@@ -1,6 +1,6 @@
 PROGRAM=xfce-theme-manager
 SOURCES=src/main.cpp src/globals.cpp src/database.cpp src/thumbnails.cpp src/gui.cpp src/callbacks.cpp
-VERSION=0.1.17
+VERSION=0.1.18
 
 LAUNCHER=Xfce-Theme-Manager.desktop
 
@@ -40,7 +40,7 @@ clean:
 
 pkg:
 	mkdir Xfce-Theme-Manager-$(VERSION)
-	cp -r src Xfce-Theme-Manager.desktop README README.de README.es Makefile $(PROGRAM).png Xfce-Theme-Manager-$(VERSION)
+	cp -r src Xfce-Theme-Manager.desktop README README.de README.es Makefile $(PROGRAM).png ChangeLog Xfce-Theme-Manager-$(VERSION)
 	tar --exclude .svn -cvzf Xfce-Theme-Manager-$(VERSION).tar.gz Xfce-Theme-Manager-$(VERSION)
 	rm -r Xfce-Theme-Manager-$(VERSION)
 

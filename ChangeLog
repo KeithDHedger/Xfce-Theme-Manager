@@ -15,6 +15,11 @@ Please send them direct to me at: kdhedger@yahoo.co.uk posting them on xfce-look
 ***************************************
 
 Changelog:
+0.1.18 Changed to glib version of strcasecmp.
+	Added auto build of database on first run (requested).
+	Bug fix for xfconf-query /general/title_alignment.
+	Split ChangeLog from README to seperate file.
+
 0.1.17 Added marker to UI to show current theme pieces.
 	Database clean up and made more consistent.
 
