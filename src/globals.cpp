@@ -141,13 +141,13 @@ int positionToInt(char* pos)
 
 	if (pos!=NULL)
 		{
-			if(strcasecmp(pos,"left")==0)
+			if(g_ascii_strcasecmp(pos,"left")==0)
 				return(0);
 
-			if(strcasecmp(pos,"center")==0)
+			if(g_ascii_strcasecmp(pos,"center")==0)
 				return(1);
 
-			if(strcasecmp(pos,"right")==0)
+			if(g_ascii_strcasecmp(pos,"right")==0)
 				return(2);
 		}
 	else

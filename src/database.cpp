@@ -304,7 +304,7 @@ gpointer rebuildDB(gpointer data)
 											if(g_key_file_load_from_file(keyfile,indexfile,G_KEY_FILE_NONE,NULL))
 												{
 													hidden=g_key_file_get_string(keyfile,"Icon Theme","Hidden",NULL);
-													if (hidden==NULL || strcasecmp(hidden,"true")!=0)
+													if (hidden==NULL || g_ascii_strcasecmp(hidden,"true")!=0)
 														{
 															displayname=g_key_file_get_string(keyfile,"Icon Theme","Name",NULL);
 															asprintf(&thumbfile,"%s/%s.png",iconsFolder,entry);

@@ -292,9 +292,8 @@ int main(int argc,char **argv)
 	GtkWidget*		button;
 	GtkWidget*		advancedScrollBox;
 	gboolean		dbexists;
-
-                                                       
-	if (argc==2 && strcasecmp(argv[1],"-v")==0)
+                                             
+	if (argc==2 && g_ascii_strcasecmp(argv[1],"-v")==0)
 		{
 			printf("Xfce-Theme-Manager Version %s \nCopyright K.D.Hedger 2012, kdhedger@yahoo.co.uk\n",VERSION);
 			return 0;
@@ -309,7 +308,7 @@ int main(int argc,char **argv)
 	sprintf(generalBuffer,"%s/.config/XfceThemeManager",homeFolder);
 	dbexists=g_file_test(generalBuffer,G_FILE_TEST_IS_DIR);
 
-	if ((argc==2 && strcasecmp(argv[1],"-m")==0) || (dbexists==false))
+	if ((argc==2 && g_ascii_strcasecmp(argv[1],"-m")==0) || (dbexists==false))
 		{
 			makeProgressBar();
 
@@ -321,7 +320,7 @@ int main(int argc,char **argv)
 			gtk_widget_destroy(progressWindow);
 		}
 
-	if (argc==2 && strcasecmp(argv[1],"-u")==0)
+	if (argc==2 && g_ascii_strcasecmp(argv[1],"-u")==0)
 			rebuildDB((void*)1);
 
 #ifdef GOT_LIBXFCEUI

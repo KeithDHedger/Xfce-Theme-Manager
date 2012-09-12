@@ -29,22 +29,26 @@ bool isCurrent(char* themename,const char* catagory,char* name)
 
 	if (themename!=NULL)
 		{
-			if ((strcasecmp(lastGtkTheme,themename)==0) && (strcasecmp("controls",catagory)==0))
+			if ((g_ascii_strcasecmp(lastGtkTheme,themename)==0) && (g_ascii_strcasecmp("controls",catagory)==0))
 				retval=true;
-			if ((strcasecmp(lastCursorTheme,themename)==0) && (strcasecmp("cursors",catagory)==0))
+
+			if ((g_ascii_strcasecmp(lastCursorTheme,themename)==0) && (g_ascii_strcasecmp("cursors",catagory)==0))
 				retval=true;
-			if ((strcasecmp(lastWmTheme,themename)==0) && (strcasecmp("frames",catagory)==0))
+
+			if ((g_ascii_strcasecmp(lastWmTheme,themename)==0) && (g_ascii_strcasecmp("frames",catagory)==0))
 				retval=true;
-			if ((strcasecmp(lastIconTheme,themename)==0) && (strcasecmp("icons",catagory)==0))
+
+			if ((g_ascii_strcasecmp(lastIconTheme,themename)==0) && (g_ascii_strcasecmp("icons",catagory)==0))
 				retval=true;
-			if ((strcasecmp(lastWallPaper,themename)==0) && (strcasecmp("wallpapers",catagory)==0))
+
+			if ((g_ascii_strcasecmp(lastWallPaper,themename)==0) && (g_ascii_strcasecmp("wallpapers",catagory)==0))
 				retval=true;
 		}
 	else
 		{
 			if (lastMetaTheme!=NULL)
 				{
-					if ((strcasecmp(lastMetaTheme,name)==0) && ((strcasecmp("meta",catagory)==0) || (strcasecmp("custom",catagory)==0) ))
+					if ((g_ascii_strcasecmp(lastMetaTheme,name)==0) && ((g_ascii_strcasecmp("meta",catagory)==0) || (g_ascii_strcasecmp("custom",catagory)==0) ))
 					retval=true;
 				}
 		}
@@ -99,7 +103,9 @@ void freeNames(gpointer data)
 
 gint sortFunc(gconstpointer a,gconstpointer b)
 {
-	return(strcasecmp((const char*)a,(const char*)b));
+//	if ((a==NULL) || (b==NULL))
+//		return(0);
+	return(g_ascii_strcasecmp((const char*)a,(const char*)b));
 }
 
 void addNewButtons(GtkWidget* vbox,const char* subfolder,void* callback)
