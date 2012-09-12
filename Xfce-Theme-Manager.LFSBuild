@@ -1,0 +1,35 @@
+#!/bin/bash -e
+
+. /usr/share/LFSPkg/LFSFunctions
+
+NAME="Xfce-Theme-Manager"
+VERSION="0.1.18"
+BUILD=1
+SECTION="SYS"
+SUFFIX="LFSPKG"
+TARBALL="${NAME}-${VERSION}.tar.gz"
+PKG="${TMP}/${NAME}"
+UPGRADE=${UPGRADE:-"no"}
+export OUTPUT TMP
+
+mkdir -p "$PKG"
+tar -xvf "$TARBALL"
+
+pushd "${NAME}-${VERSION}"	
+	make install DESTDIR=$PKG  PREFIX=/usr|| exit 1
+popd
+
+checketc $PKG
+
+pushd "$PKG"
+	find | xargs file | grep -e "executable" -e "shared object" | grep ELF | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null || true
+	/usr/bin/lfspkg -n "$NAME" -p "$VERSION" -d $SECTION -b $BUILD -s $SUFFIX -m
+popd
+
+if [ "X$UPGRADE" = "Xno" ];then
+	lfspkg "${OUTPUT}/${NAME}-${VERSION}-${BUILD}_${SECTION}_${SUFFIX}.tar.gz" -i
+else
+	lfspkg "$NAME" "${OUTPUT}/${NAME}-${VERSION}-${BUILD}_${SECTION}_${SUFFIX}.tar.gz" -u
+fi
+
+rm -r "$PKG" "${NAME}-${VERSION}"
