@@ -16,17 +16,17 @@ ifeq ($(TESTFORLIBXFCEUI),0)
 endif
 
 ifeq ($(strip $(CXXFLAGS)),)
-	CXXFLAGS=-O3 -Wall -Wunused -Wunused-function -lXcursor -lgthread-2.0 `pkg-config --cflags --libs glib-2.0` `pkg-config --cflags --libs gdk-2.0` `pkg-config --cflags --libs gtk+-2.0` -DGTK_DISABLE_DEPRECATED -DGTK_DISABLE_SINGLE_INCLUDES -DGDK_DISABLE_DEPRECATED -DGSEAL_ENABLE $(LIBXFCEUI) $(USELIBXFCEUI)
+	CXXFLAGS=-O3 -Wall -Wno-unused-result -Wunused-function -lXcursor -lgthread-2.0 `pkg-config --cflags --libs glib-2.0` `pkg-config --cflags --libs gdk-2.0` `pkg-config --cflags --libs gtk+-2.0` -DGTK_DISABLE_DEPRECATED -DGTK_DISABLE_SINGLE_INCLUDES -DGDK_DISABLE_DEPRECATED -DGSEAL_ENABLE $(LIBXFCEUI) $(USELIBXFCEUI)
 endif
 
 $(PROGRAM):$(SOURCES)
-	g++ $(CXXFLAGS) -o $(PROGRAM) $(SOURCES)
+	g++ $(SOURCES) $(CXXFLAGS) -o $(PROGRAM)
 	strip $(PROGRAM)
 
 install:
 	mkdir -p $(DESTDIR)$(PREFIX)/bin $(DESTDIR)$(PREFIX)/share/applications $(DESTDIR)$(PREFIX)/share/pixmaps
 	rm $(PROGRAM)||true
-	g++ $(CXXFLAGS) -o $(PROGRAM) $(SOURCES)
+	g++ $(SOURCES) $(CXXFLAGS) -o $(PROGRAM)
 	strip $(PROGRAM)
 	cp -p $(PROGRAM) $(DESTDIR)$(PREFIX)/bin
 	cp $(LAUNCHER) $(DESTDIR)$(PREFIX)/share/applications
@@ -46,4 +46,7 @@ pkg:
 
 version:
 	sed -i "s/^#define VERSION.*/#define VERSION \"$(VERSION)\"/" src/globals.h
+
+debug:
+	g++ $(SOURCES) $(CXXFLAGS) -ggdb -O0 -o $(PROGRAM)-debug
 
