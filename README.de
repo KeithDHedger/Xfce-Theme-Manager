@@ -5,8 +5,10 @@
 # © 2012 K.D.Hedger
 # kdhedger@yahoo.co.uk
 #
-# Unter GPL freigegeben. D.h., machen Sie damit, was Sie wollen.
-#
+# Unter GPL freigegeben, siehe beigefügter Lizenztext 
+# gpl-3.0.txt (englisch).
+# Übersetzungen des Lizenztexts gibt es auf
+# http://www.gnu.org/licenses/translations.html
 # -------------------------------------------------------
 
 ABHÄNGIGKEITEN:
@@ -14,6 +16,7 @@ ABHÄNGIGKEITEN:
 glib-2.0
 gdk-2.0
 cairo
+gtk+-2.0
 
 **************************************************
 WEITERE ANWENDUNGEN (Optional):
@@ -92,7 +95,14 @@ Die GUI kann manuell installiert werden und/oder aus dem Hauptordner laufen.
 
 Es gibt kein configure-Skript, da das Makefile sehr einfach gehalten ist. Standardmäßig wird das Programm in /usr/local/bin installiert. Der Installationspfad kann aber durch Setzen der PREFIX-Variable geändert werden, z.B. PREFIX="/usr" make install.
 
-Wenn Sie eine Quellcode-basierte Paketverwaltung benutzen (wie z.B. in Slackware), sollten die Entwicklungsdateien für glib usw. schon installiert sein. Falls sie Binärpakete verwenden (wie z.B. bei Debian), müssen Sie wahrscheinlich Pakete wie glib2-dev oder gdk2-dev installieren. Bitte schauen Sie in die Installations-Dokumentation für Details.
+Wenn Sie eine Quellcode-basierte Paketverwaltung benutzen (wie z.B. bei Slackware), sollten die Entwicklungsdateien für glib usw. schon installiert sein. Falls sie Binärpakete verwenden (wie z.B. bei Debian), müssen Sie wahrscheinlich Entwicklungs-Pakete (*-dev) installieren. Hierzu tippen Sie folgendes in ein Terminal ein:
+
+sudo apt-get update
+sudo apt-get install build-essential glib-2.0-dev libgtk2.0-dev libxfce4ui-1-dev
+
+Konsultieren Sie ihr Installationshandbuch für weitere Details. Die angegebenen Befehle wurden unter einer frischen xubuntu-12.10-Installation getestet. Für andere Debian-basierte Distributionen sollten sich die *-dev-Pakete aber ebenso installieren lassen.
+
+Möglicherweise müssen Sie den xfce-theme-manager über das Einstellungs-Menü im Hauptmenü starten.
 
 Eventuell müssen Sie xfce4-panel --restart ausführen, bevor Sie das Xfce-Theme-Manager-Symbol im Einstellungs-Menü sehen.
 
