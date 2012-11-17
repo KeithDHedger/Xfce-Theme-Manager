@@ -5,7 +5,9 @@
 #   ©K.D.Hedger 2012
 #   kdhedger@yahoo.co.uk
 #
-#   Released under GPL ie do what you want with it
+#   Released under GPL see the included licence file ( gpl-3.0.txt )
+#   Translations of the licence can be found here:
+#   http://www.gnu.org/licenses/translations.html
 #
 #------------------------------------------------------
 
@@ -15,6 +17,10 @@ Please send them direct to me at: kdhedger@yahoo.co.uk posting them on xfce-look
 ***************************************
 
 Changelog:
+0.1.19 Changed Makefile to take account of changes in some versions of gcc that require a specific order for arguments.
+	Added instructions in README for debian users.
+	Added GPLv3 licence to archive (requested).
+	
 0.1.18 Changed to glib version of strcasecmp.
 	Added auto build of database on first run (requested).
 	Bug fix for xfconf-query /general/title_alignment.
