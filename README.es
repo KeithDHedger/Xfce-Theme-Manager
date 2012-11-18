@@ -1,13 +1,13 @@
-
 # ------------------------------------------------- -----
 #
-# Xfce-theme-manager
+#   Xfce-theme-manager
 #
-# © 2012 K.D.Hedger
-# Kdhedger@yahoo.co.uk
+#   © 2012 K.D.Hedger
+#   Kdhedger@yahoo.co.uk
 #
-# Distribuido bajo licencia GPL, es decir, puede hacer lo que quiera con ella
-#
+#   Distribuido bajo licencia GPL. Ver el archivo de licencia incluido (gpl-3.0.txt)
+#   Traducciones de la licencia pueden encontrarse aquí:
+#   http://www.gnu.org/licenses/translations.html
 # ------------------------------------------------- -----
 
 DEPENDENCIAS:
@@ -15,6 +15,7 @@ DEPENDENCIAS:
 glib-2.0
 gdk-2.0
 cairo
+gtk+-2.0
 
 ****************************************************
 APLICACIONES EXTERNAS (opcional):
@@ -72,7 +73,7 @@ xfce-theme-manager [-m] [-u]
 Las partes de tema instaladas localmente siempre se muestran, a excepción de los temas meta si está marcada [Mostrar Sólo Temas Personalizados].
 Rápidamente se puede eliminar un tema personalizado presionando la tecla control y haciendo clic en la imagen; sólo los temas personalizados que ha creado se pueden eliminar, y sólo la entrada de la base de datos es eliminada, nada se desinstala de su sistema.
 
-Para instalar un tema/gtk/icono/cursor/borde/fondo de pantalla sólo tienes que arrastrar y soltar el archivo (los fondos de pantalla no deberían estar dentro de un archivo) en cualquier lugar de la ventana principal, y si es posible, el archivo  de tema, etc, será instalado en el lugar correcto; todas las instalaciones son locales, los tipos de archivo soportados son: "*.tgz", "*.gz", "*.zip.", "*.tar.", "*.bz2."; los tipos de fondos de pantalla soportados son: "*.jpg", "*.png "," *.bmp "," *.gif ". Cualquier otra cosa tendrá que instalarla usted mismo.
+Para instalar un tema/gtk/icono/cursor/borde/fondo de pantalla sólo tienes que arrastrar y soltar el archivo (los fondos de pantalla no deberían estar dentro de un archivo) en cualquier lugar de la ventana principal, y si es posible, el archivo  de tema, etc, será instalado en el lugar correcto; todas las instalaciones son locales, los tipos de archivo soportados son: "*.tgz", "*.gz", "*.zip.", "*.tar.", "*.bz2."; los tipos de fondos de pantalla soportados son: "*.jpg", "*.png"," *.bmp"," *.gif". Cualquier otra cosa tendrá que instalarla usted mismo.
 
 Las miniaturas se almacenan en ${HOME}/.config/XfceThemeManager.
 
@@ -92,7 +93,13 @@ La interfaz gráfica de usuario puede ser instalada manualmente y/o ejecutada de
 
 No hay ningún script de configuración ya que el makefile es muy simple. Por defecto se instala en /usr/local/bin; esto se puede cambiar mediante el establecimiento de la variable PREFIX antes de make install (PREFIX="/usr" make install).
 
-Si usted tiene un gestor de paquetes basado en fuentes, como slackware, los archivos dev para glib, etc, ya deberían estar instalados. Si usted está usando una instalación basada en Debian tal vez tenga que instalar los paquetes dev, probablemente algo a lo largo de las líneas de glib2-dev/gdk2-dev. Consulte la documentación de instalación para más detalles.
+Si usted tiene un gestor de paquetes basado en fuentes, como slackware, los archivos dev para glib, etc, ya deberían estar instalados. Si usted está usando una instalación basada en Debian tal vez tenga que instalar los paquetes dev también. Desde una terminal, para un sistema limpio, escriba:
+
+sudo apt-get update
+sudo apt-get install build-essential glib-2.0-dev libgtk2.0-dev libxfce4ui-1-dev
+
+Revise su documentación de instalación para más detalles, pero esto funciona sobre una versión limpia de Xubuntu-12.10. Otras distribuciones basadas en Debian debieran funcionar igual.
+Quizás deba acceder a xfce-theme-manager por medio del Administrador de Configuración en el Menú Principal.
 
 Es posible que tenga que ejecutar xfce4-panel --restart para ver el menú de Xfce-theme-manager en la configuración.
 
