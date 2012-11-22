@@ -299,7 +299,9 @@ int main(int argc,char **argv)
 			return 0;
 		}
 
+#if GLIB_MINOR_VERSION < PREFERVERSION
 	g_thread_init(NULL);
+#endif
 	gdk_threads_init();
 	gtk_init(&argc, &argv);
 
@@ -314,7 +316,13 @@ int main(int argc,char **argv)
 
 			gdk_threads_enter();
 				g_timeout_add (100, updateBarTimer, NULL);
+
+#if GLIB_MINOR_VERSION < PREFERVERSION
 				g_thread_create(rebuildDB,(void*)0,false,NULL);
+#else
+				g_thread_new("redo",rebuildDB,NULL);
+#endif
+
 				gtk_main();
 			gdk_threads_leave();
 			gtk_widget_destroy(progressWindow);

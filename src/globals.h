@@ -17,6 +17,7 @@
 #define MAXBOXWIDTH 240
 #define ICONSIZE 32
 #define ICONPAD 8
+#define PREFERVERSION 34
 
 #define DELETETHEME 100
 
