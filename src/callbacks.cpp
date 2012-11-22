@@ -441,6 +441,7 @@ void dropUri(GtkWidget *widget,GdkDragContext *context,gint x,gint y,GtkSelectio
 	const char*	ziptype[]={".tgz",".gz",".zip",".tar",".bz2",NULL};
 	const char* pictype[]={".jpg",".png",".bmp",".gif",NULL};
 	bool		doupdate=false;
+	gchar*	lowername=NULL;
 
 //make sure folders are there
 //themes
@@ -457,30 +458,34 @@ void dropUri(GtkWidget *widget,GdkDragContext *context,gint x,gint y,GtkSelectio
 	for(int j=0;j<cnt;j++)
 		{
 			filename=g_filename_from_uri(array[j],NULL,NULL);
+			lowername=g_ascii_strdown(filename,-1);
 			for(int k=0;k<5;k++)
 				{
-					if(g_str_has_suffix(filename,ziptype[k]))
+					if(g_str_has_suffix(lowername,ziptype[k]))
 						{
 							doupdate=extractAndInstall(filename);
 							break;
 						}
 				}
 			freeAndNull(&filename);
+			freeAndNull(&lowername);
 		}
 
 //pics
 	for(int j=0;j<cnt;j++)
 		{
 			filename=g_filename_from_uri(array[j],NULL,NULL);
+			lowername=g_ascii_strdown(filename,-1);
 			for(int k=0;k<4;k++)
 				{
-					if(g_str_has_suffix(filename,pictype[k]))
+					if(g_str_has_suffix(lowername,pictype[k]))
 						{
 							doupdate=installWallpaper(filename);
 							break;
 						}
 				}
 			freeAndNull(&filename);
+			freeAndNull(&lowername);
 		}
 
 	g_strfreev(array);
