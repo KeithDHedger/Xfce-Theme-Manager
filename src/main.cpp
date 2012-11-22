@@ -442,13 +442,5 @@ int main(int argc,char **argv)
 	gtk_widget_show_all(window);
 	gtk_main();
 }
-//
-//gtkprev [border] /path/to/border /out/path/to/png
-//gtkprev [controls] gtkthemename /out/path/to/png
-//gtkprev [theme] gtkthemename /path/to/border /out/path/to/png
-//gtkprev [cursors] cursortheme /out/path/to/png
-//gtkprev [icons] icontheme /out/path/to/png
-//gtkprev [custom] gtkthemename cursortheme icontheme /path/to/border /out/path/to/png
-//gtkprev [fontpicker] "fontname"
 
 
