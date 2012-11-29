@@ -1,0 +1,161 @@
+.\" Hey, EMACS: -*- nroff -*-
+.\" First parameter, NAME, should be all caps
+.\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
+.\" other parameters are allowed: see man(7), man(1)
+.\" Please adjust this date whenever revising the manpage.
+.\" 
+.\" Some roff macros, for reference:
+.\" .nh        disable hyphenation
+.\" .hy        enable hyphenation
+.\" .ad l      left justify
+.\" .ad b      justify to both left and right margins
+.\" .nf        disable filling
+.\" .fi        enable filling
+.\" .br        insert line break
+.\" .sp <n>    insert n+1 empty lines
+.\" for manpage-specific macros, see man(7)
+.TH "XFCE-THEME-MANAGER" "1" "Nov 25, 2012" "" ""
+.SH "NAME"
+xfce\-theme\-manager \- A theme manager for Xfce
+.SH "SYNOPSIS"
+.B xfce\-theme\-manager
+.RI [\-m]
+.RI [\-u]
+.br 
+.PP 
+\-m force a make of all the thumbnails for meta\-themes/frames/controls/cursors 
+and icons.
+
+\-u just build misssing thumbnails
+.br 
+.SH "DESCRIPTION"
+This manual page documents briefly
+.B xfce\-theme\-manager.
+.PP 
+.\" TeX users may be more comfortable with the \fB<whatever>\fP and
+.\" \fI<whatever>\fP escape sequences to invode bold face and italics,
+.\" respectively.
+xfce\-theme\-manager is a theme manager allowing easy configuration of themes, 
+window borders, controls, icons and cursors for Xfce 
+
+.br 
+.SH "OPERATION"
+.PP 
+When xfce\-theme\-manager starts, the user can do any of the following
+
+.B [Reset Theme]
+
+Discard all changes.
+
+.B [Custom Theme]
+
+Enter a custom theme name to save/delete, you can also quickly delete a custom
+theme by control\-clicking a custom theme thumbnail.
+
+.B [Advanced Tab]
+
+.B [About]
+
+Credits and stuff.
+
+
+.B [Rebuild DB]
+
+Rebuild the database.
+
+.B [Xfce\-Composite\-Editor]
+
+Run the composit editor (if installed).
+
+Available here:
+
+http://keithhedger.hostingsiteforfree.com/zips/Xfce4\-Composite\-Editor.tar.gz
+
+You need to have gtkdialog version 0.8.x and BASH installed.
+
+.B [Backdrop Adjustments]
+
+Set Brightness/Saturation of the wallpaper.
+
+.B [Button Layout]
+
+The layout of close, maximize etc. (some themes may overide this).
+
+.B [Title Position]
+
+Placement of the window title, (some themes may overide this).
+
+.B [Font Selection]
+
+Title bar/application font.
+
+.B [Cursor Size]
+
+Set the cursor size if the cursor theme suports it, some do some don't.
+
+.B [View Options]
+
+.B [Show system Themes]
+
+Show globally installed theme parts.
+
+.B [Only show Custom Themes]
+
+Only shows meta themes that you have created, auto generated meta themes
+are not shown.
+
+.B [Themes]
+
+Show globally installed meta themes.
+
+.B [Window Borders]
+
+Show globally installed Xwm4 themes.
+
+.B [Controls]
+
+Show globally installed Gtk themes.
+
+.B [Icons]
+
+Show globally installed icon themes.
+
+.B [Cursors]
+
+Show globally installed mouse themes.
+
+.B [Wallpapers]
+
+Show globally installed wallpapers.
+
+Locally installed themes parts are always shown except for meta themes if the 
+[Only show Custom Themes] is checked.
+
+You can quickly delete a custom theme by holding control and clicking on the
+thumbnail, only custom themes you have created can be deleted and only 
+the database entry is removed nothing is uninstalled from your system.
+
+To install a theme/gtk/icon/cursor/border/wallpaper just drag and drop 
+the archive (wallpapers should not be archived) anywhere on the main window
+and if posible the theme etc will be installed into the correct place, 
+all installations are local, supported archive types are: "*.tgz","*.gz","*.zip","*.ta r","*.bz2", supported wallpaper types are: "*.jpg","*.png","*.bmp","*.gif"
+anything else you will have to install yourself.
+
+The thumbnails are stored in ${HOME}/.config/XfceThemeManager.
+
+The first time you use Xfce\-Theme\-Manager you should either run it from the
+command line with the \-m switch or click on the "Rebuld DB" button, 
+the first build of the DB can take a while
+
+The DB is updated automatically on drag'n'drop, if you do a lot of adding and
+removeing of themes/icons etc you may want to run Re\-build DB from 
+the advanced tab.
+
+Meta Themes are themes that contain a gtk2 folder and an xfwm4 folder (ie window frames and controls), if their is a gnome\-like theme.index file that also
+specifies an icon set this will be used as well.
+.br 
+.SH "AUTHOR"
+xfce\-theme\-manager was written by Keith Hedger
+.PP 
+This manual page was written by Eduardo Echeverria <echevemaster@gmail.com>,
+for the Fedora project (and may be used by others), Amended by Keith Hedger.
