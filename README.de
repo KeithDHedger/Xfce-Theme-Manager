@@ -38,13 +38,13 @@ xfce-theme-manager [-m] [-u]
 
 [Erweitert-Register]
 	[Infos]
-		Credits und so.
+		Credits usw.
 	[DB erneuern]
-		Erstellen Sie die Datenbank.
+		Erstellt die Datenbank neu.
 	[Xfce-Composite-Editor]
-		Ausführen des Xfce-Composite-Editors (falls installiert, siehe oben).
+		Startet den Xfce-Composite-Editor (falls installiert, siehe oben).
 	[Hintergrund-Anpassung]
-		Stelle Helligkeit/Sättigung des Hintergrunds ein.
+		Helligkeit/Sättigung des Hintergrunds anpassen.
 	[Anordnung der Schaltflächen]
 		Position der Schaltflächen (Schließen, Maximieren, etc.) einstellen.
 	[Position des Fenstertitels]
@@ -55,23 +55,25 @@ xfce-theme-manager [-m] [-u]
 		Größe des Mauszeigers einstellen (manche Oberflächen ignorieren diese Einstellung).
 	[Anzeige-Optionen]
 		[Zeige System-Oberflächen]
-			Zeige systemweit installierte Oberflächen.
+			Zeigt systemweit installierte Oberflächen.
 		[Nur benutzerdefinierte Oberflächen anzeigen]
 			Zeigt nur Meta-Oberflächen, die Sie erstellt haben. Automatisch erstellte Meta-Oberflächen werden nicht gezeigt.
 		[Oberflächen]
-			Zeige systemweit installierte Meta-Oberflächen.
+			Zeigt systemweit installierte Meta-Oberflächen.
 		[Fensterrahmen]
-			Zeige systemweit installierte Xfwm4-Oberflächen.
+			Zeigt systemweit installierte Xfwm4-Oberflächen.
 		[Steuerelemente]
-			Zeige systemweit installierte Gtk-Oberflächen.
+			Zeigt systemweit installierte Gtk-Oberflächen.
 		[Symbole]
-			Zeige systemweit installierte Icons.
+			Zeigt systemweit installierte Icons.
 		[Mauszeiger]
-			Zeige systemweit installierte Mauszeiger.
+			Zeigt systemweit installierte Mauszeiger.
 		[Hintergründe]
-			Zeige systemweit installierte Hintegrundbilder.
+			Zeigt systemweit installierte Hintegrundbilder.
 
 Lokal installierte Oberflächen werden immer gezeigt. Ausnahme: Meta-Oberflächen, falls [Nur benutzerdefinierte Oberflächen anzeigen] ausgewählt ist.
+
+Sie können eine benutzerdefinierte Oberfläche schnell entfernen, indem sie STRG gedrückt halten und auf das Vorschaubild klicken. Nur von Ihnen erstellte benutzerdefinierte Oberflächen können gelöscht werden. Die Oberfläche wird dabei nicht von der Festplatte gelöscht, sondern lediglich aus der Datenbank entfernt.
 
 Um Oberflächen/Gtk-Oberflächen/Symbole/Mauszeiger/Fensterrahmen/Hintergrundbilder zu installieren, ziehen Sie die Archivdatei (Hintergrundbilder sollten nicht archiviert sein) irgendwo in das Hauptfenster. Wenn möglich, wird die Oberfläche etc. am richtigen Ort (immer lokal) installiert. 
 Unterstützte Archiv-Typen sind: *.tgz, *.gz, *.zip, *.tar, *.bz2,
@@ -106,7 +108,7 @@ Möglicherweise müssen Sie den xfce-theme-manager über das Einstellungs-Menü 
 
 Eventuell müssen Sie xfce4-panel --restart ausführen, bevor Sie das Xfce-Theme-Manager-Symbol im Einstellungs-Menü sehen.
 
-Wenn Sie von einer älteren Version des Xfce-Theme-Manager upgraden, legen Sie bitte die Datenbank neu an (Registerkarte "Erweitert").
+Wenn Sie von einer älteren Version des Xfce-Theme-Manager aktualisieren, legen Sie bitte die Datenbank neu an (Registerkarte "Erweitert").
 
 ***************************************
 BUGS:
