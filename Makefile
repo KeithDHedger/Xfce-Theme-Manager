@@ -23,16 +23,17 @@ $(PROGRAM):$(SOURCES)
 	strip $(PROGRAM)
 
 install:
-	mkdir -p $(DESTDIR)$(PREFIX)/bin $(DESTDIR)$(PREFIX)/share/applications $(DESTDIR)$(PREFIX)/share/pixmaps $(DESTDIR)$(PREFIX)share/man/man1 $(DESTDIR) $(PREFIX)share/man/es/man1 $(DESTDIR)$(PREFIX)share/man/de/man1
+	mkdir -p $(DESTDIR)$(PREFIX)/bin $(DESTDIR)$(PREFIX)/share/applications $(DESTDIR)$(PREFIX)/share/pixmaps $(DESTDIR)$(PREFIX)/share/man/man1
+	mkdir -p $(DESTDIR)$(PREFIX)/share/man/es/man1 $(DESTDIR)$(PREFIX)/share/man/de/man1
 	rm $(PROGRAM)||true
 	g++ $(SOURCES) $(CXXFLAGS) -o $(PROGRAM)
 	strip $(PROGRAM)
 	cp -p $(PROGRAM) $(DESTDIR)$(PREFIX)/bin
 	cp $(LAUNCHER) $(DESTDIR)$(PREFIX)/share/applications
 	cp $(PROGRAM).png $(DESTDIR)$(PREFIX)/share/pixmaps
-	cp $(PROGRAM).1 $(DESTDIR)$(PREFIX)share/man/man1
-	cp $(PROGRAM).1.es $(DESTDIR)$(PREFIX)share/man/es/man1/$(PROGRAM).1
-	cp $(PROGRAM).1.de $(DESTDIR)$(PREFIX)share/man/de/man1/$(PROGRAM).1
+	cp $(PROGRAM).1 $(DESTDIR)$(PREFIX)/share/man/man1
+	cp $(PROGRAM).1.es $(DESTDIR)$(PREFIX)/share/man/es/man1/$(PROGRAM).1
+	cp $(PROGRAM).1.de $(DESTDIR)$(PREFIX)/share/man/de/man1/$(PROGRAM).1
 
 uninstall:
 	rm $(DESTDIR)$(PREFIX)/bin/$(PROGRAM) $(DESTDIR)$(PREFIX)/share/applications/$(LAUNCHER) $(DESTDIR)$(PREFIX)/share/pixmaps/$(PROGRAM).png

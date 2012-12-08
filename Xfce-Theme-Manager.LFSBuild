@@ -3,20 +3,29 @@
 . /usr/share/LFSPkg/LFSFunctions
 
 NAME="Xfce-Theme-Manager"
-VERSION="0.1.18"
+VERSION="0.1.20"
 BUILD=1
-SECTION="SYS"
+SECTION="XFCE"
 SUFFIX="LFSPKG"
 TARBALL="${NAME}-${VERSION}.tar.gz"
 PKG="${TMP}/${NAME}"
-UPGRADE=${UPGRADE:-"no"}
 export OUTPUT TMP
 
+if [ ! -d "$TMP" ];then
+	TMP=/tmp
+fi
+
+if [ ! -d "$OUTPUT" ];then
+	OUTPUT=$TMP
+fi
+
+DOWHAT=${1:-"install"}
+rm -rf "$PKG" || true
 mkdir -p "$PKG"
 tar -xvf "$TARBALL"
 
-pushd "${NAME}-${VERSION}"	
-	make install DESTDIR=$PKG  PREFIX=/usr|| exit 1
+pushd "${NAME}-${VERSION}"
+	make install DESTDIR=$PKG || exit 1
 popd
 
 checketc $PKG
@@ -26,10 +35,16 @@ pushd "$PKG"
 	/usr/bin/lfspkg -n "$NAME" -p "$VERSION" -d $SECTION -b $BUILD -s $SUFFIX -m
 popd
 
-if [ "X$UPGRADE" = "Xno" ];then
-	lfspkg "${OUTPUT}/${NAME}-${VERSION}-${BUILD}_${SECTION}_${SUFFIX}.tar.gz" -i
-else
-	lfspkg "$NAME" "${OUTPUT}/${NAME}-${VERSION}-${BUILD}_${SECTION}_${SUFFIX}.tar.gz" -u
-fi
+case $DOWHAT in
+	"upgrade")
+		lfspkg "$NAME" "${OUTPUT}/${NAME}-${VERSION}-${BUILD}_${SECTION}_${SUFFIX}.tar.gz" -u
+		;;
+	"install")
+		lfspkg "${OUTPUT}/${NAME}-${VERSION}-${BUILD}_${SECTION}_${SUFFIX}.tar.gz" -i
+		;;
+	*)
+		echo "*** Unknown command ***"
+		exit 1
+esac
 
 rm -r "$PKG" "${NAME}-${VERSION}"
