@@ -37,6 +37,7 @@ install:
 
 uninstall:
 	rm $(DESTDIR)$(PREFIX)/bin/$(PROGRAM) $(DESTDIR)$(PREFIX)/share/applications/$(LAUNCHER) $(DESTDIR)$(PREFIX)/share/pixmaps/$(PROGRAM).png
+	rm $(DESTDIR)$(PREFIX)/share/man/de/man1/$(PROGRAM).1 $(DESTDIR)$(PREFIX)/share/man/es/man1/$(PROGRAM).1 $(DESTDIR)$(PREFIX)/share/man/man1/$(PROGRAM).1
 
 clean:
 	rm $(PROGRAM)
