@@ -1,7 +1,6 @@
 PROGRAM=xfce-theme-manager
 SOURCES=src/main.cpp src/globals.cpp src/database.cpp src/thumbnails.cpp src/gui.cpp src/callbacks.cpp
 VERSION=0.1.20
-
 LAUNCHER=Xfce-Theme-Manager.desktop
 
 ifeq ($(strip $(PREFIX)),)
@@ -24,13 +23,16 @@ $(PROGRAM):$(SOURCES)
 	strip $(PROGRAM)
 
 install:
-	mkdir -p $(DESTDIR)$(PREFIX)/bin $(DESTDIR)$(PREFIX)/share/applications $(DESTDIR)$(PREFIX)/share/pixmaps
+	mkdir -p $(DESTDIR)$(PREFIX)/bin $(DESTDIR)$(PREFIX)/share/applications $(DESTDIR)$(PREFIX)/share/pixmaps $(DESTDIR)$(PREFIX)share/man/man1 $(DESTDIR) $(PREFIX)share/man/es/man1 $(DESTDIR)$(PREFIX)share/man/de/man1
 	rm $(PROGRAM)||true
 	g++ $(SOURCES) $(CXXFLAGS) -o $(PROGRAM)
 	strip $(PROGRAM)
 	cp -p $(PROGRAM) $(DESTDIR)$(PREFIX)/bin
 	cp $(LAUNCHER) $(DESTDIR)$(PREFIX)/share/applications
 	cp $(PROGRAM).png $(DESTDIR)$(PREFIX)/share/pixmaps
+	cp $(PROGRAM).1 $(DESTDIR)$(PREFIX)share/man/man1
+	cp $(PROGRAM).1.es $(DESTDIR)$(PREFIX)share/man/es/man1/$(PROGRAM).1
+	cp $(PROGRAM).1.de $(DESTDIR)$(PREFIX)share/man/de/man1/$(PROGRAM).1
 
 uninstall:
 	rm $(DESTDIR)$(PREFIX)/bin/$(PROGRAM) $(DESTDIR)$(PREFIX)/share/applications/$(LAUNCHER) $(DESTDIR)$(PREFIX)/share/pixmaps/$(PROGRAM).png
@@ -40,7 +42,7 @@ clean:
 
 pkg:
 	mkdir Xfce-Theme-Manager-$(VERSION)
-	cp -r src Xfce-Theme-Manager.desktop README README.de README.es Makefile $(PROGRAM).png ChangeLog gpl-3.0.txt Xfce-Theme-Manager-$(VERSION)
+	cp -r src $(PROGRAM).1 $(PROGRAM).1.es $(PROGRAM).1.de Xfce-Theme-Manager.desktop README README.de README.es Makefile $(PROGRAM).png ChangeLog gpl-3.0.txt Xfce-Theme-Manager-$(VERSION)
 	tar --exclude .svn -cvzf Xfce-Theme-Manager-$(VERSION).tar.gz Xfce-Theme-Manager-$(VERSION)
 	rm -r Xfce-Theme-Manager-$(VERSION)
 
