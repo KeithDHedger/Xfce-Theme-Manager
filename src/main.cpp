@@ -377,7 +377,8 @@ int main(int argc,char **argv)
  
 //pages
 	label=gtk_label_new(_translate(THEMES));
-	gtk_notebook_append_page(notebook,themesScrollBox,label);
+	//gtk_notebook_append_page(notebook,themesScrollBox,label);
+	gtk_notebook_append_page(notebook,themesVBox,label);
 
 	label=gtk_label_new(_translate(WMBORDERS));
 	gtk_notebook_append_page(notebook,framesScrollBox,label);

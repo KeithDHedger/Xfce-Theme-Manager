@@ -108,6 +108,68 @@ gint sortFunc(gconstpointer a,gconstpointer b)
 	return(g_ascii_strcasecmp((const char*)a,(const char*)b));
 }
 
+enum {PIXBUF_COLUMN,TEXT_COLUMN};
+ 
+void fill_meta(GtkListStore *store,const char* subfolder)
+{
+	GtkTreeIter	iter;
+	GdkPixbuf*	pixbuf;
+	GdkPixbuf*	star;
+
+	char*			foldername;
+	GDir*			folder;
+	const gchar*	entry;
+	char*			entryname;
+
+	asprintf(&foldername,"%s/.config/XfceThemeManager/%s",homeFolder,subfolder);
+	folder=g_dir_open(foldername,0,NULL);
+	if(folder!=NULL)
+		{
+			entry=g_dir_read_name(folder);
+			while(entry!=NULL)
+				{
+					if(strstr(entry,".png"))
+						{
+							asprintf(&entryname,"%s/%s",foldername,entry);
+							gtk_list_store_append (store, &iter);
+							pixbuf = gdk_pixbuf_new_from_file_at_size(entryname,128,-1,NULL);
+							gtk_list_store_set (store, &iter, PIXBUF_COLUMN, pixbuf, TEXT_COLUMN,entry, -1);
+							g_object_unref (pixbuf);
+							freeAndNull(&entryname);
+							//printf("%s\n",entryname);
+						}
+					entry=g_dir_read_name(folder);
+				}
+			g_dir_close(folder);
+		}
+
+//	gtk_list_store_append (store, &iter);
+//	pixbuf = gdk_pixbuf_new_from_file ("file1.png", NULL);
+//	gtk_list_store_set (store, &iter, PIXBUF_COLUMN, pixbuf, TEXT_COLUMN, "Icon 1", -1);
+//	g_object_unref (pixbuf);
+}
+
+void addNewIcons(GtkWidget* vbox,const char* subfolder,void* callback)
+{
+	GtkWidget*		icon_view;
+	GtkListStore*	store;
+
+	icon_view = gtk_icon_view_new ();
+	store = gtk_list_store_new (2, GDK_TYPE_PIXBUF, G_TYPE_STRING);
+
+	gtk_icon_view_set_pixbuf_column (GTK_ICON_VIEW (icon_view), PIXBUF_COLUMN);
+	gtk_icon_view_set_text_column (GTK_ICON_VIEW (icon_view), TEXT_COLUMN);
+
+	gtk_icon_view_set_model (GTK_ICON_VIEW (icon_view), GTK_TREE_MODEL (store));
+
+	fill_meta(store,subfolder);
+	gtk_container_add((GtkContainer*)vbox,(GtkWidget*)icon_view);
+	//gtk_widget_set_size_request((GtkWidget*)icon_view,800,800);
+  //gtk_window_set_default_size((GtkWidget*)icon_view,800,800);
+	//gtk_box_pack_start((GtkBox*)vbox,(GtkWidget*)icon_view,true,true,4);
+	//gtk_box_pack_start((GtkBox*)vbox,button,false,true,4);
+}
+
 void addNewButtons(GtkWidget* vbox,const char* subfolder,void* callback)
 {
 	char*		foldername;
@@ -225,9 +287,10 @@ void buildPages(void)
 	GtkWidget*	wallscroll;
 
 	themesVBox=gtk_vbox_new(FALSE, 0);
-	addNewButtons(themesVBox,"custom",(void*)doMeta);
-	addNewButtons(themesVBox,"meta",(void*)doMeta);
-	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)themesScrollBox,themesVBox);
+
+	addNewIcons(themesScrollBox,"meta",(void*)doMeta);
+	gtk_box_pack_start ((GtkBox*)themesVBox, themesScrollBox, TRUE, TRUE, 0);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (themesScrollBox), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
 	framesVBox=gtk_vbox_new(FALSE, 0);
 	addNewButtons(framesVBox,"frames",(void*)doFrame);
