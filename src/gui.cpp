@@ -103,23 +103,63 @@ void freeNames(gpointer data)
 
 gint sortFunc(gconstpointer a,gconstpointer b)
 {
-//	if ((a==NULL) || (b==NULL))
-//		return(0);
 	return(g_ascii_strcasecmp((const char*)a,(const char*)b));
 }
 
 enum {PIXBUF_COLUMN,TEXT_COLUMN};
- 
-void fill_meta(GtkListStore *store,const char* subfolder)
+int size=128;
+
+void addIconEntry(GtkListStore *store,const char* iconPng,const char* iconName)
 {
 	GtkTreeIter	iter;
 	GdkPixbuf*	pixbuf;
-	GdkPixbuf*	star;
 
-	char*			foldername;
-	GDir*			folder;
+	gtk_list_store_append(store,&iter);
+	pixbuf=gdk_pixbuf_new_from_file_at_size(iconPng,size,-1,NULL);
+	gtk_list_store_set(store,&iter,PIXBUF_COLUMN,pixbuf,TEXT_COLUMN,iconName,-1);
+	g_object_unref(pixbuf);
+}
+
+void addNewIcons(GtkWidget* vbox,const char* subfolder,void* callback)
+{
+	char*		foldername;
+	char*		filename;
 	const gchar*	entry;
-	char*			entryname;
+	GDir*		folder;
+	GKeyFile*	keyfile=g_key_file_new();
+	char*		name;
+	char*		thumb;
+	char*		themename=NULL;
+	GtkWidget*	button;
+	GtkWidget*	box;
+
+	GSList *	entrylist=NULL;
+	char*		entryname;
+	bool		flag=false;
+
+	GtkWidget*		icon_view;
+	GtkListStore*	store;
+
+	int			itemSize=0;
+
+	icon_view=gtk_icon_view_new ();
+	store = gtk_list_store_new (2, GDK_TYPE_PIXBUF, G_TYPE_STRING);
+
+
+	if(size<=64)
+		itemSize=size+(size/2);
+	else
+		itemSize=-1;
+
+//	gtk_icon_view_set_item_padding((GtkIconView *)icon_view,0);
+	gtk_icon_view_set_item_width((GtkIconView *)icon_view,itemSize);
+
+	gtk_icon_view_set_pixbuf_column (GTK_ICON_VIEW (icon_view), PIXBUF_COLUMN);
+	gtk_icon_view_set_text_column (GTK_ICON_VIEW (icon_view), TEXT_COLUMN);
+
+	gtk_icon_view_set_model (GTK_ICON_VIEW (icon_view), GTK_TREE_MODEL (store));
+
+	gtk_container_add((GtkContainer*)vbox,(GtkWidget*)icon_view);
 
 	asprintf(&foldername,"%s/.config/XfceThemeManager/%s",homeFolder,subfolder);
 	folder=g_dir_open(foldername,0,NULL);
@@ -128,47 +168,71 @@ void fill_meta(GtkListStore *store,const char* subfolder)
 			entry=g_dir_read_name(folder);
 			while(entry!=NULL)
 				{
-					if(strstr(entry,".png"))
-						{
-							asprintf(&entryname,"%s/%s",foldername,entry);
-							gtk_list_store_append (store, &iter);
-							pixbuf = gdk_pixbuf_new_from_file_at_size(entryname,128,-1,NULL);
-							gtk_list_store_set (store, &iter, PIXBUF_COLUMN, pixbuf, TEXT_COLUMN,entry, -1);
-							g_object_unref (pixbuf);
-							freeAndNull(&entryname);
-							//printf("%s\n",entryname);
-						}
+				flag=false;
+				if(strstr(entry,".db"))
+					{
+						if (showGlobal==1)
+							{
+								if (showOnlyCustom==0)
+									{
+										if ((strcmp(subfolder,"meta")==0 && showMeta==1) || entry[0]=='0' )
+											flag=true;
+									}
+								if ((strcmp(subfolder,"controls")==0 && showGtk==1) || (strcmp(subfolder,"controls")==0 && entry[0]=='0'))
+									flag=true;
+								if ((strcmp(subfolder,"cursors")==0 && showCursors==1) || (strcmp(subfolder,"cursors")==0 && entry[0]=='0'))
+									flag=true;
+								if ((strcmp(subfolder,"frames")==0 && showDecs==1) || (strcmp(subfolder,"frames")==0 && entry[0]=='0'))
+									flag=true;
+								if ((strcmp(subfolder,"icons")==0 && showIcons==1) || (strcmp(subfolder,"icons")==0 && entry[0]=='0'))
+									flag=true;
+								if ((strcmp(subfolder,"wallpapers")==0 && showBackdrop==1) || (strcmp(subfolder,"wallpapers")==0 && entry[0]=='0'))
+									flag=true;
+								if (strcmp(subfolder,"custom")==0)
+									flag=true;
+							}
+						else
+							{
+								if (entry[0]=='0')
+									flag=true;
+								if ((strcmp(subfolder,"meta")==0 && showOnlyCustom==1))
+									flag=false;
+								if (strcmp(subfolder,"custom")==0)
+									flag=true;
+							}
+
+						if (flag==true)
+							{
+								asprintf(&entryname,"%s",entry);
+								entrylist=g_slist_prepend(entrylist,(void*)entryname);
+							}
+					}
 					entry=g_dir_read_name(folder);
 				}
 			g_dir_close(folder);
 		}
 
-//	gtk_list_store_append (store, &iter);
-//	pixbuf = gdk_pixbuf_new_from_file ("file1.png", NULL);
-//	gtk_list_store_set (store, &iter, PIXBUF_COLUMN, pixbuf, TEXT_COLUMN, "Icon 1", -1);
-//	g_object_unref (pixbuf);
+	if(entrylist!=NULL)
+		{
+			entrylist=g_slist_sort(entrylist,sortFunc);
+
+			for (int j=0;j<(int)g_slist_length(entrylist);j++)
+				{
+					asprintf(&filename,"%s/.config/XfceThemeManager/%s/%s",homeFolder,subfolder,(char*)g_slist_nth_data(entrylist,j));
+					if(g_key_file_load_from_file(keyfile,filename,G_KEY_FILE_NONE,NULL))
+						{
+							name=g_key_file_get_string(keyfile,"Data","Name",NULL);
+							thumb=g_key_file_get_string(keyfile,"Data","Thumbnail",NULL);
+							addIconEntry(store,thumb,name);
+							freeAndNull(&name);
+							freeAndNull(&thumb);
+						}
+			 	}
+			g_slist_free_full(entrylist,freeNames);
+		}
+	g_key_file_free(keyfile);
 }
 
-void addNewIcons(GtkWidget* vbox,const char* subfolder,void* callback)
-{
-	GtkWidget*		icon_view;
-	GtkListStore*	store;
-
-	icon_view = gtk_icon_view_new ();
-	store = gtk_list_store_new (2, GDK_TYPE_PIXBUF, G_TYPE_STRING);
-
-	gtk_icon_view_set_pixbuf_column (GTK_ICON_VIEW (icon_view), PIXBUF_COLUMN);
-	gtk_icon_view_set_text_column (GTK_ICON_VIEW (icon_view), TEXT_COLUMN);
-
-	gtk_icon_view_set_model (GTK_ICON_VIEW (icon_view), GTK_TREE_MODEL (store));
-
-	fill_meta(store,subfolder);
-	gtk_container_add((GtkContainer*)vbox,(GtkWidget*)icon_view);
-	//gtk_widget_set_size_request((GtkWidget*)icon_view,800,800);
-  //gtk_window_set_default_size((GtkWidget*)icon_view,800,800);
-	//gtk_box_pack_start((GtkBox*)vbox,(GtkWidget*)icon_view,true,true,4);
-	//gtk_box_pack_start((GtkBox*)vbox,button,false,true,4);
-}
 
 void addNewButtons(GtkWidget* vbox,const char* subfolder,void* callback)
 {
@@ -286,30 +350,41 @@ void buildPages(void)
 	GtkWidget*	vbox;
 	GtkWidget*	wallscroll;
 
-	themesVBox=gtk_vbox_new(FALSE, 0);
-
+	themesScrollBox=gtk_scrolled_window_new(NULL,NULL);
+	if (themesVBox==NULL)
+		themesVBox=gtk_vbox_new(FALSE, 0);
 	addNewIcons(themesScrollBox,"meta",(void*)doMeta);
 	gtk_box_pack_start ((GtkBox*)themesVBox, themesScrollBox, TRUE, TRUE, 0);
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (themesScrollBox), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (themesScrollBox), GTK_SHADOW_ETCHED_IN);
-gtk_widget_show (themesScrollBox);
+	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(themesScrollBox),GTK_POLICY_AUTOMATIC,GTK_POLICY_AUTOMATIC);
 
+	framesScrollBox=gtk_scrolled_window_new(NULL,NULL);
+	if (framesVBox==NULL)
+		framesVBox=gtk_vbox_new(FALSE, 0);
+	addNewIcons(framesScrollBox,"frames",(void*)doMeta);
+	gtk_box_pack_start ((GtkBox*)framesVBox, framesScrollBox, TRUE, TRUE, 0);
+	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(framesScrollBox),GTK_POLICY_AUTOMATIC,GTK_POLICY_AUTOMATIC);
 
-	framesVBox=gtk_vbox_new(FALSE, 0);
-	addNewButtons(framesVBox,"frames",(void*)doFrame);
-	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)framesScrollBox,framesVBox);
+	controlsScrollBox=gtk_scrolled_window_new(NULL,NULL);
+	if (controlsVBox==NULL)
+		controlsVBox=gtk_vbox_new(FALSE, 0);
+	addNewIcons(controlsScrollBox,"controls",(void*)doMeta);
+	gtk_box_pack_start ((GtkBox*)controlsVBox,controlsScrollBox, TRUE, TRUE, 0);
+	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(controlsScrollBox),GTK_POLICY_AUTOMATIC,GTK_POLICY_AUTOMATIC);
 
-	controlsVBox=gtk_vbox_new(FALSE, 0);
-	addNewButtons(controlsVBox,"controls",(void*)doControls);
-	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)controlsScrollBox,controlsVBox);
+	iconsScrollBox=gtk_scrolled_window_new(NULL,NULL);
+	if (iconsVBox==NULL)
+		iconsVBox=gtk_vbox_new(FALSE, 0);
+	addNewIcons(iconsScrollBox,"icons",(void*)doMeta);
+	gtk_box_pack_start ((GtkBox*)iconsVBox,iconsScrollBox, TRUE, TRUE, 0);
+	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(iconsScrollBox),GTK_POLICY_AUTOMATIC,GTK_POLICY_AUTOMATIC);
 
-	iconsVBox=gtk_vbox_new(FALSE, 0);
-	addNewButtons(iconsVBox,"icons",(void*)doIcons);
-	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)iconsScrollBox,iconsVBox);
+	cursorsScrollBox=gtk_scrolled_window_new(NULL,NULL);
+	if (cursorsVBox==NULL)
+		cursorsVBox=gtk_vbox_new(FALSE, 0);
+	addNewIcons(cursorsScrollBox,"cursors",(void*)doMeta);
+	gtk_box_pack_start ((GtkBox*)cursorsVBox,cursorsScrollBox, TRUE, TRUE, 0);
+	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(cursorsScrollBox),GTK_POLICY_AUTOMATIC,GTK_POLICY_AUTOMATIC);
 
-	cursorsVBox=gtk_vbox_new(FALSE, 0);
-	addNewButtons(cursorsVBox,"cursors",(void*)doCursors);
-	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)cursorsScrollBox,cursorsVBox);
 
 	wallscroll=gtk_scrolled_window_new(NULL,NULL);
 	wallpapersVBox=gtk_vbox_new(FALSE, 0);

@@ -351,11 +351,11 @@ int main(int argc,char **argv)
 
 //main window vbox
 
-	themesScrollBox=gtk_scrolled_window_new(NULL,NULL);
-	framesScrollBox=gtk_scrolled_window_new(NULL,NULL);
-	controlsScrollBox=gtk_scrolled_window_new(NULL,NULL);
-	iconsScrollBox=gtk_scrolled_window_new(NULL,NULL);
-	cursorsScrollBox=gtk_scrolled_window_new(NULL,NULL);
+//	themesScrollBox=gtk_scrolled_window_new(NULL,NULL);
+//	framesScrollBox=gtk_scrolled_window_new(NULL,NULL);
+//	controlsScrollBox=gtk_scrolled_window_new(NULL,NULL);
+//	iconsScrollBox=gtk_scrolled_window_new(NULL,NULL);
+//	cursorsScrollBox=gtk_scrolled_window_new(NULL,NULL);
 	wallpapersMainBox=gtk_vbox_new(false, 0);
 	styleComboBox=(GtkComboBoxText*)gtk_combo_box_text_new();
 	gtk_combo_box_text_append_text(styleComboBox,_translate(AUTO));
@@ -378,20 +378,18 @@ int main(int argc,char **argv)
 //pages
 	label=gtk_label_new(_translate(THEMES));
 	gtk_notebook_append_page(notebook,themesVBox,label);
-gtk_widget_show (themesVBox);
-gtk_widget_show (themesScrollBox);
 
 	label=gtk_label_new(_translate(WMBORDERS));
-	gtk_notebook_append_page(notebook,framesScrollBox,label);
+	gtk_notebook_append_page(notebook,framesVBox,label);
 
 	label=gtk_label_new(_translate(CONTROLS));
-	gtk_notebook_append_page(notebook,controlsScrollBox,label);
+	gtk_notebook_append_page(notebook,controlsVBox,label);
 
 	label=gtk_label_new(_translate(ICONS));
-	gtk_notebook_append_page(notebook,iconsScrollBox,label);
+	gtk_notebook_append_page(notebook,iconsVBox,label);
 
 	label=gtk_label_new(_translate(CURSORS));
-	gtk_notebook_append_page(notebook,cursorsScrollBox,label);
+	gtk_notebook_append_page(notebook,cursorsVBox,label);
 
 	label=gtk_label_new(_translate(WALLPAPERS));
 	gtk_notebook_append_page(notebook,wallpapersMainBox,label);
@@ -442,22 +440,6 @@ gtk_widget_show (themesScrollBox);
 	doSetConfigs();
 
 	gtk_widget_show_all(window);
-//	gtk_widget_realize                  (themesScrollBox);
-//	gtk_widget_realize                  (themesVBox);
-//	gtk_widget_show_all(window);
-//	gtk_widget_show_now                 (themesScrollBox);
-//	gtk_widget_hide                 (themesVBox);
-//	gtk_widget_show                 (themesVBox);
-//	gtk_widget_hide                 (themesScrollBox);
-//	gtk_widget_show                 (themesScrollBox);
-
-gtk_widget_show(window);
-gtk_widget_realize                  (window);
-gtk_main_iteration                  ();
-gtk_widget_show(window);
-gtk_window_resize                   ((GtkWindow *)window,200,200);
-gtk_widget_queue_draw_area          ((GtkWidget *)window,0,0,200,200);
-
 	gtk_main();
 }
 

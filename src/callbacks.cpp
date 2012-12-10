@@ -44,12 +44,18 @@ void rerunAndUpdate(bool rebuild,bool resetmeta)
 			system(generalBuffer);
 		}
 
-	gtk_widget_destroy(themesVBox);
-	gtk_widget_destroy(framesVBox);
-	gtk_widget_destroy(controlsVBox);
-	gtk_widget_destroy(iconsVBox);
-	gtk_widget_destroy(cursorsVBox);
+	gtk_widget_destroy(themesScrollBox);
+	gtk_widget_destroy(framesScrollBox);
+	gtk_widget_destroy(controlsScrollBox);
+	gtk_widget_destroy(iconsScrollBox);
+	gtk_widget_destroy(cursorsScrollBox);
 	gtk_widget_destroy(wallpapersVBox);
+
+//	themesScrollBox=gtk_scrolled_window_new(NULL,NULL);
+//	framesScrollBox=gtk_scrolled_window_new(NULL,NULL);
+//	controlsScrollBox=gtk_scrolled_window_new(NULL,NULL);
+//	iconsScrollBox=gtk_scrolled_window_new(NULL,NULL);
+//	cursorsScrollBox=gtk_scrolled_window_new(NULL,NULL);
 
 	buildPages();
 

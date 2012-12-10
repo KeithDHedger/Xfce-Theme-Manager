@@ -65,12 +65,12 @@ GtkWidget*		briteRange;
 GtkWidget*		satuRange;
 GtkWidget*		cursorSize;
 
-GtkWidget*		themesScrollBox;
-GtkWidget*		framesScrollBox;
-GtkWidget*		controlsScrollBox;
-GtkWidget*		iconsScrollBox;
-GtkWidget*		cursorsScrollBox;
-GtkWidget*		wallpapersMainBox;
+GtkWidget*		themesScrollBox=NULL;
+GtkWidget*		framesScrollBox=NULL;
+GtkWidget*		controlsScrollBox=NULL;
+GtkWidget*		iconsScrollBox=NULL;
+GtkWidget*		cursorsScrollBox=NULL;
+GtkWidget*		wallpapersMainBox=NULL;
 
 GtkWidget*		themesVBox;
 GtkWidget*		framesVBox;
