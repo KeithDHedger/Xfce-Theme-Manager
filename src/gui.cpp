@@ -108,6 +108,7 @@ gint sortFunc(gconstpointer a,gconstpointer b)
 
 enum {PIXBUF_COLUMN,TEXT_COLUMN};
 int size=128;
+bool addView=true;
 
 void addIconEntry(GtkListStore *store,const char* iconPng,const char* iconName)
 {
@@ -119,6 +120,9 @@ void addIconEntry(GtkListStore *store,const char* iconPng,const char* iconName)
 	gtk_list_store_set(store,&iter,PIXBUF_COLUMN,pixbuf,TEXT_COLUMN,iconName,-1);
 	g_object_unref(pixbuf);
 }
+
+GtkWidget*		icon_view;
+GtkListStore*	store;
 
 void addNewIcons(GtkWidget* vbox,const char* subfolder,void* callback)
 {
@@ -137,29 +141,29 @@ void addNewIcons(GtkWidget* vbox,const char* subfolder,void* callback)
 	char*		entryname;
 	bool		flag=false;
 
-	GtkWidget*		icon_view;
-	GtkListStore*	store;
 
-	int			itemSize=0;
+	if(addView==true)
+		{
+			int			itemSize=0;
 
-	icon_view=gtk_icon_view_new ();
-	store = gtk_list_store_new (2, GDK_TYPE_PIXBUF, G_TYPE_STRING);
+			icon_view=gtk_icon_view_new ();
+			store = gtk_list_store_new (2, GDK_TYPE_PIXBUF, G_TYPE_STRING);
 
-
-	if(size<=64)
-		itemSize=size+(size/2);
-	else
-		itemSize=-1;
+			if(size<=64)
+				itemSize=size+(size/2);
+			else
+				itemSize=-1;
 
 //	gtk_icon_view_set_item_padding((GtkIconView *)icon_view,0);
-	gtk_icon_view_set_item_width((GtkIconView *)icon_view,itemSize);
+			gtk_icon_view_set_item_width((GtkIconView *)icon_view,itemSize);
 
-	gtk_icon_view_set_pixbuf_column (GTK_ICON_VIEW (icon_view), PIXBUF_COLUMN);
-	gtk_icon_view_set_text_column (GTK_ICON_VIEW (icon_view), TEXT_COLUMN);
+			gtk_icon_view_set_pixbuf_column (GTK_ICON_VIEW (icon_view), PIXBUF_COLUMN);
+			gtk_icon_view_set_text_column (GTK_ICON_VIEW (icon_view), TEXT_COLUMN);
 
-	gtk_icon_view_set_model (GTK_ICON_VIEW (icon_view), GTK_TREE_MODEL (store));
+			gtk_icon_view_set_model (GTK_ICON_VIEW (icon_view), GTK_TREE_MODEL (store));
 
-	gtk_container_add((GtkContainer*)vbox,(GtkWidget*)icon_view);
+			gtk_container_add((GtkContainer*)vbox,(GtkWidget*)icon_view);
+		}
 
 	asprintf(&foldername,"%s/.config/XfceThemeManager/%s",homeFolder,subfolder);
 	folder=g_dir_open(foldername,0,NULL);
@@ -226,6 +230,7 @@ void addNewIcons(GtkWidget* vbox,const char* subfolder,void* callback)
 							addIconEntry(store,thumb,name);
 							freeAndNull(&name);
 							freeAndNull(&thumb);
+							freeAndNull(&filename);
 						}
 			 	}
 			g_slist_free_full(entrylist,freeNames);
@@ -353,7 +358,16 @@ void buildPages(void)
 	themesScrollBox=gtk_scrolled_window_new(NULL,NULL);
 	if (themesVBox==NULL)
 		themesVBox=gtk_vbox_new(FALSE, 0);
-	addNewIcons(themesScrollBox,"meta",(void*)doMeta);
+	addNewIcons(themesScrollBox,"custom",(void*)doMeta);
+
+	addView=true;
+//	if(showOnlyCustom==0)
+//		{
+			addView=false;
+			addNewIcons(themesScrollBox,"meta",(void*)doMeta);
+//		}
+
+	addView=true;
 	gtk_box_pack_start ((GtkBox*)themesVBox, themesScrollBox, TRUE, TRUE, 0);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(themesScrollBox),GTK_POLICY_AUTOMATIC,GTK_POLICY_AUTOMATIC);
 
