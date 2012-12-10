@@ -377,8 +377,9 @@ int main(int argc,char **argv)
  
 //pages
 	label=gtk_label_new(_translate(THEMES));
-	//gtk_notebook_append_page(notebook,themesScrollBox,label);
 	gtk_notebook_append_page(notebook,themesVBox,label);
+gtk_widget_show (themesVBox);
+gtk_widget_show (themesScrollBox);
 
 	label=gtk_label_new(_translate(WMBORDERS));
 	gtk_notebook_append_page(notebook,framesScrollBox,label);
@@ -441,6 +442,22 @@ int main(int argc,char **argv)
 	doSetConfigs();
 
 	gtk_widget_show_all(window);
+//	gtk_widget_realize                  (themesScrollBox);
+//	gtk_widget_realize                  (themesVBox);
+//	gtk_widget_show_all(window);
+//	gtk_widget_show_now                 (themesScrollBox);
+//	gtk_widget_hide                 (themesVBox);
+//	gtk_widget_show                 (themesVBox);
+//	gtk_widget_hide                 (themesScrollBox);
+//	gtk_widget_show                 (themesScrollBox);
+
+gtk_widget_show(window);
+gtk_widget_realize                  (window);
+gtk_main_iteration                  ();
+gtk_widget_show(window);
+gtk_window_resize                   ((GtkWindow *)window,200,200);
+gtk_widget_queue_draw_area          ((GtkWidget *)window,0,0,200,200);
+
 	gtk_main();
 }
 

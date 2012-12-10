@@ -291,6 +291,9 @@ void buildPages(void)
 	addNewIcons(themesScrollBox,"meta",(void*)doMeta);
 	gtk_box_pack_start ((GtkBox*)themesVBox, themesScrollBox, TRUE, TRUE, 0);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (themesScrollBox), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (themesScrollBox), GTK_SHADOW_ETCHED_IN);
+gtk_widget_show (themesScrollBox);
+
 
 	framesVBox=gtk_vbox_new(FALSE, 0);
 	addNewButtons(framesVBox,"frames",(void*)doFrame);
