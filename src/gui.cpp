@@ -356,16 +356,13 @@ void buildPages(void)
 	GtkWidget*	wallscroll;
 
 	themesScrollBox=gtk_scrolled_window_new(NULL,NULL);
+	addView=true;
 	if (themesVBox==NULL)
 		themesVBox=gtk_vbox_new(FALSE, 0);
 	addNewIcons(themesScrollBox,"custom",(void*)doMeta);
 
-	addView=true;
-//	if(showOnlyCustom==0)
-//		{
-			addView=false;
-			addNewIcons(themesScrollBox,"meta",(void*)doMeta);
-//		}
+	addView=false;
+	addNewIcons(themesScrollBox,"meta",(void*)doMeta);
 
 	addView=true;
 	gtk_box_pack_start ((GtkBox*)themesVBox, themesScrollBox, TRUE, TRUE, 0);
