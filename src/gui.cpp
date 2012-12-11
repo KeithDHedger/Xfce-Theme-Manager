@@ -119,6 +119,7 @@ void addIconEntry(GtkListStore *store,const char* iconPng,const char* iconName,c
 
 	gtk_list_store_append(store,&iter);
 	pixbuf=gdk_pixbuf_new_from_file_at_size(iconPng,size,-1,NULL);
+	//pixbuf=gdk_pixbuf_new_from_file_at_scale(iconPng,size,-1,FALSE,NULL);
 	gtk_list_store_set(store,&iter,PIXBUF_COLUMN,pixbuf,TEXT_COLUMN,iconName,FILE_NAME,dbPath,-1);
 	g_object_unref(pixbuf);
 }
