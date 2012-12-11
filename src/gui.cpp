@@ -349,6 +349,122 @@ GtkWidget* buildTitlePos(void)
 	gtk_box_pack_start(GTK_BOX(advancedHbox),(GtkWidget*)titlePos,true,true,8);
 	return(advancedHbox);
 }
+char*		newmetaThemeSelected=NULL;
+void doNewMeta(char* metadata)
+{
+	GKeyFile*		keyfile=g_key_file_new();
+	int			keycnt=14;
+	char*			keydata=NULL;
+	char*			comma;
+	GdkModifierType	mask;
+	const char*		keys[]={"CursorTheme","Xfwm4Theme","IconTheme","BackgroundImage","BackdropStyle","TitleButtonLayout","TitlePosition","WMFont","AppFont","BackdropBright","BackdropSatu","GtkTheme","CursorSize","Name"};
+	const char*		xconf[]={XCONFSETCURSOR,XCONFSETFRAME,XCONFSETICONS,XCONFSETPAPER,XCONFSETSTYLE,XCONFSETLAYOUT,XCONFSETTITLEPOS,XCONFSETWMFONT,XCONFSETAPPFONT,XCONFSETBRIGHT,XCONFSETSATU,XCONFSETCONTROLS,XCONFSETCURSORSIZE,XMTSETMETATHEME};
+
+	GtkSettings *settings=gtk_settings_get_default();;
+
+	gdk_window_get_pointer(NULL,NULL,NULL,&mask);
+//	if (GDK_CONTROL_MASK & mask )
+//		{
+//			removeTheme(gtk_widget_get_name(widget));
+//			return;
+//		}
+
+//	if(g_key_file_load_from_file(keyfile,gtk_widget_get_name(widget),G_KEY_FILE_NONE,NULL))
+printf("here - %s\n",metadata);
+	if(g_key_file_load_from_file(keyfile,metadata,G_KEY_FILE_NONE,NULL))
+		{
+			newmetaThemeSelected=g_key_file_get_string(keyfile,"Data",(char*)"Name",NULL);
+			for (int j=0;j<keycnt;j++)
+				{
+					keydata=g_key_file_get_string(keyfile,"Data",(char*)keys[j],NULL);
+					if(keydata!=NULL)
+						{
+							switch (j)
+								{
+									case 4:
+										gtk_combo_box_set_active((GtkComboBox*)styleComboBox,atoi(keydata));
+										break;
+									case 5:
+										gtk_entry_set_text((GtkEntry*)layoutEntry,keydata);
+										break;
+									case 6:
+										gtk_combo_box_set_active((GtkComboBox*)titlePos,positionToInt(keydata));
+										break;
+									case 7:
+										 gtk_font_button_set_font_name((GtkFontButton*)wmFontButton,keydata);
+										break;
+									case 8:
+										 gtk_font_button_set_font_name((GtkFontButton*)appFontButton,keydata);
+										break;
+									case 9:
+										gtk_range_set_value((GtkRange*)briteRange,atoi(keydata));
+										break;
+									case 10:
+										gtk_range_set_value((GtkRange*)satuRange,atof(keydata));
+										comma=strchr(keydata,',');
+										if(comma!=NULL)
+											*comma='.';										
+										break;
+									case 11:
+										g_object_set(settings,"gtk-theme-name",keydata,"gtk-color-scheme","default",NULL);
+										break;
+									case 12:
+										gtk_range_set_value((GtkRange*)cursorSize,atoi(keydata));
+										break;
+								}
+							sprintf(generalBuffer,"%s\"%s\"",(char*)xconf[j],keydata);
+							printf("---%s\%s\n",(char*)xconf[j],keydata);
+							system(generalBuffer);
+							freeAndNull(&keydata);
+							rerunAndUpdate(false,true);
+						}
+				}
+			g_key_file_free(keyfile);
+		}
+
+	system("xfdesktop --reload");
+}
+
+
+
+void themeIconCallback(GtkIconView *view,gpointer user_data)
+{
+	
+	//GList * list=gtk_icon_view_get_selected_items((GtkIconView *)iconview);
+	
+	GtkTreeModel *model;
+  GList *selected,
+   *current;
+
+  selected = gtk_icon_view_get_selected_items (view);
+  if (!selected)
+    return;
+
+  model = gtk_icon_view_get_model (view);
+
+  current = selected;
+//  do
+  //  {
+      GtkTreePath *path;
+      GtkTreeIter iter;
+      char *text;
+
+      path = (GtkTreePath *)current->data;
+      gtk_tree_model_get_iter (model, &iter, path);
+      gtk_tree_path_free (path);
+
+      gtk_tree_model_get (model, &iter,TEXT_COLUMN, &text, -1);
+      g_print ("Selected item: %s\n", text);
+      doNewMeta(text);
+      g_free (text);
+    //}
+  //while (current = g_list_next (current));
+
+  g_list_free (selected);
+  
+  
+
+}
 
 void buildPages(void)
 {
@@ -360,6 +476,8 @@ void buildPages(void)
 	if (themesVBox==NULL)
 		themesVBox=gtk_vbox_new(FALSE, 0);
 	addNewIcons(themesScrollBox,"custom",(void*)doMeta);
+
+	g_signal_connect_after(G_OBJECT(icon_view),"selection-changed",G_CALLBACK(themeIconCallback),NULL);
 
 	addView=false;
 	addNewIcons(themesScrollBox,"meta",(void*)doMeta);
