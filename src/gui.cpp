@@ -218,20 +218,11 @@ void addNewIcons(GtkWidget* vbox,const char* subfolder)
 			for (int j=0;j<(int)g_slist_length(entrylist);j++)
 				{
 					asprintf(&filename,"%s/.config/XfceThemeManager/%s/%s",homeFolder,subfolder,(char*)g_slist_nth_data(entrylist,j));
-					if(strcmp(subfolder,"wallpapers")==0)
-						{
-						printf("%s\n",filename);
-						}
 					if(g_key_file_load_from_file(keyfile,filename,G_KEY_FILE_NONE,NULL))
 						{
 							name=g_key_file_get_string(keyfile,"Data","Name",NULL);
 							thumb=g_key_file_get_string(keyfile,"Data","Thumbnail",NULL);
 							addIconEntry(store,thumb,name,filename);
-							if(strcmp(subfolder,"wallpapers")==0)
-						{
-						printf("%s == %s %s\n",filename,thumb,name);
-						}
-
 							freeAndNull(&name);
 							freeAndNull(&thumb);
 							freeAndNull(&filename);
