@@ -51,12 +51,6 @@ void rerunAndUpdate(bool rebuild,bool resetmeta)
 	gtk_widget_destroy(cursorsScrollBox);
 	gtk_widget_destroy(wallpapersVBox);
 
-//	themesScrollBox=gtk_scrolled_window_new(NULL,NULL);
-//	framesScrollBox=gtk_scrolled_window_new(NULL,NULL);
-//	controlsScrollBox=gtk_scrolled_window_new(NULL,NULL);
-//	iconsScrollBox=gtk_scrolled_window_new(NULL,NULL);
-//	cursorsScrollBox=gtk_scrolled_window_new(NULL,NULL);
-
 	buildPages();
 
 	gtk_widget_show_all(window);
@@ -416,13 +410,13 @@ int extractAndInstall(char* filename)
 }
 
 //frame
-void doFrame(GtkWidget* widget,gpointer data)
+void doFrame(char* frameFilename)
 {
 	GKeyFile*	keyfile=g_key_file_new();
 	char*		command;
 	char*		frameset;
 
-	if(g_key_file_load_from_file(keyfile,gtk_widget_get_name(widget),G_KEY_FILE_NONE,NULL))
+	if(g_key_file_load_from_file(keyfile,frameFilename,G_KEY_FILE_NONE,NULL))
 		{
 			frameset=g_key_file_get_string(keyfile,"Data","ThemeName",NULL);
 
@@ -630,32 +624,8 @@ void doMeta(char* metaFilename)
 	system("xfdesktop --reload");
 }
 
-void themeIconCallback(GtkIconView *view,gpointer user_data)
-{
-	GtkTreeModel*	model;
-	GList*		selected;
-	GtkTreePath*	path;
-	GtkTreeIter		iter;
-	char*			text;
-
-	selected=gtk_icon_view_get_selected_items(view);
-	if (!selected)
-		return;
-
-	model=gtk_icon_view_get_model(view);
-      path=(GtkTreePath *)selected->data;
-      gtk_tree_model_get_iter(model,&iter,path);
-      gtk_tree_path_free(path);
-
-      gtk_tree_model_get(model,&iter,FILE_NAME,&text,-1);
-
-      doMeta(text);
-      g_free (text);
-	g_list_free (selected);
-}
-
 //controls
-void doControls(GtkWidget* widget,gpointer data)
+void doControls(char* controlsFilename)
 {
 	GKeyFile*	keyfile=g_key_file_new();
 	char*		command;
@@ -664,7 +634,7 @@ void doControls(GtkWidget* widget,gpointer data)
 
 	settings=gtk_settings_get_default();
 
-	if(g_key_file_load_from_file(keyfile,gtk_widget_get_name(widget),G_KEY_FILE_NONE,NULL))
+	if(g_key_file_load_from_file(keyfile,controlsFilename,G_KEY_FILE_NONE,NULL))
 		{
 			controlset=g_key_file_get_string(keyfile,"Data","ThemeName",NULL);
 
@@ -682,13 +652,13 @@ void doControls(GtkWidget* widget,gpointer data)
 }
 
 //icons
-void doIcons(GtkWidget* widget,gpointer data)
+void doIcons(char* iconsFilename)
 {
 	GKeyFile*	keyfile=g_key_file_new();
 	char*		command;
 	char*		iconset;
 
-	if(g_key_file_load_from_file(keyfile,gtk_widget_get_name(widget),G_KEY_FILE_NONE,NULL))
+	if(g_key_file_load_from_file(keyfile,iconsFilename,G_KEY_FILE_NONE,NULL))
 		{
 			iconset=g_key_file_get_string(keyfile,"Data","ThemeName",NULL);
 
@@ -706,13 +676,13 @@ void doIcons(GtkWidget* widget,gpointer data)
 }
 
 //cursors
-void doCursors(GtkWidget* widget,gpointer data)
+void doCursors(char* cursorsFilename)
 {
 	GKeyFile*	keyfile=g_key_file_new();
 	char*		command;
 	char*		cursorset;
 
-	if(g_key_file_load_from_file(keyfile,gtk_widget_get_name(widget),G_KEY_FILE_NONE,NULL))
+	if(g_key_file_load_from_file(keyfile,cursorsFilename,G_KEY_FILE_NONE,NULL))
 		{
 			cursorset=g_key_file_get_string(keyfile,"Data","ThemeName",NULL);
 
@@ -726,6 +696,53 @@ void doCursors(GtkWidget* widget,gpointer data)
 				}
 			g_key_file_free(keyfile);
 		}
+}
+
+void themeIconCallback(GtkIconView *view,gpointer doWhat)
+{
+	GtkTreeModel*	model;
+	GList*		selected;
+	GtkTreePath*	path;
+	GtkTreeIter		iter;
+	char*			text;
+printf("here\n");
+	selected=gtk_icon_view_get_selected_items(view);
+	if (!selected)
+		return;
+
+	model=gtk_icon_view_get_model(view);
+	path=(GtkTreePath *)selected->data;
+	gtk_tree_model_get_iter(model,&iter,path);
+	gtk_tree_path_free(path);
+
+	gtk_tree_model_get(model,&iter,FILE_NAME,&text,-1);
+
+printf("there - %i\n",(long)doWhat);
+
+	switch((long)doWhat)
+		{
+			case THEMES:
+				doMeta(text);
+				break;
+
+			case WMBORDERS:
+				doFrame(text);
+				break;
+
+			case CONTROLS:
+				doControls(text);
+				break;
+
+			case ICONS:
+				doIcons(text);
+				break;
+
+			case CURSORS:
+				doCursors(text);
+				break;
+		}
+	g_free (text);
+	g_list_free (selected);
 }
 
 void launchCompEd(GtkWidget* window,gpointer data)

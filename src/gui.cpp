@@ -344,88 +344,34 @@ GtkWidget* buildTitlePos(void)
 	gtk_box_pack_start(GTK_BOX(advancedHbox),(GtkWidget*)titlePos,true,true,8);
 	return(advancedHbox);
 }
-
-#if 0
-//char*		newmetaThemeSelected=NULL;
-void doNewMetaXX(char* metadata)
+gboolean mousemove(GtkWidget *widget,GdkEvent  *event,gpointer   user_data)
 {
-	GKeyFile*		keyfile=g_key_file_new();
-	int			keycnt=14;
-	char*			keydata=NULL;
-	char*			comma;
-	GdkModifierType	mask;
-	const char*		keys[]={"CursorTheme","Xfwm4Theme","IconTheme","BackgroundImage","BackdropStyle","TitleButtonLayout","TitlePosition","WMFont","AppFont","BackdropBright","BackdropSatu","GtkTheme","CursorSize","Name"};
-	const char*		xconf[]={XCONFSETCURSOR,XCONFSETFRAME,XCONFSETICONS,XCONFSETPAPER,XCONFSETSTYLE,XCONFSETLAYOUT,XCONFSETTITLEPOS,XCONFSETWMFONT,XCONFSETAPPFONT,XCONFSETBRIGHT,XCONFSETSATU,XCONFSETCONTROLS,XCONFSETCURSORSIZE,XMTSETMETATHEME};
+	GtkTreePath * path=NULL;
 
-	GtkSettings *settings=gtk_settings_get_default();;
-
-	gdk_window_get_pointer(NULL,NULL,NULL,&mask);
-//	if (GDK_CONTROL_MASK & mask )
-//		{
-//			removeTheme(gtk_widget_get_name(widget));
-//			return;
-//		}
-
-//	if(g_key_file_load_from_file(keyfile,gtk_widget_get_name(widget),G_KEY_FILE_NONE,NULL))
-printf("here - %s\n",metadata);
-	if(g_key_file_load_from_file(keyfile,metadata,G_KEY_FILE_NONE,NULL))
+	path=gtk_icon_view_get_path_at_pos((GtkIconView *)widget,event->button.x,event->button.y);
+	if (path!=NULL)
 		{
-			newmetaThemeSelected=g_key_file_get_string(keyfile,"Data",(char*)"Name",NULL);
-			for (int j=0;j<keycnt;j++)
-				{
-					keydata=g_key_file_get_string(keyfile,"Data",(char*)keys[j],NULL);
-					if(keydata!=NULL)
-						{
-							switch (j)
-								{
-									case 4:
-										gtk_combo_box_set_active((GtkComboBox*)styleComboBox,atoi(keydata));
-										break;
-									case 5:
-										gtk_entry_set_text((GtkEntry*)layoutEntry,keydata);
-										break;
-									case 6:
-										gtk_combo_box_set_active((GtkComboBox*)titlePos,positionToInt(keydata));
-										break;
-									case 7:
-										 gtk_font_button_set_font_name((GtkFontButton*)wmFontButton,keydata);
-										break;
-									case 8:
-										 gtk_font_button_set_font_name((GtkFontButton*)appFontButton,keydata);
-										break;
-									case 9:
-										gtk_range_set_value((GtkRange*)briteRange,atoi(keydata));
-										break;
-									case 10:
-										gtk_range_set_value((GtkRange*)satuRange,atof(keydata));
-										comma=strchr(keydata,',');
-										if(comma!=NULL)
-											*comma='.';										
-										break;
-									case 11:
-										g_object_set(settings,"gtk-theme-name",keydata,"gtk-color-scheme","default",NULL);
-										break;
-									case 12:
-										gtk_range_set_value((GtkRange*)cursorSize,atoi(keydata));
-										break;
-								}
-							sprintf(generalBuffer,"%s\"%s\"",(char*)xconf[j],keydata);
-							printf("---%s\%s\n",(char*)xconf[j],keydata);
-							system(generalBuffer);
-							freeAndNull(&keydata);
-							rerunAndUpdate(false,true);
-						}
-				}
-			g_key_file_free(keyfile);
+			gtk_icon_view_select_path((GtkIconView *)widget,path);
+	//printf("%f - %f\n",event->button.x,event->button.y);
+	//printf("XXXXXXXXXX\n");
 		}
-
-	system("xfdesktop --reload");
+	return(TRUE);
 }
-
-#endif
-
-
-
+                                                        
+gboolean click(GtkWidget *widget,GdkEvent  *event,gpointer data)
+{
+	GtkTreePath * path=NULL;
+	path=gtk_icon_view_get_path_at_pos((GtkIconView *)widget,event->button.x,event->button.y);
+	if (path!=NULL)
+		{
+			gtk_icon_view_select_path((GtkIconView *)widget,path);
+	printf("%f - %f\n",event->button.x,event->button.y);
+	printf("ZZZZZZZZ\n");
+			themeIconCallback((GtkIconView *)widget,(void*)data);
+		}
+	return(TRUE);
+}
+                                                        
 void buildPages(void)
 {
 	GtkWidget*	vbox;
@@ -436,32 +382,34 @@ void buildPages(void)
 	if (themesVBox==NULL)
 		themesVBox=gtk_vbox_new(FALSE, 0);
 	addNewIcons(themesScrollBox,"custom");
-//	addNewIcons(themesScrollBox,"custom",(void*)themeIconCallback);
-
 
 	addView=false;
-//	addNewIcons(themesScrollBox,"meta",(void*)themeIconCallback);
 	addNewIcons(themesScrollBox,"meta");
 
-	g_signal_connect_after(G_OBJECT(icon_view),"selection-changed",G_CALLBACK(themeIconCallback),NULL);
+	g_signal_connect_after(G_OBJECT(icon_view),"selection-changed",G_CALLBACK(themeIconCallback),(void*)THEMES);
+
 	addView=true;
 
-	gtk_box_pack_start ((GtkBox*)themesVBox, themesScrollBox, TRUE, TRUE, 0);
+	gtk_box_pack_start((GtkBox*)themesVBox,themesScrollBox,TRUE,TRUE,0);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(themesScrollBox),GTK_POLICY_AUTOMATIC,GTK_POLICY_AUTOMATIC);
 
 	framesScrollBox=gtk_scrolled_window_new(NULL,NULL);
 	if (framesVBox==NULL)
 		framesVBox=gtk_vbox_new(FALSE, 0);
 	addNewIcons(framesScrollBox,"frames");
-	gtk_box_pack_start ((GtkBox*)framesVBox, framesScrollBox, TRUE, TRUE, 0);
+	gtk_box_pack_start((GtkBox*)framesVBox,framesScrollBox,TRUE,TRUE,0);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(framesScrollBox),GTK_POLICY_AUTOMATIC,GTK_POLICY_AUTOMATIC);
+	//g_signal_connect(G_OBJECT(icon_view),"selection-changed",G_CALLBACK(themeIconCallback),(void*)WMBORDERS);
+	g_signal_connect(G_OBJECT(icon_view),"motion-notify-event",G_CALLBACK(mousemove),NULL);
+	g_signal_connect(G_OBJECT(icon_view),"button-press-event",G_CALLBACK(click),(void*)WMBORDERS);
 
 	controlsScrollBox=gtk_scrolled_window_new(NULL,NULL);
 	if (controlsVBox==NULL)
 		controlsVBox=gtk_vbox_new(FALSE, 0);
 	addNewIcons(controlsScrollBox,"controls");
-	gtk_box_pack_start ((GtkBox*)controlsVBox,controlsScrollBox, TRUE, TRUE, 0);
+	gtk_box_pack_start((GtkBox*)controlsVBox,controlsScrollBox,TRUE,TRUE,0);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(controlsScrollBox),GTK_POLICY_AUTOMATIC,GTK_POLICY_AUTOMATIC);
+	g_signal_connect_after(G_OBJECT(icon_view),"selection-changed",G_CALLBACK(themeIconCallback),(void*)CONTROLS);
 
 	iconsScrollBox=gtk_scrolled_window_new(NULL,NULL);
 	if (iconsVBox==NULL)
@@ -469,6 +417,7 @@ void buildPages(void)
 	addNewIcons(iconsScrollBox,"icons");
 	gtk_box_pack_start ((GtkBox*)iconsVBox,iconsScrollBox, TRUE, TRUE, 0);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(iconsScrollBox),GTK_POLICY_AUTOMATIC,GTK_POLICY_AUTOMATIC);
+	g_signal_connect_after(G_OBJECT(icon_view),"selection-changed",G_CALLBACK(themeIconCallback),(void*)ICONS);
 
 	cursorsScrollBox=gtk_scrolled_window_new(NULL,NULL);
 	if (cursorsVBox==NULL)
@@ -476,7 +425,7 @@ void buildPages(void)
 	addNewIcons(cursorsScrollBox,"cursors");
 	gtk_box_pack_start ((GtkBox*)cursorsVBox,cursorsScrollBox, TRUE, TRUE, 0);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(cursorsScrollBox),GTK_POLICY_AUTOMATIC,GTK_POLICY_AUTOMATIC);
-
+	g_signal_connect_after(G_OBJECT(icon_view),"selection-changed",G_CALLBACK(themeIconCallback),(void*)CURSORS);
 
 	wallscroll=gtk_scrolled_window_new(NULL,NULL);
 	wallpapersVBox=gtk_vbox_new(FALSE, 0);

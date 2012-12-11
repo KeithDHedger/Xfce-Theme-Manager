@@ -24,12 +24,12 @@ void setTitlePos(GtkComboBoxText* widget,gpointer data);
 void dropUri(GtkWidget *widget,GdkDragContext *context,gint x,gint y,GtkSelectionData *selection_data,guint info,guint32 time,gpointer user_data);
 void doWallpapers(GtkWidget* widget,gpointer data);
 void wallStyleChanged(GtkWidget* widget,gpointer data);
-//void doMeta(char* metadata);
-void themeIconCallback(GtkIconView *view,gpointer user_data);
-void doFrame(GtkWidget* widget,gpointer data);
-void doControls(GtkWidget* widget,gpointer data);
-void doIcons(GtkWidget* widget,gpointer data);
-void doCursors(GtkWidget* widget,gpointer data);
+void themeIconCallback(GtkIconView *view,gpointer doWhat);
+//void frameIconCallback(GtkIconView *view,gpointer user_data);
+//void doFrame(GtkWidget* widget,gpointer data);
+//void doControls(GtkWidget* widget,gpointer data);
+//void doIcons(GtkWidget* widget,gpointer data);
+//void doCursors(GtkWidget* widget,gpointer data);
 void launchCompEd(GtkWidget* window,gpointer data);
 
 void resetBright(GtkWidget* widget,gpointer data);
