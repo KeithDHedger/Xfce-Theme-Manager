@@ -359,7 +359,8 @@ void buildPages(void)
 	addView=false;
 	addNewIcons(themesScrollBox,"meta");
 
-	g_signal_connect_after(G_OBJECT(icon_view),"selection-changed",G_CALLBACK(themeIconCallback),(void*)THEMES);
+	g_signal_connect(G_OBJECT(icon_view),"motion-notify-event",G_CALLBACK(mouseMove),NULL);
+	g_signal_connect(G_OBJECT(icon_view),"button-press-event",G_CALLBACK(clickIt),(void*)THEMES);
 
 	addView=true;
 
@@ -372,6 +373,7 @@ void buildPages(void)
 	addNewIcons(framesScrollBox,"frames");
 	gtk_box_pack_start((GtkBox*)framesVBox,framesScrollBox,TRUE,TRUE,0);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(framesScrollBox),GTK_POLICY_AUTOMATIC,GTK_POLICY_AUTOMATIC);
+
 	g_signal_connect(G_OBJECT(icon_view),"motion-notify-event",G_CALLBACK(mouseMove),NULL);
 	g_signal_connect(G_OBJECT(icon_view),"button-press-event",G_CALLBACK(clickIt),(void*)WMBORDERS);
 
@@ -381,7 +383,9 @@ void buildPages(void)
 	addNewIcons(controlsScrollBox,"controls");
 	gtk_box_pack_start((GtkBox*)controlsVBox,controlsScrollBox,TRUE,TRUE,0);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(controlsScrollBox),GTK_POLICY_AUTOMATIC,GTK_POLICY_AUTOMATIC);
-	g_signal_connect_after(G_OBJECT(icon_view),"selection-changed",G_CALLBACK(themeIconCallback),(void*)CONTROLS);
+
+	g_signal_connect(G_OBJECT(icon_view),"motion-notify-event",G_CALLBACK(mouseMove),NULL);
+	g_signal_connect(G_OBJECT(icon_view),"button-press-event",G_CALLBACK(clickIt),(void*)CONTROLS);
 
 	iconsScrollBox=gtk_scrolled_window_new(NULL,NULL);
 	if (iconsVBox==NULL)
@@ -389,7 +393,9 @@ void buildPages(void)
 	addNewIcons(iconsScrollBox,"icons");
 	gtk_box_pack_start ((GtkBox*)iconsVBox,iconsScrollBox, TRUE, TRUE, 0);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(iconsScrollBox),GTK_POLICY_AUTOMATIC,GTK_POLICY_AUTOMATIC);
-	g_signal_connect_after(G_OBJECT(icon_view),"selection-changed",G_CALLBACK(themeIconCallback),(void*)ICONS);
+
+	g_signal_connect(G_OBJECT(icon_view),"motion-notify-event",G_CALLBACK(mouseMove),NULL);
+	g_signal_connect(G_OBJECT(icon_view),"button-press-event",G_CALLBACK(clickIt),(void*)ICONS);
 
 	cursorsScrollBox=gtk_scrolled_window_new(NULL,NULL);
 	if (cursorsVBox==NULL)
@@ -397,7 +403,9 @@ void buildPages(void)
 	addNewIcons(cursorsScrollBox,"cursors");
 	gtk_box_pack_start ((GtkBox*)cursorsVBox,cursorsScrollBox, TRUE, TRUE, 0);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(cursorsScrollBox),GTK_POLICY_AUTOMATIC,GTK_POLICY_AUTOMATIC);
-	g_signal_connect_after(G_OBJECT(icon_view),"selection-changed",G_CALLBACK(themeIconCallback),(void*)CURSORS);
+
+	g_signal_connect(G_OBJECT(icon_view),"motion-notify-event",G_CALLBACK(mouseMove),NULL);
+	g_signal_connect(G_OBJECT(icon_view),"button-press-event",G_CALLBACK(clickIt),(void*)CURSORS);
 
 	wallscroll=gtk_scrolled_window_new(NULL,NULL);
 	wallpapersVBox=gtk_vbox_new(FALSE, 0);

@@ -25,11 +25,6 @@ void dropUri(GtkWidget *widget,GdkDragContext *context,gint x,gint y,GtkSelectio
 void doWallpapers(GtkWidget* widget,gpointer data);
 void wallStyleChanged(GtkWidget* widget,gpointer data);
 void themeIconCallback(GtkIconView *view,gpointer doWhat);
-//void frameIconCallback(GtkIconView *view,gpointer user_data);
-//void doFrame(GtkWidget* widget,gpointer data);
-//void doControls(GtkWidget* widget,gpointer data);
-//void doIcons(GtkWidget* widget,gpointer data);
-//void doCursors(GtkWidget* widget,gpointer data);
 
 gboolean mouseMove(GtkWidget *widget,GdkEvent* event,gpointer user_data);
 gboolean clickIt(GtkWidget *widget,GdkEvent* event,gpointer data);

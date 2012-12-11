@@ -409,29 +409,6 @@ int extractAndInstall(char* filename)
 	return(retval);
 }
 
-//frame
-void doFrame(char* frameFilename)
-{
-	GKeyFile*	keyfile=g_key_file_new();
-	char*		command;
-	char*		frameset;
-
-	if(g_key_file_load_from_file(keyfile,frameFilename,G_KEY_FILE_NONE,NULL))
-		{
-			frameset=g_key_file_get_string(keyfile,"Data","ThemeName",NULL);
-
-			if(frameset!=NULL)
-				{
-					asprintf(&command,"%s\"%s\"",XCONFSETFRAME,frameset);
-					system(command);
-					freeAndNull(&command);
-					freeAndNull(&frameset);
-					rerunAndUpdate(false,false);
-				}
-		}
-	g_key_file_free(keyfile);
-}
-
 //dnd install
 void dropUri(GtkWidget *widget,GdkDragContext *context,gint x,gint y,GtkSelectionData *selection_data,guint info,guint32 time,gpointer user_data)
 {
@@ -624,6 +601,28 @@ void doMeta(char* metaFilename)
 	system("xfdesktop --reload");
 }
 
+void setPiece(char* filePath,const char* doCommand)
+{
+	GKeyFile*	keyfile=g_key_file_new();
+	char*		command;
+	char*		dataset;
+
+	if(g_key_file_load_from_file(keyfile,filePath,G_KEY_FILE_NONE,NULL))
+		{
+			dataset=g_key_file_get_string(keyfile,"Data","ThemeName",NULL);
+
+			if(dataset!=NULL)
+				{
+					asprintf(&command,"%s\"%s\"",doCommand,dataset);
+					system(command);
+					freeAndNull(&command);
+					freeAndNull(&dataset);
+					rerunAndUpdate(false,false);
+				}
+		}
+	g_key_file_free(keyfile);
+}
+
 //controls
 void doControls(char* controlsFilename)
 {
@@ -645,53 +644,6 @@ void doControls(char* controlsFilename)
 					g_object_set(settings,"gtk-theme-name",controlset,"gtk-color-scheme","default",NULL);
 					freeAndNull(&command);
 					freeAndNull(&controlset);
-					rerunAndUpdate(false,false);
-				}
-			g_key_file_free(keyfile);
-		}
-}
-
-//icons
-void doIcons(char* iconsFilename)
-{
-	GKeyFile*	keyfile=g_key_file_new();
-	char*		command;
-	char*		iconset;
-
-	if(g_key_file_load_from_file(keyfile,iconsFilename,G_KEY_FILE_NONE,NULL))
-		{
-			iconset=g_key_file_get_string(keyfile,"Data","ThemeName",NULL);
-
-			if(iconset!=NULL)
-				{
-					asprintf(&command,"%s\"%s\"",XCONFSETICONS,iconset);
-					system(command);
-					freeAndNull(&command);
-					freeAndNull(&iconset);
-					rerunAndUpdate(false,false);
-				}
-			g_key_file_free(keyfile);
-		}
-	system("xfdesktop --reload");
-}
-
-//cursors
-void doCursors(char* cursorsFilename)
-{
-	GKeyFile*	keyfile=g_key_file_new();
-	char*		command;
-	char*		cursorset;
-
-	if(g_key_file_load_from_file(keyfile,cursorsFilename,G_KEY_FILE_NONE,NULL))
-		{
-			cursorset=g_key_file_get_string(keyfile,"Data","ThemeName",NULL);
-
-			if(cursorset!=NULL)
-				{
-					asprintf(&command,"%s\"%s\"",XCONFSETCURSOR,cursorset);
-					system(command);
-					freeAndNull(&command);
-					freeAndNull(&cursorset);
 					rerunAndUpdate(false,false);
 				}
 			g_key_file_free(keyfile);
@@ -724,7 +676,7 @@ void themeIconCallback(GtkIconView *view,gpointer doWhat)
 				break;
 
 			case WMBORDERS:
-				doFrame(text);
+				setPiece(text,XCONFSETFRAME);
 				break;
 
 			case CONTROLS:
@@ -732,11 +684,11 @@ void themeIconCallback(GtkIconView *view,gpointer doWhat)
 				break;
 
 			case ICONS:
-				doIcons(text);
+				setPiece(text,XCONFSETICONS);
 				break;
 
 			case CURSORS:
-				doCursors(text);
+				setPiece(text,XCONFSETCURSOR);
 				break;
 		}
 	g_free (text);
