@@ -71,6 +71,7 @@ GtkWidget*		controlsScrollBox=NULL;
 GtkWidget*		iconsScrollBox=NULL;
 GtkWidget*		cursorsScrollBox=NULL;
 GtkWidget*		wallpapersMainBox=NULL;
+GtkWidget*		wallpapersScrollBox=NULL;
 
 GtkWidget*		themesVBox;
 GtkWidget*		framesVBox;

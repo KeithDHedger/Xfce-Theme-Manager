@@ -49,7 +49,7 @@ void rerunAndUpdate(bool rebuild,bool resetmeta)
 	gtk_widget_destroy(controlsScrollBox);
 	gtk_widget_destroy(iconsScrollBox);
 	gtk_widget_destroy(cursorsScrollBox);
-	gtk_widget_destroy(wallpapersVBox);
+	gtk_widget_destroy(wallpapersScrollBox);
 
 	buildPages();
 
@@ -471,28 +471,6 @@ void dropUri(GtkWidget *widget,GdkDragContext *context,gint x,gint y,GtkSelectio
 		rerunAndUpdate(true,true);
 }
 
-void doWallpapers(GtkWidget* widget,gpointer data)
-{
-	GKeyFile*	keyfile=g_key_file_new();
-	char*		command;
-	char*		paperset;
-
-	if(g_key_file_load_from_file(keyfile,gtk_widget_get_name(widget),G_KEY_FILE_NONE,NULL))
-		{
-			paperset=g_key_file_get_string(keyfile,"Data","ThemeName",NULL);
-
-			if(paperset!=NULL)
-				{
-					asprintf(&command,"%s\"%s\"",XCONFSETPAPER,paperset);
-					system(command);
-					free(command);
-					free(paperset);
-					rerunAndUpdate(false,false);
-				}
-			g_key_file_free(keyfile);
-		}
-}
-
 void wallStyleChanged(GtkWidget* widget,gpointer data)
 {
 	char*	command;
@@ -689,6 +667,10 @@ void themeIconCallback(GtkIconView *view,gpointer doWhat)
 
 			case CURSORS:
 				setPiece(text,XCONFSETCURSOR);
+				break;
+
+			case WALLPAPERS:
+				setPiece(text,XCONFSETPAPER);
 				break;
 		}
 	g_free (text);

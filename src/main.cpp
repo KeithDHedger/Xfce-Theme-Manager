@@ -351,11 +351,6 @@ int main(int argc,char **argv)
 
 //main window vbox
 
-//	themesScrollBox=gtk_scrolled_window_new(NULL,NULL);
-//	framesScrollBox=gtk_scrolled_window_new(NULL,NULL);
-//	controlsScrollBox=gtk_scrolled_window_new(NULL,NULL);
-//	iconsScrollBox=gtk_scrolled_window_new(NULL,NULL);
-//	cursorsScrollBox=gtk_scrolled_window_new(NULL,NULL);
 	wallpapersMainBox=gtk_vbox_new(false, 0);
 	styleComboBox=(GtkComboBoxText*)gtk_combo_box_text_new();
 	gtk_combo_box_text_append_text(styleComboBox,_translate(AUTO));
@@ -392,7 +387,8 @@ int main(int argc,char **argv)
 	gtk_notebook_append_page(notebook,cursorsVBox,label);
 
 	label=gtk_label_new(_translate(WALLPAPERS));
-	gtk_notebook_append_page(notebook,wallpapersMainBox,label);
+//	gtk_notebook_append_page(notebook,wallpapersMainBox,label);
+	gtk_notebook_append_page(notebook,wallpapersVBox,label);
 
 	gtk_notebook_append_page(advanced,(GtkWidget*)notebook,NULL);
 

@@ -218,111 +218,23 @@ void addNewIcons(GtkWidget* vbox,const char* subfolder)
 			for (int j=0;j<(int)g_slist_length(entrylist);j++)
 				{
 					asprintf(&filename,"%s/.config/XfceThemeManager/%s/%s",homeFolder,subfolder,(char*)g_slist_nth_data(entrylist,j));
+					if(strcmp(subfolder,"wallpapers")==0)
+						{
+						printf("%s\n",filename);
+						}
 					if(g_key_file_load_from_file(keyfile,filename,G_KEY_FILE_NONE,NULL))
 						{
 							name=g_key_file_get_string(keyfile,"Data","Name",NULL);
 							thumb=g_key_file_get_string(keyfile,"Data","Thumbnail",NULL);
 							addIconEntry(store,thumb,name,filename);
+							if(strcmp(subfolder,"wallpapers")==0)
+						{
+						printf("%s == %s %s\n",filename,thumb,name);
+						}
+
 							freeAndNull(&name);
 							freeAndNull(&thumb);
 							freeAndNull(&filename);
-						}
-			 	}
-			g_slist_free_full(entrylist,freeNames);
-		}
-	g_key_file_free(keyfile);
-}
-
-
-void addNewButtons(GtkWidget* vbox,const char* subfolder,void* callback)
-{
-	char*		foldername;
-	char*		filename;
-	const gchar*	entry;
-	GDir*		folder;
-	GKeyFile*	keyfile=g_key_file_new();
-	char*		name;
-	char*		thumb;
-	char*		themename=NULL;
-	GtkWidget*	button;
-	GtkWidget*	box;
-
-	GSList *	entrylist=NULL;
-	char*		entryname;
-	bool		flag=false;
-
-	asprintf(&foldername,"%s/.config/XfceThemeManager/%s",homeFolder,subfolder);
-	folder=g_dir_open(foldername,0,NULL);
-	if(folder!=NULL)
-		{
-			entry=g_dir_read_name(folder);
-			while(entry!=NULL)
-				{
-				flag=false;
-				if(strstr(entry,".db"))
-					{
-						if (showGlobal==1)
-							{
-								if (showOnlyCustom==0)
-									{
-										if ((strcmp(subfolder,"meta")==0 && showMeta==1) || entry[0]=='0' )
-											flag=true;
-									}
-								if ((strcmp(subfolder,"controls")==0 && showGtk==1) || (strcmp(subfolder,"controls")==0 && entry[0]=='0'))
-									flag=true;
-								if ((strcmp(subfolder,"cursors")==0 && showCursors==1) || (strcmp(subfolder,"cursors")==0 && entry[0]=='0'))
-									flag=true;
-								if ((strcmp(subfolder,"frames")==0 && showDecs==1) || (strcmp(subfolder,"frames")==0 && entry[0]=='0'))
-									flag=true;
-								if ((strcmp(subfolder,"icons")==0 && showIcons==1) || (strcmp(subfolder,"icons")==0 && entry[0]=='0'))
-									flag=true;
-								if ((strcmp(subfolder,"wallpapers")==0 && showBackdrop==1) || (strcmp(subfolder,"wallpapers")==0 && entry[0]=='0'))
-									flag=true;
-								if (strcmp(subfolder,"custom")==0)
-									flag=true;
-							}
-						else
-							{
-								if (entry[0]=='0')
-									flag=true;
-								if ((strcmp(subfolder,"meta")==0 && showOnlyCustom==1))
-									flag=false;
-								if (strcmp(subfolder,"custom")==0)
-									flag=true;
-							}
-
-						if (flag==true)
-							{
-								asprintf(&entryname,"%s",entry);
-								entrylist=g_slist_prepend(entrylist,(void*)entryname);
-							}
-					}
-					entry=g_dir_read_name(folder);
-				}
-			g_dir_close(folder);
-		}
-
-	if(entrylist!=NULL)
-		{
-			entrylist=g_slist_sort(entrylist,sortFunc);
-
-			for (int j=0;j<(int)g_slist_length(entrylist);j++)
-				{
-					asprintf(&filename,"%s/.config/XfceThemeManager/%s/%s",homeFolder,subfolder,(char*)g_slist_nth_data(entrylist,j));
-					if(g_key_file_load_from_file(keyfile,filename,G_KEY_FILE_NONE,NULL))
-						{
-							name=g_key_file_get_string(keyfile,"Data","Name",NULL);
-							thumb=g_key_file_get_string(keyfile,"Data","Thumbnail",NULL);
-							themename=g_key_file_get_string(keyfile,"Data","ThemeName",NULL);
-							button=gtk_button_new();
-							box=imageBox(thumb,name,subfolder,themename);
-							gtk_widget_set_name(button,filename);
-							gtk_button_set_relief((GtkButton*)button,GTK_RELIEF_NONE);
-							gtk_container_add (GTK_CONTAINER (button),box);
-							g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(callback),NULL);
-							gtk_box_pack_start((GtkBox*)vbox,button,false,true,4);
-							freeAndNull(&name);
-							freeAndNull(&thumb);
 						}
 			 	}
 			g_slist_free_full(entrylist,freeNames);
@@ -408,14 +320,21 @@ void buildPages(void)
 	g_signal_connect(G_OBJECT(icon_view),"button-press-event",G_CALLBACK(clickIt),(void*)CURSORS);
 
 	wallscroll=gtk_scrolled_window_new(NULL,NULL);
-	wallpapersVBox=gtk_vbox_new(FALSE, 0);
 	
-	vbox=gtk_vbox_new(FALSE, 0);
-	addNewButtons(vbox,"wallpapers",(void*)doWallpapers);
+	wallpapersScrollBox=gtk_scrolled_window_new(NULL,NULL);
+	if (wallpapersVBox==NULL)
+		{
+			wallpapersVBox=gtk_vbox_new(FALSE, 0);
+			gtk_box_pack_start((GtkBox*)wallpapersVBox,wallpapersMainBox,FALSE,FALSE,0);
+		}
+	addNewIcons(wallpapersScrollBox,"wallpapers");
 
-	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)wallscroll,vbox);
-	gtk_box_pack_start((GtkBox*)wallpapersVBox,(GtkWidget*)wallscroll,true,true,4);
-	gtk_container_add (GTK_CONTAINER(wallpapersMainBox),wallpapersVBox);
+	gtk_box_pack_start ((GtkBox*)wallpapersVBox,wallpapersScrollBox, TRUE, TRUE, 0);
+	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(wallpapersScrollBox),GTK_POLICY_AUTOMATIC,GTK_POLICY_AUTOMATIC);
+
+	g_signal_connect(G_OBJECT(icon_view),"motion-notify-event",G_CALLBACK(mouseMove),NULL);
+	g_signal_connect(G_OBJECT(icon_view),"button-press-event",G_CALLBACK(clickIt),(void*)WALLPAPERS);
+	
 }
 
 void doAbout(GtkWidget* widget,gpointer data)

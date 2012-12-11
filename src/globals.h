@@ -158,6 +158,7 @@ extern GtkWidget*		controlsScrollBox;
 extern GtkWidget*		iconsScrollBox;
 extern GtkWidget*		cursorsScrollBox;
 extern GtkWidget*		wallpapersMainBox;
+extern GtkWidget*		wallpapersScrollBox;
 
 extern GtkWidget*		themesVBox;
 extern GtkWidget*		framesVBox;
