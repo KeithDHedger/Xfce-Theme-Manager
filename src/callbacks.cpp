@@ -705,7 +705,7 @@ void themeIconCallback(GtkIconView *view,gpointer doWhat)
 	GtkTreePath*	path;
 	GtkTreeIter		iter;
 	char*			text;
-printf("here\n");
+
 	selected=gtk_icon_view_get_selected_items(view);
 	if (!selected)
 		return;
@@ -716,8 +716,6 @@ printf("here\n");
 	gtk_tree_path_free(path);
 
 	gtk_tree_model_get(model,&iter,FILE_NAME,&text,-1);
-
-printf("there - %i\n",(long)doWhat);
 
 	switch((long)doWhat)
 		{
@@ -745,6 +743,30 @@ printf("there - %i\n",(long)doWhat);
 	g_list_free (selected);
 }
 
+gboolean mouseMove(GtkWidget* widget,GdkEvent* event,gpointer user_data)
+{
+	GtkTreePath* path=NULL;
+
+	path=gtk_icon_view_get_path_at_pos((GtkIconView *)widget,event->button.x,event->button.y);
+	if (path!=NULL)
+		gtk_icon_view_select_path((GtkIconView *)widget,path);
+
+	return(TRUE);
+}
+                                                        
+gboolean clickIt(GtkWidget* widget,GdkEvent* event,gpointer data)
+{
+	GtkTreePath* path=NULL;
+
+	path=gtk_icon_view_get_path_at_pos((GtkIconView *)widget,event->button.x,event->button.y);
+	if (path!=NULL)
+		{
+			gtk_icon_view_select_path((GtkIconView *)widget,path);
+			themeIconCallback((GtkIconView *)widget,(void*)data);
+		}
+	return(TRUE);
+}
+                                                        
 void launchCompEd(GtkWidget* window,gpointer data)
 {
 	system("xfce4-composite-editor");

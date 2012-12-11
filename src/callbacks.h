@@ -30,6 +30,10 @@ void themeIconCallback(GtkIconView *view,gpointer doWhat);
 //void doControls(GtkWidget* widget,gpointer data);
 //void doIcons(GtkWidget* widget,gpointer data);
 //void doCursors(GtkWidget* widget,gpointer data);
+
+gboolean mouseMove(GtkWidget *widget,GdkEvent* event,gpointer user_data);
+gboolean clickIt(GtkWidget *widget,GdkEvent* event,gpointer data);
+
 void launchCompEd(GtkWidget* window,gpointer data);
 
 void resetBright(GtkWidget* widget,gpointer data);

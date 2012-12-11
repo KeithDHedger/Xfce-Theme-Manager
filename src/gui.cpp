@@ -344,34 +344,7 @@ GtkWidget* buildTitlePos(void)
 	gtk_box_pack_start(GTK_BOX(advancedHbox),(GtkWidget*)titlePos,true,true,8);
 	return(advancedHbox);
 }
-gboolean mousemove(GtkWidget *widget,GdkEvent  *event,gpointer   user_data)
-{
-	GtkTreePath * path=NULL;
 
-	path=gtk_icon_view_get_path_at_pos((GtkIconView *)widget,event->button.x,event->button.y);
-	if (path!=NULL)
-		{
-			gtk_icon_view_select_path((GtkIconView *)widget,path);
-	//printf("%f - %f\n",event->button.x,event->button.y);
-	//printf("XXXXXXXXXX\n");
-		}
-	return(TRUE);
-}
-                                                        
-gboolean click(GtkWidget *widget,GdkEvent  *event,gpointer data)
-{
-	GtkTreePath * path=NULL;
-	path=gtk_icon_view_get_path_at_pos((GtkIconView *)widget,event->button.x,event->button.y);
-	if (path!=NULL)
-		{
-			gtk_icon_view_select_path((GtkIconView *)widget,path);
-	printf("%f - %f\n",event->button.x,event->button.y);
-	printf("ZZZZZZZZ\n");
-			themeIconCallback((GtkIconView *)widget,(void*)data);
-		}
-	return(TRUE);
-}
-                                                        
 void buildPages(void)
 {
 	GtkWidget*	vbox;
@@ -399,9 +372,8 @@ void buildPages(void)
 	addNewIcons(framesScrollBox,"frames");
 	gtk_box_pack_start((GtkBox*)framesVBox,framesScrollBox,TRUE,TRUE,0);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(framesScrollBox),GTK_POLICY_AUTOMATIC,GTK_POLICY_AUTOMATIC);
-	//g_signal_connect(G_OBJECT(icon_view),"selection-changed",G_CALLBACK(themeIconCallback),(void*)WMBORDERS);
-	g_signal_connect(G_OBJECT(icon_view),"motion-notify-event",G_CALLBACK(mousemove),NULL);
-	g_signal_connect(G_OBJECT(icon_view),"button-press-event",G_CALLBACK(click),(void*)WMBORDERS);
+	g_signal_connect(G_OBJECT(icon_view),"motion-notify-event",G_CALLBACK(mouseMove),NULL);
+	g_signal_connect(G_OBJECT(icon_view),"button-press-event",G_CALLBACK(clickIt),(void*)WMBORDERS);
 
 	controlsScrollBox=gtk_scrolled_window_new(NULL,NULL);
 	if (controlsVBox==NULL)
