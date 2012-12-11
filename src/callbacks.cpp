@@ -702,6 +702,8 @@ gboolean mouseMove(GtkWidget* widget,GdkEvent* event,gpointer user_data)
 	path=gtk_icon_view_get_path_at_pos((GtkIconView *)widget,event->button.x,event->button.y);
 	if (path!=NULL)
 		gtk_icon_view_select_path((GtkIconView *)widget,path);
+	else
+		gtk_icon_view_unselect_all((GtkIconView*)widget);
 
 	return(TRUE);
 }
