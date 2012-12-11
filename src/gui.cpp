@@ -23,6 +23,12 @@
 #include "globals.h"
 #include "callbacks.h"
 
+int			size=128;
+bool			addView=true;
+GtkWidget*		icon_view;
+GtkListStore*	store;
+
+
 bool isCurrent(char* themename,const char* catagory,char* name)
 {
 	bool	retval=false;
@@ -106,25 +112,18 @@ gint sortFunc(gconstpointer a,gconstpointer b)
 	return(g_ascii_strcasecmp((const char*)a,(const char*)b));
 }
 
-enum {PIXBUF_COLUMN,TEXT_COLUMN};
-int size=128;
-bool addView=true;
-
-void addIconEntry(GtkListStore *store,const char* iconPng,const char* iconName)
+void addIconEntry(GtkListStore *store,const char* iconPng,const char* iconName,char* dbPath)
 {
 	GtkTreeIter	iter;
 	GdkPixbuf*	pixbuf;
 
 	gtk_list_store_append(store,&iter);
 	pixbuf=gdk_pixbuf_new_from_file_at_size(iconPng,size,-1,NULL);
-	gtk_list_store_set(store,&iter,PIXBUF_COLUMN,pixbuf,TEXT_COLUMN,iconName,-1);
+	gtk_list_store_set(store,&iter,PIXBUF_COLUMN,pixbuf,TEXT_COLUMN,iconName,FILE_NAME,dbPath,-1);
 	g_object_unref(pixbuf);
 }
 
-GtkWidget*		icon_view;
-GtkListStore*	store;
-
-void addNewIcons(GtkWidget* vbox,const char* subfolder,void* callback)
+void addNewIcons(GtkWidget* vbox,const char* subfolder)
 {
 	char*		foldername;
 	char*		filename;
@@ -133,21 +132,17 @@ void addNewIcons(GtkWidget* vbox,const char* subfolder,void* callback)
 	GKeyFile*	keyfile=g_key_file_new();
 	char*		name;
 	char*		thumb;
-	char*		themename=NULL;
-	GtkWidget*	button;
-	GtkWidget*	box;
 
 	GSList *	entrylist=NULL;
 	char*		entryname;
 	bool		flag=false;
 
-
 	if(addView==true)
 		{
-			int			itemSize=0;
+			int itemSize=0;
 
 			icon_view=gtk_icon_view_new ();
-			store = gtk_list_store_new (2, GDK_TYPE_PIXBUF, G_TYPE_STRING);
+			store = gtk_list_store_new (3, GDK_TYPE_PIXBUF, G_TYPE_STRING, G_TYPE_STRING);
 
 			if(size<=64)
 				itemSize=size+(size/2);
@@ -227,7 +222,7 @@ void addNewIcons(GtkWidget* vbox,const char* subfolder,void* callback)
 						{
 							name=g_key_file_get_string(keyfile,"Data","Name",NULL);
 							thumb=g_key_file_get_string(keyfile,"Data","Thumbnail",NULL);
-							addIconEntry(store,thumb,name);
+							addIconEntry(store,thumb,name,filename);
 							freeAndNull(&name);
 							freeAndNull(&thumb);
 							freeAndNull(&filename);
@@ -349,8 +344,10 @@ GtkWidget* buildTitlePos(void)
 	gtk_box_pack_start(GTK_BOX(advancedHbox),(GtkWidget*)titlePos,true,true,8);
 	return(advancedHbox);
 }
-char*		newmetaThemeSelected=NULL;
-void doNewMeta(char* metadata)
+
+#if 0
+//char*		newmetaThemeSelected=NULL;
+void doNewMetaXX(char* metadata)
 {
 	GKeyFile*		keyfile=g_key_file_new();
 	int			keycnt=14;
@@ -425,46 +422,9 @@ printf("here - %s\n",metadata);
 	system("xfdesktop --reload");
 }
 
+#endif
 
 
-void themeIconCallback(GtkIconView *view,gpointer user_data)
-{
-	
-	//GList * list=gtk_icon_view_get_selected_items((GtkIconView *)iconview);
-	
-	GtkTreeModel *model;
-  GList *selected,
-   *current;
-
-  selected = gtk_icon_view_get_selected_items (view);
-  if (!selected)
-    return;
-
-  model = gtk_icon_view_get_model (view);
-
-  current = selected;
-//  do
-  //  {
-      GtkTreePath *path;
-      GtkTreeIter iter;
-      char *text;
-
-      path = (GtkTreePath *)current->data;
-      gtk_tree_model_get_iter (model, &iter, path);
-      gtk_tree_path_free (path);
-
-      gtk_tree_model_get (model, &iter,TEXT_COLUMN, &text, -1);
-      g_print ("Selected item: %s\n", text);
-      doNewMeta(text);
-      g_free (text);
-    //}
-  //while (current = g_list_next (current));
-
-  g_list_free (selected);
-  
-  
-
-}
 
 void buildPages(void)
 {
@@ -475,42 +435,45 @@ void buildPages(void)
 	addView=true;
 	if (themesVBox==NULL)
 		themesVBox=gtk_vbox_new(FALSE, 0);
-	addNewIcons(themesScrollBox,"custom",(void*)doMeta);
+	addNewIcons(themesScrollBox,"custom");
+//	addNewIcons(themesScrollBox,"custom",(void*)themeIconCallback);
 
-	g_signal_connect_after(G_OBJECT(icon_view),"selection-changed",G_CALLBACK(themeIconCallback),NULL);
 
 	addView=false;
-	addNewIcons(themesScrollBox,"meta",(void*)doMeta);
+//	addNewIcons(themesScrollBox,"meta",(void*)themeIconCallback);
+	addNewIcons(themesScrollBox,"meta");
 
+	g_signal_connect_after(G_OBJECT(icon_view),"selection-changed",G_CALLBACK(themeIconCallback),NULL);
 	addView=true;
+
 	gtk_box_pack_start ((GtkBox*)themesVBox, themesScrollBox, TRUE, TRUE, 0);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(themesScrollBox),GTK_POLICY_AUTOMATIC,GTK_POLICY_AUTOMATIC);
 
 	framesScrollBox=gtk_scrolled_window_new(NULL,NULL);
 	if (framesVBox==NULL)
 		framesVBox=gtk_vbox_new(FALSE, 0);
-	addNewIcons(framesScrollBox,"frames",(void*)doMeta);
+	addNewIcons(framesScrollBox,"frames");
 	gtk_box_pack_start ((GtkBox*)framesVBox, framesScrollBox, TRUE, TRUE, 0);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(framesScrollBox),GTK_POLICY_AUTOMATIC,GTK_POLICY_AUTOMATIC);
 
 	controlsScrollBox=gtk_scrolled_window_new(NULL,NULL);
 	if (controlsVBox==NULL)
 		controlsVBox=gtk_vbox_new(FALSE, 0);
-	addNewIcons(controlsScrollBox,"controls",(void*)doMeta);
+	addNewIcons(controlsScrollBox,"controls");
 	gtk_box_pack_start ((GtkBox*)controlsVBox,controlsScrollBox, TRUE, TRUE, 0);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(controlsScrollBox),GTK_POLICY_AUTOMATIC,GTK_POLICY_AUTOMATIC);
 
 	iconsScrollBox=gtk_scrolled_window_new(NULL,NULL);
 	if (iconsVBox==NULL)
 		iconsVBox=gtk_vbox_new(FALSE, 0);
-	addNewIcons(iconsScrollBox,"icons",(void*)doMeta);
+	addNewIcons(iconsScrollBox,"icons");
 	gtk_box_pack_start ((GtkBox*)iconsVBox,iconsScrollBox, TRUE, TRUE, 0);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(iconsScrollBox),GTK_POLICY_AUTOMATIC,GTK_POLICY_AUTOMATIC);
 
 	cursorsScrollBox=gtk_scrolled_window_new(NULL,NULL);
 	if (cursorsVBox==NULL)
 		cursorsVBox=gtk_vbox_new(FALSE, 0);
-	addNewIcons(cursorsScrollBox,"cursors",(void*)doMeta);
+	addNewIcons(cursorsScrollBox,"cursors");
 	gtk_box_pack_start ((GtkBox*)cursorsVBox,cursorsScrollBox, TRUE, TRUE, 0);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(cursorsScrollBox),GTK_POLICY_AUTOMATIC,GTK_POLICY_AUTOMATIC);
 

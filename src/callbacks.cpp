@@ -558,7 +558,7 @@ void removeTheme(const char* name)
 }
 
 //do meta theme
-void doMeta(GtkWidget* widget,gpointer data)
+void doMeta(char* metaFilename)
 {
 	GKeyFile*		keyfile=g_key_file_new();
 	int			keycnt=14;
@@ -573,11 +573,11 @@ void doMeta(GtkWidget* widget,gpointer data)
 	gdk_window_get_pointer(NULL,NULL,NULL,&mask);
 	if (GDK_CONTROL_MASK & mask )
 		{
-			removeTheme(gtk_widget_get_name(widget));
+			removeTheme(metaFilename);
 			return;
 		}
 
-	if(g_key_file_load_from_file(keyfile,gtk_widget_get_name(widget),G_KEY_FILE_NONE,NULL))
+	if(g_key_file_load_from_file(keyfile,metaFilename,G_KEY_FILE_NONE,NULL))
 		{
 			metaThemeSelected=g_key_file_get_string(keyfile,"Data",(char*)"Name",NULL);
 			for (int j=0;j<keycnt;j++)
@@ -628,6 +628,30 @@ void doMeta(GtkWidget* widget,gpointer data)
 		}
 
 	system("xfdesktop --reload");
+}
+
+void themeIconCallback(GtkIconView *view,gpointer user_data)
+{
+	GtkTreeModel*	model;
+	GList*		selected;
+	GtkTreePath*	path;
+	GtkTreeIter		iter;
+	char*			text;
+
+	selected=gtk_icon_view_get_selected_items(view);
+	if (!selected)
+		return;
+
+	model=gtk_icon_view_get_model(view);
+      path=(GtkTreePath *)selected->data;
+      gtk_tree_model_get_iter(model,&iter,path);
+      gtk_tree_path_free(path);
+
+      gtk_tree_model_get(model,&iter,FILE_NAME,&text,-1);
+
+      doMeta(text);
+      g_free (text);
+	g_list_free (selected);
 }
 
 //controls
