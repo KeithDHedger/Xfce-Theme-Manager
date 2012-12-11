@@ -10,7 +10,7 @@
  *
  * Seriously mucked about by:
  *
- * K.D.Hedger 2012 <kdheger@yahoo.co.uk>
+ * K.D.Hedger 2012 <kdhedger68713@gmail.com>
  *
  * gui.cpp
  */
@@ -149,7 +149,7 @@ void addNewIcons(GtkWidget* vbox,const char* subfolder)
 			else
 				itemSize=-1;
 
-//	gtk_icon_view_set_item_padding((GtkIconView *)icon_view,0);
+//			gtk_icon_view_set_item_padding((GtkIconView *)icon_view,0);
 			gtk_icon_view_set_item_width((GtkIconView *)icon_view,itemSize);
 
 			gtk_icon_view_set_pixbuf_column (GTK_ICON_VIEW (icon_view), PIXBUF_COLUMN);
@@ -250,9 +250,6 @@ GtkWidget* buildTitlePos(void)
 
 void buildPages(void)
 {
-	GtkWidget*	vbox;
-	GtkWidget*	wallscroll;
-
 	themesScrollBox=gtk_scrolled_window_new(NULL,NULL);
 	addView=true;
 	if (themesVBox==NULL)
@@ -310,8 +307,6 @@ void buildPages(void)
 	g_signal_connect(G_OBJECT(icon_view),"motion-notify-event",G_CALLBACK(mouseMove),NULL);
 	g_signal_connect(G_OBJECT(icon_view),"button-press-event",G_CALLBACK(clickIt),(void*)CURSORS);
 
-	wallscroll=gtk_scrolled_window_new(NULL,NULL);
-	
 	wallpapersScrollBox=gtk_scrolled_window_new(NULL,NULL);
 	if (wallpapersVBox==NULL)
 		{

@@ -10,7 +10,7 @@
  *
  * Seriously mucked about by:
  *
- * K.D.Hedger 2012 <kdheger@yahoo.co.uk>
+ * K.D.Hedger 2012 <kdhedger68713@gmail.com>
  *
  * thumbnails.cpp
  */
@@ -94,29 +94,28 @@ void makecursor(char* theme,char* outPath)
 			{
 				gdk_cairo_set_source_pixbuf(cr,arrow,0,0);
 				cairo_paint_with_alpha(cr,100);
+				g_object_unref(arrow);
 			}
 		if(move!=NULL)
 			{
 				gdk_cairo_set_source_pixbuf(cr,move,32,0);
 				cairo_paint_with_alpha(cr,100);
+				g_object_unref(move);
 			}
 		if(wait!=NULL)
 			{
 				gdk_cairo_set_source_pixbuf(cr,wait,64,0);
 				cairo_paint_with_alpha(cr,100);
+				g_object_unref(wait);
 			}
 		if(hand!=NULL)
 			{
 				gdk_cairo_set_source_pixbuf(cr,hand,96,0);
 				cairo_paint_with_alpha(cr,100);
+				g_object_unref(hand);
 			}
 	cairo_restore (cr);
 	cairo_surface_write_to_png(surface,outPath);
-
-	g_object_unref(arrow);
-	g_object_unref(move);
-	g_object_unref(wait);
-	g_object_unref(hand);
 
 	cairo_surface_destroy(surface);
 	cairo_destroy(cr);

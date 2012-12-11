@@ -1,6 +1,6 @@
 /*
  *
- * K.D.Hedger 2012 <kdheger@yahoo.co.uk>
+ * K.D.Hedger 2012 <kdhedger68713@gmail.com>
  *
  * Globals.cpp
  */

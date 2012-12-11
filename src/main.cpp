@@ -10,7 +10,7 @@
  *
  * Seriously mucked about by:
  *
- * K.D.Hedger 2012 <kdheger@yahoo.co.uk>
+ * K.D.Hedger 2012 <kdhedger68713@gmail.com>
  *
  */
 
@@ -387,7 +387,6 @@ int main(int argc,char **argv)
 	gtk_notebook_append_page(notebook,cursorsVBox,label);
 
 	label=gtk_label_new(_translate(WALLPAPERS));
-//	gtk_notebook_append_page(notebook,wallpapersMainBox,label);
 	gtk_notebook_append_page(notebook,wallpapersVBox,label);
 
 	gtk_notebook_append_page(advanced,(GtkWidget*)notebook,NULL);

@@ -1,7 +1,7 @@
 /*
  *
  *
- * K.D.Hedger 2012 <kdheger@yahoo.co.uk>
+ * K.D.Hedger 2012 <kdhedger68713@gmail.com>
  *
  *
  * database.cpp
@@ -16,7 +16,6 @@
 
 void writeDBFile(char* filename,char* name,char* gtk,char* frame,char* icon,char* paper,char* cursor,char* thumb,bool ismeta)
 {
-
 	FILE*	fd;
 	char*	filedata;
 
@@ -396,7 +395,7 @@ gpointer rebuildDB(gpointer data)
 												}
 											asprintf(&buffer,"%s/%s",papersArray[i],entry);
 											writeDBFile(dbfile,displayname,NULL,NULL,NULL,buffer,NULL,thumbfile,false);
-											pixbuf=gdk_pixbuf_new_from_file_at_size(buffer,-1,64,NULL);
+											pixbuf=gdk_pixbuf_new_from_file_at_size(buffer,-1,256,NULL);
 											gdk_pixbuf_savev(pixbuf,thumbfile,"png",NULL,NULL,NULL);
 											g_object_unref(pixbuf);
 											pixbuf=NULL;
@@ -415,7 +414,6 @@ gpointer rebuildDB(gpointer data)
 
 	g_key_file_free(metakeyfile);
 	g_key_file_free(keyfile);
-
 	if (makeornot==0)
 		gtk_main_quit();
 
