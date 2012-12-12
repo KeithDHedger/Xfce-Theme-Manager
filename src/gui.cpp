@@ -118,7 +118,7 @@ void addIconEntry(GtkListStore *store,const char* iconPng,const char* iconName,c
 	GdkPixbuf*	pixbuf;
 
 	gtk_list_store_append(store,&iter);
-	pixbuf=gdk_pixbuf_new_from_file_at_size(iconPng,size,-1,NULL);
+	pixbuf=gdk_pixbuf_new_from_file_at_size(iconPng,previewSize,-1,NULL);
 	//pixbuf=gdk_pixbuf_new_from_file_at_scale(iconPng,size,-1,FALSE,NULL);
 	gtk_list_store_set(store,&iter,PIXBUF_COLUMN,pixbuf,TEXT_COLUMN,iconName,FILE_NAME,dbPath,-1);
 	g_object_unref(pixbuf);
@@ -126,29 +126,29 @@ void addIconEntry(GtkListStore *store,const char* iconPng,const char* iconName,c
 
 void addNewIcons(GtkWidget* vbox,const char* subfolder)
 {
-	char*		foldername;
-	char*		filename;
+	char*			foldername;
+	char*			filename;
 	const gchar*	entry;
-	GDir*		folder;
-	GKeyFile*	keyfile=g_key_file_new();
-	char*		name;
-	char*		thumb;
+	GDir*			folder;
+	GKeyFile*		keyfile=g_key_file_new();
+	char*			name;
+	char*			thumb;
 
-	GSList *	entrylist=NULL;
-	char*		entryname;
-	bool		flag=false;
+	GSList *		entrylist=NULL;
+	char*			entryname;
+	bool			flag=false;
+	int 			itemSize=previewSize+previewSize/2;
 
 	if(addView==true)
 		{
-			int itemSize=0;
 
 			icon_view=gtk_icon_view_new ();
 			store = gtk_list_store_new (3, GDK_TYPE_PIXBUF, G_TYPE_STRING, G_TYPE_STRING);
 
-			if(size<=64)
-				itemSize=size+(size/2);
-			else
-				itemSize=-1;
+//			if(size<=64)
+//				itemSize=size+(size/2);
+//			else
+//				itemSize=-1;
 
 //			gtk_icon_view_set_item_padding((GtkIconView *)icon_view,0);
 			gtk_icon_view_set_item_width((GtkIconView *)icon_view,itemSize);

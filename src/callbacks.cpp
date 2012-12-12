@@ -480,6 +480,34 @@ void wallStyleChanged(GtkWidget* widget,gpointer data)
 	system(command);
 }
 
+void previewSizeChanged(GtkWidget* widget,gpointer data)
+{
+	char*	command;
+	int index=-1;
+	index=gtk_combo_box_get_active((GtkComboBox*)widget);
+//	asprintf(&command,"%s%i",XCONFSETSTYLE,wallStyle);
+//	system(command);
+	switch(index)
+		{
+			case 0:
+				previewSize=256;
+				break;
+
+			case 1:
+				previewSize=128;
+				break;
+
+			case 2:
+				previewSize=64;
+				break;
+
+			case 3:
+				previewSize=48;
+				break;
+		}
+	rerunAndUpdate(false,true);
+}
+
 void removeTheme(const char* name)
 {
 	int		namelen;

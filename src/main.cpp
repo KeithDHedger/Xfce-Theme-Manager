@@ -416,6 +416,15 @@ int main(int argc,char **argv)
 	gtk_box_pack_start(GTK_BOX(buttonHbox),button, false,false,0);
 	g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(showAdvanced),NULL);
 
+	previewComboBox=(GtkComboBoxText*)gtk_combo_box_text_new();
+	gtk_combo_box_text_append_text(previewComboBox,_translate(HUGEP));
+	gtk_combo_box_text_append_text(previewComboBox,_translate(LARGEP));
+	gtk_combo_box_text_append_text(previewComboBox,_translate(MEDIUMP));
+	gtk_combo_box_text_append_text(previewComboBox,_translate(SMALLP));
+
+	g_signal_connect_after(G_OBJECT(previewComboBox),"changed",G_CALLBACK(previewSizeChanged),NULL);
+	gtk_box_pack_start(GTK_BOX(buttonHbox),(GtkWidget*)previewComboBox,false,false,8);
+
 	gtk_box_pack_start(GTK_BOX(vbox),buttonHbox, false,false, 8);
 
 	buttonHbox=gtk_hbox_new(true,0);

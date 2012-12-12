@@ -23,6 +23,7 @@ void rerunAndUpdate(bool rebuild,bool resetmeta);
 void setTitlePos(GtkComboBoxText* widget,gpointer data);
 void dropUri(GtkWidget *widget,GdkDragContext *context,gint x,gint y,GtkSelectionData *selection_data,guint info,guint32 time,gpointer user_data);
 void wallStyleChanged(GtkWidget* widget,gpointer data);
+void previewSizeChanged(GtkWidget* widget,gpointer data);
 void themeIconCallback(GtkIconView *view,gpointer doWhat);
 
 gboolean mouseMove(GtkWidget *widget,GdkEvent* event,gpointer user_data);
