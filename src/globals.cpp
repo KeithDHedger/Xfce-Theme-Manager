@@ -207,5 +207,50 @@ void setValue(const char* command,dataType type,void* ptr)
 	freeAndNull(&stderr);
 }
 
+int sizeDrop(bool toDrop,int data)
+{
+	if (toDrop==TRUE)
+		{
+			switch(data)
+				{
+					case PREHUGE:
+						return(0);
+						break;
+
+					case 	PRELARGE:
+						return(1);
+						break;
+
+					case PREMEDIUM:
+						return(2);
+						break;
+
+					case PRESMALL:
+						return(3);
+						break;
+				}
+		}
+	else
+		{
+			switch(data)
+				{
+					case 0:
+						return(PREHUGE);
+						break;
+
+					case 1:
+						return(PRELARGE);
+						break;
+
+					case 2:
+						return(PREMEDIUM);
+						break;
+
+					case 3:
+						return(PRESMALL);
+						break;
+				}
+		}
+}
 
 

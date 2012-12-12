@@ -86,6 +86,9 @@
 #define XMTGETMETATHEME "xfconf-query -c xfcethemer -p /MetaTheme"
 #define XMTSETMETATHEME "xfconf-query -nt string -c xfcethemer -p /MetaTheme -s "
 
+#define XMTSETPRESIZE "xfconf-query -nt int -c xfcethemer -p /PreveiwSize -s "
+#define XMTGETPRESIZE "xfconf-query -c xfcethemer -p /PreveiwSize"
+
 #define _translate(x) langStr[langID][x]
 
 #define ENGLISH 0
@@ -96,7 +99,7 @@ enum dataType {INT,STRING,FLOAT};
 enum {PIXBUF_COLUMN,TEXT_COLUMN,FILE_NAME};
 enum words {THEMES=0,WMBORDERS,CONTROLS,ICONS,CURSORS,WALLPAPERS,REBUILDTHEDB,REBUILDDB,LAUNCHXCE,BACKDROPADJ,BRITE,SATU,RESET,BUTTONLAYOUT,FONTSELECT,WMFONT,APPFONT,CURSORSIZE,RESETTHEME,CUSTOMTHEME,ADVANCED,TITLEPOS,ENTERNAME,LEFT,CENTRE,RIGHT,AUTO,CENTRED,TILED,STRETCH,SCALE,ZOOM,CUSTOM,VIEW,GLOBAL,CUSTOMMETA,REMOVETHEME,SUBTITLE,ABOUTBOX,PREVIEWSIZE,HUGEP,LARGEP,MEDIUMP,SMALLP,STOPWORD};
 
-enum preSize {PREHUGE=250,PRELARGE=128,PREMEDIUM=64,PRESMALL=48};
+enum preSize {PREHUGE=256,PRELARGE=128,PREMEDIUM=64,PRESMALL=48};
 
 extern const char*	langStr[][STOPWORD];
 
@@ -212,6 +215,7 @@ extern void freeAndNull(char** ptr);
 extern int positionToInt(char* pos);
 extern char* doubleToStr(double num);
 void setValue(const char* command,dataType type,void* ptr);
+int sizeDrop(bool toDrop,int data);
 
 #endif
 

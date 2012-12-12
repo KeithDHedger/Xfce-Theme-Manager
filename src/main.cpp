@@ -243,6 +243,8 @@ void init(void)
 	setValue(XMTGETWINWID,INT,&winWid);
 	setValue(XMTGETWINHITE,INT,&winHite);
 
+	setValue(XMTGETPRESIZE,INT,&previewSize);
+
 	g_spawn_command_line_sync("which xfce4-composite-editor",&stdout,&stderr,&retval,NULL);
 	if (retval==0)
 		gotXCE=1;
@@ -422,6 +424,7 @@ int main(int argc,char **argv)
 	gtk_combo_box_text_append_text(previewComboBox,_translate(MEDIUMP));
 	gtk_combo_box_text_append_text(previewComboBox,_translate(SMALLP));
 
+	gtk_combo_box_set_active((GtkComboBox*)previewComboBox,sizeDrop(true,previewSize));
 	g_signal_connect_after(G_OBJECT(previewComboBox),"changed",G_CALLBACK(previewSizeChanged),NULL);
 	gtk_box_pack_start(GTK_BOX(buttonHbox),(GtkWidget*)previewComboBox,false,false,8);
 
