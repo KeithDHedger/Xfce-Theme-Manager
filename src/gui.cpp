@@ -150,8 +150,11 @@ void addNewIcons(GtkWidget* vbox,const char* subfolder)
 //			else
 //				itemSize=-1;
 
-//			gtk_icon_view_set_item_padding((GtkIconView *)icon_view,0);
 			gtk_icon_view_set_item_width((GtkIconView *)icon_view,itemSize);
+			gtk_icon_view_set_item_padding((GtkIconView *)icon_view,0);
+			gtk_icon_view_set_column_spacing((GtkIconView *)icon_view,0);
+			gtk_icon_view_set_spacing((GtkIconView *)icon_view,0);
+
 
 			gtk_icon_view_set_pixbuf_column (GTK_ICON_VIEW (icon_view), PIXBUF_COLUMN);
 			gtk_icon_view_set_text_column (GTK_ICON_VIEW (icon_view), TEXT_COLUMN);

@@ -13,6 +13,7 @@
 #define _GLOBALS_
 
 #define VERSION "0.1.20"
+#define MYEMAIL "kdhedger68713@gmail.com"
 
 #define PADWIDTH 72
 #define MAXBOXWIDTH 240

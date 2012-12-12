@@ -76,6 +76,8 @@ static const char * blank_xpm[]=
 
 GtkWidget*		progressWindow;
 GtkWidget*		progressBar;
+GtkWidget*		resetButton;
+GtkWidget*		customButton;
 
 // RESET THEME
 void resetTheme(GtkWidget* widget,gpointer data)
@@ -148,10 +150,18 @@ void showAdvanced(GtkWidget* widget,gpointer data)
 {
 	gboolean	state=gtk_toggle_button_get_active((GtkToggleButton*)widget);
 
+	gtk_widget_set_sensitive((GtkWidget*)previewComboBox,!state);
+	gtk_widget_set_sensitive((GtkWidget*)resetButton,!state);
+	gtk_widget_set_sensitive((GtkWidget*)customButton,!state);
+
 	if (state==true)
-		gtk_notebook_set_current_page(advanced,1);
+		{
+			gtk_notebook_set_current_page(advanced,1);
+		}
 	else
-		gtk_notebook_set_current_page(advanced,0);
+		{
+			gtk_notebook_set_current_page(advanced,0);
+		}
 }
 
 void init(void)
@@ -343,6 +353,16 @@ int main(int argc,char **argv)
 	gtk_container_add(GTK_CONTAINER(window),(GtkWidget*)vbox);
 #endif
 
+
+	previewComboBox=(GtkComboBoxText*)gtk_combo_box_text_new();
+	gtk_combo_box_text_append_text(previewComboBox,_translate(HUGEP));
+	gtk_combo_box_text_append_text(previewComboBox,_translate(LARGEP));
+	gtk_combo_box_text_append_text(previewComboBox,_translate(MEDIUMP));
+	gtk_combo_box_text_append_text(previewComboBox,_translate(SMALLP));
+
+	gtk_combo_box_set_active((GtkComboBox*)previewComboBox,sizeDrop(true,previewSize));
+	g_signal_connect_after(G_OBJECT(previewComboBox),"changed",G_CALLBACK(previewSizeChanged),NULL);
+
 	gtk_window_set_position((GtkWindow*)window,GTK_WIN_POS_CENTER);
 	gtk_window_set_default_size((GtkWindow*)window,winWid,winHite);
 	gtk_window_set_title((GtkWindow*)window,"Xfce Theme Manager");
@@ -402,31 +422,22 @@ int main(int argc,char **argv)
 	gtk_container_add(GTK_CONTAINER(vbox),(GtkWidget*)advanced);
 
 	gtk_box_pack_start(GTK_BOX(vbox),gtk_hseparator_new(),false,false,4);
+	gtk_box_pack_start(GTK_BOX(vbox),(GtkWidget*)previewComboBox,false,false,8);
 
 //do buttons
 	buttonHbox=gtk_hbox_new(true,0);
 
-	button=gtk_button_new_with_label(_translate(RESETTHEME));
-	gtk_box_pack_start(GTK_BOX(buttonHbox),button, false,false,0);
-	g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(resetTheme),NULL);
+	resetButton=gtk_button_new_with_label(_translate(RESETTHEME));
+	gtk_box_pack_start(GTK_BOX(buttonHbox),resetButton, false,false,0);
+	g_signal_connect_after(G_OBJECT(resetButton),"clicked",G_CALLBACK(resetTheme),NULL);
 
-	button=gtk_button_new_with_label(_translate(CUSTOMTHEME));
-	gtk_box_pack_start(GTK_BOX(buttonHbox),button, false,false,0);
-	g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(customTheme),NULL);
+	customButton=gtk_button_new_with_label(_translate(CUSTOMTHEME));
+	gtk_box_pack_start(GTK_BOX(buttonHbox),customButton, false,false,0);
+	g_signal_connect_after(G_OBJECT(customButton),"clicked",G_CALLBACK(customTheme),NULL);
 
 	button=gtk_toggle_button_new_with_label(_translate(ADVANCED));
 	gtk_box_pack_start(GTK_BOX(buttonHbox),button, false,false,0);
 	g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(showAdvanced),NULL);
-
-	previewComboBox=(GtkComboBoxText*)gtk_combo_box_text_new();
-	gtk_combo_box_text_append_text(previewComboBox,_translate(HUGEP));
-	gtk_combo_box_text_append_text(previewComboBox,_translate(LARGEP));
-	gtk_combo_box_text_append_text(previewComboBox,_translate(MEDIUMP));
-	gtk_combo_box_text_append_text(previewComboBox,_translate(SMALLP));
-
-	gtk_combo_box_set_active((GtkComboBox*)previewComboBox,sizeDrop(true,previewSize));
-	g_signal_connect_after(G_OBJECT(previewComboBox),"changed",G_CALLBACK(previewSizeChanged),NULL);
-	gtk_box_pack_start(GTK_BOX(buttonHbox),(GtkWidget*)previewComboBox,false,false,8);
 
 	gtk_box_pack_start(GTK_BOX(vbox),buttonHbox, false,false, 8);
 
