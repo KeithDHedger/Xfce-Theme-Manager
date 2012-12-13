@@ -112,13 +112,47 @@ gint sortFunc(gconstpointer a,gconstpointer b)
 	return(g_ascii_strcasecmp((const char*)a,(const char*)b));
 }
 
-void addIconEntry(GtkListStore *store,const char* iconPng,const char* iconName,char* dbPath)
+void addIconEntry(GtkListStore *store,const char* iconPng,const char* iconName,char* dbPath,char* subfolder,char* themename)
 {
 	GtkTreeIter	iter;
 	GdkPixbuf*	pixbuf;
+	GdkPixbuf*	star;
+
+GtkWidget * starwidget;
+int pixWid,pixHite,starWid,starHite;
 
 	gtk_list_store_append(store,&iter);
 	pixbuf=gdk_pixbuf_new_from_file_at_size(iconPng,previewSize,-1,NULL);
+
+if (isCurrent(themename,subfolder,(char*)iconName)==true)
+	{
+		pixWid=gdk_pixbuf_get_width(pixbuf);
+		pixHite=gdk_pixbuf_get_height(pixbuf);
+		printf("XXXCURRENT=%s %s %s\n",themename,subfolder,iconName);
+//		star=gdk_pixbuf_new_from_file ("star.png", NULL);
+//star=gtk_widget_render_icon(NULL,GTK_STOCK_ABOUT,(GtkIconSize)-1,0);
+starwidget=gtk_image_new_from_stock(GTK_STOCK_YES,(GtkIconSize)GTK_ICON_SIZE_LARGE_TOOLBAR);
+//star=gtk_image_get_pixbuf((GtkImage *)starwidget);
+star=gtk_widget_render_icon(starwidget,GTK_STOCK_YES,(GtkIconSize)GTK_ICON_SIZE_LARGE_TOOLBAR,"");
+//GError *error = NULL;
+//GtkIconTheme*     icon_theme=gtk_icon_theme_get_default();
+//star=gtk_icon_theme_load_icon(theme,"emblem-favorite.png",16,GTK_ICON_LOOKUP_NO_SVG,NULL);
+
+//star = gtk_icon_theme_load_icon (icon_theme,
+  ///                                 "emblem-special", /* icon name */
+     //                              16, /* size */
+       //                            (GtkIconLookupFlags)0,  /* flags */
+         //                          &error);
+                                
+		gdk_pixbuf_add_alpha(pixbuf,FALSE,0,0,0);
+		gdk_pixbuf_add_alpha(star,FALSE,0,0,0);
+// gdk_pixbuf_copy_area                (star,0,0,32,32,pixbuf,10,10);
+		starWid=gdk_pixbuf_get_width(star);
+		starHite=gdk_pixbuf_get_height(star);
+
+		gdk_pixbuf_composite(star,pixbuf,pixWid-starWid,pixHite-starHite,starWid,starHite,pixWid-starWid,pixHite-starHite,0.50,0.50,GDK_INTERP_NEAREST,0xFF);
+	}
+
 	//pixbuf=gdk_pixbuf_new_from_file_at_scale(iconPng,size,-1,FALSE,NULL);
 	gtk_list_store_set(store,&iter,PIXBUF_COLUMN,pixbuf,TEXT_COLUMN,iconName,FILE_NAME,dbPath,-1);
 	g_object_unref(pixbuf);
@@ -133,6 +167,7 @@ void addNewIcons(GtkWidget* vbox,const char* subfolder)
 	GKeyFile*		keyfile=g_key_file_new();
 	char*			name;
 	char*			thumb;
+	char*			themename;
 
 	GSList *		entrylist=NULL;
 	char*			entryname;
@@ -226,10 +261,12 @@ void addNewIcons(GtkWidget* vbox,const char* subfolder)
 						{
 							name=g_key_file_get_string(keyfile,"Data","Name",NULL);
 							thumb=g_key_file_get_string(keyfile,"Data","Thumbnail",NULL);
-							addIconEntry(store,thumb,name,filename);
+							themename=g_key_file_get_string(keyfile,"Data","ThemeName",NULL);
+							addIconEntry(store,thumb,name,filename,(char*)subfolder,(char*)themename);
 							freeAndNull(&name);
 							freeAndNull(&thumb);
 							freeAndNull(&filename);
+							freeAndNull(&themename);
 						}
 			 	}
 			g_slist_free_full(entrylist,freeNames);
@@ -329,7 +366,7 @@ void buildPages(void)
 
 void doAbout(GtkWidget* widget,gpointer data)
 {
-	const char*	authors[]={"K.D.Hedger <kdhedger@yahoo.co.uk>\n",NULL};
+	const char*	authors[]={"K.D.Hedger <"MYEMAIL">",NULL};
 	const char	copyright[] ="Copyright \xc2\xa9 2012 K.D.Hedger";
 	const char*	aboutboxstring=_translate(ABOUTBOX);
 	const char*	translators="Spanish translation:\nPablo Morales Romero <pg.morales.romero@gmail.com>.\n\nGerman translation:\nMartin F. Schumann. <mfs@mfs.name>";
