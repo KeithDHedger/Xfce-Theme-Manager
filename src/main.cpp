@@ -304,7 +304,7 @@ int main(int argc,char **argv)
 	GtkWidget*		button;
 	GtkWidget*		advancedScrollBox;
 	gboolean		dbexists;
-                                             
+                                       
 	if (argc==2 && g_ascii_strcasecmp(argv[1],"-v")==0)
 		{
 			printf("Xfce-Theme-Manager Version %s \nCopyright K.D.Hedger 2012, kdhedger@yahoo.co.uk\n",VERSION);
