@@ -199,8 +199,8 @@ gpointer rebuildDB(gpointer data)
 				}
 		}
 
-	controlWidth=200;
-	controlHeight=50;
+	controlWidth=GTKWIDTH;
+	controlHeight=GTKHEIGHT;
 
 //build frames
 //gtkprev [border] /path/to/border /out/path/to/png

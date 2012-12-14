@@ -94,8 +94,8 @@ GtkWidget*		paperCheck;
 GtkWidget*		onlyCustomCheck;
 
 
-int			controlHeight=50;
-int			controlWidth=200;
+int			controlHeight=64;
+int			controlWidth=256;
 GdkPixbuf*		controlsPixbuf;
 
 GtkNotebook*	notebook;

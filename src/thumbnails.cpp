@@ -35,8 +35,7 @@ GdkPixbuf *cursorprev (const char *ptrname,char* themename)
 
     /* load the image */
 
-	image=XcursorLibraryLoadImage (ptrname,themename,32);
-
+	image=XcursorLibraryLoadImage (ptrname,themename,CURSORTHEMESIZE);
 	if (G_LIKELY(image))
 		{
 			bsize=image->width*image->height*4;
@@ -60,7 +59,7 @@ GdkPixbuf *cursorprev (const char *ptrname,char* themename)
 
 			if (pixbuf!=NULL)
 				{
-					scaled=gdk_pixbuf_scale_simple(pixbuf,32,32,GDK_INTERP_BILINEAR);
+					scaled=gdk_pixbuf_scale_simple(pixbuf,CURSORTHEMESIZE,CURSORTHEMESIZE,GDK_INTERP_BILINEAR);
 					g_object_unref (G_OBJECT (pixbuf));
 				}
 				XcursorImageDestroy (image);
@@ -78,7 +77,7 @@ void makecursor(char* theme,char* outPath)
 	cairo_t *cr;
 
 	controlsPixbuf=NULL;
-	surface=cairo_image_surface_create(CAIRO_FORMAT_ARGB32,128,32);
+	surface=cairo_image_surface_create(CAIRO_FORMAT_ARGB32,CURSORTHEMEWIDTH,CURSORTHEMESIZE);
 	cr=cairo_create(surface);
 
 	arrow=cursorprev("left_ptr",theme);
@@ -98,19 +97,19 @@ void makecursor(char* theme,char* outPath)
 			}
 		if(move!=NULL)
 			{
-				gdk_cairo_set_source_pixbuf(cr,move,32,0);
+				gdk_cairo_set_source_pixbuf(cr,move,CURSORTHEMESIZE,0);
 				cairo_paint_with_alpha(cr,100);
 				g_object_unref(move);
 			}
 		if(wait!=NULL)
 			{
-				gdk_cairo_set_source_pixbuf(cr,wait,64,0);
+				gdk_cairo_set_source_pixbuf(cr,wait,CURSORTHEMESIZE*2,0);
 				cairo_paint_with_alpha(cr,100);
 				g_object_unref(wait);
 			}
 		if(hand!=NULL)
 			{
-				gdk_cairo_set_source_pixbuf(cr,hand,96,0);
+				gdk_cairo_set_source_pixbuf(cr,hand,CURSORTHEMESIZE*3,0);
 				cairo_paint_with_alpha(cr,100);
 				g_object_unref(hand);
 			}
