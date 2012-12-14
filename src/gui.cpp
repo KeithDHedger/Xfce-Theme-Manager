@@ -112,6 +112,77 @@ gint sortFunc(gconstpointer a,gconstpointer b)
 	return(g_ascii_strcasecmp((const char*)a,(const char*)b));
 }
 
+
+
+GdkPixbuf *f_pixbuf_from_cairo_surface (cairo_surface_t *source)
+{
+  gint width = cairo_image_surface_get_width (source);
+  gint height = cairo_image_surface_get_height (source);
+  GdkPixbuf *pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB,
+				      TRUE,
+				      8,
+				      width,
+				      height);
+
+  guchar *gdk_pixels = gdk_pixbuf_get_pixels (pixbuf);
+  int gdk_rowstride = gdk_pixbuf_get_rowstride (pixbuf);
+  int n_channels = gdk_pixbuf_get_n_channels (pixbuf);
+  cairo_format_t format;
+  cairo_surface_t *surface;
+  cairo_t *ctx;
+ // static const cairo_user_data_key_t key;
+  int j;
+
+  format = CAIRO_FORMAT_ARGB32;
+  //f_image_surface_get_format (source);
+  surface = cairo_image_surface_create_for_data (gdk_pixels,
+						 format,
+						 width, height, gdk_rowstride);
+  ctx = cairo_create (surface);
+  cairo_set_source_surface (ctx, source, 0, 0);
+  if (format == CAIRO_FORMAT_ARGB32)
+	  cairo_mask_surface (ctx, source, 0, 0);
+  else
+	  cairo_paint (ctx);
+
+  for (j = height; j; j--)
+    {
+      guchar *p = gdk_pixels;
+      guchar *end = p + 4 * width;
+      guchar tmp;
+
+      while (p < end)
+	{
+#if G_BYTE_ORDER == G_LITTLE_ENDIAN
+	  tmp = p[0];
+	  p[0] = p[2];
+	  p[2] = tmp;
+#else	  
+	  tmp = p[0];
+	  p[0] = p[3];
+	  p[3] = p[2];
+	  p[2] = p[1];
+	  p[1] = tmp;
+#endif
+	  p += 4;
+	}
+
+      gdk_pixels += gdk_rowstride;
+    }
+
+  cairo_destroy (ctx);
+  cairo_surface_destroy (surface);
+  return pixbuf;
+}
+
+
+
+
+
+
+
+
+
 void addIconEntry(GtkListStore *store,const char* iconPng,const char* iconName,char* dbPath,char* subfolder,char* themename)
 {
 	GtkTreeIter	iter;
@@ -131,9 +202,9 @@ if (isCurrent(themename,subfolder,(char*)iconName)==true)
 		printf("XXXCURRENT=%s %s %s\n",themename,subfolder,iconName);
 //		star=gdk_pixbuf_new_from_file ("star.png", NULL);
 //star=gtk_widget_render_icon(NULL,GTK_STOCK_ABOUT,(GtkIconSize)-1,0);
-starwidget=gtk_image_new_from_stock(GTK_STOCK_YES,(GtkIconSize)GTK_ICON_SIZE_LARGE_TOOLBAR);
+starwidget=gtk_image_new_from_stock(GTK_STOCK_ABOUT,(GtkIconSize)GTK_ICON_SIZE_LARGE_TOOLBAR);
 //star=gtk_image_get_pixbuf((GtkImage *)starwidget);
-star=gtk_widget_render_icon(starwidget,GTK_STOCK_YES,(GtkIconSize)GTK_ICON_SIZE_LARGE_TOOLBAR,"");
+star=gtk_widget_render_icon(starwidget,GTK_STOCK_ABOUT,(GtkIconSize)GTK_ICON_SIZE_LARGE_TOOLBAR,"");
 //GError *error = NULL;
 //GtkIconTheme*     icon_theme=gtk_icon_theme_get_default();
 //star=gtk_icon_theme_load_icon(theme,"emblem-favorite.png",16,GTK_ICON_LOOKUP_NO_SVG,NULL);
@@ -150,8 +221,61 @@ star=gtk_widget_render_icon(starwidget,GTK_STOCK_YES,(GtkIconSize)GTK_ICON_SIZE_
 		starWid=gdk_pixbuf_get_width(star);
 		starHite=gdk_pixbuf_get_height(star);
 
-		gdk_pixbuf_composite(star,pixbuf,pixWid-starWid,pixHite-starHite,starWid,starHite,pixWid-starWid,pixHite-starHite,0.50,0.50,GDK_INTERP_NEAREST,0xFF);
+	cairo_surface_t *surface;
+	cairo_t *cr;
+
+surface=cairo_image_surface_create(CAIRO_FORMAT_ARGB32,200,200);
+cr=cairo_create(surface);
+cairo_set_source_surface (cr,surface, 0, 0);
+cairo_save (cr);
+gdk_cairo_set_source_pixbuf(cr,pixbuf,0,0);
+cairo_paint_with_alpha(cr,100);
+cairo_restore (cr);
+cairo_save (cr);
+
+cairo_rectangle(cr,10,10,100,100);
+//cairo_clip(cr);
+
+//cairo_paint_with_alpha(cr,100);
+cairo_set_line_width(cr,10.0);
+cairo_stroke (cr);
+	if (strcmp(subfolder,"frames")==0)
+		{
+			//cairo_surface_write_to_png(surface,"/tmp/xx.png");
+			//cairo_t *tmp = gdk_cairo_create ((GdkDrawable *)pixbuf);
+	//cairo_surface_t * drawable_surface = cairo_get_target (tmp);
+			//GtkWidget *     da=gtk_drawing_area_new();
+			//GdkWindow *        window= gtk_widget_get_window (da);
+			//gdk_drawable_set_colormap((GdkDrawable *)surface,gdk_drawable_get_colormap((GdkDrawable *)pixbuf));
+			//cairo_surface_t * drawable_surface = cairo_get_target (surface);
+//			GdkColormap *       cmap=gdk_colormap_get_system             ();
+//			pixbuf=gdk_pixbuf_get_from_drawable(NULL,(GdkDrawable *)drawable_surface,
+  //                                                       NULL,
+    //                                                     0,
+      //                                                   0,
+        //                                                 0,
+          //                                               0,
+            //                                             100,
+              //                                           100);
+			//pixbuf=gdk_pixbuf_new_from_file("/tmp/xx.png",NULL);
+			pixbuf=f_pixbuf_from_cairo_surface (surface);
+			printf("AAAAAAAAAA\n");
+		}
+cairo_restore (cr);
+	cairo_surface_destroy(surface);
+	cairo_destroy(cr);
+
+	//	gdk_pixbuf_composite(star,pixbuf,pixWid-starWid,pixHite-starHite,starWid,starHite,pixWid-starWid,pixHite-starHite,1.0,1.0,GDK_INTERP_NEAREST,0xFF);
 	}
+
+//gdk_draw_rectangle((GdkDrawable *)pixbuf,
+  //                                           GdkGC *gc,
+    //                                         gboolean filled,
+      //                                       gint x,
+        //                                     gint y,
+          //                                   gint width,
+            //                                 gint height);
+
 
 	//pixbuf=gdk_pixbuf_new_from_file_at_scale(iconPng,size,-1,FALSE,NULL);
 	gtk_list_store_set(store,&iter,PIXBUF_COLUMN,pixbuf,TEXT_COLUMN,iconName,FILE_NAME,dbPath,-1);
