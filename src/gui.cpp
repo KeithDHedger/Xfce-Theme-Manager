@@ -208,75 +208,38 @@ void addIconEntry(GtkListStore *store,const char* iconPng,const char* iconName,c
 	gtk_list_store_append(store,&iter);
 	pixbuf=gdk_pixbuf_new_from_file_at_size(iconPng,previewSize,-1,NULL);
 
-if(isCurrent(themename,subfolder,(char*)iconName)==true)
-	{
-		pixWid=gdk_pixbuf_get_width(pixbuf);
-		pixHite=gdk_pixbuf_get_height(pixbuf);
+	if(isCurrent(themename,subfolder,(char*)iconName)==true)
+		{
+			pixWid=gdk_pixbuf_get_width(pixbuf);
+			pixHite=gdk_pixbuf_get_height(pixbuf);
 
-		surface=cairo_image_surface_create(CAIRO_FORMAT_ARGB32,pixWid+GAP,pixHite+GAP);
-		cr=cairo_create(surface);
+			surface=cairo_image_surface_create(CAIRO_FORMAT_ARGB32,pixWid+GAP,pixHite+GAP);
+			cr=cairo_create(surface);
 
-		cairo_save(cr);
-			cairo_set_source_rgb(cr,1,1,1);
-			cairo_rectangle(cr,0,0,pixWid+GAP,pixHite+GAP);
-			cairo_fill (cr);
-		cairo_restore(cr);
+			cairo_save(cr);
+				cairo_set_source_rgb(cr,1,1,1);
+				cairo_rectangle(cr,0,0,pixWid+GAP,pixHite+GAP);
+				cairo_fill (cr);
+			cairo_restore(cr);
 
-		cairo_save(cr);
-			gdk_cairo_set_source_pixbuf(cr,pixbuf,HALFGAP,HALFGAP);
-			cairo_paint_with_alpha(cr,100);
-		cairo_restore(cr);
+			cairo_save(cr);
+				gdk_cairo_set_source_pixbuf(cr,pixbuf,HALFGAP,HALFGAP);
+				cairo_paint_with_alpha(cr,100);
+			cairo_restore(cr);
 
-		cairo_save(cr);
-			cairo_rectangle(cr,0,0,pixWid+GAP,pixHite+GAP);
-			cairo_set_line_width(cr,HALFGAP.0);
-			cairo_stroke(cr);
-		cairo_restore(cr);
+			cairo_save(cr);
+				cairo_rectangle(cr,0,0,pixWid+GAP,pixHite+GAP);
+				cairo_set_line_width(cr,HALFGAP);
+				cairo_stroke(cr);
+			cairo_restore(cr);
 
-	if(strcmp(subfolder,"frames")==0)
-		cairo_surface_write_to_png(surface,"/tmp/xx.png");	
-//		{
-			//cairo_surface_write_to_png(surface,"/tmp/xx.png");
-			//cairo_t *tmp=gdk_cairo_create((GdkDrawable *)pixbuf);
-	//cairo_surface_t * drawable_surface=cairo_get_target(tmp);
-			//GtkWidget *     da=gtk_drawing_area_new();
-			//GdkWindow *        window= gtk_widget_get_window(da);
-			//gdk_drawable_set_colormap((GdkDrawable *)surface,gdk_drawable_get_colormap((GdkDrawable *)pixbuf));
-			//cairo_surface_t * drawable_surface=cairo_get_target(surface);
-//			GdkColormap *       cmap=gdk_colormap_get_system            ();
-//			pixbuf=gdk_pixbuf_get_from_drawable(NULL,(GdkDrawable *)drawable_surface,
-//                                                       NULL,
-  //                                                     0,
-    //                                                   0,
-      //                                                 0,
-        //                                               0,
-          //                                             100,
-            //                                           100);
-			//pixbuf=gdk_pixbuf_new_from_file("/tmp/xx.png",NULL);
-				g_object_unref(pixbuf);
-				pixbuf=f_pixbuf_from_cairo_surface(surface);
-	//g_object_unref(pixbuf);
-			//	pixbuf=pixbuf1;
-					//g_object_unref(pixbuf1);
-//			printf("AAAAAAAAAA\n");
-//		}
-//cairo_surface_write_to_png(surface,"/tmp/xx.png");	
-	cairo_surface_destroy(surface);
-	cairo_destroy(cr);
+			g_object_unref(pixbuf);
+			pixbuf=f_pixbuf_from_cairo_surface(surface);
 
-	//	gdk_pixbuf_composite(star,pixbuf,pixWid-starWid,pixHite-starHite,starWid,starHite,pixWid-starWid,pixHite-starHite,1.0,1.0,GDK_INTERP_NEAREST,0xFF);
-	}
+			cairo_surface_destroy(surface);
+			cairo_destroy(cr);
+		}
 
-//gdk_draw_rectangle((GdkDrawable *)pixbuf,
-//                                           GdkGC *gc,
-  //                                         gboolean filled,
-    //                                       gint x,
-      //                                     gint y,
-        //                                   gint width,
-          //                                 gint height);
-
-
-	//pixbuf=gdk_pixbuf_new_from_file_at_scale(iconPng,size,-1,FALSE,NULL);
 	gtk_list_store_set(store,&iter,PIXBUF_COLUMN,pixbuf,TEXT_COLUMN,iconName,FILE_NAME,dbPath,-1);
 	g_object_unref(pixbuf);
 
