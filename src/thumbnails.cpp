@@ -60,7 +60,7 @@ GdkPixbuf *cursorprev (const char *ptrname,char* themename)
 			if (pixbuf!=NULL)
 				{
 					scaled=gdk_pixbuf_scale_simple(pixbuf,CURSORTHEMESIZE,CURSORTHEMESIZE,GDK_INTERP_BILINEAR);
-					g_object_unref (G_OBJECT (pixbuf));
+					g_object_unref(G_OBJECT (pixbuf));
 				}
 				XcursorImageDestroy (image);
 		}
