@@ -705,16 +705,16 @@ void makeIcon(char* themename,char* outPath)
 	GtkIconTheme*	theme=NULL;
 
 	controlsPixbuf=NULL;
-	surface=cairo_image_surface_create(CAIRO_FORMAT_ARGB32,128,32);
+	surface=cairo_image_surface_create(CAIRO_FORMAT_ARGB32,256,ICONTHEMESIZE);
 	cr=cairo_create(surface);
 
 	theme=gtk_icon_theme_new();
 	gtk_icon_theme_set_custom_theme(theme,themename);
 
-	home=gtk_icon_theme_load_icon(theme,"user-home",ICONSIZE,GTK_ICON_LOOKUP_FORCE_SIZE,NULL);
-	folder=gtk_icon_theme_load_icon(theme,"folder",ICONSIZE,GTK_ICON_LOOKUP_FORCE_SIZE,NULL);
-	computer=gtk_icon_theme_load_icon(theme,"user-desktop",ICONSIZE,GTK_ICON_LOOKUP_FORCE_SIZE,NULL);
-	drive=gtk_icon_theme_load_icon(theme,"drive-harddisk",ICONSIZE,GTK_ICON_LOOKUP_FORCE_SIZE,NULL);
+	home=gtk_icon_theme_load_icon(theme,"user-home",ICONTHEMESIZE,GTK_ICON_LOOKUP_FORCE_SIZE,NULL);
+	folder=gtk_icon_theme_load_icon(theme,"folder",ICONTHEMESIZE,GTK_ICON_LOOKUP_FORCE_SIZE,NULL);
+	computer=gtk_icon_theme_load_icon(theme,"user-desktop",ICONTHEMESIZE,GTK_ICON_LOOKUP_FORCE_SIZE,NULL);
+	drive=gtk_icon_theme_load_icon(theme,"drive-harddisk",ICONTHEMESIZE,GTK_ICON_LOOKUP_FORCE_SIZE,NULL);
 
 	if(home!=NULL)
 		{
@@ -724,19 +724,19 @@ void makeIcon(char* themename,char* outPath)
 		}
 	if(folder!=NULL)
 		{
-			gdk_cairo_set_source_pixbuf(cr,folder,32,0);
+			gdk_cairo_set_source_pixbuf(cr,folder,ICONTHEMESIZE,0);
 			cairo_paint_with_alpha(cr,100);
 			g_object_unref(folder);
 		}
 	if(computer!=NULL)
 		{
-			gdk_cairo_set_source_pixbuf(cr,computer,64,0);
+			gdk_cairo_set_source_pixbuf(cr,computer,ICONTHEMESIZE*2,0);
 			cairo_paint_with_alpha(cr,100);
 			g_object_unref(computer);
 		}
 	if(drive!=NULL)
 		{
-			gdk_cairo_set_source_pixbuf(cr,drive,96,0);
+			gdk_cairo_set_source_pixbuf(cr,drive,ICONTHEMESIZE*3,0);
 			cairo_paint_with_alpha(cr,100);
 			g_object_unref(drive);
 		}
@@ -746,5 +746,4 @@ void makeIcon(char* themename,char* outPath)
 	cairo_surface_destroy(surface);
 	cairo_destroy(cr);
 }
-
 

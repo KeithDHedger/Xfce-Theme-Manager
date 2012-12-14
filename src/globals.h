@@ -16,8 +16,10 @@
 #define MYEMAIL "kdhedger68713@gmail.com"
 
 #define PADWIDTH 72
-#define MAXBOXWIDTH 240
+#define MAXBOXWIDTH 256
 #define ICONSIZE 32
+#define ICONTHEMESIZE 64
+
 #define ICONPAD 8
 #define PREFERVERSION 34
 #define GAP 8

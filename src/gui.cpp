@@ -56,7 +56,6 @@
 #include "globals.h"
 #include "callbacks.h"
 
-int			size=128;
 bool			addView=true;
 GtkWidget*		icon_view;
 GtkListStore*	store;
@@ -155,7 +154,6 @@ GdkPixbuf *f_pixbuf_from_cairo_surface(cairo_surface_t *source)
 	gdk_pixbuf_fill(pixbuf,0);
 	guchar *gdk_pixels=gdk_pixbuf_get_pixels(pixbuf);
 	int gdk_rowstride=gdk_pixbuf_get_rowstride(pixbuf);
-	int n_channels=gdk_pixbuf_get_n_channels(pixbuf);
 
 	cairo_surface_t *surface;
 	cairo_t *ctx;
