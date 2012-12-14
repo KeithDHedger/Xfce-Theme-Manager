@@ -26,16 +26,17 @@
 int			boxhite=90;
 int			button_offset,button_spacing;
 
-GdkPixbuf *cursorprev (const char *ptrname,char* themename)
+GdkPixbuf *cursorprev (const char *ptrname,char* themename,int whatSize)
 {
 	XcursorImage	*image;
-	GdkPixbuf	*scaled=NULL, *pixbuf=NULL;
-	gsize		bsize;
+	GdkPixbuf		*scaled=NULL, *pixbuf=NULL;
+	gsize			bsize;
 	guchar		*buffer, *p, tmp;
+	int			imageSize=whatSize;
 
     /* load the image */
 
-	image=XcursorLibraryLoadImage (ptrname,themename,CURSORTHEMESIZE);
+	image=XcursorLibraryLoadImage (ptrname,themename,whatSize);
 	if (G_LIKELY(image))
 		{
 			bsize=image->width*image->height*4;
@@ -59,7 +60,7 @@ GdkPixbuf *cursorprev (const char *ptrname,char* themename)
 
 			if (pixbuf!=NULL)
 				{
-					scaled=gdk_pixbuf_scale_simple(pixbuf,CURSORTHEMESIZE,CURSORTHEMESIZE,GDK_INTERP_BILINEAR);
+					scaled=gdk_pixbuf_scale_simple(pixbuf,whatSize,whatSize,GDK_INTERP_BILINEAR);
 					g_object_unref(G_OBJECT (pixbuf));
 				}
 				XcursorImageDestroy (image);
@@ -80,10 +81,10 @@ void makecursor(char* theme,char* outPath)
 	surface=cairo_image_surface_create(CAIRO_FORMAT_ARGB32,CURSORTHEMEWIDTH,CURSORTHEMESIZE);
 	cr=cairo_create(surface);
 
-	arrow=cursorprev("left_ptr",theme);
-	move=cursorprev("fleur",theme);
-	wait=cursorprev("watch",theme);
-	hand=cursorprev("hand2",theme);
+	arrow=cursorprev("left_ptr",theme,CURSORTHEMESIZE);
+	move=cursorprev("fleur",theme,CURSORTHEMESIZE);
+	wait=cursorprev("watch",theme,CURSORTHEMESIZE);
+	hand=cursorprev("hand2",theme,CURSORTHEMESIZE);
 
 	if (arrow==NULL && move==NULL && wait==NULL && hand==NULL)
 		return;
@@ -441,7 +442,7 @@ void makeborder(char* folder,char* outframe)
 				gdk_cairo_set_source_pixbuf(cr,controlsPixbuf,leftsidewid,title3hite);
 				cairo_paint_with_alpha(cr,100);
 
-				arrow=cursorprev("left_ptr",cursorTheme);
+				arrow=cursorprev("left_ptr",cursorTheme,ICONSIZE);
 				if(arrow!=NULL)
 					{
 						gdk_cairo_set_source_pixbuf(cr,arrow,boxwid-ritesidewid-ICONSIZE-ICONPAD,title3hite+ICONPAD);
