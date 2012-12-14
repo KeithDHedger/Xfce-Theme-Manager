@@ -20,6 +20,8 @@
 #define ICONSIZE 32
 #define ICONPAD 8
 #define PREFERVERSION 34
+#define GAP 8
+#define HALFGAP GAP/2
 
 #define DELETETHEME 100
 
