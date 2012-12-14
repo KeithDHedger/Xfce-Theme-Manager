@@ -157,23 +157,20 @@ GdkPixbuf *f_pixbuf_from_cairo_surface(cairo_surface_t *source)
 	int gdk_rowstride=gdk_pixbuf_get_rowstride(pixbuf);
 	int n_channels=gdk_pixbuf_get_n_channels(pixbuf);
 
-	//cairo_format_t format;
 	cairo_surface_t *surface;
 	cairo_t *ctx;
 
-	int j;
-
-	//format=CAIRO_FORMAT_ARGB32;
+	//int j;
 
 	surface=cairo_image_surface_create_for_data(gdk_pixels,CAIRO_FORMAT_ARGB32,width, height, gdk_rowstride);
 	ctx=cairo_create(surface);
 	cairo_set_source_surface(ctx, source, 0, 0);
-//if(CAIRO_FORMAT_ARGB32 == CAIRO_FORMAT_ARGB32)
+
 	cairo_mask_surface(ctx, source, 0, 0);
 //else
 //	  cairo_paint(ctx);
 
-	for(j=height; j; j--)
+	for(int j=height; j; j--)
 		{
 			guchar *p=gdk_pixels;
 			guchar *end=p + 4 * width;
