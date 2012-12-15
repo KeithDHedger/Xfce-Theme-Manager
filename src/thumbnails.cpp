@@ -32,7 +32,6 @@ GdkPixbuf *cursorprev (const char *ptrname,char* themename,int whatSize)
 	GdkPixbuf		*scaled=NULL, *pixbuf=NULL;
 	gsize			bsize;
 	guchar		*buffer, *p, tmp;
-	int			imageSize=whatSize;
 
     /* load the image */
 

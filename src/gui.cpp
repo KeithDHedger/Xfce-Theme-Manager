@@ -265,11 +265,6 @@ void addNewIcons(GtkWidget* vbox,const char* subfolder)
 			icon_view=gtk_icon_view_new();
 			store=gtk_list_store_new(3,GDK_TYPE_PIXBUF,G_TYPE_STRING,G_TYPE_STRING);
 
-//			if(size<=64)
-//				itemSize=size+(size/2);
-//			else
-//				itemSize=-1;
-
 			gtk_icon_view_set_item_width((GtkIconView *)icon_view,itemSize);
 			gtk_icon_view_set_item_padding((GtkIconView *)icon_view,0);
 			gtk_icon_view_set_column_spacing((GtkIconView *)icon_view,0);

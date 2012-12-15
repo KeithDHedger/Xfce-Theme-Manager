@@ -22,7 +22,8 @@ GtkWidget*	entryBox;
 char*		filename;
 char*		metaThemeSelected=NULL;
 bool		destroy=false;
-
+//GtkTreePath* holdPath=NULL;
+//gtk_icon_view_scroll_to_path((GtkIconView *)view,path,FALSE,0,0);
 //update gui
 void rerunAndUpdate(bool rebuild,bool resetmeta)
 {
@@ -705,6 +706,8 @@ void themeIconCallback(GtkIconView *view,gpointer doWhat)
 		}
 	g_free (text);
 	g_list_free (selected);
+	
+	//gtk_icon_view_scroll_to_path((GtkIconView *)view,path,FALSE,0,0);
 }
 
 gboolean mouseMove(GtkWidget* widget,GdkEvent* event,gpointer user_data)
@@ -729,6 +732,8 @@ gboolean clickIt(GtkWidget* widget,GdkEvent* event,gpointer data)
 		{
 			gtk_icon_view_select_path((GtkIconView *)widget,path);
 			themeIconCallback((GtkIconView *)widget,(void*)data);
+			//gtk_icon_view_scroll_to_path((GtkIconView *)widget,path,FALSE,0,0);
+			//holdPath=path;
 		}
 	return(TRUE);
 }
