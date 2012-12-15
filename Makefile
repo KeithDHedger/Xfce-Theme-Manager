@@ -31,9 +31,9 @@ install:
 	cp -p $(PROGRAM) $(DESTDIR)$(PREFIX)/bin
 	cp $(LAUNCHER) $(DESTDIR)$(PREFIX)/share/applications
 	cp $(PROGRAM).png $(DESTDIR)$(PREFIX)/share/pixmaps
-	gzip $(PROGRAM).1 $(DESTDIR)$(PREFIX)/share/man/man1/$(PROGRAM).1
-	gzip $(PROGRAM).1.es $(DESTDIR)$(PREFIX)/share/man/es/man1/$(PROGRAM).1
-	gzip $(PROGRAM).1.de $(DESTDIR)$(PREFIX)/share/man/de/man1/$(PROGRAM).1
+	gzip --stdout $(PROGRAM).1 > $(DESTDIR)$(PREFIX)/share/man/man1/$(PROGRAM).1.gz
+	gzip --stdout $(PROGRAM).1.es > $(DESTDIR)$(PREFIX)/share/man/es/man1/$(PROGRAM).1.gz
+	gzip --stdout $(PROGRAM).1.de > $(DESTDIR)$(PREFIX)/share/man/de/man1/$(PROGRAM).1.gz
 
 uninstall:
 	rm $(DESTDIR)$(PREFIX)/bin/$(PROGRAM) $(DESTDIR)$(PREFIX)/share/applications/$(LAUNCHER) $(DESTDIR)$(PREFIX)/share/pixmaps/$(PROGRAM).png
