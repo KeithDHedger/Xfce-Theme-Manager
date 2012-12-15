@@ -23,6 +23,7 @@ Changelog:
 	Added rollover hightlighting.
 	Added current selection border.
 	DB thumbnails now bigger so scale better.
+	Gzipped man pages.
 
 0.2.0 New thumbnailing using tiled thumbnails.
 	Version bump.
