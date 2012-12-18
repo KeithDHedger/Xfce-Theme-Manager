@@ -277,6 +277,7 @@ void addNewIcons(GtkWidget* vbox,const char* subfolder)
 			gtk_icon_view_set_model(GTK_ICON_VIEW(icon_view),GTK_TREE_MODEL(store));
 
 			gtk_container_add((GtkContainer*)vbox,(GtkWidget*)icon_view);
+			gtk_box_set_homogeneous             ((GtkBox*)vbox,TRUE);
 		}
 
 	asprintf(&foldername,"%s/.config/XfceThemeManager/%s",homeFolder,subfolder);
@@ -374,7 +375,10 @@ void buildPages(void)
 	themesScrollBox=gtk_scrolled_window_new(NULL,NULL);
 	addView=true;
 	if(themesVBox==NULL)
+		{
 		themesVBox=gtk_vbox_new(FALSE,0);
+		//gtk_box_set_homogeneous((GtkBox*)themesVBox,TRUE);
+		}
 	addNewIcons(themesScrollBox,"custom");
 
 	addView=false;
