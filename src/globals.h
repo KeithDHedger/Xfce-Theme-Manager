@@ -176,17 +176,17 @@ extern GtkWidget*		cursorSize;
 //extern GtkWidget*		themesScrollBox;
 //extern GtkWidget*		framesScrollBox;
 //extern GtkWidget*		controlsScrollBox;
-extern GtkWidget*		iconsScrollBox;
-extern GtkWidget*		cursorsScrollBox;
+//extern GtkWidget*		iconsScrollBox;
+//extern GtkWidget*		cursorsScrollBox;
 extern GtkWidget*		wallpapersMainBox;
-extern GtkWidget*		wallpapersScrollBox;
+//extern GtkWidget*		wallpapersScrollBox;
 
 //extern GtkWidget*		themesVBox;
 //extern GtkWidget*		framesVBox;
 //extern GtkWidget*		controlsVBox;
-extern GtkWidget*		iconsVBox;
-extern GtkWidget*		cursorsVBox;
-extern GtkWidget*		wallpapersVBox;
+//extern GtkWidget*		iconsVBox;
+//extern GtkWidget*		cursorsVBox;
+//extern GtkWidget*		wallpapersVBox;
 
 //advanced
 extern GtkNotebook*	advanced;

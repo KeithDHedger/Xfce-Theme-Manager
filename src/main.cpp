@@ -403,13 +403,13 @@ int main(int argc,char **argv)
 	gtk_notebook_append_page(notebook,previewBoxes[CONTROLS][VBOX],label);
 
 	label=gtk_label_new(_translate(ICONS));
-	gtk_notebook_append_page(notebook,iconsVBox,label);
+	gtk_notebook_append_page(notebook,previewBoxes[ICONS][VBOX],label);
 
 	label=gtk_label_new(_translate(CURSORS));
-	gtk_notebook_append_page(notebook,cursorsVBox,label);
+	gtk_notebook_append_page(notebook,previewBoxes[CURSORS][VBOX],label);
 
 	label=gtk_label_new(_translate(WALLPAPERS));
-	gtk_notebook_append_page(notebook,wallpapersVBox,label);
+	gtk_notebook_append_page(notebook,previewBoxes[WALLPAPERS][VBOX],label);
 
 	gtk_notebook_append_page(advanced,(GtkWidget*)notebook,NULL);
 

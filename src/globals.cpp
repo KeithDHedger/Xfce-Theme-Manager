@@ -73,17 +73,17 @@ GtkWidget*		cursorSize;
 //GtkWidget*		themesScrollBox=NULL;
 //GtkWidget*		framesScrollBox=NULL;
 //GtkWidget*		controlsScrollBox=NULL;
-GtkWidget*		iconsScrollBox=NULL;
-GtkWidget*		cursorsScrollBox=NULL;
+//GtkWidget*		iconsScrollBox=NULL;
+//GtkWidget*		cursorsScrollBox=NULL;
 GtkWidget*		wallpapersMainBox=NULL;
-GtkWidget*		wallpapersScrollBox=NULL;
+//GtkWidget*		wallpapersScrollBox=NULL;
 
 //GtkWidget*		themesVBox;
 //GtkWidget*		framesVBox;
 //GtkWidget*		controlsVBox;
-GtkWidget*		iconsVBox;
-GtkWidget*		cursorsVBox;
-GtkWidget*		wallpapersVBox;
+//GtkWidget*		iconsVBox;
+//GtkWidget*		cursorsVBox;
+//GtkWidget*		wallpapersVBox;
 
 //advanced
 GtkNotebook*	advanced;

@@ -80,9 +80,9 @@ void rerunAndUpdate(bool rebuild,bool resetmeta)
 	gtk_widget_destroy(previewBoxes[THEMES][SCROLLBOX]);
 	gtk_widget_destroy(previewBoxes[WMBORDERS][SCROLLBOX]);
 	gtk_widget_destroy(previewBoxes[CONTROLS][SCROLLBOX]);
-	gtk_widget_destroy(iconsScrollBox);
-	gtk_widget_destroy(cursorsScrollBox);
-	gtk_widget_destroy(wallpapersScrollBox);
+	gtk_widget_destroy(previewBoxes[ICONS][SCROLLBOX]);
+	gtk_widget_destroy(previewBoxes[CURSORS][SCROLLBOX]);
+	gtk_widget_destroy(previewBoxes[WALLPAPERS][SCROLLBOX]);
 
 	buildPages();
 
