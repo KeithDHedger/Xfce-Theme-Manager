@@ -57,7 +57,6 @@
 #include "callbacks.h"
 
 bool			addView=true;
-GtkWidget*		icon_view;
 GtkListStore*	store;
 
 bool isCurrent(char* themename,const char* catagory,char* name)
@@ -242,8 +241,6 @@ void addIconEntry(GtkListStore *store,const char* iconPng,const char* iconName,c
 	g_object_unref(pixbuf);
 
 }
-//GtkWidget* holdit;
-//GtkWidget*		tempIconView=NULL;
 
 void addNewIcons(GtkWidget* vbox,const char* subfolder,GtkWidget* tempIconView)
 {
@@ -372,23 +369,18 @@ GtkWidget* buildTitlePos(void)
 
 void buildPages(void)
 {
-	//themesScrollBox=gtk_scrolled_window_new(NULL,NULL);
 	previewBoxes[THEMES][SCROLLBOX]=gtk_scrolled_window_new(NULL,NULL);
 	addView=true;
 	previewBoxes[THEMES][ICONVIEW]=gtk_icon_view_new();
 	if(previewBoxes[THEMES][VBOX]==NULL)
-		{
 		previewBoxes[THEMES][VBOX]=gtk_vbox_new(FALSE,0);
-		//gtk_box_set_homogeneous((GtkBox*)themesVBox,TRUE);
-		}
-//	addNewIcons(themesScrollBox,"custom");
+
 	addNewIcons(previewBoxes[THEMES][SCROLLBOX],"custom",previewBoxes[THEMES][ICONVIEW]);
 
 	addView=false;
-//	addNewIcons(themesScrollBox,"meta");
+
 	addNewIcons(previewBoxes[THEMES][SCROLLBOX],"meta",previewBoxes[THEMES][ICONVIEW]);
-	//previewBoxes[THEMES][ICONVIEW]=tempIconView;
-//previewBoxes[THEMES][ICONVIEW]=holdit;
+
 	g_signal_connect(G_OBJECT(previewBoxes[THEMES][ICONVIEW]),"motion-notify-event",G_CALLBACK(mouseMove),NULL);
 	g_signal_connect(G_OBJECT(previewBoxes[THEMES][ICONVIEW]),"button-press-event",G_CALLBACK(clickIt),(void*)THEMES);
 
