@@ -394,8 +394,9 @@ int main(int argc,char **argv)
  
 //pages
 	label=gtk_label_new(_translate(THEMES));
-	gtk_notebook_append_page(notebook,previewBoxes[THEMES][VBOX],label);
-
+//	gtk_notebook_append_page(notebook,previewBoxes[THEMES][VBOX],label);
+	gtk_notebook_append_page(notebook,(GtkWidget*)previewBox[THEMES].vBox,label);
+#if 0
 	label=gtk_label_new(_translate(WMBORDERS));
 	gtk_notebook_append_page(notebook,previewBoxes[WMBORDERS][VBOX],label);
 
@@ -410,7 +411,7 @@ int main(int argc,char **argv)
 
 	label=gtk_label_new(_translate(WALLPAPERS));
 	gtk_notebook_append_page(notebook,previewBoxes[WALLPAPERS][VBOX],label);
-
+#endif
 	gtk_notebook_append_page(advanced,(GtkWidget*)notebook,NULL);
 
 //do advanced gui
@@ -456,6 +457,8 @@ int main(int argc,char **argv)
 	g_signal_connect (G_OBJECT(vbox),"drag_data_received",G_CALLBACK(dropUri), NULL);
 
 	doSetConfigs();
+
+	g_signal_connect_after(G_OBJECT(window),"check-resize",G_CALLBACK(doResize),NULL);
 
 	gtk_widget_show_all(window);
 	gtk_main();

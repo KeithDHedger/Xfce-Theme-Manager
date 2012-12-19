@@ -137,8 +137,21 @@ extern char*		lastCursorTheme;
 extern char*		lastWallPaper;
 extern char*		lastMetaTheme;
 
-extern int			itemCnt;
+//extern int			itemCnt;
 extern GtkWidget*		previewBoxes[6][3];
+
+struct boxStruct
+{
+	GtkScrolledWindow*	scrollBox;
+	GtkHBox*			hBox;
+	GtkVBox*			vBox;
+	GtkIconView*		iconView;
+	int				itemCnt;
+	int				width;
+	int				height;
+};
+
+extern boxStruct previewBox[6];
 
 //db
 extern char*		dbFolder;

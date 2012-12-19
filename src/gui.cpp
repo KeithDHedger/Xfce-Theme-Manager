@@ -242,7 +242,7 @@ void addIconEntry(GtkListStore *store,const char* iconPng,const char* iconName,c
 
 }
 
-void addNewIcons(GtkWidget* vbox,const char* subfolder,GtkWidget* tempIconView)
+void addNewIcons(GtkHBox* hbox,const char* subfolder,GtkIconView* tempIconView,int whatBox)
 {
 	char*			foldername;
 	char*			filename;
@@ -273,8 +273,6 @@ void addNewIcons(GtkWidget* vbox,const char* subfolder,GtkWidget* tempIconView)
 			gtk_icon_view_set_text_column(GTK_ICON_VIEW(tempIconView),TEXT_COLUMN);
 
 			gtk_icon_view_set_model(GTK_ICON_VIEW(tempIconView),GTK_TREE_MODEL(store));
-
-			gtk_container_add((GtkContainer*)vbox,(GtkWidget*)tempIconView);
 		}
 
 	asprintf(&foldername,"%s/.config/XfceThemeManager/%s",homeFolder,subfolder);
@@ -341,6 +339,7 @@ void addNewIcons(GtkWidget* vbox,const char* subfolder,GtkWidget* tempIconView)
 							thumb=g_key_file_get_string(keyfile,"Data","Thumbnail",NULL);
 							themename=g_key_file_get_string(keyfile,"Data","ThemeName",NULL);
 							addIconEntry(store,thumb,name,filename,(char*)subfolder,(char*)themename);
+							previewBox[whatBox].itemCnt++;
 							freeAndNull(&name);
 							freeAndNull(&thumb);
 							freeAndNull(&filename);
@@ -369,25 +368,43 @@ GtkWidget* buildTitlePos(void)
 
 void buildPages(void)
 {
-	previewBoxes[THEMES][SCROLLBOX]=gtk_scrolled_window_new(NULL,NULL);
+	if(previewBox[THEMES].vBox==NULL)
+		previewBox[THEMES].vBox=(GtkVBox*)gtk_vbox_new(FALSE,0);
+
+	previewBox[THEMES].hBox=(GtkHBox*)gtk_hbox_new(FALSE,0);
+	previewBox[THEMES].scrollBox=(GtkScrolledWindow*)gtk_scrolled_window_new(NULL,NULL);
+	previewBox[THEMES].itemCnt=0;
+	gtk_scrolled_window_set_policy(previewBox[THEMES].scrollBox,GTK_POLICY_AUTOMATIC,GTK_POLICY_AUTOMATIC);
+
 	addView=true;
-	previewBoxes[THEMES][ICONVIEW]=gtk_icon_view_new();
-	if(previewBoxes[THEMES][VBOX]==NULL)
-		previewBoxes[THEMES][VBOX]=gtk_vbox_new(FALSE,0);
-
-	addNewIcons(previewBoxes[THEMES][SCROLLBOX],"custom",previewBoxes[THEMES][ICONVIEW]);
-
+	previewBox[THEMES].iconView=(GtkIconView*)gtk_icon_view_new();
+	addNewIcons(previewBox[THEMES].hBox,"custom",previewBox[THEMES].iconView,0);
 	addView=false;
-
-	addNewIcons(previewBoxes[THEMES][SCROLLBOX],"meta",previewBoxes[THEMES][ICONVIEW]);
-
-	g_signal_connect(G_OBJECT(previewBoxes[THEMES][ICONVIEW]),"motion-notify-event",G_CALLBACK(mouseMove),NULL);
-	g_signal_connect(G_OBJECT(previewBoxes[THEMES][ICONVIEW]),"button-press-event",G_CALLBACK(clickIt),(void*)THEMES);
-
+	addNewIcons(previewBox[THEMES].hBox,"meta",previewBox[THEMES].iconView,0);
 	addView=true;
-	gtk_box_pack_start((GtkBox*)previewBoxes[THEMES][VBOX],previewBoxes[THEMES][SCROLLBOX],TRUE,TRUE,0);
-	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(previewBoxes[THEMES][SCROLLBOX]),GTK_POLICY_AUTOMATIC,GTK_POLICY_AUTOMATIC);
 
+	gtk_container_add((GtkContainer*)previewBox[THEMES].hBox,(GtkWidget*)previewBox[THEMES].iconView);
+	gtk_scrolled_window_add_with_viewport(previewBox[THEMES].scrollBox,(GtkWidget*)previewBox[THEMES].hBox);
+	gtk_box_pack_start((GtkBox*)previewBox[THEMES].vBox,(GtkWidget*)previewBox[THEMES].scrollBox,TRUE,TRUE,0);
+//	previewBoxes[THEMES][SCROLLBOX]=gtk_scrolled_window_new(NULL,NULL);
+//	addView=true;
+//	previewBoxes[THEMES][ICONVIEW]=gtk_icon_view_new();
+//	if(previewBoxes[THEMES][VBOX]==NULL)
+//		previewBoxes[THEMES][VBOX]=gtk_hbox_new(FALSE,0);
+//
+//	addNewIcons(previewBoxes[THEMES][SCROLLBOX],"custom",previewBoxes[THEMES][ICONVIEW]);
+//
+//	addView=false;
+//
+//	addNewIcons(previewBoxes[THEMES][SCROLLBOX],"meta",previewBoxes[THEMES][ICONVIEW]);
+//
+//	g_signal_connect(G_OBJECT(previewBoxes[THEMES][ICONVIEW]),"motion-notify-event",G_CALLBACK(mouseMove),NULL);
+//	g_signal_connect(G_OBJECT(previewBoxes[THEMES][ICONVIEW]),"button-press-event",G_CALLBACK(clickIt),(void*)THEMES);
+//
+//	addView=true;
+//	gtk_box_pack_start((GtkBox*)previewBoxes[THEMES][VBOX],previewBoxes[THEMES][SCROLLBOX],TRUE,TRUE,0);
+//	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(previewBoxes[THEMES][SCROLLBOX]),GTK_POLICY_AUTOMATIC,GTK_POLICY_AUTOMATIC);
+#if 0
 //frames
 	previewBoxes[WMBORDERS][SCROLLBOX]=gtk_scrolled_window_new(NULL,NULL);
 	previewBoxes[WMBORDERS][ICONVIEW]=gtk_icon_view_new();
@@ -409,8 +426,8 @@ void buildPages(void)
 	gtk_box_pack_start((GtkBox*)previewBoxes[CONTROLS][VBOX],previewBoxes[CONTROLS][SCROLLBOX],TRUE,TRUE,0);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(previewBoxes[CONTROLS][SCROLLBOX]),GTK_POLICY_AUTOMATIC,GTK_POLICY_AUTOMATIC);
 
-	g_signal_connect(G_OBJECT(previewBoxes[CONTROLS][ICONVIEW]),"motion-notify-event",G_CALLBACK(mouseMove),NULL);
-	g_signal_connect(G_OBJECT(previewBoxes[CONTROLS][ICONVIEW]),"button-press-event",G_CALLBACK(clickIt),(void*)CONTROLS);
+	//g_signal_connect(G_OBJECT(previewBoxes[CONTROLS][ICONVIEW]),"motion-notify-event",G_CALLBACK(mouseMove),NULL);
+//	g_signal_connect(G_OBJECT(previewBoxes[CONTROLS][ICONVIEW]),"button-press-event",G_CALLBACK(clickIt),(void*)CONTROLS);
 
 //icons
 	previewBoxes[ICONS][SCROLLBOX]=gtk_scrolled_window_new(NULL,NULL);
@@ -421,8 +438,8 @@ void buildPages(void)
 	gtk_box_pack_start((GtkBox*)previewBoxes[ICONS][VBOX],previewBoxes[ICONS][SCROLLBOX],TRUE,TRUE,0);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(previewBoxes[ICONS][SCROLLBOX]),GTK_POLICY_AUTOMATIC,GTK_POLICY_AUTOMATIC);
 
-	g_signal_connect(G_OBJECT(previewBoxes[ICONS][ICONVIEW]),"motion-notify-event",G_CALLBACK(mouseMove),NULL);
-	g_signal_connect(G_OBJECT(previewBoxes[ICONS][ICONVIEW]),"button-press-event",G_CALLBACK(clickIt),(void*)ICONS);
+//	g_signal_connect(G_OBJECT(previewBoxes[ICONS][ICONVIEW]),"motion-notify-event",G_CALLBACK(mouseMove),NULL);
+//	g_signal_connect(G_OBJECT(previewBoxes[ICONS][ICONVIEW]),"button-press-event",G_CALLBACK(clickIt),(void*)ICONS);
 
 //cursors
 	previewBoxes[CURSORS][SCROLLBOX]=gtk_scrolled_window_new(NULL,NULL);
@@ -433,8 +450,8 @@ void buildPages(void)
 	gtk_box_pack_start((GtkBox*)previewBoxes[CURSORS][VBOX],previewBoxes[CURSORS][SCROLLBOX],TRUE,TRUE,0);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(previewBoxes[CURSORS][SCROLLBOX]),GTK_POLICY_AUTOMATIC,GTK_POLICY_AUTOMATIC);
 
-	g_signal_connect(G_OBJECT(previewBoxes[CURSORS][ICONVIEW]),"motion-notify-event",G_CALLBACK(mouseMove),NULL);
-	g_signal_connect(G_OBJECT(previewBoxes[CURSORS][ICONVIEW]),"button-press-event",G_CALLBACK(clickIt),(void*)CURSORS);
+//	g_signal_connect(G_OBJECT(previewBoxes[CURSORS][ICONVIEW]),"motion-notify-event",G_CALLBACK(mouseMove),NULL);
+//	g_signal_connect(G_OBJECT(previewBoxes[CURSORS][ICONVIEW]),"button-press-event",G_CALLBACK(clickIt),(void*)CURSORS);
 
 //wallpapers
 	previewBoxes[WALLPAPERS][SCROLLBOX]=gtk_scrolled_window_new(NULL,NULL);
@@ -449,9 +466,9 @@ void buildPages(void)
 	gtk_box_pack_start((GtkBox*)previewBoxes[WALLPAPERS][VBOX],previewBoxes[WALLPAPERS][SCROLLBOX],TRUE,TRUE,0);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(previewBoxes[WALLPAPERS][SCROLLBOX]),GTK_POLICY_AUTOMATIC,GTK_POLICY_AUTOMATIC);
 
-	g_signal_connect(G_OBJECT(previewBoxes[WALLPAPERS][ICONVIEW]),"motion-notify-event",G_CALLBACK(mouseMove),NULL);
-	g_signal_connect(G_OBJECT(previewBoxes[WALLPAPERS][ICONVIEW]),"button-press-event",G_CALLBACK(clickIt),(void*)WALLPAPERS);
-
+//	g_signal_connect(G_OBJECT(previewBoxes[WALLPAPERS][ICONVIEW]),"motion-notify-event",G_CALLBACK(mouseMove),NULL);
+//	g_signal_connect(G_OBJECT(previewBoxes[WALLPAPERS][ICONVIEW]),"button-press-event",G_CALLBACK(clickIt),(void*)WALLPAPERS);
+#endif
 }
 
 void doAbout(GtkWidget* widget,gpointer data)
