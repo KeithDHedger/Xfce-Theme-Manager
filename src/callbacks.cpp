@@ -25,7 +25,7 @@ bool		destroy=false;
 //GtkTreePath* holdPath=NULL;
 //gtk_icon_view_scroll_to_path((GtkIconView *)view,path,FALSE,0,0);
 //update gui
-
+#if 0
 void doResize(GtkWindow *window,gpointer user_data)
 {
 	GtkAllocation	allocation;
@@ -56,7 +56,7 @@ void doResize(GtkWindow *window,gpointer user_data)
 	gtk_icon_view_set_item_padding((GtkIconView *)icon_view,0);
 	gtk_widget_set_size_request((GtkWidget *)icon_view,widgetWidth,-1);
 }
-
+#endif
 void rerunAndUpdate(bool rebuild,bool resetmeta)
 {
 	if (rebuild==true)
@@ -77,9 +77,9 @@ void rerunAndUpdate(bool rebuild,bool resetmeta)
 			system(generalBuffer);
 		}
 
-	gtk_widget_destroy(themesScrollBox);
-	gtk_widget_destroy(framesScrollBox);
-	gtk_widget_destroy(controlsScrollBox);
+	gtk_widget_destroy(previewBoxes[THEMES][SCROLLBOX]);
+	gtk_widget_destroy(previewBoxes[WMBORDERS][SCROLLBOX]);
+	gtk_widget_destroy(previewBoxes[CONTROLS][SCROLLBOX]);
 	gtk_widget_destroy(iconsScrollBox);
 	gtk_widget_destroy(cursorsScrollBox);
 	gtk_widget_destroy(wallpapersScrollBox);

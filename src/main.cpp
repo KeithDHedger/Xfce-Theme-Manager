@@ -394,13 +394,13 @@ int main(int argc,char **argv)
  
 //pages
 	label=gtk_label_new(_translate(THEMES));
-	gtk_notebook_append_page(notebook,themesVBox,label);
+	gtk_notebook_append_page(notebook,previewBoxes[THEMES][VBOX],label);
 
 	label=gtk_label_new(_translate(WMBORDERS));
-	gtk_notebook_append_page(notebook,framesVBox,label);
+	gtk_notebook_append_page(notebook,previewBoxes[WMBORDERS][VBOX],label);
 
 	label=gtk_label_new(_translate(CONTROLS));
-	gtk_notebook_append_page(notebook,controlsVBox,label);
+	gtk_notebook_append_page(notebook,previewBoxes[CONTROLS][VBOX],label);
 
 	label=gtk_label_new(_translate(ICONS));
 	gtk_notebook_append_page(notebook,iconsVBox,label);

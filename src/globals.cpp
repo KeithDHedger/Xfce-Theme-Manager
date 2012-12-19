@@ -35,6 +35,7 @@ char*			lastWallPaper;
 char*			lastMetaTheme;
 
 int			itemCnt=1;
+GtkWidget*		previewBoxes[6][3]={{NULL,NULL,NULL},{NULL,NULL,NULL},{NULL,NULL,NULL},{NULL,NULL,NULL},{NULL,NULL,NULL},{NULL,NULL,NULL}};
 
 //db
 char*			dbFolder;
@@ -69,17 +70,17 @@ GtkWidget*		briteRange;
 GtkWidget*		satuRange;
 GtkWidget*		cursorSize;
 
-GtkWidget*		themesScrollBox=NULL;
-GtkWidget*		framesScrollBox=NULL;
-GtkWidget*		controlsScrollBox=NULL;
+//GtkWidget*		themesScrollBox=NULL;
+//GtkWidget*		framesScrollBox=NULL;
+//GtkWidget*		controlsScrollBox=NULL;
 GtkWidget*		iconsScrollBox=NULL;
 GtkWidget*		cursorsScrollBox=NULL;
 GtkWidget*		wallpapersMainBox=NULL;
 GtkWidget*		wallpapersScrollBox=NULL;
 
-GtkWidget*		themesVBox;
-GtkWidget*		framesVBox;
-GtkWidget*		controlsVBox;
+//GtkWidget*		themesVBox;
+//GtkWidget*		framesVBox;
+//GtkWidget*		controlsVBox;
 GtkWidget*		iconsVBox;
 GtkWidget*		cursorsVBox;
 GtkWidget*		wallpapersVBox;

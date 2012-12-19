@@ -110,6 +110,7 @@ enum {PIXBUF_COLUMN,TEXT_COLUMN,FILE_NAME};
 enum words {THEMES=0,WMBORDERS,CONTROLS,ICONS,CURSORS,WALLPAPERS,REBUILDTHEDB,REBUILDDB,LAUNCHXCE,BACKDROPADJ,BRITE,SATU,RESET,BUTTONLAYOUT,FONTSELECT,WMFONT,APPFONT,CURSORSIZE,RESETTHEME,CUSTOMTHEME,ADVANCED,TITLEPOS,ENTERNAME,LEFT,CENTRE,RIGHT,AUTO,CENTRED,TILED,STRETCH,SCALE,ZOOM,CUSTOM,VIEW,GLOBAL,CUSTOMMETA,REMOVETHEME,SUBTITLE,ABOUTBOX,HUGEP,LARGEP,MEDIUMP,SMALLP,STOPWORD};
 
 enum preSize {PREHUGE=256,PRELARGE=128,PREMEDIUM=64,PRESMALL=48};
+enum {SCROLLBOX,VBOX,ICONVIEW};
 
 extern const char*	langStr[][STOPWORD];
 
@@ -137,6 +138,7 @@ extern char*		lastWallPaper;
 extern char*		lastMetaTheme;
 
 extern int			itemCnt;
+extern GtkWidget*		previewBoxes[6][3];
 
 //db
 extern char*		dbFolder;
@@ -171,17 +173,17 @@ extern GtkWidget*		briteRange;
 extern GtkWidget*		satuRange;
 extern GtkWidget*		cursorSize;
 
-extern GtkWidget*		themesScrollBox;
-extern GtkWidget*		framesScrollBox;
-extern GtkWidget*		controlsScrollBox;
+//extern GtkWidget*		themesScrollBox;
+//extern GtkWidget*		framesScrollBox;
+//extern GtkWidget*		controlsScrollBox;
 extern GtkWidget*		iconsScrollBox;
 extern GtkWidget*		cursorsScrollBox;
 extern GtkWidget*		wallpapersMainBox;
 extern GtkWidget*		wallpapersScrollBox;
 
-extern GtkWidget*		themesVBox;
-extern GtkWidget*		framesVBox;
-extern GtkWidget*		controlsVBox;
+//extern GtkWidget*		themesVBox;
+//extern GtkWidget*		framesVBox;
+//extern GtkWidget*		controlsVBox;
 extern GtkWidget*		iconsVBox;
 extern GtkWidget*		cursorsVBox;
 extern GtkWidget*		wallpapersVBox;
