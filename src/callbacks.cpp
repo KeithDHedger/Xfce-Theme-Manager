@@ -25,6 +25,38 @@ bool		destroy=false;
 //GtkTreePath* holdPath=NULL;
 //gtk_icon_view_scroll_to_path((GtkIconView *)view,path,FALSE,0,0);
 //update gui
+
+void doResize(GtkWindow *window,gpointer user_data)
+{
+	GtkAllocation	allocation;
+	int			widgetWidth;
+	int			maxWidgets=0;
+	int			barWidth;
+	GtkWidget*		scrollBar;
+	int			colSize;
+	GtkWidget*		icon_view;
+
+	scrollBar=gtk_scrolled_window_get_vscrollbar((GtkScrolledWindow *)themesScrollBox);
+
+	gtk_widget_get_allocation(scrollBar,&allocation);
+	barWidth=allocation.width;
+	gtk_widget_get_allocation(themesScrollBox,&allocation);
+	widgetWidth=allocation.width-barWidth;
+
+	maxWidgets=widgetWidth/previewSize;
+
+	if(maxWidgets>itemCnt)
+		maxWidgets=itemCnt;
+
+	colSize=(widgetWidth/maxWidgets);
+
+	gtk_icon_view_set_item_width((GtkIconView *)icon_view,colSize);
+	gtk_icon_view_set_columns((GtkIconView *)icon_view,maxWidgets);
+	gtk_icon_view_set_column_spacing((GtkIconView *)icon_view,0);
+	gtk_icon_view_set_item_padding((GtkIconView *)icon_view,0);
+	gtk_widget_set_size_request((GtkWidget *)icon_view,widgetWidth,-1);
+}
+
 void rerunAndUpdate(bool rebuild,bool resetmeta)
 {
 	if (rebuild==true)

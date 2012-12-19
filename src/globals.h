@@ -136,6 +136,8 @@ extern char*		lastCursorTheme;
 extern char*		lastWallPaper;
 extern char*		lastMetaTheme;
 
+extern int			itemCnt;
+
 //db
 extern char*		dbFolder;
 extern char*		metaFolder;

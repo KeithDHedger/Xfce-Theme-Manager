@@ -44,6 +44,8 @@ void resetFont(GtkWidget* widget,gpointer data);
 void setCursSize(GtkWidget* widget,gpointer data);
 void resetCursSize(GtkWidget* widget,gpointer data);
 
+void doResize(GtkWindow *window,gpointer user_data);
+
 //do config stuff
 void doSetConfigs(void);
 void changeView(GtkWidget* widget,gpointer data);

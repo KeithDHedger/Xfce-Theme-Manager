@@ -34,6 +34,8 @@ char*			lastCursorTheme;
 char*			lastWallPaper;
 char*			lastMetaTheme;
 
+int			itemCnt=1;
+
 //db
 char*			dbFolder;
 char*			metaFolder;
