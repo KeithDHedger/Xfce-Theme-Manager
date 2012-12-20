@@ -75,8 +75,14 @@ void doResize(GtkWindow *window,gpointer user_data)
 			scrollBar=gtk_scrolled_window_get_vscrollbar(previewBox[THEMES].scrollBox);
 
 			gtk_widget_get_allocation(scrollBar,&allocation);
+			//allocation.width=0;
+			//if (allocation.width>0)
 			barWidth=allocation.width;
+			//else
+			//	barWidth=0;
+
 			gtk_widget_get_allocation((GtkWidget*)previewBox[THEMES].hBox,&allocation);
+			//allocation.width=0;
 			widgetWidth=allocation.width-(barWidth*2);
 
 			maxWidgets=widgetWidth/previewSize;
@@ -115,12 +121,12 @@ void rerunAndUpdate(bool rebuild,bool resetmeta)
 			system(generalBuffer);
 		}
 
-	gtk_widget_destroy(previewBoxes[THEMES][SCROLLBOX]);
-	gtk_widget_destroy(previewBoxes[WMBORDERS][SCROLLBOX]);
-	gtk_widget_destroy(previewBoxes[CONTROLS][SCROLLBOX]);
-	gtk_widget_destroy(previewBoxes[ICONS][SCROLLBOX]);
-	gtk_widget_destroy(previewBoxes[CURSORS][SCROLLBOX]);
-	gtk_widget_destroy(previewBoxes[WALLPAPERS][SCROLLBOX]);
+	gtk_widget_destroy((GtkWidget*)previewBox[THEMES].scrollBox);
+	gtk_widget_destroy((GtkWidget*)previewBox[WMBORDERS].scrollBox);
+	gtk_widget_destroy((GtkWidget*)previewBox[CONTROLS].scrollBox);
+	gtk_widget_destroy((GtkWidget*)previewBox[ICONS].scrollBox);
+	gtk_widget_destroy((GtkWidget*)previewBox[CURSORS].scrollBox);
+	gtk_widget_destroy((GtkWidget*)previewBox[WALLPAPERS].scrollBox);
 
 	buildPages();
 

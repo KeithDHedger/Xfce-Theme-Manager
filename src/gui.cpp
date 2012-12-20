@@ -374,7 +374,7 @@ void buildPages(void)
 	previewBox[THEMES].hBox=(GtkHBox*)gtk_hbox_new(FALSE,0);
 	previewBox[THEMES].scrollBox=(GtkScrolledWindow*)gtk_scrolled_window_new(NULL,NULL);
 	previewBox[THEMES].itemCnt=0;
-	gtk_scrolled_window_set_policy(previewBox[THEMES].scrollBox,GTK_POLICY_AUTOMATIC,GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_policy(previewBox[THEMES].scrollBox,GTK_POLICY_AUTOMATIC,GTK_POLICY_ALWAYS);
 
 	addView=true;
 	previewBox[THEMES].iconView=(GtkIconView*)gtk_icon_view_new();
