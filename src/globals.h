@@ -12,7 +12,7 @@
 #ifndef _GLOBALS_
 #define _GLOBALS_
 
-#define VERSION "0.2.1"
+#define VERSION "0.2.2"
 #define MYEMAIL "kdhedger68713@gmail.com"
 
 #define PADWIDTH 72

@@ -22,8 +22,9 @@ GtkWidget*	entryBox;
 char*		filename;
 char*		metaThemeSelected=NULL;
 bool		destroy=false;
+int		currentPage;
 
-void doResize(GtkWindow *window,gpointer user_data)
+void doResizeXX(GtkWindow *window,gpointer user_data)
 {
 
 	GtkAllocation	allocation;
@@ -32,6 +33,9 @@ void doResize(GtkWindow *window,gpointer user_data)
 	int			barWidth;
 	GtkWidget*		scrollBar;
 	int			colSize=0;
+
+
+printf ("current page = %i\n",gtk_notebook_get_current_page(notebook));
 
 	for (int j=THEMES;j<=WALLPAPERS;j++)
 		{
@@ -55,12 +59,49 @@ void doResize(GtkWindow *window,gpointer user_data)
 			gtk_icon_view_set_column_spacing(previewBox[j].iconView,0);
 			gtk_icon_view_set_item_padding(previewBox[j].iconView,0);
 			gtk_widget_set_size_request((GtkWidget*)previewBox[j].iconView,widgetWidth,-1);
+			//gtk_widget_set_size_request((GtkWidget*)previewBox[j].hBox,widgetWidth,-1);
 		}
+}
+void doResize(GtkWindow *window,gpointer user_data)
+{
+	GtkAllocation	allocation;
+	int			widgetWidth;
+	int			maxWidgets=0;
+	int			barWidth;
+	GtkWidget*		scrollBar;
+	int			colSize=0;
+
+//	if((long)user_data!=currentPage && (long)user_data!=0xdeadbeef)
+//		return;
+
+//	printf("page in resize %i\n",(long)user_data);
+	scrollBar=gtk_scrolled_window_get_vscrollbar(previewBox[currentPage].scrollBox);
+	gtk_widget_get_allocation(scrollBar,&allocation);
+	barWidth=allocation.width;
+
+	gtk_widget_get_allocation((GtkWidget*)previewBox[currentPage].scrollBox,&allocation);
+
+	widgetWidth=allocation.width-(barWidth*3);
+
+	maxWidgets=(int)widgetWidth/previewSize;
+
+	if(maxWidgets>=previewBox[currentPage].itemCnt)
+		maxWidgets=previewBox[currentPage].itemCnt;
+
+	colSize=(int)(widgetWidth/maxWidgets);
+
+	gtk_icon_view_set_item_width(previewBox[currentPage].iconView,colSize);
+	gtk_icon_view_set_columns(previewBox[currentPage].iconView,maxWidgets);
+	gtk_icon_view_set_column_spacing(previewBox[currentPage].iconView,0);
+
+
+	gtk_widget_set_size_request((GtkWidget*)previewBox[currentPage].iconView,widgetWidth,-1);
 }
 
 gboolean doChangePage(GtkNotebook *notebook,gpointer arg1,guint arg2,gpointer user_data)
 {
-	doResize((GtkWindow*)window,NULL);
+	currentPage=arg2;
+	doResize((GtkWindow*)window,(void*)arg2);
 	return(TRUE);
 }
 

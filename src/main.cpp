@@ -457,10 +457,10 @@ int main(int argc,char **argv)
 
 	doSetConfigs();
 
-	g_signal_connect_after(G_OBJECT(window),"check-resize",G_CALLBACK(doResize),NULL);
+	g_signal_connect_after(G_OBJECT(window),"check-resize",G_CALLBACK(doResize),(void*)0xdeadbeef);
 
 	gtk_widget_show_all(window);
-	g_signal_connect_after(G_OBJECT(notebook),"switch-page",G_CALLBACK(doChangePage),NULL);
+	g_signal_connect(G_OBJECT(notebook),"switch-page",G_CALLBACK(doChangePage),NULL);
 	gtk_main();
 }
 

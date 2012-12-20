@@ -203,7 +203,7 @@ void addIconEntry(GtkListStore *store,const char* iconPng,const char* iconName,c
 	cairo_t *cr;
 
 	gtk_list_store_append(store,&iter);
-	pixbuf=gdk_pixbuf_new_from_file_at_size(iconPng,previewSize,-1,NULL);
+	pixbuf=gdk_pixbuf_new_from_file_at_size(iconPng,previewSize-GAP+2,-1,NULL);
 
 	if(isCurrent(themename,subfolder,(char*)iconName)==true)
 		{
@@ -382,11 +382,14 @@ void buildPages(void)
 	addView=false;
 	addNewIcons(previewBox[THEMES].hBox,"meta",previewBox[THEMES].iconView,THEMES);
 	addView=true;
+	gtk_icon_view_set_item_padding(previewBox[THEMES].iconView,2);
 
 	gtk_container_add((GtkContainer*)previewBox[THEMES].hBox,(GtkWidget*)previewBox[THEMES].iconView);
 	gtk_scrolled_window_add_with_viewport(previewBox[THEMES].scrollBox,(GtkWidget*)previewBox[THEMES].hBox);
 	gtk_box_pack_start((GtkBox*)previewBox[THEMES].vBox,(GtkWidget*)previewBox[THEMES].scrollBox,TRUE,TRUE,0);
 
+	g_signal_connect(G_OBJECT(previewBox[THEMES].iconView),"motion-notify-event",G_CALLBACK(mouseMove),NULL);
+	g_signal_connect(G_OBJECT(previewBox[THEMES].iconView),"button-press-event",G_CALLBACK(clickIt),(void*)THEMES);
 
 	for (int j=1;j<=WALLPAPERS;j++)
 		{
@@ -400,10 +403,15 @@ void buildPages(void)
 
 			previewBox[j].iconView=(GtkIconView*)gtk_icon_view_new();
 			addNewIcons(previewBox[j].hBox,folders[j],previewBox[j].iconView,j);
+			//gtk_icon_view_set_item_padding(previewBox[j].iconView,2);
 
 			gtk_container_add((GtkContainer*)previewBox[j].hBox,(GtkWidget*)previewBox[j].iconView);
 			gtk_scrolled_window_add_with_viewport(previewBox[j].scrollBox,(GtkWidget*)previewBox[j].hBox);
 			gtk_box_pack_start((GtkBox*)previewBox[j].vBox,(GtkWidget*)previewBox[j].scrollBox,TRUE,TRUE,0);
+			
+			g_signal_connect(G_OBJECT(previewBox[j].iconView),"motion-notify-event",G_CALLBACK(mouseMove),NULL);
+			g_signal_connect(G_OBJECT(previewBox[j].iconView),"button-press-event",G_CALLBACK(clickIt),(void*)j);
+
 		}
 
 
