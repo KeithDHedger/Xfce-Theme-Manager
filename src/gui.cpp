@@ -386,6 +386,27 @@ void buildPages(void)
 	gtk_container_add((GtkContainer*)previewBox[THEMES].hBox,(GtkWidget*)previewBox[THEMES].iconView);
 	gtk_scrolled_window_add_with_viewport(previewBox[THEMES].scrollBox,(GtkWidget*)previewBox[THEMES].hBox);
 	gtk_box_pack_start((GtkBox*)previewBox[THEMES].vBox,(GtkWidget*)previewBox[THEMES].scrollBox,TRUE,TRUE,0);
+
+
+	for (int j=1;j<=WALLPAPERS;j++)
+		{
+			if(previewBox[j].vBox==NULL)
+				previewBox[j].vBox=(GtkVBox*)gtk_vbox_new(FALSE,0);
+
+			previewBox[j].hBox=(GtkHBox*)gtk_hbox_new(FALSE,0);
+			previewBox[j].scrollBox=(GtkScrolledWindow*)gtk_scrolled_window_new(NULL,NULL);
+			previewBox[j].itemCnt=0;
+			gtk_scrolled_window_set_policy(previewBox[j].scrollBox,GTK_POLICY_AUTOMATIC,GTK_POLICY_ALWAYS);
+
+			previewBox[j].iconView=(GtkIconView*)gtk_icon_view_new();
+			addNewIcons(previewBox[j].hBox,folders[j],previewBox[j].iconView,0);
+
+			gtk_container_add((GtkContainer*)previewBox[j].hBox,(GtkWidget*)previewBox[j].iconView);
+			gtk_scrolled_window_add_with_viewport(previewBox[j].scrollBox,(GtkWidget*)previewBox[j].hBox);
+			gtk_box_pack_start((GtkBox*)previewBox[j].vBox,(GtkWidget*)previewBox[j].scrollBox,TRUE,TRUE,0);
+		}
+
+
 //	previewBoxes[THEMES][SCROLLBOX]=gtk_scrolled_window_new(NULL,NULL);
 //	addView=true;
 //	previewBoxes[THEMES][ICONVIEW]=gtk_icon_view_new();

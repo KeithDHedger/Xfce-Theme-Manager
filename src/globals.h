@@ -112,8 +112,9 @@ enum words {THEMES=0,WMBORDERS,CONTROLS,ICONS,CURSORS,WALLPAPERS,REBUILDTHEDB,RE
 enum preSize {PREHUGE=256,PRELARGE=128,PREMEDIUM=64,PRESMALL=48};
 enum {SCROLLBOX,VBOX,ICONVIEW};
 
+extern const char*	folders[];
 extern const char*	langStr[][STOPWORD];
-
+	
 extern int			currentWallStyle;
 extern char*		currentIconTheme;
 extern char*		currentWmTheme;
@@ -138,7 +139,7 @@ extern char*		lastWallPaper;
 extern char*		lastMetaTheme;
 
 //extern int			itemCnt;
-extern GtkWidget*		previewBoxes[6][3];
+//extern GtkWidget*		previewBoxes[6][3];
 
 struct boxStruct
 {

@@ -25,7 +25,7 @@ bool		destroy=false;
 //GtkTreePath* holdPath=NULL;
 //gtk_icon_view_scroll_to_path((GtkIconView *)view,path,FALSE,0,0);
 //update gui
-#if 1
+#if 0
 void doResizeX(GtkWindow *window,gpointer user_data)
 {
 	GtkAllocation	allocation;
@@ -60,44 +60,48 @@ void doResizeX(GtkWindow *window,gpointer user_data)
 		}
 }
 #endif
+int currentPage=0;
 
 void doResize(GtkWindow *window,gpointer user_data)
 {
+
 	GtkAllocation	allocation;
 	int			widgetWidth;
 	int			maxWidgets=0;
 	int			barWidth;
 	GtkWidget*		scrollBar;
-	int			colSize;
+	int			colSize=0;
 
-	for (int j=0;j<1;j++)
+	int			pageNum=gtk_notebook_get_current_page(notebook);
+
+//	if (pageNum==currentPage)
+//		return;
+//	currentPage=pageNum;
+printf("page num = %i\n",(int)pageNum);
+	for (int j=THEMES;j<=WALLPAPERS;j++)
 		{
-			scrollBar=gtk_scrolled_window_get_vscrollbar(previewBox[THEMES].scrollBox);
+			scrollBar=gtk_scrolled_window_get_vscrollbar(previewBox[pageNum].scrollBox);
 
 			gtk_widget_get_allocation(scrollBar,&allocation);
-			//allocation.width=0;
-			//if (allocation.width>0)
 			barWidth=allocation.width;
-			//else
-			//	barWidth=0;
 
-			gtk_widget_get_allocation((GtkWidget*)previewBox[THEMES].hBox,&allocation);
-			//allocation.width=0;
+			gtk_widget_get_allocation((GtkWidget*)previewBox[pageNum].hBox,&allocation);
 			widgetWidth=allocation.width-(barWidth*2);
 
 			maxWidgets=widgetWidth/previewSize;
 
-			if(maxWidgets>=previewBox[THEMES].itemCnt)
-				maxWidgets=previewBox[THEMES].itemCnt;
+		//	if(maxWidgets>=previewBox[pageNum].itemCnt)
+		//		maxWidgets=previewBox[pageNum].itemCnt;
 
-			colSize=(widgetWidth/maxWidgets);
-
-			gtk_icon_view_set_item_width(previewBox[THEMES].iconView,colSize);
-			gtk_icon_view_set_columns(previewBox[THEMES].iconView,maxWidgets);
-			gtk_icon_view_set_column_spacing(previewBox[THEMES].iconView,0);
-			gtk_icon_view_set_item_padding(previewBox[THEMES].iconView,0);
-			gtk_widget_set_size_request((GtkWidget*)previewBox[THEMES].iconView,widgetWidth,-1);
-			gtk_window_get_size(window,&previewBox[THEMES].width,NULL);
+			colSize=(int)(widgetWidth/maxWidgets);
+//colSize=100;
+		printf("widgetwidth = %i maxwidgets= %i col size = %i\n",widgetWidth,maxWidgets,colSize);
+			gtk_icon_view_set_item_width(previewBox[pageNum].iconView,colSize);
+			gtk_icon_view_set_columns(previewBox[pageNum].iconView,maxWidgets);
+			gtk_icon_view_set_column_spacing(previewBox[pageNum].iconView,0);
+			gtk_icon_view_set_item_padding(previewBox[pageNum].iconView,0);
+			gtk_widget_set_size_request((GtkWidget*)previewBox[pageNum].iconView,widgetWidth,-1);
+			gtk_window_get_size(window,&previewBox[pageNum].width,NULL);
 		}
 }
 

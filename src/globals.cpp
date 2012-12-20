@@ -35,7 +35,7 @@ char*			lastWallPaper;
 char*			lastMetaTheme;
 
 //int			itemCnt=1;
-GtkWidget*		previewBoxes[6][3]={{NULL,NULL,NULL},{NULL,NULL,NULL},{NULL,NULL,NULL},{NULL,NULL,NULL},{NULL,NULL,NULL},{NULL,NULL,NULL}};
+//GtkWidget*		previewBoxes[6][3]={{NULL,NULL,NULL},{NULL,NULL,NULL},{NULL,NULL,NULL},{NULL,NULL,NULL},{NULL,NULL,NULL},{NULL,NULL,NULL}};
 
 boxStruct		previewBox[6];
 
@@ -111,6 +111,8 @@ int			winWid=420;
 int			winHite=470;
 int			gotXCE=0;
 int			previewSize=128;
+
+const char* folders[]={"meta","frames","controls","icons","cursors","wallpapers"};
 
 const char* langStr[][STOPWORD]={
 {"Themes","Window Borders","Controls","Icons","Cursors","Wallpapers","Re-Build The Database","Rebuild DB","Launch Xfce-Composite-Editor","Backdrop Adjustments","Brightness","Saturation","Reset","Button Layout","Font Selection","WM Font","App Font","Cursor Size","Reset Theme","Custom Theme","Advanced","Title Position","Enter Name for Theme...","Left","Centre","Right","Auto","Centered","Tiled","Stretched","Scaled","Zoomed","Custom","View Options","Show System Themes","Show Only Custom Themes","Delete Custom Theme","Integrated theme manager","An intergrated theme manager for Xfce 4.10","Huge Previews","Large Previews","Medium Previews","Small Previews"},

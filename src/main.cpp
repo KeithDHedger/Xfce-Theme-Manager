@@ -396,22 +396,22 @@ int main(int argc,char **argv)
 	label=gtk_label_new(_translate(THEMES));
 //	gtk_notebook_append_page(notebook,previewBoxes[THEMES][VBOX],label);
 	gtk_notebook_append_page(notebook,(GtkWidget*)previewBox[THEMES].vBox,label);
-#if 0
+
 	label=gtk_label_new(_translate(WMBORDERS));
-	gtk_notebook_append_page(notebook,previewBoxes[WMBORDERS][VBOX],label);
+	gtk_notebook_append_page(notebook,(GtkWidget*)previewBox[WMBORDERS].vBox,label);
 
 	label=gtk_label_new(_translate(CONTROLS));
-	gtk_notebook_append_page(notebook,previewBoxes[CONTROLS][VBOX],label);
+	gtk_notebook_append_page(notebook,(GtkWidget*)previewBox[CONTROLS].vBox,label);
 
 	label=gtk_label_new(_translate(ICONS));
-	gtk_notebook_append_page(notebook,previewBoxes[ICONS][VBOX],label);
+	gtk_notebook_append_page(notebook,(GtkWidget*)previewBox[ICONS].vBox,label);
 
 	label=gtk_label_new(_translate(CURSORS));
-	gtk_notebook_append_page(notebook,previewBoxes[CURSORS][VBOX],label);
+	gtk_notebook_append_page(notebook,(GtkWidget*)previewBox[CURSORS].vBox,label);
 
 	label=gtk_label_new(_translate(WALLPAPERS));
-	gtk_notebook_append_page(notebook,previewBoxes[WALLPAPERS][VBOX],label);
-#endif
+	gtk_notebook_append_page(notebook,(GtkWidget*)previewBox[WALLPAPERS].vBox,label);
+
 	gtk_notebook_append_page(advanced,(GtkWidget*)notebook,NULL);
 
 //do advanced gui
