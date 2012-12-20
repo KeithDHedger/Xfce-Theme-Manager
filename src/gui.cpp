@@ -378,9 +378,9 @@ void buildPages(void)
 
 	addView=true;
 	previewBox[THEMES].iconView=(GtkIconView*)gtk_icon_view_new();
-	addNewIcons(previewBox[THEMES].hBox,"custom",previewBox[THEMES].iconView,0);
+	addNewIcons(previewBox[THEMES].hBox,"custom",previewBox[THEMES].iconView,THEMES);
 	addView=false;
-	addNewIcons(previewBox[THEMES].hBox,"meta",previewBox[THEMES].iconView,0);
+	addNewIcons(previewBox[THEMES].hBox,"meta",previewBox[THEMES].iconView,THEMES);
 	addView=true;
 
 	gtk_container_add((GtkContainer*)previewBox[THEMES].hBox,(GtkWidget*)previewBox[THEMES].iconView);
@@ -399,7 +399,7 @@ void buildPages(void)
 			gtk_scrolled_window_set_policy(previewBox[j].scrollBox,GTK_POLICY_AUTOMATIC,GTK_POLICY_ALWAYS);
 
 			previewBox[j].iconView=(GtkIconView*)gtk_icon_view_new();
-			addNewIcons(previewBox[j].hBox,folders[j],previewBox[j].iconView,0);
+			addNewIcons(previewBox[j].hBox,folders[j],previewBox[j].iconView,j);
 
 			gtk_container_add((GtkContainer*)previewBox[j].hBox,(GtkWidget*)previewBox[j].iconView);
 			gtk_scrolled_window_add_with_viewport(previewBox[j].scrollBox,(GtkWidget*)previewBox[j].hBox);

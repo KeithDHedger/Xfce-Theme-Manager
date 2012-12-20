@@ -45,6 +45,7 @@ void setCursSize(GtkWidget* widget,gpointer data);
 void resetCursSize(GtkWidget* widget,gpointer data);
 
 void doResize(GtkWindow *window,gpointer user_data);
+gboolean doChangePage(GtkNotebook *notebook,gpointer arg1,guint arg2,gpointer user_data);
 
 //do config stuff
 void doSetConfigs(void);

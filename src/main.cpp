@@ -394,7 +394,6 @@ int main(int argc,char **argv)
  
 //pages
 	label=gtk_label_new(_translate(THEMES));
-//	gtk_notebook_append_page(notebook,previewBoxes[THEMES][VBOX],label);
 	gtk_notebook_append_page(notebook,(GtkWidget*)previewBox[THEMES].vBox,label);
 
 	label=gtk_label_new(_translate(WMBORDERS));
@@ -461,6 +460,7 @@ int main(int argc,char **argv)
 	g_signal_connect_after(G_OBJECT(window),"check-resize",G_CALLBACK(doResize),NULL);
 
 	gtk_widget_show_all(window);
+	g_signal_connect_after(G_OBJECT(notebook),"switch-page",G_CALLBACK(doChangePage),NULL);
 	gtk_main();
 }
 

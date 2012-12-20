@@ -138,9 +138,6 @@ extern char*		lastCursorTheme;
 extern char*		lastWallPaper;
 extern char*		lastMetaTheme;
 
-//extern int			itemCnt;
-//extern GtkWidget*		previewBoxes[6][3];
-
 struct boxStruct
 {
 	GtkScrolledWindow*	scrollBox;
@@ -148,8 +145,6 @@ struct boxStruct
 	GtkVBox*			vBox;
 	GtkIconView*		iconView;
 	int				itemCnt;
-	int				width;
-	int				height;
 };
 
 extern boxStruct previewBox[6];

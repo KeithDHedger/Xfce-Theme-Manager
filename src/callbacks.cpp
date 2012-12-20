@@ -22,45 +22,6 @@ GtkWidget*	entryBox;
 char*		filename;
 char*		metaThemeSelected=NULL;
 bool		destroy=false;
-//GtkTreePath* holdPath=NULL;
-//gtk_icon_view_scroll_to_path((GtkIconView *)view,path,FALSE,0,0);
-//update gui
-#if 0
-void doResizeX(GtkWindow *window,gpointer user_data)
-{
-	GtkAllocation	allocation;
-	int			widgetWidth;
-	int			maxWidgets=0;
-	int			barWidth;
-	GtkWidget*		scrollBar;
-	int			colSize;
-//	GtkWidget*		icon_view;
-
-	for (int j=0;j<1;j++)
-		{
-			scrollBar=gtk_scrolled_window_get_vscrollbar((GtkScrolledWindow *)previewBoxes[j][SCROLLBOX]);
-
-			gtk_widget_get_allocation(scrollBar,&allocation);
-			barWidth=allocation.width;
-			gtk_widget_get_allocation(previewBoxes[j][SCROLLBOX],&allocation);
-			widgetWidth=allocation.width-barWidth;
-
-			maxWidgets=widgetWidth/previewSize;
-
-		//	if(maxWidgets>8)
-		//		maxWidgets=8;
-
-			colSize=(widgetWidth/maxWidgets);
-
-			gtk_icon_view_set_item_width((GtkIconView *)previewBoxes[j][ICONVIEW],colSize);
-			gtk_icon_view_set_columns((GtkIconView *)previewBoxes[j][ICONVIEW],maxWidgets);
-			gtk_icon_view_set_column_spacing((GtkIconView *)previewBoxes[j][ICONVIEW],0);
-			gtk_icon_view_set_item_padding((GtkIconView *)previewBoxes[j][ICONVIEW],0);
-			gtk_widget_set_size_request((GtkWidget *)previewBoxes[j][ICONVIEW],widgetWidth,-1);
-		}
-}
-#endif
-int currentPage=0;
 
 void doResize(GtkWindow *window,gpointer user_data)
 {
@@ -72,37 +33,35 @@ void doResize(GtkWindow *window,gpointer user_data)
 	GtkWidget*		scrollBar;
 	int			colSize=0;
 
-	int			pageNum=gtk_notebook_get_current_page(notebook);
-
-//	if (pageNum==currentPage)
-//		return;
-//	currentPage=pageNum;
-printf("page num = %i\n",(int)pageNum);
 	for (int j=THEMES;j<=WALLPAPERS;j++)
 		{
-			scrollBar=gtk_scrolled_window_get_vscrollbar(previewBox[pageNum].scrollBox);
+			scrollBar=gtk_scrolled_window_get_vscrollbar(previewBox[j].scrollBox);
 
 			gtk_widget_get_allocation(scrollBar,&allocation);
 			barWidth=allocation.width;
 
-			gtk_widget_get_allocation((GtkWidget*)previewBox[pageNum].hBox,&allocation);
+			gtk_widget_get_allocation((GtkWidget*)previewBox[j].hBox,&allocation);
 			widgetWidth=allocation.width-(barWidth*2);
 
 			maxWidgets=widgetWidth/previewSize;
 
-		//	if(maxWidgets>=previewBox[pageNum].itemCnt)
-		//		maxWidgets=previewBox[pageNum].itemCnt;
+			if(maxWidgets>=previewBox[j].itemCnt)
+				maxWidgets=previewBox[j].itemCnt;
 
 			colSize=(int)(widgetWidth/maxWidgets);
-//colSize=100;
-		printf("widgetwidth = %i maxwidgets= %i col size = %i\n",widgetWidth,maxWidgets,colSize);
-			gtk_icon_view_set_item_width(previewBox[pageNum].iconView,colSize);
-			gtk_icon_view_set_columns(previewBox[pageNum].iconView,maxWidgets);
-			gtk_icon_view_set_column_spacing(previewBox[pageNum].iconView,0);
-			gtk_icon_view_set_item_padding(previewBox[pageNum].iconView,0);
-			gtk_widget_set_size_request((GtkWidget*)previewBox[pageNum].iconView,widgetWidth,-1);
-			gtk_window_get_size(window,&previewBox[pageNum].width,NULL);
+
+			gtk_icon_view_set_item_width(previewBox[j].iconView,colSize);
+			gtk_icon_view_set_columns(previewBox[j].iconView,maxWidgets);
+			gtk_icon_view_set_column_spacing(previewBox[j].iconView,0);
+			gtk_icon_view_set_item_padding(previewBox[j].iconView,0);
+			gtk_widget_set_size_request((GtkWidget*)previewBox[j].iconView,widgetWidth,-1);
 		}
+}
+
+gboolean doChangePage(GtkNotebook *notebook,gpointer arg1,guint arg2,gpointer user_data)
+{
+	doResize((GtkWindow*)window,NULL);
+	return(TRUE);
 }
 
 void rerunAndUpdate(bool rebuild,bool resetmeta)
