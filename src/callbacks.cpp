@@ -101,7 +101,7 @@ void doResize(GtkWindow *window,gpointer user_data)
 gboolean doChangePage(GtkNotebook *notebook,gpointer arg1,guint arg2,gpointer user_data)
 {
 	currentPage=arg2;
-	doResize((GtkWindow*)window,(void*)arg2);
+	doResize((GtkWindow*)window,(void*)(long)arg2);
 	return(TRUE);
 }
 
