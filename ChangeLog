@@ -18,7 +18,8 @@ Please send them direct to me at:kdhedger68713@gmail.com posting them on xfce-lo
 
 Changelog:
 
-0.2.2 Whoops! Added back backdrop sizing/position.
+0.2.2 Greyed out theme buttons when showing advanced tab.
+	Whoops! Added back backdrop sizing/position.
 	Centred preview icons.
 	Adjusted DB thumbnails (again!).
 	Added Translations for "Preview" dropdown.
