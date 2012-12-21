@@ -34,9 +34,6 @@ char*			lastCursorTheme;
 char*			lastWallPaper;
 char*			lastMetaTheme;
 
-//int			itemCnt=1;
-//GtkWidget*		previewBoxes[6][3]={{NULL,NULL,NULL},{NULL,NULL,NULL},{NULL,NULL,NULL},{NULL,NULL,NULL},{NULL,NULL,NULL},{NULL,NULL,NULL}};
-
 boxStruct		previewBox[6];
 
 //db

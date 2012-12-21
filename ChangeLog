@@ -3,7 +3,7 @@
 #   Xfce-Theme-Manager
 #
 #   ©K.D.Hedger 2012
-#   kdhedger@yahoo.co.uk
+#   kdhedger68713@gmail.com
 #
 #   Released under GPL see the included licence file ( gpl-3.0.txt )
 #   Translations of the licence can be found here:
@@ -13,11 +13,17 @@
 
 ***************************************
 BUGS:
-Please send them direct to me at: kdhedger@yahoo.co.uk posting them on xfce-look etc gets too messy!
+Please send them direct to me at:kdhedger68713@gmail.com posting them on xfce-look etc gets too messy!
 ***************************************
 
 Changelog:
 
+0.2.2 Centred preview icons.
+	Adjusted DB thumbnails (again!).
+	Added Translations for "Preview" dropdown.
+	Changed email address in src files.
+	Code clean.
+	
 0.2.1 Code Clean.
 	Redone Db.
 	Added rollover hightlighting.

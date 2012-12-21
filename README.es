@@ -3,7 +3,7 @@
 #   Xfce-theme-manager
 #
 #   © 2012 K.D.Hedger
-#   Kdhedger@yahoo.co.uk
+#   kdhedger68713@gmail.com
 #
 #   Distribuido bajo licencia GPL. Ver el archivo de licencia incluido (gpl-3.0.txt)
 #   Traducciones de la licencia pueden encontrarse aquí:
@@ -107,7 +107,7 @@ Si está actualizando desde una versión anterior por favor, reconstruya la base
 
 ***************************************
 BUGS:
-Por favor, envíelas directamente a mí en: kdhedger@yahoo.co.uk Su publicación en xfce-look, etc, se vuelve demasiado complicada!
+Por favor, envíelas directamente a mí en: kdhedger68713@gmail.com Su publicación en xfce-look, etc, se vuelve demasiado complicada!
 ***************************************
 
 Disfrute!

@@ -29,6 +29,7 @@
 #define PREFERVERSION 34
 #define GAP 8
 #define HALFGAP GAP/2
+#define BORDER 0
 
 #define DELETETHEME 100
 
