@@ -12,7 +12,7 @@
 #ifndef _GLOBALS_
 #define _GLOBALS_
 
-#define VERSION "0.2.2"
+#define VERSION "0.2.3"
 #define MYEMAIL "kdhedger68713@gmail.com"
 
 #define PADWIDTH 72
@@ -102,9 +102,7 @@
 
 #define _translate(x) langStr[langID][x]
 
-#define ENGLISH 0
-#define SPANISH 1
-#define GERMAN 2
+enum {ENGLISH=0,SPANISH,GERMAN};
 
 enum dataType {INT,STRING,FLOAT};
 enum {PIXBUF_COLUMN,TEXT_COLUMN,FILE_NAME};

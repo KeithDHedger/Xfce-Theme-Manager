@@ -17,7 +17,7 @@
 #include "thumbnails.h"
 
 
-char		filedata[1024];
+char		filedata[2048];
 GtkWidget*	entryBox;
 char*		filename;
 char*		metaThemeSelected=NULL;
@@ -43,7 +43,7 @@ void doResize(GtkWindow *window,gpointer user_data)
 
 	maxWidgets=(int)widgetWidth/previewSize;
 
-	if ((widgetWidth > 0) && (previewSize > 0))
+	if (widgetWidth > 0)
 		maxWidgets=(int)widgetWidth/previewSize;
 	else
 		return;
