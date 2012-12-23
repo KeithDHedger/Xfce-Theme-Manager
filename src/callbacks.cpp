@@ -43,10 +43,18 @@ void doResize(GtkWindow *window,gpointer user_data)
 
 	maxWidgets=(int)widgetWidth/previewSize;
 
+	if ((widgetWidth > 0) && (previewSize > 0))
+		maxWidgets=(int)widgetWidth/previewSize;
+	else
+		return;
+
 	if(maxWidgets>=previewBox[currentPage].itemCnt)
 		maxWidgets=previewBox[currentPage].itemCnt;
 
-	colSize=(int)(widgetWidth/maxWidgets);
+	if ((widgetWidth > 0) && (maxWidgets > 0))
+		colSize=(int)widgetWidth/maxWidgets;
+	else
+		return;;
 
 	gtk_icon_view_set_item_width(previewBox[currentPage].iconView,colSize);
 	gtk_icon_view_set_columns(previewBox[currentPage].iconView,maxWidgets);
