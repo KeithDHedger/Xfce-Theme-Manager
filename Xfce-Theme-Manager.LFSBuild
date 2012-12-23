@@ -3,7 +3,7 @@
 . /usr/share/LFSPkg/LFSFunctions
 
 NAME="Xfce-Theme-Manager"
-VERSION="0.2.2"
+VERSION="0.2.3"
 BUILD=1
 SECTION="XFCE"
 SUFFIX="LFSPKG"
