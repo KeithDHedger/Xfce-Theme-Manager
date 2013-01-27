@@ -9,8 +9,11 @@
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gtk/gtk.h>
 
+
 #ifndef _GLOBALS_
 #define _GLOBALS_
+
+extern GtkTreePath* holdPath;
 
 #define VERSION "0.2.3"
 #define MYEMAIL "kdhedger68713@gmail.com"
@@ -144,6 +147,7 @@ struct boxStruct
 	GtkVBox*			vBox;
 	GtkIconView*		iconView;
 	int				itemCnt;
+	GtkAdjustment*		adj;
 };
 
 extern boxStruct previewBox[6];

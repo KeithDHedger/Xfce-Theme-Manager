@@ -194,6 +194,8 @@ GdkPixbuf *f_pixbuf_from_cairo_surface(cairo_surface_t *source)
 	return pixbuf;
 }
 
+GtkTreePath* holdPathTemp=NULL;
+
 void addIconEntry(GtkListStore *store,const char* iconPng,const char* iconName,char* dbPath,char* subfolder,char* themename)
 {
 	GtkTreeIter	iter;
@@ -236,6 +238,9 @@ void addIconEntry(GtkListStore *store,const char* iconPng,const char* iconName,c
 
 			cairo_surface_destroy(surface);
 			cairo_destroy(cr);
+			//printf("XXX\n");
+			//holdPathTemp=gtk_tree_model_get_path(GTK_TREE_MODEL(store),&iter);
+			//printf("ZZZ\n");
 		}
 
 	gtk_list_store_set(store,&iter,PIXBUF_COLUMN,pixbuf,TEXT_COLUMN,iconName,FILE_NAME,dbPath,-1);
@@ -340,6 +345,7 @@ void addNewIcons(GtkHBox* hbox,const char* subfolder,GtkIconView* tempIconView,i
 							thumb=g_key_file_get_string(keyfile,"Data","Thumbnail",NULL);
 							themename=g_key_file_get_string(keyfile,"Data","ThemeName",NULL);
 							addIconEntry(store,thumb,name,filename,(char*)subfolder,(char*)themename);
+							//previewBox[whatBox].adj=holdPathTemp;
 							previewBox[whatBox].itemCnt++;
 							freeAndNull(&name);
 							freeAndNull(&thumb);
@@ -410,6 +416,8 @@ void buildPages(void)
 			
 			g_signal_connect(G_OBJECT(previewBox[j].iconView),"motion-notify-event",G_CALLBACK(mouseMove),NULL);
 			g_signal_connect(G_OBJECT(previewBox[j].iconView),"button-press-event",G_CALLBACK(clickIt),(void*)(long)j);
+			
+			//gtk_icon_view_scroll_to_path(previewBox[j].iconView,previewBox[j].currentPath,TRUE,0,0);
 		}
 	
 	if(previewBox[WALLPAPERS].vBox==NULL)
@@ -434,6 +442,10 @@ void buildPages(void)
 
 	g_signal_connect(G_OBJECT(previewBox[WALLPAPERS].iconView),"motion-notify-event",G_CALLBACK(mouseMove),NULL);
 	g_signal_connect(G_OBJECT(previewBox[WALLPAPERS].iconView),"button-press-event",G_CALLBACK(clickIt),(void*)(long)WALLPAPERS);
+
+
+//		if (holdPath!=NULL)
+//		gtk_icon_view_scroll_to_path((GtkIconView *)view,holdPath,FALSE,0,0);
 
 }
 

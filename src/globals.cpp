@@ -10,6 +10,7 @@
 #include <string.h>
 
 #include "globals.h"
+GtkTreePath* holdPath=NULL;
 
 //current stuff
 int			currentWallStyle;

@@ -752,8 +752,9 @@ void themeIconCallback(GtkIconView *view,gpointer doWhat)
 		}
 	g_free (text);
 	g_list_free (selected);
-	
-	//gtk_icon_view_scroll_to_path((GtkIconView *)view,path,FALSE,0,0);
+
+	//if (holdPath!=NULL)
+	//	gtk_icon_view_scroll_to_path((GtkIconView *)view,holdPath,FALSE,0,0);
 }
 
 gboolean mouseMove(GtkWidget* widget,GdkEvent* event,gpointer user_data)
