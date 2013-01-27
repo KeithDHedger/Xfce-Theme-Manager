@@ -436,7 +436,7 @@ int main(int argc,char **argv)
 //do buttons
 	buttonHbox=gtk_hbox_new(false,8);
 
-	gtk_box_pack_start(GTK_BOX(buttonHbox),(GtkWidget*)previewComboBox,true,true,0);
+	gtk_box_pack_start(GTK_BOX(buttonHbox),(GtkWidget*)previewComboBox,true,true,4);
 
 	resetButton=gtk_button_new_with_label(_translate(RESETTHEME));
 	gtk_box_pack_start(GTK_BOX(buttonHbox),resetButton, false,false,0);
@@ -447,7 +447,7 @@ int main(int argc,char **argv)
 	g_signal_connect_after(G_OBJECT(customButton),"clicked",G_CALLBACK(customTheme),NULL);
 
 	button=gtk_toggle_button_new_with_label(_translate(ADVANCED));
-	gtk_box_pack_start(GTK_BOX(buttonHbox),button, false,false,0);
+	gtk_box_pack_start(GTK_BOX(buttonHbox),button, false,false,4);
 	g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(showAdvanced),NULL);
 
 	gtk_box_pack_start(GTK_BOX(vbox),buttonHbox, false,false,8);
@@ -456,7 +456,7 @@ int main(int argc,char **argv)
 
 	button=gtk_button_new_from_stock(GTK_STOCK_ABOUT);
 	g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(doAbout),NULL);
-	gtk_box_pack_start(GTK_BOX(buttonHbox),button,false,false,32);
+	gtk_box_pack_start(GTK_BOX(buttonHbox),button,false,false,4);
 
 	button=gtk_button_new_from_stock(GTK_STOCK_CLOSE);
 	g_signal_connect(G_OBJECT(button),"clicked",G_CALLBACK(shutdown),NULL);
@@ -465,7 +465,7 @@ int main(int argc,char **argv)
 
 gtk_box_pack_start(GTK_BOX(buttonHbox),gtk_hbox_new(false,0),true,true,0);
 
-	gtk_box_pack_start(GTK_BOX(buttonHbox),button, false,false,0);
+	gtk_box_pack_start(GTK_BOX(buttonHbox),button, false,false,4);
 	gtk_box_pack_start(GTK_BOX(vbox),buttonHbox, false,false,0);
 
 //do dnd
