@@ -456,7 +456,7 @@ int main(int argc,char **argv)
 
 	button=gtk_button_new_from_stock(GTK_STOCK_ABOUT);
 	g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(doAbout),NULL);
-	gtk_box_pack_start(GTK_BOX(buttonHbox),button,false,false,0);
+	gtk_box_pack_start(GTK_BOX(buttonHbox),button,false,false,32);
 
 	button=gtk_button_new_from_stock(GTK_STOCK_CLOSE);
 	g_signal_connect(G_OBJECT(button),"clicked",G_CALLBACK(shutdown),NULL);
