@@ -296,6 +296,16 @@ gboolean updateBarTimer(gpointer data)
 		return(false);
 }
 
+void doAbout(GtkWidget* widget,gpointer data)
+{
+	const char*	authors[]={"K.D.Hedger <"MYEMAIL">",NULL};
+	const char	copyright[] ="Copyright \xc2\xa9 2012 K.D.Hedger";
+	const char*	aboutboxstring=_translate(ABOUTBOX);
+	const char*	translators="Spanish translation:\nPablo Morales Romero <pg.morales.romero@gmail.com>.\n\nGerman translation:\nMartin F. Schumann. <mfs@mfs.name>";
+
+	gtk_show_about_dialog(NULL,"authors",authors,"translator-credits",translators,"comments",aboutboxstring,"copyright",copyright,"version",VERSION,"website","http://keithhedger.hostingsiteforfree.com/index.html","program-name","Xfce-Theme-Manager","logo-icon-name","xfce-theme-manager",NULL); 
+}
+
 int main(int argc,char **argv)
 {
 	GtkWidget*		vbox;
@@ -422,10 +432,11 @@ int main(int argc,char **argv)
 	gtk_container_add(GTK_CONTAINER(vbox),(GtkWidget*)advanced);
 
 	gtk_box_pack_start(GTK_BOX(vbox),gtk_hseparator_new(),false,false,4);
-	gtk_box_pack_start(GTK_BOX(vbox),(GtkWidget*)previewComboBox,false,false,8);
 
 //do buttons
-	buttonHbox=gtk_hbox_new(true,0);
+	buttonHbox=gtk_hbox_new(false,8);
+
+	gtk_box_pack_start(GTK_BOX(buttonHbox),(GtkWidget*)previewComboBox,true,true,0);
 
 	resetButton=gtk_button_new_with_label(_translate(RESETTHEME));
 	gtk_box_pack_start(GTK_BOX(buttonHbox),resetButton, false,false,0);
@@ -439,16 +450,23 @@ int main(int argc,char **argv)
 	gtk_box_pack_start(GTK_BOX(buttonHbox),button, false,false,0);
 	g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(showAdvanced),NULL);
 
-	gtk_box_pack_start(GTK_BOX(vbox),buttonHbox, false,false, 8);
+	gtk_box_pack_start(GTK_BOX(vbox),buttonHbox, false,false,8);
 
-	buttonHbox=gtk_hbox_new(true,0);
-	button=gtk_button_new_from_stock(GTK_STOCK_QUIT);
+	buttonHbox=gtk_hbox_new(false,0);
+
+	button=gtk_button_new_from_stock(GTK_STOCK_ABOUT);
+	g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(doAbout),NULL);
+	gtk_box_pack_start(GTK_BOX(buttonHbox),button,false,false,0);
+
+	button=gtk_button_new_from_stock(GTK_STOCK_CLOSE);
 	g_signal_connect(G_OBJECT(button),"clicked",G_CALLBACK(shutdown),NULL);
 
-	gtk_box_pack_start(GTK_BOX(vbox),gtk_hseparator_new(),false,false,0);
+	gtk_box_pack_start(GTK_BOX(vbox),gtk_hseparator_new(),false,false,8);
 
-	gtk_box_pack_start(GTK_BOX(buttonHbox),button, false,false,8);
-	gtk_box_pack_start(GTK_BOX(vbox),buttonHbox, false,false,8);
+gtk_box_pack_start(GTK_BOX(buttonHbox),gtk_hbox_new(false,0),true,true,0);
+
+	gtk_box_pack_start(GTK_BOX(buttonHbox),button, false,false,0);
+	gtk_box_pack_start(GTK_BOX(vbox),buttonHbox, false,false,0);
 
 //do dnd
 	gtk_drag_dest_set(vbox,GTK_DEST_DEFAULT_ALL,NULL,0,GDK_ACTION_COPY);

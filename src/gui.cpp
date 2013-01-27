@@ -416,8 +416,6 @@ void buildPages(void)
 			
 			g_signal_connect(G_OBJECT(previewBox[j].iconView),"motion-notify-event",G_CALLBACK(mouseMove),NULL);
 			g_signal_connect(G_OBJECT(previewBox[j].iconView),"button-press-event",G_CALLBACK(clickIt),(void*)(long)j);
-			
-			//gtk_icon_view_scroll_to_path(previewBox[j].iconView,previewBox[j].currentPath,TRUE,0,0);
 		}
 	
 	if(previewBox[WALLPAPERS].vBox==NULL)
@@ -443,13 +441,9 @@ void buildPages(void)
 	g_signal_connect(G_OBJECT(previewBox[WALLPAPERS].iconView),"motion-notify-event",G_CALLBACK(mouseMove),NULL);
 	g_signal_connect(G_OBJECT(previewBox[WALLPAPERS].iconView),"button-press-event",G_CALLBACK(clickIt),(void*)(long)WALLPAPERS);
 
-
-//		if (holdPath!=NULL)
-//		gtk_icon_view_scroll_to_path((GtkIconView *)view,holdPath,FALSE,0,0);
-
 }
 
-void doAbout(GtkWidget* widget,gpointer data)
+void doAboutXX(GtkWidget* widget,gpointer data)
 {
 	const char*	authors[]={"K.D.Hedger <"MYEMAIL">",NULL};
 	const char	copyright[] ="Copyright \xc2\xa9 2012 K.D.Hedger";
@@ -468,13 +462,14 @@ void buildAdvancedGui(GtkWidget* advancedScrollBox)
 
 	advancedVbox=gtk_vbox_new(FALSE,0);
 //about
+/*
 	button=gtk_button_new_from_stock(GTK_STOCK_ABOUT);
 	g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(doAbout),NULL);
 	advancedHbox=gtk_hbox_new(true,4);
 	gtk_box_pack_start(GTK_BOX(advancedHbox),button,false,false,4);
 	gtk_box_pack_start(GTK_BOX(advancedVbox),advancedHbox,false,false,4);
 	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_hseparator_new(),false,false,4);
-
+*/
 //database
 	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_label_new(_translate(REBUILDTHEDB)),false,false,2);
 	advancedHbox=gtk_hbox_new(true,4);
