@@ -378,6 +378,13 @@ GtkWidget* buildTitlePos(void)
 	return(advancedHbox);
 }
 
+gboolean testscroll   (GtkScrolledWindow *scrolledwindow,GtkScrollType      arg1,gboolean  arg2,gpointer  user_data)
+{
+printf("XXXXXX\n");
+return(FALSE);
+}
+
+
 void buildPages(void)
 {
 	if(previewBox[THEMES].vBox==NULL)
@@ -428,6 +435,9 @@ void buildPages(void)
 			g_signal_connect(G_OBJECT(previewBox[j].iconView),"motion-notify-event",G_CALLBACK(mouseMove),NULL);
 			g_signal_connect(G_OBJECT(previewBox[j].iconView),"button-press-event",G_CALLBACK(clickIt),(void*)(long)j);
 			//g_signal_connect_after(G_OBJECT(previewBox[j].iconView),"event-after",G_CALLBACK(itemact),(void*)(long)j);
+			
+			g_signal_connect(G_OBJECT(previewBox[j].scrollBox),"scroll-child",G_CALLBACK(testscroll),(void*)(long)j);
+
 		}
 	
 	if(previewBox[WALLPAPERS].vBox==NULL)
