@@ -26,6 +26,11 @@ void wallStyleChanged(GtkWidget* widget,gpointer data);
 void previewSizeChanged(GtkWidget* widget,gpointer data);
 void themeIconCallback(GtkIconView *view,gpointer doWhat);
 
+
+
+gboolean itemact (GtkWidget *widget, GdkEvent  *event,gpointer   user_data);
+
+
 gboolean mouseMove(GtkWidget *widget,GdkEvent* event,gpointer user_data);
 gboolean clickIt(GtkWidget *widget,GdkEvent* event,gpointer data);
 

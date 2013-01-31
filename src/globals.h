@@ -13,10 +13,14 @@
 #ifndef _GLOBALS_
 #define _GLOBALS_
 
+extern GtkTreeModel* treemodel;
 extern GtkTreePath* holdPath;
+extern GtkAdjustment *    adj;
+extern GtkTreeIter savediter;
 
 #define VERSION "0.2.3"
 #define MYEMAIL "kdhedger68713@gmail.com"
+#define MYWEBSITE "http://keithhedger.hostingsiteforfree.com"
 
 #define PADWIDTH 72
 #define MAXBOXWIDTH 256
@@ -143,11 +147,12 @@ extern char*		lastMetaTheme;
 struct boxStruct
 {
 	GtkScrolledWindow*	scrollBox;
-	GtkHBox*			hBox;
+//	GtkHBox*			hBox;
 	GtkVBox*			vBox;
 	GtkIconView*		iconView;
 	int				itemCnt;
-	GtkAdjustment*		adj;
+	GtkTreeIter			partIter;
+	GtkListStore *		listStore;
 };
 
 extern boxStruct previewBox[6];

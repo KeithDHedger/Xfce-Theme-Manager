@@ -16,6 +16,7 @@
 #include "database.h"
 #include "thumbnails.h"
 
+#include <unistd.h>
 
 char		filedata[2048];
 GtkWidget*	entryBox;
@@ -23,6 +24,10 @@ char*		filename;
 char*		metaThemeSelected=NULL;
 bool		destroy=false;
 int		currentPage;
+
+bool	flag=false;
+int scrollbar;
+//GtkAdjustment *    adj;
 
 void doResize(GtkWindow *window,gpointer user_data)
 {
@@ -61,7 +66,7 @@ void doResize(GtkWindow *window,gpointer user_data)
 	gtk_icon_view_set_column_spacing(previewBox[currentPage].iconView,BORDER);
 
 	gtk_widget_set_size_request((GtkWidget*)previewBox[currentPage].iconView,widgetWidth,-1);
-	gtk_widget_set_size_request((GtkWidget*)previewBox[currentPage].hBox,widgetWidth,-1);
+	//gtk_widget_set_size_request((GtkWidget*)previewBox[currentPage].hBox,widgetWidth,-1);
 }
 
 gboolean doChangePage(GtkNotebook *notebook,gpointer arg1,guint arg2,gpointer user_data)
@@ -99,7 +104,6 @@ void rerunAndUpdate(bool rebuild,bool resetmeta)
 	gtk_widget_destroy((GtkWidget*)previewBox[WALLPAPERS].scrollBox);
 
 	buildPages();
-
 	gtk_widget_show_all(window);
 }
 
@@ -394,13 +398,14 @@ int installWallpaper(char* filename)
 int extractAndInstall(char* filename)
 {
 	gchar*	stdout=NULL;
+	gchar*	stderr=NULL;
 	int		retval=-1;
 	gint		spawnret=-1;
 
 	while(true)
 	{
 		sprintf(generalBuffer,"tar --wildcards -tf %s */gtkrc",filename);
-		g_spawn_command_line_sync((char*)generalBuffer,&stdout,NULL,&spawnret,NULL);
+		g_spawn_command_line_sync((char*)generalBuffer,&stdout,&stderr,&spawnret,NULL);
 		if (spawnret==0)
 			{
 				stdout[strlen(stdout)-1]=0;
@@ -415,7 +420,7 @@ int extractAndInstall(char* filename)
 			}
 
 		sprintf(generalBuffer,"tar --wildcards -tf %s */themerc",filename);
-		g_spawn_command_line_sync((char*)generalBuffer,&stdout,NULL,&spawnret,NULL);
+		g_spawn_command_line_sync((char*)generalBuffer,&stdout,&stderr,&spawnret,NULL);
 		if (spawnret==0)
 			{
 				stdout[strlen(stdout)-1]=0;
@@ -424,13 +429,15 @@ int extractAndInstall(char* filename)
 						sprintf(generalBuffer,"tar -C %s -xf %s",themesArray[0],filename);
 						retval=system(generalBuffer);
 						freeAndNull(&stdout);
+						freeAndNull(&stderr);
 						break;
 					}
 				freeAndNull(&stdout);
+				freeAndNull(&stderr);
 			}
 
 		sprintf(generalBuffer,"tar --wildcards -tf %s */index.theme",filename);
-		g_spawn_command_line_sync((char*)generalBuffer,&stdout,NULL,&spawnret,NULL);
+		g_spawn_command_line_sync((char*)generalBuffer,&stdout,&stderr,&spawnret,NULL);
 		if (spawnret==0)
 			{
 				stdout[strlen(stdout)-1]=0;
@@ -439,16 +446,16 @@ int extractAndInstall(char* filename)
 						sprintf(generalBuffer,"tar -C %s -xf %s",iconsArray[0],filename);
 						retval=system(generalBuffer);
 						freeAndNull(&stdout);
+						freeAndNull(&stderr);
 						break;
 					}
 				freeAndNull(&stdout);
+				freeAndNull(&stderr);
 			}
 		break;
 	}
 
-	if(retval==0)
-		infoDialog("Installed",filename,GTK_MESSAGE_INFO);
-	else
+	if(retval!=0)
 		infoDialog("Can't Install",filename,GTK_MESSAGE_ERROR);
 
 	freeAndNull(&stdout);
@@ -464,7 +471,9 @@ void dropUri(GtkWidget *widget,GdkDragContext *context,gint x,gint y,GtkSelectio
 	char*		filename;
 	const char*	ziptype[]={".tgz",".gz",".zip",".tar",".bz2",NULL};
 	const char* pictype[]={".jpg",".png",".bmp",".gif",NULL};
-	bool		doupdate=false;
+	int		doupdate=1;
+	int doneinstalls=0;
+
 	gchar*	lowername=NULL;
 
 //make sure folders are there
@@ -488,6 +497,8 @@ void dropUri(GtkWidget *widget,GdkDragContext *context,gint x,gint y,GtkSelectio
 					if(g_str_has_suffix(lowername,ziptype[k]))
 						{
 							doupdate=extractAndInstall(filename);
+							if (doupdate==0)
+								doneinstalls++;
 							break;
 						}
 				}
@@ -506,10 +517,22 @@ void dropUri(GtkWidget *widget,GdkDragContext *context,gint x,gint y,GtkSelectio
 						{
 							doupdate=installWallpaper(filename);
 							break;
+							if (doupdate==0)
+								doneinstalls++;
 						}
 				}
 			freeAndNull(&filename);
 			freeAndNull(&lowername);
+		}
+
+	if(doneinstalls>1)
+		infoDialog("Installed",(char*)"Multiple Theme Archives",GTK_MESSAGE_INFO);
+
+	if(doneinstalls==1)
+		{
+			filename=g_filename_from_uri(array[0],NULL,NULL);
+			infoDialog("Installed",filename,GTK_MESSAGE_INFO);
+			freeAndNull(&filename);
 		}
 
 	g_strfreev(array);
@@ -752,9 +775,6 @@ void themeIconCallback(GtkIconView *view,gpointer doWhat)
 		}
 	g_free (text);
 	g_list_free (selected);
-
-	//if (holdPath!=NULL)
-	//	gtk_icon_view_scroll_to_path((GtkIconView *)view,holdPath,FALSE,0,0);
 }
 
 gboolean mouseMove(GtkWidget* widget,GdkEvent* event,gpointer user_data)
@@ -767,9 +787,71 @@ gboolean mouseMove(GtkWidget* widget,GdkEvent* event,gpointer user_data)
 	else
 		gtk_icon_view_unselect_all((GtkIconView*)widget);
 
-	return(TRUE);
+	return(FALSE);
 }
-                                                        
+
+gboolean itemact (GtkWidget *widget, GdkEvent  *event,gpointer   user_data)
+{
+
+if (flag==true)
+	{
+	//sleep(1);
+	printf("HHHHHHHHHHHH\n");
+	GtkAdjustment* holdadj= gtk_scrolled_window_get_vadjustment (previewBox[WMBORDERS].scrollBox);
+	
+GtkAdjustment* adj1=(GtkAdjustment*)gtk_adjustment_new (gtk_adjustment_get_value(holdadj),gtk_adjustment_get_lower(holdadj),gtk_adjustment_get_upper(holdadj),gtk_adjustment_get_step_increment(holdadj),gtk_adjustment_get_page_increment(holdadj),gtk_adjustment_get_page_size(holdadj));
+
+printf ("%f\n",gtk_adjustment_get_value(adj1));
+
+gtk_adjustment_set_value(adj1,2000.0);
+
+gtk_scrolled_window_set_vadjustment (previewBox[WMBORDERS].scrollBox,adj1);
+gtk_adjustment_set_value(holdadj,2000.0);
+printf ("%f\n",gtk_adjustment_get_value(adj1));
+
+flag=false;
+//			 GtkTreeIter iter;
+//			 			gtk_tree_model_get_iter_from_string ((GtkTreeModel*)treemodel,&iter,"10");
+//			GtkTreePath *       np=gtk_tree_model_get_path((GtkTreeModel*)treemodel,&iter);
+//			
+//			printf("%s\n",gtk_tree_path_to_string (np));
+//			
+//			gtk_icon_view_scroll_to_path((GtkIconView *)previewBox[WMBORDERS].iconView,np,false,1.0,1.0);
+//
+printf("AAAAAAAAAAAAAA\n");
+//gtk_widget_show                     ((GtkWidget *)window);
+//gtk_main_iteration_do               (false);
+//gtk_main_iteration_do               (false);
+//gtk_main_iteration_do               (false);
+//gtk_main_iteration_do               (false);
+//gtk_main_iteration_do               (false);
+//gtk_main_iteration_do               (false);
+//gtk_main_iteration_do               (false);
+//gtk_main_iteration           ();
+
+	//		GtkWidget* sb=gtk_scrolled_window_get_vscrollbar((GtkScrolledWindow*)previewBox[WMBORDERS].scrollBox);
+	//		gtk_range_set_value((GtkRange *)sb,1000);
+//gtk_widget_show                     ((GtkWidget *)window);
+/*
+GtkTreePath      *path;
+  gchar                 *path_string;
+  GtkTreeViewColumn   *col;
+
+  path_string = g_strdup_printf ("%d", 10);
+  path = gtk_tree_path_new_from_string (path_string);
+  g_free (path_string);
+
+  col = gtk_tree_view_get_column ((GtkTreeView*)treemodel, 0);
+  gtk_tree_view_scroll_to_cell ((GtkTreeView*)treemodel, path, col, TRUE, 0.5, 0.5);
+ // gtk_tree_view_set_cursor (treeview, path, col, start_editing);
+  gtk_tree_path_free (path);
+  */
+}
+return(FALSE);
+
+}
+
+
 gboolean clickIt(GtkWidget* widget,GdkEvent* event,gpointer data)
 {
 	GtkTreePath* path=NULL;
@@ -777,12 +859,27 @@ gboolean clickIt(GtkWidget* widget,GdkEvent* event,gpointer data)
 	path=gtk_icon_view_get_path_at_pos((GtkIconView *)widget,event->button.x,event->button.y);
 	if (path!=NULL)
 		{
-			gtk_icon_view_select_path((GtkIconView *)widget,path);
+
+	//	GtkObject * adj=gtk_adjustment_new(gdouble value,
+        ///                                                 gdouble lower,
+           //                                              gdouble upper,
+             //                                            gdouble step_increment,
+               //                                          gdouble page_increment,
+                 //                                        gdouble page_size);
 			themeIconCallback((GtkIconView *)widget,(void*)data);
-			//gtk_icon_view_scroll_to_path((GtkIconView *)widget,path,FALSE,0,0);
-			//holdPath=path;
+			//GTK_TREE_MODEL(store)
+			// GtkTreeIter iter;
+			// printf("%s\n",
+			//gtk_tree_model_get_iter_from_string ((GtkTreeModel*)treemodel,&iter,"10:0");
+			//GtkTreePath *       np=gtk_tree_model_get_path((GtkTreeModel*)treemodel,&iter);
+			
+			//printf("%s\n",gtk_tree_path_to_string (np));
+			
+			//gtk_icon_view_scroll_to_path((GtkIconView *)previewBox[WMBORDERS].iconView,np,false,1.0,1.0);
+			flag=true;
 		}
-	return(TRUE);
+
+	return(FALSE);
 }
                                                         
 void launchCompEd(GtkWidget* window,gpointer data)

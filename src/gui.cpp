@@ -196,6 +196,8 @@ GdkPixbuf *f_pixbuf_from_cairo_surface(cairo_surface_t *source)
 
 GtkTreePath* holdPathTemp=NULL;
 
+int savedBox=-1;
+
 void addIconEntry(GtkListStore *store,const char* iconPng,const char* iconName,char* dbPath,char* subfolder,char* themename)
 {
 	GtkTreeIter	iter;
@@ -209,6 +211,11 @@ void addIconEntry(GtkListStore *store,const char* iconPng,const char* iconName,c
 
 	if(isCurrent(themename,subfolder,(char*)iconName)==true)
 		{
+			//if (savebox==1)
+			//	savediter=iter;
+			previewBox[savedBox].partIter=iter;
+			previewBox[savedBox].listStore=store;
+
 			pixbuf=gdk_pixbuf_new_from_file_at_size(iconPng,previewSize-GAP,-1,NULL);
 			pixWid=gdk_pixbuf_get_width(pixbuf);
 			pixHite=gdk_pixbuf_get_height(pixbuf);
@@ -238,17 +245,15 @@ void addIconEntry(GtkListStore *store,const char* iconPng,const char* iconName,c
 
 			cairo_surface_destroy(surface);
 			cairo_destroy(cr);
-			//printf("XXX\n");
-			//holdPathTemp=gtk_tree_model_get_path(GTK_TREE_MODEL(store),&iter);
-			//printf("ZZZ\n");
 		}
 
 	gtk_list_store_set(store,&iter,PIXBUF_COLUMN,pixbuf,TEXT_COLUMN,iconName,FILE_NAME,dbPath,-1);
 	g_object_unref(pixbuf);
 
 }
-
-void addNewIcons(GtkHBox* hbox,const char* subfolder,GtkIconView* tempIconView,int whatBox)
+//			addNewIcons(previewBox[j].hBox,folders[j],previewBox[j].iconView,j);
+//void addNewIcons(GtkHBox* hbox,const char* subfolder,GtkIconView* tempIconView,int whatBox)
+void addNewIcons(const char* subfolder,GtkIconView* tempIconView,int whatBox)
 {
 	char*			foldername;
 	char*			filename;
@@ -264,6 +269,7 @@ void addNewIcons(GtkHBox* hbox,const char* subfolder,GtkIconView* tempIconView,i
 	bool			flag=false;
 	int 			itemSize=previewSize+previewSize/2;
 
+	savedBox=whatBox;
 
 	if(addView==true)
 		{
@@ -345,7 +351,6 @@ void addNewIcons(GtkHBox* hbox,const char* subfolder,GtkIconView* tempIconView,i
 							thumb=g_key_file_get_string(keyfile,"Data","Thumbnail",NULL);
 							themename=g_key_file_get_string(keyfile,"Data","ThemeName",NULL);
 							addIconEntry(store,thumb,name,filename,(char*)subfolder,(char*)themename);
-							//previewBox[whatBox].adj=holdPathTemp;
 							previewBox[whatBox].itemCnt++;
 							freeAndNull(&name);
 							freeAndNull(&thumb);
@@ -378,20 +383,23 @@ void buildPages(void)
 	if(previewBox[THEMES].vBox==NULL)
 		previewBox[THEMES].vBox=(GtkVBox*)gtk_vbox_new(FALSE,0);
 
-	previewBox[THEMES].hBox=(GtkHBox*)gtk_hbox_new(FALSE,0);
+	//previewBox[THEMES].hBox=(GtkHBox*)gtk_hbox_new(FALSE,0);
 	previewBox[THEMES].scrollBox=(GtkScrolledWindow*)gtk_scrolled_window_new(NULL,NULL);
 	previewBox[THEMES].itemCnt=0;
 	gtk_scrolled_window_set_policy(previewBox[THEMES].scrollBox,GTK_POLICY_AUTOMATIC,GTK_POLICY_ALWAYS);
 
 	addView=true;
 	previewBox[THEMES].iconView=(GtkIconView*)gtk_icon_view_new();
-	addNewIcons(previewBox[THEMES].hBox,"custom",previewBox[THEMES].iconView,THEMES);
+//	addNewIcons(previewBox[THEMES].hBox,"custom",previewBox[THEMES].iconView,THEMES);
+	addNewIcons("custom",previewBox[THEMES].iconView,THEMES);
 	addView=false;
-	addNewIcons(previewBox[THEMES].hBox,"meta",previewBox[THEMES].iconView,THEMES);
+//	addNewIcons(previewBox[THEMES].hBox,"meta",previewBox[THEMES].iconView,THEMES);
+	addNewIcons("meta",previewBox[THEMES].iconView,THEMES);
 	addView=true;
 
-	gtk_container_add((GtkContainer*)previewBox[THEMES].hBox,(GtkWidget*)previewBox[THEMES].iconView);
-	gtk_scrolled_window_add_with_viewport(previewBox[THEMES].scrollBox,(GtkWidget*)previewBox[THEMES].hBox);
+	//gtk_container_add((GtkContainer*)previewBox[THEMES].hBox,(GtkWidget*)previewBox[THEMES].iconView);
+//	gtk_scrolled_window_add_with_viewport(previewBox[THEMES].scrollBox,(GtkWidget*)previewBox[THEMES].hBox);
+	gtk_scrolled_window_add_with_viewport(previewBox[THEMES].scrollBox,(GtkWidget*)previewBox[THEMES].iconView);
 	gtk_box_pack_start((GtkBox*)previewBox[THEMES].vBox,(GtkWidget*)previewBox[THEMES].scrollBox,TRUE,TRUE,0);
 
 	g_signal_connect(G_OBJECT(previewBox[THEMES].iconView),"motion-notify-event",G_CALLBACK(mouseMove),NULL);
@@ -402,20 +410,24 @@ void buildPages(void)
 			if(previewBox[j].vBox==NULL)
 				previewBox[j].vBox=(GtkVBox*)gtk_vbox_new(FALSE,0);
 
-			previewBox[j].hBox=(GtkHBox*)gtk_hbox_new(FALSE,0);
+			//previewBox[j].hBox=(GtkHBox*)gtk_hbox_new(FALSE,0);
 			previewBox[j].scrollBox=(GtkScrolledWindow*)gtk_scrolled_window_new(NULL,NULL);
 			previewBox[j].itemCnt=0;
 			gtk_scrolled_window_set_policy(previewBox[j].scrollBox,GTK_POLICY_AUTOMATIC,GTK_POLICY_ALWAYS);
 
 			previewBox[j].iconView=(GtkIconView*)gtk_icon_view_new();
-			addNewIcons(previewBox[j].hBox,folders[j],previewBox[j].iconView,j);
+//			addNewIcons(previewBox[j].hBox,folders[j],previewBox[j].iconView,j);
+			addNewIcons(folders[j],previewBox[j].iconView,j);
 
-			gtk_container_add((GtkContainer*)previewBox[j].hBox,(GtkWidget*)previewBox[j].iconView);
-			gtk_scrolled_window_add_with_viewport(previewBox[j].scrollBox,(GtkWidget*)previewBox[j].hBox);
+//			gtk_container_add((GtkContainer*)previewBox[j].hBox,(GtkWidget*)previewBox[j].iconView);
+			gtk_scrolled_window_add_with_viewport(previewBox[j].scrollBox,(GtkWidget*)previewBox[j].iconView);
+
+			//gtk_scrolled_window_add_with_viewport(previewBox[j].scrollBox,(GtkWidget*)previewBox[j].hBox);
 			gtk_box_pack_start((GtkBox*)previewBox[j].vBox,(GtkWidget*)previewBox[j].scrollBox,TRUE,TRUE,0);
 			
 			g_signal_connect(G_OBJECT(previewBox[j].iconView),"motion-notify-event",G_CALLBACK(mouseMove),NULL);
 			g_signal_connect(G_OBJECT(previewBox[j].iconView),"button-press-event",G_CALLBACK(clickIt),(void*)(long)j);
+			//g_signal_connect_after(G_OBJECT(previewBox[j].iconView),"event-after",G_CALLBACK(itemact),(void*)(long)j);
 		}
 	
 	if(previewBox[WALLPAPERS].vBox==NULL)
@@ -424,16 +436,19 @@ void buildPages(void)
 			gtk_box_pack_start((GtkBox*)previewBox[WALLPAPERS].vBox,(GtkWidget*)wallpapersMainBox,FALSE,FALSE,0);
 		}
 
-	previewBox[WALLPAPERS].hBox=(GtkHBox*)gtk_hbox_new(FALSE,0);
+	//previewBox[WALLPAPERS].hBox=(GtkHBox*)gtk_hbox_new(FALSE,0);
 	previewBox[WALLPAPERS].scrollBox=(GtkScrolledWindow*)gtk_scrolled_window_new(NULL,NULL);
 	previewBox[WALLPAPERS].itemCnt=0;
 	gtk_scrolled_window_set_policy(previewBox[WALLPAPERS].scrollBox,GTK_POLICY_AUTOMATIC,GTK_POLICY_ALWAYS);
 
 	previewBox[WALLPAPERS].iconView=(GtkIconView*)gtk_icon_view_new();
-	addNewIcons(previewBox[WALLPAPERS].hBox,folders[WALLPAPERS],previewBox[WALLPAPERS].iconView,WALLPAPERS);
+//	addNewIcons(previewBox[WALLPAPERS].hBox,folders[WALLPAPERS],previewBox[WALLPAPERS].iconView,WALLPAPERS);
+	addNewIcons(folders[WALLPAPERS],previewBox[WALLPAPERS].iconView,WALLPAPERS);
 
-	gtk_container_add((GtkContainer*)previewBox[WALLPAPERS].hBox,(GtkWidget*)previewBox[WALLPAPERS].iconView);
-	gtk_scrolled_window_add_with_viewport(previewBox[WALLPAPERS].scrollBox,(GtkWidget*)previewBox[WALLPAPERS].hBox);
+//	gtk_container_add((GtkContainer*)previewBox[WALLPAPERS].hBox,(GtkWidget*)previewBox[WALLPAPERS].iconView);
+//	gtk_scrolled_window_add_with_viewport(previewBox[WALLPAPERS].scrollBox,(GtkWidget*)previewBox[WALLPAPERS].hBox);
+//	gtk_container_add((GtkContainer*)previewBox[WALLPAPERS].hBox,(GtkWidget*)previewBox[WALLPAPERS].iconView);
+	gtk_scrolled_window_add_with_viewport(previewBox[WALLPAPERS].scrollBox,(GtkWidget*)previewBox[WALLPAPERS].iconView);
 
 
 	gtk_box_pack_start((GtkBox*)previewBox[WALLPAPERS].vBox,(GtkWidget*)previewBox[WALLPAPERS].scrollBox,TRUE,TRUE,0);
@@ -441,16 +456,18 @@ void buildPages(void)
 	g_signal_connect(G_OBJECT(previewBox[WALLPAPERS].iconView),"motion-notify-event",G_CALLBACK(mouseMove),NULL);
 	g_signal_connect(G_OBJECT(previewBox[WALLPAPERS].iconView),"button-press-event",G_CALLBACK(clickIt),(void*)(long)WALLPAPERS);
 
-}
 
-void doAboutXX(GtkWidget* widget,gpointer data)
-{
-	const char*	authors[]={"K.D.Hedger <"MYEMAIL">",NULL};
-	const char	copyright[] ="Copyright \xc2\xa9 2012 K.D.Hedger";
-	const char*	aboutboxstring=_translate(ABOUTBOX);
-	const char*	translators="Spanish translation:\nPablo Morales Romero <pg.morales.romero@gmail.com>.\n\nGerman translation:\nMartin F. Schumann. <mfs@mfs.name>";
+	treemodel=(GtkTreeModel*)store;
+//	GtkTreeModel *     mod= gtk_icon_view_get_model(previewBox[WMBORDERS].iconView);
+//GtkTreePath *      pathfromiter= gtk_tree_model_get_path             (mod,&previewBox[WMBORDERS].partIter);
 
-	gtk_show_about_dialog(NULL,"authors",authors,"translator-credits",translators,"comments",aboutboxstring,"copyright",copyright,"version",VERSION,"website","http://keithhedger.hostingsiteforfree.com/index.html","program-name","Xfce-Theme-Manager","logo-icon-name","xfce-theme-manager",NULL); 
+//gtk_icon_view_scroll_to_path        (previewBox[WMBORDERS].iconView,pathfromiter,false,0,0);
+
+//gtk_tree_view_scroll_to_cell        ((GtkTreeView *)previewBox[WMBORDERS].iconView,pathfromiter,NULL,
+  //                                                      false,
+    //                                                     NULL,
+      //                                                   NULL);
+
 }
 
 void buildAdvancedGui(GtkWidget* advancedScrollBox)

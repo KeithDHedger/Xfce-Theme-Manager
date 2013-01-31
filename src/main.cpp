@@ -296,14 +296,85 @@ gboolean updateBarTimer(gpointer data)
 		return(false);
 }
 
+
 void doAbout(GtkWidget* widget,gpointer data)
 {
+printf("XXX\n");
+	GtkTreeModel *     mod= gtk_icon_view_get_model(previewBox[WMBORDERS].iconView);
+GtkTreePath *      pathfromiter= gtk_tree_model_get_path             (mod,&savediter);
+
+gtk_icon_view_scroll_to_path        (previewBox[WMBORDERS].iconView,pathfromiter,false,0,0);
+printf("ZZZZ\n");
+return;
+			GtkTreePath *path=NULL;
+			 GtkTreeIter iter;
+			// 			gtk_tree_model_get_iter_from_string ((GtkTreeModel*)treemodel,&iter,"10");
+			//GtkTreePath *       np=gtk_tree_model_get_path((GtkTreeModel*)treemodel,&iter);
+//	
+
+//GtkWidget *      vsb=  gtk_scrolled_window_get_vscrollbar  (previewBox[WMBORDERS].scrollBox);
+//GtkAdjustment *      holdadj=gtk_range_get_adjustment           ((GtkRange *)vsb);
+//adj=(GtkAdjustment*)gtk_adjustment_new (gtk_adjustment_get_value(holdadj),gtk_adjustment_get_lower(holdadj),gtk_adjustment_get_upper(holdadj),gtk_adjustment_get_step_increment(holdadj),gtk_adjustment_get_page_increment(holdadj),gtk_adjustment_get_page_size(holdadj));
+
+//printf ("%f\n",gtk_range_get_value((GtkRange *)vsb));
+
+//return;
+GtkAdjustment* holdadj= gtk_scrolled_window_get_vadjustment (previewBox[WMBORDERS].scrollBox);
+
+adj=(GtkAdjustment*)gtk_adjustment_new (gtk_adjustment_get_value(holdadj),gtk_adjustment_get_lower(holdadj),gtk_adjustment_get_upper(holdadj),gtk_adjustment_get_step_increment(holdadj),gtk_adjustment_get_page_increment(holdadj),gtk_adjustment_get_page_size(holdadj));
+
+printf ("%f\n",gtk_adjustment_get_value(adj));
+
+printf ("XXXXXXXXXXXXXXXXXXXXXXXXX\n");
+gtk_adjustment_set_value(adj,1000.0);
+gtk_scrolled_window_set_vadjustment (previewBox[WMBORDERS].scrollBox,adj);
+printf ("%f\n",gtk_adjustment_get_value(adj));
+
+
+
+return;
+
+GtkTreeModel *     model= gtk_icon_view_get_model((GtkIconView *)previewBox[WMBORDERS].iconView);
+
+//gtk_tree_model_get_iter_from_string (model,&iter,"15");
+path = gtk_tree_path_new_from_string ("15");
+gtk_tree_model_get_iter (model, &iter, path);
+//gtk_tree_model_iter_nth_child (model, &iter, NULL,0);
+//GtkTreePath *       np=gtk_tree_model_get_path(model,&iter);
+//path=gtk_tree_model_get_path (model,&iter);
+			printf("%s - %d\n",gtk_tree_path_to_string (path),path);
+//gtk_tree_view_scroll_to_cell ((GtkTreeView*)previewBox[WMBORDERS].iconView, path, NULL, FALSE, 0.5, 0.5);			
+gtk_icon_view_scroll_to_path((GtkIconView *)previewBox[WMBORDERS].iconView,path,true,1,1);
+gtk_tree_path_free (path);		
+
+
+//gtk_tree_view_row_activated         ((GtkTreeView *)previewBox[WMBORDERS].iconView,path,NULL);
+
+//GtkTreePath      *path;
+  //gchar                 *path_string;
+ // GtkTreeViewColumn   *col;
+
+  //path_string = g_strdup_printf ("%d", 10);
+//  path = gtk_tree_path_new_from_string (path_string);
+  //g_free (path_string);
+
+ // col = gtk_tree_view_get_column ((GtkTreeView*)treemodel, 0);
+ // gtk_tree_view_scroll_to_cell ((GtkTreeView*)treemodel, path, col, TRUE, 0.5, 0.5);
+ // gtk_tree_view_set_cursor (treeview, path, col, start_editing);
+ // gtk_tree_path_free (path);
+
+//			GtkWidget* sb=gtk_scrolled_window_get_vscrollbar((GtkScrolledWindow*)previewBox[WMBORDERS].scrollBox);
+//			gtk_range_set_value((GtkRange *)sb,1000);
+			 //gtk_widget_show                     ((GtkWidget *)sb);
+return;
+
+
 	const char*	authors[]={"K.D.Hedger <"MYEMAIL">",NULL};
 	const char	copyright[] ="Copyright \xc2\xa9 2012 K.D.Hedger";
 	const char*	aboutboxstring=_translate(ABOUTBOX);
 	const char*	translators="Spanish translation:\nPablo Morales Romero <pg.morales.romero@gmail.com>.\n\nGerman translation:\nMartin F. Schumann. <mfs@mfs.name>";
 
-	gtk_show_about_dialog(NULL,"authors",authors,"translator-credits",translators,"comments",aboutboxstring,"copyright",copyright,"version",VERSION,"website","http://keithhedger.hostingsiteforfree.com/index.html","program-name","Xfce-Theme-Manager","logo-icon-name","xfce-theme-manager",NULL); 
+	gtk_show_about_dialog(NULL,"authors",authors,"translator-credits",translators,"comments",aboutboxstring,"copyright",copyright,"version",VERSION,"website",MYWEBSITE,"program-name","Xfce-Theme-Manager","logo-icon-name","xfce-theme-manager",NULL); 
 }
 
 int main(int argc,char **argv)
@@ -314,7 +385,12 @@ int main(int argc,char **argv)
 	GtkWidget*		button;
 	GtkWidget*		advancedScrollBox;
 	gboolean		dbexists;
-                                       
+
+//gdouble dub=1.5;
+
+//printf("XXX%f\n",dub);
+//return(0);
+
 	if (argc==2 && g_ascii_strcasecmp(argv[1],"-v")==0)
 		{
 			printf("Xfce-Theme-Manager Version %s \nCopyright K.D.Hedger 2012, kdhedger@yahoo.co.uk\n",VERSION);
