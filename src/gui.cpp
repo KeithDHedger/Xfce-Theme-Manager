@@ -211,7 +211,7 @@ void addIconEntry(GtkListStore *store,const char* iconPng,const char* iconName,c
 
 	if(isCurrent(themename,subfolder,(char*)iconName)==true)
 		{
-			previewBox[savedBox].partIter=iter;
+			previewBox[savedBox].partIter=gtk_tree_iter_copy(&iter);;
 
 			pixbuf=gdk_pixbuf_new_from_file_at_size(iconPng,previewSize-GAP,-1,NULL);
 			pixWid=gdk_pixbuf_get_width(pixbuf);
@@ -417,10 +417,12 @@ void buildPages(void)
 	//previewBox[THEMES].partIter != -1)
 //		{
 printf ("XXXXX\n");
-			path=gtk_tree_model_get_path(model,&previewBox[THEMES].partIter);
+	if(previewBox[THEMES].partIter!=NULL)
+		{
+			path=gtk_tree_model_get_path(model,previewBox[THEMES].partIter);
 			gtk_icon_view_scroll_to_path(previewBox[THEMES].iconView,path,false,0,0);
 			gtk_tree_path_free (path);
-//		}
+		}
 printf ("ZZZZZZZZZz\n");
 	for (int j=1;j<WALLPAPERS;j++)
 		{
@@ -439,10 +441,10 @@ printf ("ZZZZZZZZZz\n");
 			g_signal_connect(G_OBJECT(previewBox[j].iconView),"motion-notify-event",G_CALLBACK(mouseMove),NULL);
 			g_signal_connect(G_OBJECT(previewBox[j].iconView),"button-press-event",G_CALLBACK(clickIt),(void*)(long)j);
 
-			model=gtk_icon_view_get_model(previewBox[j].iconView);
-			path=gtk_tree_model_get_path(model,&previewBox[j].partIter);
-			gtk_icon_view_scroll_to_path(previewBox[j].iconView,path,false,0,0);
-			gtk_tree_path_free (path);
+//			model=gtk_icon_view_get_model(previewBox[j].iconView);
+//			path=gtk_tree_model_get_path(model,&previewBox[j].partIter);
+//			gtk_icon_view_scroll_to_path(previewBox[j].iconView,path,false,0,0);
+//			gtk_tree_path_free (path);
 		}
 	
 	if(previewBox[WALLPAPERS].vBox==NULL)
@@ -463,10 +465,10 @@ printf ("ZZZZZZZZZz\n");
 	g_signal_connect(G_OBJECT(previewBox[WALLPAPERS].iconView),"motion-notify-event",G_CALLBACK(mouseMove),NULL);
 	g_signal_connect(G_OBJECT(previewBox[WALLPAPERS].iconView),"button-press-event",G_CALLBACK(clickIt),(void*)(long)WALLPAPERS);
 
-	model=gtk_icon_view_get_model(previewBox[WALLPAPERS].iconView);
-	path=gtk_tree_model_get_path(model,&previewBox[WALLPAPERS].partIter);
-	gtk_icon_view_scroll_to_path(previewBox[WALLPAPERS].iconView,path,false,0,0);
-	gtk_tree_path_free (path);
+//	model=gtk_icon_view_get_model(previewBox[WALLPAPERS].iconView);
+//	path=gtk_tree_model_get_path(model,&previewBox[WALLPAPERS].partIter);
+//	gtk_icon_view_scroll_to_path(previewBox[WALLPAPERS].iconView,path,false,0,0);
+//	gtk_tree_path_free (path);
 }
 
 void buildAdvancedGui(GtkWidget* advancedScrollBox)
