@@ -427,7 +427,8 @@ void buildPages(void)
 			addNewIcons(folders[j],previewBox[j].iconView,j);
 
 //			gtk_container_add((GtkContainer*)previewBox[j].hBox,(GtkWidget*)previewBox[j].iconView);
-			gtk_scrolled_window_add_with_viewport(previewBox[j].scrollBox,(GtkWidget*)previewBox[j].iconView);
+//			gtk_scrolled_window_add_with_viewport(previewBox[j].scrollBox,(GtkWidget*)previewBox[j].iconView);
+			gtk_container_add((GtkContainer *)previewBox[j].scrollBox,(GtkWidget*)previewBox[j].iconView);
 
 			//gtk_scrolled_window_add_with_viewport(previewBox[j].scrollBox,(GtkWidget*)previewBox[j].hBox);
 			gtk_box_pack_start((GtkBox*)previewBox[j].vBox,(GtkWidget*)previewBox[j].scrollBox,TRUE,TRUE,0);
@@ -436,7 +437,7 @@ void buildPages(void)
 			g_signal_connect(G_OBJECT(previewBox[j].iconView),"button-press-event",G_CALLBACK(clickIt),(void*)(long)j);
 			//g_signal_connect_after(G_OBJECT(previewBox[j].iconView),"event-after",G_CALLBACK(itemact),(void*)(long)j);
 			
-			g_signal_connect(G_OBJECT(previewBox[j].scrollBox),"scroll-child",G_CALLBACK(testscroll),(void*)(long)j);
+			//g_signal_connect(G_OBJECT(previewBox[j].scrollBox),"scroll-child",G_CALLBACK(testscroll),(void*)(long)j);
 
 		}
 	
@@ -467,11 +468,11 @@ void buildPages(void)
 	g_signal_connect(G_OBJECT(previewBox[WALLPAPERS].iconView),"button-press-event",G_CALLBACK(clickIt),(void*)(long)WALLPAPERS);
 
 
-	treemodel=(GtkTreeModel*)store;
-//	GtkTreeModel *     mod= gtk_icon_view_get_model(previewBox[WMBORDERS].iconView);
-//GtkTreePath *      pathfromiter= gtk_tree_model_get_path             (mod,&previewBox[WMBORDERS].partIter);
+//	treemodel=(GtkTreeModel*)store;
+	GtkTreeModel *     mod= gtk_icon_view_get_model(previewBox[WMBORDERS].iconView);
+GtkTreePath *      pathfromiter= gtk_tree_model_get_path             (mod,&previewBox[WMBORDERS].partIter);
 
-//gtk_icon_view_scroll_to_path        (previewBox[WMBORDERS].iconView,pathfromiter,false,0,0);
+gtk_icon_view_scroll_to_path        (previewBox[WMBORDERS].iconView,pathfromiter,false,0,0);
 
 //gtk_tree_view_scroll_to_cell        ((GtkTreeView *)previewBox[WMBORDERS].iconView,pathfromiter,NULL,
   //                                                      false,
