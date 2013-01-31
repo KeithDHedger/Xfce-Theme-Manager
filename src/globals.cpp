@@ -10,10 +10,6 @@
 #include <string.h>
 
 #include "globals.h"
-GtkTreePath* holdPath=NULL;
-GtkTreeModel* treemodel=NULL;
-GtkAdjustment *    adj;
-GtkTreeIter savediter;
 
 //current stuff
 int			currentWallStyle;
