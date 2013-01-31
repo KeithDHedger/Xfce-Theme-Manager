@@ -36,7 +36,7 @@ extern GtkTreeIter savediter;
 #define PREFERVERSION 34
 #define GAP 8
 #define HALFGAP GAP/2
-#define BORDER 0
+#define BORDER 2
 
 #define DELETETHEME 100
 
@@ -152,7 +152,7 @@ struct boxStruct
 	GtkIconView*		iconView;
 	int				itemCnt;
 	GtkTreeIter			partIter;
-	GtkListStore *		listStore;
+//	GtkListStore *		listStore;
 };
 
 extern boxStruct previewBox[6];

@@ -211,10 +211,7 @@ void addIconEntry(GtkListStore *store,const char* iconPng,const char* iconName,c
 
 	if(isCurrent(themename,subfolder,(char*)iconName)==true)
 		{
-			//if (savebox==1)
-			//	savediter=iter;
 			previewBox[savedBox].partIter=iter;
-			previewBox[savedBox].listStore=store;
 
 			pixbuf=gdk_pixbuf_new_from_file_at_size(iconPng,previewSize-GAP,-1,NULL);
 			pixWid=gdk_pixbuf_get_width(pixbuf);
@@ -378,15 +375,11 @@ GtkWidget* buildTitlePos(void)
 	return(advancedHbox);
 }
 
-gboolean testscroll   (GtkScrolledWindow *scrolledwindow,GtkScrollType      arg1,gboolean  arg2,gpointer  user_data)
-{
-printf("XXXXXX\n");
-return(FALSE);
-}
-
-
 void buildPages(void)
 {
+	GtkTreeModel*	model;
+	GtkTreePath*	path;
+
 	if(previewBox[THEMES].vBox==NULL)
 		previewBox[THEMES].vBox=(GtkVBox*)gtk_vbox_new(FALSE,0);
 
@@ -406,11 +399,16 @@ void buildPages(void)
 
 	//gtk_container_add((GtkContainer*)previewBox[THEMES].hBox,(GtkWidget*)previewBox[THEMES].iconView);
 //	gtk_scrolled_window_add_with_viewport(previewBox[THEMES].scrollBox,(GtkWidget*)previewBox[THEMES].hBox);
-	gtk_scrolled_window_add_with_viewport(previewBox[THEMES].scrollBox,(GtkWidget*)previewBox[THEMES].iconView);
+	gtk_container_add((GtkContainer *)previewBox[THEMES].scrollBox,(GtkWidget*)previewBox[THEMES].iconView);
 	gtk_box_pack_start((GtkBox*)previewBox[THEMES].vBox,(GtkWidget*)previewBox[THEMES].scrollBox,TRUE,TRUE,0);
 
 	g_signal_connect(G_OBJECT(previewBox[THEMES].iconView),"motion-notify-event",G_CALLBACK(mouseMove),NULL);
 	g_signal_connect(G_OBJECT(previewBox[THEMES].iconView),"button-press-event",G_CALLBACK(clickIt),(void*)THEMES);
+
+	model=gtk_icon_view_get_model(previewBox[THEMES].iconView);
+	path=gtk_tree_model_get_path(model,&previewBox[THEMES].partIter);
+	gtk_icon_view_scroll_to_path(previewBox[THEMES].iconView,path,false,0,0);
+	gtk_tree_path_free (path);
 
 	for (int j=1;j<WALLPAPERS;j++)
 		{
@@ -439,6 +437,10 @@ void buildPages(void)
 			
 			//g_signal_connect(G_OBJECT(previewBox[j].scrollBox),"scroll-child",G_CALLBACK(testscroll),(void*)(long)j);
 
+			model=gtk_icon_view_get_model(previewBox[j].iconView);
+			path=gtk_tree_model_get_path(model,&previewBox[j].partIter);
+			gtk_icon_view_scroll_to_path(previewBox[j].iconView,path,false,0,0);
+			gtk_tree_path_free (path);
 		}
 	
 	if(previewBox[WALLPAPERS].vBox==NULL)
@@ -459,7 +461,7 @@ void buildPages(void)
 //	gtk_container_add((GtkContainer*)previewBox[WALLPAPERS].hBox,(GtkWidget*)previewBox[WALLPAPERS].iconView);
 //	gtk_scrolled_window_add_with_viewport(previewBox[WALLPAPERS].scrollBox,(GtkWidget*)previewBox[WALLPAPERS].hBox);
 //	gtk_container_add((GtkContainer*)previewBox[WALLPAPERS].hBox,(GtkWidget*)previewBox[WALLPAPERS].iconView);
-	gtk_scrolled_window_add_with_viewport(previewBox[WALLPAPERS].scrollBox,(GtkWidget*)previewBox[WALLPAPERS].iconView);
+	gtk_container_add((GtkContainer *)previewBox[WALLPAPERS].scrollBox,(GtkWidget*)previewBox[WALLPAPERS].iconView);
 
 
 	gtk_box_pack_start((GtkBox*)previewBox[WALLPAPERS].vBox,(GtkWidget*)previewBox[WALLPAPERS].scrollBox,TRUE,TRUE,0);
@@ -467,13 +469,20 @@ void buildPages(void)
 	g_signal_connect(G_OBJECT(previewBox[WALLPAPERS].iconView),"motion-notify-event",G_CALLBACK(mouseMove),NULL);
 	g_signal_connect(G_OBJECT(previewBox[WALLPAPERS].iconView),"button-press-event",G_CALLBACK(clickIt),(void*)(long)WALLPAPERS);
 
+	model=gtk_icon_view_get_model(previewBox[WALLPAPERS].iconView);
+	path=gtk_tree_model_get_path(model,&previewBox[WALLPAPERS].partIter);
+	gtk_icon_view_scroll_to_path(previewBox[WALLPAPERS].iconView,path,false,0,0);
+	gtk_tree_path_free (path);
 
 //	treemodel=(GtkTreeModel*)store;
+
+
+/*
 	GtkTreeModel *     mod= gtk_icon_view_get_model(previewBox[WMBORDERS].iconView);
 GtkTreePath *      pathfromiter= gtk_tree_model_get_path             (mod,&previewBox[WMBORDERS].partIter);
 
 gtk_icon_view_scroll_to_path        (previewBox[WMBORDERS].iconView,pathfromiter,false,0,0);
-
+*/
 //gtk_tree_view_scroll_to_cell        ((GtkTreeView *)previewBox[WMBORDERS].iconView,pathfromiter,NULL,
   //                                                      false,
     //                                                     NULL,
