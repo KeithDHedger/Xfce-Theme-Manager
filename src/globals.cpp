@@ -34,7 +34,7 @@ char*			lastCursorTheme;
 char*			lastWallPaper;
 char*			lastMetaTheme;
 
-boxStruct		previewBox[6]={{NULL,NULL,NULL,0,NULL}};
+boxStruct		previewBox[6]={{NULL,NULL,NULL,0,NULL,NULL}};
 
 //db
 char*			dbFolder;

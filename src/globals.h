@@ -146,6 +146,7 @@ struct boxStruct
 	GtkIconView*		iconView;
 	int				itemCnt;
 	GtkTreeIter*		partIter;
+	GtkListStore *		store;
 };
 
 extern boxStruct previewBox[6];

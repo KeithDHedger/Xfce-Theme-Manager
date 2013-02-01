@@ -93,12 +93,16 @@ void rerunAndUpdate(bool rebuild,bool resetmeta)
 			system(generalBuffer);
 		}
 
-	gtk_widget_destroy((GtkWidget*)previewBox[THEMES].scrollBox);
-	gtk_widget_destroy((GtkWidget*)previewBox[WMBORDERS].scrollBox);
-	gtk_widget_destroy((GtkWidget*)previewBox[CONTROLS].scrollBox);
-	gtk_widget_destroy((GtkWidget*)previewBox[ICONS].scrollBox);
-	gtk_widget_destroy((GtkWidget*)previewBox[CURSORS].scrollBox);
-	gtk_widget_destroy((GtkWidget*)previewBox[WALLPAPERS].scrollBox);
+//	gtk_widget_destroy((GtkWidget*)previewBox[THEMES].scrollBox);
+//	gtk_widget_destroy((GtkWidget*)previewBox[WMBORDERS].scrollBox);
+//	gtk_widget_destroy((GtkWidget*)previewBox[CONTROLS].scrollBox);
+//	gtk_widget_destroy((GtkWidget*)previewBox[ICONS].scrollBox);
+//	gtk_widget_destroy((GtkWidget*)previewBox[CURSORS].scrollBox);
+//	gtk_widget_destroy((GtkWidget*)previewBox[WALLPAPERS].scrollBox);
+	for (int j=THEMES;j<=WALLPAPERS;j++)
+		{
+			gtk_list_store_clear(previewBox[j].store);
+		}
 
 	buildPages();
 	gtk_widget_show_all(window);
