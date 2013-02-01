@@ -25,8 +25,8 @@ char*		metaThemeSelected=NULL;
 bool		destroy=false;
 int		currentPage;
 
-bool	flag=false;
-int scrollbar;
+//bool	flag=false;
+//int scrollbar;
 //GtkAdjustment *    adj;
 
 void doResize(GtkWindow *window,gpointer user_data)
@@ -66,7 +66,6 @@ void doResize(GtkWindow *window,gpointer user_data)
 	gtk_icon_view_set_column_spacing(previewBox[currentPage].iconView,BORDER);
 
 	gtk_widget_set_size_request((GtkWidget*)previewBox[currentPage].iconView,widgetWidth,-1);
-	//gtk_widget_set_size_request((GtkWidget*)previewBox[currentPage].hBox,widgetWidth,-1);
 }
 
 gboolean doChangePage(GtkNotebook *notebook,gpointer arg1,guint arg2,gpointer user_data)
@@ -790,96 +789,15 @@ gboolean mouseMove(GtkWidget* widget,GdkEvent* event,gpointer user_data)
 	return(FALSE);
 }
 
-gboolean itemact (GtkWidget *widget, GdkEvent  *event,gpointer   user_data)
-{
-
-if (flag==true)
-	{
-	//sleep(1);
-	printf("HHHHHHHHHHHH\n");
-	GtkAdjustment* holdadj= gtk_scrolled_window_get_vadjustment (previewBox[WMBORDERS].scrollBox);
-	
-GtkAdjustment* adj1=(GtkAdjustment*)gtk_adjustment_new (gtk_adjustment_get_value(holdadj),gtk_adjustment_get_lower(holdadj),gtk_adjustment_get_upper(holdadj),gtk_adjustment_get_step_increment(holdadj),gtk_adjustment_get_page_increment(holdadj),gtk_adjustment_get_page_size(holdadj));
-
-printf ("%f\n",gtk_adjustment_get_value(adj1));
-
-gtk_adjustment_set_value(adj1,2000.0);
-
-gtk_scrolled_window_set_vadjustment (previewBox[WMBORDERS].scrollBox,adj1);
-gtk_adjustment_set_value(holdadj,2000.0);
-printf ("%f\n",gtk_adjustment_get_value(adj1));
-
-flag=false;
-//			 GtkTreeIter iter;
-//			 			gtk_tree_model_get_iter_from_string ((GtkTreeModel*)treemodel,&iter,"10");
-//			GtkTreePath *       np=gtk_tree_model_get_path((GtkTreeModel*)treemodel,&iter);
-//			
-//			printf("%s\n",gtk_tree_path_to_string (np));
-//			
-//			gtk_icon_view_scroll_to_path((GtkIconView *)previewBox[WMBORDERS].iconView,np,false,1.0,1.0);
-//
-printf("AAAAAAAAAAAAAA\n");
-//gtk_widget_show                     ((GtkWidget *)window);
-//gtk_main_iteration_do               (false);
-//gtk_main_iteration_do               (false);
-//gtk_main_iteration_do               (false);
-//gtk_main_iteration_do               (false);
-//gtk_main_iteration_do               (false);
-//gtk_main_iteration_do               (false);
-//gtk_main_iteration_do               (false);
-//gtk_main_iteration           ();
-
-	//		GtkWidget* sb=gtk_scrolled_window_get_vscrollbar((GtkScrolledWindow*)previewBox[WMBORDERS].scrollBox);
-	//		gtk_range_set_value((GtkRange *)sb,1000);
-//gtk_widget_show                     ((GtkWidget *)window);
-/*
-GtkTreePath      *path;
-  gchar                 *path_string;
-  GtkTreeViewColumn   *col;
-
-  path_string = g_strdup_printf ("%d", 10);
-  path = gtk_tree_path_new_from_string (path_string);
-  g_free (path_string);
-
-  col = gtk_tree_view_get_column ((GtkTreeView*)treemodel, 0);
-  gtk_tree_view_scroll_to_cell ((GtkTreeView*)treemodel, path, col, TRUE, 0.5, 0.5);
- // gtk_tree_view_set_cursor (treeview, path, col, start_editing);
-  gtk_tree_path_free (path);
-  */
-}
-return(FALSE);
-
-}
-
-
 gboolean clickIt(GtkWidget* widget,GdkEvent* event,gpointer data)
 {
 	GtkTreePath* path=NULL;
 
 	path=gtk_icon_view_get_path_at_pos((GtkIconView *)widget,event->button.x,event->button.y);
 	if (path!=NULL)
-		{
+		themeIconCallback((GtkIconView *)widget,(void*)data);
 
-	//	GtkObject * adj=gtk_adjustment_new(gdouble value,
-        ///                                                 gdouble lower,
-           //                                              gdouble upper,
-             //                                            gdouble step_increment,
-               //                                          gdouble page_increment,
-                 //                                        gdouble page_size);
-			themeIconCallback((GtkIconView *)widget,(void*)data);
-			//GTK_TREE_MODEL(store)
-			// GtkTreeIter iter;
-			// printf("%s\n",
-			//gtk_tree_model_get_iter_from_string ((GtkTreeModel*)treemodel,&iter,"10:0");
-			//GtkTreePath *       np=gtk_tree_model_get_path((GtkTreeModel*)treemodel,&iter);
-			
-			//printf("%s\n",gtk_tree_path_to_string (np));
-			
-			//gtk_icon_view_scroll_to_path((GtkIconView *)previewBox[WMBORDERS].iconView,np,false,1.0,1.0);
-			flag=true;
-		}
-
-	return(FALSE);
+	return(TRUE);
 }
                                                         
 void launchCompEd(GtkWidget* window,gpointer data)
