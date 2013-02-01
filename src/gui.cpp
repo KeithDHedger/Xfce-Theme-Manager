@@ -203,13 +203,13 @@ void addIconEntry(GtkListStore *store,const char* iconPng,const char* iconName,c
 	cairo_t *cr;
 
 	gtk_list_store_append(store,&iter);
-	pixbuf=gdk_pixbuf_new_from_file_at_size(iconPng,previewSize,previewSize,NULL);
+	pixbuf=gdk_pixbuf_new_from_file_at_size(iconPng,previewSize,-1,NULL);
 
 	if(isCurrent(themename,subfolder,(char*)iconName)==true)
 		{
 			previewBox[whatBox].partIter=gtk_tree_iter_copy(&iter);
 
-			pixbuf=gdk_pixbuf_new_from_file_at_size(iconPng,previewSize,previewSize,NULL);
+			pixbuf=gdk_pixbuf_new_from_file_at_size(iconPng,previewSize-GAP,-1,NULL);
 			pixWid=gdk_pixbuf_get_width(pixbuf);
 			pixHite=gdk_pixbuf_get_height(pixbuf);
 
@@ -371,22 +371,13 @@ void scrollToCurrent(int whatBox)
 {
 	GtkTreeModel*	model;
 	GtkTreePath*	path;
-//GtkTreeIter iter;
+
 	model=gtk_icon_view_get_model(previewBox[whatBox].iconView);
 	if(previewBox[whatBox].partIter!=NULL)
 		{
 			path=gtk_tree_model_get_path(model,previewBox[whatBox].partIter);
-			//path=gtk_tree_path_new_from_string       ("20");
-			
-			//gchar *          sp=   gtk_tree_path_to_string             (path);
-			//gtk_tree_model_get_iter_from_string (model,&iter,sp);
-			//path=gtk_tree_model_get_path(model,&iter);
-		
-			//gtk_icon_view_select_path(previewBox[whatBox].iconView,path);
 			gtk_icon_view_scroll_to_path(previewBox[whatBox].iconView,path,true,0.5,0.5);
-			//printf("what= %i %s\n",whatBox,gtk_tree_path_to_string(path));
 			gtk_tree_path_free (path);
-			//gtk_icon_view_unselect_all(previewBox[whatBox].iconView);
 		}
 }
 
@@ -399,7 +390,7 @@ void freeIter(int whatBox)
 		}
 }
 
-void buildPages(void)
+void buildPages(bool forceNew)
 {
 	if(previewBox[THEMES].vBox==NULL)
 		previewBox[THEMES].vBox=(GtkVBox*)gtk_vbox_new(FALSE,0);

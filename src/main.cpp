@@ -464,7 +464,7 @@ int main(int argc,char **argv)
 
 	gtk_box_pack_start(GTK_BOX(vbox),gtk_hseparator_new(),false,false,8);
 
-gtk_box_pack_start(GTK_BOX(buttonHbox),gtk_hbox_new(false,0),true,true,0);
+	gtk_box_pack_start(GTK_BOX(buttonHbox),gtk_hbox_new(false,0),true,true,0);
 
 	gtk_box_pack_start(GTK_BOX(buttonHbox),button, false,false,4);
 	gtk_box_pack_start(GTK_BOX(vbox),buttonHbox, false,false,0);

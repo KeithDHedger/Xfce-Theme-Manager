@@ -17,6 +17,7 @@
 #include "thumbnails.h"
 
 #include <unistd.h>
+//void rerunAndUpdate(bool rebuild,bool resetmeta);
 
 char		filedata[2048];
 GtkWidget*	entryBox;
@@ -24,10 +25,6 @@ char*		filename;
 char*		metaThemeSelected=NULL;
 bool		destroy=false;
 int		currentPage;
-
-//bool	flag=false;
-//int scrollbar;
-//GtkAdjustment *    adj;
 
 void doResize(GtkWindow *window,gpointer user_data)
 {
@@ -66,6 +63,7 @@ void doResize(GtkWindow *window,gpointer user_data)
 	gtk_icon_view_set_column_spacing(previewBox[currentPage].iconView,BORDER);
 
 	gtk_widget_set_size_request((GtkWidget*)previewBox[currentPage].iconView,widgetWidth,-1);
+
 }
 
 gboolean doChangePage(GtkNotebook *notebook,gpointer arg1,guint arg2,gpointer user_data)
@@ -772,8 +770,8 @@ void themeIconCallback(GtkIconView *view,gpointer doWhat)
 				setPiece(text,XCONFSETPAPER);
 				break;
 		}
-	g_free (text);
-	g_list_free (selected);
+	g_free(text);
+	g_list_free(selected);
 }
 
 gboolean mouseMove(GtkWidget* widget,GdkEvent* event,gpointer user_data)
