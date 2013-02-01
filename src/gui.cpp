@@ -203,13 +203,13 @@ void addIconEntry(GtkListStore *store,const char* iconPng,const char* iconName,c
 	cairo_t *cr;
 
 	gtk_list_store_append(store,&iter);
-	pixbuf=gdk_pixbuf_new_from_file_at_size(iconPng,previewSize,-1,NULL);
+	pixbuf=gdk_pixbuf_new_from_file_at_size(iconPng,previewSize,previewSize,NULL);
 
 	if(isCurrent(themename,subfolder,(char*)iconName)==true)
 		{
 			previewBox[whatBox].partIter=gtk_tree_iter_copy(&iter);
 
-			pixbuf=gdk_pixbuf_new_from_file_at_size(iconPng,previewSize-GAP,previewSize-GAP,NULL);
+			pixbuf=gdk_pixbuf_new_from_file_at_size(iconPng,previewSize,previewSize,NULL);
 			pixWid=gdk_pixbuf_get_width(pixbuf);
 			pixHite=gdk_pixbuf_get_height(pixbuf);
 
