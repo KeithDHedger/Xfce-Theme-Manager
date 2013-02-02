@@ -13,7 +13,7 @@
 #ifndef _GLOBALS_
 #define _GLOBALS_
 
-#define VERSION "0.2.3"
+#define VERSION "0.2.4"
 #define MYEMAIL "kdhedger68713@gmail.com"
 #define MYWEBSITE "http://keithhedger.hostingsiteforfree.com"
 
