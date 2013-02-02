@@ -6,3 +6,7 @@ CXXFLAGS=-O3 -Wall -Wunused-result -Wunused-function -lXcursor -lgthread-2.0 `pk
 
 $(PROGRAM):$(SOURCES)
 	g++ $(SOURCES) $(CXXFLAGS) -o $(PROGRAM)
+
+
+clean:
+	rm $(PROGRAM)
