@@ -176,6 +176,8 @@ extern GtkWidget*		wmFontButton;
 extern GtkWidget*		window;
 extern GtkComboBoxText*	styleComboBox;
 extern GtkComboBoxText*	previewComboBox;
+extern GdkWindow*		gdkWindow;
+extern GdkCursor*		watchCursor;
 
 extern int 			wallStyle;
 extern GtkWidget*		layoutEntry;

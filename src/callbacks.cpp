@@ -93,12 +93,6 @@ void rerunAndUpdate(bool rebuild,bool resetmeta)
 			system(generalBuffer);
 		}
 
-//	gtk_widget_destroy((GtkWidget*)previewBox[THEMES].scrollBox);
-//	gtk_widget_destroy((GtkWidget*)previewBox[WMBORDERS].scrollBox);
-//	gtk_widget_destroy((GtkWidget*)previewBox[CONTROLS].scrollBox);
-//	gtk_widget_destroy((GtkWidget*)previewBox[ICONS].scrollBox);
-//	gtk_widget_destroy((GtkWidget*)previewBox[CURSORS].scrollBox);
-//	gtk_widget_destroy((GtkWidget*)previewBox[WALLPAPERS].scrollBox);
 	for (int j=THEMES;j<=WALLPAPERS;j++)
 		{
 			gtk_list_store_clear(previewBox[j].store);
@@ -106,6 +100,7 @@ void rerunAndUpdate(bool rebuild,bool resetmeta)
 
 	buildPages();
 	gtk_widget_show_all(window);
+
 }
 
 //do config stuff
@@ -795,9 +790,13 @@ gboolean clickIt(GtkWidget* widget,GdkEvent* event,gpointer data)
 {
 	GtkTreePath* path=NULL;
 
+	gdk_window_set_cursor (gdkWindow,watchCursor); 
+
 	path=gtk_icon_view_get_path_at_pos((GtkIconView *)widget,event->button.x,event->button.y);
 	if (path!=NULL)
 		themeIconCallback((GtkIconView *)widget,(void*)data);
+
+	gdk_window_set_cursor (gdkWindow,NULL); 
 
 	return(TRUE);
 }

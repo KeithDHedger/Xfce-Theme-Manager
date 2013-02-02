@@ -61,6 +61,8 @@ GtkWidget*		wmFontButton;
 GtkWidget*		window;
 GtkComboBoxText*	styleComboBox;
 GtkComboBoxText*	previewComboBox;
+GdkWindow*		gdkWindow;
+GdkCursor*		watchCursor;
 
 int 			wallStyle;
 GtkWidget*		layoutEntry;

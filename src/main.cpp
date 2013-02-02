@@ -85,6 +85,8 @@ void resetTheme(GtkWidget* widget,gpointer data)
 	GtkSettings *settings=gtk_settings_get_default();;
 	char*		satval;
 
+	gdk_window_set_cursor (gdkWindow,watchCursor); 
+
 	sprintf(generalBuffer,"%s\"%s\"",XCONFSETCONTROLS,currentGtkTheme);
 	system(generalBuffer);
 	sprintf(generalBuffer,"%s\"%s\"",XCONFSETFRAME,currentWmTheme);
@@ -134,6 +136,9 @@ void resetTheme(GtkWidget* widget,gpointer data)
 	g_object_set(settings,"gtk-theme-name",currentGtkTheme,"gtk-color-scheme","default",NULL);
 	freeAndNull(&satval);
 	rerunAndUpdate(false,true);
+
+	gdk_window_set_cursor (gdkWindow,NULL); 
+
 }
 
 void shutdown(GtkWidget* widget,gpointer data)
@@ -425,8 +430,6 @@ int main(int argc,char **argv)
 	gtk_container_add(GTK_CONTAINER(window),(GtkWidget*)vbox);
 #endif
 
-	gtk_widget_set_size_request(window,300,400);
-
 	previewComboBox=(GtkComboBoxText*)gtk_combo_box_text_new();
 	gtk_combo_box_text_append_text(previewComboBox,_translate(HUGEP));
 	gtk_combo_box_text_append_text(previewComboBox,_translate(LARGEP));
@@ -529,6 +532,13 @@ int main(int argc,char **argv)
 	g_signal_connect_after(G_OBJECT(window),"check-resize",G_CALLBACK(doResize),(void*)0xdeadbeef);
 
 	gtk_widget_show_all(window);
+	
+	gtk_widget_set_size_request(window,300,400);
+
+	gdkWindow=gtk_widget_get_window(GTK_WIDGET(window));
+	watchCursor=gdk_cursor_new(GDK_WATCH);
+ //gdk_window_set_cursor (gdkWindow, curs); 
+
 	g_signal_connect(G_OBJECT(notebook),"switch-page",G_CALLBACK(doChangePage),NULL);
 	gtk_main();
 }
