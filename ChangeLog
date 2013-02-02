@@ -20,6 +20,8 @@ Changelog:
 0.2.4	re-arranged GUI to be more in keeping with Xfce settings panels ( thanks to Moatib for that ).
 	Dropping multiple archives to install now only shows one confirmation ( so only one click not many needed ).
 	On startup or changing theme parts, currently selected theme part now shows in scrolled window.
+	Added changing cursor to "WATCH" during theme change.
+	Can make main window smaller than normal.
 	Code clean.
 	Bug fix.
 
