@@ -259,24 +259,7 @@ void addNewIcons(const char* subfolder,GtkIconView* tempIconView,int whatBox)
 	GSList *		entrylist=NULL;
 	char*			entryname;
 	bool			flag=false;
-	int 			itemSize=previewSize+previewSize/2;
 
-/*
-	if(addView==true)
-		{
-		//	store=gtk_list_store_new(3,GDK_TYPE_PIXBUF,G_TYPE_STRING,G_TYPE_STRING);
-
-			gtk_icon_view_set_item_width((GtkIconView *)tempIconView,itemSize);
-			gtk_icon_view_set_item_padding((GtkIconView *)tempIconView,0);
-			gtk_icon_view_set_column_spacing((GtkIconView *)tempIconView,0);
-			gtk_icon_view_set_spacing((GtkIconView *)tempIconView,0);
-
-			gtk_icon_view_set_pixbuf_column(GTK_ICON_VIEW(tempIconView),PIXBUF_COLUMN);
-			gtk_icon_view_set_text_column(GTK_ICON_VIEW(tempIconView),TEXT_COLUMN);
-
-			gtk_icon_view_set_model(GTK_ICON_VIEW(tempIconView),GTK_TREE_MODEL(store));			
-		}
-*/
 	asprintf(&foldername,"%s/.config/XfceThemeManager/%s",homeFolder,subfolder);
 	folder=g_dir_open(foldername,0,NULL);
 	if(folder!=NULL)

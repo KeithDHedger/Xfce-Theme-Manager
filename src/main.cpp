@@ -314,11 +314,11 @@ void init(void)
 	gtk_combo_box_text_append_text(styleComboBox,_translate(ZOOM));
 	gtk_combo_box_set_active((GtkComboBox*)styleComboBox,currentWallStyle);
 	g_signal_connect_after(G_OBJECT(styleComboBox),"changed",G_CALLBACK(wallStyleChanged),NULL);
-//	gtk_box_pack_start((GtkBox*)previewBox[WALLPAPERS].vBox,(GtkWidget*)wallpapersMainBox,FALSE,FALSE,0);
-//	gtk_box_pack_start((GtkBox*)wallpapersMainBox,(GtkWidget*)styleComboBox,false,false,4);
+
 	buildPages();
-	gtk_box_pack_start((GtkBox*)previewBox[WALLPAPERS].vBox,(GtkWidget*)styleComboBox,FALSE,FALSE,0);
-gtk_box_pack_start((GtkBox*)previewBox[WALLPAPERS].vBox,(GtkWidget*)previewBox[WALLPAPERS].scrollBox,TRUE,TRUE,0);
+	gtk_box_pack_start((GtkBox*)previewBox[WALLPAPERS].vBox,(GtkWidget*)styleComboBox,FALSE,FALSE,2);
+	gtk_box_pack_start((GtkBox*)previewBox[WALLPAPERS].vBox,gtk_hseparator_new(),FALSE,FALSE,1);
+	gtk_box_pack_start((GtkBox*)previewBox[WALLPAPERS].vBox,(GtkWidget*)previewBox[WALLPAPERS].scrollBox,TRUE,TRUE,0);
 
 	freeAndNull(&stdout);
 	freeAndNull(&stderr);
@@ -425,6 +425,7 @@ int main(int argc,char **argv)
 	gtk_container_add(GTK_CONTAINER(window),(GtkWidget*)vbox);
 #endif
 
+	gtk_widget_set_size_request(window,300,400);
 
 	previewComboBox=(GtkComboBoxText*)gtk_combo_box_text_new();
 	gtk_combo_box_text_append_text(previewComboBox,_translate(HUGEP));
@@ -445,20 +446,7 @@ int main(int argc,char **argv)
 
 //main window vbox
 
-//	wallpapersMainBox=gtk_vbox_new(false, 0);
-//	styleComboBox=(GtkComboBoxText*)gtk_combo_box_text_new();
-//	gtk_combo_box_text_append_text(styleComboBox,_translate(AUTO));
-//	gtk_combo_box_text_append_text(styleComboBox,_translate(CENTRED));
-//	gtk_combo_box_text_append_text(styleComboBox,_translate(TILED));
-//	gtk_combo_box_text_append_text(styleComboBox,_translate(STRETCH));
-//	gtk_combo_box_text_append_text(styleComboBox,_translate(SCALE));
-//	gtk_combo_box_text_append_text(styleComboBox,_translate(ZOOM));
-//	gtk_combo_box_set_active((GtkComboBox*)styleComboBox,currentWallStyle);
-//	g_signal_connect_after(G_OBJECT(styleComboBox),"changed",G_CALLBACK(wallStyleChanged),NULL);
-//	gtk_box_pack_start((GtkBox*)previewBox[WALLPAPERS].vBox,(GtkWidget*)wallpapersMainBox,FALSE,FALSE,0);
-//	gtk_box_pack_start((GtkBox*)wallpapersMainBox,(GtkWidget*)styleComboBox,false,false,4);
 	buildPages();
-//	gtk_box_pack_end((GtkBox*)previewBox[WALLPAPERS].vBox,(GtkWidget*)styleComboBox,FALSE,FALSE,0);
 
 //notebook
 	notebook=(GtkNotebook*)gtk_notebook_new();
