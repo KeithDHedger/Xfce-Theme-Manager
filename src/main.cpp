@@ -320,7 +320,6 @@ void init(void)
 	gtk_combo_box_set_active((GtkComboBox*)styleComboBox,currentWallStyle);
 	g_signal_connect_after(G_OBJECT(styleComboBox),"changed",G_CALLBACK(wallStyleChanged),NULL);
 
-	buildPages();
 	gtk_box_pack_start((GtkBox*)previewBox[WALLPAPERS].vBox,(GtkWidget*)styleComboBox,FALSE,FALSE,2);
 	gtk_box_pack_start((GtkBox*)previewBox[WALLPAPERS].vBox,gtk_hseparator_new(),FALSE,FALSE,1);
 	gtk_box_pack_start((GtkBox*)previewBox[WALLPAPERS].vBox,(GtkWidget*)previewBox[WALLPAPERS].scrollBox,TRUE,TRUE,0);
@@ -537,7 +536,6 @@ int main(int argc,char **argv)
 
 	gdkWindow=gtk_widget_get_window(GTK_WIDGET(window));
 	watchCursor=gdk_cursor_new(GDK_WATCH);
- //gdk_window_set_cursor (gdkWindow, curs); 
 
 	g_signal_connect(G_OBJECT(notebook),"switch-page",G_CALLBACK(doChangePage),NULL);
 	gtk_main();

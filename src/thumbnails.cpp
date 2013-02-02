@@ -283,7 +283,6 @@ GdkPixbuf* checkPixBuf(GdkPixbuf* pixbuf)
 	if (GDK_IS_PIXBUF(pixbuf))
  		return (pixbuf);
  	else
- 		//return(missingImage);
  		return(NULL);
 }
 

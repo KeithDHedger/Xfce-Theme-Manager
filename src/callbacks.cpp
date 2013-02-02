@@ -17,7 +17,6 @@
 #include "thumbnails.h"
 
 #include <unistd.h>
-//void rerunAndUpdate(bool rebuild,bool resetmeta);
 
 char		filedata[2048];
 GtkWidget*	entryBox;
@@ -100,7 +99,6 @@ void rerunAndUpdate(bool rebuild,bool resetmeta)
 
 	buildPages();
 	gtk_widget_show_all(window);
-
 }
 
 //do config stuff
@@ -115,7 +113,7 @@ void doSetConfigs(void)
 }
 
 void changeView(GtkWidget* widget,gpointer data)
-{	
+{
 	char*		command;
 	showGlobal=(int)gtk_toggle_button_get_active((GtkToggleButton*)widget);
 

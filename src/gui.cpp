@@ -376,6 +376,8 @@ void freeIter(int whatBox)
 
 void buildPages(void)
 {
+	printf("XXXXXXXXXX\n");
+
 	previewBox[THEMES].itemCnt=0;
 	freeIter(THEMES);
 
