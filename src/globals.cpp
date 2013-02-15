@@ -111,6 +111,10 @@ int			winHite=470;
 int			gotXCE=0;
 int			previewSize=128;
 
+bool			noGui=false;
+bool			updateDb=false;
+bool			rebuildDb=false;
+
 const char* folders[]={"meta","frames","controls","icons","cursors","wallpapers"};
 
 const char* langStr[][STOPWORD]={

@@ -18,6 +18,7 @@
 #include <gtk/gtk.h>
 #include <string.h>
 #include <sys/stat.h>
+#include <getopt.h>
 
 #include "globals.h"
 #include "database.h"
@@ -28,6 +29,22 @@
 #ifdef GOT_LIBXFCEUI
 #include <libxfce4ui/libxfce4ui.h>
 #endif
+
+struct option long_options[]=
+	{
+		{"version",0,0,'v'},
+		{"update-db",0,0,'u'},
+		{"rebuild-db",0,0,'r'},
+		{"nogui",0,0,'n'},
+		{"theme",1,0,'t'},
+		{"controls",1,0,'c'},
+		{"wmborder",1,0,'w'},
+		{"icons",1,0,'i'},
+		{"cursors",1,0,'p'},
+		{"backdrop",1,0,'b'},
+		{"help",0,0,'?'},
+		{0, 0, 0, 0}
+	};
 
 static const char* error_xpm[]=
 	{
@@ -372,6 +389,24 @@ void doAbout(GtkWidget* widget,gpointer data)
 	gtk_show_about_dialog(NULL,"authors",authors,"translator-credits",translators,"comments",aboutboxstring,"copyright",copyright,"version",VERSION,"website",MYWEBSITE,"program-name","Xfce-Theme-Manager","logo-icon-name","xfce-theme-manager",NULL); 
 }
 
+void printhelp(void)
+{
+	printf("Xfce-Theme-Manager, version %s\n",VERSION);
+	printf("Usage: xfce-theme-manager [OPTION]...\n");
+	printf("OPTION			Usage\n\n");
+	printf("-v, --version		Print version info and quit\n");
+	printf("-u, --update-db		Update the database\n");
+	printf("-r, --build-db		Re-build the database\n");
+	printf("-n, --nogui		Don't run the GUI\n");
+	printf("-t, --theme=ARG		Set the meta-theme to ARG\n");
+	printf("-c, --controls=ARG	Set the controls theme to ARG\n");
+	printf("-w, --wmborder=ARG	Set the window border to ARG\n");
+	printf("-i, --icons=ARG		Set the icon theme to ARG\n");
+	printf("-p, --cursors=ARG	Set the cursor theme to ARG\n");
+	printf("-b, --backdrop=ARG	Set wallpaper to ARG\n");
+	printf("-?, --help=ARG		This help\n");
+}
+
 int main(int argc,char **argv)
 {
 	GtkWidget*		vbox;
@@ -380,11 +415,46 @@ int main(int argc,char **argv)
 	GtkWidget*		button;
 	GtkWidget*		advancedScrollBox;
 	gboolean		dbexists;
+	int c;
 
-	if (argc==2 && g_ascii_strcasecmp(argv[1],"-v")==0)
+	while (1)
 		{
-			printf("Xfce-Theme-Manager Version %s \nCopyright K.D.Hedger 2012, kdhedger@yahoo.co.uk\n",VERSION);
-			return 0;
+			int option_index=0;
+			c=getopt_long(argc, argv,":tcwipb:urnv?h",long_options,&option_index);
+
+			if (c==-1)
+				break;
+
+			switch (c)
+				{
+					case '?':
+					case 'h':
+						printhelp();
+						return 0;
+						break;
+
+					case 'n':
+						noGui=true;
+						break;
+			
+					case 'r':
+						rebuildDb=true;
+						break;
+			
+					case 'u':
+						updateDb=true;
+						break;
+
+					case 'v':
+						printf("Xfce-Theme-Manager Version %s \nCopyright K.D.Hedger 2012, kdhedger@yahoo.co.uk\n",VERSION);
+						return 0;
+						break;
+
+					default:
+						printf ("?? Unknown argument ??\n");
+						return 1;
+						break;
+			}
 		}
 
 #if GLIB_MINOR_VERSION < PREFERVERSION
@@ -398,147 +468,156 @@ int main(int argc,char **argv)
 	sprintf(generalBuffer,"%s/.config/XfceThemeManager",homeFolder);
 	dbexists=g_file_test(generalBuffer,G_FILE_TEST_IS_DIR);
 
-	if ((argc==2 && g_ascii_strcasecmp(argv[1],"-m")==0) || (dbexists==false))
+	if ((rebuildDb==true) ||  (dbexists==false))
 		{
-			makeProgressBar();
-
-			gdk_threads_enter();
-				g_timeout_add (100, updateBarTimer, NULL);
+			if (noGui==false)
+				{
+					makeProgressBar();
+					gdk_threads_enter();
+						g_timeout_add (100, updateBarTimer, NULL);
 
 #if GLIB_MINOR_VERSION < PREFERVERSION
-				g_thread_create(rebuildDB,(void*)0,false,NULL);
+						g_thread_create(rebuildDB,(void*)0,false,NULL);
 #else
-				g_thread_new("redo",rebuildDB,NULL);
+						g_thread_new("redo",rebuildDB,NULL);
 #endif
 
-				gtk_main();
-			gdk_threads_leave();
-			gtk_widget_destroy(progressWindow);
+						gtk_main();
+					gdk_threads_leave();
+					gtk_widget_destroy(progressWindow);
+				}
+			else
+				{
+					rebuildDB((void*)0);
+				}
 		}
 
-	if (argc==2 && g_ascii_strcasecmp(argv[1],"-u")==0)
-			rebuildDB((void*)1);
+	if (updateDb==true)
+		rebuildDB((void*)1);
 
+	if (noGui==true)
+		{
+			printf("do stuff\n");
+		}
+	else
+		{
 #ifdef GOT_LIBXFCEUI
-	window=xfce_titled_dialog_new();
-	xfce_titled_dialog_set_subtitle((XfceTitledDialog*)window,_translate(SUBTITLE));
-	vbox=gtk_dialog_get_content_area((GtkDialog *)window);
+			window=xfce_titled_dialog_new();
+			xfce_titled_dialog_set_subtitle((XfceTitledDialog*)window,_translate(SUBTITLE));
+			vbox=gtk_dialog_get_content_area((GtkDialog *)window);
 #else
-	window=gtk_window_new(GTK_WINDOW_TOPLEVEL);
-	vbox=gtk_vbox_new(FALSE, 0);
-	gtk_container_add(GTK_CONTAINER(window),(GtkWidget*)vbox);
+			window=gtk_window_new(GTK_WINDOW_TOPLEVEL);
+			vbox=gtk_vbox_new(FALSE, 0);
+			gtk_container_add(GTK_CONTAINER(window),(GtkWidget*)vbox);
 #endif
 
-	previewComboBox=(GtkComboBoxText*)gtk_combo_box_text_new();
-	gtk_combo_box_text_append_text(previewComboBox,_translate(HUGEP));
-	gtk_combo_box_text_append_text(previewComboBox,_translate(LARGEP));
-	gtk_combo_box_text_append_text(previewComboBox,_translate(MEDIUMP));
-	gtk_combo_box_text_append_text(previewComboBox,_translate(SMALLP));
+			previewComboBox=(GtkComboBoxText*)gtk_combo_box_text_new();
+			gtk_combo_box_text_append_text(previewComboBox,_translate(HUGEP));
+			gtk_combo_box_text_append_text(previewComboBox,_translate(LARGEP));
+			gtk_combo_box_text_append_text(previewComboBox,_translate(MEDIUMP));
+			gtk_combo_box_text_append_text(previewComboBox,_translate(SMALLP));
 
-	gtk_combo_box_set_active((GtkComboBox*)previewComboBox,sizeDrop(true,previewSize));
-	g_signal_connect_after(G_OBJECT(previewComboBox),"changed",G_CALLBACK(previewSizeChanged),NULL);
+			gtk_combo_box_set_active((GtkComboBox*)previewComboBox,sizeDrop(true,previewSize));
+			g_signal_connect_after(G_OBJECT(previewComboBox),"changed",G_CALLBACK(previewSizeChanged),NULL);
 
-	gtk_window_set_position((GtkWindow*)window,GTK_WIN_POS_CENTER);
-	gtk_window_set_default_size((GtkWindow*)window,winWid,winHite);
-	gtk_window_set_title((GtkWindow*)window,"Xfce Theme Manager");
+			gtk_window_set_position((GtkWindow*)window,GTK_WIN_POS_CENTER);
+			gtk_window_set_default_size((GtkWindow*)window,winWid,winHite);
+			gtk_window_set_title((GtkWindow*)window,"Xfce Theme Manager");
 
-	gtk_window_set_icon_name((GtkWindow*)window,"preferences-desktop-theme");
-
-	g_signal_connect(G_OBJECT(window),"delete-event",G_CALLBACK(shutdown),NULL);
+			gtk_window_set_icon_name((GtkWindow*)window,"preferences-desktop-theme");
+			g_signal_connect(G_OBJECT(window),"delete-event",G_CALLBACK(shutdown),NULL);
 
 //main window vbox
 
-	buildPages();
+			buildPages();
 
 //notebook
-	notebook=(GtkNotebook*)gtk_notebook_new();
-	advanced=(GtkNotebook*)gtk_notebook_new();
- 	gtk_notebook_set_show_tabs(advanced,false);
+			notebook=(GtkNotebook*)gtk_notebook_new();
+			advanced=(GtkNotebook*)gtk_notebook_new();
+		 	gtk_notebook_set_show_tabs(advanced,false);
  
 //pages
-	label=gtk_label_new(_translate(THEMES));
-	gtk_notebook_append_page(notebook,(GtkWidget*)previewBox[THEMES].vBox,label);
+			label=gtk_label_new(_translate(THEMES));
+			gtk_notebook_append_page(notebook,(GtkWidget*)previewBox[THEMES].vBox,label);
 
-	label=gtk_label_new(_translate(WMBORDERS));
-	gtk_notebook_append_page(notebook,(GtkWidget*)previewBox[WMBORDERS].vBox,label);
+			label=gtk_label_new(_translate(WMBORDERS));
+			gtk_notebook_append_page(notebook,(GtkWidget*)previewBox[WMBORDERS].vBox,label);
 
-	label=gtk_label_new(_translate(CONTROLS));
-	gtk_notebook_append_page(notebook,(GtkWidget*)previewBox[CONTROLS].vBox,label);
+			label=gtk_label_new(_translate(CONTROLS));
+			gtk_notebook_append_page(notebook,(GtkWidget*)previewBox[CONTROLS].vBox,label);
 
-	label=gtk_label_new(_translate(ICONS));
-	gtk_notebook_append_page(notebook,(GtkWidget*)previewBox[ICONS].vBox,label);
+			label=gtk_label_new(_translate(ICONS));
+			gtk_notebook_append_page(notebook,(GtkWidget*)previewBox[ICONS].vBox,label);
 
-	label=gtk_label_new(_translate(CURSORS));
-	gtk_notebook_append_page(notebook,(GtkWidget*)previewBox[CURSORS].vBox,label);
+			label=gtk_label_new(_translate(CURSORS));
+			gtk_notebook_append_page(notebook,(GtkWidget*)previewBox[CURSORS].vBox,label);
 
-	label=gtk_label_new(_translate(WALLPAPERS));
-	gtk_notebook_append_page(notebook,(GtkWidget*)previewBox[WALLPAPERS].vBox,label);
+			label=gtk_label_new(_translate(WALLPAPERS));
+			gtk_notebook_append_page(notebook,(GtkWidget*)previewBox[WALLPAPERS].vBox,label);
 
-	gtk_notebook_append_page(advanced,(GtkWidget*)notebook,NULL);
+			gtk_notebook_append_page(advanced,(GtkWidget*)notebook,NULL);
 
 //do advanced gui
-	advancedScrollBox=gtk_scrolled_window_new(NULL,NULL);
-	buildAdvancedGui(advancedScrollBox);
-	gtk_notebook_append_page(advanced,advancedScrollBox,NULL);
+			advancedScrollBox=gtk_scrolled_window_new(NULL,NULL);
+			buildAdvancedGui(advancedScrollBox);
+			gtk_notebook_append_page(advanced,advancedScrollBox,NULL);
 
 //add notebook to window
-	gtk_container_add(GTK_CONTAINER(vbox),(GtkWidget*)advanced);
-
-	gtk_box_pack_start(GTK_BOX(vbox),gtk_hseparator_new(),false,false,4);
+			gtk_container_add(GTK_CONTAINER(vbox),(GtkWidget*)advanced);
+			gtk_box_pack_start(GTK_BOX(vbox),gtk_hseparator_new(),false,false,4);
 
 //do buttons
-	buttonHbox=gtk_hbox_new(false,8);
+			buttonHbox=gtk_hbox_new(false,8);
 
-	gtk_box_pack_start(GTK_BOX(buttonHbox),(GtkWidget*)previewComboBox,true,true,4);
+			gtk_box_pack_start(GTK_BOX(buttonHbox),(GtkWidget*)previewComboBox,true,true,4);
 
-	resetButton=gtk_button_new_with_label(_translate(RESETTHEME));
-	gtk_box_pack_start(GTK_BOX(buttonHbox),resetButton, false,false,0);
-	g_signal_connect_after(G_OBJECT(resetButton),"clicked",G_CALLBACK(resetTheme),NULL);
+			resetButton=gtk_button_new_with_label(_translate(RESETTHEME));
+			gtk_box_pack_start(GTK_BOX(buttonHbox),resetButton, false,false,0);
+			g_signal_connect_after(G_OBJECT(resetButton),"clicked",G_CALLBACK(resetTheme),NULL);
 
-	customButton=gtk_button_new_with_label(_translate(CUSTOMTHEME));
-	gtk_box_pack_start(GTK_BOX(buttonHbox),customButton, false,false,0);
-	g_signal_connect_after(G_OBJECT(customButton),"clicked",G_CALLBACK(customTheme),NULL);
+			customButton=gtk_button_new_with_label(_translate(CUSTOMTHEME));
+			gtk_box_pack_start(GTK_BOX(buttonHbox),customButton, false,false,0);
+			g_signal_connect_after(G_OBJECT(customButton),"clicked",G_CALLBACK(customTheme),NULL);
 
-	button=gtk_toggle_button_new_with_label(_translate(ADVANCED));
-	gtk_box_pack_start(GTK_BOX(buttonHbox),button, false,false,4);
-	g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(showAdvanced),NULL);
+			button=gtk_toggle_button_new_with_label(_translate(ADVANCED));
+			gtk_box_pack_start(GTK_BOX(buttonHbox),button, false,false,4);
+			g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(showAdvanced),NULL);
 
-	gtk_box_pack_start(GTK_BOX(vbox),buttonHbox, false,false,8);
+			gtk_box_pack_start(GTK_BOX(vbox),buttonHbox, false,false,8);
+			buttonHbox=gtk_hbox_new(false,0);
 
-	buttonHbox=gtk_hbox_new(false,0);
+			button=gtk_button_new_from_stock(GTK_STOCK_ABOUT);
+			g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(doAbout),NULL);
+			gtk_box_pack_start(GTK_BOX(buttonHbox),button,false,false,4);
 
-	button=gtk_button_new_from_stock(GTK_STOCK_ABOUT);
-	g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(doAbout),NULL);
-	gtk_box_pack_start(GTK_BOX(buttonHbox),button,false,false,4);
+			button=gtk_button_new_from_stock(GTK_STOCK_CLOSE);
+			g_signal_connect(G_OBJECT(button),"clicked",G_CALLBACK(shutdown),NULL);
 
-	button=gtk_button_new_from_stock(GTK_STOCK_CLOSE);
-	g_signal_connect(G_OBJECT(button),"clicked",G_CALLBACK(shutdown),NULL);
+			gtk_box_pack_start(GTK_BOX(vbox),gtk_hseparator_new(),false,false,8);
+			gtk_box_pack_start(GTK_BOX(buttonHbox),gtk_hbox_new(false,0),true,true,0);
 
-	gtk_box_pack_start(GTK_BOX(vbox),gtk_hseparator_new(),false,false,8);
-
-	gtk_box_pack_start(GTK_BOX(buttonHbox),gtk_hbox_new(false,0),true,true,0);
-
-	gtk_box_pack_start(GTK_BOX(buttonHbox),button, false,false,4);
-	gtk_box_pack_start(GTK_BOX(vbox),buttonHbox, false,false,0);
+			gtk_box_pack_start(GTK_BOX(buttonHbox),button, false,false,4);
+			gtk_box_pack_start(GTK_BOX(vbox),buttonHbox, false,false,0);
 
 //do dnd
-	gtk_drag_dest_set(vbox,GTK_DEST_DEFAULT_ALL,NULL,0,GDK_ACTION_COPY);
-	gtk_drag_dest_add_uri_targets(vbox);
-	g_signal_connect (G_OBJECT(vbox),"drag_data_received",G_CALLBACK(dropUri), NULL);
+			gtk_drag_dest_set(vbox,GTK_DEST_DEFAULT_ALL,NULL,0,GDK_ACTION_COPY);
+			gtk_drag_dest_add_uri_targets(vbox);
+			g_signal_connect (G_OBJECT(vbox),"drag_data_received",G_CALLBACK(dropUri), NULL);
 
-	doSetConfigs();
+			doSetConfigs();
 
-	g_signal_connect_after(G_OBJECT(window),"check-resize",G_CALLBACK(doResize),(void*)0xdeadbeef);
+			g_signal_connect_after(G_OBJECT(window),"check-resize",G_CALLBACK(doResize),(void*)0xdeadbeef);
 
-	gtk_widget_show_all(window);
+			gtk_widget_show_all(window);
 	
-	gtk_widget_set_size_request(window,300,400);
+			gtk_widget_set_size_request(window,300,400);
 
-	gdkWindow=gtk_widget_get_window(GTK_WIDGET(window));
-	watchCursor=gdk_cursor_new(GDK_WATCH);
+			gdkWindow=gtk_widget_get_window(GTK_WIDGET(window));
+			watchCursor=gdk_cursor_new(GDK_WATCH);
 
-	g_signal_connect(G_OBJECT(notebook),"switch-page",G_CALLBACK(doChangePage),NULL);
-	gtk_main();
+			g_signal_connect(G_OBJECT(notebook),"switch-page",G_CALLBACK(doChangePage),NULL);
+			gtk_main();
+		}
 }
 
 

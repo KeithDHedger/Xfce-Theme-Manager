@@ -225,9 +225,14 @@ extern int			winHite;
 extern int			previewSize;
 extern int			gotXCE;
 
-extern void freeAndNull(char** ptr);
-extern int positionToInt(char* pos);
-extern char* doubleToStr(double num);
+extern bool			noGui;
+extern bool			updateDb;
+extern bool			rebuildDb;
+
+extern			void freeAndNull(char** ptr);
+extern			int positionToInt(char* pos);
+extern			char* doubleToStr(double num);
+
 void setValue(const char* command,dataType type,void* ptr);
 int sizeDrop(bool toDrop,int data);
 
