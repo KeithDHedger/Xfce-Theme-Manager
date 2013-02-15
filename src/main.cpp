@@ -450,6 +450,30 @@ int main(int argc,char **argv)
 						return 0;
 						break;
 
+					case 't':
+						cliTheme=true;
+						break;
+
+					case 'c':
+						cliControls=true;
+						break;
+
+					case 'w':
+						cliBorder=true;
+						break;
+
+					case 'i':
+						cliIcons=true;
+						break;
+
+					case 'p':
+						cliCursors=true;
+						break;
+
+					case 'b':
+						cliWallpaper=true;
+						break;
+
 					default:
 						printf ("?? Unknown argument ??\n");
 						return 1;
