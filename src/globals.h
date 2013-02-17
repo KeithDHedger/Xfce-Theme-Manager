@@ -229,6 +229,13 @@ extern bool			noGui;
 extern bool			updateDb;
 extern bool			rebuildDb;
 
+extern char*		cliTheme;
+extern char*		cliControls;
+extern char*		cliBorder;
+extern char*		cliIcons;
+extern char*		cliCursors;
+extern char*		cliWallpaper;
+
 extern			void freeAndNull(char** ptr);
 extern			int positionToInt(char* pos);
 extern			char* doubleToStr(double num);

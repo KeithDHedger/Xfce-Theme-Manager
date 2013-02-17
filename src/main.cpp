@@ -30,22 +30,6 @@
 #include <libxfce4ui/libxfce4ui.h>
 #endif
 
-struct option long_options[]=
-	{
-		{"version",0,0,'v'},
-		{"update-db",0,0,'u'},
-		{"rebuild-db",0,0,'r'},
-		{"nogui",0,0,'n'},
-		{"theme",1,0,'t'},
-		{"controls",1,0,'c'},
-		{"wmborder",1,0,'w'},
-		{"icons",1,0,'i'},
-		{"cursors",1,0,'p'},
-		{"backdrop",1,0,'b'},
-		{"help",0,0,'?'},
-		{0, 0, 0, 0}
-	};
-
 static const char* error_xpm[]=
 	{
 		"16 16 2 1",
@@ -407,6 +391,22 @@ void printhelp(void)
 	printf("-?, --help=ARG		This help\n");
 }
 
+struct option long_options[]=
+	{
+		{"version",0,0,'v'},
+		{"update-db",0,0,'u'},
+		{"rebuild-db",0,0,'r'},
+		{"nogui",0,0,'n'},
+		{"theme",1,0,'t'},
+		{"controls",1,0,'c'},
+		{"wmborder",1,0,'w'},
+		{"icons",1,0,'i'},
+		{"cursors",1,0,'p'},
+		{"backdrop",1,0,'b'},
+		{"help",0,0,'?'},
+		{0, 0, 0, 0}
+	};
+
 int main(int argc,char **argv)
 {
 	GtkWidget*		vbox;
@@ -420,7 +420,7 @@ int main(int argc,char **argv)
 	while (1)
 		{
 			int option_index=0;
-			c=getopt_long(argc, argv,":tcwipb:urnv?h",long_options,&option_index);
+			c=getopt_long(argc, argv,":t:c:w:i:p:b:urnv?h",long_options,&option_index);
 
 			if (c==-1)
 				break;
@@ -451,27 +451,33 @@ int main(int argc,char **argv)
 						break;
 
 					case 't':
-						cliTheme=true;
+						noGui=true;
+						cliTheme=optarg;
 						break;
 
 					case 'c':
-						cliControls=true;
+						noGui=true;
+						cliControls=optarg;
 						break;
 
 					case 'w':
-						cliBorder=true;
+						noGui=true;
+						cliBorder=optarg;
 						break;
 
 					case 'i':
-						cliIcons=true;
+						noGui=true;
+						cliIcons=optarg;
 						break;
 
 					case 'p':
-						cliCursors=true;
+						noGui=true;
+						cliCursors=optarg;
 						break;
 
 					case 'b':
-						cliWallpaper=true;
+						noGui=true;
+						cliWallpaper=optarg;
 						break;
 
 					default:
@@ -513,11 +519,16 @@ int main(int argc,char **argv)
 			else
 				{
 					rebuildDB((void*)0);
+					return(0);
 				}
 		}
 
 	if (updateDb==true)
-		rebuildDB((void*)1);
+		{
+			rebuildDB((void*)1);
+			if (noGui==true)
+				return(0);
+		}
 
 	if (noGui==true)
 		{

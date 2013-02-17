@@ -414,7 +414,7 @@ gpointer rebuildDB(gpointer data)
 
 	g_key_file_free(metakeyfile);
 	g_key_file_free(keyfile);
-	if (makeornot==0)
+	if ((makeornot==0) && (noGui==false))
 		gtk_main_quit();
 
 	return(NULL);

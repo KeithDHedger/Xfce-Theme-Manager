@@ -115,6 +115,13 @@ bool			noGui=false;
 bool			updateDb=false;
 bool			rebuildDb=false;
 
+char*			cliTheme=NULL;
+char*			cliControls=NULL;
+char*			cliBorder=NULL;
+char*			cliIcons=NULL;
+char*			cliCursors=NULL;
+char*			cliWallpaper=NULL;
+
 const char* folders[]={"meta","frames","controls","icons","cursors","wallpapers"};
 
 const char* langStr[][STOPWORD]={
