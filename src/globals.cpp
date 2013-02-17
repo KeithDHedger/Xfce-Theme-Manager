@@ -121,6 +121,7 @@ char*			cliBorder=NULL;
 char*			cliIcons=NULL;
 char*			cliCursors=NULL;
 char*			cliWallpaper=NULL;
+char*			listParts=NULL;
 
 const char* folders[]={"meta","frames","controls","icons","cursors","wallpapers"};
 

@@ -412,6 +412,86 @@ int doCliTheme(void)
 	return(1);
 }
 
+void printName(const char* section,char* folderName)
+{
+	GDir*			folder=NULL;
+	const gchar*	entry=NULL;
+
+	printf("[%s]\n",section);
+	folder=g_dir_open(folderName,0,NULL);
+	if(folder!=NULL)
+		{
+			entry=g_dir_read_name(folder);
+			while(entry!=NULL)
+				{
+					if(strstr(entry,".db"))
+						{
+							sprintf(generalBuffer,"%s\n",&entry[2]);
+							generalBuffer[strlen(entry)-5]=0;
+							printf("%s\n",generalBuffer);
+						}
+					entry=g_dir_read_name(folder);
+				}
+		}
+	g_dir_close(folder);
+}
+
+void printList(void)
+{
+	GDir*			folder=NULL;
+	const gchar*	entry=NULL;
+	char*			what;
+//	int			cnt=0;
+
+	if (listParts[0]=='*')
+		what=(char*)"Ctcwipb";
+	else
+		what=listParts;
+
+	for (unsigned int j=0;j<=strlen(what);j++)
+		{
+			if (what[j]=='C')
+				{
+					printf("[Custom Themes]\n");
+					folder=g_dir_open(customFolder,0,NULL);
+					if(folder!=NULL)
+						{
+							entry=g_dir_read_name(folder);
+							while(entry!=NULL)
+								{
+									if(strstr(entry,".db"))
+										{
+											sprintf(generalBuffer,"%s\n",entry);
+											generalBuffer[strlen(generalBuffer)-4]=0;
+											printf("%s\n",generalBuffer);
+										}
+									entry=g_dir_read_name(folder);
+								}
+						}
+					g_dir_close(folder);
+				}
+
+			if (what[j]=='t')
+				printName("Themes",metaFolder);
+
+			if (what[j]=='w')
+				printName("Window Borders",framesFolder);
+
+			if (what[j]=='c')
+				printName("Controls",controlsFolder);
+
+			if (what[j]=='i')
+				printName("Icons",iconsFolder);
+
+			if (what[j]=='p')
+				printName("Cursors",cursorsFolder);
+
+			if (what[j]=='b')
+				printName("Wallpapers",wallpapersFolder);
+
+		}
+}
+
 void doAbout(GtkWidget* widget,gpointer data)
 {
 	const char*	authors[]={"K.D.Hedger <"MYEMAIL">",NULL};
@@ -437,6 +517,7 @@ void printhelp(void)
 	printf("-i, --icons=ARG		Set the icon theme to ARG\n");
 	printf("-p, --cursors=ARG	Set the cursor theme to ARG\n");
 	printf("-b, --backdrop=ARG	Set wallpaper to ARG\n");
+	printf("-l, --list=ARG		List DB entry's, where ARG = any of \"tcwib\"\n");
 	printf("-?, --help=ARG		This help\n");
 }
 
@@ -452,6 +533,7 @@ struct option long_options[]=
 		{"icons",1,0,'i'},
 		{"cursors",1,0,'p'},
 		{"backdrop",1,0,'b'},
+		{"list",1,0,'l'},
 		{"help",0,0,'?'},
 		{0, 0, 0, 0}
 	};
@@ -469,7 +551,7 @@ int main(int argc,char **argv)
 	while (1)
 		{
 			int option_index=0;
-			c=getopt_long(argc, argv,":t:c:w:i:p:b:urnv?h",long_options,&option_index);
+			c=getopt_long_only(argc, argv,":t:c:w:i:p:b:l:urnv?h",long_options,&option_index);
 
 			if (c==-1)
 				break;
@@ -492,6 +574,11 @@ int main(int argc,char **argv)
 			
 					case 'u':
 						updateDb=true;
+						break;
+
+					case 'l':
+						listParts=optarg;
+						noGui=true;
 						break;
 
 					case 'v':
@@ -700,6 +787,12 @@ int main(int argc,char **argv)
 		}
 	else
 		{
+			if (listParts!=NULL)
+				{
+					printList();
+					return(0);
+				}
+
 			if (cliTheme!=NULL)
 				cliRetVal=doCliTheme();
 

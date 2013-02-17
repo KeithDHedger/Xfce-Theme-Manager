@@ -235,6 +235,7 @@ extern char*		cliBorder;
 extern char*		cliIcons;
 extern char*		cliCursors;
 extern char*		cliWallpaper;
+extern char*		listParts;
 
 extern			void freeAndNull(char** ptr);
 extern			int positionToInt(char* pos);
