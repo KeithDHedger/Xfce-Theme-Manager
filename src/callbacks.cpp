@@ -601,7 +601,7 @@ void removeTheme(const char* name)
 }
 
 //do meta theme
-void doMeta(char* metaFilename)
+void doMeta(char* metaFilename,bool update)
 {
 	GKeyFile*		keyfile=g_key_file_new();
 	int			keycnt=14;
@@ -628,43 +628,47 @@ void doMeta(char* metaFilename)
 					keydata=g_key_file_get_string(keyfile,"Data",(char*)keys[j],NULL);
 					if(keydata!=NULL)
 						{
-							switch (j)
+							if(update==true)
 								{
-									case 4:
-										gtk_combo_box_set_active((GtkComboBox*)styleComboBox,atoi(keydata));
-										break;
-									case 5:
-										gtk_entry_set_text((GtkEntry*)layoutEntry,keydata);
-										break;
-									case 6:
-										gtk_combo_box_set_active((GtkComboBox*)titlePos,positionToInt(keydata));
-										break;
-									case 7:
-										 gtk_font_button_set_font_name((GtkFontButton*)wmFontButton,keydata);
-										break;
-									case 8:
-										 gtk_font_button_set_font_name((GtkFontButton*)appFontButton,keydata);
-										break;
-									case 9:
-										gtk_range_set_value((GtkRange*)briteRange,atoi(keydata));
-										break;
-									case 10:
-										gtk_range_set_value((GtkRange*)satuRange,atof(keydata));
-										comma=strchr(keydata,',');
-										if(comma!=NULL)
-											*comma='.';										
-										break;
-									case 11:
-										g_object_set(settings,"gtk-theme-name",keydata,"gtk-color-scheme","default",NULL);
-										break;
-									case 12:
-										gtk_range_set_value((GtkRange*)cursorSize,atoi(keydata));
-										break;
+									switch (j)
+										{
+											case 4:
+												gtk_combo_box_set_active((GtkComboBox*)styleComboBox,atoi(keydata));
+												break;
+											case 5:
+												gtk_entry_set_text((GtkEntry*)layoutEntry,keydata);
+												break;
+											case 6:
+												gtk_combo_box_set_active((GtkComboBox*)titlePos,positionToInt(keydata));
+												break;
+											case 7:
+												 gtk_font_button_set_font_name((GtkFontButton*)wmFontButton,keydata);
+												break;
+											case 8:
+												 gtk_font_button_set_font_name((GtkFontButton*)appFontButton,keydata);
+												break;
+											case 9:
+												gtk_range_set_value((GtkRange*)briteRange,atoi(keydata));
+												break;
+											case 10:
+												gtk_range_set_value((GtkRange*)satuRange,atof(keydata));
+												comma=strchr(keydata,',');
+												if(comma!=NULL)
+													*comma='.';										
+												break;
+											case 11:
+												g_object_set(settings,"gtk-theme-name",keydata,"gtk-color-scheme","default",NULL);
+												break;
+											case 12:
+												gtk_range_set_value((GtkRange*)cursorSize,atoi(keydata));
+												break;
+										}
 								}
 							sprintf(generalBuffer,"%s\"%s\"",(char*)xconf[j],keydata);
 							system(generalBuffer);
 							freeAndNull(&keydata);
-							rerunAndUpdate(false,true);
+							if (update==true)
+								rerunAndUpdate(false,true);
 						}
 				}
 			g_key_file_free(keyfile);
@@ -673,7 +677,7 @@ void doMeta(char* metaFilename)
 	system("xfdesktop --reload");
 }
 
-void setPiece(char* filePath,const char* doCommand)
+void setPiece(char* filePath,const char* doCommand,bool update)
 {
 	GKeyFile*	keyfile=g_key_file_new();
 	char*		command;
@@ -689,14 +693,15 @@ void setPiece(char* filePath,const char* doCommand)
 					system(command);
 					freeAndNull(&command);
 					freeAndNull(&dataset);
-					rerunAndUpdate(false,false);
+					if (update==true)
+						rerunAndUpdate(false,false);
 				}
 		}
 	g_key_file_free(keyfile);
 }
 
 //controls
-void doControls(char* controlsFilename)
+void doControls(char* controlsFilename,bool update)
 {
 	GKeyFile*	keyfile=g_key_file_new();
 	char*		command;
@@ -716,7 +721,8 @@ void doControls(char* controlsFilename)
 					g_object_set(settings,"gtk-theme-name",controlset,"gtk-color-scheme","default",NULL);
 					freeAndNull(&command);
 					freeAndNull(&controlset);
-					rerunAndUpdate(false,false);
+					if (update==true)
+						rerunAndUpdate(false,false);
 				}
 			g_key_file_free(keyfile);
 		}
@@ -744,27 +750,27 @@ void themeIconCallback(GtkIconView *view,gpointer doWhat)
 	switch((long)doWhat)
 		{
 			case THEMES:
-				doMeta(text);
+				doMeta(text,true);
 				break;
 
 			case WMBORDERS:
-				setPiece(text,XCONFSETFRAME);
+				setPiece(text,XCONFSETFRAME,true);
 				break;
 
 			case CONTROLS:
-				doControls(text);
+				doControls(text,true);
 				break;
 
 			case ICONS:
-				setPiece(text,XCONFSETICONS);
+				setPiece(text,XCONFSETICONS,true);
 				break;
 
 			case CURSORS:
-				setPiece(text,XCONFSETCURSOR);
+				setPiece(text,XCONFSETCURSOR,true);
 				break;
 
 			case WALLPAPERS:
-				setPiece(text,XCONFSETPAPER);
+				setPiece(text,XCONFSETPAPER,true);
 				break;
 		}
 	g_free(text);

@@ -363,81 +363,6 @@ gboolean updateBarTimer(gpointer data)
 	else
 		return(false);
 }
-int doCliBackdrop(void)
-{
-	char* tn=NULL;			
-
-	for (int j=0;j<2;j++)
-		{
-			asprintf(&tn,"%s/%i.%s.db",wallpapersFolder,j,cliControls);
-			if (g_file_test(tn,G_FILE_TEST_EXISTS))
-				{
-					doControls(tn);
-					freeAndNull(&tn);
-					return(0);
-				}
-			else
-				freeAndNull(&tn);
-		}
-	return(1);
-}
-
-int doCliCursors(void)
-{
-	char* tn=NULL;			
-
-	for (int j=0;j<2;j++)
-		{
-			asprintf(&tn,"%s/%i.%s.db",cursorsFolder,j,cliControls);
-			if (g_file_test(tn,G_FILE_TEST_EXISTS))
-				{
-					doControls(tn);
-					freeAndNull(&tn);
-					return(0);
-				}
-			else
-				freeAndNull(&tn);
-		}
-	return(1);
-}
-
-int doCliIcons(void)
-{
-	char* tn=NULL;			
-
-	for (int j=0;j<2;j++)
-		{
-			asprintf(&tn,"%s/%i.%s.db",iconsFolder,j,cliControls);
-			if (g_file_test(tn,G_FILE_TEST_EXISTS))
-				{
-					doControls(tn);
-					freeAndNull(&tn);
-					return(0);
-				}
-			else
-				freeAndNull(&tn);
-		}
-	return(1);
-}
-
-int doCliBorder(void)
-{
-	char* tn=NULL;			
-
-	for (int j=0;j<2;j++)
-		{
-			asprintf(&tn,"%s/%i.%s.db",framesFolder,j,cliControls);
-			if (g_file_test(tn,G_FILE_TEST_EXISTS))
-				{
-					doControls(tn);
-					freeAndNull(&tn);
-					return(0);
-				}
-			else
-				freeAndNull(&tn);
-		}
-	return(1);
-}
 
 int doCliControls(void)
 {
@@ -448,7 +373,7 @@ int doCliControls(void)
 			asprintf(&tn,"%s/%i.%s.db",controlsFolder,j,cliControls);
 			if (g_file_test(tn,G_FILE_TEST_EXISTS))
 				{
-					doControls(tn);
+					doControls(tn,false);
 					freeAndNull(&tn);
 					return(0);
 				}
@@ -461,14 +386,13 @@ int doCliControls(void)
 int doCliThemePart(char* name,char* folder,const char* what)
 {
 	char* tn=NULL;			
-//void setPiece(char* filePath,const char* doCommand)
+
 	for (int j=0;j<2;j++)
 		{
 			asprintf(&tn,"%s/%i.%s.db",folder,j,name);
 			if (g_file_test(tn,G_FILE_TEST_EXISTS))
 				{
-					//doControls(tn);
-					setPiece(tn,what);
+					setPiece(tn,what,false);
 					freeAndNull(&tn);
 					return(0);
 				}
@@ -485,7 +409,7 @@ int doCliTheme(void)
 	asprintf(&tn,"%s/%s.db",customFolder,cliTheme);
 	if (g_file_test(tn,G_FILE_TEST_EXISTS))
 		{
-			doMeta(tn);
+			doMeta(tn,false);
 			freeAndNull(&tn);
 			return(0);
 		}
@@ -497,7 +421,7 @@ int doCliTheme(void)
 			asprintf(&tn,"%s/%i.%s.db",metaFolder,j,cliTheme);
 			if (g_file_test(tn,G_FILE_TEST_EXISTS))
 				{
-					doMeta(tn);
+					doMeta(tn,false);
 					freeAndNull(&tn);
 					return(0);
 				}
@@ -805,7 +729,10 @@ int main(int argc,char **argv)
 				cliRetVal|=doCliThemePart(cliBorder,framesFolder,XCONFSETFRAME);
 
 			if (cliIcons!=NULL)
-				cliRetVal|=doCliThemePart(cliIcons,iconsFolder,XCONFSETICONS);
+				{
+					cliRetVal|=doCliThemePart(cliIcons,iconsFolder,XCONFSETICONS);
+					system("xfdesktop --reload");
+				}
 
 			if (cliCursors!=NULL)
 				cliRetVal|=doCliThemePart(cliCursors,cursorsFolder,XCONFSETCURSOR);

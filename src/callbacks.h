@@ -15,8 +15,8 @@
 #ifndef _CALLBACKS_
 #define _CALLBACKS_
 
-void doMeta(char* metaFilename);
-void doControls(char* controlsFilename);
+void doMeta(char* metaFilename,bool update);
+void doControls(char* controlsFilename,bool update);
 
 void customTheme(GtkWidget* window,gpointer data);
 
@@ -28,7 +28,7 @@ void dropUri(GtkWidget *widget,GdkDragContext *context,gint x,gint y,GtkSelectio
 void wallStyleChanged(GtkWidget* widget,gpointer data);
 void previewSizeChanged(GtkWidget* widget,gpointer data);
 void themeIconCallback(GtkIconView *view,gpointer doWhat);
-void setPiece(char* filePath,const char* doCommand);
+void setPiece(char* filePath,const char* doCommand,bool update);
 
 
 gboolean itemact (GtkWidget *widget, GdkEvent  *event,gpointer   user_data);
