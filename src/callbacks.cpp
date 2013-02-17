@@ -700,34 +700,6 @@ void setPiece(char* filePath,const char* doCommand,bool update)
 	g_key_file_free(keyfile);
 }
 
-//controls
-void doControls(char* controlsFilename,bool update)
-{
-	GKeyFile*	keyfile=g_key_file_new();
-	char*		command;
-	char*		controlset;
-	GtkSettings *settings;
-
-	settings=gtk_settings_get_default();
-
-	if(g_key_file_load_from_file(keyfile,controlsFilename,G_KEY_FILE_NONE,NULL))
-		{
-			controlset=g_key_file_get_string(keyfile,"Data","ThemeName",NULL);
-
-			if(controlset!=NULL)
-				{
-					asprintf(&command,"%s\"%s\"",XCONFSETCONTROLS,controlset);
-					system(command);
-					g_object_set(settings,"gtk-theme-name",controlset,"gtk-color-scheme","default",NULL);
-					freeAndNull(&command);
-					freeAndNull(&controlset);
-					if (update==true)
-						rerunAndUpdate(false,false);
-				}
-			g_key_file_free(keyfile);
-		}
-}
-
 void themeIconCallback(GtkIconView *view,gpointer doWhat)
 {
 	GtkTreeModel*	model;
@@ -758,7 +730,7 @@ void themeIconCallback(GtkIconView *view,gpointer doWhat)
 				break;
 
 			case CONTROLS:
-				doControls(text,true);
+				setPiece(text,XCONFSETCONTROLS,true);
 				break;
 
 			case ICONS:

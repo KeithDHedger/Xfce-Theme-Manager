@@ -364,25 +364,6 @@ gboolean updateBarTimer(gpointer data)
 		return(false);
 }
 
-int doCliControls(void)
-{
-	char* tn=NULL;			
-
-	for (int j=0;j<2;j++)
-		{
-			asprintf(&tn,"%s/%i.%s.db",controlsFolder,j,cliControls);
-			if (g_file_test(tn,G_FILE_TEST_EXISTS))
-				{
-					doControls(tn,false);
-					freeAndNull(&tn);
-					return(0);
-				}
-			else
-				freeAndNull(&tn);
-		}
-	return(1);
-}
-
 int doCliThemePart(char* name,char* folder,const char* what)
 {
 	char* tn=NULL;			
@@ -723,7 +704,7 @@ int main(int argc,char **argv)
 				cliRetVal=doCliTheme();
 
 			if (cliControls!=NULL)
-				cliRetVal|=doCliControls();
+				cliRetVal|=doCliThemePart(cliControls,controlsFolder,XCONFSETCONTROLS);
 
 			if (cliBorder!=NULL)
 				cliRetVal|=doCliThemePart(cliBorder,framesFolder,XCONFSETFRAME);

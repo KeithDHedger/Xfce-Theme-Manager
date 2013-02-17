@@ -16,7 +16,6 @@
 #define _CALLBACKS_
 
 void doMeta(char* metaFilename,bool update);
-void doControls(char* controlsFilename,bool update);
 
 void customTheme(GtkWidget* window,gpointer data);
 
