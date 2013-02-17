@@ -75,10 +75,12 @@ static const char * blank_xpm[]=
 		"                "
 	};
 
-GtkWidget*		progressWindow;
-GtkWidget*		progressBar;
-GtkWidget*		resetButton;
-GtkWidget*		customButton;
+GtkWidget*	progressWindow;
+GtkWidget*	progressBar;
+GtkWidget*	resetButton;
+GtkWidget*	customButton;
+
+int		cliRetVal=0;
 
 // RESET THEME
 void resetTheme(GtkWidget* widget,gpointer data)
@@ -361,7 +363,149 @@ gboolean updateBarTimer(gpointer data)
 	else
 		return(false);
 }
+int doCliBackdrop(void)
+{
+	char* tn=NULL;			
 
+	for (int j=0;j<2;j++)
+		{
+			asprintf(&tn,"%s/%i.%s.db",wallpapersFolder,j,cliControls);
+			if (g_file_test(tn,G_FILE_TEST_EXISTS))
+				{
+					doControls(tn);
+					freeAndNull(&tn);
+					return(0);
+				}
+			else
+				freeAndNull(&tn);
+		}
+	return(1);
+}
+
+int doCliCursors(void)
+{
+	char* tn=NULL;			
+
+	for (int j=0;j<2;j++)
+		{
+			asprintf(&tn,"%s/%i.%s.db",cursorsFolder,j,cliControls);
+			if (g_file_test(tn,G_FILE_TEST_EXISTS))
+				{
+					doControls(tn);
+					freeAndNull(&tn);
+					return(0);
+				}
+			else
+				freeAndNull(&tn);
+		}
+	return(1);
+}
+
+int doCliIcons(void)
+{
+	char* tn=NULL;			
+
+	for (int j=0;j<2;j++)
+		{
+			asprintf(&tn,"%s/%i.%s.db",iconsFolder,j,cliControls);
+			if (g_file_test(tn,G_FILE_TEST_EXISTS))
+				{
+					doControls(tn);
+					freeAndNull(&tn);
+					return(0);
+				}
+			else
+				freeAndNull(&tn);
+		}
+	return(1);
+}
+
+int doCliBorder(void)
+{
+	char* tn=NULL;			
+
+	for (int j=0;j<2;j++)
+		{
+			asprintf(&tn,"%s/%i.%s.db",framesFolder,j,cliControls);
+			if (g_file_test(tn,G_FILE_TEST_EXISTS))
+				{
+					doControls(tn);
+					freeAndNull(&tn);
+					return(0);
+				}
+			else
+				freeAndNull(&tn);
+		}
+	return(1);
+}
+
+int doCliControls(void)
+{
+	char* tn=NULL;			
+
+	for (int j=0;j<2;j++)
+		{
+			asprintf(&tn,"%s/%i.%s.db",controlsFolder,j,cliControls);
+			if (g_file_test(tn,G_FILE_TEST_EXISTS))
+				{
+					doControls(tn);
+					freeAndNull(&tn);
+					return(0);
+				}
+			else
+				freeAndNull(&tn);
+		}
+	return(1);
+}
+
+int doCliThemePart(char* name,char* folder,const char* what)
+{
+	char* tn=NULL;			
+//void setPiece(char* filePath,const char* doCommand)
+	for (int j=0;j<2;j++)
+		{
+			asprintf(&tn,"%s/%i.%s.db",folder,j,name);
+			if (g_file_test(tn,G_FILE_TEST_EXISTS))
+				{
+					//doControls(tn);
+					setPiece(tn,what);
+					freeAndNull(&tn);
+					return(0);
+				}
+			else
+				freeAndNull(&tn);
+		}
+	return(1);
+}
+
+int doCliTheme(void)
+{
+	char* tn=NULL;			
+
+	asprintf(&tn,"%s/%s.db",customFolder,cliTheme);
+	if (g_file_test(tn,G_FILE_TEST_EXISTS))
+		{
+			doMeta(tn);
+			freeAndNull(&tn);
+			return(0);
+		}
+	else
+		freeAndNull(&tn);
+
+	for (int j=0;j<2;j++)
+		{
+			asprintf(&tn,"%s/%i.%s.db",metaFolder,j,cliTheme);
+			if (g_file_test(tn,G_FILE_TEST_EXISTS))
+				{
+					doMeta(tn);
+					freeAndNull(&tn);
+					return(0);
+				}
+			else
+				freeAndNull(&tn);
+		}
+	return(1);
+}
 
 void doAbout(GtkWidget* widget,gpointer data)
 {
@@ -530,11 +674,7 @@ int main(int argc,char **argv)
 				return(0);
 		}
 
-	if (noGui==true)
-		{
-			printf("do stuff\n");
-		}
-	else
+	if (noGui==false)
 		{
 #ifdef GOT_LIBXFCEUI
 			window=xfce_titled_dialog_new();
@@ -652,6 +792,28 @@ int main(int argc,char **argv)
 
 			g_signal_connect(G_OBJECT(notebook),"switch-page",G_CALLBACK(doChangePage),NULL);
 			gtk_main();
+		}
+	else
+		{
+			if (cliTheme!=NULL)
+				cliRetVal=doCliTheme();
+
+			if (cliControls!=NULL)
+				cliRetVal|=doCliControls();
+
+			if (cliBorder!=NULL)
+				cliRetVal|=doCliThemePart(cliBorder,framesFolder,XCONFSETFRAME);
+
+			if (cliIcons!=NULL)
+				cliRetVal|=doCliThemePart(cliIcons,iconsFolder,XCONFSETICONS);
+
+			if (cliCursors!=NULL)
+				cliRetVal|=doCliThemePart(cliCursors,cursorsFolder,XCONFSETCURSOR);
+
+			if (cliWallpaper!=NULL)
+				cliRetVal|=doCliThemePart(cliWallpaper,wallpapersFolder,XCONFSETPAPER);
+
+			return(cliRetVal);
 		}
 }
 
