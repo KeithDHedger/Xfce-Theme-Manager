@@ -588,7 +588,7 @@ int main(int argc,char **argv)
 						break;
 
 					case 'v':
-						printf("Xfce-Theme-Manager Version %s \nCopyright K.D.Hedger 2012, kdhedger@yahoo.co.uk\n",VERSION);
+						printf("Xfce-Theme-Manager Version %s \nCopyright K.D.Hedger 2012, %s\n",VERSION,MYEMAIL);
 						return 0;
 						break;
 
