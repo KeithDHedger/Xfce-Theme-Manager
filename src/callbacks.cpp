@@ -227,6 +227,8 @@ void customTheme(GtkWidget* window,gpointer data)
 	char*		customname=NULL;
 	gint   	spawnret=0;
 
+	if (cliFileName==NULL)
+		{
 	if (metaThemeSelected==NULL)
 		{
 			g_spawn_command_line_sync(XCONFGETFRAME,&stdout,NULL,&spawnret,NULL);
@@ -257,6 +259,9 @@ void customTheme(GtkWidget* window,gpointer data)
 
 	gtk_widget_show  (entryBox);
 	gtk_dialog_run((GtkDialog *)getFilename);
+}
+else
+	filename=cliFileName;
 
 	if (filename!=NULL && strlen(filename)>0)
 		{
@@ -290,7 +295,6 @@ void customTheme(GtkWidget* window,gpointer data)
 					buildCustomDB(XCONFGETBRIGHT,"BackdropBright");
 					buildCustomDB(XCONFGETSATU,"BackdropSatu");
 					buildCustomDB(XCONFGETCURSORSIZE,"CursorSize");
-
 					fprintf(fd,"%s\n",filedata);
 					fclose(fd);
 
@@ -318,7 +322,9 @@ void customTheme(GtkWidget* window,gpointer data)
 				}
 
 			freeAndNull(&dbname);
-			freeAndNull(&filename);
+
+			if (cliFileName==NULL)
+				freeAndNull(&filename);
 			freeAndNull(&gtk);
 			freeAndNull(&frame);
 			freeAndNull(&iconTheme);
@@ -328,7 +334,7 @@ void customTheme(GtkWidget* window,gpointer data)
 
 	freeAndNull(&customname);
 
-	if (flag==true)
+	if ((flag==true) && (cliFileName==NULL))
 		rerunAndUpdate(true,true);
 }
 

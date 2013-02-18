@@ -517,8 +517,13 @@ void printhelp(void)
 	printf("-i, --icons=ARG		Set the icon theme to ARG\n");
 	printf("-p, --cursors=ARG	Set the cursor theme to ARG\n");
 	printf("-b, --backdrop=ARG	Set wallpaper to ARG\n");
-	printf("-l, --list=ARG		List DB entry's, where ARG = any of \"tcwib\"\n");
+	printf("-l, --list=ARG		List DB entry's, where ARG = any of \"*Ctwcib\"\n");
+	printf("			Where 'C' prints custom themes, 't' prints themes,\n");
+	printf("			'w' prints window borders, 'c' prints controls\n");
+	printf("			'i' prints icons and 'b' prints backdrops.\n");
+	printf("			If the first/only character is a '*' then all entry's are printed.\n");
 	printf("-?, --help=ARG		This help\n");
+	printf("\n-tcwipblvh? all imply -n\n");
 }
 
 struct option long_options[]=
@@ -534,6 +539,7 @@ struct option long_options[]=
 		{"cursors",1,0,'p'},
 		{"backdrop",1,0,'b'},
 		{"list",1,0,'l'},
+		{"save",1,0,'s'},
 		{"help",0,0,'?'},
 		{0, 0, 0, 0}
 	};
@@ -551,7 +557,7 @@ int main(int argc,char **argv)
 	while (1)
 		{
 			int option_index=0;
-			c=getopt_long_only(argc, argv,":t:c:w:i:p:b:l:urnv?h",long_options,&option_index);
+			c=getopt_long_only(argc, argv,":t:c:w:i:p:b:l:s:urnv?h",long_options,&option_index);
 
 			if (c==-1)
 				break;
@@ -614,6 +620,11 @@ int main(int argc,char **argv)
 					case 'b':
 						noGui=true;
 						cliWallpaper=optarg;
+						break;
+
+					case 's':
+						cliFileName=optarg;
+						noGui=true;
 						break;
 
 					default:
@@ -813,6 +824,10 @@ int main(int argc,char **argv)
 
 			if (cliWallpaper!=NULL)
 				cliRetVal|=doCliThemePart(cliWallpaper,wallpapersFolder,XCONFSETPAPER);
+
+
+			if (cliFileName!=NULL)
+				customTheme(NULL,NULL);
 
 			return(cliRetVal);
 		}
