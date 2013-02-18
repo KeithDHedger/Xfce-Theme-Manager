@@ -341,7 +341,7 @@ void makeProgressBar(void)
 	gtk_window_set_resizable((GtkWindow*)progressWindow,false);
 	gtk_window_set_type_hint((GtkWindow*)progressWindow,GDK_WINDOW_TYPE_HINT_DIALOG);
 	gtk_window_set_title((GtkWindow*)progressWindow,"Re-Building Database, Please Wait...");
-	vbox=gtk_vbox_new(FALSE, 0);
+	vbox=gtk_vbox_new(FALSE,0);
 	progressBar=gtk_progress_bar_new();
 	gtk_progress_bar_pulse((GtkProgressBar*)progressBar);
 
@@ -557,7 +557,7 @@ int main(int argc,char **argv)
 	while (1)
 		{
 			int option_index=0;
-			c=getopt_long_only(argc, argv,":t:c:w:i:p:b:l:s:urnv?h",long_options,&option_index);
+			c=getopt_long_only(argc,argv,":t:c:w:i:p:b:l:s:urnv?h",long_options,&option_index);
 
 			if (c==-1)
 				break;
@@ -638,7 +638,7 @@ int main(int argc,char **argv)
 	g_thread_init(NULL);
 #endif
 	gdk_threads_init();
-	gtk_init(&argc, &argv);
+	gtk_init(&argc,&argv);
 
 	init();
 
@@ -651,7 +651,7 @@ int main(int argc,char **argv)
 				{
 					makeProgressBar();
 					gdk_threads_enter();
-						g_timeout_add (100, updateBarTimer, NULL);
+						g_timeout_add (100,updateBarTimer,NULL);
 
 #if GLIB_MINOR_VERSION < PREFERVERSION
 						g_thread_create(rebuildDB,(void*)0,false,NULL);
@@ -685,7 +685,7 @@ int main(int argc,char **argv)
 			vbox=gtk_dialog_get_content_area((GtkDialog *)window);
 #else
 			window=gtk_window_new(GTK_WINDOW_TOPLEVEL);
-			vbox=gtk_vbox_new(FALSE, 0);
+			vbox=gtk_vbox_new(FALSE,0);
 			gtk_container_add(GTK_CONTAINER(window),(GtkWidget*)vbox);
 #endif
 
@@ -750,18 +750,18 @@ int main(int argc,char **argv)
 			gtk_box_pack_start(GTK_BOX(buttonHbox),(GtkWidget*)previewComboBox,true,true,4);
 
 			resetButton=gtk_button_new_with_label(_translate(RESETTHEME));
-			gtk_box_pack_start(GTK_BOX(buttonHbox),resetButton, false,false,0);
+			gtk_box_pack_start(GTK_BOX(buttonHbox),resetButton,false,false,0);
 			g_signal_connect_after(G_OBJECT(resetButton),"clicked",G_CALLBACK(resetTheme),NULL);
 
 			customButton=gtk_button_new_with_label(_translate(CUSTOMTHEME));
-			gtk_box_pack_start(GTK_BOX(buttonHbox),customButton, false,false,0);
+			gtk_box_pack_start(GTK_BOX(buttonHbox),customButton,false,false,0);
 			g_signal_connect_after(G_OBJECT(customButton),"clicked",G_CALLBACK(customTheme),NULL);
 
 			button=gtk_toggle_button_new_with_label(_translate(ADVANCED));
-			gtk_box_pack_start(GTK_BOX(buttonHbox),button, false,false,4);
+			gtk_box_pack_start(GTK_BOX(buttonHbox),button,false,false,4);
 			g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(showAdvanced),NULL);
 
-			gtk_box_pack_start(GTK_BOX(vbox),buttonHbox, false,false,8);
+			gtk_box_pack_start(GTK_BOX(vbox),buttonHbox,false,false,8);
 			buttonHbox=gtk_hbox_new(false,0);
 
 			button=gtk_button_new_from_stock(GTK_STOCK_ABOUT);
@@ -774,13 +774,13 @@ int main(int argc,char **argv)
 			gtk_box_pack_start(GTK_BOX(vbox),gtk_hseparator_new(),false,false,8);
 			gtk_box_pack_start(GTK_BOX(buttonHbox),gtk_hbox_new(false,0),true,true,0);
 
-			gtk_box_pack_start(GTK_BOX(buttonHbox),button, false,false,4);
-			gtk_box_pack_start(GTK_BOX(vbox),buttonHbox, false,false,0);
+			gtk_box_pack_start(GTK_BOX(buttonHbox),button,false,false,4);
+			gtk_box_pack_start(GTK_BOX(vbox),buttonHbox,false,false,0);
 
 //do dnd
 			gtk_drag_dest_set(vbox,GTK_DEST_DEFAULT_ALL,NULL,0,GDK_ACTION_COPY);
 			gtk_drag_dest_add_uri_targets(vbox);
-			g_signal_connect (G_OBJECT(vbox),"drag_data_received",G_CALLBACK(dropUri), NULL);
+			g_signal_connect (G_OBJECT(vbox),"drag_data_received",G_CALLBACK(dropUri),NULL);
 
 			doSetConfigs();
 

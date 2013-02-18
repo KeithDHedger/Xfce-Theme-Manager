@@ -273,7 +273,7 @@ else
 			asprintf(&thumbfile,"%s/%s.png",customFolder,filename);
 
 			sprintf(buffer,"%s/%s",themesArray[0],frame);
-			if (!g_file_test(buffer, G_FILE_TEST_IS_DIR))
+			if (!g_file_test(buffer,G_FILE_TEST_IS_DIR))
 				sprintf(buffer,"%s/%s",themesArray[1],frame);
 
 			g_mkdir_with_parents(customFolder,493);
@@ -798,7 +798,7 @@ void resetBright(GtkWidget* widget,gpointer data)
 	freeAndNull(&command);
 }
 
-gboolean setBright(GtkWidget *widget, GdkEvent *event, gpointer user_data)
+gboolean setBright(GtkWidget *widget,GdkEvent *event,gpointer user_data)
 {
 	char*		command;
 	
@@ -821,7 +821,7 @@ void resetSatu(GtkWidget* widget,gpointer data)
 	freeAndNull(&command);
 }
 
-gboolean setSatu(GtkWidget *widget, GdkEvent *event, gpointer user_data)
+gboolean setSatu(GtkWidget *widget,GdkEvent *event,gpointer user_data)
 {
 	char*		command;
 	char*		doublestr;

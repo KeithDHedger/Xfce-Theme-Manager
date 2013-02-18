@@ -30,7 +30,7 @@ void themeIconCallback(GtkIconView *view,gpointer doWhat);
 void setPiece(char* filePath,const char* doCommand,bool update);
 
 
-gboolean itemact (GtkWidget *widget, GdkEvent  *event,gpointer   user_data);
+gboolean itemact (GtkWidget *widget,GdkEvent  *event,gpointer   user_data);
 
 
 gboolean mouseMove(GtkWidget *widget,GdkEvent* event,gpointer user_data);
@@ -39,9 +39,9 @@ gboolean clickIt(GtkWidget *widget,GdkEvent* event,gpointer data);
 void launchCompEd(GtkWidget* window,gpointer data);
 
 void resetBright(GtkWidget* widget,gpointer data);
-gboolean setBright(GtkWidget *widget, GdkEvent *event, gpointer user_data);
+gboolean setBright(GtkWidget *widget,GdkEvent *event,gpointer user_data);
 void resetSatu(GtkWidget* widget,gpointer data);
-gboolean setSatu(GtkWidget *widget, GdkEvent *event, gpointer user_data);
+gboolean setSatu(GtkWidget *widget,GdkEvent *event,gpointer user_data);
 
 void resetLayout(GtkWidget* widget,gpointer data);
 void changeLayout(GtkWidget* widget,gpointer data);
