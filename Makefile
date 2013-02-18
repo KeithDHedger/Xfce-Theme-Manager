@@ -50,6 +50,7 @@ pkg:
 
 version:
 	sed -i "s/^#define VERSION.*/#define VERSION \"$(VERSION)\"/" src/globals.h
+	sed -i "s/VERSION=.*/VERSION=\"$(VERSION)\"/" XfceThemeManager/Xfce-Theme-Manager.LFSBuild
 
 debug:
 	g++ $(SOURCES) $(CXXFLAGS) -ggdb -O0 -o $(PROGRAM)-debug
