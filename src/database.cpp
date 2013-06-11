@@ -187,6 +187,7 @@ void removeDeleted(void)
 			while(entry!=NULL)
 				{
 					asprintf(&dbfile,"\"%s/%s\"",cursorsFolder,entry);
+											printf("XXXX--%s--\n",dbfile);
 					if(g_str_has_suffix(dbfile,".db"))
 						{
 							g_key_file_load_from_file(keyfile,dbfile,G_KEY_FILE_NONE,NULL);
