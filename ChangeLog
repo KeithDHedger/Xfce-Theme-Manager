@@ -17,6 +17,10 @@ Please send them direct to me at:kdhedger68713@gmail.com posting them on xfce-lo
 ***************************************
 
 Changelog:
+0.3.0	Added command line options to list/set themes etc.
+	Bug fix for drag 'n' drop filenames with spaces.
+	Bug fix for drag 'n' drop zip files.
+
 0.2.4	re-arranged GUI to be more in keeping with Xfce settings panels ( thanks to Moatib for that ).
 	Dropping multiple archives to install now only shows one confirmation ( so only one click not many needed ).
 	On startup or changing theme parts, currently selected theme part now shows in scrolled window.

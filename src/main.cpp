@@ -467,8 +467,8 @@ void printList(void)
 										}
 									entry=g_dir_read_name(folder);
 								}
+							g_dir_close(folder);
 						}
-					g_dir_close(folder);
 				}
 
 			if (what[j]=='t')
