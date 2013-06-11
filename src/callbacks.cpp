@@ -395,23 +395,39 @@ int installWallpaper(char* filename)
 	return(retval);
 }
 
-int extractAndInstall(char* filename)
+int extractAndInstall(char* filename,int ziptype)
 {
 	gchar*	stdout=NULL;
 	gchar*	stderr=NULL;
 	int		retval=-1;
-	gint		spawnret=-1;
+	gint	spawnret=-1;
+	char*	commandtest;
+	char*	commandextracttheme;
+	char*	commandextracticon;
+
+	if(ziptype==2)
+		{
+			asprintf(&commandtest,"unzip -t");
+			asprintf(&commandextracttheme,"unzip -od %s ",themesArray[0]);
+			asprintf(&commandextracticon,"unzip -od %s ",iconsArray[0]);
+		}
+	else
+		{
+			asprintf(&commandtest,"tar --wildcards -tf");
+			asprintf(&commandextracttheme,"tar -C %s -xf ",themesArray[0]);
+			asprintf(&commandextracticon,"tar -C %s -xf ",iconsArray[0]);
+		}
 
 	while(true)
 	{
-		sprintf(generalBuffer,"tar --wildcards -tf %s */gtkrc",filename);
+		sprintf(generalBuffer,"%s \"%s\" */gtkrc",commandtest,filename);
 		g_spawn_command_line_sync((char*)generalBuffer,&stdout,&stderr,&spawnret,NULL);
 		if (spawnret==0)
 			{
 				stdout[strlen(stdout)-1]=0;
 				if(strlen(stdout)>1)
 					{
-						sprintf(generalBuffer,"tar -C %s -xf %s",themesArray[0],filename);
+						sprintf(generalBuffer,"%s \"%s\"",commandextracttheme,filename);
 						retval=system(generalBuffer);
 						freeAndNull(&stdout);
 						break;
@@ -419,14 +435,14 @@ int extractAndInstall(char* filename)
 				freeAndNull(&stdout);
 			}
 
-		sprintf(generalBuffer,"tar --wildcards -tf %s */themerc",filename);
+		sprintf(generalBuffer,"%s \"%s\" */themerc",commandtest,filename);
 		g_spawn_command_line_sync((char*)generalBuffer,&stdout,&stderr,&spawnret,NULL);
 		if (spawnret==0)
 			{
-				stdout[strlen(stdout)-1]=0;
+			stdout[strlen(stdout)-1]=0;
 				if(strlen(stdout)>1)
 					{
-						sprintf(generalBuffer,"tar -C %s -xf %s",themesArray[0],filename);
+						sprintf(generalBuffer,"%s \"%s\"",commandextracttheme,filename);
 						retval=system(generalBuffer);
 						freeAndNull(&stdout);
 						freeAndNull(&stderr);
@@ -436,14 +452,14 @@ int extractAndInstall(char* filename)
 				freeAndNull(&stderr);
 			}
 
-		sprintf(generalBuffer,"tar --wildcards -tf %s */index.theme",filename);
+		sprintf(generalBuffer,"%s \"%s\" */index.theme",commandtest,filename);
 		g_spawn_command_line_sync((char*)generalBuffer,&stdout,&stderr,&spawnret,NULL);
 		if (spawnret==0)
 			{
 				stdout[strlen(stdout)-1]=0;
 				if(strlen(stdout)>1)
 					{
-						sprintf(generalBuffer,"tar -C %s -xf %s",iconsArray[0],filename);
+						sprintf(generalBuffer,"%s \"%s\"",commandextracticon,filename);
 						retval=system(generalBuffer);
 						freeAndNull(&stdout);
 						freeAndNull(&stderr);
@@ -496,7 +512,7 @@ void dropUri(GtkWidget *widget,GdkDragContext *context,gint x,gint y,GtkSelectio
 				{
 					if(g_str_has_suffix(lowername,ziptype[k]))
 						{
-							doupdate=extractAndInstall(filename);
+							doupdate=extractAndInstall(filename,k);
 							if (doupdate==0)
 								doneinstalls++;
 							break;
