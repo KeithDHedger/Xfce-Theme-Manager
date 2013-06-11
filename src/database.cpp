@@ -72,7 +72,7 @@ void removeDeleted(void)
 			entry=g_dir_read_name(folder);
 			while(entry!=NULL)
 				{
-					asprintf(&dbfile,"\"%s/%s\"",framesFolder,entry);
+					asprintf(&dbfile,"%s/%s",framesFolder,entry);
 					if(g_str_has_suffix(dbfile,".db"))
 						{
 							g_key_file_load_from_file(keyfile,dbfile,G_KEY_FILE_NONE,NULL);
@@ -82,7 +82,7 @@ void removeDeleted(void)
 									found=false;
 									for(int i=0;i<2;i++)
 										{
-											sprintf((char*)&filepath,"\"%s/%s\"",themesArray[i],displayname);
+											sprintf((char*)&filepath,"%s/%s",themesArray[i],displayname);
 											if(g_file_test(filepath,G_FILE_TEST_EXISTS))
 												found=true;
 										}
@@ -110,7 +110,7 @@ void removeDeleted(void)
 			entry=g_dir_read_name(folder);
 			while(entry!=NULL)
 				{
-					asprintf(&dbfile,"\"%s/%s\"",controlsFolder,entry);
+					asprintf(&dbfile,"%s/%s",controlsFolder,entry);
 					if(g_str_has_suffix(dbfile,".db"))
 						{
 							g_key_file_load_from_file(keyfile,dbfile,G_KEY_FILE_NONE,NULL);
@@ -120,7 +120,7 @@ void removeDeleted(void)
 									found=false;
 									for(int i=0;i<2;i++)
 										{
-											sprintf((char*)&filepath,"\"%s/%s\"",themesArray[i],displayname);
+											sprintf((char*)&filepath,"%s/%s",themesArray[i],displayname);
 											if(g_file_test(filepath,G_FILE_TEST_EXISTS))
 												found=true;
 										}
@@ -148,7 +148,7 @@ void removeDeleted(void)
 			entry=g_dir_read_name(folder);
 			while(entry!=NULL)
 				{
-					asprintf(&dbfile,"\"%s/%s\"",iconsFolder,entry);
+					asprintf(&dbfile,"%s/%s",iconsFolder,entry);
 					if(g_str_has_suffix(dbfile,".db"))
 						{
 							g_key_file_load_from_file(keyfile,dbfile,G_KEY_FILE_NONE,NULL);
@@ -158,7 +158,7 @@ void removeDeleted(void)
 									found=false;
 									for(int i=0;i<2;i++)
 										{
-											sprintf((char*)&filepath,"\"%s/%s\"",iconsArray[i],displayname);
+											sprintf((char*)&filepath,"%s/%s",iconsArray[i],displayname);
 											if(g_file_test(filepath,G_FILE_TEST_EXISTS))
 												found=true;
 										}
@@ -186,8 +186,7 @@ void removeDeleted(void)
 			entry=g_dir_read_name(folder);
 			while(entry!=NULL)
 				{
-					asprintf(&dbfile,"\"%s/%s\"",cursorsFolder,entry);
-											printf("XXXX--%s--\n",dbfile);
+					asprintf(&dbfile,"%s/%s",cursorsFolder,entry);
 					if(g_str_has_suffix(dbfile,".db"))
 						{
 							g_key_file_load_from_file(keyfile,dbfile,G_KEY_FILE_NONE,NULL);
