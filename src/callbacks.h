@@ -58,5 +58,5 @@ gboolean doChangePage(GtkNotebook *notebook,gpointer arg1,guint arg2,gpointer us
 void doSetConfigs(void);
 void changeView(GtkWidget* widget,gpointer data);
 void changeViewWhat(GtkWidget* widget,gpointer data);
-
+int checkFolders(void);
 #endif

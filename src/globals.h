@@ -102,6 +102,9 @@
 #define XMTSETPRESIZE "xfconf-query -nt int -c xfcethemer -p /PreveiwSize -s "
 #define XMTGETPRESIZE "xfconf-query -c xfcethemer -p /PreveiwSize"
 
+#define XMTSETHOMETHEMESHASH "xfconf-query -nt string -c xfcethemer -p /HomeThemesHash -s "
+#define XMTGETHOMETHEMESHASH "xfconf-query -c xfcethemer -p /HomeThemesHash"
+//#define XMTGETSHOWSYSTEM  "xfconf-query -c xfcethemer -p /ShowGlobal"
 #define _translate(x) langStr[langID][x]
 
 enum {ENGLISH=0,SPANISH,GERMAN};
@@ -138,6 +141,8 @@ extern char*		lastWmTheme;
 extern char*		lastCursorTheme;
 extern char*		lastWallPaper;
 extern char*		lastMetaTheme;
+
+extern char*		homeThemesHash;
 
 struct boxStruct
 {

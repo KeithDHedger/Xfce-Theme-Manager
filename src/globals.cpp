@@ -33,6 +33,7 @@ char*			lastWmTheme;
 char*			lastCursorTheme;
 char*			lastWallPaper;
 char*			lastMetaTheme;
+char*		homeThemesHash;
 
 boxStruct		previewBox[6]={{NULL,NULL,NULL,0,NULL,NULL}};
 

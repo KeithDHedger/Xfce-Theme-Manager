@@ -200,6 +200,8 @@ void init(void)
 	asprintf(&cursorsFolder,"%s/cursors",dbFolder);
 	asprintf(&wallpapersFolder,"%s/wallpapers",dbFolder);
 	asprintf(&customFolder,"%s/custom",dbFolder);
+
+	asprintf(&homeThemesHash,"12345");
 	
 //gtk
 	setValue(XCONFGETCONTROLS,STRING,&currentGtkTheme);
@@ -245,6 +247,9 @@ void init(void)
 				langID=GERMAN;
 		}
 //init my configs
+
+//check hashses
+	setValue(XMTGETHOMETHEMESHASH,STRING,&homeThemesHash);
 
 	setValue(XMTGETSHOWSYSTEM,INT,&showGlobal);
 	setValue(XMTGETSHOWMETA,INT,&showMeta);
@@ -467,8 +472,8 @@ void printList(void)
 										}
 									entry=g_dir_read_name(folder);
 								}
-							g_dir_close(folder);
 						}
+					g_dir_close(folder);
 				}
 
 			if (what[j]=='t')
@@ -641,6 +646,9 @@ int main(int argc,char **argv)
 	gtk_init(&argc,&argv);
 
 	init();
+
+	if(checkFolders()!=0)
+		updateDb=true;
 
 	sprintf(generalBuffer,"%s/.config/XfceThemeManager",homeFolder);
 	dbexists=g_file_test(generalBuffer,G_FILE_TEST_IS_DIR);

@@ -54,6 +54,172 @@ void writeDBFile(char* filename,char* name,char* gtk,char* frame,char* icon,char
 	fclose(fd);
 }
 
+void removeDeleted(void)
+{
+	char*			dbfile=NULL;
+	const gchar*	entry=NULL;
+	GDir*			folder;
+	char*			displayname=NULL;
+	char			filepath[2048];
+	bool			found;
+	char*			thumbnail;
+
+	GKeyFile*		keyfile=g_key_file_new();
+
+	folder=g_dir_open(framesFolder,0,NULL);
+	if(folder!=NULL)
+		{
+			entry=g_dir_read_name(folder);
+			while(entry!=NULL)
+				{
+					asprintf(&dbfile,"\"%s/%s\"",framesFolder,entry);
+					if(g_str_has_suffix(dbfile,".db"))
+						{
+							g_key_file_load_from_file(keyfile,dbfile,G_KEY_FILE_NONE,NULL);
+							displayname=g_key_file_get_string(keyfile,"Data","Name",NULL);
+							if(displayname!=NULL)
+								{
+									found=false;
+									for(int i=0;i<2;i++)
+										{
+											sprintf((char*)&filepath,"\"%s/%s\"",themesArray[i],displayname);
+											if(g_file_test(filepath,G_FILE_TEST_EXISTS))
+												found=true;
+										}
+
+									if(found==false)
+										{
+											sprintf((char*)&filepath,"rm \"%s\"",dbfile);
+											system(filepath);
+											thumbnail=g_key_file_get_string(keyfile,"Data","Thumbnail",NULL);
+											sprintf((char*)&filepath,"rm \"%s\"",thumbnail);
+											system(filepath);
+										}
+									g_free(displayname);
+								}
+						}
+					g_free(dbfile);
+					entry=g_dir_read_name(folder);
+				}
+			g_dir_close(folder);
+		}
+
+	folder=g_dir_open(controlsFolder,0,NULL);
+	if(folder!=NULL)
+		{
+			entry=g_dir_read_name(folder);
+			while(entry!=NULL)
+				{
+					asprintf(&dbfile,"\"%s/%s\"",controlsFolder,entry);
+					if(g_str_has_suffix(dbfile,".db"))
+						{
+							g_key_file_load_from_file(keyfile,dbfile,G_KEY_FILE_NONE,NULL);
+							displayname=g_key_file_get_string(keyfile,"Data","Name",NULL);
+							if(displayname!=NULL)
+								{
+									found=false;
+									for(int i=0;i<2;i++)
+										{
+											sprintf((char*)&filepath,"\"%s/%s\"",themesArray[i],displayname);
+											if(g_file_test(filepath,G_FILE_TEST_EXISTS))
+												found=true;
+										}
+
+									if(found==false)
+										{
+											sprintf((char*)&filepath,"rm \"%s\"",dbfile);
+											system(filepath);
+											thumbnail=g_key_file_get_string(keyfile,"Data","Thumbnail",NULL);
+											sprintf((char*)&filepath,"rm \"%s\"",thumbnail);
+											system(filepath);
+										}
+									g_free(displayname);
+								}
+						}
+					g_free(dbfile);
+					entry=g_dir_read_name(folder);
+				}
+			g_dir_close(folder);
+		}
+
+	folder=g_dir_open(iconsFolder,0,NULL);
+	if(folder!=NULL)
+		{
+			entry=g_dir_read_name(folder);
+			while(entry!=NULL)
+				{
+					asprintf(&dbfile,"\"%s/%s\"",iconsFolder,entry);
+					if(g_str_has_suffix(dbfile,".db"))
+						{
+							g_key_file_load_from_file(keyfile,dbfile,G_KEY_FILE_NONE,NULL);
+							displayname=g_key_file_get_string(keyfile,"Data","Name",NULL);
+							if(displayname!=NULL)
+								{
+									found=false;
+									for(int i=0;i<2;i++)
+										{
+											sprintf((char*)&filepath,"\"%s/%s\"",iconsArray[i],displayname);
+											if(g_file_test(filepath,G_FILE_TEST_EXISTS))
+												found=true;
+										}
+
+									if(found==false)
+										{
+											sprintf((char*)&filepath,"rm \"%s\"",dbfile);
+											system(filepath);
+											thumbnail=g_key_file_get_string(keyfile,"Data","Thumbnail",NULL);
+											sprintf((char*)&filepath,"rm \"%s\"",thumbnail);
+											system(filepath);
+										}
+									g_free(displayname);
+								}
+						}
+					g_free(dbfile);
+					entry=g_dir_read_name(folder);
+				}
+			g_dir_close(folder);
+		}
+
+	folder=g_dir_open(cursorsFolder,0,NULL);
+	if(folder!=NULL)
+		{
+			entry=g_dir_read_name(folder);
+			while(entry!=NULL)
+				{
+					asprintf(&dbfile,"\"%s/%s\"",cursorsFolder,entry);
+					if(g_str_has_suffix(dbfile,".db"))
+						{
+							g_key_file_load_from_file(keyfile,dbfile,G_KEY_FILE_NONE,NULL);
+							displayname=g_key_file_get_string(keyfile,"Data","Name",NULL);
+							if(displayname!=NULL)
+								{
+									found=false;
+									for(int i=0;i<2;i++)
+										{
+											sprintf((char*)&filepath,"\"%s/%s\"",iconsArray[i],displayname);
+											if(g_file_test(filepath,G_FILE_TEST_EXISTS))
+												found=true;
+										}
+
+									if(found==false)
+										{
+											sprintf((char*)&filepath,"rm \"%s\"",dbfile);
+											system(filepath);
+											thumbnail=g_key_file_get_string(keyfile,"Data","Thumbnail",NULL);
+											sprintf((char*)&filepath,"rm \"%s\"",thumbnail);
+											system(filepath);
+										}
+									g_free(displayname);
+								}
+						}
+					g_free(dbfile);
+					entry=g_dir_read_name(folder);
+				}
+			g_dir_close(folder);
+		}
+
+}
+
 gpointer rebuildDB(gpointer data)
 {
 	char*			buffer=NULL;
@@ -99,6 +265,12 @@ gpointer rebuildDB(gpointer data)
 					sprintf(generalBuffer,"rm -r %s",wallpapersFolder);
 					system(generalBuffer);
 				}
+		}
+
+	if(makeornot==1)
+		{
+			removeDeleted();
+			printf("update\n");
 		}
 
 	g_mkdir_with_parents(metaFolder,493);

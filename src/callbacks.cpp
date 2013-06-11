@@ -341,7 +341,7 @@ else
 //rebuild db
 void rerunAndBuild(GtkWidget* window,gpointer data)
 {
-	char*	datax[]={(char*)"xfce-theme-manager",(char*)"-m",NULL};
+	char*	datax[]={(char*)"xfce-theme-manager",(char*)"-r",NULL};
 
 	gtk_main_quit();
 	execvp("xfce-theme-manager",datax);
@@ -922,5 +922,25 @@ void resetCursSize(GtkWidget* widget,gpointer data)
 	asprintf(&command,"%s 16",XCONFSETCURSORSIZE);
 	system(command);
 	freeAndNull(&command);
+}
+
+int checkFolders(void)
+{
+	char*	command;
+	FILE*	fp;
+	char	line[256];
+
+	asprintf(&command,"find %s %s %s %s %s %s -type f  -exec md5sum {} + | awk '{print $1}' | sort | md5sum| awk '{print $1}'",themesArray[0],themesArray[1],iconsArray[0],iconsArray[1],papersArray[0],papersArray[1]);
+	printf("%s\n",command);
+	fp=popen(command,"r");
+	fgets(line,256,fp);
+	pclose(fp);
+	g_free(command);
+
+	line[strlen(line)-1]=0;
+	asprintf(&command,"%s %s",XMTSETHOMETHEMESHASH,line);
+	system(command);
+	g_free(command);
+	return(strcmp(homeThemesHash,line));
 }
 
