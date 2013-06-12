@@ -1,0 +1,6 @@
+#|/bin/bash
+
+shopt -s nullglob
+cd "Xfce-Theme-Manager/src"
+csrclst=$(echo "../src/*.c" "../src/*.cpp")
+echo COMMONSRC = $csrclst > ../sources
