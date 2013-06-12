@@ -1,0 +1,11 @@
+#!/bin/bash -e
+
+#©keithhedger Wed 22 May 19:55:26 BST 2013 kdhedger68713@gmail.com
+
+svn commit -m ""
+cd /tmp
+svn co file:///home/keithhedger/Development/SVN/KKEdit
+find KKEdit -name ".svn" -exec rm -r '{}' \; || true
+rm /tmp/KKEdit/makepkg
+tar -czvf KKEdit-$(cat /tmp/KKEdit/KKEdit/src/globals.h|grep KKEDIT_VERSION|awk '{ print $3 }'|sed 's/"//g').tar.gz KKEdit
+rm -r /tmp/KKEdit
