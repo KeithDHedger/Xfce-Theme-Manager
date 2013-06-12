@@ -1,0 +1,16 @@
+
+AM_CPPFLAGS =	-I$(top_srcdir) \
+			$(GTK_CFLAGS) \
+			$(GLIB_CFLAGS) \
+			$(XCURSOR_CFLAGS) \
+			$(XFCE4UI_CFLAGS) \
+			-DPREFIX=\""${prefix}\"" \
+			-DDATADIR=\""${pkgdatadir}"\" \
+			-DSYSCONFDIR=\""${sysconfdir}/${PACKAGE}"\" \
+			-DLIBDIR=\""${libdir}/${PACKAGE}"\"
+
+LIBS =	$(GLIB_LIBS) \
+		$(GTK_LIBS)  \
+		$(XCURSOR_LIBS) \
+		$(XFCE4UI_LIBS)
+
