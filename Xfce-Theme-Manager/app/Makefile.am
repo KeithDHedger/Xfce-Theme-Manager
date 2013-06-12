@@ -9,8 +9,8 @@ xfcethememanager_SOURCES = $(COMMONSRC)
 xfcethememanager_CFLAGS = -O3 -export-dynamic
 xfcethememanager_CXXFLAGS = -O3 -export-dynamic
 
-#pixfilesdir = $(pkgdatadir)/pixmaps
-#pixfiles_DATA = ../resources/pixmaps/*
+pixfilesdir = $(pkgdatadir)/pixmaps
+pixfiles_DATA = ../resources/pixmaps/*.png
 #
 #scriptfilesdir = $(pkgdatadir)/scripts
 #scriptfiles_SCRIPTS = ../resources/scripts/README
@@ -33,9 +33,15 @@ clean-local:
 install-exec-hook:
 	mv $(DESTDIR)${bindir}/xfcethememanager $(DESTDIR)${bindir}/$(TRANSFORMNAME)
 	mkdir -p $(DESTDIR)${prefix}/share/man/man1 $(DESTDIR)${prefix}/share/man/de/man1 $(DESTDIR)${prefix}/share/man/es/man1
+	mkdir -p $(DESTDIR)${datadir}/applications
 	gzip --stdout ../resources/man/$(TRANSFORMNAME).1 > $(DESTDIR)${prefix}/share/man/man1/$(TRANSFORMNAME).1.gz
 	gzip --stdout ../resources/man/$(TRANSFORMNAME).1.es > $(DESTDIR)${prefix}/share/man/es/man1/$(TRANSFORMNAME).1.gz
 	gzip --stdout ../resources/man/$(TRANSFORMNAME).1.de > $(DESTDIR)${prefix}/share/man/de/man1/$(TRANSFORMNAME).1.gz
+
+	cp ../resources/pixmaps/$(TRANSFORMNAME).desktop $(DESTDIR)${datadir}/applications
+	
+#	echo Icon=${prefix}/share/$(PACKAGE)/pixmaps/$(TRANSFORMNAME).png >> $(DESTDIR)${prefix}/share/applications/$(PACKAGE).desktop
+#	echo Exec=${prefix}/bin/dvdripper >> ${prefix}/share/applications/DVDRipper.desktop
 
 #	cp ../resources/pixmaps/DVDRipper.desktop ${prefix}/share/applications/DVDRipper.desktop
 #	echo Icon=${prefix}/share/DVDRipper/pixmaps/DVDRipper.png >> ${prefix}/share/applications/DVDRipper.desktop
