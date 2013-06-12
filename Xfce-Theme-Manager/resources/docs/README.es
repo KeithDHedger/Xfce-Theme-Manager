@@ -2,7 +2,7 @@
 #
 #   Xfce-theme-manager
 #
-#   © 2012 K.D.Hedger
+#   © 2013 K.D.Hedger
 #   kdhedger68713@gmail.com
 #
 #   Distribuido bajo licencia GPL. Ver el archivo de licencia incluido (gpl-3.0.txt)
