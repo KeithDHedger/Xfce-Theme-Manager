@@ -15,6 +15,10 @@ xfcethememanager_CXXFLAGS = -O3 -export-dynamic
 #scriptfilesdir = $(pkgdatadir)/scripts
 #scriptfiles_SCRIPTS = ../resources/scripts/README
 #
+
+docfilesdir = $(pkgdatadir)/docs
+docfiles_DATA = ../resources/docs/*
+
 bin_PROGRAMS = xfcethememanager
 all-local:
 	mv xfcethememanager $(TRANSFORMNAME)
