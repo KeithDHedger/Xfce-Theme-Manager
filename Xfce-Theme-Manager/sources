@@ -1,1 +1,0 @@
-COMMONSRC = ../src/callbacks.cpp ../src/database.cpp ../src/globals.cpp ../src/gui.cpp ../src/main.cpp ../src/thumbnails.cpp
