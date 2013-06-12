@@ -930,8 +930,8 @@ int checkFolders(void)
 	FILE*	fp;
 	char	line[256];
 
-	asprintf(&command,"find %s %s %s %s %s %s -type f  -exec md5sum {} + | awk '{print $1}' | sort | md5sum| awk '{print $1}'",themesArray[0],themesArray[1],iconsArray[0],iconsArray[1],papersArray[0],papersArray[1]);
-	printf("%s\n",command);
+	asprintf(&command,"ls %s %s %s %s %s %s 2>/dev/null|md5sum | awk '{print $1}'",themesArray[0],themesArray[1],iconsArray[0],iconsArray[1],papersArray[0],papersArray[1]);
+
 	fp=popen(command,"r");
 	fgets(line,256,fp);
 	pclose(fp);

@@ -62,10 +62,67 @@ void removeDeleted(void)
 	char*			displayname=NULL;
 	char			filepath[2048];
 	bool			found;
+	bool			foundfirst;
 	char*			thumbnail;
 
 	GKeyFile*		keyfile=g_key_file_new();
 
+//meta
+	folder=g_dir_open(metaFolder,0,NULL);
+	if(folder!=NULL)
+		{
+			entry=g_dir_read_name(folder);
+			while(entry!=NULL)
+				{
+					asprintf(&dbfile,"%s/%s",metaFolder,entry);
+					if(g_str_has_suffix(dbfile,".db"))
+						{
+							g_key_file_load_from_file(keyfile,dbfile,G_KEY_FILE_NONE,NULL);
+							found=false;
+							foundfirst=false;
+							displayname=g_key_file_get_string(keyfile,"Data","GtkTheme",NULL);
+							if(displayname!=NULL)
+								{
+									for(int i=0;i<2;i++)
+										{
+											sprintf((char*)&filepath,"%s/%s/gtk-2.0",themesArray[i],displayname);
+											if(g_file_test(filepath,G_FILE_TEST_EXISTS))
+												foundfirst=true;
+										}
+									g_free(displayname);
+								}
+
+							displayname=g_key_file_get_string(keyfile,"Data","Xfwm4Theme",NULL);
+							if(displayname!=NULL)
+								{
+									for(int i=0;i<2;i++)
+										{
+											sprintf((char*)&filepath,"%s/%s/xfwm4",themesArray[i],displayname);
+											if((g_file_test(filepath,G_FILE_TEST_EXISTS)==true) && (foundfirst==true))
+												found=true;
+										}
+									g_free(displayname);
+								}
+
+							if(found==false)
+								{
+									sprintf((char*)&filepath,"rm \"%s\"",dbfile);
+									system(filepath);
+									//printf("%s\n",filepath);
+									thumbnail=g_key_file_get_string(keyfile,"Data","Thumbnail",NULL);
+									sprintf((char*)&filepath,"rm \"%s\"",thumbnail);
+									g_free(thumbnail);
+									system(filepath);
+									//printf("%s\n",filepath);
+								}
+						}
+					g_free(dbfile);
+					entry=g_dir_read_name(folder);
+				}
+			g_dir_close(folder);
+		}
+
+//frames
 	folder=g_dir_open(framesFolder,0,NULL);
 	if(folder!=NULL)
 		{
@@ -82,7 +139,7 @@ void removeDeleted(void)
 									found=false;
 									for(int i=0;i<2;i++)
 										{
-											sprintf((char*)&filepath,"%s/%s",themesArray[i],displayname);
+											sprintf((char*)&filepath,"%s/%s/xfwm4",themesArray[i],displayname);
 											if(g_file_test(filepath,G_FILE_TEST_EXISTS))
 												found=true;
 										}
@@ -104,6 +161,7 @@ void removeDeleted(void)
 			g_dir_close(folder);
 		}
 
+//controls
 	folder=g_dir_open(controlsFolder,0,NULL);
 	if(folder!=NULL)
 		{
@@ -120,7 +178,7 @@ void removeDeleted(void)
 									found=false;
 									for(int i=0;i<2;i++)
 										{
-											sprintf((char*)&filepath,"%s/%s",themesArray[i],displayname);
+											sprintf((char*)&filepath,"%s/%s/gtk-2.0",themesArray[i],displayname);
 											if(g_file_test(filepath,G_FILE_TEST_EXISTS))
 												found=true;
 										}
@@ -218,11 +276,39 @@ void removeDeleted(void)
 			g_dir_close(folder);
 		}
 
+	folder=g_dir_open(wallpapersFolder,0,NULL);
+	if(folder!=NULL)
+		{
+			entry=g_dir_read_name(folder);
+			while(entry!=NULL)
+				{
+					asprintf(&dbfile,"%s/%s",wallpapersFolder,entry);
+					if(g_str_has_suffix(dbfile,".db"))
+						{
+							g_key_file_load_from_file(keyfile,dbfile,G_KEY_FILE_NONE,NULL);
+							displayname=g_key_file_get_string(keyfile,"Data","ThemeName",NULL);
+							if(!g_file_test(displayname,G_FILE_TEST_EXISTS))
+								{
+								printf("%s\n",displayname);
+									sprintf((char*)&filepath,"rm \"%s\"",dbfile);
+									system(filepath);
+									thumbnail=g_key_file_get_string(keyfile,"Data","Thumbnail",NULL);
+									sprintf((char*)&filepath,"rm \"%s\"",thumbnail);
+									system(filepath);
+								}
+							g_free(displayname);
+						}
+					g_free(dbfile);
+					entry=g_dir_read_name(folder);
+				}
+			g_dir_close(folder);
+		}
 }
 
 gpointer rebuildDB(gpointer data)
 {
 	char*			buffer=NULL;
+	char*			buffer2=NULL;
 	char*			indexfile=NULL;
 	char*			dbfile=NULL;
 	char*			thumbfile=NULL;
@@ -292,7 +378,8 @@ gpointer rebuildDB(gpointer data)
 									if (g_file_test(indexname,G_FILE_TEST_EXISTS))
 										{
 											asprintf(&buffer,"%s/%s/xfwm4",themesArray[i],entry);
-											if (g_file_test(buffer,G_FILE_TEST_IS_DIR))
+											asprintf(&buffer2,"%s/%s/gtk-2.0",themesArray[i],entry);
+											if (g_file_test(buffer,G_FILE_TEST_IS_DIR) && g_file_test(buffer2,G_FILE_TEST_IS_DIR))
 												{
 													displayname=g_key_file_get_string(metakeyfile,"Desktop Entry","Name",NULL);
 													if(displayname==NULL)
@@ -363,6 +450,7 @@ gpointer rebuildDB(gpointer data)
 									freeAndNull(&thumbfile);
 									freeAndNull(&indexname);
 									freeAndNull(&buffer);
+									freeAndNull(&buffer2);
 									freeAndNull(&framefolder);
 								}
 							entry=g_dir_read_name(folder);
