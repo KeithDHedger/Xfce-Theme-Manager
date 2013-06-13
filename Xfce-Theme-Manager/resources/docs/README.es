@@ -5,7 +5,7 @@
 #   © 2013 K.D.Hedger
 #   kdhedger68713@gmail.com
 #
-#   Distribuido bajo licencia GPL. Ver el archivo de licencia incluido (gpl-3.0.txt)
+#   Distribuido bajo licencia GPL. Ver el archivo de licencia incluido ( {prefix}/share/Xfce-Theme-Manager/docs/gpl-3.0.txt )
 #   Traducciones de la licencia pueden encontrarse aquí:
 #   http://www.gnu.org/licenses/translations.html
 # ------------------------------------------------- -----
