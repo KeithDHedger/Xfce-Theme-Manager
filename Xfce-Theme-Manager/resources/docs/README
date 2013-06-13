@@ -17,6 +17,8 @@ gdk-2.0
 cairo
 gtk+-2.0
 
+unzip - Runtime dependency to drag and drop zip archives.
+
 ****************************************************
 EXTERNAL APPS (Optional):
 

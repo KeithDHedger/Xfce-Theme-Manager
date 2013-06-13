@@ -18,6 +18,8 @@ gdk-2.0
 cairo
 gtk+-2.0
 
+unzip - Laufzeit Abhängigkeit zu ziehen zip-Archive.
+
 **************************************************
 WEITERE ANWENDUNGEN (Optional):
 

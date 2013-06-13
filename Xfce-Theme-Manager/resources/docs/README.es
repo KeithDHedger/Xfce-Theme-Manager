@@ -17,6 +17,8 @@ gdk-2.0
 cairo
 gtk+-2.0
 
+unzip - dependencia en tiempo de ejecución para arrastrar y soltar archivos zip.
+
 ****************************************************
 APLICACIONES EXTERNAS (opcional):
 
