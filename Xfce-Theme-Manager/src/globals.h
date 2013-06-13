@@ -101,8 +101,8 @@
 #define XMTSETPRESIZE "xfconf-query -nt int -c xfcethemer -p /PreveiwSize -s "
 #define XMTGETPRESIZE "xfconf-query -c xfcethemer -p /PreveiwSize"
 
-#define XMTSETHOMETHEMESHASH "xfconf-query -nt string -c xfcethemer -p /HomeThemesHash -s "
-#define XMTGETHOMETHEMESHASH "xfconf-query -c xfcethemer -p /HomeThemesHash"
+#define XMTSETHASH "xfconf-query -nt string -c xfcethemer -p /ThemesHash -s "
+#define XMTGETHASH "xfconf-query -c xfcethemer -p /ThemesHash"
 //#define XMTGETSHOWSYSTEM  "xfconf-query -c xfcethemer -p /ShowGlobal"
 #define _translate(x) langStr[langID][x]
 

@@ -940,7 +940,7 @@ int checkFolders(void)
 	g_free(command);
 
 	line[strlen(line)-1]=0;
-	asprintf(&command,"%s %s",XMTSETHOMETHEMESHASH,line);
+	asprintf(&command,"%s %s",XMTSETHASH,line);
 	system(command);
 	g_free(command);
 	return(strcmp(homeThemesHash,line));

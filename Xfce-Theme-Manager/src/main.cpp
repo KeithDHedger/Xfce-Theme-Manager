@@ -251,7 +251,7 @@ void init(void)
 //init my configs
 
 //check hashses
-	setValue(XMTGETHOMETHEMESHASH,STRING,&homeThemesHash);
+	setValue(XMTGETHASH,STRING,&homeThemesHash);
 
 	setValue(XMTGETSHOWSYSTEM,INT,&showGlobal);
 	setValue(XMTGETSHOWMETA,INT,&showMeta);
@@ -642,8 +642,6 @@ int main(int argc,char **argv)
 						break;
 			}
 		}
-
-
 
 	fflush(stderr);
 	fgetpos(stderr,&pos);

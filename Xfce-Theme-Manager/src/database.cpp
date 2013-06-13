@@ -54,6 +54,58 @@ void writeDBFile(char* filename,char* name,char* gtk,char* frame,char* icon,char
 	fclose(fd);
 }
 
+void updateEntries(char* dbfolder,char** datafolders,const char* subfolder)
+{
+
+	const gchar*	entry=NULL;
+	GDir*			folder;
+	char*			partname=NULL;
+	char			filepath[2048];
+	bool			found;
+//	bool			foundfirst;
+	char*			thumbnail;
+
+	GKeyFile*		keyfile=g_key_file_new();
+
+	folder=g_dir_open(dbfolder,0,NULL);
+	if(folder!=NULL)
+		{
+			chdir(dbfolder);
+			entry=g_dir_read_name(folder);
+			while(entry!=NULL)
+				{
+					if(g_str_has_suffix(entry,".db"))
+						{
+							g_key_file_load_from_file(keyfile,entry,G_KEY_FILE_NONE,NULL);
+							partname=g_key_file_get_string(keyfile,"Data","Name",NULL);
+							if(partname!=NULL)
+								{
+									found=false;
+									for(int i=0;i<2;i++)
+										{
+											sprintf((char*)&filepath,"%s/%s/%s",datafolders[i],partname,subfolder);
+											if(g_file_test(filepath,G_FILE_TEST_EXISTS))
+												found=true;
+										}
+
+									if(found==false)
+										{
+											sprintf((char*)&filepath,"rm \"%s\"",entry);
+											system(filepath);
+											thumbnail=g_key_file_get_string(keyfile,"Data","Thumbnail",NULL);
+											sprintf((char*)&filepath,"rm \"%s\"",thumbnail);
+											system(filepath);
+											g_free(thumbnail);
+										}
+									g_free(partname);
+								}
+						}
+					entry=g_dir_read_name(folder);
+				}
+			g_dir_close(folder);
+		}
+}
+
 void removeDeleted(void)
 {
 	char*			dbfile=NULL;
@@ -68,6 +120,7 @@ void removeDeleted(void)
 	GKeyFile*		keyfile=g_key_file_new();
 
 //meta
+#if 1
 	folder=g_dir_open(metaFolder,0,NULL);
 	if(folder!=NULL)
 		{
@@ -119,8 +172,10 @@ void removeDeleted(void)
 				}
 			g_dir_close(folder);
 		}
-
+#endif
 //frames
+	updateEntries(framesFolder,themesArray,"xfwm4");
+#if 0
 	folder=g_dir_open(framesFolder,0,NULL);
 	if(folder!=NULL)
 		{
@@ -158,8 +213,12 @@ void removeDeleted(void)
 				}
 			g_dir_close(folder);
 		}
+#endif
 
 //controls
+	updateEntries(controlsFolder,themesArray,"gtk-2.0");
+
+#if 0
 	folder=g_dir_open(controlsFolder,0,NULL);
 	if(folder!=NULL)
 		{
@@ -197,7 +256,11 @@ void removeDeleted(void)
 				}
 			g_dir_close(folder);
 		}
+#endif
 
+//icons
+	updateEntries(iconsFolder,iconsArray,"");
+#if 0
 	folder=g_dir_open(iconsFolder,0,NULL);
 	if(folder!=NULL)
 		{
@@ -235,7 +298,12 @@ void removeDeleted(void)
 				}
 			g_dir_close(folder);
 		}
+#endif
 
+	updateEntries(cursorsFolder,iconsArray,"cursors");
+
+#if 0
+//cursors
 	folder=g_dir_open(cursorsFolder,0,NULL);
 	if(folder!=NULL)
 		{
@@ -273,7 +341,8 @@ void removeDeleted(void)
 				}
 			g_dir_close(folder);
 		}
-
+#endif
+//backdrops
 	folder=g_dir_open(wallpapersFolder,0,NULL);
 	if(folder!=NULL)
 		{
