@@ -120,7 +120,8 @@ void removeDeleted(void)
 	GKeyFile*		keyfile=g_key_file_new();
 
 //meta
-#if 1
+//special case
+
 	folder=g_dir_open(metaFolder,0,NULL);
 	if(folder!=NULL)
 		{
@@ -172,200 +173,43 @@ void removeDeleted(void)
 				}
 			g_dir_close(folder);
 		}
-#endif
+
 //frames
 	updateEntries(framesFolder,themesArray,"xfwm4");
-#if 0
-	folder=g_dir_open(framesFolder,0,NULL);
-	if(folder!=NULL)
-		{
-			entry=g_dir_read_name(folder);
-			while(entry!=NULL)
-				{
-					asprintf(&dbfile,"%s/%s",framesFolder,entry);
-					if(g_str_has_suffix(dbfile,".db"))
-						{
-							g_key_file_load_from_file(keyfile,dbfile,G_KEY_FILE_NONE,NULL);
-							displayname=g_key_file_get_string(keyfile,"Data","Name",NULL);
-							if(displayname!=NULL)
-								{
-									found=false;
-									for(int i=0;i<2;i++)
-										{
-											sprintf((char*)&filepath,"%s/%s/xfwm4",themesArray[i],displayname);
-											if(g_file_test(filepath,G_FILE_TEST_EXISTS))
-												found=true;
-										}
-
-									if(found==false)
-										{
-											sprintf((char*)&filepath,"rm \"%s\"",dbfile);
-											system(filepath);
-											thumbnail=g_key_file_get_string(keyfile,"Data","Thumbnail",NULL);
-											sprintf((char*)&filepath,"rm \"%s\"",thumbnail);
-											system(filepath);
-										}
-									g_free(displayname);
-								}
-						}
-					g_free(dbfile);
-					entry=g_dir_read_name(folder);
-				}
-			g_dir_close(folder);
-		}
-#endif
 
 //controls
 	updateEntries(controlsFolder,themesArray,"gtk-2.0");
 
-#if 0
-	folder=g_dir_open(controlsFolder,0,NULL);
-	if(folder!=NULL)
-		{
-			entry=g_dir_read_name(folder);
-			while(entry!=NULL)
-				{
-					asprintf(&dbfile,"%s/%s",controlsFolder,entry);
-					if(g_str_has_suffix(dbfile,".db"))
-						{
-							g_key_file_load_from_file(keyfile,dbfile,G_KEY_FILE_NONE,NULL);
-							displayname=g_key_file_get_string(keyfile,"Data","Name",NULL);
-							if(displayname!=NULL)
-								{
-									found=false;
-									for(int i=0;i<2;i++)
-										{
-											sprintf((char*)&filepath,"%s/%s/gtk-2.0",themesArray[i],displayname);
-											if(g_file_test(filepath,G_FILE_TEST_EXISTS))
-												found=true;
-										}
-
-									if(found==false)
-										{
-											sprintf((char*)&filepath,"rm \"%s\"",dbfile);
-											system(filepath);
-											thumbnail=g_key_file_get_string(keyfile,"Data","Thumbnail",NULL);
-											sprintf((char*)&filepath,"rm \"%s\"",thumbnail);
-											system(filepath);
-										}
-									g_free(displayname);
-								}
-						}
-					g_free(dbfile);
-					entry=g_dir_read_name(folder);
-				}
-			g_dir_close(folder);
-		}
-#endif
-
 //icons
 	updateEntries(iconsFolder,iconsArray,"");
-#if 0
-	folder=g_dir_open(iconsFolder,0,NULL);
-	if(folder!=NULL)
-		{
-			entry=g_dir_read_name(folder);
-			while(entry!=NULL)
-				{
-					asprintf(&dbfile,"%s/%s",iconsFolder,entry);
-					if(g_str_has_suffix(dbfile,".db"))
-						{
-							g_key_file_load_from_file(keyfile,dbfile,G_KEY_FILE_NONE,NULL);
-							displayname=g_key_file_get_string(keyfile,"Data","Name",NULL);
-							if(displayname!=NULL)
-								{
-									found=false;
-									for(int i=0;i<2;i++)
-										{
-											sprintf((char*)&filepath,"%s/%s",iconsArray[i],displayname);
-											if(g_file_test(filepath,G_FILE_TEST_EXISTS))
-												found=true;
-										}
 
-									if(found==false)
-										{
-											sprintf((char*)&filepath,"rm \"%s\"",dbfile);
-											system(filepath);
-											thumbnail=g_key_file_get_string(keyfile,"Data","Thumbnail",NULL);
-											sprintf((char*)&filepath,"rm \"%s\"",thumbnail);
-											system(filepath);
-										}
-									g_free(displayname);
-								}
-						}
-					g_free(dbfile);
-					entry=g_dir_read_name(folder);
-				}
-			g_dir_close(folder);
-		}
-#endif
-
+//cursors
 	updateEntries(cursorsFolder,iconsArray,"cursors");
 
-#if 0
-//cursors
-	folder=g_dir_open(cursorsFolder,0,NULL);
-	if(folder!=NULL)
-		{
-			entry=g_dir_read_name(folder);
-			while(entry!=NULL)
-				{
-					asprintf(&dbfile,"%s/%s",cursorsFolder,entry);
-					if(g_str_has_suffix(dbfile,".db"))
-						{
-							g_key_file_load_from_file(keyfile,dbfile,G_KEY_FILE_NONE,NULL);
-							displayname=g_key_file_get_string(keyfile,"Data","Name",NULL);
-							if(displayname!=NULL)
-								{
-									found=false;
-									for(int i=0;i<2;i++)
-										{
-											sprintf((char*)&filepath,"\"%s/%s\"",iconsArray[i],displayname);
-											if(g_file_test(filepath,G_FILE_TEST_EXISTS))
-												found=true;
-										}
-
-									if(found==false)
-										{
-											sprintf((char*)&filepath,"rm \"%s\"",dbfile);
-											system(filepath);
-											thumbnail=g_key_file_get_string(keyfile,"Data","Thumbnail",NULL);
-											sprintf((char*)&filepath,"rm \"%s\"",thumbnail);
-											system(filepath);
-										}
-									g_free(displayname);
-								}
-						}
-					g_free(dbfile);
-					entry=g_dir_read_name(folder);
-				}
-			g_dir_close(folder);
-		}
-#endif
 //backdrops
+//special case
 	folder=g_dir_open(wallpapersFolder,0,NULL);
 	if(folder!=NULL)
 		{
+			chdir(wallpapersFolder);
 			entry=g_dir_read_name(folder);
 			while(entry!=NULL)
 				{
-					asprintf(&dbfile,"%s/%s",wallpapersFolder,entry);
-					if(g_str_has_suffix(dbfile,".db"))
+					if(g_str_has_suffix(entry,".db"))
 						{
-							g_key_file_load_from_file(keyfile,dbfile,G_KEY_FILE_NONE,NULL);
+							g_key_file_load_from_file(keyfile,entry,G_KEY_FILE_NONE,NULL);
 							displayname=g_key_file_get_string(keyfile,"Data","ThemeName",NULL);
 							if(!g_file_test(displayname,G_FILE_TEST_EXISTS))
 								{
-								printf("%s\n",displayname);
-									sprintf((char*)&filepath,"rm \"%s\"",dbfile);
+									sprintf((char*)&filepath,"rm \"%s\"",entry);
 									system(filepath);
 									thumbnail=g_key_file_get_string(keyfile,"Data","Thumbnail",NULL);
 									sprintf((char*)&filepath,"rm \"%s\"",thumbnail);
 									system(filepath);
+									g_free(thumbnail);
 								}
 							g_free(displayname);
 						}
-					g_free(dbfile);
 					entry=g_dir_read_name(folder);
 				}
 			g_dir_close(folder);
@@ -423,7 +267,6 @@ gpointer rebuildDB(gpointer data)
 	if(makeornot==1)
 		{
 			removeDeleted();
-			printf("update\n");
 		}
 
 	g_mkdir_with_parents(metaFolder,493);

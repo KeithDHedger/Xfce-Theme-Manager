@@ -42,5 +42,10 @@ PKG_CHECK_MODULES(XFCE4UI, $XFCE4UI_MODULES,AC_DEFINE([GOT_LIBXFCEUI], [], [Desc
 AC_SUBST([XFCE4UI_CFLAGS])
 AC_SUBST([XFCE4UI_LIBS])
 
+AC_CHECK_PROG(UNZIP, unzip ,true,false)
+if test $UNZIP = false; then
+	AC_MSG_WARN([No unzip program found! You will not be able to drag 'n' drop zip files!])
+fi
+
 AC_OUTPUT(Makefile Xfce-Theme-Manager/app/Makefile)
 
