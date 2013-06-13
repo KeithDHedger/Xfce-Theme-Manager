@@ -6,7 +6,9 @@ svn commit -m ""
 cd /tmp
 svn co file:///media/LinuxData/Development/SVN/Xfce-Theme-Manager
 find Xfce-Theme-Manager -name ".svn" -exec rm -r '{}' \; || true
-rm /tmp/Xfce-Theme-Manager/makepkg
+
+rm -r /tmp/Xfce-Theme-Manager/DEVDATA
+
 VERSION=$(cat /tmp/Xfce-Theme-Manager/configure.ac|grep AC_INIT|awk -F "[" '{print $3}'|awk -F "]" '{print $1}')
 mv Xfce-Theme-Manager Xfce-Theme-Manager-$VERSION
 tar -czvf Xfce-Theme-Manager-$VERSION.tar.gz Xfce-Theme-Manager-$VERSION
