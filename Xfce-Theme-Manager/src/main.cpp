@@ -553,13 +553,15 @@ struct option long_options[]=
 
 int main(int argc,char **argv)
 {
-	GtkWidget*		vbox;
-	GtkWidget*		buttonHbox;
-	GtkWidget*		label;
-	GtkWidget*		button;
-	GtkWidget*		advancedScrollBox;
-	gboolean		dbexists;
-	int c;
+	GtkWidget*	vbox;
+	GtkWidget*	buttonHbox;
+	GtkWidget*	label;
+	GtkWidget*	button;
+	GtkWidget*	advancedScrollBox;
+	gboolean	dbexists;
+	int			c;
+	int			fd;
+	fpos_t		pos;
 
 	while (1)
 		{
@@ -641,6 +643,13 @@ int main(int argc,char **argv)
 			}
 		}
 
+
+
+	fflush(stderr);
+	fgetpos(stderr,&pos);
+	fd=dup(fileno(stderr));
+	freopen("/dev/null","w",stderr);
+  
 #if GLIB_MINOR_VERSION < PREFERVERSION
 	g_thread_init(NULL);
 #endif
@@ -805,6 +814,12 @@ int main(int argc,char **argv)
 
 			g_signal_connect(G_OBJECT(notebook),"switch-page",G_CALLBACK(doChangePage),NULL);
 			gtk_main();
+
+			fflush(stderr);
+			dup2(fd,fileno(stderr));
+			close(fd);
+			clearerr(stderr);
+			fsetpos(stderr, &pos);
 		}
 	else
 		{

@@ -108,12 +108,10 @@ void removeDeleted(void)
 								{
 									sprintf((char*)&filepath,"rm \"%s\"",dbfile);
 									system(filepath);
-									//printf("%s\n",filepath);
 									thumbnail=g_key_file_get_string(keyfile,"Data","Thumbnail",NULL);
 									sprintf((char*)&filepath,"rm \"%s\"",thumbnail);
 									g_free(thumbnail);
 									system(filepath);
-									//printf("%s\n",filepath);
 								}
 						}
 					g_free(dbfile);
