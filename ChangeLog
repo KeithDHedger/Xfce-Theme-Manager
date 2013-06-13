@@ -20,6 +20,8 @@ Changelog:
 0.3.0	Added command line options to list/set themes etc.
 	Bug fix for drag 'n' drop filenames with spaces.
 	Bug fix for drag 'n' drop zip files.
+	Auto update  DB on startup if needed.
+	Change to autotools project.
 
 0.2.4	re-arranged GUI to be more in keeping with Xfce settings panels ( thanks to Moatib for that ).
 	Dropping multiple archives to install now only shows one confirmation ( so only one click not many needed ).
