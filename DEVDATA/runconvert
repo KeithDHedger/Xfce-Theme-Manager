@@ -1,0 +1,6 @@
+#!/bin/bash -e
+
+#©keithhedger Thu 13 Jun 19:22:23 BST 2013 kdhedger68713@gmail.com
+
+./sedconvert.sh ./xfce-theme-manager.1> ../Xfce-Theme-Manager/resources/man/xfce-theme-manager.1
+man ../Xfce-Theme-Manager/resources/man/xfce-theme-manager.1
