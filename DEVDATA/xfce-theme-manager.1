@@ -1,0 +1,157 @@
+[TITLE] "XFCE-THEME-MANAGER" "1" "0.3.0" "K.D.Hedger" ""
+[SECTION] NAME
+xfce-theme-manager - A theme manager for Xfce
+[SECTION] SYNOPSIS
+[BOLD] xfce-theme-manager
+[-r] [-u]
+
+-r Force a make of all the thumbnails for meta-themes/frames/controls/cursors and icons.
+
+-u Update the DB removing deleted theme parts and adding added theme parts. 
+[SECTION] DESCRIPTION
+This manual page documents briefly
+[BOLD] xfce-theme-manager.
+
+xfce-theme-manager is a theme manager allowing easy configuration of themes, window borders, controls, icons, backdrops, cursors etcetera for Xfce4.
+[SECTION] OPERATION
+When xfce-theme-manager starts, the user can do any of the following
+
+
+[BOLD] [Reset Theme]
+
+Discard all changes.
+
+
+[BOLD] [Save Theme]
+
+Enter a custom theme name to save/delete, you can also quickly delete a custom
+theme by control-clicking a custom theme thumbnail.
+
+
+[BOLD] [About]
+
+Credits and stuff.
+
+
+[BOLD] [Advanced Tab]
+
+
+[BOLD] [Rebuild DB]
+
+Rebuild the database.
+
+
+[BOLD] [Xfce-Composite-Editor]
+
+Run the composite editor (if installed).
+
+Available here:
+
+http://keithhedger.hostingsiteforfree.com/zips/Xfce4-Composite-Editor.ta r.gz
+
+You need to have gtkdialog version 0.8.x and BASH installed To run the Composite Editor.
+
+
+[BOLD] [Backdrop Adjustments]
+
+Set Brightness/Saturation of the wallpaper.
+
+
+[BOLD] [Button Layout]
+
+The layout of close, maximize etc. (some themes may overide this).
+
+
+[BOLD] [Title Position]
+
+Placement of the window title, (some themes may overide this).
+
+
+[BOLD] [Font Selection]
+
+Title bar/application font.
+
+
+[BOLD] [Cursor Size]
+
+Set the cursor size if the cursor theme suports it, some do some don't.
+
+
+[BOLD] [View Options]
+
+[BOLD] [Show system Themes]
+
+Show globally installed theme parts.
+
+
+[BOLD] [Only show Custom Themes]
+
+Only shows meta themes that you have created, auto generated meta themes
+are not shown.
+
+
+[BOLD] [Themes]
+
+Show globally installed meta themes.
+
+
+[BOLD] [Window Borders]
+
+Show globally installed Xwm4 themes.
+
+
+[BOLD] [Controls]
+
+Show globally installed Gtk themes.
+
+
+[BOLD] [Icons]
+
+Show globally installed icon themes.
+
+
+[BOLD] [Cursors]
+
+Show globally installed mouse themes.
+
+
+[BOLD] [Wallpapers]
+
+Show globally installed wallpapers.
+
+
+Locally installed themes parts are always shown except for meta themes if the
+[BOLD] [Only show Custom Themes]
+is checked.
+
+You can quickly delete a custom theme by holding control and clicking on the
+thumbnail, only custom themes you have created can be deleted and only 
+the database entry is removed nothing is uninstalled from your system.
+
+To install a theme/gtk/icon/cursor/border/wallpaper just drag and drop 
+the archive (wallpapers should not be archived) anywhere on the main window
+and if posible the theme etc will be installed into the correct place, 
+all installations are local, supported archive types are: "*.tgz","*.gz","*.zip","*.tar","*.bz2", supported wallpaper types are: "*.jpg","*.png","*.bmp","*.gif"
+anything else you will have to install yourself.
+
+
+You must have unzip installed to drag 'n' drop .zip files.
+
+
+The thumbnails are stored in ${HOME}/.config/XfceThemeManager.
+
+
+The DB is updated automatically on drag'n'drop, if you do a lot of adding and
+removing of themes/icons etc you may want to run Re-build DB from 
+the advanced tab.
+
+
+Meta Themes are themes that contain a gtk2 folder and an xfwm4 folder (ie window frames and controls), if there is a gnome-like "theme.index" file that also specifies an icon set this will be used as well.
+
+[SECTION]  AUTHOR
+[BOLD] Xfce-Theme-Manager
+was written by Keith Hedger
+ 
+This manual page was written by Eduardo Echeverria <echevemaster@gmail.com>,
+for the Fedora project (and may be used by others), Amended by Keith Hedger, Translated by Pablo Morales Romero <pg.morales.romero@gmail.com> (Spanish), Martin F. Schumann. <mfs@mfs.name> (German)
+
