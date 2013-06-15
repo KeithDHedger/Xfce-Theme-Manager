@@ -215,12 +215,19 @@ struct panelData
 
 //panels
 extern GtkWidget*		panelSelect;
-extern GtkWidget*		panelImagePathWidget;
 extern GtkWidget*		panelStyleWidget;
 extern GtkWidget*		panelSizeWidget;
 extern panelData*		panels[10];
+
+extern GtkWidget*		panelImagePathWidget;
 extern GtkWidget*		panelAlphaWidget;
 extern GtkWidget*		panelColourWidget;
+
+extern GtkWidget*		panelImageBox;
+extern GtkWidget*		panelColourBox;
+extern GtkWidget*		panelAlphaBox;
+
+
 
 extern int			controlHeight;
 extern int			controlWidth;

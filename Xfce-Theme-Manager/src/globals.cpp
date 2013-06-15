@@ -87,11 +87,18 @@ GtkWidget*		onlyCustomCheck;
 
 //panels
 GtkWidget*		panelSelect;
-GtkWidget*		panelImagePathWidget;
 GtkWidget*		panelStyleWidget;
 GtkWidget*		panelSizeWidget;
+
+GtkWidget*		panelImageBox;
+GtkWidget*		panelColourBox;
+GtkWidget*		panelAlphaBox;
+
 GtkWidget*		panelAlphaWidget;
 GtkWidget*		panelColourWidget;
+GtkWidget*		panelImagePathWidget;
+
+//GtkWidget*		panelBox;
 
 panelData*		panels[10];
 

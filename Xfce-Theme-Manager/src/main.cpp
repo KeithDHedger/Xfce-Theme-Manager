@@ -823,6 +823,8 @@ int main(int argc,char **argv)
 			watchCursor=gdk_cursor_new(GDK_WATCH);
 
 			g_signal_connect(G_OBJECT(notebook),"switch-page",G_CALLBACK(doChangePage),NULL);
+
+
 			gtk_main();
 
 			fflush(stderr);

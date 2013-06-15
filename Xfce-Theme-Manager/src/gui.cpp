@@ -58,6 +58,7 @@
 
 bool			addView=true;
 GtkListStore*	store;
+int				numofpanels=2;
 
 bool isCurrent(char* themename,const char* catagory,char* name)
 {
@@ -411,13 +412,38 @@ void buildPages(void)
 	scrollToCurrent(WALLPAPERS);
 }
 
+void selectPanelStyle(GtkWidget* widget,gpointer data)
+{
+	int style;
+	style=gtk_combo_box_get_active((GtkComboBox*)widget);
+
+	switch(style)
+		{
+			case 0:
+				gtk_widget_set_sensitive(panelImageBox,false);
+				gtk_widget_set_sensitive(panelColourBox,false);
+				gtk_widget_set_sensitive(panelAlphaBox,true);
+				break;
+			case 1:
+				gtk_widget_set_sensitive(panelImageBox,false);
+				gtk_widget_set_sensitive(panelColourBox,true);
+				gtk_widget_set_sensitive(panelAlphaBox,true);
+				break;
+			case 2:
+				gtk_widget_set_sensitive(panelColourBox,false);
+				gtk_widget_set_sensitive(panelAlphaBox,false);
+				gtk_widget_set_sensitive(panelImageBox,true);
+				break;
+		}
+
+}
+
 void buildAdvancedGui(GtkWidget* advancedScrollBox)
 {
 	GtkWidget*	advancedVbox;
 	GtkWidget*	advancedHbox;
 	GtkWidget*	advancedRange;
 	GtkWidget*	button;
-	GtkWidget*	vbox;
 
 	advancedVbox=gtk_vbox_new(FALSE,0);
 
@@ -443,7 +469,6 @@ void buildAdvancedGui(GtkWidget* advancedScrollBox)
 		}
 
 //panels
-	int numofpanels=2;
 
 	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_label_new(_translate(PANELS)),false,false,2);
 //panel select
@@ -470,33 +495,40 @@ void buildAdvancedGui(GtkWidget* advancedScrollBox)
 	gtk_combo_box_text_append_text((GtkComboBoxText*)panelStyleWidget,_translate(PANELSYS));
 	gtk_combo_box_text_append_text((GtkComboBoxText*)panelStyleWidget,_translate(PANELIMAGE));
 	gtk_combo_box_set_active((GtkComboBox*)panelStyleWidget,0);
+	g_signal_connect(G_OBJECT(panelStyleWidget),"changed",G_CALLBACK(selectPanelStyle),NULL);
+
 	gtk_box_pack_start(GTK_BOX(advancedHbox),gtk_label_new(_translate(PANELSTYLE)),false,false,4);
 	gtk_box_pack_start(GTK_BOX(advancedHbox),panelStyleWidget,true,true,4);
 	gtk_box_pack_start(GTK_BOX(advancedVbox),advancedHbox,false,false,4);
+
 //panel image
-	advancedHbox=gtk_hbox_new(false,4);
+	panelImageBox=gtk_hbox_new(false,4);
 	panelImagePathWidget=gtk_file_chooser_button_new("some image",GTK_FILE_CHOOSER_ACTION_OPEN);
 	gtk_file_chooser_set_filename((GtkFileChooser*)panelImagePathWidget,"/media/LinuxData/Development/Projects/Xfce-Theme-Manager/Xfce-Theme-Manager/resources/pixmaps/xfce-theme-manager.png");
-	gtk_box_pack_start(GTK_BOX(advancedHbox),gtk_label_new(_translate(PANELFILE)),false,false,4);
-	gtk_box_pack_start(GTK_BOX(advancedHbox),panelImagePathWidget,true,true,4);
-	gtk_box_pack_start(GTK_BOX(advancedVbox),advancedHbox,false,false,4);
-//panel colour and alpha
-	advancedHbox=gtk_hbox_new(false,4);
-	vbox=gtk_vbox_new(false,4);
-	gtk_box_pack_start(GTK_BOX(advancedHbox),gtk_label_new(_translate(PANELALPHA)),false,false,4);
+	gtk_box_pack_start(GTK_BOX(panelImageBox),gtk_label_new(_translate(PANELFILE)),false,false,4);
+	gtk_box_pack_start(GTK_BOX(panelImageBox),panelImagePathWidget,true,true,4);
+	gtk_box_pack_start(GTK_BOX(advancedVbox),panelImageBox,false,false,4);
+
+//panel alpha
+	panelAlphaBox=gtk_hbox_new(false,4);
+	gtk_box_pack_start(GTK_BOX(panelAlphaBox),gtk_label_new(_translate(PANELALPHA)),false,false,4);
 	panelAlphaWidget=gtk_hscale_new_with_range(0,100,1);
 	gtk_scale_set_value_pos((GtkScale*)panelAlphaWidget,GTK_POS_LEFT);
 	gtk_range_set_value((GtkRange*)panelAlphaWidget,50);
-	gtk_box_pack_start(GTK_BOX(advancedHbox),panelAlphaWidget,true,true,4);
-	gtk_box_pack_start(GTK_BOX(vbox),advancedHbox,false,false,4);
-//colour
-	advancedHbox=gtk_hbox_new(false,4);
-	panelColourWidget=gtk_color_button_new();
-	gtk_box_pack_start(GTK_BOX(advancedHbox),gtk_label_new(_translate(PANELCOLOUR)),false,false,4);
-	gtk_box_pack_start(GTK_BOX(advancedHbox),panelColourWidget,false,false,4);
-	gtk_box_pack_start(GTK_BOX(vbox),advancedHbox,false,false,4);
+	gtk_box_pack_start(GTK_BOX(panelAlphaBox),panelAlphaWidget,true,true,4);
+	gtk_box_pack_start(GTK_BOX(advancedVbox),panelAlphaBox,false,false,4);
 
-	gtk_box_pack_start(GTK_BOX(advancedVbox),vbox,false,false,4);
+//colour
+	panelColourBox=gtk_hbox_new(false,4);
+	panelColourWidget=gtk_color_button_new();
+	gtk_box_pack_start(GTK_BOX(panelColourBox),gtk_label_new(_translate(PANELCOLOUR)),false,false,4);
+	gtk_box_pack_start(GTK_BOX(panelColourBox),panelColourWidget,false,false,4);
+	gtk_box_pack_start(GTK_BOX(advancedVbox),panelColourBox,false,false,4);
+
+	gtk_widget_set_sensitive(panelImageBox,false);
+	gtk_widget_set_sensitive(panelColourBox,false);
+	gtk_widget_set_sensitive(panelAlphaBox,true);
+
 	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_hseparator_new(),false,false,4);
 
 //back drop aadj
@@ -659,5 +691,6 @@ void buildAdvancedGui(GtkWidget* advancedScrollBox)
 	gtk_box_pack_start(GTK_BOX(advancedHbox),cursorsCheck,true,true,0);
 	gtk_box_pack_start(GTK_BOX(advancedHbox),paperCheck,true,true,0);
 	gtk_box_pack_start(GTK_BOX(advancedVbox),advancedHbox,false,false,2);
+
 }
 
