@@ -440,6 +440,50 @@ void buildAdvancedGui(GtkWidget* advancedScrollBox)
 			gtk_box_pack_start(GTK_BOX(advancedVbox),advancedHbox,false,false,8);
 			gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_hseparator_new(),false,false,4);
 		}
+
+//panels
+	int numofpanels=2;
+
+	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_label_new(_translate(PANELS)),false,false,2);
+//panel select
+	panelSelect=gtk_combo_box_text_new();
+	gtk_combo_box_text_append_text((GtkComboBoxText*)panelSelect,"Panel 1");
+	gtk_combo_box_text_append_text((GtkComboBoxText*)panelSelect,"Panel 2");
+	gtk_combo_box_set_active((GtkComboBox*)panelSelect,0);
+	advancedHbox=gtk_hbox_new(true,4);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),panelSelect,true,true,4);
+	gtk_box_pack_start(GTK_BOX(advancedVbox),advancedHbox,true,false,4);
+
+//panel size
+	advancedHbox=gtk_hbox_new(false,4);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),gtk_label_new(_translate(PANELSIZE)),false,false,4);
+	panelSizeWidget=gtk_hscale_new_with_range(16,128,1);
+	gtk_scale_set_value_pos((GtkScale*)panelSizeWidget,GTK_POS_LEFT);
+	gtk_range_set_value((GtkRange*)panelSizeWidget,32);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),panelSizeWidget,true,true,4);
+	gtk_box_pack_start(GTK_BOX(advancedVbox),advancedHbox,false,false,4);
+//panel style
+	advancedHbox=gtk_hbox_new(false,4);
+	panelStyleWidget=gtk_combo_box_text_new();
+	gtk_combo_box_text_append_text((GtkComboBoxText*)panelStyleWidget,_translate(PANELNONE));
+	gtk_combo_box_text_append_text((GtkComboBoxText*)panelStyleWidget,_translate(PANELSYS));
+	gtk_combo_box_text_append_text((GtkComboBoxText*)panelStyleWidget,_translate(PANELIMAGE));
+	gtk_combo_box_set_active((GtkComboBox*)panelStyleWidget,0);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),gtk_label_new(_translate(PANELSTYLE)),false,false,4);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),panelStyleWidget,true,true,4);
+	gtk_box_pack_start(GTK_BOX(advancedVbox),advancedHbox,false,false,4);
+//panel image
+	advancedHbox=gtk_hbox_new(false,4);
+	panelImagePathWidget=gtk_file_chooser_button_new("some image",GTK_FILE_CHOOSER_ACTION_OPEN);
+	gtk_file_chooser_set_filename((GtkFileChooser*)panelImagePathWidget,"/media/LinuxData/Development/Projects/Xfce-Theme-Manager/Xfce-Theme-Manager/resources/pixmaps/xfce-theme-manager.png");
+	gtk_box_pack_start(GTK_BOX(advancedHbox),gtk_label_new(_translate(PANELFILE)),false,false,4);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),panelImagePathWidget,true,true,4);
+	gtk_box_pack_start(GTK_BOX(advancedVbox),advancedHbox,false,false,4);
+//panel colo and alpha
+	advancedHbox=gtk_hbox_new(false,4);
+
+	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_hseparator_new(),false,false,4);
+
 //back drop aadj
 	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_label_new(_translate(BACKDROPADJ)),false,false,2);
 	advancedHbox=gtk_hbox_new(false,0);

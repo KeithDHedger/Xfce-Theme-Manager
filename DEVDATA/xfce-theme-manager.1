@@ -3,11 +3,8 @@
 xfce-theme-manager - A theme manager for Xfce
 [SECTION] SYNOPSIS
 [BOLD] xfce-theme-manager
-[-r] [-u]
+[option.1] ... [option.N]
 
--r Force a make of all the thumbnails for meta-themes/frames/controls/cursors and icons.
-
--u Update the DB removing deleted theme parts and adding added theme parts. 
 [SECTION] DESCRIPTION
 This manual page documents briefly
 [BOLD] xfce-theme-manager.
@@ -147,6 +144,73 @@ the advanced tab.
 
 
 Meta Themes are themes that contain a gtk2 folder and an xfwm4 folder (ie window frames and controls), if there is a gnome-like "theme.index" file that also specifies an icon set this will be used as well.
+
+[SECTION] COMMAND LINE OPTIONS
+-v, --version
+
+	Print version info and quit.
+
+
+-u, --update-db
+
+	Update the database.
+
+
+-r, --build-db
+
+	Re-build the database.
+
+
+-n, --nogui
+
+	Don't run the GUI.
+
+
+-t, --theme=ARG
+
+	Set the meta-theme to ARG.
+
+
+-c, --controls=ARG
+
+	Set the controls theme to ARG.
+
+
+-w, --wmborder=ARG
+
+	Set the window border to ARG.
+
+
+-i, --icons=ARG
+
+	Set the icon theme to ARG.
+
+
+-p, --cursors=ARG
+
+	Set the cursor theme to ARG.
+
+
+-b, --backdrop=ARG
+
+	Set wallpaper to ARG.
+
+
+-l, --list=ARG
+
+	List DB entry's, where ARG = any of "*Ctwcib".
+
+
+	Where 'C' prints custom themes, 't' prints themes, 'w' prints window borders, 'c' prints controls 'i' prints icons and 'b' prints backdrops.
+	If the first/only character is a '*' then all entry's are printed.
+
+
+-?, --help
+
+	Print help.
+
+
+Options tcwipblvh? all imply -n.
 
 [SECTION]  AUTHOR
 [BOLD] Xfce-Theme-Manager

@@ -512,7 +512,7 @@ void doAbout(GtkWidget* widget,gpointer data)
 void printhelp(void)
 {
 	printf("Xfce-Theme-Manager, version %s\n",VERSION);
-	printf("Usage: xfce-theme-manager [OPTION]...\n");
+	printf("Usage: xfce-theme-manager [option.1] ... [option.N]\n");
 	printf("OPTION			Usage\n\n");
 	printf("-v, --version		Print version info and quit\n");
 	printf("-u, --update-db		Update the database\n");
@@ -530,7 +530,7 @@ void printhelp(void)
 	printf("			'i' prints icons and 'b' prints backdrops.\n");
 	printf("			If the first/only character is a '*' then all entry's are printed.\n");
 	printf("-?, --help=ARG		This help\n");
-	printf("\n-tcwipblvh? all imply -n\n");
+	printf("\nOptions tcwipblvh? all imply -n\n");
 }
 
 struct option long_options[]=
@@ -562,6 +562,18 @@ int main(int argc,char **argv)
 	int			c;
 	int			fd;
 	fpos_t		pos;
+
+
+//panelData*	pd[10];
+//
+//pd[0]=(panelData*)malloc(sizeof(panelData));
+//pd[0]->imagePath="gdfhkgjf";
+//pd[0]->style=23;
+//pd[0]->size=101;
+//
+//
+//printf("XXXX%s xx %i xx %i xx\n",pd[0]->imagePath,pd[0]->style,pd[0]->size);
+//return 0;
 
 	while (1)
 		{
