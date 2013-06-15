@@ -417,6 +417,7 @@ void buildAdvancedGui(GtkWidget* advancedScrollBox)
 	GtkWidget*	advancedHbox;
 	GtkWidget*	advancedRange;
 	GtkWidget*	button;
+	GtkWidget*	vbox;
 
 	advancedVbox=gtk_vbox_new(FALSE,0);
 
@@ -479,9 +480,23 @@ void buildAdvancedGui(GtkWidget* advancedScrollBox)
 	gtk_box_pack_start(GTK_BOX(advancedHbox),gtk_label_new(_translate(PANELFILE)),false,false,4);
 	gtk_box_pack_start(GTK_BOX(advancedHbox),panelImagePathWidget,true,true,4);
 	gtk_box_pack_start(GTK_BOX(advancedVbox),advancedHbox,false,false,4);
-//panel colo and alpha
+//panel colour and alpha
 	advancedHbox=gtk_hbox_new(false,4);
+	vbox=gtk_vbox_new(false,4);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),gtk_label_new(_translate(PANELALPHA)),false,false,4);
+	panelAlphaWidget=gtk_hscale_new_with_range(0,100,1);
+	gtk_scale_set_value_pos((GtkScale*)panelAlphaWidget,GTK_POS_LEFT);
+	gtk_range_set_value((GtkRange*)panelAlphaWidget,50);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),panelAlphaWidget,true,true,4);
+	gtk_box_pack_start(GTK_BOX(vbox),advancedHbox,false,false,4);
+//colour
+	advancedHbox=gtk_hbox_new(false,4);
+	panelColourWidget=gtk_color_button_new();
+	gtk_box_pack_start(GTK_BOX(advancedHbox),gtk_label_new(_translate(PANELCOLOUR)),false,false,4);
+	gtk_box_pack_start(GTK_BOX(advancedHbox),panelColourWidget,false,false,4);
+	gtk_box_pack_start(GTK_BOX(vbox),advancedHbox,false,false,4);
 
+	gtk_box_pack_start(GTK_BOX(advancedVbox),vbox,false,false,4);
 	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_hseparator_new(),false,false,4);
 
 //back drop aadj
