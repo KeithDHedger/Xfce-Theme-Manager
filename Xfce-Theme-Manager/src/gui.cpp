@@ -58,7 +58,28 @@
 
 bool			addView=true;
 GtkListStore*	store;
-int				numofpanels=2;
+int				numofpanels=-1;
+
+void populatePanels(void)
+{
+	FILE*	fp;
+	char	buffer[256];
+
+	fp=popen("xfconf-query  array -c xfce4-panel -p /panels","r");
+	while(fgets(buffer,256,fp));
+	numofpanels=atoi(buffer);
+	pclose(fp);
+
+	for(int j=0;j<numofpanels;j++)
+		{
+			panels[j]=(panelData*)malloc(sizeof(panelData));
+			fp=popen("XMGETPANELSTYLE(j)","r");
+			fgets(buffer,256,fp);
+			
+			printf("xxx%sxxx\n",buffer);
+//			printf("%s\n",XMGETPANELSTYLE(j));
+		}
+}
 
 bool isCurrent(char* themename,const char* catagory,char* name)
 {
@@ -469,7 +490,7 @@ void buildAdvancedGui(GtkWidget* advancedScrollBox)
 		}
 
 //panels
-
+	populatePanels();
 	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_label_new(_translate(PANELS)),false,false,2);
 //panel select
 	panelSelect=gtk_combo_box_text_new();

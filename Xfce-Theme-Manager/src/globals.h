@@ -104,6 +104,7 @@
 #define XMTSETHASH "xfconf-query -nt string -c xfcethemer -p /ThemesHash -s "
 #define XMTGETHASH "xfconf-query -c xfcethemer -p /ThemesHash"
 
+#define XMGETPANELSTYLE(x) "xfconf-query array -c xfce4-panel -p /panels/panel-X/background-style"x
 #define _translate(x) langStr[langID][x]
 
 enum {ENGLISH=0,SPANISH,GERMAN};
