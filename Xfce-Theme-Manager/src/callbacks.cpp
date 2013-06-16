@@ -302,6 +302,12 @@ else
 						{
 							sprintf(filedata,"%sPanel=%i\n",filedata,panels[j]->panelNumber);
 							sprintf(filedata,"%sPanelImage=%s\n",filedata,panels[j]->imagePath);
+							sprintf(filedata,"%sPanelStyle=%i\n",filedata,panels[j]->style);
+							sprintf(filedata,"%sPanelSize=%i\n",filedata,panels[j]->size);
+							sprintf(filedata,"%sPanelAlpha=%i\n",filedata,panels[j]->alpha);
+							sprintf(filedata,"%sPanelRed=%i\n",filedata,panels[j]->red);
+							sprintf(filedata,"%sPanelGreen=%i\n",filedata,panels[j]->green);
+							sprintf(filedata,"%sPanelBlue=%i\n",filedata,panels[j]->blue);
 						}
 					fprintf(fd,"%s\n",filedata);
 					fclose(fd);

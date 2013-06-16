@@ -216,11 +216,6 @@ struct panelData
 	int		alpha;
 	int		panelNumber;
 };
-//guint32 pixel;
-//  guint16 red;
-//  guint16 green;
-//  guint16 blue;
-//typedef panelData* panelDataPtr;
 
 //panels
 extern GtkWidget*		panelSelect;
