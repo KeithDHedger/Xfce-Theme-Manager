@@ -296,8 +296,8 @@ else
 					buildCustomDB(XCONFGETBRIGHT,"BackdropBright");
 					buildCustomDB(XCONFGETSATU,"BackdropSatu");
 					buildCustomDB(XCONFGETCURSORSIZE,"CursorSize");
-				//	sprintf(filedata,"%s%s=%s\n",filedata,key,stdout);
 //panel stuff
+					sprintf(filedata,"%s[Panels]\n",filedata);
 					for(int j=0;j<numOfPanels;j++)
 						{
 							sprintf(filedata,"%sPanel=%i\n",filedata,panels[j]->panelNumber);
@@ -664,6 +664,7 @@ void doMeta(char* metaFilename,bool update)
 					keydata=g_key_file_get_string(keyfile,"Data",(char*)keys[j],NULL);
 					if(keydata!=NULL)
 						{
+							printf("XXXXXXX%sZZZZZZZ\n",keydata);
 							if(update==true)
 								{
 									switch (j)
