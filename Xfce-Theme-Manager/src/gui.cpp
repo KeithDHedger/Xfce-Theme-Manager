@@ -58,7 +58,111 @@
 
 bool			addView=true;
 GtkListStore*	store;
-int				numofpanels=-1;
+
+int				currentPanel=1;
+bool			panelChanging=false;
+
+void setPanelData(void)
+{
+	panelData*	panel;
+	GdkColor	colour;
+	char		buffer[1024];
+//	int			data;
+
+	if(panelChanging==false)
+		{
+			panel=panels[currentPanel];
+//style
+			panel->style=gtk_combo_box_get_active((GtkComboBox*)panelStyleWidget);
+			sprintf((char*)&buffer,"xfconf-query -nt int -c xfce4-panel -p /panels/panel-%i/background-style -s %i",panel->panelNumber,panel->style);
+			system(buffer);
+//size
+			panel->size=gtk_range_get_value((GtkRange*)panelSizeWidget);
+			sprintf((char*)&buffer,"xfconf-query -nt int -c xfce4-panel -p /panels/panel-%i/size -s %i",panel->panelNumber,panel->size);
+			system(buffer);
+//image
+			panel->imagePath=gtk_file_chooser_get_filename((GtkFileChooser*)panelImagePathWidget);
+			sprintf((char*)&buffer,"xfconf-query -nt string -c xfce4-panel -p /panels/panel-%i/background-image -s %s",panel->panelNumber,panel->imagePath);
+			system(buffer);
+//alpha
+			panel->alpha=gtk_range_get_value((GtkRange*)panelAlphaWidget);
+			sprintf((char*)&buffer,"xfconf-query -nt int -c xfce4-panel -p /panels/panel-%i/background-alpha -s %i",panel->panelNumber,panel->alpha);
+			system(buffer);
+//colour
+			gtk_color_button_get_color((GtkColorButton*)panelColourWidget,&colour);
+			panel->red=colour.red;
+			panel->green=colour.green;
+			panel->blue=colour.blue;
+			sprintf((char*)&buffer,"xfconf-query array -c xfce4-panel -p /panels/panel-%i/background-color -t uint -t uint -t uint -t uint -s %i -s %i -s %i -s %i",panel->panelNumber,panel->red,panel->green,panel->blue,65535);
+			system(buffer);
+
+			printf("%s\n",buffer);
+		}
+}
+
+gboolean panelSizeCallback(GtkWidget *widget,GdkEvent *event,gpointer user_data)
+{
+	setPanelData();
+	return(false);
+}
+
+void commnonPanelCallback(GtkWidget* widget,gpointer data)
+{
+	setPanelData();
+}
+
+void selectPanelStyle(GtkWidget* widget,gpointer data)
+{
+	int style;
+	panelData*	panel=panels[currentPanel];
+	style=gtk_combo_box_get_active((GtkComboBox*)widget);
+
+	switch(style)
+		{
+			case 0:
+				gtk_widget_set_sensitive(panelImageBox,false);
+				gtk_widget_set_sensitive(panelColourBox,false);
+				gtk_widget_set_sensitive(panelAlphaBox,true);
+				break;
+			case 1:
+				gtk_widget_set_sensitive(panelImageBox,false);
+				gtk_widget_set_sensitive(panelColourBox,true);
+				gtk_widget_set_sensitive(panelAlphaBox,true);
+				break;
+			case 2:
+				gtk_widget_set_sensitive(panelColourBox,false);
+				gtk_widget_set_sensitive(panelAlphaBox,false);
+				gtk_widget_set_sensitive(panelImageBox,true);
+				break;
+		}
+
+	setPanelData();
+}
+
+void selectPanel(GtkComboBox *widget, gpointer user_data)
+{
+	panelData*	panel;
+	GdkColor	colour;
+
+	panelChanging=true;
+	currentPanel=gtk_combo_box_get_active((GtkComboBox*)panelSelect);
+
+	panel=panels[currentPanel];
+
+	gtk_combo_box_set_active((GtkComboBox*)panelStyleWidget,panel->style);
+	gtk_file_chooser_set_filename((GtkFileChooser*)panelImagePathWidget,panel->imagePath);
+	gtk_range_set_value((GtkRange*)panelSizeWidget,panel->size);
+
+	colour.red=panel->red;
+	colour.green=panel->green;
+	colour.blue=panel->blue;
+	gtk_color_button_set_color((GtkColorButton*)panelColourWidget,&colour);
+
+	gtk_range_set_value((GtkRange*)panelAlphaWidget,panel->alpha);
+
+	selectPanelStyle(panelStyleWidget,NULL);
+	panelChanging=false;
+}
 
 void setPanelColour(GtkColorButton *widget, gpointer user_data)
 {
@@ -70,6 +174,7 @@ void setPanelColour(GtkColorButton *widget, gpointer user_data)
 	panels[panelnum]->red=colour.red;
 	panels[panelnum]->green=colour.green;
 	panels[panelnum]->blue=colour.blue;
+	setPanelData();
 }
                                                         
 void populatePanels(void)
@@ -77,33 +182,85 @@ void populatePanels(void)
 	FILE*	fp;
 	char	buffer[1024];
 	char	command[1024];
+	int		panelnums[10];
+	int		cnt=0;
 
 	fp=popen("xfconf-query  array -c xfce4-panel -p /panels","r");
-	while(fgets(buffer,256,fp));
-	numofpanels=atoi(buffer);
+	fgets(buffer,256,fp);
+	fgets(buffer,256,fp);
+	while(fgets(buffer,256,fp))
+		{
+			panelnums[cnt]=atoi(buffer);
+			cnt++;
+		}
+
+	numOfPanels=cnt;
 	pclose(fp);
 
-	for(int j=0;j<numofpanels;j++)
+	for(int j=0;j<numOfPanels;j++)
 		{
+			buffer[0]=0;
 			panels[j]=(panelData*)malloc(sizeof(panelData));
-			sprintf((char*)&command,"xfconf-query  array -c xfce4-panel -p /panels/panel-%i/background-style",j);
-			fp=popen(command,"r");
-			fgets(buffer,1024,fp);
-			pclose(fp);
-			panels[j]->style=atoi(buffer);
-			sprintf((char*)&command,"xfconf-query  array -c xfce4-panel -p /panels/panel-%i/size",j);
-			fp=popen(command,"r");
-			fgets(buffer,1024,fp);
-			pclose(fp);
-			panels[j]->size=atoi(buffer);
-			sprintf((char*)&command,"xfconf-query  array -c xfce4-panel -p /panels/panel-%i/background-image",j);
-			fp=popen(command,"r");
-			fgets(buffer,1024,fp);
-			pclose(fp);
-			panels[j]->imagePath=strdup(buffer);
+			panels[j]->style=0;
+			panels[j]->size=48;
+			panels[j]->imagePath=(char*)"";
+			panels[j]->red=56540;
+			panels[j]->green=56026;
+			panels[j]->blue=54741;
+			panels[j]->alpha=100;
 
-			printf("xxx%sxxx\n",buffer);
+			sprintf((char*)&command,"xfconf-query  array -c xfce4-panel -p /panels/panel-%i/background-style 2>/dev/null",panelnums[j]);
+			fp=popen(command,"r");
+			fgets(buffer,1024,fp);
+			pclose(fp);
+			if(strlen(buffer)>0)
+				panels[j]->style=atoi(buffer);
 
+			buffer[0]=0;
+			sprintf((char*)&command,"xfconf-query  array -c xfce4-panel -p /panels/panel-%i/size 2>/dev/null",panelnums[j]);
+			fp=popen(command,"r");
+			fgets(buffer,1024,fp);
+			pclose(fp);
+			if(strlen(buffer)>0)
+				panels[j]->size=atoi(buffer);
+
+			buffer[0]=0;
+			sprintf((char*)&command,"xfconf-query  array -c xfce4-panel -p /panels/panel-%i/background-image 2>/dev/null",panelnums[j]);
+			fp=popen(command,"r");
+			fgets(buffer,1024,fp);
+			pclose(fp);
+			if(strlen(buffer)>0)
+				{
+					buffer[strlen(buffer)-1]=0;
+					panels[j]->imagePath=strdup(buffer);
+				}
+
+			buffer[0]=0;
+			sprintf((char*)&command,"xfconf-query  array -c xfce4-panel -p /panels/panel-%i/background-color 2>/dev/null",panelnums[j]);
+			fp=popen(command,"r");
+			fgets(buffer,1024,fp);
+			if(strlen(buffer)>0)
+				{
+					fgets(buffer,1024,fp);
+
+					fgets(buffer,1024,fp);
+					panels[j]->red=atoi(buffer);
+					fgets(buffer,1024,fp);
+					panels[j]->green=atoi(buffer);
+					fgets(buffer,1024,fp);
+					panels[j]->blue=atoi(buffer);
+				}
+			pclose(fp);
+
+			buffer[0]=0;
+			sprintf((char*)&command,"xfconf-query  array -c xfce4-panel -p /panels/panel-%i/background-alpha 2>/dev/null",panelnums[j]);
+			fp=popen(command,"r");
+			fgets(buffer,1024,fp);
+			pclose(fp);
+			if(strlen(buffer)>0)
+				panels[j]->alpha=atoi(buffer);
+
+			panels[j]->panelNumber=panelnums[j];
 		}
 }
 
@@ -459,38 +616,13 @@ void buildPages(void)
 	scrollToCurrent(WALLPAPERS);
 }
 
-void selectPanelStyle(GtkWidget* widget,gpointer data)
-{
-	int style;
-	style=gtk_combo_box_get_active((GtkComboBox*)widget);
-
-	switch(style)
-		{
-			case 0:
-				gtk_widget_set_sensitive(panelImageBox,false);
-				gtk_widget_set_sensitive(panelColourBox,false);
-				gtk_widget_set_sensitive(panelAlphaBox,true);
-				break;
-			case 1:
-				gtk_widget_set_sensitive(panelImageBox,false);
-				gtk_widget_set_sensitive(panelColourBox,true);
-				gtk_widget_set_sensitive(panelAlphaBox,true);
-				break;
-			case 2:
-				gtk_widget_set_sensitive(panelColourBox,false);
-				gtk_widget_set_sensitive(panelAlphaBox,false);
-				gtk_widget_set_sensitive(panelImageBox,true);
-				break;
-		}
-
-}
-
 void buildAdvancedGui(GtkWidget* advancedScrollBox)
 {
 	GtkWidget*	advancedVbox;
 	GtkWidget*	advancedHbox;
 	GtkWidget*	advancedRange;
 	GtkWidget*	button;
+	char		buffer[32];
 
 	advancedVbox=gtk_vbox_new(FALSE,0);
 
@@ -520,19 +652,24 @@ void buildAdvancedGui(GtkWidget* advancedScrollBox)
 	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_label_new(_translate(PANELS)),false,false,2);
 //panel select
 	panelSelect=gtk_combo_box_text_new();
-	gtk_combo_box_text_append_text((GtkComboBoxText*)panelSelect,"Panel 1");
-	gtk_combo_box_text_append_text((GtkComboBoxText*)panelSelect,"Panel 2");
+	for(int j=0;j<numOfPanels;j++)
+		{
+			sprintf((char*)&buffer,"Panel %i",((panelData*)panels[j])->panelNumber);
+			gtk_combo_box_text_append_text((GtkComboBoxText*)panelSelect,buffer);
+		}
+
 	gtk_combo_box_set_active((GtkComboBox*)panelSelect,0);
 	advancedHbox=gtk_hbox_new(true,4);
 	gtk_box_pack_start(GTK_BOX(advancedHbox),panelSelect,true,true,4);
 	gtk_box_pack_start(GTK_BOX(advancedVbox),advancedHbox,true,false,4);
+	g_signal_connect(G_OBJECT(panelSelect),"changed",G_CALLBACK(selectPanel),NULL);
 
 //panel size
 	advancedHbox=gtk_hbox_new(false,4);
 	gtk_box_pack_start(GTK_BOX(advancedHbox),gtk_label_new(_translate(PANELSIZE)),false,false,4);
 	panelSizeWidget=gtk_hscale_new_with_range(16,128,1);
 	gtk_scale_set_value_pos((GtkScale*)panelSizeWidget,GTK_POS_LEFT);
-	gtk_range_set_value((GtkRange*)panelSizeWidget,32);
+	g_signal_connect(G_OBJECT(panelSizeWidget),"button-release-event",G_CALLBACK(panelSizeCallback),NULL);
 	gtk_box_pack_start(GTK_BOX(advancedHbox),panelSizeWidget,true,true,4);
 	gtk_box_pack_start(GTK_BOX(advancedVbox),advancedHbox,false,false,4);
 //panel style
@@ -551,7 +688,7 @@ void buildAdvancedGui(GtkWidget* advancedScrollBox)
 //panel image
 	panelImageBox=gtk_hbox_new(false,4);
 	panelImagePathWidget=gtk_file_chooser_button_new("some image",GTK_FILE_CHOOSER_ACTION_OPEN);
-	gtk_file_chooser_set_filename((GtkFileChooser*)panelImagePathWidget,"/media/LinuxData/Development/Projects/Xfce-Theme-Manager/Xfce-Theme-Manager/resources/pixmaps/xfce-theme-manager.png");
+	g_signal_connect(G_OBJECT(panelImagePathWidget),"file-set",G_CALLBACK(commnonPanelCallback),NULL);
 	gtk_box_pack_start(GTK_BOX(panelImageBox),gtk_label_new(_translate(PANELFILE)),false,false,4);
 	gtk_box_pack_start(GTK_BOX(panelImageBox),panelImagePathWidget,true,true,4);
 	gtk_box_pack_start(GTK_BOX(advancedVbox),panelImageBox,false,false,4);
@@ -561,7 +698,7 @@ void buildAdvancedGui(GtkWidget* advancedScrollBox)
 	gtk_box_pack_start(GTK_BOX(panelAlphaBox),gtk_label_new(_translate(PANELALPHA)),false,false,4);
 	panelAlphaWidget=gtk_hscale_new_with_range(0,100,1);
 	gtk_scale_set_value_pos((GtkScale*)panelAlphaWidget,GTK_POS_LEFT);
-	gtk_range_set_value((GtkRange*)panelAlphaWidget,50);
+	g_signal_connect(G_OBJECT(panelAlphaWidget),"button-release-event",G_CALLBACK(panelSizeCallback),NULL);
 	gtk_box_pack_start(GTK_BOX(panelAlphaBox),panelAlphaWidget,true,true,4);
 	gtk_box_pack_start(GTK_BOX(advancedVbox),panelAlphaBox,false,false,4);
 
@@ -573,11 +710,9 @@ void buildAdvancedGui(GtkWidget* advancedScrollBox)
 	gtk_box_pack_start(GTK_BOX(advancedVbox),panelColourBox,false,false,4);
 	g_signal_connect_after(G_OBJECT(panelColourWidget),"color-set",G_CALLBACK(setPanelColour),NULL);
 
-	gtk_widget_set_sensitive(panelImageBox,false);
-	gtk_widget_set_sensitive(panelColourBox,false);
-	gtk_widget_set_sensitive(panelAlphaBox,true);
-
 	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_hseparator_new(),false,false,4);
+
+	selectPanel(NULL,NULL);
 
 //back drop aadj
 	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_label_new(_translate(BACKDROPADJ)),false,false,2);

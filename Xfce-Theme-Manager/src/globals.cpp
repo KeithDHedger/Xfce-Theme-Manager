@@ -98,8 +98,7 @@ GtkWidget*		panelAlphaWidget;
 GtkWidget*		panelColourWidget;
 GtkWidget*		panelImagePathWidget;
 
-//GtkWidget*		panelBox;
-
+int				numOfPanels=-1;
 panelData*		panels[10];
 
 int			controlHeight=64;

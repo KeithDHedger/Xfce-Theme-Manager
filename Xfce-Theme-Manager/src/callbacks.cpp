@@ -18,7 +18,7 @@
 
 #include <unistd.h>
 
-char		filedata[2048];
+char		filedata[8192];
 GtkWidget*	entryBox;
 char*		filename;
 char*		metaThemeSelected=NULL;
@@ -226,6 +226,7 @@ void customTheme(GtkWidget* window,gpointer data)
 	gchar*	stdout;
 	char*		customname=NULL;
 	gint   	spawnret=0;
+	panelData*	panel;
 
 	if (cliFileName==NULL)
 		{
@@ -295,6 +296,13 @@ else
 					buildCustomDB(XCONFGETBRIGHT,"BackdropBright");
 					buildCustomDB(XCONFGETSATU,"BackdropSatu");
 					buildCustomDB(XCONFGETCURSORSIZE,"CursorSize");
+				//	sprintf(filedata,"%s%s=%s\n",filedata,key,stdout);
+//panel stuff
+					for(int j=0;j<numOfPanels;j++)
+						{
+							sprintf(filedata,"%sPanel=%i\n",filedata,panels[j]->panelNumber);
+							sprintf(filedata,"%sPanelImage=%s\n",filedata,panels[j]->imagePath);
+						}
 					fprintf(fd,"%s\n",filedata);
 					fclose(fd);
 

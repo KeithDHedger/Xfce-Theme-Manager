@@ -213,6 +213,8 @@ struct panelData
 	int		red;
 	int		green;
 	int		blue;
+	int		alpha;
+	int		panelNumber;
 };
 //guint32 pixel;
 //  guint16 red;
@@ -225,6 +227,7 @@ extern GtkWidget*		panelSelect;
 extern GtkWidget*		panelStyleWidget;
 extern GtkWidget*		panelSizeWidget;
 extern panelData*		panels[10];
+extern int				numOfPanels;
 
 extern GtkWidget*		panelImagePathWidget;
 extern GtkWidget*		panelAlphaWidget;
