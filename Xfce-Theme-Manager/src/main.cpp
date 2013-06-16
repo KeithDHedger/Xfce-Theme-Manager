@@ -563,8 +563,8 @@ int main(int argc,char **argv)
 	int			fd;
 	fpos_t		pos;
 
-printf("%s\n",XMGETPANELSTYLE(100));
-return 0;
+//printf("%s\n",XMGETPANELSTYLE(100));
+//return 0;
 
 //panelData*	pd[10];
 //

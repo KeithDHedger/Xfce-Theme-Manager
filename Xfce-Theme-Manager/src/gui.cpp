@@ -60,10 +60,23 @@ bool			addView=true;
 GtkListStore*	store;
 int				numofpanels=-1;
 
+void setPanelColour(GtkColorButton *widget, gpointer user_data)
+{
+	GdkColor	colour;
+	int			panelnum;
+
+	gtk_color_button_get_color((GtkColorButton*)widget,&colour);
+	panelnum=gtk_combo_box_get_active((GtkComboBox*)panelSelect);
+	panels[panelnum]->red=colour.red;
+	panels[panelnum]->green=colour.green;
+	panels[panelnum]->blue=colour.blue;
+}
+                                                        
 void populatePanels(void)
 {
 	FILE*	fp;
-	char	buffer[256];
+	char	buffer[1024];
+	char	command[1024];
 
 	fp=popen("xfconf-query  array -c xfce4-panel -p /panels","r");
 	while(fgets(buffer,256,fp));
@@ -73,11 +86,24 @@ void populatePanels(void)
 	for(int j=0;j<numofpanels;j++)
 		{
 			panels[j]=(panelData*)malloc(sizeof(panelData));
-			fp=popen("XMGETPANELSTYLE(j)","r");
-			fgets(buffer,256,fp);
-			
+			sprintf((char*)&command,"xfconf-query  array -c xfce4-panel -p /panels/panel-%i/background-style",j);
+			fp=popen(command,"r");
+			fgets(buffer,1024,fp);
+			pclose(fp);
+			panels[j]->style=atoi(buffer);
+			sprintf((char*)&command,"xfconf-query  array -c xfce4-panel -p /panels/panel-%i/size",j);
+			fp=popen(command,"r");
+			fgets(buffer,1024,fp);
+			pclose(fp);
+			panels[j]->size=atoi(buffer);
+			sprintf((char*)&command,"xfconf-query  array -c xfce4-panel -p /panels/panel-%i/background-image",j);
+			fp=popen(command,"r");
+			fgets(buffer,1024,fp);
+			pclose(fp);
+			panels[j]->imagePath=strdup(buffer);
+
 			printf("xxx%sxxx\n",buffer);
-//			printf("%s\n",XMGETPANELSTYLE(j));
+
 		}
 }
 
@@ -545,6 +571,7 @@ void buildAdvancedGui(GtkWidget* advancedScrollBox)
 	gtk_box_pack_start(GTK_BOX(panelColourBox),gtk_label_new(_translate(PANELCOLOUR)),false,false,4);
 	gtk_box_pack_start(GTK_BOX(panelColourBox),panelColourWidget,false,false,4);
 	gtk_box_pack_start(GTK_BOX(advancedVbox),panelColourBox,false,false,4);
+	g_signal_connect_after(G_OBJECT(panelColourWidget),"color-set",G_CALLBACK(setPanelColour),NULL);
 
 	gtk_widget_set_sensitive(panelImageBox,false);
 	gtk_widget_set_sensitive(panelColourBox,false);

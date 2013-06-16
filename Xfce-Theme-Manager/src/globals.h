@@ -104,7 +104,7 @@
 #define XMTSETHASH "xfconf-query -nt string -c xfcethemer -p /ThemesHash -s "
 #define XMTGETHASH "xfconf-query -c xfcethemer -p /ThemesHash"
 
-#define XMGETPANELSTYLE(x) "xfconf-query array -c xfce4-panel -p /panels/panel-X/background-style"x
+//#define XMGETPANELSTYLE "xfconf-query array -c xfce4-panel -p /panels/panel-X/background-style"
 #define _translate(x) langStr[langID][x]
 
 enum {ENGLISH=0,SPANISH,GERMAN};
@@ -210,8 +210,14 @@ struct panelData
 	char*	imagePath;
 	int		style;
 	int		size;
+	int		red;
+	int		green;
+	int		blue;
 };
-
+//guint32 pixel;
+//  guint16 red;
+//  guint16 green;
+//  guint16 blue;
 //typedef panelData* panelDataPtr;
 
 //panels
