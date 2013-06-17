@@ -227,7 +227,6 @@ void customTheme(GtkWidget* window,gpointer data)
 	gchar*	stdout;
 	char*		customname=NULL;
 	gint   	spawnret=0;
-	panelData*	panel;
 
 	if (cliFileName==NULL)
 		{
@@ -721,29 +720,45 @@ void doMeta(char* metaFilename,bool update)
 							if(panels[j]->imagePath!=NULL)
 								g_free(panels[j]->imagePath);
 							panels[j]->imagePath=strdup(keydata);
-							
+							g_free(keydata);
 						}
 					keydata=g_key_file_get_string(keyfile,buffer,"PanelStyle",NULL);
 					if(keydata!=NULL)
-						panels[j]->style=atoi(keydata);
+						{
+							panels[j]->style=atoi(keydata);
+							g_free(keydata);
+						}
 					keydata=g_key_file_get_string(keyfile,buffer,"PanelSize",NULL);
 					if(keydata!=NULL)
-						panels[j]->size=atoi(keydata);
+						{
+							panels[j]->size=atoi(keydata);
+							g_free(keydata);
+						}
 					keydata=g_key_file_get_string(keyfile,buffer,"PanelRed",NULL);
 					if(keydata!=NULL)
-						panels[j]->red=atoi(keydata);
+						{
+							panels[j]->red=atoi(keydata);
+							g_free(keydata);
+						}
 					keydata=g_key_file_get_string(keyfile,buffer,"PanelGreen",NULL);
 					if(keydata!=NULL)
-						panels[j]->green=atoi(keydata);
+						{
+							panels[j]->green=atoi(keydata);
+							g_free(keydata);
+						}
 					keydata=g_key_file_get_string(keyfile,buffer,"PanelBlue",NULL);
 					if(keydata!=NULL)
-						panels[j]->blue=atoi(keydata);
+						{
+							panels[j]->blue=atoi(keydata);
+							g_free(keydata);
+						}
 					keydata=g_key_file_get_string(keyfile,buffer,"PanelAlpha",NULL);
 					if(keydata!=NULL)
-						panels[j]->alpha=atoi(keydata);
+						{
+							panels[j]->alpha=atoi(keydata);
+							g_free(keydata);
+						}
 				}
-//			gtk_combo_box_set_active((GtkComboBox*)panelSelect,0);
-//			selectPanel((GtkComboBox*)panelSelect,NULL);
 			setPanels();
 		}
 

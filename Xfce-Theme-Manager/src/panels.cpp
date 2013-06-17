@@ -72,7 +72,6 @@ void commnonPanelCallback(GtkWidget* widget,gpointer data)
 void selectPanelStyle(GtkWidget* widget,gpointer data)
 {
 	int style;
-	panelData*	panel=panels[currentPanel];
 	style=gtk_combo_box_get_active((GtkComboBox*)widget);
 
 	switch(style)

@@ -62,7 +62,6 @@ void updateEntries(char* dbfolder,char** datafolders,const char* subfolder)
 	char*			partname=NULL;
 	char			filepath[2048];
 	bool			found;
-//	bool			foundfirst;
 	char*			thumbnail;
 
 	GKeyFile*		keyfile=g_key_file_new();
