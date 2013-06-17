@@ -20,5 +20,6 @@ void selectPanelStyle(GtkWidget* widget,gpointer data);
 void commnonPanelCallback(GtkWidget* widget,gpointer data);
 void setPanelColour(GtkColorButton *widget, gpointer user_data);
 void setPanels(void);
+void resetPanels(void);
 
 #endif

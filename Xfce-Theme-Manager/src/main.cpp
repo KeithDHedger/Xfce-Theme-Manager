@@ -25,6 +25,7 @@
 #include "thumbnails.h"
 #include "gui.h"
 #include "callbacks.h"
+#include "panels.h"
 
 #include "config.h"
 
@@ -142,7 +143,8 @@ void resetTheme(GtkWidget* widget,gpointer data)
 	freeAndNull(&satval);
 	rerunAndUpdate(false,true);
 
-	gdk_window_set_cursor (gdkWindow,NULL); 
+	gdk_window_set_cursor (gdkWindow,NULL);
+	resetPanels();
 
 }
 

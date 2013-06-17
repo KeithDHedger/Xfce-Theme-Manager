@@ -14,13 +14,13 @@
 #include "globals.h"
 
 bool	panelChanging=false;
+int		panelNumbers[10];
 
 void setPanelData(bool fromwidget)
 {
 	panelData*	panel;
 	GdkColor	colour;
 	char		buffer[1024];
-//	int			data;
 
 	if(panelChanging==false)
 		{
@@ -139,7 +139,6 @@ void populatePanels(void)
 	FILE*	fp;
 	char	buffer[1024];
 	char	command[1024];
-	int		panelnums[10];
 	int		cnt=0;
 
 	fp=popen("xfconf-query  array -c xfce4-panel -p /panels","r");
@@ -147,7 +146,7 @@ void populatePanels(void)
 	fgets(buffer,256,fp);
 	while(fgets(buffer,256,fp))
 		{
-			panelnums[cnt]=atoi(buffer);
+			panelNumbers[cnt]=atoi(buffer);
 			cnt++;
 		}
 
@@ -166,7 +165,7 @@ void populatePanels(void)
 			panels[j]->blue=54741;
 			panels[j]->alpha=100;
 
-			sprintf((char*)&command,"xfconf-query  array -c xfce4-panel -p /panels/panel-%i/background-style 2>/dev/null",panelnums[j]);
+			sprintf((char*)&command,"xfconf-query  array -c xfce4-panel -p /panels/panel-%i/background-style 2>/dev/null",panelNumbers[j]);
 			fp=popen(command,"r");
 			fgets(buffer,1024,fp);
 			pclose(fp);
@@ -174,7 +173,7 @@ void populatePanels(void)
 				panels[j]->style=atoi(buffer);
 
 			buffer[0]=0;
-			sprintf((char*)&command,"xfconf-query  array -c xfce4-panel -p /panels/panel-%i/size 2>/dev/null",panelnums[j]);
+			sprintf((char*)&command,"xfconf-query  array -c xfce4-panel -p /panels/panel-%i/size 2>/dev/null",panelNumbers[j]);
 			fp=popen(command,"r");
 			fgets(buffer,1024,fp);
 			pclose(fp);
@@ -182,7 +181,7 @@ void populatePanels(void)
 				panels[j]->size=atoi(buffer);
 
 			buffer[0]=0;
-			sprintf((char*)&command,"xfconf-query  array -c xfce4-panel -p /panels/panel-%i/background-image 2>/dev/null",panelnums[j]);
+			sprintf((char*)&command,"xfconf-query  array -c xfce4-panel -p /panels/panel-%i/background-image 2>/dev/null",panelNumbers[j]);
 			fp=popen(command,"r");
 			fgets(buffer,1024,fp);
 			pclose(fp);
@@ -193,7 +192,7 @@ void populatePanels(void)
 				}
 
 			buffer[0]=0;
-			sprintf((char*)&command,"xfconf-query  array -c xfce4-panel -p /panels/panel-%i/background-color 2>/dev/null",panelnums[j]);
+			sprintf((char*)&command,"xfconf-query  array -c xfce4-panel -p /panels/panel-%i/background-color 2>/dev/null",panelNumbers[j]);
 			fp=popen(command,"r");
 			fgets(buffer,1024,fp);
 			if(strlen(buffer)>0)
@@ -210,20 +209,32 @@ void populatePanels(void)
 			pclose(fp);
 
 			buffer[0]=0;
-			sprintf((char*)&command,"xfconf-query  array -c xfce4-panel -p /panels/panel-%i/background-alpha 2>/dev/null",panelnums[j]);
+			sprintf((char*)&command,"xfconf-query  array -c xfce4-panel -p /panels/panel-%i/background-alpha 2>/dev/null",panelNumbers[j]);
 			fp=popen(command,"r");
 			fgets(buffer,1024,fp);
 			pclose(fp);
 			if(strlen(buffer)>0)
 				panels[j]->alpha=atoi(buffer);
 
-			panels[j]->panelNumber=panelnums[j];
+			panels[j]->panelNumber=panelNumbers[j];
+
+			revertPanels[j]=(panelData*)malloc(sizeof(panelData));
+			revertPanels[j]->style=panels[j]->style;
+			revertPanels[j]->size=panels[j]->size;
+			if(panels[j]->imagePath!=NULL)
+				revertPanels[j]->imagePath=strdup(panels[j]->imagePath);
+			else
+				revertPanels[j]->imagePath=NULL;
+			revertPanels[j]->red=panels[j]->red;
+			revertPanels[j]->green=panels[j]->green;
+			revertPanels[j]->blue=panels[j]->blue;
+			revertPanels[j]->alpha=panels[j]->alpha;
+			revertPanels[j]->panelNumber=panelNumbers[j];
 		}
 }
 
 void setPanels(void)
 {
-
 	currentPanel=0;
 	selectPanel((GtkComboBox*)panelSelect,NULL);
 
@@ -235,6 +246,28 @@ void setPanels(void)
 		}
 }
 
+void resetPanels(void)
+{
+	for(int j=0;j<numOfPanels;j++)
+		{
+			if(panels[j]->imagePath!=NULL)
+				g_free(panels[j]->imagePath);
+			g_free(panels[j]);
+			panels[j]=(panelData*)malloc(sizeof(panelData));
+			panels[j]->style=revertPanels[j]->style;
+			panels[j]->size=revertPanels[j]->size;
+			if(revertPanels[j]->imagePath!=NULL)
+				panels[j]->imagePath=strdup(revertPanels[j]->imagePath);
+			else
+				panels[j]->imagePath=NULL;
+			panels[j]->red=revertPanels[j]->red;
+			panels[j]->green=revertPanels[j]->green;
+			panels[j]->blue=revertPanels[j]->blue;
+			panels[j]->alpha=revertPanels[j]->alpha;
+			panels[j]->panelNumber=panelNumbers[j];
+		}
+	setPanels();
+}
 
 
 

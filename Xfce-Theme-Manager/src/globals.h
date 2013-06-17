@@ -222,6 +222,7 @@ extern GtkWidget*		panelSelect;
 extern GtkWidget*		panelStyleWidget;
 extern GtkWidget*		panelSizeWidget;
 extern panelData*		panels[10];
+extern panelData*		revertPanels[10];
 extern int				numOfPanels;
 
 extern int				currentPanel;

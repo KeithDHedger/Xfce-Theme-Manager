@@ -100,6 +100,7 @@ GtkWidget*		panelImagePathWidget;
 
 int				numOfPanels=-1;
 panelData*		panels[10];
+panelData*		revertPanels[10];
 int				currentPanel=1;
 
 int			controlHeight=64;
