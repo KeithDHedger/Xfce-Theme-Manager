@@ -27,6 +27,5 @@ void buildWallpapers(void);
 GtkWidget* buildTitlePos(void);
 void buildPages(void);
 void buildAdvancedGui(GtkWidget* advancedScrollBox);
-void selectPanel(GtkComboBox *widget, gpointer user_data);
 
 #endif
