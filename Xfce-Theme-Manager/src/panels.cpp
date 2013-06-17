@@ -15,7 +15,7 @@
 
 bool	panelChanging=false;
 
-void setPanelData(void)
+void setPanelData(bool fromwidget)
 {
 	panelData*	panel;
 	GdkColor	colour;
@@ -26,42 +26,47 @@ void setPanelData(void)
 		{
 			panel=panels[currentPanel];
 //style
-			panel->style=gtk_combo_box_get_active((GtkComboBox*)panelStyleWidget);
+			if(fromwidget==true)
+				panel->style=gtk_combo_box_get_active((GtkComboBox*)panelStyleWidget);
 			sprintf((char*)&buffer,"xfconf-query -nt int -c xfce4-panel -p /panels/panel-%i/background-style -s %i",panel->panelNumber,panel->style);
 			system(buffer);
 //size
-			panel->size=gtk_range_get_value((GtkRange*)panelSizeWidget);
+			if(fromwidget==true)
+				panel->size=gtk_range_get_value((GtkRange*)panelSizeWidget);
 			sprintf((char*)&buffer,"xfconf-query -nt int -c xfce4-panel -p /panels/panel-%i/size -s %i",panel->panelNumber,panel->size);
 			system(buffer);
 //image
-			panel->imagePath=gtk_file_chooser_get_filename((GtkFileChooser*)panelImagePathWidget);
+			if(fromwidget==true)
+				panel->imagePath=gtk_file_chooser_get_filename((GtkFileChooser*)panelImagePathWidget);
 			sprintf((char*)&buffer,"xfconf-query -nt string -c xfce4-panel -p /panels/panel-%i/background-image -s %s",panel->panelNumber,panel->imagePath);
 			system(buffer);
 //alpha
-			panel->alpha=gtk_range_get_value((GtkRange*)panelAlphaWidget);
+			if(fromwidget==true)
+				panel->alpha=gtk_range_get_value((GtkRange*)panelAlphaWidget);
 			sprintf((char*)&buffer,"xfconf-query -nt int -c xfce4-panel -p /panels/panel-%i/background-alpha -s %i",panel->panelNumber,panel->alpha);
 			system(buffer);
 //colour
-			gtk_color_button_get_color((GtkColorButton*)panelColourWidget,&colour);
-			panel->red=colour.red;
-			panel->green=colour.green;
-			panel->blue=colour.blue;
+			if(fromwidget==true)
+				{
+					gtk_color_button_get_color((GtkColorButton*)panelColourWidget,&colour);
+					panel->red=colour.red;
+					panel->green=colour.green;
+					panel->blue=colour.blue;
+				}
 			sprintf((char*)&buffer,"xfconf-query array -c xfce4-panel -p /panels/panel-%i/background-color -t uint -t uint -t uint -t uint -s %i -s %i -s %i -s %i",panel->panelNumber,panel->red,panel->green,panel->blue,65535);
 			system(buffer);
-
-			printf("%s\n",buffer);
 		}
 }
 
 gboolean panelSizeCallback(GtkWidget *widget,GdkEvent *event,gpointer user_data)
 {
-	setPanelData();
+	setPanelData(true);
 	return(false);
 }
 
 void commnonPanelCallback(GtkWidget* widget,gpointer data)
 {
-	setPanelData();
+	setPanelData(true);
 }
 
 void selectPanelStyle(GtkWidget* widget,gpointer data)
@@ -89,7 +94,7 @@ void selectPanelStyle(GtkWidget* widget,gpointer data)
 				break;
 		}
 
-	setPanelData();
+	setPanelData(true);
 }
 
 void selectPanel(GtkComboBox *widget, gpointer user_data)
@@ -127,7 +132,7 @@ void setPanelColour(GtkColorButton *widget, gpointer user_data)
 	panels[panelnum]->red=colour.red;
 	panels[panelnum]->green=colour.green;
 	panels[panelnum]->blue=colour.blue;
-	setPanelData();
+	setPanelData(true);
 }
                                                         
 void populatePanels(void)
@@ -216,3 +221,26 @@ void populatePanels(void)
 			panels[j]->panelNumber=panelnums[j];
 		}
 }
+
+void setPanels(void)
+{
+
+//	for(int j=0;j<numOfPanels;j++)
+//		{
+			currentPanel=0;
+			selectPanel((GtkComboBox*)panelSelect,NULL);
+//		}
+
+	panelChanging=false;
+	for(int j=0;j<numOfPanels;j++)
+		{
+			currentPanel=j;
+			setPanelData(false);
+		}
+}
+
+
+
+
+
+

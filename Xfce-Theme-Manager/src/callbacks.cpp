@@ -742,9 +742,9 @@ void doMeta(char* metaFilename,bool update)
 					if(keydata!=NULL)
 						panels[j]->alpha=atoi(keydata);
 				}
-			gtk_combo_box_set_active((GtkComboBox*)panelSelect,0);
-			selectPanel((GtkComboBox*)panelSelect,NULL);
-			
+//			gtk_combo_box_set_active((GtkComboBox*)panelSelect,0);
+//			selectPanel((GtkComboBox*)panelSelect,NULL);
+			setPanels();
 		}
 
 	if(keydata!=NULL)

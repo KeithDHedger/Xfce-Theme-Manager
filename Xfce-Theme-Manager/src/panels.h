@@ -19,5 +19,6 @@ gboolean panelSizeCallback(GtkWidget *widget,GdkEvent *event,gpointer user_data)
 void selectPanelStyle(GtkWidget* widget,gpointer data);
 void commnonPanelCallback(GtkWidget* widget,gpointer data);
 void setPanelColour(GtkColorButton *widget, gpointer user_data);
+void setPanels(void);
 
 #endif
