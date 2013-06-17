@@ -123,61 +123,61 @@ extern const char*		folders[];
 extern const char*		langStr[][STOPWORD];
 extern const wchar_t*	helpStr[][HELPSTOP];
 	
-extern int			currentWallStyle;
-extern char*		currentIconTheme;
-extern char*		currentWmTheme;
-extern char*		currentCursorTheme;
-extern char*		currentWallPaper;
-extern char*		currentGtkTheme;
+extern int				currentWallStyle;
+extern char*			currentIconTheme;
+extern char*			currentWmTheme;
+extern char*			currentCursorTheme;
+extern char*			currentWallPaper;
+extern char*			currentGtkTheme;
 
-extern char*		currentButtonLayout;
-extern char*		currentTitlePos;
-extern char*		currentWMFont;
-extern char*		currentAppFont;
-extern int			currentBright;
-extern double		currentSatu;
-extern int			currentCursSize;
-extern char*		currentMetaTheme;
+extern char*			currentButtonLayout;
+extern char*			currentTitlePos;
+extern char*			currentWMFont;
+extern char*			currentAppFont;
+extern int				currentBright;
+extern double			currentSatu;
+extern int				currentCursSize;
+extern char*			currentMetaTheme;
 
-extern char*		lastGtkTheme;
-extern char*		lastIconTheme;
-extern char*		lastWmTheme;
-extern char*		lastCursorTheme;
-extern char*		lastWallPaper;
-extern char*		lastMetaTheme;
+extern char*			lastGtkTheme;
+extern char*			lastIconTheme;
+extern char*			lastWmTheme;
+extern char*			lastCursorTheme;
+extern char*			lastWallPaper;
+extern char*			lastMetaTheme;
 
-extern char*		homeThemesHash;
+extern char*			homeThemesHash;
 
 struct boxStruct
 {
 	GtkScrolledWindow*	scrollBox;
 	GtkVBox*			vBox;
 	GtkIconView*		iconView;
-	int				itemCnt;
+	int					itemCnt;
 	GtkTreeIter*		partIter;
 	GtkListStore *		store;
 };
 
-extern boxStruct previewBox[6];
+extern boxStruct		previewBox[6];
 
 //db
-extern char*		dbFolder;
-extern char*		metaFolder;
-extern char*		framesFolder;
-extern char*		controlsFolder;
-extern char*		iconsFolder;
-extern char*		cursorsFolder;
-extern char*		wallpapersFolder;
-extern char*		customFolder;
+extern char*			dbFolder;
+extern char*			metaFolder;
+extern char*			framesFolder;
+extern char*			controlsFolder;
+extern char*			iconsFolder;
+extern char*			cursorsFolder;
+extern char*			wallpapersFolder;
+extern char*			customFolder;
 
 //folders
-extern char*		themesArray[2];
-extern char*		iconsArray[2];
-extern char*		papersArray[2];
-extern char*		homeFolder;
+extern char*			themesArray[2];
+extern char*			iconsArray[2];
+extern char*			papersArray[2];
+extern char*			homeFolder;
 
-extern char*		cursorTheme;
-extern char*		iconTheme;
+extern char*			cursorTheme;
+extern char*			iconTheme;
 
 //widgets
 extern GtkWidget*		appFontButton;
@@ -188,7 +188,7 @@ extern GtkComboBoxText*	previewComboBox;
 extern GdkWindow*		gdkWindow;
 extern GdkCursor*		watchCursor;
 
-extern int 			wallStyle;
+extern int 				wallStyle;
 extern GtkWidget*		layoutEntry;
 extern GtkComboBoxText*	titlePos;
 extern GtkWidget*		briteRange;
@@ -198,7 +198,7 @@ extern GtkWidget*		cursorSize;
 extern GtkWidget*		wallpapersMainBox;
 
 //advanced
-extern GtkNotebook*	advanced;
+extern GtkNotebook*		advanced;
 extern GtkWidget*		systemCheck;
 extern GtkWidget*		metaCheck;
 extern GtkWidget*		borderCheck;
@@ -211,14 +211,14 @@ extern GtkWidget*		onlyCustomCheck;
 //panels
 struct panelData
 {
-	char*	imagePath;
-	int		style;
-	int		size;
-	int		red;
-	int		green;
-	int		blue;
-	int		alpha;
-	int		panelNumber;
+	char*				imagePath;
+	int					style;
+	int					size;
+	int					red;
+	int					green;
+	int					blue;
+	int					alpha;
+	int					panelNumber;
 };
 
 //panels
@@ -240,48 +240,48 @@ extern GtkWidget*		panelAlphaBox;
 
 
 
-extern int			controlHeight;
-extern int			controlWidth;
+extern int				controlHeight;
+extern int				controlWidth;
 extern GdkPixbuf*		controlsPixbuf;
-extern GtkNotebook*	notebook;
+extern GtkNotebook*		notebook;
 
-extern char			generalBuffer[4096];
+extern char				generalBuffer[4096];
 
 extern GdkPixbuf*		missingImage;
 extern GdkPixbuf*		blankImage;
 
-extern int			langID;
+extern int				langID;
 
 //config stuff
-extern int			showGlobal;
-extern int			showMeta;
-extern int			showGtk;
-extern int			showDecs;
-extern int			showIcons;
-extern int			showCursors;
-extern int			showBackdrop;
-extern int			showOnlyCustom;
-extern int			winWid;
-extern int			winHite;
-extern int			previewSize;
-extern int			gotXCE;
+extern int				showGlobal;
+extern int				showMeta;
+extern int				showGtk;
+extern int				showDecs;
+extern int				showIcons;
+extern int				showCursors;
+extern int				showBackdrop;
+extern int				showOnlyCustom;
+extern int				winWid;
+extern int				winHite;
+extern int				previewSize;
+extern int				gotXCE;
 
-extern bool			noGui;
-extern bool			updateDb;
-extern bool			rebuildDb;
+extern bool				noGui;
+extern bool				updateDb;
+extern bool				rebuildDb;
 
-extern char*		cliTheme;
-extern char*		cliControls;
-extern char*		cliBorder;
-extern char*		cliIcons;
-extern char*		cliCursors;
-extern char*		cliWallpaper;
-extern char*		listParts;
-extern char*		cliFileName;
+extern char*			cliTheme;
+extern char*			cliControls;
+extern char*			cliBorder;
+extern char*			cliIcons;
+extern char*			cliCursors;
+extern char*			cliWallpaper;
+extern char*			listParts;
+extern char*			cliFileName;
 
-extern			void freeAndNull(char** ptr);
-extern			int positionToInt(char* pos);
-extern			char* doubleToStr(double num);
+extern void freeAndNull(char** ptr);
+extern int positionToInt(char* pos);
+extern char* doubleToStr(double num);
 
 void setValue(const char* command,dataType type,void* ptr);
 int sizeDrop(bool toDrop,int data);

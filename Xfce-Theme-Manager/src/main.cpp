@@ -148,7 +148,6 @@ void resetTheme(GtkWidget* widget,gpointer data)
 
 	gdk_window_set_cursor (gdkWindow,NULL);
 	resetPanels();
-
 }
 
 void shutdown(GtkWidget* widget,gpointer data)
@@ -170,13 +169,9 @@ void showAdvanced(GtkWidget* widget,gpointer data)
 	gtk_widget_set_sensitive((GtkWidget*)customButton,!state);
 
 	if (state==true)
-		{
-			gtk_notebook_set_current_page(advanced,1);
-		}
+		gtk_notebook_set_current_page(advanced,1);
 	else
-		{
-			gtk_notebook_set_current_page(advanced,0);
-		}
+		gtk_notebook_set_current_page(advanced,0);
 }
 
 void init(void)
