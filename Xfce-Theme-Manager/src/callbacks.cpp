@@ -720,6 +720,7 @@ void doMeta(char* metaFilename,bool update)
 							if(panels[j]->imagePath!=NULL)
 								g_free(panels[j]->imagePath);
 							panels[j]->imagePath=strdup(keydata);
+							
 						}
 					keydata=g_key_file_get_string(keyfile,buffer,"PanelStyle",NULL);
 					if(keydata!=NULL)
@@ -739,9 +740,10 @@ void doMeta(char* metaFilename,bool update)
 					keydata=g_key_file_get_string(keyfile,buffer,"PanelAlpha",NULL);
 					if(keydata!=NULL)
 						panels[j]->alpha=atoi(keydata);
-
-
 				}
+			gtk_combo_box_set_active((GtkComboBox*)panelSelect,0);
+			selectPanel((GtkComboBox*)panelSelect,NULL);
+			
 		}
 
 	if(keydata!=NULL)

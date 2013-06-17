@@ -59,7 +59,6 @@
 bool			addView=true;
 GtkListStore*	store;
 
-int				currentPanel=1;
 bool			panelChanging=false;
 
 void setPanelData(void)
