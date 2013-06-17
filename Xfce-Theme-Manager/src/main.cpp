@@ -19,6 +19,8 @@
 #include <string.h>
 #include <sys/stat.h>
 #include <getopt.h>
+#include <locale.h>
+#include <wchar.h>
 
 #include "globals.h"
 #include "database.h"
@@ -83,7 +85,8 @@ GtkWidget*	progressBar;
 GtkWidget*	resetButton;
 GtkWidget*	customButton;
 
-int		cliRetVal=0;
+int			cliRetVal=0;
+bool		doPrintHelp=false;
 
 // RESET THEME
 void resetTheme(GtkWidget* widget,gpointer data)
@@ -181,6 +184,8 @@ void init(void)
 	gchar	*stdout=NULL;
 	gchar	*stderr=NULL;
 	gint   retval=0;
+
+	setlocale(LC_ALL, "");
 
 	homeFolder=(char*)g_get_home_dir();
 
@@ -504,7 +509,7 @@ void printList(void)
 void doAbout(GtkWidget* widget,gpointer data)
 {
 	const char*	authors[]={"K.D.Hedger <"MYEMAIL">",NULL};
-	const char	copyright[] ="Copyright \xc2\xa9 2012 K.D.Hedger";
+	const char	copyright[] ="Copyright \xc2\xa9 2012-2013 K.D.Hedger";
 	const char*	aboutboxstring=_translate(ABOUTBOX);
 	const char*	translators="Spanish translation:\nPablo Morales Romero <pg.morales.romero@gmail.com>.\n\nGerman translation:\nMartin F. Schumann. <mfs@mfs.name>";
 
@@ -513,26 +518,26 @@ void doAbout(GtkWidget* widget,gpointer data)
 
 void printhelp(void)
 {
-	printf("Xfce-Theme-Manager, version %s\n",VERSION);
-	printf("Usage: xfce-theme-manager [option.1] ... [option.N]\n");
-	printf("OPTION			Usage\n\n");
-	printf("-v, --version		Print version info and quit\n");
-	printf("-u, --update-db		Update the database\n");
-	printf("-r, --build-db		Re-build the database\n");
-	printf("-n, --nogui		Don't run the GUI\n");
-	printf("-t, --theme=ARG		Set the meta-theme to ARG\n");
-	printf("-c, --controls=ARG	Set the controls theme to ARG\n");
-	printf("-w, --wmborder=ARG	Set the window border to ARG\n");
-	printf("-i, --icons=ARG		Set the icon theme to ARG\n");
-	printf("-p, --cursors=ARG	Set the cursor theme to ARG\n");
-	printf("-b, --backdrop=ARG	Set wallpaper to ARG\n");
-	printf("-l, --list=ARG		List DB entry's, where ARG = any of \"*Ctwcib\"\n");
-	printf("			Where 'C' prints custom themes, 't' prints themes,\n");
-	printf("			'w' prints window borders, 'c' prints controls\n");
-	printf("			'i' prints icons and 'b' prints backdrops.\n");
-	printf("			If the first/only character is a '*' then all entry's are printed.\n");
-	printf("-?, --help=ARG		This help\n");
-	printf("\nOptions tcwipblvh? all imply -n\n");
+	printf("%ls %s\n",_translateHelp(HELP1),VERSION);
+	printf("%ls\n",_translateHelp(HELP2));
+	printf("%ls\n",_translateHelp(HELP3));
+	printf("%ls\n",_translateHelp(HELP4));
+	printf("%ls\n",_translateHelp(HELP5));
+	printf("%ls\n",_translateHelp(HELP6));
+	printf("%ls\n",_translateHelp(HELP7));
+	printf("%ls\n",_translateHelp(HELP8));
+	printf("%ls\n",_translateHelp(HELP9));
+	printf("%ls\n",_translateHelp(HELP10));
+	printf("%ls\n",_translateHelp(HELP11));
+	printf("%ls\n",_translateHelp(HELP12));
+	printf("%ls\n",_translateHelp(HELP13));
+	printf("%ls\n",_translateHelp(HELP14));
+	printf("			%ls\n",_translateHelp(HELP15));
+	printf("			%ls\n",_translateHelp(HELP16));
+	printf("			%ls\n",_translateHelp(HELP17));
+	printf("			%ls\n",_translateHelp(HELP18));
+	printf("%ls\n",_translateHelp(HELP19));
+	printf("\n%ls\n",_translateHelp(HELP20));
 }
 
 struct option long_options[]=
@@ -565,20 +570,6 @@ int main(int argc,char **argv)
 	int			fd;
 	fpos_t		pos;
 
-//printf("%s\n",XMGETPANELSTYLE(100));
-//return 0;
-
-//panelData*	pd[10];
-//
-//pd[0]=(panelData*)malloc(sizeof(panelData));
-//pd[0]->imagePath="gdfhkgjf";
-//pd[0]->style=23;
-//pd[0]->size=101;
-//
-//
-//printf("XXXX%s xx %i xx %i xx\n",pd[0]->imagePath,pd[0]->style,pd[0]->size);
-//return 0;
-
 	while (1)
 		{
 			int option_index=0;
@@ -591,8 +582,7 @@ int main(int argc,char **argv)
 				{
 					case '?':
 					case 'h':
-						printhelp();
-						return 0;
+						doPrintHelp=true;
 						break;
 
 					case 'n':
@@ -671,6 +661,12 @@ int main(int argc,char **argv)
 	gtk_init(&argc,&argv);
 
 	init();
+
+	if(doPrintHelp==true)
+		{
+			printhelp();
+			return 0;
+		}
 
 	if(checkFolders()!=0)
 		updateDb=true;
@@ -844,6 +840,7 @@ int main(int argc,char **argv)
 					printList();
 					return(0);
 				}
+			populatePanels();
 
 			if (cliTheme!=NULL)
 				cliRetVal=doCliTheme();

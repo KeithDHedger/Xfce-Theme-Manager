@@ -235,8 +235,6 @@ void populatePanels(void)
 
 void setPanels(void)
 {
-	currentPanel=0;
-	selectPanel((GtkComboBox*)panelSelect,NULL);
 
 	panelChanging=false;
 	for(int j=0;j<numOfPanels;j++)
@@ -244,6 +242,9 @@ void setPanels(void)
 			currentPanel=j;
 			setPanelData(false);
 		}
+
+	currentPanel=0;
+	selectPanel((GtkComboBox*)panelSelect,NULL);
 }
 
 void resetPanels(void)

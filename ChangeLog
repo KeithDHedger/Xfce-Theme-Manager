@@ -17,6 +17,11 @@ Please send them direct to me at:kdhedger68713@gmail.com posting them on xfce-lo
 ***************************************
 
 Changelog:
+0.3.1	Added some customization of panels, size and appearance (solid colour,system,image,aplpha).
+	Save panel appearance in custom themes.
+	Added reset panels to 'Reset Theme'.
+	Updated manpages and help.
+
 0.3.0	Added command line options to list/set themes etc.
 	Bug fix for drag 'n' drop filenames with spaces.
 	Bug fix for drag 'n' drop zip files.
