@@ -203,7 +203,7 @@ void populatePanels(void)
 			panels[j]=(panelData*)malloc(sizeof(panelData));
 			panels[j]->style=0;
 			panels[j]->size=48;
-			panels[j]->imagePath=(char*)"";
+			panels[j]->imagePath=NULL;
 			panels[j]->red=56540;
 			panels[j]->green=56026;
 			panels[j]->blue=54741;

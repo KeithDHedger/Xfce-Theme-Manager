@@ -297,10 +297,9 @@ else
 					buildCustomDB(XCONFGETSATU,"BackdropSatu");
 					buildCustomDB(XCONFGETCURSORSIZE,"CursorSize");
 //panel stuff
-					sprintf(filedata,"%s[Panels]\n",filedata);
 					for(int j=0;j<numOfPanels;j++)
 						{
-							sprintf(filedata,"%sPanel=%i\n",filedata,panels[j]->panelNumber);
+							sprintf(filedata,"%s[Panel-%i]\n",filedata,panels[j]->panelNumber);
 							sprintf(filedata,"%sPanelImage=%s\n",filedata,panels[j]->imagePath);
 							sprintf(filedata,"%sPanelStyle=%i\n",filedata,panels[j]->style);
 							sprintf(filedata,"%sPanelSize=%i\n",filedata,panels[j]->size);
@@ -640,13 +639,14 @@ void removeTheme(const char* name)
 void doMeta(char* metaFilename,bool update)
 {
 	GKeyFile*		keyfile=g_key_file_new();
-	int			keycnt=14;
+	int				keycnt=14;
 	char*			keydata=NULL;
 	char*			comma;
 	GdkModifierType	mask;
 	const char*		keys[]={"CursorTheme","Xfwm4Theme","IconTheme","BackgroundImage","BackdropStyle","TitleButtonLayout","TitlePosition","WMFont","AppFont","BackdropBright","BackdropSatu","GtkTheme","CursorSize","Name"};
 	const char*		xconf[]={XCONFSETCURSOR,XCONFSETFRAME,XCONFSETICONS,XCONFSETPAPER,XCONFSETSTYLE,XCONFSETLAYOUT,XCONFSETTITLEPOS,XCONFSETWMFONT,XCONFSETAPPFONT,XCONFSETBRIGHT,XCONFSETSATU,XCONFSETCONTROLS,XCONFSETCURSORSIZE,XMTSETMETATHEME};
 
+	char			buffer[64];	
 	GtkSettings *settings=gtk_settings_get_default();;
 
 	gdk_window_get_pointer(NULL,NULL,NULL,&mask);
@@ -664,7 +664,6 @@ void doMeta(char* metaFilename,bool update)
 					keydata=g_key_file_get_string(keyfile,"Data",(char*)keys[j],NULL);
 					if(keydata!=NULL)
 						{
-							printf("XXXXXXX%sZZZZZZZ\n",keydata);
 							if(update==true)
 								{
 									switch (j)
@@ -708,8 +707,45 @@ void doMeta(char* metaFilename,bool update)
 								rerunAndUpdate(false,true);
 						}
 				}
-			g_key_file_free(keyfile);
 		}
+
+	if(g_key_file_load_from_file(keyfile,metaFilename,G_KEY_FILE_NONE,NULL))
+		{
+			for (int j=0;j<numOfPanels;j++)
+				{
+					sprintf((char*)&buffer,"Panel-%i",panels[j]->panelNumber);
+					keydata=g_key_file_get_string(keyfile,buffer,"PanelImage",NULL);
+					if(keydata!=NULL)
+						{
+							if(panels[j]->imagePath!=NULL)
+								g_free(panels[j]->imagePath);
+							panels[j]->imagePath=strdup(keydata);
+						}
+					keydata=g_key_file_get_string(keyfile,buffer,"PanelStyle",NULL);
+					if(keydata!=NULL)
+						panels[j]->style=atoi(keydata);
+					keydata=g_key_file_get_string(keyfile,buffer,"PanelSize",NULL);
+					if(keydata!=NULL)
+						panels[j]->size=atoi(keydata);
+					keydata=g_key_file_get_string(keyfile,buffer,"PanelRed",NULL);
+					if(keydata!=NULL)
+						panels[j]->red=atoi(keydata);
+					keydata=g_key_file_get_string(keyfile,buffer,"PanelGreen",NULL);
+					if(keydata!=NULL)
+						panels[j]->green=atoi(keydata);
+					keydata=g_key_file_get_string(keyfile,buffer,"PanelBlue",NULL);
+					if(keydata!=NULL)
+						panels[j]->blue=atoi(keydata);
+					keydata=g_key_file_get_string(keyfile,buffer,"PanelAlpha",NULL);
+					if(keydata!=NULL)
+						panels[j]->alpha=atoi(keydata);
+
+
+				}
+		}
+
+	if(keydata!=NULL)
+		g_key_file_free(keyfile);
 
 	system("xfdesktop --reload");
 }
