@@ -19,7 +19,7 @@ all-local:
 
 clean-local:
 	rm $(TRANSFORMNAME)
-
+ 
 install-exec-hook:
 	mv $(DESTDIR)${bindir}/xfcethememanager $(DESTDIR)${bindir}/$(TRANSFORMNAME)
 	mkdir -p $(DESTDIR)${prefix}/share/man/man1 $(DESTDIR)${prefix}/share/man/de/man1 $(DESTDIR)${prefix}/share/man/es/man1
