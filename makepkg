@@ -2,11 +2,12 @@
 
 #©keithhedger Wed 22 May 19:55:26 BST 2013 kdhedger68713@gmail.com
 
+
 svn commit -m ""
 cd /tmp
 svn co file:///media/LinuxData/Development/SVN/Xfce-Theme-Manager
 find Xfce-Theme-Manager -name ".svn" -exec rm -r '{}' \; || true
 rm /tmp/Xfce-Theme-Manager/makepkg
 rm -r /tmp/Xfce-Theme-Manager/DEVDATA
-tar -czvf Xfce-Theme-Manager-$(VERSION).tar.gz Xfce-Theme-Manager
+tar -czvf Xfce-Theme-Manager-$(head ./configure.ac|grep AC_INIT|awk -F [ '{print $3}'|awk -F ] '{print $1}').tar.gz Xfce-Theme-Manager
 rm -r /tmp/Xfce-Theme-Manager
