@@ -12,4 +12,4 @@ rm /tmp/Xfce-Theme-Manager/makepkg
 rm -r /tmp/Xfce-Theme-Manager/DEVDATA
 mv /tmp/Xfce-Theme-Manager /tmp/Xfce-Theme-Manager-${VERSION}
 tar -czvf Xfce-Theme-Manager-${VERSION}.tar.gz Xfce-Theme-Manager-${VERSION}
-rm -r /tmp/Xfce-Theme-Manager
+rm -r /tmp/Xfce-Theme-Manager-${VERSION}
