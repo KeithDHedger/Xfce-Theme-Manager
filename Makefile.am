@@ -6,6 +6,6 @@ remake:
 
 makepkg:
 	svn commit -m ""
-	(mkdir /tmp/xfm
+	mkdir /tmp/xfm
 	cd /tmp/xfm
-	echo $(VERSION) > ./xxx)
+	echo $(VERSION) > ./xxx
