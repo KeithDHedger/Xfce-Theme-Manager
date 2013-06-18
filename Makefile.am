@@ -6,9 +6,6 @@ remake:
 
 makepkg:
 	svn commit -m ""
-	(
-	mkdir /tmp/xfm
+	(mkdir /tmp/xfm
 	cd /tmp/xfm
-	svn co file:///media/LinuxData/Development/SVN/Xfce-Theme-Manager
-	echo $(VERSION)
-	)
+	echo $(VERSION) > ./xxx)
