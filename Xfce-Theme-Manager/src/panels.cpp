@@ -235,7 +235,6 @@ void populatePanels(void)
 
 void setPanels(void)
 {
-
 	panelChanging=false;
 	for(int j=0;j<numOfPanels;j++)
 		{
@@ -269,8 +268,3 @@ void resetPanels(void)
 		}
 	setPanels();
 }
-
-
-
-
-
