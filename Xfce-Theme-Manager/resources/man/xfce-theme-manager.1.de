@@ -1,127 +1,214 @@
-
-.TH "XFCE-THEME-MANAGER" "1" "Nov 25, 2012" "" ""
-.SH "NAME"
-xfce\-theme\-manager \- Ein Oberflächenverwalter für Xfce
-.SH "ÜBERSICHT"
-.B xfce\-theme\-manager
-.RI [\-m]
-.RI [\-u]
-.br 
-.PP 
-\-m erzwingt die Neuerstellung aller Vorschaubilder für Oberflächen/Rahmen/Schaltflächen/Symbole und Mauszeiger
-
-\-u erstellt nur fehlende Vorschaubilder
-.br 
-.SH "BESCHREIBUNG"
+.TH "XFCE-THEME-MANAGER" "1" "0.3.0" "K.D.Hedger" ""
+.SH NAME
+xfce-theme-manager - Ein Oberflächenverwalter für Xfce
+.SH ÜBERSICHT
+.B xfce-theme-manager
+[Option.1] ... [Option.N]
+.br
+.SH BESCHREIBUNG
 Diese man-Seite erklärt kurz die Funktion des
-.B xfce\-theme\-manager.
-.PP 
-xfce\-theme\-manager ist eine Oberflächenverwaltung für Xfce, die die einfache Konfiguration von Oberflächen, Rahmen, Schaltflächen, Symbolen und Mauszeigern erlaubt.
+.B xfce-theme-manager.
+.br
+xfce-theme-manager ist eine Oberflächenverwaltung für Xfce4, die die einfache Konfiguration von Oberflächen, Rahmen, Schaltflächen, Symbolen und Mauszeigern erlaubt.
+.SH FUNKTION
+Nach dem Start des xfce-theme-manager kann der Benutzer aus folgenden Optionen wählen.
 
-.br 
-.SH "GEBRAUCH"
-.PP 
-Nach dem Start des xfce\-theme\-manager kann der Benutzer aus folgenden Optionen wählen.
+.br
 
 .B [Oberfläche Zurücksetzen]
-
+.br
 Alle Änderungen verwerfen.
+.br
 
-.B [Benutzerdefinierte Oberfläche]
+.B [Oberfläche Speichern]
+.br
 
 Speichern/Löschen einer Oberfläche unter einem benutzerdefinierten Namen. Zum schnellen Löschen einer benutzerdefinierten Oberfläche: STRG-Klick auf ein Vorschaubild.
-
-.B [Erweitert-Register]
+.br
 
 .B [Infos]
-
+.br
 Credits usw.
+.br
 
+.B [Erweitert-Register]
+.br
 
 .B [DB erneuern]
-
+.br
 Erstellt die Datenbank neu.
+.br
 
-.B [Xfce\-Composite\-Editor]
-
-Startet den Xfce-Composite-Editor (falls installiert). Download hier:
-http://keithhedger.hostingsiteforfree.com/zips/Xfce4\-Composite\-Editor.tar.gz
-
-Um Xfce-Composite-Editor starten zu können, müssen gtkdialog 0.8.x und Bash installiert sein.
+.B [Xfce-Composite-Editor]
+.br
+Startet den composite editor (sofern installiert).
+.br
+Verfügbar zum Herunterladen unter:
+.br
+http://keithhedger.hostingsiteforfree.com/zips/Xfce4-Composite-Editor.tar.gz
+.br
+Um den Composite Editor zu starten müssen gtkdialog 0.8.x und Bash installiert sein.
+.br
 
 .B [Hintergrund-Anpassung]
-
-Helligkeit/Sättigung des Hintergrunds anpassen.
+.br
+Helligkeit/Sättigung des Hintergrundbilds anpassen.
+.br
 
 .B [Anordnung der Schaltflächen]
-
-Position der Schaltflächen (Schließen, Maximieren, etc.) einstellen.
+.br
+Position der Schaltflächen (Schließen, Maximieren, etc.) einstellen. (Manche Oberflächen ignorieren diese Einstellung)
+.br
 
 .B [Position des Fenstertitels]
-
-Die Platzierung des Fenstertitels (manche Oberflächen ignorieren diese Einstellung).
+.br
+Die Platzierung des Fenstertitels. (Manche Oberflächen ignorieren diese Einstellung)
+.br
 
 .B [Schrift-Auswahl]
-
+.br
 Schrift der Titelzeile und von Anwendungen anpassen.
+.br
 
 .B [Größe des Mauszeigers]
-
+.br
 Größe des Mauszeigers einstellen (manche Oberflächen ignorieren diese Einstellung).
+.br
 
 .B [Anzeige-Optionen]
-
+.br
 .B [Zeige System-Oberflächen]
-
+.br
 Zeigt systemweit installierte Oberflächen.
+.br
 
 .B [Nur benutzerdefinierte Oberflächen anzeigen]
-
+.br
 Zeigt nur Meta-Oberflächen, die Sie erstellt haben. Automatisch erstellte Meta-Oberflächen werden nicht gezeigt.
+.br
 
 .B [Oberflächen]
-
+.br
 Zeigt systemweit installierte Meta-Oberflächen.
+.br
 
 .B [Fensterrahmen]
-
+.br
 Zeigt systemweit installierte Xfwm4-Oberflächen.
+.br
 
 .B [Steuerelemente]
-
+.br
 Zeigt systemweit installierte Gtk-Oberflächen.
+.br
 
 .B [Symbole]
-
+.br
 Zeigt systemweit installierte Icons.
+.br
 
 .B [Mauszeiger]
-
+.br
 Zeigt systemweit installierte Mauszeiger.
+.br
 
 .B [Hintergründe]
-
+.br
 Zeigt systemweit installierte Hintergrundbilder.
+.br
 
-Lokal installierte Oberflächen werden immer gezeigt. Ausnahme: Meta-Oberflächen, falls [Nur benutzerdefinierte Oberflächen anzeigen] ausgewählt ist.
-
+Lokal installierte Oberflächen werden immer gezeigt. Ausnahme: Meta-Oberflächen, falls
+.B [Nur benutzerdefinierte Oberflächen anzeigen]
+ausgewählt ist.
+.br
 Sie können eine benutzerdefinierte Oberfläche schnell entfernen, indem sie STRG gedrückt halten und auf das Vorschaubild klicken. Nur von Ihnen erstellte benutzerdefinierte Oberflächen können gelöscht werden. Die Oberfläche wird dabei nicht von der Festplatte gelöscht, sondern lediglich aus der Datenbank entfernt.
-
+.br
 Um Oberflächen/Gtk-Oberflächen/Symbole/Mauszeiger/Fensterrahmen/Hintergrundbilder zu installieren, ziehen Sie die Archivdatei (Hintergrundbilder sollten nicht archiviert sein) irgendwo in das Hauptfenster. Wenn möglich, wird die Oberfläche etc. am richtigen Ort (immer lokal) installiert. 
 Unterstützte Archiv-Typen sind: *.tgz, *.gz, *.zip, *.tar, *.bz2,
 unterstützte Hintergrund-Typen sind: *.jpg, *.png, *.bmp, *.gif. Alle andere Dateitypen müssen Sie von Hand installieren.
+.br
+
+Um .zip-Dateien per Drag&Drop zu installieren, muss das Programm unzip installiert sein.
+.br
 
 Die Vorschaubilder werden in $ {HOME}/.config/XfceThemeManager gespeichert.
-
-Das erste Mal, wenn Sie Xfce-Theme-Manager benutzen, sollten Sie entweder von der Kommandozeile mit der "-m"-Option starten oder auf den "DB erneuern"-Knopf klicken. Das erste Erstellen der Datenbank kann eine Weile dauern.
+.br
 
 Die Datenbank wird bei der Installation von Oberflächen etc. durch Drag&Drop automatisch aktualisiert. Wenn Sie oft Oberflächen/Symbole usw. hinzufügen und löschen, können Sie auch "Datenbank neu anlegen" unter "Erweitert" benutzen.
+.br
 
-Meta-Oberflächen sind Oberflächen, die einen Gtk2- und einen xfwm4-Ordner enthalten (d.h. Fensterrahmen und Knöpfe). Wenn es eine theme.index-Datei gibt, die eine Symbol-Zusammenstellung festlegt (wie bei Gnome-Oberflächen), wird diese auch benutzt.
-.br 
-.SH "AUTOR"
-xfce\-theme\-manager wurde von Keith Hedger entwickelt
-.PP 
-Diese man-Seite wurde von Eduardo Echeverria <echevemaster@gmail.com>,
-für das Fedora-Projekt erstellt (und darf von anderen weiterverwendet werden) und von Keith Hedger ergänzt. Die Übersetzungen stammen von Pablo Morales Romero <pg.morales.romero@gmail.com> (Spanisch) und Martin F. Schumann <mfs@mfs.name> (Deutsch)
+Meta-Oberflächen sind Oberflächen, die einen Gtk2- und einen xfwm4-Ordner enthalten (d.h. Fensterrahmen und Knöpfe). Wenn es eine "theme.index"-Datei gibt, die eine Symbol-Zusammenstellung festlegt (wie bei Gnome-Oberflächen), wird diese auch benutzt.
+.br
+.SH KOMMANDOZEILENOPTIONEN
+-v, --version
+.br
+	Zeigt nur Versionsinformationen.
+.br
 
+-u, --update-db
+.br
+	Aktualisiert die Datenbank.
+.br
+
+-r, --build-db
+.br
+	Erstellt die Datenbank neu.
+.br
+
+-n, --nogui
+.br
+	Starte ohne grafische Benutzeroberfläche (GUI).
+.br
+
+-t, --theme=ARG
+.br
+	Aktiviert die Meta-Oberfläche ARG.
+.br
+
+-c, --controls=ARG
+.br
+	Aktiviert das Steuerelement-Thema ARG.
+.br
+
+-w, --wmborder=ARG
+.br
+	Aktiviert das Fensterrahmen-Thema ARG.
+.br
+
+-i, --icons=ARG
+.br
+	Aktiviert das Symbolthema ARG.
+.br
+
+-p, --cursors=ARG
+.br
+	Aktiviert das Mauszeigerthema ARG.
+.br
+
+-b, --backdrop=ARG
+.br
+	Wählt ARG als Hintergrundbild.
+.br
+
+-l, --list=ARG
+.br
+	Zeigt die Einträge der Datenbank. ARG muss irgendein Zeichen aus "*Ctwcib" sein.
+.br
+
+	'C' zeigt benutzerdefinierte Oberflächen, 't' zeigt Oberflächen, 'w' zeigt Fensterrahmen, 'c' zeigt Steuerelemente 'i' zeigt Symbole und 'b' zeigt Hintergrundbilder.
+	Ist das erste Zeichen '*', werden alle Einträge gezeigt.
+.br
+
+-?, --help
+.br
+	Zeigt die Hilfe.
+.br
+
+Die Optionen tcwipblvh? implizieren alle -n.
+.br
+.SH  AUTOR
+.B Xfce-Theme-Manager
+wurde von Keith Hedger entwickelt.
+ 
+Diese man-Seite wurde von Eduardo Echeverria <echevemaster@gmail.com>
+für das Fedora-Projekt erstellt (und darf von anderen weiterverwendet werden) und von Keith Hedger ergänzt. Die Übersetzungen stammen von Pablo Morales Romero <pg.morales.romero@gmail.com> (Spanisch) und Martin F. Schumann <mfs@mfs.name> (Deutsch).
