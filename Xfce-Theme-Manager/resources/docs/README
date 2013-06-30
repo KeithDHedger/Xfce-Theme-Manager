@@ -88,7 +88,7 @@ Meta Themes are themes that contain a gtk2 folder and an xfwm4 folder (ie window
 Spanish/German is now catered for if you have set the 'LANG' enviroment variable properly, other translations are invited email me for a list to be translated.
 
 INSTALL:
-Extract the archive say into /tmp, cd into /tmp/Xfce-Theme-Manager-(VERSION), run sudo make install, this will install the Xfce-Theme-Manager GUI, icon and the desktop file.
+Extract the archive say into /tmp, cd into /tmp/Xfce-Theme-Manager-(VERSION), run ./autogen.sh ( or ./configure ), make, sudo make install, this will install the Xfce-Theme-Manager GUI, icon and the desktop file.
 
 The GUI can be run from the command line or from the settings menu.
 The GUI can be manually installed and/or run from the main folder.
