@@ -107,7 +107,7 @@
 #define _translate(x) langStr[langID][x]
 #define _translateHelp(x) helpStr[langID][x]
 
-enum {ENGLISH=0,SPANISH,GERMAN};
+enum {ENGLISH=0,SPANISH,GERMAN,POLISH};
 
 enum dataType {INT,STRING,FLOAT};
 enum {PIXBUF_COLUMN,TEXT_COLUMN,FILE_NAME};

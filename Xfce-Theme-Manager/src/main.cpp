@@ -249,6 +249,8 @@ void init(void)
 				langID=SPANISH;
 			if(strncmp("de",stdout,2)==0)
 				langID=GERMAN;
+			if(strncmp("pl",stdout,2)==0)
+				langID=POLISH;
 		}
 //init my configs
 
