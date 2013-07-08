@@ -593,6 +593,8 @@ XFCE4UI_LIBS
 XFCE4UI_CFLAGS
 XCURSOR_LIBS
 XCURSOR_CFLAGS
+GTHREAD_LIBS
+GTHREAD_CFLAGS
 GLIB_LIBS
 GLIB_CFLAGS
 GTK_LIBS
@@ -716,6 +718,8 @@ GTK_CFLAGS
 GTK_LIBS
 GLIB_CFLAGS
 GLIB_LIBS
+GTHREAD_CFLAGS
+GTHREAD_LIBS
 XCURSOR_CFLAGS
 XCURSOR_LIBS
 XFCE4UI_CFLAGS
@@ -1362,6 +1366,10 @@ Some influential environment variables:
   GTK_LIBS    linker flags for GTK, overriding pkg-config
   GLIB_CFLAGS C compiler flags for GLIB, overriding pkg-config
   GLIB_LIBS   linker flags for GLIB, overriding pkg-config
+  GTHREAD_CFLAGS
+              C compiler flags for GTHREAD, overriding pkg-config
+  GTHREAD_LIBS
+              linker flags for GTHREAD, overriding pkg-config
   XCURSOR_CFLAGS
               C compiler flags for XCURSOR, overriding pkg-config
   XCURSOR_LIBS
@@ -4709,6 +4717,101 @@ See \`config.log' for more details" "$LINENO" 5; }
 else
 	GLIB_CFLAGS=$pkg_cv_GLIB_CFLAGS
 	GLIB_LIBS=$pkg_cv_GLIB_LIBS
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+$as_echo "yes" >&6; }
+
+fi
+
+
+
+GTHREAD_MODULES="gthread-2.0 >= 2.30.0"
+
+pkg_failed=no
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for GTHREAD" >&5
+$as_echo_n "checking for GTHREAD... " >&6; }
+
+if test -n "$GTHREAD_CFLAGS"; then
+    pkg_cv_GTHREAD_CFLAGS="$GTHREAD_CFLAGS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"\$GTHREAD_MODULES\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "$GTHREAD_MODULES") 2>&5
+  ac_status=$?
+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_GTHREAD_CFLAGS=`$PKG_CONFIG --cflags "$GTHREAD_MODULES" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+if test -n "$GTHREAD_LIBS"; then
+    pkg_cv_GTHREAD_LIBS="$GTHREAD_LIBS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"\$GTHREAD_MODULES\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "$GTHREAD_MODULES") 2>&5
+  ac_status=$?
+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_GTHREAD_LIBS=`$PKG_CONFIG --libs "$GTHREAD_MODULES" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+
+
+
+if test $pkg_failed = yes; then
+   	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+
+if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
+        _pkg_short_errors_supported=yes
+else
+        _pkg_short_errors_supported=no
+fi
+        if test $_pkg_short_errors_supported = yes; then
+	        GTHREAD_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "$GTHREAD_MODULES" 2>&1`
+        else
+	        GTHREAD_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "$GTHREAD_MODULES" 2>&1`
+        fi
+	# Put the nasty error message in config.log where it belongs
+	echo "$GTHREAD_PKG_ERRORS" >&5
+
+	as_fn_error $? "Package requirements ($GTHREAD_MODULES) were not met:
+
+$GTHREAD_PKG_ERRORS
+
+Consider adjusting the PKG_CONFIG_PATH environment variable if you
+installed software in a non-standard prefix.
+
+Alternatively, you may set the environment variables GTHREAD_CFLAGS
+and GTHREAD_LIBS to avoid the need to call pkg-config.
+See the pkg-config man page for more details." "$LINENO" 5
+elif test $pkg_failed = untried; then
+     	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+	{ { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
+$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
+as_fn_error $? "The pkg-config script could not be found or is too old.  Make sure it
+is in your PATH or set the PKG_CONFIG environment variable to the full
+path to pkg-config.
+
+Alternatively, you may set the environment variables GTHREAD_CFLAGS
+and GTHREAD_LIBS to avoid the need to call pkg-config.
+See the pkg-config man page for more details.
+
+To get pkg-config, see <http://pkg-config.freedesktop.org/>.
+See \`config.log' for more details" "$LINENO" 5; }
+else
+	GTHREAD_CFLAGS=$pkg_cv_GTHREAD_CFLAGS
+	GTHREAD_LIBS=$pkg_cv_GTHREAD_LIBS
         { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 $as_echo "yes" >&6; }
 

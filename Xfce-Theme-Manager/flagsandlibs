@@ -2,6 +2,7 @@
 AM_CPPFLAGS =	-I$(top_srcdir) \
 			$(GTK_CFLAGS) \
 			$(GLIB_CFLAGS) \
+			$(GTHREAD_CFLAGS) \
 			$(XCURSOR_CFLAGS) \
 			$(XFCE4UI_CFLAGS) \
 			-DPREFIX=\""${prefix}\"" \
@@ -10,6 +11,7 @@ AM_CPPFLAGS =	-I$(top_srcdir) \
 			-DLIBDIR=\""${libdir}/${PACKAGE}"\"
 
 LIBS =	$(GLIB_LIBS) \
+		$(GTHREAD_LIBS) \
 		$(GTK_LIBS)  \
 		$(XCURSOR_LIBS) \
 		$(XFCE4UI_LIBS)
