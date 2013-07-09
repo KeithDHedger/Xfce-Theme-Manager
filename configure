@@ -4914,7 +4914,7 @@ fi
 
 
 
-XFCE4UI_MODULES="libxfce4ui-1 >= 4.10.0"
+XFCE4UI_MODULES="libxfce4ui-1 >= 4.8.0"
 
 pkg_failed=no
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for XFCE4UI" >&5

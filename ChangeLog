@@ -20,6 +20,8 @@ Changelog:
 0.3.2	Added Polish translation, thanks to Michał Olber for that.
 	Added Polish man page.
 	Fixed link bug for older glib.
+	Fixed bug where xfce4.8 reads arrays differently than 4.10
+	Lowered version number for libxfce4ui to 4.8 so style matches 4.10
 
 0.3.1	Added some customization of panels, size and appearance (solid colour,system,image,aplpha).
 	Save panel appearance in custom themes.
