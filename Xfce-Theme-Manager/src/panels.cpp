@@ -10,6 +10,7 @@
 #include <gtk/gtk.h>
 #include <string.h>
 #include <sys/stat.h>
+#include <ctype.h>
 
 #include "globals.h"
 
@@ -133,7 +134,21 @@ void setPanelColour(GtkColorButton *widget, gpointer user_data)
 	panels[panelnum]->blue=colour.blue;
 	setPanelData(true);
 }
-                                                        
+
+void makeNewPanelData(int num,int panelnum)
+{
+	panels[num]=(panelData*)malloc(sizeof(panelData));
+	panels[num]->style=0;
+	panels[num]->size=48;
+	panels[num]->imagePath=NULL;
+	panels[num]->red=56540;
+	panels[num]->green=56026;
+	panels[num]->blue=54741;
+	panels[num]->alpha=100;
+	panels[num]->panelNumber=panelnum;
+	panelNumbers[num]=panelnum;
+}
+
 void populatePanels(void)
 {
 	FILE*	fp;
@@ -141,96 +156,113 @@ void populatePanels(void)
 	char	command[1024];
 	int		cnt=0;
 
-	fp=popen("xfconf-query  array -c xfce4-panel -p /panels","r");
-	fgets(buffer,256,fp);
-	fgets(buffer,256,fp);
-	while(fgets(buffer,256,fp))
+	bool	gotthispanel;
+	for(int j=0;j<10;j++)
 		{
-			panelNumbers[cnt]=atoi(buffer);
-			cnt++;
-		}
-
-	numOfPanels=cnt;
-	pclose(fp);
-
-	for(int j=0;j<numOfPanels;j++)
-		{
+			gotthispanel=false;
 			buffer[0]=0;
-			panels[j]=(panelData*)malloc(sizeof(panelData));
-			panels[j]->style=0;
-			panels[j]->size=48;
-			panels[j]->imagePath=NULL;
-			panels[j]->red=56540;
-			panels[j]->green=56026;
-			panels[j]->blue=54741;
-			panels[j]->alpha=100;
 
-			sprintf((char*)&command,"xfconf-query  array -c xfce4-panel -p /panels/panel-%i/background-style 2>/dev/null",panelNumbers[j]);
-			fp=popen(command,"r");
-			fgets(buffer,1024,fp);
-			pclose(fp);
-			if(strlen(buffer)>0)
-				panels[j]->style=atoi(buffer);
-
-			buffer[0]=0;
-			sprintf((char*)&command,"xfconf-query  array -c xfce4-panel -p /panels/panel-%i/size 2>/dev/null",panelNumbers[j]);
-			fp=popen(command,"r");
-			fgets(buffer,1024,fp);
-			pclose(fp);
-			if(strlen(buffer)>0)
-				panels[j]->size=atoi(buffer);
-
-			buffer[0]=0;
-			sprintf((char*)&command,"xfconf-query  array -c xfce4-panel -p /panels/panel-%i/background-image 2>/dev/null",panelNumbers[j]);
+			sprintf((char*)&command,"xfconf-query  array -c xfce4-panel -p /panels/panel-%i/background-style 2>/dev/null",j);
 			fp=popen(command,"r");
 			fgets(buffer,1024,fp);
 			pclose(fp);
 			if(strlen(buffer)>0)
 				{
+					if(gotthispanel==false)
+						{
+							gotthispanel=true;
+							makeNewPanelData(cnt,j);
+						}
+					panels[cnt]->style=atoi(buffer);
+				}
+			buffer[0]=0;
+			sprintf((char*)&command,"xfconf-query  array -c xfce4-panel -p /panels/panel-%i/size 2>/dev/null",j);
+			fp=popen(command,"r");
+			fgets(buffer,1024,fp);
+			pclose(fp);
+			if(strlen(buffer)>0)
+				{
+					if(gotthispanel==false)
+						{
+							gotthispanel=true;
+							makeNewPanelData(cnt,j);
+						}
+					panels[cnt]->size=atoi(buffer);
+				}
+
+			buffer[0]=0;
+			sprintf((char*)&command,"xfconf-query  array -c xfce4-panel -p /panels/panel-%i/background-image 2>/dev/null",j);
+			fp=popen(command,"r");
+			fgets(buffer,1024,fp);
+			pclose(fp);
+			if(strlen(buffer)>0)
+				{
+					if(gotthispanel==false)
+						{
+							gotthispanel=true;
+							makeNewPanelData(cnt,j);
+						}
+
 					buffer[strlen(buffer)-1]=0;
-					panels[j]->imagePath=strdup(buffer);
+					panels[cnt]->imagePath=strdup(buffer);
 				}
 
 			buffer[0]=0;
-			sprintf((char*)&command,"xfconf-query  array -c xfce4-panel -p /panels/panel-%i/background-color 2>/dev/null",panelNumbers[j]);
+			sprintf((char*)&command,"xfconf-query  array -c xfce4-panel -p /panels/panel-%i/background-color 2>/dev/null",j);
 			fp=popen(command,"r");
 			fgets(buffer,1024,fp);
 			if(strlen(buffer)>0)
 				{
+					if(gotthispanel==false)
+						{
+							gotthispanel=true;
+							makeNewPanelData(cnt,j);
+						}
+
 					fgets(buffer,1024,fp);
 
 					fgets(buffer,1024,fp);
-					panels[j]->red=atoi(buffer);
+					panels[cnt]->red=atoi(buffer);
 					fgets(buffer,1024,fp);
-					panels[j]->green=atoi(buffer);
+					panels[cnt]->green=atoi(buffer);
 					fgets(buffer,1024,fp);
-					panels[j]->blue=atoi(buffer);
+					panels[cnt]->blue=atoi(buffer);
 				}
 			pclose(fp);
 
 			buffer[0]=0;
-			sprintf((char*)&command,"xfconf-query  array -c xfce4-panel -p /panels/panel-%i/background-alpha 2>/dev/null",panelNumbers[j]);
+			sprintf((char*)&command,"xfconf-query  array -c xfce4-panel -p /panels/panel-%i/background-alpha 2>/dev/null",j);
 			fp=popen(command,"r");
 			fgets(buffer,1024,fp);
 			pclose(fp);
 			if(strlen(buffer)>0)
-				panels[j]->alpha=atoi(buffer);
+				{
+					if(gotthispanel==false)
+						{
+							gotthispanel=true;
+							makeNewPanelData(cnt,j);
+						}
+					panels[cnt]->alpha=atoi(buffer);
+				}
 
-			panels[j]->panelNumber=panelNumbers[j];
-
-			revertPanels[j]=(panelData*)malloc(sizeof(panelData));
-			revertPanels[j]->style=panels[j]->style;
-			revertPanels[j]->size=panels[j]->size;
-			if(panels[j]->imagePath!=NULL)
-				revertPanels[j]->imagePath=strdup(panels[j]->imagePath);
-			else
-				revertPanels[j]->imagePath=NULL;
-			revertPanels[j]->red=panels[j]->red;
-			revertPanels[j]->green=panels[j]->green;
-			revertPanels[j]->blue=panels[j]->blue;
-			revertPanels[j]->alpha=panels[j]->alpha;
-			revertPanels[j]->panelNumber=panelNumbers[j];
+			if(gotthispanel==true)
+				{
+					revertPanels[cnt]=(panelData*)malloc(sizeof(panelData));
+					revertPanels[cnt]->style=panels[cnt]->style;
+					revertPanels[cnt]->size=panels[cnt]->size;
+					if(panels[cnt]->imagePath!=NULL)
+						revertPanels[cnt]->imagePath=strdup(panels[cnt]->imagePath);
+					else
+						revertPanels[cnt]->imagePath=NULL;
+					revertPanels[cnt]->red=panels[cnt]->red;
+					revertPanels[cnt]->green=panels[cnt]->green;
+					revertPanels[cnt]->blue=panels[cnt]->blue;
+					revertPanels[cnt]->alpha=panels[cnt]->alpha;
+					revertPanels[cnt]->panelNumber=panelNumbers[cnt];
+					cnt++;
+				}
 		}
+	numOfPanels=cnt;
 }
 
 void setPanels(void)

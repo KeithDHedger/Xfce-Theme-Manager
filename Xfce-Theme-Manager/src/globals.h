@@ -50,9 +50,9 @@
 #define XCONFSETWMFONT "xfconf-query -c xfwm4 -p /general/title_font -s "
 #define XCONFSETAPPFONT "xfconf-query -c xsettings -p /Gtk/FontName -s "
 
-#define GLOBALICONS "/usr/share/icons"
-#define GLOBALTHEMES "/usr/share/themes"
-#define GLOBALWALLPAPERS "/usr/share/xfce4/backdrops"
+#define GLOBALICONS "/usr/share/iconsx"
+#define GLOBALTHEMES "/usr/share/themesx"
+#define GLOBALWALLPAPERS "/usr/share/xfce4/backdropsx"
 
 #define XCONFGETCONTROLS "xfconf-query -c xsettings -p /Net/ThemeName"
 #define XCONFGETICONS "xfconf-query -c xsettings -p /Net/IconThemeName"
