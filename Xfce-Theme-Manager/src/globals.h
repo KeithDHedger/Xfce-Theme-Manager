@@ -34,7 +34,6 @@
 
 #define DELETETHEME 100
 
-
 #define XCONFSETSTYLE "xfconf-query -nRt int -c xfce4-desktop -p /backdrop/screen0/monitor0/image-style -s "
 #define XCONFSETBRIGHT "xfconf-query -nRt int -c xfce4-desktop -p /backdrop/screen0/monitor0/brightness -s "
 #define XCONFSETSATU "xfconf-query -nRt double -c xfce4-desktop -p /backdrop/screen0/monitor0/saturation -s "
