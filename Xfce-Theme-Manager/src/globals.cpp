@@ -219,14 +219,16 @@ char* doubleToStr(double num)
 void getValue(const char* channel,const char* property,dataType type,void* ptr)
 {
 	char*	data=NULL;
+	int		intdata;
+	double	floatdata;
 
 	XfconfChannel*	channelptr=xfconf_channel_get(channel);
 
 			switch(type)
 				{
 					case INT:
-
-
+							intdata=xfconf_channel_get_int(channelptr,property,-1);
+							*(int*)ptr=intdata;
 						break;
 
 					case STRING:
@@ -235,10 +237,10 @@ void getValue(const char* channel,const char* property,dataType type,void* ptr)
 							g_free(data);
 						break;
 
-					//case FLOAT:
-//
-//
-					//	break;
+					case FLOAT:
+							floatdata=xfconf_channel_get_int(channelptr,property,-1);
+							*(double*)ptr=floatdata;
+						break;
 				}
 
 }
