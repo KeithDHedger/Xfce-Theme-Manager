@@ -78,7 +78,10 @@ void rerunAndUpdate(bool rebuild,bool resetmeta)
 	if (rebuild==true)
 		rebuildDB((void*)1);
 
-	setValue(XCONFGETCONTROLS,STRING,&lastGtkTheme);
+//	setValue(XCONFGETCONTROLS,STRING,&lastGtkTheme);
+//	printf("XXX-%s-XXX\n",lastGtkTheme);
+//	getValue(XSETTINGS,CONTROLTHEMEPROP,STRING,&lastGtkTheme);
+//	printf("XXX-%s-XXX\n",lastGtkTheme);
 	setValue(XCONFGETICONS,STRING,&lastIconTheme);
 	setValue(XCONFGETFRAME,STRING,&lastWmTheme);
 	setValue(XCONFGETPAPER,STRING,&lastWallPaper);
@@ -171,6 +174,21 @@ void changeViewWhat(GtkWidget* widget,gpointer data)
 	system(command);
 	freeAndNull(&command);
 	rerunAndUpdate(false,true);
+}
+
+void buildCustomDBNEW(const char* chan,const char* prop,dataType type,const char* key)
+{
+	char*	stdout;
+//	gint   spawnret=0;
+
+	getValue(chan,prop,type,&stdout);
+	//g_spawn_command_line_sync(xconfline,&stdout,NULL,&spawnret,NULL);
+	//if (spawnret==0)
+	//	{
+	//		stdout[strlen(stdout)-1]=0;
+			sprintf(filedata,"%s%s=%s\n",filedata,key,stdout);
+			freeAndNull(&stdout);
+	//	}
 }
 
 void buildCustomDB(const char* xconfline,const char* key)
@@ -266,7 +284,8 @@ else
 
 	if (filename!=NULL && strlen(filename)>0)
 		{
-			setValue(XCONFGETCONTROLS,STRING,&gtk);
+//			setValue(XCONFGETCONTROLS,STRING,&gtk);
+			getValue(XSETTINGS,CONTROLTHEMEPROP,STRING,&gtk);
 			setValue(XCONFGETFRAME,STRING,&frame);
 			setValue(XCONFGETICONS,STRING,&iconTheme);
 			setValue(XCONFGETCURSOR,STRING,&cursorTheme);
@@ -283,7 +302,8 @@ else
 			if(fd!=NULL)
 				{
 					sprintf(filedata,"[Data]\nName=%s\nThumbnail=%s\n",filename,thumbfile);
-					buildCustomDB(XCONFGETCONTROLS,"GtkTheme");
+//					buildCustomDB(XCONFGETCONTROLS,"GtkTheme");
+					buildCustomDBNEW(XSETTINGS,CONTROLTHEMEPROP,STRING,"GtkTheme");
 					buildCustomDB(XCONFGETICONS,"IconTheme");
 					buildCustomDB(XCONFGETCURSOR,"CursorTheme");
 					buildCustomDB(XCONFGETFRAME,"Xfwm4Theme");
@@ -768,6 +788,38 @@ void doMeta(char* metaFilename,bool update)
 	system("xfdesktop --reload");
 }
 
+void setPieceNew(char* filePath,const char* doCommand,bool update,long doWhat)
+{
+	GKeyFile*	keyfile=g_key_file_new();
+	char*		command;
+	char*		dataset;
+
+	if(g_key_file_load_from_file(keyfile,filePath,G_KEY_FILE_NONE,NULL))
+		{
+			dataset=g_key_file_get_string(keyfile,"Data","ThemeName",NULL);
+
+			if(dataset!=NULL)
+				{
+					asprintf(&command,"%s\"%s\"",doCommand,dataset);
+					system(command);
+					switch(doWhat)
+						{
+							case CONTROLS:
+								if(currentGtkTheme!=NULL)
+									g_free(currentGtkTheme);
+								currentGtkTheme=strdup(dataset);
+								break;
+						}
+
+					freeAndNull(&command);
+					freeAndNull(&dataset);
+					if (update==true)
+						rerunAndUpdate(false,false);
+				}
+		}
+	g_key_file_free(keyfile);
+}
+
 void setPiece(char* filePath,const char* doCommand,bool update)
 {
 	GKeyFile*	keyfile=g_key_file_new();
@@ -821,7 +873,7 @@ void themeIconCallback(GtkIconView *view,gpointer doWhat)
 				break;
 
 			case CONTROLS:
-				setPiece(text,XCONFSETCONTROLS,true);
+				setPieceNew(text,XCONFSETCONTROLS,true,CONTROLS);
 				break;
 
 			case ICONS:
@@ -859,11 +911,17 @@ gboolean clickIt(GtkWidget* widget,GdkEvent* event,gpointer data)
 
 	gdk_window_set_cursor (gdkWindow,watchCursor); 
 
+//	setValue(XCONFGETCONTROLS,STRING,&lastGtkTheme);
+
+//	getValue(XSETTINGS,CONTROLTHEMEPROP,STRING,&lastGtkTheme);
+
 	path=gtk_icon_view_get_path_at_pos((GtkIconView *)widget,event->button.x,event->button.y);
 	if (path!=NULL)
+		{
 		themeIconCallback((GtkIconView *)widget,(void*)data);
+		}
 
-	gdk_window_set_cursor (gdkWindow,NULL); 
+	gdk_window_set_cursor(gdkWindow,NULL); 
 
 	return(TRUE);
 }

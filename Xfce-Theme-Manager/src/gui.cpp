@@ -64,11 +64,19 @@ GtkListStore*	store;
 bool isCurrent(char* themename,const char* catagory,char* name)
 {
 	bool	retval=false;
-
+//	char* temp;
+	
 	if(themename!=NULL)
 		{
-			if((g_ascii_strcasecmp(lastGtkTheme,themename)==0)&&(g_ascii_strcasecmp("controls",catagory)==0))
-				retval=true;
+			//if((g_ascii_strcasecmp(lastGtkTheme,themename)==0)&&(g_ascii_strcasecmp("controls",catagory)==0))
+			//	retval=true;
+			if(g_ascii_strcasecmp("controls",catagory)==0)
+				{
+					//getValue(XSETTINGS,CONTROLTHEMEPROP,STRING,&temp);
+					//printf("isCurrent temp=%s, lastGtkTheme=%s themename=%s thistheme=%s\n",temp,lastGtkTheme,themename,currentGtkTheme);
+					if(g_ascii_strcasecmp(currentGtkTheme,themename)==0)
+						retval=true;
+				}
 
 			if((g_ascii_strcasecmp(lastCursorTheme,themename)==0)&&(g_ascii_strcasecmp("cursors",catagory)==0))
 				retval=true;
@@ -325,6 +333,8 @@ void addNewIcons(const char* subfolder,GtkIconView* tempIconView,int whatBox)
 							name=g_key_file_get_string(keyfile,"Data","Name",NULL);
 							thumb=g_key_file_get_string(keyfile,"Data","Thumbnail",NULL);
 							themename=g_key_file_get_string(keyfile,"Data","ThemeName",NULL);
+							//if(whatBox==2)
+							//	printf("addicon entry=%s %s\n",name,(char*)themename);
 							addIconEntry(store,thumb,name,filename,(char*)subfolder,(char*)themename,whatBox);
 							previewBox[whatBox].itemCnt++;
 							freeAndNull(&name);

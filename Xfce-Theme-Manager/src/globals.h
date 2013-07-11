@@ -55,6 +55,9 @@
 #define GLOBALWALLPAPERS "/usr/share/xfce4/backdrops"
 
 #define XCONFGETCONTROLS "xfconf-query -c xsettings -p /Net/ThemeName"
+#define CONTROLTHEMEPROP "/Net/ThemeName"
+#define XSETTINGS "xsettings"
+
 #define XCONFGETICONS "xfconf-query -c xsettings -p /Net/IconThemeName"
 #define XCONFGETCURSOR "xfconf-query -c xsettings -p /Gtk/CursorThemeName"
 #define XCONFGETFRAME "xfconf-query -c xfwm4 -p /general/theme"
@@ -145,6 +148,8 @@ extern char*			lastWmTheme;
 extern char*			lastCursorTheme;
 extern char*			lastWallPaper;
 extern char*			lastMetaTheme;
+
+extern char*			originalGtkTheme;
 
 extern char*			homeThemesHash;
 
@@ -283,9 +288,9 @@ extern void freeAndNull(char** ptr);
 extern int positionToInt(char* pos);
 extern char* doubleToStr(double num);
 
-void getValue(const char* command,dataType type,void* ptr);
+void setValue(const char* command,dataType type,void* ptr);
 int sizeDrop(bool toDrop,int data);
-void setValueNew(const char* channel,const char* property,dataType type,void* ptr);
+void getValue(const char* channel,const char* property,dataType type,void* ptr);
 
 #endif
 

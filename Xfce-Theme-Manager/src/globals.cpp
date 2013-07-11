@@ -36,6 +36,8 @@ char*				lastWallPaper;
 char*				lastMetaTheme;
 char*				homeThemesHash;
 
+char*				originalGtkTheme=NULL;
+
 boxStruct			previewBox[6]={{NULL,NULL,NULL,0,NULL,NULL}};
 
 //db
@@ -214,9 +216,9 @@ char* doubleToStr(double num)
 	return(doublestr);
 }
 
-void getValueNew(const char* channel,const char* property,dataType type,void* ptr)
+void getValue(const char* channel,const char* property,dataType type,void* ptr)
 {
-	char*	data;
+	char*	data=NULL;
 
 	XfconfChannel*	channelptr=xfconf_channel_get(channel);
 
@@ -233,10 +235,10 @@ void getValueNew(const char* channel,const char* property,dataType type,void* pt
 							g_free(data);
 						break;
 
-					case FLOAT:
-
-
-						break;
+					//case FLOAT:
+//
+//
+					//	break;
 				}
 
 }

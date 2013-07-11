@@ -97,8 +97,13 @@ void resetTheme(GtkWidget* widget,gpointer data)
 
 	gdk_window_set_cursor (gdkWindow,watchCursor); 
 
-	sprintf(generalBuffer,"%s\"%s\"",XCONFSETCONTROLS,currentGtkTheme);
+//	sprintf(generalBuffer,"%s\"%s\"",XCONFSETCONTROLS,currentGtkTheme);
+	sprintf(generalBuffer,"%s\"%s\"",XCONFSETCONTROLS,originalGtkTheme);
 	system(generalBuffer);
+	if(currentGtkTheme!=NULL)
+		g_free(currentGtkTheme);
+	currentGtkTheme=strdup(originalGtkTheme);
+
 	sprintf(generalBuffer,"%s\"%s\"",XCONFSETFRAME,currentWmTheme);
 	system(generalBuffer);
 	sprintf(generalBuffer,"%s\"%s\"",XCONFSETICONS,currentIconTheme);
@@ -127,7 +132,10 @@ void resetTheme(GtkWidget* widget,gpointer data)
 	sprintf(generalBuffer,"%s\"%s\"",XMTSETMETATHEME,currentMetaTheme);
 	system(generalBuffer);
 
-	setValue(XCONFGETCONTROLS,STRING,&lastGtkTheme);
+	//setValue(XCONFGETCONTROLS,STRING,&lastGtkTheme);
+	getValue(XSETTINGS,CONTROLTHEMEPROP,STRING,&lastGtkTheme);
+//	getValue(XSETTINGS,CONTROLTHEMEPROP,STRING,&originalGtkTheme);
+
 	setValue(XCONFGETICONS,STRING,&lastIconTheme);
 	setValue(XCONFGETFRAME,STRING,&lastWmTheme);
 	setValue(XCONFGETPAPER,STRING,&lastWallPaper);
@@ -210,10 +218,9 @@ void init(void)
 	asprintf(&homeThemesHash,"12345");
 	
 //gtk
-//	setValue(XCONFGETCONTROLS,STRING,&currentGtkTheme);
-//	setValue(XCONFGETCONTROLS,STRING,&lastGtkTheme);
-	getValue("xsettings","/Net/ThemeName",STRING,&currentGtkTheme);
-	getValue("xsettings","/Net/ThemeName",STRING,&lastGtkTheme);
+	getValue(XSETTINGS,CONTROLTHEMEPROP,STRING,&currentGtkTheme);
+	getValue(XSETTINGS,CONTROLTHEMEPROP,STRING,&lastGtkTheme);
+	getValue(XSETTINGS,CONTROLTHEMEPROP,STRING,&originalGtkTheme);
 
 //icons
 	setValue(XCONFGETICONS,STRING,&currentIconTheme);
