@@ -224,25 +224,24 @@ void getValue(const char* channel,const char* property,dataType type,void* ptr)
 
 	XfconfChannel*	channelptr=xfconf_channel_get(channel);
 
-			switch(type)
-				{
-					case INT:
-							intdata=xfconf_channel_get_int(channelptr,property,-1);
-							*(int*)ptr=intdata;
-						break;
+	switch(type)
+		{
+			case INT:
+				intdata=xfconf_channel_get_int(channelptr,property,-1);
+				*(int*)ptr=intdata;
+				break;
 
-					case STRING:
-							data=xfconf_channel_get_string(channelptr,property,"");
-							asprintf((char**)ptr,"%s",data);
-							g_free(data);
-						break;
+			case STRING:
+				data=xfconf_channel_get_string(channelptr,property,"");
+				asprintf((char**)ptr,"%s",data);
+				g_free(data);
+				break;
 
-					case FLOAT:
-							floatdata=xfconf_channel_get_int(channelptr,property,-1);
-							*(double*)ptr=floatdata;
-						break;
-				}
-
+			case FLOAT:
+				floatdata=xfconf_channel_get_int(channelptr,property,-1);
+				*(double*)ptr=floatdata;
+				break;
+		}
 }
 
 void setValue(const char* command,dataType type,void* ptr)
