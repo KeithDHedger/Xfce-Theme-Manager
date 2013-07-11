@@ -21,6 +21,7 @@
 #include <getopt.h>
 #include <locale.h>
 #include <wchar.h>
+#include <xfconf/xfconf.h>
 
 #include "globals.h"
 #include "database.h"
@@ -157,6 +158,7 @@ void shutdown(GtkWidget* widget,gpointer data)
 	system(generalBuffer);
 	sprintf(generalBuffer,"%s%i",XMTSETWINHITE,winHite);
 	system(generalBuffer);
+	xfconf_shutdown();
 	gtk_main_quit();
 }
 
@@ -208,8 +210,10 @@ void init(void)
 	asprintf(&homeThemesHash,"12345");
 	
 //gtk
-	setValue(XCONFGETCONTROLS,STRING,&currentGtkTheme);
-	setValue(XCONFGETCONTROLS,STRING,&lastGtkTheme);
+//	setValue(XCONFGETCONTROLS,STRING,&currentGtkTheme);
+//	setValue(XCONFGETCONTROLS,STRING,&lastGtkTheme);
+	getValue("xsettings","/Net/ThemeName",STRING,&currentGtkTheme);
+	getValue("xsettings","/Net/ThemeName",STRING,&lastGtkTheme);
 
 //icons
 	setValue(XCONFGETICONS,STRING,&currentIconTheme);
@@ -656,6 +660,7 @@ int main(int argc,char **argv)
 #endif
 	gdk_threads_init();
 	gtk_init(&argc,&argv);
+	xfconf_init(NULL);
 
 	init();
 

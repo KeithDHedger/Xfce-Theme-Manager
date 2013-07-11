@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <gtk/gtk.h>
 #include <string.h>
+#include <xfconf/xfconf.h>
 
 #include "globals.h"
 
@@ -211,6 +212,33 @@ char* doubleToStr(double num)
 		*comma='.';	
 
 	return(doublestr);
+}
+
+void getValueNew(const char* channel,const char* property,dataType type,void* ptr)
+{
+	char*	data;
+
+	XfconfChannel*	channelptr=xfconf_channel_get(channel);
+
+			switch(type)
+				{
+					case INT:
+
+
+						break;
+
+					case STRING:
+							data=xfconf_channel_get_string(channelptr,property,"");
+							asprintf((char**)ptr,"%s",data);
+							g_free(data);
+						break;
+
+					case FLOAT:
+
+
+						break;
+				}
+
 }
 
 void setValue(const char* command,dataType type,void* ptr)

@@ -283,8 +283,9 @@ extern void freeAndNull(char** ptr);
 extern int positionToInt(char* pos);
 extern char* doubleToStr(double num);
 
-void setValue(const char* command,dataType type,void* ptr);
+void getValue(const char* command,dataType type,void* ptr);
 int sizeDrop(bool toDrop,int data);
+void setValueNew(const char* channel,const char* property,dataType type,void* ptr);
 
 #endif
 

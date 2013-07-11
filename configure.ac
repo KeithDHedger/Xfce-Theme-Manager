@@ -47,6 +47,11 @@ PKG_CHECK_MODULES(XFCE4UI, $XFCE4UI_MODULES,AC_DEFINE([GOT_LIBXFCEUI], [], [Desc
 AC_SUBST([XFCE4UI_CFLAGS])
 AC_SUBST([XFCE4UI_LIBS])
 
+XFCONF_MODULES="libxfconf-0 >= 4.8.1"
+PKG_CHECK_MODULES(XFCONF, $XFCONF_MODULES)
+AC_SUBST(XFCONF_CFLAGS)
+AC_SUBST(XFCONF_LIBS)
+
 AC_CHECK_PROG(UNZIP, unzip ,true,false)
 if test $UNZIP = false; then
 	AC_MSG_WARN([No unzip program found! You will not be able to drag 'n' drop zip files!])
