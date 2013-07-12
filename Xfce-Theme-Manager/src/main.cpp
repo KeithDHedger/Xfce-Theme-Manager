@@ -123,10 +123,17 @@ void resetTheme(GtkWidget* widget,gpointer data)
 	currentCursorTheme=strdup(originalCursorTheme);
 
 
-
-
-	sprintf(generalBuffer,"%s\"%s\"",XCONFSETPAPER,currentWallPaper);
+	sprintf(generalBuffer,"%s\"%s\"",XCONFSETPAPER,originalWallpaper);
 	system(generalBuffer);
+	if(currentWallPaper!=NULL)
+		g_free(currentWallPaper);
+	currentWallPaper=strdup(originalWallpaper);
+
+
+
+//	sprintf(generalBuffer,"%s\"%s\"",XCONFSETPAPER,currentWallPaper);
+//	system(generalBuffer);
+
 	sprintf(generalBuffer,"%s%i",XCONFSETSTYLE,currentWallStyle);
 	system(generalBuffer);
 	sprintf(generalBuffer,"%s\"%s\"",XCONFSETLAYOUT,currentButtonLayout);
@@ -154,7 +161,9 @@ void resetTheme(GtkWidget* widget,gpointer data)
 //	setValue(XCONFGETICONS,STRING,&lastIconTheme);
 //	getValue(XSETTINGS,ICONTHEMEPROP,STRING,&originalIconTheme);
 //	setValue(XCONFGETFRAME,STRING,&lastWmTheme);
-	setValue(XCONFGETPAPER,STRING,&lastWallPaper);
+//	setValue(XCONFGETPAPER,STRING,&lastWallPaper);
+	
+	
 //	setValue(XCONFGETCURSOR,STRING,&lastCursorTheme);
 	setValue(XCONFGETCURSOR,STRING,&lastMetaTheme);
 
@@ -261,7 +270,9 @@ void init(void)
 	setValue(XCONFGETSATU,FLOAT,&currentSatu);
 	setValue(XCONFGETPAPER,STRING,&currentWallPaper);
 	setValue(XCONFGETSTYLE,INT,&currentWallStyle);
-	setValue(XCONFGETPAPER,STRING,&lastWallPaper);
+//	setValue(XCONFGETPAPER,STRING,&lastWallPaper);
+	getValue(XFCEDESKTOP,PAPERSPROP,STRING,&currentWallPaper);
+	getValue(XFCEDESKTOP,PAPERSPROP,STRING,&originalWallpaper);
 
 //mouse
 	getValue(XSETTINGS,CURSORSPROP,STRING,&currentCursorTheme);

@@ -80,7 +80,7 @@ bool isCurrent(char* themename,const char* catagory,char* name)
 			if((g_ascii_strcasecmp(currentIconTheme,themename)==0)&&(g_ascii_strcasecmp("icons",catagory)==0))
 				retval=true;
 
-			if((g_ascii_strcasecmp(lastWallPaper,themename)==0)&&(g_ascii_strcasecmp("wallpapers",catagory)==0))
+			if((g_ascii_strcasecmp(currentWallPaper,themename)==0)&&(g_ascii_strcasecmp("wallpapers",catagory)==0))
 				retval=true;
 		}
 	else

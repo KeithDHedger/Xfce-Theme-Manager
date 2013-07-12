@@ -86,7 +86,7 @@ void rerunAndUpdate(bool rebuild,bool resetmeta)
 //	setValue(XCONFGETICONS,STRING,&lastIconTheme);
 
 //	setValue(XCONFGETFRAME,STRING,&lastWmTheme);
-	setValue(XCONFGETPAPER,STRING,&lastWallPaper);
+//	setValue(XCONFGETPAPER,STRING,&lastWallPaper);
 //	setValue(XCONFGETCURSOR,STRING,&lastCursorTheme);
 	if(resetmeta==true)
 		setValue(XMTGETMETATHEME,STRING,&lastMetaTheme);
@@ -826,6 +826,11 @@ void setPieceNew(char* filePath,const char* doCommand,bool update,long doWhat)
 									g_free(currentCursorTheme);
 								currentCursorTheme=strdup(dataset);
 								break;
+							case WALLPAPERS:
+								if(currentWallPaper!=NULL)
+									g_free(currentWallPaper);
+								currentWallPaper=strdup(dataset);
+								break;
 							
 						}
 
@@ -903,7 +908,7 @@ void themeIconCallback(GtkIconView *view,gpointer doWhat)
 				break;
 
 			case WALLPAPERS:
-				setPiece(text,XCONFSETPAPER,true);
+				setPieceNew(text,XCONFSETPAPER,true,WALLPAPERS);
 				break;
 		}
 	g_free(text);

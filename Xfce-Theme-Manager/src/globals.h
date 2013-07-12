@@ -59,12 +59,13 @@
 
 #define XSETTINGS "xsettings"
 #define XFWM "xfwm4"
+#define XFCEDESKTOP "xfce4-desktop"
 
 #define CONTROLTHEMEPROP "/Net/ThemeName"
 #define ICONTHEMEPROP "/Net/IconThemeName"
 #define WMBORDERSPROP "/general/theme"
 #define CURSORSPROP "/Gtk/CursorThemeName"
-
+#define PAPERSPROP "/backdrop/screen0/monitor0/image-path"
 
 
 #define XCONFGETICONS "xfconf-query -c xsettings -p /Net/IconThemeName"
@@ -155,13 +156,14 @@ extern char*			currentMetaTheme;
 //extern char*			lastIconTheme;
 //extern char*			lastWmTheme;
 //extern char*			lastCursorTheme;
-extern char*			lastWallPaper;
+//extern char*			lastWallPaper;
 extern char*			lastMetaTheme;
 
 extern char*			originalGtkTheme;
 extern char*			originalIconTheme;
 extern char*			originalWMTheme;
 extern char*			originalCursorTheme;
+extern char*			originalWallpaper;
 
 extern char*			homeThemesHash;
 

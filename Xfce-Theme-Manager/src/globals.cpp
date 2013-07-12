@@ -31,8 +31,8 @@ char*				currentMetaTheme;
 //char*				lastGtkTheme;
 //char*				lastIconTheme;
 //char*				lastWmTheme;
-char*				lastCursorTheme;
-char*				lastWallPaper;
+//char*				lastCursorTheme;
+//char*				lastWallPaper;
 char*				lastMetaTheme;
 char*				homeThemesHash;
 
@@ -40,6 +40,7 @@ char*				originalGtkTheme=NULL;
 char*				originalIconTheme=NULL;
 char*				originalWMTheme=NULL;
 char*				originalCursorTheme=NULL;
+char*				originalWallpaper=NULL;
 
 boxStruct			previewBox[6]={{NULL,NULL,NULL,0,NULL,NULL}};
 
