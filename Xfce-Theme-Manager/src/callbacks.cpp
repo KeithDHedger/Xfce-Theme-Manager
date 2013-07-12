@@ -83,13 +83,13 @@ void rerunAndUpdate(bool rebuild,bool resetmeta)
 		//setValue(XMTGETMETATHEME,STRING,&lastMetaTheme);
 		//getValue(XTHEMER,METATHEMEPROP,STRING,&lastMetaTheme);
 		
-			printf("1 xxx net=%s filename=%s\n",currentMetaTheme,originalMetaTheme);
+
 
 			//if(currentMetaTheme!=NULL)
 			//	freeAndNull(&currentMetaTheme);
 			//currentMetaTheme=strdup(originalMetaTheme);
 			freeAndSet(&currentMetaTheme,originalMetaTheme);
-			printf("2 net=%s filename=%s\n",currentMetaTheme,originalMetaTheme);
+
 
 		}
 	else
@@ -670,8 +670,10 @@ void doMeta(char* metaFilename,bool update)
 	GKeyFile*		keyfile=g_key_file_new();
 	int				keycnt=14;
 	char*			keydata=NULL;
-//	printf("%s\n",metaFilename);
-	GtkSettings *settings=gtk_settings_get_default();;
+	GdkModifierType	mask;
+	const char*		keys[]={"CursorTheme","Xfwm4Theme","IconTheme","BackgroundImage","BackdropStyle","TitleButtonLayout","TitlePosition","WMFont","AppFont","BackdropBright","BackdropSatu","GtkTheme","CursorSize","Name"};
+
+	GtkSettings*	settings=gtk_settings_get_default();
 
 	gdk_window_get_pointer(NULL,NULL,NULL,&mask);
 	if (GDK_CONTROL_MASK & mask )
@@ -680,6 +682,62 @@ void doMeta(char* metaFilename,bool update)
 			return;
 		}
 
+	if(g_key_file_load_from_file(keyfile,metaFilename,G_KEY_FILE_NONE,NULL))
+		{
+			metaThemeSelected=g_key_file_get_string(keyfile,"Data",(char*)"Name",NULL);
+			setValue(XTHEMER,METATHEMEPROP,STRING,metaThemeSelected);
+			freeAndSet(&currentMetaTheme,metaThemeSelected);
+			for (int j=0;j<keycnt;j++)
+				{
+					keydata=g_key_file_get_string(keyfile,"Data",(char*)keys[j],NULL);
+					if(keydata!=NULL)
+						{
+							if(update==true)
+								{
+									switch(j)
+										{
+											case 0:
+												setValue(XSETTINGS,CURSORSPROP,STRING,keydata);
+												freeAndSet(&currentCursorTheme,keydata);
+												break;
+											case 1:
+												setValue(XFWM,WMBORDERSPROP,STRING,keydata);
+												freeAndSet(&currentWMTheme,keydata);
+												break;
+											case 2:
+												setValue(XSETTINGS,ICONTHEMEPROP,STRING,keydata);
+												freeAndSet(&currentIconTheme,keydata);
+												break;
+											case 3:
+												setValue(XFCEDESKTOP,PAPERSPROP,STRING,keydata);
+												freeAndSet(&currentWallPaper,keydata);
+												break;
+											case 4:
+											case 5:
+											case 6:
+											case 7:
+											case 8:
+											case 9:
+											case 10:
+												break;
+											case 11:
+												setValue(XSETTINGS,CONTROLTHEMEPROP,STRING,keydata);
+												freeAndSet(&currentGtkTheme,keydata);
+												break;
+											case 12:
+												break;
+											case 13:
+												setValue(XTHEMER,METATHEMEPROP,STRING,keydata);
+												freeAndSet(&currentMetaTheme,keydata);
+												break;
+										}
+									rerunAndUpdate(false,false);
+								}
+						}
+				}
+		}
+
+	
 }
 
 //do meta theme

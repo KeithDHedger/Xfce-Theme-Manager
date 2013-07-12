@@ -87,6 +87,7 @@ bool isCurrent(char* themename,const char* catagory,char* name)
 		{
 			if(currentMetaTheme!=NULL)
 				{
+					printf("ZZZcurrent meta %s name=%s\n",currentMetaTheme,name);
 					if((g_ascii_strcasecmp(currentMetaTheme,name)==0)&&((g_ascii_strcasecmp("meta",catagory)==0)||(g_ascii_strcasecmp("custom",catagory)==0)))
 					retval=true;
 				}
