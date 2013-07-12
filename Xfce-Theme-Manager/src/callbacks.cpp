@@ -82,9 +82,15 @@ void rerunAndUpdate(bool rebuild,bool resetmeta)
 		{
 		//setValue(XMTGETMETATHEME,STRING,&lastMetaTheme);
 		//getValue(XTHEMER,METATHEMEPROP,STRING,&lastMetaTheme);
-			if(currentMetaTheme!=NULL)
-				freeAndNull(&currentMetaTheme);
-			currentMetaTheme=strdup(originalMetaTheme);
+		
+			printf("1 xxx net=%s filename=%s\n",currentMetaTheme,originalMetaTheme);
+
+			//if(currentMetaTheme!=NULL)
+			//	freeAndNull(&currentMetaTheme);
+			//currentMetaTheme=strdup(originalMetaTheme);
+			freeAndSet(&currentMetaTheme,originalMetaTheme);
+			printf("2 net=%s filename=%s\n",currentMetaTheme,originalMetaTheme);
+
 		}
 	else
 		{
@@ -343,8 +349,11 @@ else
 							controlHeight=50;
 						}
 					flag=true;
+					printf("net=%s filename=%s\n",currentMetaTheme,filename);
 					setValue(XTHEMER,METATHEMEPROP,STRING,filename);
 					freeAndSet(&currentMetaTheme,filename);
+					printf("now = net=%s filename=%s\n",currentMetaTheme,filename);
+					
 					//if(currentMetaTheme!=NULL)
 					//	freeAndNull(&currentMetaTheme);
 					//currentMetaTheme=strdup(filename);
@@ -656,8 +665,13 @@ void removeTheme(const char* name)
 	gtk_widget_destroy (dialog);
 }
 
-//do meta theme
 void doMeta(char* metaFilename,bool update)
+{
+	printf("%s\n",metaFilename);
+}
+
+//do meta theme
+void doMetaX(char* metaFilename,bool update)
 {
 	GKeyFile*		keyfile=g_key_file_new();
 	int				keycnt=14;
@@ -723,6 +737,7 @@ void doMeta(char* metaFilename,bool update)
 								}
 							sprintf(generalBuffer,"%s\"%s\"",(char*)xconf[j],keydata);
 							system(generalBuffer);
+							printf("XX xonf=%s keydata=%s\n",(char*)xconf[j],keydata);
 							freeAndNull(&keydata);
 							if (update==true)
 								rerunAndUpdate(false,true);
@@ -936,7 +951,7 @@ gboolean clickIt(GtkWidget* widget,GdkEvent* event,gpointer data)
 	path=gtk_icon_view_get_path_at_pos((GtkIconView *)widget,event->button.x,event->button.y);
 	if (path!=NULL)
 		{
-		themeIconCallback((GtkIconView *)widget,(void*)data);
+			themeIconCallback((GtkIconView *)widget,(void*)data);
 		}
 
 	gdk_window_set_cursor(gdkWindow,NULL); 
