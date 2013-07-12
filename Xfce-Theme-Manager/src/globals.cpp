@@ -28,11 +28,6 @@ double				currentSatu;
 int					currentCursSize;
 char*				currentMetaTheme;
 
-//char*				lastGtkTheme;
-//char*				lastIconTheme;
-//char*				lastWmTheme;
-//char*				lastCursorTheme;
-//char*				lastWallPaper;
 char*				lastMetaTheme;
 char*				homeThemesHash;
 

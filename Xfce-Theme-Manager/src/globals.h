@@ -152,11 +152,6 @@ extern double			currentSatu;
 extern int				currentCursSize;
 extern char*			currentMetaTheme;
 
-//extern char*			lastGtkTheme;
-//extern char*			lastIconTheme;
-//extern char*			lastWmTheme;
-//extern char*			lastCursorTheme;
-//extern char*			lastWallPaper;
 extern char*			lastMetaTheme;
 
 extern char*			originalGtkTheme;

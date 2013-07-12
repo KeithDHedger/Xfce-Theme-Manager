@@ -129,11 +129,6 @@ void resetTheme(GtkWidget* widget,gpointer data)
 		g_free(currentWallPaper);
 	currentWallPaper=strdup(originalWallpaper);
 
-
-
-//	sprintf(generalBuffer,"%s\"%s\"",XCONFSETPAPER,currentWallPaper);
-//	system(generalBuffer);
-
 	sprintf(generalBuffer,"%s%i",XCONFSETSTYLE,currentWallStyle);
 	system(generalBuffer);
 	sprintf(generalBuffer,"%s\"%s\"",XCONFSETLAYOUT,currentButtonLayout);
@@ -154,17 +149,6 @@ void resetTheme(GtkWidget* widget,gpointer data)
 	sprintf(generalBuffer,"%s\"%s\"",XMTSETMETATHEME,currentMetaTheme);
 	system(generalBuffer);
 
-	//setValue(XCONFGETCONTROLS,STRING,&lastGtkTheme);
-//	getValue(XSETTINGS,CONTROLTHEMEPROP,STRING,&lastGtkTheme);
-//	getValue(XSETTINGS,CONTROLTHEMEPROP,STRING,&originalGtkTheme);
-
-//	setValue(XCONFGETICONS,STRING,&lastIconTheme);
-//	getValue(XSETTINGS,ICONTHEMEPROP,STRING,&originalIconTheme);
-//	setValue(XCONFGETFRAME,STRING,&lastWmTheme);
-//	setValue(XCONFGETPAPER,STRING,&lastWallPaper);
-	
-	
-//	setValue(XCONFGETCURSOR,STRING,&lastCursorTheme);
 	setValue(XCONFGETCURSOR,STRING,&lastMetaTheme);
 
 	gtk_combo_box_set_active((GtkComboBox*)styleComboBox,currentWallStyle);
@@ -244,20 +228,15 @@ void init(void)
 	
 //gtk
 	getValue(XSETTINGS,CONTROLTHEMEPROP,STRING,&currentGtkTheme);
-//	getValue(XSETTINGS,CONTROLTHEMEPROP,STRING,&lastGtkTheme);
 	getValue(XSETTINGS,CONTROLTHEMEPROP,STRING,&originalGtkTheme);
 
 //icons
-//	setValue(XCONFGETICONS,STRING,&currentIconTheme);
-//	setValue(XCONFGETICONS,STRING,&lastIconTheme);
 	getValue(XSETTINGS,ICONTHEMEPROP,STRING,&originalIconTheme);
 	getValue(XSETTINGS,ICONTHEMEPROP,STRING,&currentIconTheme);
 
 //window manager
 	setValue(XCONFGETTITLEPOS,STRING,&currentTitlePos);
 	setValue(XCONFGETLAYOUT,STRING,&currentButtonLayout);
-//	setValue(XCONFGETFRAME,STRING,&currentWmTheme);
-//	setValue(XCONFGETFRAME,STRING,&lastWmTheme);
 	getValue(XFWM,WMBORDERSPROP,STRING,&originalWMTheme);
 	getValue(XFWM,WMBORDERSPROP,STRING,&currentWMTheme);
 
@@ -270,7 +249,6 @@ void init(void)
 	setValue(XCONFGETSATU,FLOAT,&currentSatu);
 	setValue(XCONFGETPAPER,STRING,&currentWallPaper);
 	setValue(XCONFGETSTYLE,INT,&currentWallStyle);
-//	setValue(XCONFGETPAPER,STRING,&lastWallPaper);
 	getValue(XFCEDESKTOP,PAPERSPROP,STRING,&currentWallPaper);
 	getValue(XFCEDESKTOP,PAPERSPROP,STRING,&originalWallpaper);
 
@@ -278,14 +256,6 @@ void init(void)
 	getValue(XSETTINGS,CURSORSPROP,STRING,&currentCursorTheme);
 	getValue(XSETTINGS,CURSORSPROP,STRING,&originalCursorTheme);
 	setValue(XCONFGETCURSORSIZE,INT,&currentCursSize);
-
-//	getValue(XSETTINGS,CURSORSPROP,STRING,&originalWMTheme);
-//	getValue(XSETTINGS,CURSORSPROP,STRING,&currentWMTheme);
-
-
-//	getValue(XFWM,WMBORDERSPROP,STRING,&originalWMTheme);
-//	setValue(XCONFGETCURSOR,STRING,&currentCursorTheme);
-//	setValue(XCONFGETCURSOR,STRING,&lastCursorTheme);
 
 	missingImage=gdk_pixbuf_new_from_xpm_data((const char**)error_xpm);
 	blankImage=gdk_pixbuf_new_from_xpm_data((const char**)blank_xpm);
@@ -502,7 +472,6 @@ void printList(void)
 	GDir*			folder=NULL;
 	const gchar*	entry=NULL;
 	char*			what;
-//	int			cnt=0;
 
 	if (listParts[0]=='*')
 		what=(char*)"Ctcwipb";

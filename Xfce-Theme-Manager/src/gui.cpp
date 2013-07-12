@@ -326,8 +326,6 @@ void addNewIcons(const char* subfolder,GtkIconView* tempIconView,int whatBox)
 							name=g_key_file_get_string(keyfile,"Data","Name",NULL);
 							thumb=g_key_file_get_string(keyfile,"Data","Thumbnail",NULL);
 							themename=g_key_file_get_string(keyfile,"Data","ThemeName",NULL);
-							//if(whatBox==2)
-							//	printf("addicon entry=%s %s\n",name,(char*)themename);
 							addIconEntry(store,thumb,name,filename,(char*)subfolder,(char*)themename,whatBox);
 							previewBox[whatBox].itemCnt++;
 							freeAndNull(&name);

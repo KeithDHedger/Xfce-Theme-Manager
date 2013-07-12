@@ -78,16 +78,6 @@ void rerunAndUpdate(bool rebuild,bool resetmeta)
 	if (rebuild==true)
 		rebuildDB((void*)1);
 
-//	setValue(XCONFGETCONTROLS,STRING,&lastGtkTheme);
-//	printf("XXX-%s-XXX\n",lastGtkTheme);
-//	getValue(XSETTINGS,CONTROLTHEMEPROP,STRING,&lastGtkTheme);
-//	printf("XXX-%s-XXX\n",lastGtkTheme);
-
-//	setValue(XCONFGETICONS,STRING,&lastIconTheme);
-
-//	setValue(XCONFGETFRAME,STRING,&lastWmTheme);
-//	setValue(XCONFGETPAPER,STRING,&lastWallPaper);
-//	setValue(XCONFGETCURSOR,STRING,&lastCursorTheme);
 	if(resetmeta==true)
 		setValue(XMTGETMETATHEME,STRING,&lastMetaTheme);
 	else
@@ -181,18 +171,12 @@ void changeViewWhat(GtkWidget* widget,gpointer data)
 void buildCustomDBNEW(const char* chan,const char* prop,dataType type,const char* key)
 {
 	char*	stdout;
-//	gint   spawnret=0;
 
 	getValue(chan,prop,type,&stdout);
-	//g_spawn_command_line_sync(xconfline,&stdout,NULL,&spawnret,NULL);
-	//if (spawnret==0)
-	//	{
-	//		stdout[strlen(stdout)-1]=0;
-			sprintf(filedata,"%s%s=%s\n",filedata,key,stdout);
-			freeAndNull(&stdout);
-	//	}
+	sprintf(filedata,"%s%s=%s\n",filedata,key,stdout);
+	freeAndNull(&stdout);
 }
-
+//TOGO//
 void buildCustomDB(const char* xconfline,const char* key)
 {
 	char*	stdout;
@@ -286,11 +270,10 @@ else
 
 	if (filename!=NULL && strlen(filename)>0)
 		{
-//			setValue(XCONFGETCONTROLS,STRING,&gtk);
 			getValue(XSETTINGS,CONTROLTHEMEPROP,STRING,&gtk);
-			setValue(XCONFGETFRAME,STRING,&frame);
-			setValue(XCONFGETICONS,STRING,&iconTheme);
-			setValue(XCONFGETCURSOR,STRING,&cursorTheme);
+			getValue(XFWM,WMBORDERSPROP,STRING,&frame);
+			getValue(XSETTINGS,ICONTHEMEPROP,STRING,&iconTheme);
+			getValue(XSETTINGS,CURSORSPROP,STRING,&cursorTheme);
 
 			asprintf(&thumbfile,"%s/%s.png",customFolder,filename);
 
@@ -304,12 +287,13 @@ else
 			if(fd!=NULL)
 				{
 					sprintf(filedata,"[Data]\nName=%s\nThumbnail=%s\n",filename,thumbfile);
-//					buildCustomDB(XCONFGETCONTROLS,"GtkTheme");
 					buildCustomDBNEW(XSETTINGS,CONTROLTHEMEPROP,STRING,"GtkTheme");
-					buildCustomDB(XCONFGETICONS,"IconTheme");
-					buildCustomDB(XCONFGETCURSOR,"CursorTheme");
-					buildCustomDB(XCONFGETFRAME,"Xfwm4Theme");
-					buildCustomDB(XCONFGETPAPER,"BackgroundImage");
+					buildCustomDBNEW(XSETTINGS,ICONTHEMEPROP,STRING,"IconTheme");
+					buildCustomDBNEW(XSETTINGS,CURSORSPROP,STRING,"CursorTheme");
+					buildCustomDBNEW(XFWM,WMBORDERSPROP,STRING,"Xfwm4Theme");
+					buildCustomDBNEW(XFCEDESKTOP,PAPERSPROP,STRING,"BackgroundImage");
+
+//TOGO//
 					buildCustomDB(XCONFGETLAYOUT,"TitleButtonLayout");
 					buildCustomDB(XCONFGETTITLEPOS,"TitlePosition");
 					buildCustomDB(XCONFGETWMFONT,"WMFont");
@@ -933,10 +917,6 @@ gboolean clickIt(GtkWidget* widget,GdkEvent* event,gpointer data)
 	GtkTreePath* path=NULL;
 
 	gdk_window_set_cursor (gdkWindow,watchCursor); 
-
-//	setValue(XCONFGETCONTROLS,STRING,&lastGtkTheme);
-
-//	getValue(XSETTINGS,CONTROLTHEMEPROP,STRING,&lastGtkTheme);
 
 	path=gtk_icon_view_get_path_at_pos((GtkIconView *)widget,event->button.x,event->button.y);
 	if (path!=NULL)
