@@ -667,7 +667,19 @@ void removeTheme(const char* name)
 
 void doMeta(char* metaFilename,bool update)
 {
-	printf("%s\n",metaFilename);
+	GKeyFile*		keyfile=g_key_file_new();
+	int				keycnt=14;
+	char*			keydata=NULL;
+//	printf("%s\n",metaFilename);
+	GtkSettings *settings=gtk_settings_get_default();;
+
+	gdk_window_get_pointer(NULL,NULL,NULL,&mask);
+	if (GDK_CONTROL_MASK & mask )
+		{
+			removeTheme(metaFilename);
+			return;
+		}
+
 }
 
 //do meta theme
