@@ -14,11 +14,11 @@
 
 //current stuff
 int					currentWallStyle;
-char*				currentIconTheme;
-char*				currentWMTheme;
-char*				currentCursorTheme;
-char*				currentWallPaper;
-char*				currentGtkTheme;
+char*				currentIconTheme=NULL;
+char*				currentWMTheme=NULL;
+char*				currentCursorTheme=NULL;
+char*				currentWallPaper=NULL;
+char*				currentGtkTheme=NULL;
 char*				currentButtonLayout;
 char*				currentTitlePos;
 char*				currentWMFont;
@@ -26,9 +26,9 @@ char*				currentAppFont;
 int					currentBright;
 double				currentSatu;
 int					currentCursSize;
-char*				currentMetaTheme;
+char*				currentMetaTheme=NULL;
 
-char*				lastMetaTheme;
+//char*				lastMetaTheme;
 char*				homeThemesHash;
 
 char*				originalGtkTheme=NULL;
@@ -36,6 +36,7 @@ char*				originalIconTheme=NULL;
 char*				originalWMTheme=NULL;
 char*				originalCursorTheme=NULL;
 char*				originalWallpaper=NULL;
+char*				originalMetaTheme=NULL;
 
 boxStruct			previewBox[6]={{NULL,NULL,NULL,0,NULL,NULL}};
 
@@ -176,6 +177,13 @@ void freeAndNull(char** ptr)
 		}
 }
 
+void freeAndSet(char** ptr,char* data)
+{
+	if(*ptr!=NULL)
+		free(*ptr);
+	*ptr=strdup(data);
+}
+
 int positionToInt(char* pos)
 {
 	gchar	*stdout=NULL;
@@ -231,7 +239,7 @@ void getValue(const char* channel,const char* property,dataType type,void* ptr)
 				break;
 
 			case STRING:
-				data=xfconf_channel_get_string(channelptr,property,"");
+				data=xfconf_channel_get_string(channelptr,property,"DEADBEEF");
 				asprintf((char**)ptr,"%s",data);
 				g_free(data);
 				break;
@@ -243,7 +251,28 @@ void getValue(const char* channel,const char* property,dataType type,void* ptr)
 		}
 }
 
-void setValue(const char* command,dataType type,void* ptr)
+void setValue(const char* channel,const char* property,dataType type,void* data)
+{
+	XfconfChannel*	channelptr=xfconf_channel_get(channel);
+	gboolean		retval;
+
+	switch(type)
+		{
+			case INT:
+				xfconf_channel_set_int(channelptr,property,(int)(long)data);
+				break;
+
+			case STRING:
+				xfconf_channel_set_string(channelptr,property,(char*)data);
+				break;
+
+			case FLOAT:
+				retval=xfconf_channel_set_double(channelptr,property,(gdouble)(long)data);
+				break;
+		}
+}
+//TOGO//
+void setValueXX(const char* command,dataType type,void* ptr)
 {
 	gchar	*stdout=NULL;
 	gchar	*stderr=NULL;

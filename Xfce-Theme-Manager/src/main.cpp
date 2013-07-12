@@ -149,7 +149,9 @@ void resetTheme(GtkWidget* widget,gpointer data)
 	sprintf(generalBuffer,"%s\"%s\"",XMTSETMETATHEME,currentMetaTheme);
 	system(generalBuffer);
 
-	setValue(XCONFGETCURSOR,STRING,&lastMetaTheme);
+//TOGO//
+	//setValue(XMTGETMETATHEME,STRING,&lastMetaTheme);
+	freeAndSet(&currentMetaTheme,originalMetaTheme);
 
 	gtk_combo_box_set_active((GtkComboBox*)styleComboBox,currentWallStyle);
 	gtk_entry_set_text((GtkEntry*)layoutEntry,currentButtonLayout);
@@ -235,27 +237,30 @@ void init(void)
 	getValue(XSETTINGS,ICONTHEMEPROP,STRING,&currentIconTheme);
 
 //window manager
-	setValue(XCONFGETTITLEPOS,STRING,&currentTitlePos);
-	setValue(XCONFGETLAYOUT,STRING,&currentButtonLayout);
+	setValueXX(XCONFGETTITLEPOS,STRING,&currentTitlePos);
+	setValueXX(XCONFGETLAYOUT,STRING,&currentButtonLayout);
 	getValue(XFWM,WMBORDERSPROP,STRING,&originalWMTheme);
 	getValue(XFWM,WMBORDERSPROP,STRING,&currentWMTheme);
 
 //font
-	setValue(XCONFGETWMFONT,STRING,&currentWMFont);
-	setValue(XCONFGETAPPFONT,STRING,&currentAppFont);
+	setValueXX(XCONFGETWMFONT,STRING,&currentWMFont);
+	setValueXX(XCONFGETAPPFONT,STRING,&currentAppFont);
 
 //backdrop
-	setValue(XCONFGETBRIGHT,INT,&currentBright);
-	setValue(XCONFGETSATU,FLOAT,&currentSatu);
-	setValue(XCONFGETPAPER,STRING,&currentWallPaper);
-	setValue(XCONFGETSTYLE,INT,&currentWallStyle);
+	setValueXX(XCONFGETBRIGHT,INT,&currentBright);
+	setValueXX(XCONFGETSATU,FLOAT,&currentSatu);
+	setValueXX(XCONFGETSTYLE,INT,&currentWallStyle);
 	getValue(XFCEDESKTOP,PAPERSPROP,STRING,&currentWallPaper);
 	getValue(XFCEDESKTOP,PAPERSPROP,STRING,&originalWallpaper);
 
 //mouse
 	getValue(XSETTINGS,CURSORSPROP,STRING,&currentCursorTheme);
 	getValue(XSETTINGS,CURSORSPROP,STRING,&originalCursorTheme);
-	setValue(XCONFGETCURSORSIZE,INT,&currentCursSize);
+	setValueXX(XCONFGETCURSORSIZE,INT,&currentCursSize);
+
+//metatheme
+	getValue(XTHEMER,METATHEMEPROP,STRING,&currentMetaTheme);
+	getValue(XTHEMER,METATHEMEPROP,STRING,&originalMetaTheme);
 
 	missingImage=gdk_pixbuf_new_from_xpm_data((const char**)error_xpm);
 	blankImage=gdk_pixbuf_new_from_xpm_data((const char**)blank_xpm);
@@ -275,24 +280,21 @@ void init(void)
 //init my configs
 
 //check hashses
-	setValue(XMTGETHASH,STRING,&homeThemesHash);
+	setValueXX(XMTGETHASH,STRING,&homeThemesHash);
 
-	setValue(XMTGETSHOWSYSTEM,INT,&showGlobal);
-	setValue(XMTGETSHOWMETA,INT,&showMeta);
-	setValue(XMTGETSHOWGTK,INT,&showGtk);
-	setValue(XMTGETSHOWWMB,INT,&showDecs);
-	setValue(XMTGETSHOWCURSORS,INT,&showCursors);
-	setValue(XMTGETSHOWICONS,INT,&showIcons);
-	setValue(XMTGETSHOWPAPER,INT,&showBackdrop);
-	setValue(XMTGETSHOWCUSTOM,INT,&showOnlyCustom);
+	setValueXX(XMTGETSHOWSYSTEM,INT,&showGlobal);
+	setValueXX(XMTGETSHOWMETA,INT,&showMeta);
+	setValueXX(XMTGETSHOWGTK,INT,&showGtk);
+	setValueXX(XMTGETSHOWWMB,INT,&showDecs);
+	setValueXX(XMTGETSHOWCURSORS,INT,&showCursors);
+	setValueXX(XMTGETSHOWICONS,INT,&showIcons);
+	setValueXX(XMTGETSHOWPAPER,INT,&showBackdrop);
+	setValueXX(XMTGETSHOWCUSTOM,INT,&showOnlyCustom);
 
-	setValue(XMTGETMETATHEME,STRING,&currentMetaTheme);
-	setValue(XMTGETMETATHEME,STRING,&lastMetaTheme);
+	setValueXX(XMTGETWINWID,INT,&winWid);
+	setValueXX(XMTGETWINHITE,INT,&winHite);
 
-	setValue(XMTGETWINWID,INT,&winWid);
-	setValue(XMTGETWINHITE,INT,&winHite);
-
-	setValue(XMTGETPRESIZE,INT,&previewSize);
+	setValueXX(XMTGETPRESIZE,INT,&previewSize);
 
 	g_spawn_command_line_sync("which xfce4-composite-editor",&stdout,&stderr,&retval,NULL);
 	if (retval==0)

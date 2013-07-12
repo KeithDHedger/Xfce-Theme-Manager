@@ -79,13 +79,23 @@ void rerunAndUpdate(bool rebuild,bool resetmeta)
 		rebuildDB((void*)1);
 
 	if(resetmeta==true)
-		setValue(XMTGETMETATHEME,STRING,&lastMetaTheme);
+		{
+		//setValue(XMTGETMETATHEME,STRING,&lastMetaTheme);
+		//getValue(XTHEMER,METATHEMEPROP,STRING,&lastMetaTheme);
+			if(currentMetaTheme!=NULL)
+				freeAndNull(&currentMetaTheme);
+			currentMetaTheme=strdup(originalMetaTheme);
+		}
 	else
 		{
-			freeAndNull(&lastMetaTheme);
-			asprintf(&lastMetaTheme,"DEADBEEFANDOXO");
-			sprintf(generalBuffer,"%s\"\"",XMTSETMETATHEME);
-			system(generalBuffer);
+			if(originalMetaTheme!=NULL)
+				freeAndNull(&originalMetaTheme);
+			
+		//freeAndNull(&lastMetaTheme);
+			asprintf(&originalMetaTheme,"DEADBEEFANDOXO");
+			//sprintf(generalBuffer,"%s\"\"",XMTSETMETATHEME);
+			//system(generalBuffer);
+			setValue(XTHEMER,METATHEMEPROP,STRING,originalMetaTheme);
 		}
 
 	for (int j=THEMES;j<=WALLPAPERS;j++)
@@ -227,19 +237,19 @@ void customTheme(GtkWidget* window,gpointer data)
 	bool		flag=false;
 	char*		holdgtk=currentGtkTheme;
 	char		buffer[2048];
-	filename=NULL;
-	gchar*	stdout;
+	gchar*		stdout=NULL;
 	char*		customname=NULL;
-	gint   	spawnret=0;
+	gint   		spawnret=0;
 
+	filename=NULL;
+//TOGO//
 	if (cliFileName==NULL)
 		{
 	if (metaThemeSelected==NULL)
 		{
-			g_spawn_command_line_sync(XCONFGETFRAME,&stdout,NULL,&spawnret,NULL);
-			if (spawnret==0)
+			getValue(XFWM,WMBORDERSPROP,STRING,&stdout);
+			if (strcasecmp(stdout,"DEADBEEF")!=0)
 				{
-					stdout[strlen(stdout)-1]=0;
 					asprintf(&customname,"%s %s",stdout,_translate(CUSTOM));
 					freeAndNull(&stdout);
 				}
@@ -333,11 +343,16 @@ else
 							controlHeight=50;
 						}
 					flag=true;
-
-					freeAndNull(&lastMetaTheme);
-					asprintf(&lastMetaTheme,"%s",filename);
-					sprintf(generalBuffer,"%s\"%s\"",XMTSETMETATHEME,lastMetaTheme);
-					system(generalBuffer);
+					setValue(XTHEMER,METATHEMEPROP,STRING,filename);
+					freeAndSet(&currentMetaTheme,filename);
+					//if(currentMetaTheme!=NULL)
+					//	freeAndNull(&currentMetaTheme);
+					//currentMetaTheme=strdup(filename);
+					//if(XSETTINGS,CURSORSPROP,STRING,&cursorTheme
+					//freeAndNull(&lastMetaTheme);
+					//asprintf(&lastMetaTheme,"%s",filename);
+					//sprintf(generalBuffer,"%s\"%s\"",XMTSETMETATHEME,lastMetaTheme);
+					//system(generalBuffer);
 				}
 
 			freeAndNull(&dbname);

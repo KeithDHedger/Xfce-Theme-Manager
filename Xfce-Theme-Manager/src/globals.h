@@ -55,23 +55,17 @@
 #define GLOBALWALLPAPERS "/usr/share/xfce4/backdrops"
 
 //new props defines
-#define XCONFGETCONTROLS "xfconf-query -c xsettings -p /Net/ThemeName"
-
 #define XSETTINGS "xsettings"
 #define XFWM "xfwm4"
 #define XFCEDESKTOP "xfce4-desktop"
+#define XTHEMER "xfcethemer"
 
 #define CONTROLTHEMEPROP "/Net/ThemeName"
 #define ICONTHEMEPROP "/Net/IconThemeName"
 #define WMBORDERSPROP "/general/theme"
 #define CURSORSPROP "/Gtk/CursorThemeName"
 #define PAPERSPROP "/backdrop/screen0/monitor0/image-path"
-
-
-#define XCONFGETICONS "xfconf-query -c xsettings -p /Net/IconThemeName"
-#define XCONFGETCURSOR "xfconf-query -c xsettings -p /Gtk/CursorThemeName"
-#define XCONFGETFRAME "xfconf-query -c xfwm4 -p /general/theme"
-#define XCONFGETPAPER "xfconf-query -nRt string -c xfce4-desktop -vp /backdrop/screen0/monitor0/image-path"
+#define METATHEMEPROP "/MetaTheme"
 
 #define XCONFGETLAYOUT "xfconf-query -c xfwm4 -p /general/button_layout"
 #define XCONFGETTITLEPOS "xfconf-query -c xfwm4 -p /general/title_alignment"
@@ -108,7 +102,6 @@
 #define XMTSETWINWID "xfconf-query -nt int -c xfcethemer -p /WindowWidth -s "
 #define XMTSETWINHITE "xfconf-query -nt int -c xfcethemer -p /WindowHeight -s "
 
-#define XMTGETMETATHEME "xfconf-query -c xfcethemer -p /MetaTheme"
 #define XMTSETMETATHEME "xfconf-query -nt string -c xfcethemer -p /MetaTheme -s "
 
 #define XMTSETPRESIZE "xfconf-query -nt int -c xfcethemer -p /PreveiwSize -s "
@@ -152,13 +145,14 @@ extern double			currentSatu;
 extern int				currentCursSize;
 extern char*			currentMetaTheme;
 
-extern char*			lastMetaTheme;
+//extern char*			lastMetaTheme;
 
 extern char*			originalGtkTheme;
 extern char*			originalIconTheme;
 extern char*			originalWMTheme;
 extern char*			originalCursorTheme;
 extern char*			originalWallpaper;
+extern char*			originalMetaTheme;
 
 extern char*			homeThemesHash;
 
@@ -252,8 +246,6 @@ extern GtkWidget*		panelImageBox;
 extern GtkWidget*		panelColourBox;
 extern GtkWidget*		panelAlphaBox;
 
-
-
 extern int				controlHeight;
 extern int				controlWidth;
 extern GdkPixbuf*		controlsPixbuf;
@@ -297,9 +289,11 @@ extern void freeAndNull(char** ptr);
 extern int positionToInt(char* pos);
 extern char* doubleToStr(double num);
 
-void setValue(const char* command,dataType type,void* ptr);
+void setValueXX(const char* command,dataType type,void* ptr);
 int sizeDrop(bool toDrop,int data);
 void getValue(const char* channel,const char* property,dataType type,void* ptr);
+void setValue(const char* channel,const char* property,dataType type,void* ptr);
+void freeAndSet(char** ptr,char* data);
 
 #endif
 

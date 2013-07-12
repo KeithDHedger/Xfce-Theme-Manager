@@ -85,9 +85,9 @@ bool isCurrent(char* themename,const char* catagory,char* name)
 		}
 	else
 		{
-			if(lastMetaTheme!=NULL)
+			if(currentMetaTheme!=NULL)
 				{
-					if((g_ascii_strcasecmp(lastMetaTheme,name)==0)&&((g_ascii_strcasecmp("meta",catagory)==0)||(g_ascii_strcasecmp("custom",catagory)==0)))
+					if((g_ascii_strcasecmp(currentMetaTheme,name)==0)&&((g_ascii_strcasecmp("meta",catagory)==0)||(g_ascii_strcasecmp("custom",catagory)==0)))
 					retval=true;
 				}
 		}
