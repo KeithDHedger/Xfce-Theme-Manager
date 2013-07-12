@@ -54,9 +54,18 @@
 #define GLOBALTHEMES "/usr/share/themes"
 #define GLOBALWALLPAPERS "/usr/share/xfce4/backdrops"
 
+//new props defines
 #define XCONFGETCONTROLS "xfconf-query -c xsettings -p /Net/ThemeName"
-#define CONTROLTHEMEPROP "/Net/ThemeName"
+
 #define XSETTINGS "xsettings"
+#define XFWM "xfwm4"
+
+#define CONTROLTHEMEPROP "/Net/ThemeName"
+#define ICONTHEMEPROP "/Net/IconThemeName"
+#define WMBORDERSPROP "/general/theme"
+#define CURSORSPROP "/Gtk/CursorThemeName"
+
+
 
 #define XCONFGETICONS "xfconf-query -c xsettings -p /Net/IconThemeName"
 #define XCONFGETCURSOR "xfconf-query -c xsettings -p /Gtk/CursorThemeName"
@@ -128,7 +137,7 @@ extern const wchar_t*	helpStr[][HELPSTOP];
 	
 extern int				currentWallStyle;
 extern char*			currentIconTheme;
-extern char*			currentWmTheme;
+extern char*			currentWMTheme;
 extern char*			currentCursorTheme;
 extern char*			currentWallPaper;
 extern char*			currentGtkTheme;
@@ -142,14 +151,17 @@ extern double			currentSatu;
 extern int				currentCursSize;
 extern char*			currentMetaTheme;
 
-extern char*			lastGtkTheme;
-extern char*			lastIconTheme;
-extern char*			lastWmTheme;
-extern char*			lastCursorTheme;
+//extern char*			lastGtkTheme;
+//extern char*			lastIconTheme;
+//extern char*			lastWmTheme;
+//extern char*			lastCursorTheme;
 extern char*			lastWallPaper;
 extern char*			lastMetaTheme;
 
 extern char*			originalGtkTheme;
+extern char*			originalIconTheme;
+extern char*			originalWMTheme;
+extern char*			originalCursorTheme;
 
 extern char*			homeThemesHash;
 

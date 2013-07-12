@@ -64,27 +64,20 @@ GtkListStore*	store;
 bool isCurrent(char* themename,const char* catagory,char* name)
 {
 	bool	retval=false;
-//	char* temp;
 	
 	if(themename!=NULL)
 		{
-			//if((g_ascii_strcasecmp(lastGtkTheme,themename)==0)&&(g_ascii_strcasecmp("controls",catagory)==0))
-			//	retval=true;
-			if(g_ascii_strcasecmp("controls",catagory)==0)
-				{
-					//getValue(XSETTINGS,CONTROLTHEMEPROP,STRING,&temp);
-					//printf("isCurrent temp=%s, lastGtkTheme=%s themename=%s thistheme=%s\n",temp,lastGtkTheme,themename,currentGtkTheme);
-					if(g_ascii_strcasecmp(currentGtkTheme,themename)==0)
-						retval=true;
-				}
 
-			if((g_ascii_strcasecmp(lastCursorTheme,themename)==0)&&(g_ascii_strcasecmp("cursors",catagory)==0))
+			if((g_ascii_strcasecmp(currentGtkTheme,themename)==0)&&(g_ascii_strcasecmp("controls",catagory)==0))
 				retval=true;
 
-			if((g_ascii_strcasecmp(lastWmTheme,themename)==0)&&(g_ascii_strcasecmp("frames",catagory)==0))
+			if((g_ascii_strcasecmp(currentCursorTheme,themename)==0)&&(g_ascii_strcasecmp("cursors",catagory)==0))
 				retval=true;
 
-			if((g_ascii_strcasecmp(lastIconTheme,themename)==0)&&(g_ascii_strcasecmp("icons",catagory)==0))
+			if((g_ascii_strcasecmp(currentWMTheme,themename)==0)&&(g_ascii_strcasecmp("frames",catagory)==0))
+				retval=true;
+
+			if((g_ascii_strcasecmp(currentIconTheme,themename)==0)&&(g_ascii_strcasecmp("icons",catagory)==0))
 				retval=true;
 
 			if((g_ascii_strcasecmp(lastWallPaper,themename)==0)&&(g_ascii_strcasecmp("wallpapers",catagory)==0))

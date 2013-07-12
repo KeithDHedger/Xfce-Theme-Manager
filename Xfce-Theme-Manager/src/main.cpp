@@ -97,19 +97,34 @@ void resetTheme(GtkWidget* widget,gpointer data)
 
 	gdk_window_set_cursor (gdkWindow,watchCursor); 
 
-//	sprintf(generalBuffer,"%s\"%s\"",XCONFSETCONTROLS,currentGtkTheme);
+
+	sprintf(generalBuffer,"%s\"%s\"",XCONFSETFRAME,originalWMTheme);
+	system(generalBuffer);
+	if(currentWMTheme!=NULL)
+		g_free(currentWMTheme);
+	currentWMTheme=strdup(originalWMTheme);
+
 	sprintf(generalBuffer,"%s\"%s\"",XCONFSETCONTROLS,originalGtkTheme);
 	system(generalBuffer);
 	if(currentGtkTheme!=NULL)
 		g_free(currentGtkTheme);
 	currentGtkTheme=strdup(originalGtkTheme);
 
-	sprintf(generalBuffer,"%s\"%s\"",XCONFSETFRAME,currentWmTheme);
+	sprintf(generalBuffer,"%s\"%s\"",XCONFSETICONS,originalIconTheme);
 	system(generalBuffer);
-	sprintf(generalBuffer,"%s\"%s\"",XCONFSETICONS,currentIconTheme);
+	if(currentIconTheme!=NULL)
+		g_free(currentIconTheme);
+	currentIconTheme=strdup(originalIconTheme);
+
+	sprintf(generalBuffer,"%s\"%s\"",XCONFSETCURSOR,originalCursorTheme);
 	system(generalBuffer);
-	sprintf(generalBuffer,"%s\"%s\"",XCONFSETCURSOR,currentCursorTheme);
-	system(generalBuffer);
+	if(currentCursorTheme!=NULL)
+		g_free(currentCursorTheme);
+	currentCursorTheme=strdup(originalCursorTheme);
+
+
+
+
 	sprintf(generalBuffer,"%s\"%s\"",XCONFSETPAPER,currentWallPaper);
 	system(generalBuffer);
 	sprintf(generalBuffer,"%s%i",XCONFSETSTYLE,currentWallStyle);
@@ -133,13 +148,14 @@ void resetTheme(GtkWidget* widget,gpointer data)
 	system(generalBuffer);
 
 	//setValue(XCONFGETCONTROLS,STRING,&lastGtkTheme);
-	getValue(XSETTINGS,CONTROLTHEMEPROP,STRING,&lastGtkTheme);
+//	getValue(XSETTINGS,CONTROLTHEMEPROP,STRING,&lastGtkTheme);
 //	getValue(XSETTINGS,CONTROLTHEMEPROP,STRING,&originalGtkTheme);
 
-	setValue(XCONFGETICONS,STRING,&lastIconTheme);
-	setValue(XCONFGETFRAME,STRING,&lastWmTheme);
+//	setValue(XCONFGETICONS,STRING,&lastIconTheme);
+//	getValue(XSETTINGS,ICONTHEMEPROP,STRING,&originalIconTheme);
+//	setValue(XCONFGETFRAME,STRING,&lastWmTheme);
 	setValue(XCONFGETPAPER,STRING,&lastWallPaper);
-	setValue(XCONFGETCURSOR,STRING,&lastCursorTheme);
+//	setValue(XCONFGETCURSOR,STRING,&lastCursorTheme);
 	setValue(XCONFGETCURSOR,STRING,&lastMetaTheme);
 
 	gtk_combo_box_set_active((GtkComboBox*)styleComboBox,currentWallStyle);
@@ -219,18 +235,22 @@ void init(void)
 	
 //gtk
 	getValue(XSETTINGS,CONTROLTHEMEPROP,STRING,&currentGtkTheme);
-	getValue(XSETTINGS,CONTROLTHEMEPROP,STRING,&lastGtkTheme);
+//	getValue(XSETTINGS,CONTROLTHEMEPROP,STRING,&lastGtkTheme);
 	getValue(XSETTINGS,CONTROLTHEMEPROP,STRING,&originalGtkTheme);
 
 //icons
-	setValue(XCONFGETICONS,STRING,&currentIconTheme);
-	setValue(XCONFGETICONS,STRING,&lastIconTheme);
+//	setValue(XCONFGETICONS,STRING,&currentIconTheme);
+//	setValue(XCONFGETICONS,STRING,&lastIconTheme);
+	getValue(XSETTINGS,ICONTHEMEPROP,STRING,&originalIconTheme);
+	getValue(XSETTINGS,ICONTHEMEPROP,STRING,&currentIconTheme);
 
 //window manager
 	setValue(XCONFGETTITLEPOS,STRING,&currentTitlePos);
 	setValue(XCONFGETLAYOUT,STRING,&currentButtonLayout);
-	setValue(XCONFGETFRAME,STRING,&currentWmTheme);
-	setValue(XCONFGETFRAME,STRING,&lastWmTheme);
+//	setValue(XCONFGETFRAME,STRING,&currentWmTheme);
+//	setValue(XCONFGETFRAME,STRING,&lastWmTheme);
+	getValue(XFWM,WMBORDERSPROP,STRING,&originalWMTheme);
+	getValue(XFWM,WMBORDERSPROP,STRING,&currentWMTheme);
 
 //font
 	setValue(XCONFGETWMFONT,STRING,&currentWMFont);
@@ -244,9 +264,17 @@ void init(void)
 	setValue(XCONFGETPAPER,STRING,&lastWallPaper);
 
 //mouse
+	getValue(XSETTINGS,CURSORSPROP,STRING,&currentCursorTheme);
+	getValue(XSETTINGS,CURSORSPROP,STRING,&originalCursorTheme);
 	setValue(XCONFGETCURSORSIZE,INT,&currentCursSize);
-	setValue(XCONFGETCURSOR,STRING,&currentCursorTheme);
-	setValue(XCONFGETCURSOR,STRING,&lastCursorTheme);
+
+//	getValue(XSETTINGS,CURSORSPROP,STRING,&originalWMTheme);
+//	getValue(XSETTINGS,CURSORSPROP,STRING,&currentWMTheme);
+
+
+//	getValue(XFWM,WMBORDERSPROP,STRING,&originalWMTheme);
+//	setValue(XCONFGETCURSOR,STRING,&currentCursorTheme);
+//	setValue(XCONFGETCURSOR,STRING,&lastCursorTheme);
 
 	missingImage=gdk_pixbuf_new_from_xpm_data((const char**)error_xpm);
 	blankImage=gdk_pixbuf_new_from_xpm_data((const char**)blank_xpm);

@@ -82,10 +82,12 @@ void rerunAndUpdate(bool rebuild,bool resetmeta)
 //	printf("XXX-%s-XXX\n",lastGtkTheme);
 //	getValue(XSETTINGS,CONTROLTHEMEPROP,STRING,&lastGtkTheme);
 //	printf("XXX-%s-XXX\n",lastGtkTheme);
-	setValue(XCONFGETICONS,STRING,&lastIconTheme);
-	setValue(XCONFGETFRAME,STRING,&lastWmTheme);
+
+//	setValue(XCONFGETICONS,STRING,&lastIconTheme);
+
+//	setValue(XCONFGETFRAME,STRING,&lastWmTheme);
 	setValue(XCONFGETPAPER,STRING,&lastWallPaper);
-	setValue(XCONFGETCURSOR,STRING,&lastCursorTheme);
+//	setValue(XCONFGETCURSOR,STRING,&lastCursorTheme);
 	if(resetmeta==true)
 		setValue(XMTGETMETATHEME,STRING,&lastMetaTheme);
 	else
@@ -809,6 +811,22 @@ void setPieceNew(char* filePath,const char* doCommand,bool update,long doWhat)
 									g_free(currentGtkTheme);
 								currentGtkTheme=strdup(dataset);
 								break;
+							case ICONS:
+								if(currentIconTheme!=NULL)
+									g_free(currentIconTheme);
+								currentIconTheme=strdup(dataset);
+								break;
+							case WMBORDERS:
+								if(currentWMTheme!=NULL)
+									g_free(currentWMTheme);
+								currentWMTheme=strdup(dataset);
+								break;
+							case CURSORS:
+								if(currentCursorTheme!=NULL)
+									g_free(currentCursorTheme);
+								currentCursorTheme=strdup(dataset);
+								break;
+							
 						}
 
 					freeAndNull(&command);
@@ -869,7 +887,7 @@ void themeIconCallback(GtkIconView *view,gpointer doWhat)
 				break;
 
 			case WMBORDERS:
-				setPiece(text,XCONFSETFRAME,true);
+				setPieceNew(text,XCONFSETFRAME,true,WMBORDERS);
 				break;
 
 			case CONTROLS:
@@ -877,11 +895,11 @@ void themeIconCallback(GtkIconView *view,gpointer doWhat)
 				break;
 
 			case ICONS:
-				setPiece(text,XCONFSETICONS,true);
+				setPieceNew(text,XCONFSETICONS,true,ICONS);
 				break;
 
 			case CURSORS:
-				setPiece(text,XCONFSETCURSOR,true);
+				setPieceNew(text,XCONFSETCURSOR,true,CURSORS);
 				break;
 
 			case WALLPAPERS:
