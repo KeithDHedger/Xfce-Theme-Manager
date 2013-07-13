@@ -97,36 +97,20 @@ void resetTheme(GtkWidget* widget,gpointer data)
 
 	gdk_window_set_cursor (gdkWindow,watchCursor); 
 
-	sprintf(generalBuffer,"%s\"%s\"",XCONFSETFRAME,originalWMTheme);
-	system(generalBuffer);
-	if(currentWMTheme!=NULL)
-		g_free(currentWMTheme);
-	currentWMTheme=strdup(originalWMTheme);
+	setValue(XFWM,WMBORDERSPROP,STRING,originalWMTheme);
+	freeAndSet(&currentWMTheme,originalWMTheme);
 
-	sprintf(generalBuffer,"%s\"%s\"",XCONFSETCONTROLS,originalGtkTheme);
-	system(generalBuffer);
-	if(currentGtkTheme!=NULL)
-		g_free(currentGtkTheme);
-	currentGtkTheme=strdup(originalGtkTheme);
+	setValue(XSETTINGS,CONTROLTHEMEPROP,STRING,originalGtkTheme);
+	freeAndSet(&currentGtkTheme,originalGtkTheme);
 
-	sprintf(generalBuffer,"%s\"%s\"",XCONFSETICONS,originalIconTheme);
-	system(generalBuffer);
-	if(currentIconTheme!=NULL)
-		g_free(currentIconTheme);
-	currentIconTheme=strdup(originalIconTheme);
+	setValue(XSETTINGS,ICONTHEMEPROP,STRING,originalIconTheme);
+	freeAndSet(&currentIconTheme,originalIconTheme);
 
-	sprintf(generalBuffer,"%s\"%s\"",XCONFSETCURSOR,originalCursorTheme);
-	system(generalBuffer);
-	if(currentCursorTheme!=NULL)
-		g_free(currentCursorTheme);
-	currentCursorTheme=strdup(originalCursorTheme);
+	setValue(XSETTINGS,CURSORSPROP,STRING,originalCursorTheme);
+	freeAndSet(&currentCursorTheme,originalCursorTheme);
 
-
-	sprintf(generalBuffer,"%s\"%s\"",XCONFSETPAPER,originalWallpaper);
-	system(generalBuffer);
-	if(currentWallPaper!=NULL)
-		g_free(currentWallPaper);
-	currentWallPaper=strdup(originalWallpaper);
+	setValue(XFCEDESKTOP,PAPERSPROP,STRING,originalWallpaper);
+	freeAndSet(&currentWallPaper,originalWallpaper);
 
 	sprintf(generalBuffer,"%s%i",XCONFSETSTYLE,currentWallStyle);
 	system(generalBuffer);
@@ -145,8 +129,6 @@ void resetTheme(GtkWidget* widget,gpointer data)
 	system(generalBuffer);
 	sprintf(generalBuffer,"%s%i",XCONFSETCURSORSIZE,currentCursSize);
 	system(generalBuffer);
-//	sprintf(generalBuffer,"%s\"%s\"",XMTSETMETATHEME,currentMetaTheme);
-//	system(generalBuffer);
 
 //TOGO//
 	//setValue(XMTGETMETATHEME,STRING,&lastMetaTheme);
@@ -162,12 +144,11 @@ void resetTheme(GtkWidget* widget,gpointer data)
 	gtk_range_set_value((GtkRange*)satuRange,currentSatu);
 	gtk_range_set_value((GtkRange*)cursorSize,currentCursSize);
 
-	g_object_set(settings,"gtk-theme-name",currentGtkTheme,"gtk-color-scheme","default",NULL);
 	freeAndNull(&satval);
 
 	rerunAndUpdate(false,true);
 
-	gdk_window_set_cursor (gdkWindow,NULL);
+	gdk_window_set_cursor(gdkWindow,NULL);
 	resetPanels();
 }
 

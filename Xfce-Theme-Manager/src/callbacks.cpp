@@ -75,6 +75,8 @@ gboolean doChangePage(GtkNotebook *notebook,gpointer arg1,guint arg2,gpointer us
 
 void rerunAndUpdate(bool rebuild,bool resetmeta)
 {
+	GtkSettings*	settings;
+
 	if (rebuild==true)
 		rebuildDB((void*)1);
 
@@ -95,6 +97,9 @@ void rerunAndUpdate(bool rebuild,bool resetmeta)
 
 	buildPages();
 	gtk_widget_show_all(window);
+
+	settings=gtk_settings_get_default();
+	g_object_set(settings,"gtk-theme-name",currentGtkTheme,"gtk-color-scheme","default",NULL);
 }
 
 //do config stuff
@@ -333,19 +338,8 @@ else
 							controlHeight=50;
 						}
 					flag=true;
-					printf("net=%s filename=%s\n",currentMetaTheme,filename);
 					setValue(XTHEMER,METATHEMEPROP,STRING,filename);
 					freeAndSet(&currentMetaTheme,filename);
-					printf("now = net=%s filename=%s\n",currentMetaTheme,filename);
-					
-					//if(currentMetaTheme!=NULL)
-					//	freeAndNull(&currentMetaTheme);
-					//currentMetaTheme=strdup(filename);
-					//if(XSETTINGS,CURSORSPROP,STRING,&cursorTheme
-					//freeAndNull(&lastMetaTheme);
-					//asprintf(&lastMetaTheme,"%s",filename);
-					//sprintf(generalBuffer,"%s\"%s\"",XMTSETMETATHEME,lastMetaTheme);
-					//system(generalBuffer);
 				}
 
 			freeAndNull(&dbname);
@@ -649,12 +643,14 @@ void removeTheme(const char* name)
 	gtk_widget_destroy (dialog);
 }
 
+//do meta theme
 void doMeta(char* metaFilename,bool update)
 {
 	GKeyFile*		keyfile=g_key_file_new();
 	int				keycnt=14;
 	char*			keydata=NULL;
 	GdkModifierType	mask;
+	char			buffer[64];	
 	const char*		keys[]={"CursorTheme","Xfwm4Theme","IconTheme","BackgroundImage","BackdropStyle","TitleButtonLayout","TitlePosition","WMFont","AppFont","BackdropBright","BackdropSatu","GtkTheme","CursorSize","Name"};
 
 	GtkSettings*	settings=gtk_settings_get_default();
@@ -719,10 +715,66 @@ void doMeta(char* metaFilename,bool update)
 						}
 				}
 			rerunAndUpdate(false,true);
+
+			for (int j=0;j<numOfPanels;j++)
+				{
+			sprintf((char*)&buffer,"Panel-%i",panels[j]->panelNumber);
+			keydata=g_key_file_get_string(keyfile,buffer,"PanelImage",NULL);
+			if(keydata!=NULL)
+				{
+					if(panels[j]->imagePath!=NULL)
+						g_free(panels[j]->imagePath);
+					panels[j]->imagePath=strdup(keydata);
+					g_free(keydata);
+				}
+			keydata=g_key_file_get_string(keyfile,buffer,"PanelStyle",NULL);
+			if(keydata!=NULL)
+				{
+					panels[j]->style=atoi(keydata);
+					g_free(keydata);
+				}
+			keydata=g_key_file_get_string(keyfile,buffer,"PanelSize",NULL);
+			if(keydata!=NULL)
+				{
+					panels[j]->size=atoi(keydata);
+					g_free(keydata);
+				}
+			keydata=g_key_file_get_string(keyfile,buffer,"PanelRed",NULL);
+			if(keydata!=NULL)
+				{
+					panels[j]->red=atoi(keydata);
+					g_free(keydata);
+				}
+			keydata=g_key_file_get_string(keyfile,buffer,"PanelGreen",NULL);
+			if(keydata!=NULL)
+				{
+					panels[j]->green=atoi(keydata);
+					g_free(keydata);
+				}
+			keydata=g_key_file_get_string(keyfile,buffer,"PanelBlue",NULL);
+			if(keydata!=NULL)
+				{
+					panels[j]->blue=atoi(keydata);
+					g_free(keydata);
+				}
+			keydata=g_key_file_get_string(keyfile,buffer,"PanelAlpha",NULL);
+			if(keydata!=NULL)
+				{
+					panels[j]->alpha=atoi(keydata);
+					g_free(keydata);
+				}
+			setPanels();
+			}
 		}
+	
+	if(keydata!=NULL)
+		g_key_file_free(keyfile);
+
+	system("xfdesktop --reload");
 }
 
 //do meta theme
+#if 0
 void doMetaX(char* metaFilename,bool update)
 {
 	GKeyFile*		keyfile=g_key_file_new();
@@ -855,6 +907,7 @@ void doMetaX(char* metaFilename,bool update)
 
 	system("xfdesktop --reload");
 }
+#endif
 
 void setPieceNew(char* filePath,const char* doCommand,bool update,long doWhat)
 {

@@ -38,6 +38,7 @@
 #define XCONFSETBRIGHT "xfconf-query -nRt int -c xfce4-desktop -p /backdrop/screen0/monitor0/brightness -s "
 #define XCONFSETSATU "xfconf-query -nRt double -c xfce4-desktop -p /backdrop/screen0/monitor0/saturation -s "
 
+//TOGO//
 #define XCONFSETFRAME "xfconf-query -nRt string -c xfwm4 -p /general/theme -s "
 #define XCONFSETCONTROLS "xfconf-query -nRt string -c xsettings -p /Net/ThemeName -s "
 #define XCONFSETICONS "xfconf-query -nRt string -c xsettings -p /Net/IconThemeName -s "
@@ -101,8 +102,6 @@
 #define XMTGETWINHITE "xfconf-query -c xfcethemer -p /WindowHeight"
 #define XMTSETWINWID "xfconf-query -nt int -c xfcethemer -p /WindowWidth -s "
 #define XMTSETWINHITE "xfconf-query -nt int -c xfcethemer -p /WindowHeight -s "
-
-#define XMTSETMETATHEME "xfconf-query -nt string -c xfcethemer -p /MetaTheme -s "
 
 #define XMTSETPRESIZE "xfconf-query -nt int -c xfcethemer -p /PreveiwSize -s "
 #define XMTGETPRESIZE "xfconf-query -c xfcethemer -p /PreveiwSize"
