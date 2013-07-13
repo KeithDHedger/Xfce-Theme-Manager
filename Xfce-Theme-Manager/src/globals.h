@@ -60,6 +60,7 @@
 #define XFWM "xfwm4"
 #define XFCEDESKTOP "xfce4-desktop"
 #define XTHEMER "xfcethemer"
+#define PANELS "xfce4-panel"
 
 #define CONTROLTHEMEPROP "/Net/ThemeName"
 #define ICONTHEMEPROP "/Net/IconThemeName"

@@ -34,8 +34,9 @@ void setPanelData(bool fromwidget)
 //size
 			if(fromwidget==true)
 				panel->size=gtk_range_get_value((GtkRange*)panelSizeWidget);
-			sprintf((char*)&buffer,"xfconf-query -nt int -c xfce4-panel -p /panels/panel-%i/size -s %i",panel->panelNumber,panel->size);
-			system(buffer);
+			
+//			sprintf((char*)&buffer,"xfconf-query -nt int -c xfce4-panel -p /panels/panel-%i/size -s %i",panel->panelNumber,panel->size);
+	//		system(buffer);
 //image
 			if(fromwidget==true)
 				panel->imagePath=gtk_file_chooser_get_filename((GtkFileChooser*)panelImagePathWidget);
