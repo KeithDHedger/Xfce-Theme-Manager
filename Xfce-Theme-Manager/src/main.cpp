@@ -97,7 +97,6 @@ void resetTheme(GtkWidget* widget,gpointer data)
 
 	gdk_window_set_cursor (gdkWindow,watchCursor); 
 
-
 	sprintf(generalBuffer,"%s\"%s\"",XCONFSETFRAME,originalWMTheme);
 	system(generalBuffer);
 	if(currentWMTheme!=NULL)
@@ -146,12 +145,13 @@ void resetTheme(GtkWidget* widget,gpointer data)
 	system(generalBuffer);
 	sprintf(generalBuffer,"%s%i",XCONFSETCURSORSIZE,currentCursSize);
 	system(generalBuffer);
-	sprintf(generalBuffer,"%s\"%s\"",XMTSETMETATHEME,currentMetaTheme);
-	system(generalBuffer);
+//	sprintf(generalBuffer,"%s\"%s\"",XMTSETMETATHEME,currentMetaTheme);
+//	system(generalBuffer);
 
 //TOGO//
 	//setValue(XMTGETMETATHEME,STRING,&lastMetaTheme);
 	freeAndSet(&currentMetaTheme,originalMetaTheme);
+	setValue(XTHEMER,METATHEMEPROP,STRING,originalMetaTheme);
 
 	gtk_combo_box_set_active((GtkComboBox*)styleComboBox,currentWallStyle);
 	gtk_entry_set_text((GtkEntry*)layoutEntry,currentButtonLayout);
@@ -164,6 +164,7 @@ void resetTheme(GtkWidget* widget,gpointer data)
 
 	g_object_set(settings,"gtk-theme-name",currentGtkTheme,"gtk-color-scheme","default",NULL);
 	freeAndNull(&satval);
+
 	rerunAndUpdate(false,true);
 
 	gdk_window_set_cursor (gdkWindow,NULL);

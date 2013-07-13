@@ -80,28 +80,12 @@ void rerunAndUpdate(bool rebuild,bool resetmeta)
 
 	if(resetmeta==true)
 		{
-		//setValue(XMTGETMETATHEME,STRING,&lastMetaTheme);
-		//getValue(XTHEMER,METATHEMEPROP,STRING,&lastMetaTheme);
-		
-
-
-			//if(currentMetaTheme!=NULL)
-			//	freeAndNull(&currentMetaTheme);
-			//currentMetaTheme=strdup(originalMetaTheme);
-			freeAndSet(&currentMetaTheme,originalMetaTheme);
-
-
+			setValue(XTHEMER,METATHEMEPROP,STRING,currentMetaTheme);
 		}
 	else
 		{
-			if(originalMetaTheme!=NULL)
-				freeAndNull(&originalMetaTheme);
-			
-		//freeAndNull(&lastMetaTheme);
-			asprintf(&originalMetaTheme,"DEADBEEFANDOXO");
-			//sprintf(generalBuffer,"%s\"\"",XMTSETMETATHEME);
-			//system(generalBuffer);
-			setValue(XTHEMER,METATHEMEPROP,STRING,originalMetaTheme);
+			setValue(XTHEMER,METATHEMEPROP,STRING,(void*)"DEADBEEF");
+			freeAndSet(&currentMetaTheme,"DEADBEEF");
 		}
 
 	for (int j=THEMES;j<=WALLPAPERS;j++)
@@ -731,13 +715,11 @@ void doMeta(char* metaFilename,bool update)
 												freeAndSet(&currentMetaTheme,keydata);
 												break;
 										}
-									rerunAndUpdate(false,false);
 								}
 						}
 				}
+			rerunAndUpdate(false,true);
 		}
-
-	
 }
 
 //do meta theme
