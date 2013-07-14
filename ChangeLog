@@ -22,6 +22,7 @@ Changelog:
 		Fixed bug where xconf property not created for panel colour.
 		Major code clean.
 		Minor Polish translation changes.
+		Bug fix in makefile for mutlple parallel builds.
 
 0.3.2	Added Polish translation, thanks to Michał Olber for that.
 	Added Polish man page.

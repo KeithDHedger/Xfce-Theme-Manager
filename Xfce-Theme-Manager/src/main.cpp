@@ -219,21 +219,23 @@ void init(void)
 	getValue(XSETTINGS,ICONTHEMEPROP,STRING,&currentIconTheme);
 
 //window manager
-	setValueXX(XCONFGETTITLEPOS,STRING,&currentTitlePos);
-	setValueXX(XCONFGETLAYOUT,STRING,&currentButtonLayout);
+	getValue(XFWM,TITLEALIGNPROP,STRING,&currentTitlePos);
+	getValue(XFWM,BUTTONLAYOUTPROP,STRING,&currentButtonLayout);
 	getValue(XFWM,WMBORDERSPROP,STRING,&originalWMTheme);
 	getValue(XFWM,WMBORDERSPROP,STRING,&currentWMTheme);
 
 //font
-	setValueXX(XCONFGETWMFONT,STRING,&currentWMFont);
-	setValueXX(XCONFGETAPPFONT,STRING,&currentAppFont);
+	getValue(XFWM,WMFONTPROP,STRING,&currentWMFont);
+	getValue(XSETTINGS,APPFONTPROP,STRING,&currentAppFont);
 
 //backdrop
-	setValueXX(XCONFGETBRIGHT,INT,&currentBright);
+//	setValueXX(XCONFGETBRIGHT,INT,&currentBright);
 	setValueXX(XCONFGETSATU,FLOAT,&currentSatu);
-	setValueXX(XCONFGETSTYLE,INT,&currentWallStyle);
+	//setValueXX(XCONFGETSTYLE,INT,&currentWallStyle);
 	getValue(XFCEDESKTOP,PAPERSPROP,STRING,&currentWallPaper);
 	getValue(XFCEDESKTOP,PAPERSPROP,STRING,&originalWallpaper);
+	getValue(XFCEDESKTOP,BACKDROPSTYLEPROP,INT,&currentWallStyle);
+	getValue(XFCEDESKTOP,BACKDROPBRIGHTPROP,INT,&currentBright);
 
 //mouse
 	getValue(XSETTINGS,CURSORSPROP,STRING,&currentCursorTheme);
@@ -557,6 +559,17 @@ struct option long_options[]=
 		{"help",0,0,'?'},
 		{0, 0, 0, 0}
 	};
+//#define _panelsize(x) "/panels/panel-"+x+"/size"
+//#define PPCAT_NX(A, B) A ## B
+//#define PPCAT(A, B) "PPCAT_NX(A, B)"
+//
+//#define VER1_(x) #x
+//#define VER_(x) VER1_(x)
+//#define VER(z) "xxx" VER_(z)
+//
+//#define PANNUM(z) #z
+//#define PANNUM_(z) PANNUM(z)
+//#define PAN(z) "penel" PANNUM_(z)
 
 int main(int argc,char **argv)
 {
@@ -569,6 +582,11 @@ int main(int argc,char **argv)
 	int			c;
 	int			fd;
 	fpos_t		pos;
+
+//printf("%s\n",VER(9));
+//printf("%s\n",PAN(91) "siz");
+//printf("%s\n","panel" 3 "siz");
+//exit(0);
 
 	while (1)
 		{

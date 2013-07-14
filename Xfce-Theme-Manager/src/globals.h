@@ -60,7 +60,7 @@
 #define XFWM "xfwm4"
 #define XFCEDESKTOP "xfce4-desktop"
 #define XTHEMER "xfcethemer"
-#define PANELS "xfce4-panel"
+#define XFCEPANELS "xfce4-panel"
 
 #define CONTROLTHEMEPROP "/Net/ThemeName"
 #define ICONTHEMEPROP "/Net/IconThemeName"
@@ -68,15 +68,21 @@
 #define CURSORSPROP "/Gtk/CursorThemeName"
 #define PAPERSPROP "/backdrop/screen0/monitor0/image-path"
 #define METATHEMEPROP "/MetaTheme"
+#define BUTTONLAYOUTPROP "/general/button_layout"
+#define TITLEALIGNPROP "/general/title_alignment"
+#define WMFONTPROP "/general/title_font"
+#define APPFONTPROP "/Gtk/FontName"
+#define BACKDROPSTYLEPROP "/backdrop/screen0/monitor0/image-style"
+#define BACKDROPBRIGHTPROP "/backdrop/screen0/monitor0/brightness"
 
-#define XCONFGETLAYOUT "xfconf-query -c xfwm4 -p /general/button_layout"
-#define XCONFGETTITLEPOS "xfconf-query -c xfwm4 -p /general/title_alignment"
+//#define XCONFGETLAYOUT "xfconf-query -c xfwm4 -p /general/button_layout"
+//#define XCONFGETTITLEPOS "xfconf-query -c xfwm4 -p /general/title_alignment"
 
-#define XCONFGETWMFONT "xfconf-query -c xfwm4 -p /general/title_font"
-#define XCONFGETAPPFONT "xfconf-query -c xsettings -p /Gtk/FontName"
+//#define XCONFGETWMFONT "xfconf-query -c xfwm4 -p /general/title_font"
+//#define XCONFGETAPPFONT "xfconf-query -c xsettings -p /Gtk/FontName"
 
-#define XCONFGETSTYLE "xfconf-query -nRt int -c xfce4-desktop -p /backdrop/screen0/monitor0/image-style"
-#define XCONFGETBRIGHT "xfconf-query -nRt int -c xfce4-desktop -p /backdrop/screen0/monitor0/brightness"
+//#define XCONFGETSTYLE "xfconf-query -nRt int -c xfce4-desktop -p /backdrop/screen0/monitor0/image-style"
+//#define XCONFGETBRIGHT "xfconf-query -nRt int -c xfce4-desktop -p /backdrop/screen0/monitor0/brightness"
 #define XCONFGETSATU "xfconf-query -nRt double -c xfce4-desktop -p /backdrop/screen0/monitor0/saturation"
 
 #define XCONFGETCURSORSIZE "xfconf-query -nRt int -c xsettings -p /Gtk/CursorThemeSize"

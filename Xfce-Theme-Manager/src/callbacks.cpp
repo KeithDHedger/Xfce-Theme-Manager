@@ -299,12 +299,15 @@ else
 					buildCustomDBNEW(XFCEDESKTOP,PAPERSPROP,STRING,"BackgroundImage");
 
 //TOGO//
-					buildCustomDB(XCONFGETLAYOUT,"TitleButtonLayout");
-					buildCustomDB(XCONFGETTITLEPOS,"TitlePosition");
-					buildCustomDB(XCONFGETWMFONT,"WMFont");
-					buildCustomDB(XCONFGETAPPFONT,"AppFont");
-					buildCustomDB(XCONFGETSTYLE,"BackdropStyle");
-					buildCustomDB(XCONFGETBRIGHT,"BackdropBright");
+					buildCustomDBNEW(XFWM,BUTTONLAYOUTPROP,STRING,"TitleButtonLayout");
+					buildCustomDBNEW(XFWM,TITLEALIGNPROP,STRING,"TitlePosition");
+					buildCustomDBNEW(XFWM,WMFONTPROP,STRING,"WMFont");
+					buildCustomDBNEW(XSETTINGS,APPFONTPROP,STRING,"AppFont");
+					buildCustomDBNEW(XFCEDESKTOP,BACKDROPSTYLEPROP,STRING,"BackdropStyle");
+					buildCustomDBNEW(XFCEDESKTOP,BACKDROPBRIGHTPROP,STRING,"BackdropBright");
+
+					//buildCustomDB(XCONFGETSTYLE,"BackdropStyle");
+//					buildCustomDB(XCONFGETBRIGHT,"BackdropBright");
 					buildCustomDB(XCONFGETSATU,"BackdropSatu");
 					buildCustomDB(XCONFGETCURSORSIZE,"CursorSize");
 //panel stuff

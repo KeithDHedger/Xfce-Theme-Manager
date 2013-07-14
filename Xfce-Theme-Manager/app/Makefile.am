@@ -14,11 +14,6 @@ docfilesdir = $(pkgdatadir)/docs
 docfiles_DATA = ../resources/docs/*
 
 bin_PROGRAMS = xfcethememanager
-all-local:
-	mv xfcethememanager $(TRANSFORMNAME)
-
-clean-local:
-	rm $(TRANSFORMNAME)
  
 install-exec-hook:
 	mv $(DESTDIR)${bindir}/xfcethememanager $(DESTDIR)${bindir}/$(TRANSFORMNAME)

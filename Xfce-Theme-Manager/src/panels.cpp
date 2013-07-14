@@ -11,6 +11,7 @@
 #include <string.h>
 #include <sys/stat.h>
 #include <ctype.h>
+#include <xfconf/xfconf.h>
 
 #include "globals.h"
 
@@ -22,6 +23,8 @@ void setPanelData(bool fromwidget)
 	panelData*	panel;
 	GdkColor	colour;
 	char		buffer[1024];
+	XfconfChannel*	channelptr=xfconf_channel_get(XFCEPANELS);
+	int alpha=65535;
 
 	if(panelChanging==false)
 		{
@@ -29,24 +32,28 @@ void setPanelData(bool fromwidget)
 //style
 			if(fromwidget==true)
 				panel->style=gtk_combo_box_get_active((GtkComboBox*)panelStyleWidget);
-			sprintf((char*)&buffer,"xfconf-query -nt int -c xfce4-panel -p /panels/panel-%i/background-style -s %i",panel->panelNumber,panel->style);
-			system(buffer);
+			sprintf((char*)&buffer,"/panels/panel-%i/background-style",panel->panelNumber);
+			setValue(XFCEPANELS,buffer,INT,(void*)(long)panel->style);
+
 //size
 			if(fromwidget==true)
 				panel->size=gtk_range_get_value((GtkRange*)panelSizeWidget);
-			
-//			sprintf((char*)&buffer,"xfconf-query -nt int -c xfce4-panel -p /panels/panel-%i/size -s %i",panel->panelNumber,panel->size);
-	//		system(buffer);
+			sprintf((char*)&buffer,"/panels/panel-%i/size",panel->panelNumber);
+			setValue(XFCEPANELS,buffer,INT,(void*)(long)panel->size);
 //image
 			if(fromwidget==true)
-				panel->imagePath=gtk_file_chooser_get_filename((GtkFileChooser*)panelImagePathWidget);
-			sprintf((char*)&buffer,"xfconf-query -nt string -c xfce4-panel -p /panels/panel-%i/background-image -s %s",panel->panelNumber,panel->imagePath);
-			system(buffer);
+				{
+					freeAndNull(&panel->imagePath);
+					panel->imagePath=gtk_file_chooser_get_filename((GtkFileChooser*)panelImagePathWidget);
+				}
+			sprintf((char*)&buffer,"/panels/panel-%i/background-image",panel->panelNumber);
+			setValue(XFCEPANELS,buffer,STRING,(void*)(long)panel->imagePath);
+
 //alpha
 			if(fromwidget==true)
 				panel->alpha=gtk_range_get_value((GtkRange*)panelAlphaWidget);
-			sprintf((char*)&buffer,"xfconf-query -nt int -c xfce4-panel -p /panels/panel-%i/background-alpha -s %i",panel->panelNumber,panel->alpha);
-			system(buffer);
+			sprintf((char*)&buffer,"/panels/panel-%i/background-alpha",panel->panelNumber);
+			setValue(XFCEPANELS,buffer,INT,(void*)(long)panel->alpha);
 //colour
 			if(fromwidget==true)
 				{
@@ -55,8 +62,9 @@ void setPanelData(bool fromwidget)
 					panel->green=colour.green;
 					panel->blue=colour.blue;
 				}
-			sprintf((char*)&buffer,"xfconf-query array -c xfce4-panel -p /panels/panel-%i/background-color -t uint -t uint -t uint -t uint -s %i -s %i -s %i -s %i",panel->panelNumber,panel->red,panel->green,panel->blue,65535);
-			system(buffer);
+
+			sprintf((char*)&buffer,"/panels/panel-%i/background-color",panel->panelNumber);
+			xfconf_channel_set_array(channelptr,(const gchar*)&buffer,XFCONF_TYPE_UINT16,&panel->red,XFCONF_TYPE_UINT16,&panel->green,XFCONF_TYPE_UINT16,&panel->blue,XFCONF_TYPE_UINT16,&alpha,G_TYPE_INVALID);
 		}
 }
 
