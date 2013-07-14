@@ -229,18 +229,16 @@ void init(void)
 	getValue(XSETTINGS,APPFONTPROP,STRING,&currentAppFont);
 
 //backdrop
-//	setValueXX(XCONFGETBRIGHT,INT,&currentBright);
-	setValueXX(XCONFGETSATU,FLOAT,&currentSatu);
-	//setValueXX(XCONFGETSTYLE,INT,&currentWallStyle);
 	getValue(XFCEDESKTOP,PAPERSPROP,STRING,&currentWallPaper);
 	getValue(XFCEDESKTOP,PAPERSPROP,STRING,&originalWallpaper);
 	getValue(XFCEDESKTOP,BACKDROPSTYLEPROP,INT,&currentWallStyle);
 	getValue(XFCEDESKTOP,BACKDROPBRIGHTPROP,INT,&currentBright);
+	getValue(XFCEDESKTOP,BACKDROPSATUPROP,FLOAT,&currentSatu);
 
 //mouse
 	getValue(XSETTINGS,CURSORSPROP,STRING,&currentCursorTheme);
 	getValue(XSETTINGS,CURSORSPROP,STRING,&originalCursorTheme);
-	setValueXX(XCONFGETCURSORSIZE,INT,&currentCursSize);
+	getValue(XSETTINGS,CURSORSIZEPROP,INT,&currentCursSize);
 
 //metatheme
 	getValue(XTHEMER,METATHEMEPROP,STRING,&currentMetaTheme);
@@ -266,10 +264,15 @@ void init(void)
 //check hashses
 	setValueXX(XMTGETHASH,STRING,&homeThemesHash);
 
-	setValueXX(XMTGETSHOWSYSTEM,INT,&showGlobal);
-	setValueXX(XMTGETSHOWMETA,INT,&showMeta);
-	setValueXX(XMTGETSHOWGTK,INT,&showGtk);
-	setValueXX(XMTGETSHOWWMB,INT,&showDecs);
+//	setValueXX(XMTGETSHOWSYSTEM,INT,&showGlobal);
+	getValue(XTHEMER,SHOWSYSTEMPROP,INT,&showGlobal);
+	getValue(XTHEMER,SHOWMETAPROP,INT,&showMeta);
+	getValue(XTHEMER,SHOWGTKPROP,INT,&showGtk);
+	getValue(XTHEMER,SHOWWMBORDERPROP,INT,&showDecs);
+	
+//	setValueXX(XMTGETSHOWMETA,INT,&showMeta);
+//	setValueXX(XMTGETSHOWGTK,INT,&showGtk);
+//	setValueXX(XMTGETSHOWWMB,INT,&showDecs);
 	setValueXX(XMTGETSHOWCURSORS,INT,&showCursors);
 	setValueXX(XMTGETSHOWICONS,INT,&showIcons);
 	setValueXX(XMTGETSHOWPAPER,INT,&showBackdrop);

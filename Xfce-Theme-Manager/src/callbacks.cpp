@@ -175,14 +175,31 @@ void changeViewWhat(GtkWidget* widget,gpointer data)
 
 void buildCustomDBNEW(const char* chan,const char* prop,dataType type,const char* key)
 {
-	char*	stdout;
+	char*	strdata=NULL;
+	int		intdata;
+	double	floatdata;
 
-	getValue(chan,prop,type,&stdout);
-	sprintf(filedata,"%s%s=%s\n",filedata,key,stdout);
-	freeAndNull(&stdout);
+	switch(type)
+		{
+			case INT:
+				getValue(chan,prop,type,&intdata);
+				sprintf(filedata,"%s%s=%i\n",filedata,key,intdata);
+				break;
+
+			case STRING:
+				getValue(chan,prop,type,&strdata);
+				sprintf(filedata,"%s%s=%s\n",filedata,key,strdata);
+				g_free(strdata);
+				break;
+
+			case FLOAT:
+				getValue(chan,prop,type,&floatdata);
+				sprintf(filedata,"%s%s=%f\n",filedata,key,floatdata);
+				break;
+		}
 }
 //TOGO//
-void buildCustomDB(const char* xconfline,const char* key)
+void buildCustomDBXXXX(const char* xconfline,const char* key)
 {
 	char*	stdout;
 	gint   spawnret=0;
@@ -303,13 +320,11 @@ else
 					buildCustomDBNEW(XFWM,TITLEALIGNPROP,STRING,"TitlePosition");
 					buildCustomDBNEW(XFWM,WMFONTPROP,STRING,"WMFont");
 					buildCustomDBNEW(XSETTINGS,APPFONTPROP,STRING,"AppFont");
-					buildCustomDBNEW(XFCEDESKTOP,BACKDROPSTYLEPROP,STRING,"BackdropStyle");
-					buildCustomDBNEW(XFCEDESKTOP,BACKDROPBRIGHTPROP,STRING,"BackdropBright");
+					buildCustomDBNEW(XFCEDESKTOP,BACKDROPSTYLEPROP,INT,"BackdropStyle");
+					buildCustomDBNEW(XFCEDESKTOP,BACKDROPBRIGHTPROP,INT,"BackdropBright");
+					buildCustomDBNEW(XFCEDESKTOP,BACKDROPSATUPROP,FLOAT,"BackdropSatu");
+					buildCustomDBNEW(XSETTINGS,CURSORSIZEPROP,INT,"CursorSize");
 
-					//buildCustomDB(XCONFGETSTYLE,"BackdropStyle");
-//					buildCustomDB(XCONFGETBRIGHT,"BackdropBright");
-					buildCustomDB(XCONFGETSATU,"BackdropSatu");
-					buildCustomDB(XCONFGETCURSORSIZE,"CursorSize");
 //panel stuff
 					for(int j=0;j<numOfPanels;j++)
 						{

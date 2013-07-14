@@ -74,6 +74,14 @@
 #define APPFONTPROP "/Gtk/FontName"
 #define BACKDROPSTYLEPROP "/backdrop/screen0/monitor0/image-style"
 #define BACKDROPBRIGHTPROP "/backdrop/screen0/monitor0/brightness"
+#define BACKDROPSATUPROP "/backdrop/screen0/monitor0/saturation"
+#define CURSORSIZEPROP "/Gtk/CursorThemeSize"
+//my configs
+#define SHOWSYSTEMPROP "/ShowGlobal"
+#define SHOWMETAPROP "/ShowMeta"
+#define SHOWGTKPROP "/ShowGtk"
+#define SHOWWMBORDERPROP "/ShowDecs"
+
 
 //#define XCONFGETLAYOUT "xfconf-query -c xfwm4 -p /general/button_layout"
 //#define XCONFGETTITLEPOS "xfconf-query -c xfwm4 -p /general/title_alignment"
@@ -83,18 +91,18 @@
 
 //#define XCONFGETSTYLE "xfconf-query -nRt int -c xfce4-desktop -p /backdrop/screen0/monitor0/image-style"
 //#define XCONFGETBRIGHT "xfconf-query -nRt int -c xfce4-desktop -p /backdrop/screen0/monitor0/brightness"
-#define XCONFGETSATU "xfconf-query -nRt double -c xfce4-desktop -p /backdrop/screen0/monitor0/saturation"
+//#define XCONFGETSATU "xfconf-query -nRt double -c xfce4-desktop -p /backdrop/screen0/monitor0/saturation"
 
-#define XCONFGETCURSORSIZE "xfconf-query -nRt int -c xsettings -p /Gtk/CursorThemeSize"
+//#define XCONFGETCURSORSIZE "xfconf-query -nRt int -c xsettings -p /Gtk/CursorThemeSize"
 #define XCONFSETCURSORSIZE "xfconf-query -nRt int -c xsettings -p /Gtk/CursorThemeSize -s "
 
-#define XMTGETSHOWSYSTEM  "xfconf-query -c xfcethemer -p /ShowGlobal"
+//#define XMTGETSHOWSYSTEM  "xfconf-query -c xfcethemer -p /ShowGlobal"
 #define XMTSETSHOWSYSTEM  "xfconf-query -nt int -c xfcethemer -p /ShowGlobal -s "
-#define XMTGETSHOWMETA "xfconf-query -c xfcethemer -p /ShowMeta"
+//#define XMTGETSHOWMETA "xfconf-query -c xfcethemer -p /ShowMeta"
 #define XMTSETSHOWMETA  "xfconf-query -nt int -c xfcethemer -p /ShowMeta -s "
-#define XMTGETSHOWGTK "xfconf-query -c xfcethemer -p /ShowGtk"
+//#define XMTGETSHOWGTK "xfconf-query -c xfcethemer -p /ShowGtk"
 #define XMTSETSHOWGTK  "xfconf-query -nt int -c xfcethemer -p /ShowGtk -s "
-#define XMTGETSHOWWMB "xfconf-query -c xfcethemer -p /ShowDecs"
+//#define XMTGETSHOWWMB "xfconf-query -c xfcethemer -p /ShowDecs"
 #define XMTSETSHOWWMB  "xfconf-query -nt int -c xfcethemer -p /ShowDecs -s "
 #define XMTGETSHOWICONS "xfconf-query -c xfcethemer -p /ShowIcons"
 #define XMTSETSHOWICONS  "xfconf-query -nt int -c xfcethemer -p /ShowIcons -s "

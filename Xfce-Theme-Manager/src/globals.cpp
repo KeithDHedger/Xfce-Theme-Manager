@@ -245,7 +245,7 @@ void getValue(const char* channel,const char* property,dataType type,void* ptr)
 				break;
 
 			case FLOAT:
-				floatdata=xfconf_channel_get_int(channelptr,property,-1);
+				floatdata=xfconf_channel_get_double(channelptr,property,-1);
 				*(double*)ptr=floatdata;
 				break;
 		}
