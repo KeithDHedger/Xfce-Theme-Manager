@@ -92,10 +92,12 @@ bool		doPrintHelp=false;
 // RESET THEME
 void resetTheme(GtkWidget* widget,gpointer data)
 {
-	GtkSettings *settings=gtk_settings_get_default();;
-	char*		satval;
+	double	d=1.0;
 
-	gdk_window_set_cursor (gdkWindow,watchCursor); 
+	gdk_window_set_cursor(gdkWindow,watchCursor); 
+
+	freeAndSet(&currentMetaTheme,originalMetaTheme);
+	setValue(XTHEMER,METATHEMEPROP,STRING,originalMetaTheme);
 
 	setValue(XFWM,WMBORDERSPROP,STRING,originalWMTheme);
 	freeAndSet(&currentWMTheme,originalWMTheme);
@@ -112,29 +114,24 @@ void resetTheme(GtkWidget* widget,gpointer data)
 	setValue(XFCEDESKTOP,PAPERSPROP,STRING,originalWallpaper);
 	freeAndSet(&currentWallPaper,originalWallpaper);
 
-	sprintf(generalBuffer,"%s%i",XCONFSETSTYLE,currentWallStyle);
-	system(generalBuffer);
-	sprintf(generalBuffer,"%s\"%s\"",XCONFSETLAYOUT,currentButtonLayout);
-	system(generalBuffer);
+	setValue(XFCEDESKTOP,BACKDROPSTYLEPROP,INT,(void*)(long)wallStyle);
+	setValue(XFWM,BUTTONLAYOUTPROP,STRING,(void*)currentButtonLayout);
+
 	sprintf(generalBuffer,"%s\"%s\"",XCONFSETTITLEPOS,currentTitlePos);
 	system(generalBuffer);
 	sprintf(generalBuffer,"%s\"%s\"",XCONFSETWMFONT,currentWMFont);
 	system(generalBuffer);
 	sprintf(generalBuffer,"%s\"%s\"",XCONFSETAPPFONT,currentAppFont);
 	system(generalBuffer);
-	sprintf(generalBuffer,"%s%i",XCONFSETBRIGHT,currentBright);
-	system(generalBuffer);
-	satval=doubleToStr(currentSatu);
-	sprintf(generalBuffer,"%s\"%s\"",XCONFSETSATU,satval);
-	system(generalBuffer);
-//	sprintf(generalBuffer,"%s%i",XCONFSETCURSORSIZE,currentCursSize);
-//	system(generalBuffer);
-//	setValue(XSETTINGS,CURSORSIZEPROP,INT,(void*)currentCursSize);
+	setValue(XFCEDESKTOP,BACKDROPBRIGHTPROP,INT,(void*)(long)currentBright);
+
+
+	setValue(XFCEDESKTOP,BACKDROPSATUPROP,FLOAT,(void*)&d);
+
+
+
 
 //TOGO//
-	//setValue(XMTGETMETATHEME,STRING,&lastMetaTheme);
-	freeAndSet(&currentMetaTheme,originalMetaTheme);
-	setValue(XTHEMER,METATHEMEPROP,STRING,originalMetaTheme);
 
 	gtk_combo_box_set_active((GtkComboBox*)styleComboBox,currentWallStyle);
 	gtk_entry_set_text((GtkEntry*)layoutEntry,currentButtonLayout);
@@ -145,7 +142,7 @@ void resetTheme(GtkWidget* widget,gpointer data)
 	gtk_range_set_value((GtkRange*)satuRange,currentSatu);
 	gtk_range_set_value((GtkRange*)cursorSize,currentCursSize);
 
-	freeAndNull(&satval);
+//	freeAndNull(&satval);
 
 	rerunAndUpdate(false,true);
 
@@ -156,10 +153,8 @@ void resetTheme(GtkWidget* widget,gpointer data)
 void shutdown(GtkWidget* widget,gpointer data)
 {
 	gtk_window_get_size((GtkWindow*)window,&winWid,&winHite);
-	sprintf(generalBuffer,"%s%i",XMTSETWINWID,winWid);
-	system(generalBuffer);
-	sprintf(generalBuffer,"%s%i",XMTSETWINHITE,winHite);
-	system(generalBuffer);
+	setValue(XTHEMER,WINHITEPROP,INT,(void*)(long)winHite);
+	setValue(XTHEMER,WINWIDPROP,INT,(void*)(long)winWid);
 	xfconf_shutdown();
 	gtk_main_quit();
 }
@@ -382,6 +377,7 @@ gboolean updateBarTimer(gpointer data)
 
 int doCliThemePart(char* name,char* folder,const char* what)
 {
+#if 0
 	char* tn=NULL;			
 
 	for (int j=0;j<2;j++)
@@ -396,7 +392,9 @@ int doCliThemePart(char* name,char* folder,const char* what)
 			else
 				freeAndNull(&tn);
 		}
+#endif
 	return(1);
+
 }
 
 int doCliTheme(void)
@@ -859,6 +857,7 @@ int main(int argc,char **argv)
 				}
 			populatePanels();
 
+#if 0
 			if (cliTheme!=NULL)
 				cliRetVal=doCliTheme();
 
@@ -883,7 +882,7 @@ int main(int argc,char **argv)
 
 			if (cliFileName!=NULL)
 				customTheme(NULL,NULL);
-
+#endif
 			return(cliRetVal);
 		}
 }

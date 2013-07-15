@@ -34,18 +34,16 @@
 
 #define DELETETHEME 100
 
-#define XCONFSETSTYLE "xfconf-query -nRt int -c xfce4-desktop -p /backdrop/screen0/monitor0/image-style -s "
-#define XCONFSETBRIGHT "xfconf-query -nRt int -c xfce4-desktop -p /backdrop/screen0/monitor0/brightness -s "
-#define XCONFSETSATU "xfconf-query -nRt double -c xfce4-desktop -p /backdrop/screen0/monitor0/saturation -s "
+
 
 //TOGO//
-#define XCONFSETFRAME "xfconf-query -nRt string -c xfwm4 -p /general/theme -s "
-#define XCONFSETCONTROLS "xfconf-query -nRt string -c xsettings -p /Net/ThemeName -s "
-#define XCONFSETICONS "xfconf-query -nRt string -c xsettings -p /Net/IconThemeName -s "
-#define XCONFSETCURSOR "xfconf-query -nRt string -c xsettings -p /Gtk/CursorThemeName -s "
-#define XCONFSETPAPER "xfconf-query -nRt string -c xfce4-desktop -p /backdrop/screen0/monitor0/image-path -s "
+//#define XCONFSETFRAME "xfconf-query -nRt string -c xfwm4 -p /general/theme -s "
+//#define XCONFSETCONTROLS "xfconf-query -nRt string -c xsettings -p /Net/ThemeName -s "
+//#define XCONFSETICONS "xfconf-query -nRt string -c xsettings -p /Net/IconThemeName -s "
+//#define XCONFSETCURSOR "xfconf-query -nRt string -c xsettings -p /Gtk/CursorThemeName -s "
+//#define XCONFSETPAPER "xfconf-query -nRt string -c xfce4-desktop -p /backdrop/screen0/monitor0/image-path -s "
 
-#define XCONFSETLAYOUT "xfconf-query -c xfwm4 -p /general/button_layout -s "
+
 #define XCONFSETTITLEPOS "xfconf-query -c xfwm4 -p /general/title_alignment -s "
 
 #define XCONFSETWMFONT "xfconf-query -c xfwm4 -p /general/title_font -s "
@@ -76,6 +74,7 @@
 #define BACKDROPBRIGHTPROP "/backdrop/screen0/monitor0/brightness"
 #define BACKDROPSATUPROP "/backdrop/screen0/monitor0/saturation"
 #define CURSORSIZEPROP "/Gtk/CursorThemeSize"
+
 //my configs
 #define SHOWSYSTEMPROP "/ShowGlobal"
 #define SHOWMETAPROP "/ShowMeta"
@@ -90,31 +89,6 @@
 #define PREVSIZEPROP "/PreveiwSize"
 #define HASHPROP "/ThemesHash"
 
-
-//#define XMTSETSHOWMETA  "xfconf-query -nt int -c xfcethemer -p /ShowMeta -s "
-//#define XMTGETSHOWGTK "xfconf-query -c xfcethemer -p /ShowGtk"
-//#define XMTSETSHOWGTK  "xfconf-query -nt int -c xfcethemer -p /ShowGtk -s "
-//#define XMTGETSHOWWMB "xfconf-query -c xfcethemer -p /ShowDecs"
-//#define XMTSETSHOWWMB  "xfconf-query -nt int -c xfcethemer -p /ShowDecs -s "
-//#define XMTGETSHOWICONS "xfconf-query -c xfcethemer -p /ShowIcons"
-//#define XMTSETSHOWICONS  "xfconf-query -nt int -c xfcethemer -p /ShowIcons -s "
-//#define XMTGETSHOWCURSORS "xfconf-query -c xfcethemer -p /ShowCursors"
-//#define XMTSETSHOWCURSORS  "xfconf-query -nt int -c xfcethemer -p /ShowCursors -s "
-//#define XMTGETSHOWPAPER "xfconf-query -c xfcethemer -p /ShowBackdrop"
-//#define XMTSETSHOWPAPER  "xfconf-query -nt int -c xfcethemer -p /ShowBackdrop -s "
-//#define XMTGETSHOWCUSTOM "xfconf-query -c xfcethemer -p /ShowOnlyCustom"
-//#define XMTSETSHOWCUSTOM "xfconf-query -nt int -c xfcethemer -p /ShowOnlyCustom -s "
-
-//#define XMTGETWINWID "xfconf-query -c xfcethemer -p /WindowWidth"
-//#define XMTGETWINHITE "xfconf-query -c xfcethemer -p /WindowHeight"
-#define XMTSETWINWID "xfconf-query -nt int -c xfcethemer -p /WindowWidth -s "
-#define XMTSETWINHITE "xfconf-query -nt int -c xfcethemer -p /WindowHeight -s "
-
-#define XMTSETPRESIZE "xfconf-query -nt int -c xfcethemer -p /PreveiwSize -s "
-//#define XMTGETPRESIZE "xfconf-query -c xfcethemer -p /PreveiwSize"
-
-#define XMTSETHASH "xfconf-query -nt string -c xfcethemer -p /ThemesHash -s "
-//#define XMTGETHASH "xfconf-query -c xfcethemer -p /ThemesHash"
 
 #define _translate(x) langStr[langID][x]
 #define _translateHelp(x) helpStr[langID][x]

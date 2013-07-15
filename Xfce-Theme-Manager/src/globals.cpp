@@ -256,7 +256,6 @@ void getValue(const char* channel,const char* property,dataType type,void* ptr)
 void setValue(const char* channel,const char* property,dataType type,void* data)
 {
 	XfconfChannel*	channelptr=xfconf_channel_get(channel);
-	gboolean		retval;
 
 	switch(type)
 		{
@@ -269,7 +268,7 @@ void setValue(const char* channel,const char* property,dataType type,void* data)
 				break;
 
 			case FLOAT:
-				retval=xfconf_channel_set_double(channelptr,property,(gdouble)(long)data);
+				xfconf_channel_set_double(channelptr,property,*(gdouble*)data);
 				break;
 		}
 }

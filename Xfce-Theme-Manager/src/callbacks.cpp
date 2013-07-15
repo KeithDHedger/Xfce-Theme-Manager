@@ -588,16 +588,12 @@ void dropUri(GtkWidget *widget,GdkDragContext *context,gint x,gint y,GtkSelectio
 
 void wallStyleChanged(GtkWidget* widget,gpointer data)
 {
-	char*	command;
-
 	wallStyle=gtk_combo_box_get_active((GtkComboBox*)widget);
-	asprintf(&command,"%s%i",XCONFSETSTYLE,wallStyle);
-	system(command);
+	setValue(XFCEDESKTOP,BACKDROPSTYLEPROP,INT,(void*)(long)wallStyle);
 }
 
 void previewSizeChanged(GtkWidget* widget,gpointer data)
 {
-	char*	command;
 	int index=-1;
 
 	index=gtk_combo_box_get_active((GtkComboBox*)widget);
@@ -618,10 +614,11 @@ void previewSizeChanged(GtkWidget* widget,gpointer data)
 			case 3:
 				previewSize=48;
 				break;
+			case -1:
+				return;
+				break;
 		}
-
-	asprintf(&command,"%s%i",XMTSETPRESIZE,previewSize);
-	system(command);
+	setValue(XTHEMER,PREVSIZEPROP,INT,(void*)(long)previewSize);
 	rerunAndUpdate(false,true);
 }
 
@@ -773,80 +770,42 @@ void doMeta(char* metaFilename,bool update)
 	system("xfdesktop --reload");
 }
 
-void setPieceNew(char* filePath,const char* doCommand,bool update,long doWhat)
+void setPieceNewNew(const char* filePath,long doWhat)
 {
 	GKeyFile*	keyfile=g_key_file_new();
-	char*		command;
 	char*		dataset;
 
 	if(g_key_file_load_from_file(keyfile,filePath,G_KEY_FILE_NONE,NULL))
 		{
 			dataset=g_key_file_get_string(keyfile,"Data","ThemeName",NULL);
-
 			if(dataset!=NULL)
 				{
-					asprintf(&command,"%s\"%s\"",doCommand,dataset);
-					system(command);
 					switch(doWhat)
 						{
+							case WMBORDERS:
+								setValue(XFWM,WMBORDERSPROP,STRING,dataset);
+								freeAndSet(&currentWMTheme,dataset);
+								break;
 							case CONTROLS:
-								if(currentGtkTheme!=NULL)
-									g_free(currentGtkTheme);
-								currentGtkTheme=strdup(dataset);
+								setValue(XSETTINGS,CONTROLTHEMEPROP,STRING,dataset);
+								freeAndSet(&currentGtkTheme,dataset);
 								break;
 							case ICONS:
-								if(currentIconTheme!=NULL)
-									g_free(currentIconTheme);
-								currentIconTheme=strdup(dataset);
-								break;
-							case WMBORDERS:
-								if(currentWMTheme!=NULL)
-									g_free(currentWMTheme);
-								currentWMTheme=strdup(dataset);
+								setValue(XSETTINGS,ICONTHEMEPROP,STRING,dataset);
+								freeAndSet(&currentIconTheme,dataset);
 								break;
 							case CURSORS:
-								if(currentCursorTheme!=NULL)
-									g_free(currentCursorTheme);
-								currentCursorTheme=strdup(dataset);
+								setValue(XSETTINGS,CURSORSPROP,STRING,dataset);
+								freeAndSet(&currentCursorTheme,dataset);
 								break;
 							case WALLPAPERS:
-								if(currentWallPaper!=NULL)
-									g_free(currentWallPaper);
-								currentWallPaper=strdup(dataset);
+								setValue(XFCEDESKTOP,PAPERSPROP,STRING,dataset);
+								freeAndSet(&currentWallPaper,dataset);
 								break;
-							
 						}
-
-					freeAndNull(&command);
-					freeAndNull(&dataset);
-					if (update==true)
-						rerunAndUpdate(false,false);
 				}
 		}
-	g_key_file_free(keyfile);
-}
-
-void setPiece(char* filePath,const char* doCommand,bool update)
-{
-	GKeyFile*	keyfile=g_key_file_new();
-	char*		command;
-	char*		dataset;
-
-	if(g_key_file_load_from_file(keyfile,filePath,G_KEY_FILE_NONE,NULL))
-		{
-			dataset=g_key_file_get_string(keyfile,"Data","ThemeName",NULL);
-
-			if(dataset!=NULL)
-				{
-					asprintf(&command,"%s\"%s\"",doCommand,dataset);
-					system(command);
-					freeAndNull(&command);
-					freeAndNull(&dataset);
-					if (update==true)
-						rerunAndUpdate(false,false);
-				}
-		}
-	g_key_file_free(keyfile);
+	rerunAndUpdate(false,false);
 }
 
 void themeIconCallback(GtkIconView *view,gpointer doWhat)
@@ -875,23 +834,23 @@ void themeIconCallback(GtkIconView *view,gpointer doWhat)
 				break;
 
 			case WMBORDERS:
-				setPieceNew(text,XCONFSETFRAME,true,WMBORDERS);
+				setPieceNewNew(text,WMBORDERS);
 				break;
 
 			case CONTROLS:
-				setPieceNew(text,XCONFSETCONTROLS,true,CONTROLS);
+				setPieceNewNew(text,CONTROLS);
 				break;
 
 			case ICONS:
-				setPieceNew(text,XCONFSETICONS,true,ICONS);
+				setPieceNewNew(text,ICONS);
 				break;
 
 			case CURSORS:
-				setPieceNew(text,XCONFSETCURSOR,true,CURSORS);
+				setPieceNewNew(text,CURSORS);
 				break;
 
 			case WALLPAPERS:
-				setPieceNew(text,XCONFSETPAPER,true,WALLPAPERS);
+				setPieceNewNew(text,WALLPAPERS);
 				break;
 		}
 	g_free(text);
@@ -935,69 +894,42 @@ void launchCompEd(GtkWidget* window,gpointer data)
 
 void resetBright(GtkWidget* widget,gpointer data)
 {
-	char*		command;
-
 	gtk_range_set_value((GtkRange*)data,0);
-	asprintf(&command,"%s 0",XCONFSETBRIGHT);
-	system(command);
-	freeAndNull(&command);
+	setValue(XFCEDESKTOP,BACKDROPBRIGHTPROP,INT,(void*)0);
 }
 
 gboolean setBright(GtkWidget *widget,GdkEvent *event,gpointer user_data)
 {
-	char*		command;
-	
 	gdouble val=gtk_range_get_value((GtkRange*)widget);
-
-	asprintf(&command,"%s\"%i\"",XCONFSETBRIGHT,(int)val);
-	system(command);
-	freeAndNull(&command);
+	setValue(XFCEDESKTOP,BACKDROPBRIGHTPROP,INT,(void*)(long)val);
 
 	return(false);
 }
 
 void resetSatu(GtkWidget* widget,gpointer data)
 {
-	char*		command;
+	double	d=1.0;
 
 	gtk_range_set_value((GtkRange*)data,1.0);
-	asprintf(&command,"%s 1.0",XCONFSETSATU);
-	system(command);
-	freeAndNull(&command);
+	setValue(XFCEDESKTOP,BACKDROPSATUPROP,FLOAT,(void*)&d);
 }
 
 gboolean setSatu(GtkWidget *widget,GdkEvent *event,gpointer user_data)
 {
-	char*		command;
-	char*		doublestr;
-
 	gdouble	val=gtk_range_get_value((GtkRange*)widget);
-
-	doublestr=doubleToStr(val);
-	asprintf(&command,"%s\"%s\"",XCONFSETSATU,doublestr);
-	system(command);
-	freeAndNull(&command);
-	freeAndNull(&doublestr);
+	setValue(XFCEDESKTOP,BACKDROPSATUPROP,FLOAT,(void*)&val);
 	return(false);
 }
 
 void resetLayout(GtkWidget* widget,gpointer data)
 {
-	char*		command;
-
 	gtk_entry_set_text((GtkEntry*)data,currentButtonLayout);
-	asprintf(&command,"%s \"%s\"",XCONFSETLAYOUT,currentButtonLayout);
-	system(command);
-	freeAndNull(&command);
+	setValue(XFWM,BUTTONLAYOUTPROP,STRING,(void*)currentButtonLayout);
 }
 
 void changeLayout(GtkWidget* widget,gpointer data)
 {
-	char*		command;
-
-	asprintf(&command,"%s \"%s\"",XCONFSETLAYOUT,gtk_entry_get_text((GtkEntry*)widget));
-	system(command);
-	freeAndNull(&command);
+	setValue(XFWM,BUTTONLAYOUTPROP,STRING,(void*)gtk_entry_get_text((GtkEntry*)widget));
 }
 
 void setFont(GtkWidget* widget,gpointer data)
@@ -1058,9 +990,8 @@ int checkFolders(void)
 	g_free(command);
 
 	line[strlen(line)-1]=0;
-	asprintf(&command,"%s %s",XMTSETHASH,line);
-	system(command);
-	g_free(command);
+	setValue(XTHEMER,HASHPROP,STRING,(void*)line);
+
 	return(strcmp(homeThemesHash,line));
 }
 
