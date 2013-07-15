@@ -115,23 +115,13 @@ void resetTheme(GtkWidget* widget,gpointer data)
 	freeAndSet(&currentWallPaper,originalWallpaper);
 
 	setValue(XFCEDESKTOP,BACKDROPSTYLEPROP,INT,(void*)(long)wallStyle);
-	setValue(XFWM,BUTTONLAYOUTPROP,STRING,(void*)currentButtonLayout);
-
-	sprintf(generalBuffer,"%s\"%s\"",XCONFSETTITLEPOS,currentTitlePos);
-	system(generalBuffer);
-	sprintf(generalBuffer,"%s\"%s\"",XCONFSETWMFONT,currentWMFont);
-	system(generalBuffer);
-	sprintf(generalBuffer,"%s\"%s\"",XCONFSETAPPFONT,currentAppFont);
-	system(generalBuffer);
 	setValue(XFCEDESKTOP,BACKDROPBRIGHTPROP,INT,(void*)(long)currentBright);
-
-
 	setValue(XFCEDESKTOP,BACKDROPSATUPROP,FLOAT,(void*)&d);
 
-
-
-
-//TOGO//
+	setValue(XFWM,BUTTONLAYOUTPROP,STRING,(void*)currentButtonLayout);
+	setValue(XFWM,TITLEALIGNPROP,STRING,(void*)currentTitlePos);
+	setValue(XFWM,WMFONTPROP,STRING,(void*)currentWMFont);
+	setValue(XSETTINGS,APPFONTPROP,STRING,(void*)currentAppFont);
 
 	gtk_combo_box_set_active((GtkComboBox*)styleComboBox,currentWallStyle);
 	gtk_entry_set_text((GtkEntry*)layoutEntry,currentButtonLayout);
@@ -141,8 +131,6 @@ void resetTheme(GtkWidget* widget,gpointer data)
 	gtk_range_set_value((GtkRange*)briteRange,currentBright);
 	gtk_range_set_value((GtkRange*)satuRange,currentSatu);
 	gtk_range_set_value((GtkRange*)cursorSize,currentCursSize);
-
-//	freeAndNull(&satval);
 
 	rerunAndUpdate(false,true);
 
@@ -374,27 +362,50 @@ gboolean updateBarTimer(gpointer data)
 	else
 		return(false);
 }
-
-int doCliThemePart(char* name,char* folder,const char* what)
+//				cliRetVal|=doCliThemePart(cliControls,controlsFolder,XCONFSETCONTROLS);
+int doCliThemePart(char* name,long what)
 {
-#if 0
-	char* tn=NULL;			
 
-	for (int j=0;j<2;j++)
+	char*	papername=NULL;
+
+printf("name=%s\n",name);
+	switch(what)
 		{
-			asprintf(&tn,"%s/%i.%s.db",folder,j,name);
-			if (g_file_test(tn,G_FILE_TEST_EXISTS))
-				{
-					setPiece(tn,what,false);
-					freeAndNull(&tn);
-					return(0);
-				}
-			else
-				freeAndNull(&tn);
+			case WMBORDERS:
+				setValue(XFWM,WMBORDERSPROP,STRING,name);
+				setValue(XTHEMER,METATHEMEPROP,STRING,(void*)"DEADBEEF");
+				return(0);
+				break;
+			case CONTROLS:
+				setValue(XSETTINGS,CONTROLTHEMEPROP,STRING,name);
+				setValue(XTHEMER,METATHEMEPROP,STRING,(void*)"DEADBEEF");
+				return(0);
+				break;
+			case ICONS:
+				setValue(XSETTINGS,ICONTHEMEPROP,STRING,name);
+				setValue(XTHEMER,METATHEMEPROP,STRING,(void*)"DEADBEEF");
+				return(0);
+				break;
+			case CURSORS:
+				setValue(XSETTINGS,CURSORSPROP,STRING,name);
+				setValue(XTHEMER,METATHEMEPROP,STRING,(void*)"DEADBEEF");
+				return(0);
+				break;
+			case WALLPAPERS:
+				for(int j=0;j<2;j++)
+					{
+						sprintf((char*)&generalBuffer,"%s/%i.%s.db",wallpapersFolder,j,name);
+						papername=getThemeNameFromDB(generalBuffer);
+						if(papername!=NULL)
+							{
+								setValue(XFCEDESKTOP,PAPERSPROP,STRING,papername);
+								setValue(XTHEMER,METATHEMEPROP,STRING,(void*)"DEADBEEF");
+								return(0);
+							}
+					}
+				break;
 		}
-#endif
 	return(1);
-
 }
 
 int doCliTheme(void)
@@ -404,7 +415,7 @@ int doCliTheme(void)
 	asprintf(&tn,"%s/%s.db",customFolder,cliTheme);
 	if (g_file_test(tn,G_FILE_TEST_EXISTS))
 		{
-			doMeta(tn,false);
+			doMeta(tn);
 			freeAndNull(&tn);
 			return(0);
 		}
@@ -416,7 +427,7 @@ int doCliTheme(void)
 			asprintf(&tn,"%s/%i.%s.db",metaFolder,j,cliTheme);
 			if (g_file_test(tn,G_FILE_TEST_EXISTS))
 				{
-					doMeta(tn,false);
+					doMeta(tn);
 					freeAndNull(&tn);
 					return(0);
 				}
@@ -857,32 +868,31 @@ int main(int argc,char **argv)
 				}
 			populatePanels();
 
-#if 0
-			if (cliTheme!=NULL)
-				cliRetVal=doCliTheme();
-
 			if (cliControls!=NULL)
-				cliRetVal|=doCliThemePart(cliControls,controlsFolder,XCONFSETCONTROLS);
+				cliRetVal|=doCliThemePart(cliControls,CONTROLS);
 
 			if (cliBorder!=NULL)
-				cliRetVal|=doCliThemePart(cliBorder,framesFolder,XCONFSETFRAME);
+				cliRetVal|=doCliThemePart(cliBorder,WMBORDERS);
 
 			if (cliIcons!=NULL)
 				{
-					cliRetVal|=doCliThemePart(cliIcons,iconsFolder,XCONFSETICONS);
+					cliRetVal|=doCliThemePart(cliIcons,ICONS);
 					system("xfdesktop --reload");
 				}
 
 			if (cliCursors!=NULL)
-				cliRetVal|=doCliThemePart(cliCursors,cursorsFolder,XCONFSETCURSOR);
+				cliRetVal|=doCliThemePart(cliCursors,CURSORS);
 
 			if (cliWallpaper!=NULL)
-				cliRetVal|=doCliThemePart(cliWallpaper,wallpapersFolder,XCONFSETPAPER);
+				cliRetVal|=doCliThemePart(cliWallpaper,WALLPAPERS);
 
 
 			if (cliFileName!=NULL)
 				customTheme(NULL,NULL);
-#endif
+
+			if (cliTheme!=NULL)
+				cliRetVal=doCliTheme();
+
 			return(cliRetVal);
 		}
 }

@@ -158,12 +158,18 @@ void makeNewPanelData(int num,int panelnum)
 	panelNumbers[num]=panelnum;
 }
 
+void TpopulatePanels(void)
+{
+
+}
+
 void populatePanels(void)
 {
 	FILE*	fp;
 	char	buffer[1024];
 	char	command[1024];
 	int		cnt=0;
+TpopulatePanels();
 
 	bool	gotthispanel;
 	for(int j=0;j<10;j++)

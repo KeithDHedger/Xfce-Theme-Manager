@@ -189,20 +189,6 @@ void buildCustomDBNEW(const char* chan,const char* prop,dataType type,const char
 				break;
 		}
 }
-//TOGO//
-void buildCustomDBXXXX(const char* xconfline,const char* key)
-{
-	char*	stdout;
-	gint   spawnret=0;
-
-	g_spawn_command_line_sync(xconfline,&stdout,NULL,&spawnret,NULL);
-	if (spawnret==0)
-		{
-			stdout[strlen(stdout)-1]=0;
-			sprintf(filedata,"%s%s=%s\n",filedata,key,stdout);
-			freeAndNull(&stdout);
-		}
-}
 
 void response(GtkDialog *dialog,gint response_id,gpointer user_data)
 {
@@ -244,7 +230,7 @@ void customTheme(GtkWidget* window,gpointer data)
 	char*		customname=NULL;
 
 	filename=NULL;
-//TOGO//
+
 	if (cliFileName==NULL)
 		{
 	if (metaThemeSelected==NULL)
@@ -304,8 +290,6 @@ else
 					buildCustomDBNEW(XSETTINGS,CURSORSPROP,STRING,"CursorTheme");
 					buildCustomDBNEW(XFWM,WMBORDERSPROP,STRING,"Xfwm4Theme");
 					buildCustomDBNEW(XFCEDESKTOP,PAPERSPROP,STRING,"BackgroundImage");
-
-//TOGO//
 					buildCustomDBNEW(XFWM,BUTTONLAYOUTPROP,STRING,"TitleButtonLayout");
 					buildCustomDBNEW(XFWM,TITLEALIGNPROP,STRING,"TitlePosition");
 					buildCustomDBNEW(XFWM,WMFONTPROP,STRING,"WMFont");
@@ -387,24 +371,20 @@ void infoDialog(const char* message,char* filename,GtkMessageType type)
 //set title position
 void setTitlePos(GtkComboBoxText* widget,gpointer data)
 {
-	char*		command;
-	int		position=gtk_combo_box_get_active((GtkComboBox*)widget);
+	int			position=gtk_combo_box_get_active((GtkComboBox*)widget);
 
 	switch (position)
 		{
 			case 0:
-				asprintf(&command,"%s %s",XCONFSETTITLEPOS,"left");
+				setValue(XFWM,TITLEALIGNPROP,STRING,(void*)"left");
 				break;
 			case 1:
-				asprintf(&command,"%s %s",XCONFSETTITLEPOS,"center");
+				setValue(XFWM,TITLEALIGNPROP,STRING,(void*)"center");
 				break;
 			case 2:
-				asprintf(&command,"%s %s",XCONFSETTITLEPOS,"right");
+				setValue(XFWM,TITLEALIGNPROP,STRING,(void*)"right");
 				break;
 		}
-
-	system(command);
-	freeAndNull(&command);
 }
 
 int installWallpaper(char* filename)
@@ -649,7 +629,7 @@ void removeTheme(const char* name)
 }
 
 //do meta theme
-void doMeta(char* metaFilename,bool update)
+void doMeta(char* metaFilename)
 {
 	GKeyFile*		keyfile=g_key_file_new();
 	int				keycnt=14;
@@ -678,90 +658,84 @@ void doMeta(char* metaFilename,bool update)
 					keydata=g_key_file_get_string(keyfile,"Data",(char*)keys[j],NULL);
 					if(keydata!=NULL)
 						{
-							if(update==true)
+							switch(j)
 								{
-									switch(j)
-										{
-											case 0:
-												setValue(XSETTINGS,CURSORSPROP,STRING,keydata);
-												freeAndSet(&currentCursorTheme,keydata);
-												break;
-											case 1:
-												setValue(XFWM,WMBORDERSPROP,STRING,keydata);
-												freeAndSet(&currentWMTheme,keydata);
-												break;
-											case 2:
-												setValue(XSETTINGS,ICONTHEMEPROP,STRING,keydata);
-												freeAndSet(&currentIconTheme,keydata);
-												break;
-											case 3:
-												setValue(XFCEDESKTOP,PAPERSPROP,STRING,keydata);
-												freeAndSet(&currentWallPaper,keydata);
-												break;
-											case 4:
-											case 5:
-											case 6:
-											case 7:
-											case 8:
-											case 9:
-											case 10:
-												break;
-											case 11:
-												setValue(XSETTINGS,CONTROLTHEMEPROP,STRING,keydata);
-												freeAndSet(&currentGtkTheme,keydata);
-												break;
-											case 12:
-												break;
-											case 13:
-												setValue(XTHEMER,METATHEMEPROP,STRING,keydata);
-												freeAndSet(&currentMetaTheme,keydata);
-												break;
-										}
+									case 0:
+										setValue(XSETTINGS,CURSORSPROP,STRING,keydata);
+										freeAndSet(&currentCursorTheme,keydata);
+										break;
+									case 1:
+										setValue(XFWM,WMBORDERSPROP,STRING,keydata);
+										freeAndSet(&currentWMTheme,keydata);
+										break;
+									case 2:
+										setValue(XSETTINGS,ICONTHEMEPROP,STRING,keydata);
+										freeAndSet(&currentIconTheme,keydata);
+										break;
+									case 3:
+										setValue(XFCEDESKTOP,PAPERSPROP,STRING,keydata);
+										freeAndSet(&currentWallPaper,keydata);
+										break;
+									case 4:
+									case 5:
+									case 6:
+									case 7:
+									case 8:
+									case 9:
+									case 10:
+										break;
+									case 11:
+										setValue(XSETTINGS,CONTROLTHEMEPROP,STRING,keydata);
+										freeAndSet(&currentGtkTheme,keydata);
+										break;
+									case 12:
+										break;
+									case 13:
+										setValue(XTHEMER,METATHEMEPROP,STRING,keydata);
+										freeAndSet(&currentMetaTheme,keydata);
+										break;
 								}
 						}
 				}
 			rerunAndUpdate(false,true);
 
-			if(update==true)
+			for (int j=0;j<numOfPanels;j++)
 				{
-					for (int j=0;j<numOfPanels;j++)
+					sprintf((char*)&buffer,"Panel-%i",panels[j]->panelNumber);
+					for(int k=0;k<panelkeycnt;k++)
 						{
-							sprintf((char*)&buffer,"Panel-%i",panels[j]->panelNumber);
-							for(int k=0;k<panelkeycnt;k++)
+							keydata=g_key_file_get_string(keyfile,buffer,(char*)panelkeys[k],NULL);
+							if(keydata!=NULL)
 								{
-									keydata=g_key_file_get_string(keyfile,buffer,(char*)panelkeys[k],NULL);
-									if(keydata!=NULL)
+									switch(k)
 										{
-											switch(k)
-												{
-													case 0:
-														freeAndSet(&panels[j]->imagePath,keydata);
-														break;
-													case 1:
-														panels[j]->style=atoi(keydata);
-														break;
-													case 2:
-														panels[j]->size=atoi(keydata);
-														break;
-													case 3:
-														panels[j]->red=atoi(keydata);
-														break;
-													case 4:
-														panels[j]->green=atoi(keydata);
-														break;
-													case 5:
-														panels[j]->blue=atoi(keydata);
-														break;
-													case 6:
-														panels[j]->alpha=atoi(keydata);
-														break;
-												}
-											freeAndNull(&keydata);
-										}
-								}
-						}
-					setPanels();
-				}
+											case 0:
+												freeAndSet(&panels[j]->imagePath,keydata);
+												break;
+											case 1:
+												panels[j]->style=atoi(keydata);
+												break;
+											case 2:
+												panels[j]->size=atoi(keydata);
+												break;
+											case 3:
+												panels[j]->red=atoi(keydata);
+												break;
+											case 4:
+												panels[j]->green=atoi(keydata);
+												break;
+											case 5:
+												panels[j]->blue=atoi(keydata);
+												break;
+											case 6:
+												panels[j]->alpha=atoi(keydata);
+												break;
+											}
+										freeAndNull(&keydata);
+									}
+							}
+					}
+			setPanels();
 		}
 	
 	if(keydata!=NULL)
@@ -800,12 +774,15 @@ void setPieceNewNew(const char* filePath,long doWhat)
 								break;
 							case WALLPAPERS:
 								setValue(XFCEDESKTOP,PAPERSPROP,STRING,dataset);
+								printf("%s\n",dataset);
 								freeAndSet(&currentWallPaper,dataset);
 								break;
 						}
 				}
 		}
 	rerunAndUpdate(false,false);
+	if(keyfile!=NULL)
+		g_key_file_free(keyfile);
 }
 
 void themeIconCallback(GtkIconView *view,gpointer doWhat)
@@ -830,7 +807,7 @@ void themeIconCallback(GtkIconView *view,gpointer doWhat)
 	switch((long)doWhat)
 		{
 			case THEMES:
-				doMeta(text,true);
+				doMeta(text);
 				break;
 
 			case WMBORDERS:
@@ -934,34 +911,24 @@ void changeLayout(GtkWidget* widget,gpointer data)
 
 void setFont(GtkWidget* widget,gpointer data)
 {
-	char*		command;
-
 	if((long)data==0)
-		asprintf(&command,"%s \"%s\"",XCONFSETWMFONT,gtk_font_button_get_font_name((GtkFontButton*)widget));
+		setValue(XFWM,WMFONTPROP,STRING,(void*)gtk_font_button_get_font_name((GtkFontButton*)widget));
 	else
-		asprintf(&command,"%s \"%s\"",XCONFSETAPPFONT,gtk_font_button_get_font_name((GtkFontButton*)widget));
-
-	system(command);
-	freeAndNull(&command);
+		setValue(XSETTINGS,APPFONTPROP,STRING,(void*)gtk_font_button_get_font_name((GtkFontButton*)widget));
 }
 
 void resetFont(GtkWidget* widget,gpointer data)
 {
-	char*		command;
-
 	if((long)data==0)
 		{
-			asprintf(&command,"%s \"%s\"",XCONFSETWMFONT,currentWMFont);
 			gtk_font_button_set_font_name((GtkFontButton*)wmFontButton,currentWMFont);
+			setValue(XFWM,WMFONTPROP,STRING,(void*)currentWMFont);
 		}
 	else
 		{
-			asprintf(&command,"%s \"%s\"",XCONFSETAPPFONT,currentAppFont);
 			gtk_font_button_set_font_name((GtkFontButton*)appFontButton,currentAppFont);
+			setValue(XSETTINGS,APPFONTPROP,STRING,(void*)currentAppFont);
 		}
-
-	system(command);
-	freeAndNull(&command);
 }
 
 void setCursSize(GtkWidget* widget,gpointer data)

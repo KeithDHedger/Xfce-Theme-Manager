@@ -15,7 +15,7 @@
 #ifndef _CALLBACKS_
 #define _CALLBACKS_
 
-void doMeta(char* metaFilename,bool update);
+void doMeta(char* metaFilename);
 
 void customTheme(GtkWidget* window,gpointer data);
 

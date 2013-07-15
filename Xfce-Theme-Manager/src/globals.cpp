@@ -204,8 +204,7 @@ int positionToInt(char* pos)
 	else
 		{
 			asprintf(&currentTitlePos,"%s","center");
-			sprintf(generalBuffer,"%s\"%s\"",XCONFSETTITLEPOS,currentTitlePos);
-			g_spawn_command_line_sync(generalBuffer,&stdout,&stderr,&retval,NULL);
+			setValue(XFWM,TITLEALIGNPROP,STRING,(void*)currentTitlePos);
 		}
 	return(1);
 }
@@ -221,6 +220,22 @@ char* doubleToStr(double num)
 		*comma='.';	
 
 	return(doublestr);
+}
+
+char* getThemeNameFromDB(char* filepath)
+{
+	GKeyFile*	keyfile=g_key_file_new();
+	char*		dataset;
+
+	if(g_key_file_load_from_file(keyfile,filepath,G_KEY_FILE_NONE,NULL))
+		{
+			dataset=g_key_file_get_string(keyfile,"Data","ThemeName",NULL);
+		}
+
+	if(keyfile!=NULL)
+		g_key_file_free(keyfile);
+
+	return(dataset);
 }
 
 void getValue(const char* channel,const char* property,dataType type,void* ptr)

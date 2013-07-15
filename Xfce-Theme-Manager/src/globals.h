@@ -34,21 +34,6 @@
 
 #define DELETETHEME 100
 
-
-
-//TOGO//
-//#define XCONFSETFRAME "xfconf-query -nRt string -c xfwm4 -p /general/theme -s "
-//#define XCONFSETCONTROLS "xfconf-query -nRt string -c xsettings -p /Net/ThemeName -s "
-//#define XCONFSETICONS "xfconf-query -nRt string -c xsettings -p /Net/IconThemeName -s "
-//#define XCONFSETCURSOR "xfconf-query -nRt string -c xsettings -p /Gtk/CursorThemeName -s "
-//#define XCONFSETPAPER "xfconf-query -nRt string -c xfce4-desktop -p /backdrop/screen0/monitor0/image-path -s "
-
-
-#define XCONFSETTITLEPOS "xfconf-query -c xfwm4 -p /general/title_alignment -s "
-
-#define XCONFSETWMFONT "xfconf-query -c xfwm4 -p /general/title_font -s "
-#define XCONFSETAPPFONT "xfconf-query -c xsettings -p /Gtk/FontName -s "
-
 #define GLOBALICONS "/usr/share/icons"
 #define GLOBALTHEMES "/usr/share/themes"
 #define GLOBALWALLPAPERS "/usr/share/xfce4/backdrops"
@@ -88,7 +73,6 @@
 #define WINHITEPROP "/WindowHeight"
 #define PREVSIZEPROP "/PreveiwSize"
 #define HASHPROP "/ThemesHash"
-
 
 #define _translate(x) langStr[langID][x]
 #define _translateHelp(x) helpStr[langID][x]
@@ -273,6 +257,7 @@ int sizeDrop(bool toDrop,int data);
 void getValue(const char* channel,const char* property,dataType type,void* ptr);
 void setValue(const char* channel,const char* property,dataType type,void* ptr);
 void freeAndSet(char** ptr,char* data);
+char* getThemeNameFromDB(char* filepath);
 
 #endif
 
