@@ -101,7 +101,7 @@
 //#define XCONFGETSATU "xfconf-query -nRt double -c xfce4-desktop -p /backdrop/screen0/monitor0/saturation"
 
 //#define XCONFGETCURSORSIZE "xfconf-query -nRt int -c xsettings -p /Gtk/CursorThemeSize"
-#define XCONFSETCURSORSIZE "xfconf-query -nRt int -c xsettings -p /Gtk/CursorThemeSize -s "
+//#define XCONFSETCURSORSIZE "xfconf-query -nRt int -c xsettings -p /Gtk/CursorThemeSize -s "
 
 //#define XMTGETSHOWSYSTEM  "xfconf-query -c xfcethemer -p /ShowGlobal"
 #define XMTSETSHOWSYSTEM  "xfconf-query -nt int -c xfcethemer -p /ShowGlobal -s "
@@ -310,7 +310,6 @@ extern void freeAndNull(char** ptr);
 extern int positionToInt(char* pos);
 extern char* doubleToStr(double num);
 
-void setValueXX(const char* command,dataType type,void* ptr);
 int sizeDrop(bool toDrop,int data);
 void getValue(const char* channel,const char* property,dataType type,void* ptr);
 void setValue(const char* channel,const char* property,dataType type,void* ptr);

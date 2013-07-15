@@ -230,6 +230,7 @@ void addIconEntry(GtkListStore *store,const char* iconPng,const char* iconName,c
 				cairo_paint_with_alpha(cr,100);
 			cairo_restore(cr);
 
+
 			cairo_save(cr);
 				cairo_rectangle(cr,0,0,pixWid+GAP,pixHite+GAP);
 				cairo_set_line_width(cr,HALFGAP);
@@ -243,7 +244,7 @@ void addIconEntry(GtkListStore *store,const char* iconPng,const char* iconName,c
 			cairo_destroy(cr);
 		}
 
-	gtk_list_store_set(previewBox[whatBox].store,&iter,PIXBUF_COLUMN,pixbuf,TEXT_COLUMN,iconName,FILE_NAME,dbPath,-1);
+gtk_list_store_set(previewBox[whatBox].store,&iter,PIXBUF_COLUMN,pixbuf,TEXT_COLUMN,iconName,FILE_NAME,dbPath,-1);
 	g_object_unref(pixbuf);
 
 }

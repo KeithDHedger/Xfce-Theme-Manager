@@ -127,8 +127,9 @@ void resetTheme(GtkWidget* widget,gpointer data)
 	satval=doubleToStr(currentSatu);
 	sprintf(generalBuffer,"%s\"%s\"",XCONFSETSATU,satval);
 	system(generalBuffer);
-	sprintf(generalBuffer,"%s%i",XCONFSETCURSORSIZE,currentCursSize);
-	system(generalBuffer);
+//	sprintf(generalBuffer,"%s%i",XCONFSETCURSORSIZE,currentCursSize);
+//	system(generalBuffer);
+//	setValue(XSETTINGS,CURSORSIZEPROP,INT,(void*)currentCursSize);
 
 //TOGO//
 	//setValue(XMTGETMETATHEME,STRING,&lastMetaTheme);
@@ -326,6 +327,7 @@ void init(void)
 			gtk_icon_view_set_model(GTK_ICON_VIEW(previewBox[WALLPAPERS].iconView),GTK_TREE_MODEL(previewBox[WALLPAPERS].store));
 
 			gtk_container_add((GtkContainer *)previewBox[WALLPAPERS].scrollBox,(GtkWidget*)previewBox[WALLPAPERS].iconView);
+
 
 	styleComboBox=(GtkComboBoxText*)gtk_combo_box_text_new();
 	gtk_combo_box_text_append_text(styleComboBox,_translate(AUTO));
@@ -583,6 +585,7 @@ int main(int argc,char **argv)
 //printf("%s\n",VER(9));
 //printf("%s\n",PAN(91) "siz");
 //printf("%s\n","panel" 3 "siz");
+//setValue(XTHEMER,"/testprop",INT,(void*)12345);
 //exit(0);
 
 	while (1)
@@ -751,9 +754,7 @@ int main(int argc,char **argv)
 			g_signal_connect(G_OBJECT(window),"delete-event",G_CALLBACK(shutdown),NULL);
 
 //main window vbox
-
 			buildPages();
-
 //notebook
 			notebook=(GtkNotebook*)gtk_notebook_new();
 			advanced=(GtkNotebook*)gtk_notebook_new();

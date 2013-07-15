@@ -235,7 +235,8 @@ void getValue(const char* channel,const char* property,dataType type,void* ptr)
 		{
 			case INT:
 				intdata=xfconf_channel_get_int(channelptr,property,-1);
-				*(int*)ptr=intdata;
+				if(intdata!=-1)
+					*(int*)ptr=intdata;
 				break;
 
 			case STRING:
@@ -246,7 +247,8 @@ void getValue(const char* channel,const char* property,dataType type,void* ptr)
 
 			case FLOAT:
 				floatdata=xfconf_channel_get_double(channelptr,property,-1);
-				*(double*)ptr=floatdata;
+				if(floatdata!=-1)
+					*(double*)ptr=floatdata;
 				break;
 		}
 }
@@ -270,37 +272,6 @@ void setValue(const char* channel,const char* property,dataType type,void* data)
 				retval=xfconf_channel_set_double(channelptr,property,(gdouble)(long)data);
 				break;
 		}
-}
-//TOGO//
-void setValueXX(const char* command,dataType type,void* ptr)
-{
-	gchar	*stdout=NULL;
-	gchar	*stderr=NULL;
-	gint   retval=0;
-
-	g_spawn_command_line_sync(command,&stdout,&stderr,&retval,NULL);
-	if (retval==0)
-		{
-			switch(type)
-				{
-					case INT:
-						stdout[strlen(stdout)-1]=0;
-						*(int*)ptr=atoi(stdout);
-						break;
-
-					case STRING:
-						stdout[strlen(stdout)-1]=0;
-						asprintf((char**)ptr,"%s",stdout);
-						break;
-
-					case FLOAT:
-						stdout[strlen(stdout)-1]=0;
-						*(double*)ptr=atof(stdout);
-						break;
-				}
-		}
-	freeAndNull(&stdout);
-	freeAndNull(&stderr);
 }
 
 int sizeDrop(bool toDrop,int data)

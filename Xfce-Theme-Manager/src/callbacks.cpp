@@ -87,7 +87,7 @@ void rerunAndUpdate(bool rebuild,bool resetmeta)
 	else
 		{
 			setValue(XTHEMER,METATHEMEPROP,STRING,(void*)"DEADBEEF");
-			freeAndSet(&currentMetaTheme,"DEADBEEF");
+			freeAndSet(&currentMetaTheme,(char*)"DEADBEEF");
 		}
 
 	for (int j=THEMES;j<=WALLPAPERS;j++)
@@ -251,7 +251,6 @@ void customTheme(GtkWidget* window,gpointer data)
 	char		buffer[2048];
 	gchar*		stdout=NULL;
 	char*		customname=NULL;
-	gint   		spawnret=0;
 
 	filename=NULL;
 //TOGO//
@@ -674,8 +673,6 @@ void doMeta(char* metaFilename,bool update)
 	const char*		panelkeys[]={"PanelImage","PanelStyle","PanelSize","PanelRed","PanelGreen","PanelBlue","PanelAlpha"};
 	int				panelkeycnt=7;
 
-	GtkSettings*	settings=gtk_settings_get_default();
-
 	gdk_window_get_pointer(NULL,NULL,NULL,&mask);
 	if (GDK_CONTROL_MASK & mask )
 		{
@@ -1046,23 +1043,14 @@ void resetFont(GtkWidget* widget,gpointer data)
 
 void setCursSize(GtkWidget* widget,gpointer data)
 {
-	char*		command;
-	
 	gdouble val=gtk_range_get_value((GtkRange*)widget);
-
-	asprintf(&command,"%s\"%i\"",XCONFSETCURSORSIZE,(int)val);
-	system(command);
-	freeAndNull(&command);
+	setValue(XSETTINGS,CURSORSIZEPROP,INT,(void*)(long)val);
 }
 
 void resetCursSize(GtkWidget* widget,gpointer data)
 {
-	char*		command;
-
 	gtk_range_set_value((GtkRange*)cursorSize,16);
-	asprintf(&command,"%s 16",XCONFSETCURSORSIZE);
-	system(command);
-	freeAndNull(&command);
+	setValue(XSETTINGS,CURSORSIZEPROP,INT,(void*)16);
 }
 
 int checkFolders(void)
