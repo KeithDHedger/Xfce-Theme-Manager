@@ -158,9 +158,112 @@ void makeNewPanelData(int num,int panelnum)
 	panelNumbers[num]=panelnum;
 }
 
+
+//#define PANEL_PROPERTIES_TYPE_VALUE_ARRAY (panel_properties_value_array_get_type ())
+gchar *
+_xfconf_string_from_gvalue(GValue *val)
+{
+    g_return_val_if_fail(val && G_VALUE_TYPE(val), NULL);
+
+    switch(G_VALUE_TYPE(val)) {
+        case G_TYPE_STRING:
+        	printf("string\n");
+            return g_value_dup_string(val);
+        case G_TYPE_UCHAR:
+        	printf("uchar\n");
+            return g_strdup_printf("%u", (guint)g_value_get_uchar(val));
+        case G_TYPE_CHAR:
+#if GLIB_CHECK_VERSION (2, 32, 0)
+            return g_strdup_printf("%d", g_value_get_schar(val));
+#else
+            return g_strdup_printf("%d", (gint)g_value_get_char(val));
+#endif
+        case G_TYPE_UINT:
+          	printf("UINT\n");
+          return g_strdup_printf("%u", g_value_get_uint(val));
+        case G_TYPE_INT:
+         	printf("INT\n");
+           return g_strdup_printf("%d", g_value_get_int(val));
+        case G_TYPE_UINT64:
+            return g_strdup_printf("%" G_GUINT64_FORMAT,
+                                   g_value_get_uint64(val));
+        case G_TYPE_INT64:
+            return g_strdup_printf("%" G_GINT64_FORMAT,
+                                   g_value_get_int64(val));
+        case G_TYPE_FLOAT:
+            return g_strdup_printf("%f", (gdouble)g_value_get_float(val));
+        case G_TYPE_DOUBLE:
+            return g_strdup_printf("%f", g_value_get_double(val));
+        case G_TYPE_BOOLEAN:
+            return g_strdup(g_value_get_boolean(val) ? "true" : "false");
+        default:
+            if(G_VALUE_TYPE(val) == XFCONF_TYPE_UINT16) {
+                return g_strdup_printf("%u",
+                                       (guint)xfconf_g_value_get_uint16(val));
+            } else if(G_VALUE_TYPE(val) == XFCONF_TYPE_INT16) {
+                return g_strdup_printf("%d",
+                                       (gint)xfconf_g_value_get_int16(val));
+            }
+            break;
+    }
+
+ //   g_warning("Unable to convert GValue to string");
+    return NULL;
+}
 void TpopulatePanels(void)
 {
+// GPtrArray    *panels;
+// guint         i, j, n_panels;
+// 	GValue        val = { 0, };
+	XfconfChannel*	channel=xfconf_channel_get("xfce4-panel");
+ //   	printf("zzzzz\n");
+	// if (xfconf_channel_get_property (channelptr, "/panels", &val))
+//    {
+  //  	printf("XXX\n");
+  //  }
+  //      if (G_VALUE_HOLDS_UINT (&val))
+ //       {
+//          n_panels = g_value_get_uint (&val);
+//          panels = NULL;
+//          printf("AAAAAAAAAA\n");
+//        }
+//panels = (GPtrArray*)g_value_get_boxed (&val);
+ //         n_panels = panels->len;
+ //         printf("%i\n",n_panels);
+  GValue value = { 0, };
 
+            if(!xfconf_channel_get_property(channel, "/panels", &value))
+            {
+            printf("SSSSSSS\n");
+               // xfconf_query_printerr(_("Property \"%s\" does not exist on channel \"%s\""),
+                //                      "/","panels");
+                return;
+            }
+           else
+           {
+           	GPtrArray *arr = (GPtrArray*)g_value_get_boxed(&value);
+                guint i;
+
+                printf("Value is an array with %d items:\n", arr->len);
+                for(i = 0; i < arr->len; ++i)
+                {
+                    GValue *item_value = (GValue *)g_ptr_array_index(arr, i);
+                    int* t;
+                    t=(int*)g_ptr_array_index(arr, i);
+					printf("panel num=%i\n",(int)*t);
+					char* s;
+					s=(char*)g_ptr_array_index(arr, i);
+					printf("panel num=%s\n",s);
+                    if(item_value)
+                    {
+                      gchar *str_val = _xfconf_string_from_gvalue(item_value);
+                    	if(str_val!=NULL)
+                     	   printf("%s\n", str_val);
+                       // g_free(str_val);
+                    }
+                }
+               // g_print("\n\n");
+           }
 }
 
 void populatePanels(void)
