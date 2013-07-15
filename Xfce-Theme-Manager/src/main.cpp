@@ -259,29 +259,23 @@ void init(void)
 			if(strncmp("pl",stdout,2)==0)
 				langID=POLISH;
 		}
-//init my configs
 
 //check hashses
-	setValueXX(XMTGETHASH,STRING,&homeThemesHash);
+	getValue(XTHEMER,HASHPROP,STRING,&homeThemesHash);
 
-//	setValueXX(XMTGETSHOWSYSTEM,INT,&showGlobal);
+//init my configs
 	getValue(XTHEMER,SHOWSYSTEMPROP,INT,&showGlobal);
 	getValue(XTHEMER,SHOWMETAPROP,INT,&showMeta);
 	getValue(XTHEMER,SHOWGTKPROP,INT,&showGtk);
 	getValue(XTHEMER,SHOWWMBORDERPROP,INT,&showDecs);
-	
-//	setValueXX(XMTGETSHOWMETA,INT,&showMeta);
-//	setValueXX(XMTGETSHOWGTK,INT,&showGtk);
-//	setValueXX(XMTGETSHOWWMB,INT,&showDecs);
-	setValueXX(XMTGETSHOWCURSORS,INT,&showCursors);
-	setValueXX(XMTGETSHOWICONS,INT,&showIcons);
-	setValueXX(XMTGETSHOWPAPER,INT,&showBackdrop);
-	setValueXX(XMTGETSHOWCUSTOM,INT,&showOnlyCustom);
+	getValue(XTHEMER,SHOWICONSPROP,INT,&showIcons);
+	getValue(XTHEMER,SHOWCURSORSPROP,INT,&showCursors);
+	getValue(XTHEMER,SHOWBACKDROPSPROP,INT,&showBackdrop);
+	getValue(XTHEMER,SHOWCUSTOMPROP,INT,&showOnlyCustom);
 
-	setValueXX(XMTGETWINWID,INT,&winWid);
-	setValueXX(XMTGETWINHITE,INT,&winHite);
-
-	setValueXX(XMTGETPRESIZE,INT,&previewSize);
+	getValue(XTHEMER,WINWIDPROP,INT,&winWid);
+	getValue(XTHEMER,WINHITEPROP,INT,&winHite);
+	getValue(XTHEMER,PREVSIZEPROP,INT,&previewSize);
 
 	g_spawn_command_line_sync("which xfce4-composite-editor",&stdout,&stderr,&retval,NULL);
 	if (retval==0)

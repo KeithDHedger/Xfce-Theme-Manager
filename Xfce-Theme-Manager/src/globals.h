@@ -81,7 +81,14 @@
 #define SHOWMETAPROP "/ShowMeta"
 #define SHOWGTKPROP "/ShowGtk"
 #define SHOWWMBORDERPROP "/ShowDecs"
-
+#define SHOWICONSPROP "/ShowIcons"
+#define SHOWCURSORSPROP "/ShowCursors"
+#define SHOWBACKDROPSPROP "/ShowBackdrop"
+#define SHOWCUSTOMPROP "/ShowOnlyCustom"
+#define WINWIDPROP "/WindowWidth"
+#define WINHITEPROP "/WindowHeight"
+#define PREVSIZEPROP "/PreveiwSize"
+#define HASHPROP "/ThemesHash"
 
 //#define XCONFGETLAYOUT "xfconf-query -c xfwm4 -p /general/button_layout"
 //#define XCONFGETTITLEPOS "xfconf-query -c xfwm4 -p /general/title_alignment"
@@ -104,25 +111,25 @@
 #define XMTSETSHOWGTK  "xfconf-query -nt int -c xfcethemer -p /ShowGtk -s "
 //#define XMTGETSHOWWMB "xfconf-query -c xfcethemer -p /ShowDecs"
 #define XMTSETSHOWWMB  "xfconf-query -nt int -c xfcethemer -p /ShowDecs -s "
-#define XMTGETSHOWICONS "xfconf-query -c xfcethemer -p /ShowIcons"
+//#define XMTGETSHOWICONS "xfconf-query -c xfcethemer -p /ShowIcons"
 #define XMTSETSHOWICONS  "xfconf-query -nt int -c xfcethemer -p /ShowIcons -s "
-#define XMTGETSHOWCURSORS "xfconf-query -c xfcethemer -p /ShowCursors"
+//#define XMTGETSHOWCURSORS "xfconf-query -c xfcethemer -p /ShowCursors"
 #define XMTSETSHOWCURSORS  "xfconf-query -nt int -c xfcethemer -p /ShowCursors -s "
-#define XMTGETSHOWPAPER "xfconf-query -c xfcethemer -p /ShowBackdrop"
+//#define XMTGETSHOWPAPER "xfconf-query -c xfcethemer -p /ShowBackdrop"
 #define XMTSETSHOWPAPER  "xfconf-query -nt int -c xfcethemer -p /ShowBackdrop -s "
-#define XMTGETSHOWCUSTOM "xfconf-query -c xfcethemer -p /ShowOnlyCustom"
+//#define XMTGETSHOWCUSTOM "xfconf-query -c xfcethemer -p /ShowOnlyCustom"
 #define XMTSETSHOWCUSTOM "xfconf-query -nt int -c xfcethemer -p /ShowOnlyCustom -s "
 
-#define XMTGETWINWID "xfconf-query -c xfcethemer -p /WindowWidth"
-#define XMTGETWINHITE "xfconf-query -c xfcethemer -p /WindowHeight"
+//#define XMTGETWINWID "xfconf-query -c xfcethemer -p /WindowWidth"
+//#define XMTGETWINHITE "xfconf-query -c xfcethemer -p /WindowHeight"
 #define XMTSETWINWID "xfconf-query -nt int -c xfcethemer -p /WindowWidth -s "
 #define XMTSETWINHITE "xfconf-query -nt int -c xfcethemer -p /WindowHeight -s "
 
 #define XMTSETPRESIZE "xfconf-query -nt int -c xfcethemer -p /PreveiwSize -s "
-#define XMTGETPRESIZE "xfconf-query -c xfcethemer -p /PreveiwSize"
+//#define XMTGETPRESIZE "xfconf-query -c xfcethemer -p /PreveiwSize"
 
 #define XMTSETHASH "xfconf-query -nt string -c xfcethemer -p /ThemesHash -s "
-#define XMTGETHASH "xfconf-query -c xfcethemer -p /ThemesHash"
+//#define XMTGETHASH "xfconf-query -c xfcethemer -p /ThemesHash"
 
 #define _translate(x) langStr[langID][x]
 #define _translateHelp(x) helpStr[langID][x]
