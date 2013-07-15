@@ -115,61 +115,52 @@ void doSetConfigs(void)
 
 void changeView(GtkWidget* widget,gpointer data)
 {
-	char*		command;
 	showGlobal=(int)gtk_toggle_button_get_active((GtkToggleButton*)widget);
 
-	asprintf(&command,"%s %i",XMTSETSHOWSYSTEM,showGlobal);
-
-	system(command);
-	freeAndNull(&command);
-
+	setValue(XTHEMER,SHOWSYSTEMPROP,INT,(void*)(long)showGlobal);
 	doSetConfigs();
 	rerunAndUpdate(false,true);
 }
 
 void changeViewWhat(GtkWidget* widget,gpointer data)
 {
-	char*		command;
-
 	switch ((long)data)
 		{
 			case THEMES:
 				showMeta=(int)gtk_toggle_button_get_active((GtkToggleButton*)widget);
-				asprintf(&command,"%s %i",XMTSETSHOWMETA,showMeta);
+				setValue(XTHEMER,SHOWMETAPROP,INT,(void*)(long)showMeta);
 				break;
 
 			case WMBORDERS:
 				showDecs=(int)gtk_toggle_button_get_active((GtkToggleButton*)widget);
-				asprintf(&command,"%s %i",XMTSETSHOWWMB,showDecs);
+				setValue(XTHEMER,SHOWWMBORDERPROP,INT,(void*)(long)showMeta);
 				break;
 
 			case CONTROLS:
 				showGtk=(int)gtk_toggle_button_get_active((GtkToggleButton*)widget);
-				asprintf(&command,"%s %i",XMTSETSHOWGTK,showGtk);
+				setValue(XTHEMER,SHOWGTKPROP,INT,(void*)(long)showGtk);
 				break;
 
 			case ICONS:
 				showIcons=(int)gtk_toggle_button_get_active((GtkToggleButton*)widget);
-				asprintf(&command,"%s %i",XMTSETSHOWICONS,showIcons);
+				setValue(XTHEMER,SHOWICONSPROP,INT,(void*)(long)showIcons);
 				break;
 
 			case CURSORS:
 				showCursors=(int)gtk_toggle_button_get_active((GtkToggleButton*)widget);
-				asprintf(&command,"%s %i",XMTSETSHOWCURSORS,showCursors);
+				setValue(XTHEMER,SHOWCURSORSPROP,INT,(void*)(long)showCursors);
 				break;
 
 			case WALLPAPERS:
 				showBackdrop=(int)gtk_toggle_button_get_active((GtkToggleButton*)widget);
-				asprintf(&command,"%s %i",XMTSETSHOWPAPER,showBackdrop);
+				setValue(XTHEMER,SHOWBACKDROPSPROP,INT,(void*)(long)showBackdrop);
 				break;
 
 			case CUSTOMMETA:
 				showOnlyCustom=(int)gtk_toggle_button_get_active((GtkToggleButton*)widget);
-				asprintf(&command,"%s %i",XMTSETSHOWCUSTOM,showOnlyCustom);
+				setValue(XTHEMER,SHOWCUSTOMPROP,INT,(void*)(long)showOnlyCustom);
 				break;
 		}
-	system(command);
-	freeAndNull(&command);
 	rerunAndUpdate(false,true);
 }
 
