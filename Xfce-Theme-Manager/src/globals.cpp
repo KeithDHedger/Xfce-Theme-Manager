@@ -186,10 +186,6 @@ void freeAndSet(char** ptr,char* data)
 
 int positionToInt(char* pos)
 {
-	gchar	*stdout=NULL;
-	gchar	*stderr=NULL;
-	gint   retval=0;
-
 	if (pos!=NULL)
 		{
 			if(g_ascii_strcasecmp(pos,"left")==0)
@@ -225,7 +221,7 @@ char* doubleToStr(double num)
 char* getThemeNameFromDB(char* filepath)
 {
 	GKeyFile*	keyfile=g_key_file_new();
-	char*		dataset;
+	char*		dataset=NULL;
 
 	if(g_key_file_load_from_file(keyfile,filepath,G_KEY_FILE_NONE,NULL))
 		{
@@ -292,6 +288,9 @@ void setValue(const char* channel,const char* property,dataType type,void* data)
 
 			case FLOAT:
 				xfconf_channel_set_double(channelptr,property,*(gdouble*)data);
+				break;
+
+			case COLOURARRAY:
 				break;
 		}
 }

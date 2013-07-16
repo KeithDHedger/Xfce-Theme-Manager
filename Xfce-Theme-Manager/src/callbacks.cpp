@@ -187,6 +187,9 @@ void buildCustomDBNEW(const char* chan,const char* prop,dataType type,const char
 				getValue(chan,prop,type,&floatdata);
 				sprintf(filedata,"%s%s=%f\n",filedata,key,floatdata);
 				break;
+
+			case COLOURARRAY:
+				break;
 		}
 }
 
