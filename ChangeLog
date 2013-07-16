@@ -22,166 +22,167 @@ Changelog:
 		Fixed bug where xconf property not created for panel colour.
 		Major code clean.
 		Minor Polish translation changes.
-		Bug fix in makefile for mutlple parallel builds.
+		Bug fix in makefile for multiple parallel builds.
 		Reset buttons in Advanced Tab now reset to sensible system defaults.
-		Corrected a bug in xfwm where setting the button layout to "" causes zfwm4 to crash.
+		Corrected a bug in xfwm where setting the button layout to "" causes xfwm4 to crash.
 
 0.3.2	Added Polish translation, thanks to Michał Olber for that.
-	Added Polish man page.
-	Fixed link bug for older glib.
-	Fixed bug where xfce4.8 reads arrays differently than 4.10
-	Lowered version number for libxfce4ui to 4.8 so style matches 4.10
+		Added Polish man page.
+		Fixed link bug for older glib.
+		Fixed bug where xfce4.8 reads arrays differently than 4.10
+		Lowered version number for libxfce4ui to 4.8 so style matches 4.10
 
 0.3.1	Added some customization of panels, size and appearance (solid colour,system,image,aplpha).
-	Save panel appearance in custom themes.
-	Added reset panels to 'Reset Theme'.
-	Updated manpages and help.
+		Save panel appearance in custom themes.
+		Added reset panels to 'Reset Theme'.
+		Updated manpages and help.
 
 0.3.0	Added command line options to list/set themes etc.
-	Bug fix for drag 'n' drop filenames with spaces.
-	Bug fix for drag 'n' drop zip files.
-	Auto update  DB on startup if needed.
-	Change to autotools project.
+		Bug fix for drag 'n' drop filenames with spaces.
+		Bug fix for drag 'n' drop zip files.
+		Auto update  DB on startup if needed.
+		Change to autotools project.
 
 0.2.4	re-arranged GUI to be more in keeping with Xfce settings panels ( thanks to Moatib for that ).
-	Dropping multiple archives to install now only shows one confirmation ( so only one click not many needed ).
-	On startup or changing theme parts, currently selected theme part now shows in scrolled window.
-	Added changing cursor to "WATCH" during theme change.
-	Can make main window smaller than normal.
-	Code clean.
-	Bug fix.
+		Dropping multiple archives to install now only shows one confirmation ( so only one click not many needed ).
+		On startup or changing theme parts, currently selected theme part now shows in scrolled window.
+		Added changing cursor to "WATCH" during theme change.
+		Can make main window smaller than normal.
+		Code clean.
+		Bug fix.
 
-0.2.3 Bug fix for floating point exception
-	Code clean.
+0.2.3	Bug fix for floating point exception
+		Code clean.
 
-0.2.2 Greyed out theme buttons when showing advanced tab.
-	Whoops! Added back backdrop sizing/position.
-	Centred preview icons.
-	Adjusted DB thumbnails (again!).
-	Added Translations for "Preview" dropdown.
-	Changed email address in src files.
-	Code clean.
+0.2.2	Greyed out theme buttons when showing advanced tab.
+		Whoops! Added back backdrop sizing/position.
+		Centred preview icons.
+		Adjusted DB thumbnails (again!).
+		Added Translations for "Preview" dropdown.
+		Changed email address in src files.
+		Code clean.
 	
-0.2.1 Code Clean.
-	Redone Db.
-	Added rollover hightlighting.
-	Added current selection border.
-	DB thumbnails now bigger so scale better.
-	Gzipped man pages.
+0.2.1	Code Clean.
+		Redone Db.
+		Added rollover hightlighting.
+		Added current selection border.
+		DB thumbnails now bigger so scale better.
+		Gzipped man pages.
 
-0.2.0 New thumbnailing using tiled thumbnails.
-	Version bump.
+0.2.0	New thumbnailing using tiled thumbnails.
+		Version bump.
 
 0.1.20 Fixed small bug to create ~/.themes, ~/.icons and ~/.local/share/xfce4/backdrops which may not have been created in a fresh install.
-	Added manpage for english, spanish and german.
-	Updated Makefile.
+		Added manpage for english, spanish and german.
+		Updated Makefile.
 
-0.1.19 Changed Makefile to take account of changes in some versions of gcc that require a specific order for arguments.
-	Added instructions in README for debian users.
-	Added GPLv3 licence to archive (requested).
+0.1.19	Changed Makefile to take account of changes in some versions of gcc that require a specific order for arguments.
+		Added instructions in README for debian users.
+		Added GPLv3 licence to archive (requested).
 	
-0.1.18 Changed to glib version of strcasecmp.
-	Added auto build of database on first run (requested).
-	Bug fix for xfconf-query /general/title_alignment.
-	Split ChangeLog from README to seperate file.
+0.1.18	Changed to glib version of strcasecmp.
+		Added auto build of database on first run (requested).
+		Bug fix for xfconf-query /general/title_alignment.
+		Split ChangeLog from README to seperate file.
 
-0.1.17 Added marker to UI to show current theme pieces.
-	Database clean up and made more consistent.
+0.1.17	Added marker to UI to show current theme pieces.
+		Database clean up and made more consistent.
 
-0.1.16 Minor bugfix/code clean.
+0.1.16	Minor bugfix/code clean.
 
-0.1.15 Add use of xfce_titled_dialog to visually integrate better with the standard xfce settings GUI's.
-	Added "About" dialog.
-	Added display options to "Advanced"
-	Added CNTRL-click on Custom theme to delete.
-	Added save window size on exit.
-	Don't show "Xfce-Composite-Editor" button if not installed.
-	Frame thumbnails now show white background instead of tranparent.
-	Frame/Meta thumbnails show rounded corners and bottom properly.
-	Code clean.
+0.1.15	Add use of xfce_titled_dialog to visually integrate better with the standard xfce settings GUI's.
+		Added "About" dialog.
+		Added display options to "Advanced"
+		Added CNTRL-click on Custom theme to delete.
+		Added save window size on exit.
+		Don't show "Xfce-Composite-Editor" button if not installed.
+		Frame thumbnails now show white background instead of tranparent.
+		Frame/Meta thumbnails show rounded corners and bottom properly.
+		Code clean.
 
-0.1.13/14 Internal release.
+0.1.13
+0.1.14	Internal release.
 
-0.1.12 Bug fix/hack for buggy xfwm4-settings.
+0.1.12	Bug fix/hack for buggy xfwm4-settings.
 
-0.1.11 Bug fix for badly formed/non-existent LANG env var.
-	Bug fix for cursor preview.
-	Plugged some memory leaks.
-	Tidied up rebuilding db dialog ( removed close button etc).
-	Minor changes to Makefile/README.
+0.1.11	Bug fix for badly formed/non-existent LANG env var.
+		Bug fix for cursor preview.
+		Plugged some memory leaks.
+		Tidied up rebuilding db dialog ( removed close button etc).
+		Minor changes to Makefile/README.
 
-0.1.10 Added German translation, thanks to Martin F. Schumann for that.
-	Removed warnings from xconf about user settings not set.
-	Added "Custom" when saving custom theme if needed.
-	Fixed minor memory leak.
-	New application icon.
-	Minor bug fix when using comma instead of point ( again! )
-	Code clean.
+0.1.10	Added German translation, thanks to Martin F. Schumann for that.
+		Removed warnings from xconf about user settings not set.
+		Added "Custom" when saving custom theme if needed.
+		Fixed minor memory leak.
+		New application icon.
+		Minor bug fix when using comma instead of point ( again! )
+		Code clean.
 
-0.1.9 Internal release.
+0.1.9	Internal release.
 
 0.1.8	Finally redone border preview to use tile instead of stretch, more accurate.
-	Added Application Icon.
-	Changed 'Save Theme' to 'Custom Theme' button to now add/delete custom themes.
+		Added Application Icon.
+		Changed 'Save Theme' to 'Custom Theme' button to now add/delete custom themes.
 
-0.1.7 Updated README.
-	Ignore sub-folders embedded in 'Backdrop' folders as per Xfce gui.
-	added fix for commas instead of points in sliders.
-	Added spanish translation (thanks to Pablo Morales Romero for his help)
-	Bug fix for malformed xfwm4 themes.
-	Removed abnormal exit on no cursor pixmaps.
+0.1.7	Updated README.
+		Ignore sub-folders embedded in 'Backdrop' folders as per Xfce gui.
+		added fix for commas instead of points in sliders.
+		Added spanish translation (thanks to Pablo Morales Romero for his help)
+		Bug fix for malformed xfwm4 themes.
+		Removed abnormal exit on no cursor pixmaps.
 
 0.1.6	Private bug fixing.
 
 0.1.5	Re-added cursor size to advanced.
-	'Reset Theme' now resets controls in advanced tab.
-	Added 'Save Theme', now saves complete custom themes.
-	Moved 'Rebuild DB' to 'Advanced tab.
-	Brightness/Saturation now only update on button up.
+		'Reset Theme' now resets controls in advanced tab.
+		Added 'Save Theme', now saves complete custom themes.
+		Moved 'Rebuild DB' to 'Advanced tab.
+		Brightness/Saturation now only update on button up.
 
 0.1.4	Should now be gtk3 compliant.
-	Removed manual 'Update DB' button as update is now automatic.
-	First release of completely rewritten code into 'c' mainly for speed improvements.
-	Sort alphabetically and user first then system.
-	Automatic DB update on successful install of theme etc.
-	Full drag'N'drop for installation of themes, icons backdrops etc.
-	Re-arranged advanced page.
-	Font buttons show font name in font style.
-	Multi-threaded progress bar.
+		Removed manual 'Update DB' button as update is now automatic.
+		First release of completely rewritten code into 'c' mainly for speed improvements.
+		Sort alphabetically and user first then system.
+		Automatic DB update on successful install of theme etc.
+		Full drag'N'drop for installation of themes, icons backdrops etc.
+		Re-arranged advanced page.
+		Font buttons show font name in font style.
+		Multi-threaded progress bar.
 
 0.1.3	Private release versions.
 0.0.9
 
 0.0.8	Tweaked helper app to show render overlays in previews properly.
-	Added Cursor size,title position and button layout to advanced.
-	Added 'Install Theme/Wallpaper' to advanced.
-	Added WM/App font selector to gui and helper app.
-	Moved window brightness/saturation to advanced.
-	Added launch 'Xfce4-Composite-Editor' to advanced.
-	Added 'Advanced' option.
+		Added Cursor size,title position and button layout to advanced.
+		Added 'Install Theme/Wallpaper' to advanced.
+		Added WM/App font selector to gui and helper app.
+		Moved window brightness/saturation to advanced.
+		Added launch 'Xfce4-Composite-Editor' to advanced.
+		Added 'Advanced' option.
 	
 0.0.7	Added Wallpaper Section.
-	Tested under Xfce 4.10.
-	Adds properties to xconf if not defined.
-	Refresh Xfce desktop when changing icons.
-	Tweaked the Makefile to take acount of Fedora's mucking about with the linker!
+		Tested under Xfce 4.10.
+		Adds properties to xconf if not defined.
+		Refresh Xfce desktop when changing icons.
+		Tweaked the Makefile to take acount of Fedora's mucking about with the linker!
 
 0.0.6	Icon themes now handled by helper app hopefully no more 'missing' icons in the gui.
-	Meta-Themes now include 'Home' icon and 'Left' pointer in preview.
-	Size of Meta-Theme previews nor more consistant.
-	Numerous minor bug fix's.
+		Meta-Themes now include 'Home' icon and 'Left' pointer in preview.
+		Size of Meta-Theme previews nor more consistant.
+		Numerous minor bug fix's.
 
 0.0.5	Added Custom preview.
-	Numerous bug fix's for badly formed themes.
-	Code clean up.
+		Numerous bug fix's for badly formed themes.
+		Code clean up.
 
 0.0.4b	Fixed a bug where imagemagick swallows stdin
-	Added Cursor theme tab.
-	Added cursor previews to helper app.
-	Fixed another "spaces in file name" bug
+		Added Cursor theme tab.
+		Added cursor previews to helper app.
+		Fixed another "spaces in file name" bug
 
 0.0.03b	Large numbers of themes now supported >200.
-	Fixed some bugs with themes with spaces in their names.
+		Fixed some bugs with themes with spaces in their names.
 
 0.0.2b	Re-wrote helper app to create window frame thumbnails
 0.0.1b	1st release into the wild
