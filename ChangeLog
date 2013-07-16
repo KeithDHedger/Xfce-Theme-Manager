@@ -32,20 +32,20 @@ Changelog:
 		Fixed bug where xfce4.8 reads arrays differently than 4.10
 		Lowered version number for libxfce4ui to 4.8 so style matches 4.10
 
-0.3.1	Added some customization of panels, size and appearance (solid colour,system,image,aplpha).
+0.3.1	Added some customisation of panels, size and appearance (solid colour,system,image,alpha).
 		Save panel appearance in custom themes.
 		Added reset panels to 'Reset Theme'.
-		Updated manpages and help.
+		Updated man pages and help.
 
 0.3.0	Added command line options to list/set themes etc.
-		Bug fix for drag 'n' drop filenames with spaces.
+		Bug fix for drag 'n' drop file names with spaces.
 		Bug fix for drag 'n' drop zip files.
-		Auto update  DB on startup if needed.
+		Auto update  DB on start up if needed.
 		Change to autotools project.
 
 0.2.4	re-arranged GUI to be more in keeping with Xfce settings panels ( thanks to Moatib for that ).
 		Dropping multiple archives to install now only shows one confirmation ( so only one click not many needed ).
-		On startup or changing theme parts, currently selected theme part now shows in scrolled window.
+		On start up or changing theme parts, currently selected theme part now shows in scrolled window.
 		Added changing cursor to "WATCH" during theme change.
 		Can make main window smaller than normal.
 		Code clean.
@@ -58,37 +58,37 @@ Changelog:
 		Whoops! Added back backdrop sizing/position.
 		Centred preview icons.
 		Adjusted DB thumbnails (again!).
-		Added Translations for "Preview" dropdown.
+		Added Translations for "Preview" drop down.
 		Changed email address in src files.
 		Code clean.
 	
 0.2.1	Code Clean.
 		Redone Db.
-		Added rollover hightlighting.
+		Added rollover highlighting.
 		Added current selection border.
 		DB thumbnails now bigger so scale better.
 		Gzipped man pages.
 
-0.2.0	New thumbnailing using tiled thumbnails.
+0.2.0	New thumb nailing using tiled thumbnails.
 		Version bump.
 
 0.1.20 Fixed small bug to create ~/.themes, ~/.icons and ~/.local/share/xfce4/backdrops which may not have been created in a fresh install.
-		Added manpage for english, spanish and german.
+		Added man page for English, Spanish and German.
 		Updated Makefile.
 
 0.1.19	Changed Makefile to take account of changes in some versions of gcc that require a specific order for arguments.
-		Added instructions in README for debian users.
+		Added instructions in README for Debian users.
 		Added GPLv3 licence to archive (requested).
 	
 0.1.18	Changed to glib version of strcasecmp.
 		Added auto build of database on first run (requested).
 		Bug fix for xfconf-query /general/title_alignment.
-		Split ChangeLog from README to seperate file.
+		Split ChangeLog from README to separate file.
 
 0.1.17	Added marker to UI to show current theme pieces.
 		Database clean up and made more consistent.
 
-0.1.16	Minor bugfix/code clean.
+0.1.16	Minor bug fix/code clean.
 
 0.1.15	Add use of xfce_titled_dialog to visually integrate better with the standard xfce settings GUI's.
 		Added "About" dialog.
@@ -96,7 +96,7 @@ Changelog:
 		Added CNTRL-click on Custom theme to delete.
 		Added save window size on exit.
 		Don't show "Xfce-Composite-Editor" button if not installed.
-		Frame thumbnails now show white background instead of tranparent.
+		Frame thumbnails now show white background instead of transparent.
 		Frame/Meta thumbnails show rounded corners and bottom properly.
 		Code clean.
 
@@ -128,7 +128,7 @@ Changelog:
 0.1.7	Updated README.
 		Ignore sub-folders embedded in 'Backdrop' folders as per Xfce gui.
 		added fix for commas instead of points in sliders.
-		Added spanish translation (thanks to Pablo Morales Romero for his help)
+		Added Spanish translation (thanks to Pablo Morales Romero for his help)
 		Bug fix for malformed xfwm4 themes.
 		Removed abnormal exit on no cursor pixmaps.
 
@@ -165,11 +165,11 @@ Changelog:
 		Tested under Xfce 4.10.
 		Adds properties to xconf if not defined.
 		Refresh Xfce desktop when changing icons.
-		Tweaked the Makefile to take acount of Fedora's mucking about with the linker!
+		Tweaked the Makefile to take account of Fedora's mucking about with the linker!
 
 0.0.6	Icon themes now handled by helper app hopefully no more 'missing' icons in the gui.
 		Meta-Themes now include 'Home' icon and 'Left' pointer in preview.
-		Size of Meta-Theme previews nor more consistant.
+		Size of Meta-Theme previews nor more consistent.
 		Numerous minor bug fix's.
 
 0.0.5	Added Custom preview.
