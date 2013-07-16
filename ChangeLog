@@ -17,8 +17,8 @@ Please send them direct to me at:kdhedger68713@gmail.com posting them on xfce-lo
 ***************************************
 
 Changelog:
-0.3.3	Changed from external xconf-wury to xfconf lib.
-		Speed change from 0.3.2 - Change meta theme approx 5s 0.3.3 - Change meta theme approx 1.5s
+0.3.3	Changed from external xconf-query to xfconf lib.
+		Speed change in GUI from 0.3.2 - Change meta theme approx 5s, 0.3.3 - Change meta theme approx 1.5s.
 		Fixed bug where xconf property not created for panel colour.
 		Major code clean.
 		Minor Polish translation changes.
