@@ -109,8 +109,6 @@ extern double			currentSatu;
 extern int				currentCursSize;
 extern char*			currentMetaTheme;
 
-//extern char*			lastMetaTheme;
-
 extern char*			originalGtkTheme;
 extern char*			originalIconTheme;
 extern char*			originalWMTheme;
@@ -251,7 +249,6 @@ extern char*			cliFileName;
 
 extern void freeAndNull(char** ptr);
 extern int positionToInt(char* pos);
-extern char* doubleToStr(double num);
 
 int sizeDrop(bool toDrop,int data);
 void getValue(const char* channel,const char* property,dataType type,void* ptr);

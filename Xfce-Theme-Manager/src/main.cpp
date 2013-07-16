@@ -567,23 +567,7 @@ struct option long_options[]=
 		{"help",0,0,'?'},
 		{0, 0, 0, 0}
 	};
-//#define _panelsize(x) "/panels/panel-"+x+"/size"
-//#define PPCAT_NX(A, B) A ## B
-//#define PPCAT(A, B) "PPCAT_NX(A, B)"
-//
-//#define VER1_(x) #x
-//#define VER_(x) VER1_(x)
-//#define VER(z) "xxx" VER_(z)
-//
-//#define PANNUM(z) #z
-//#define PANNUM_(z) PANNUM(z)
-//#define PAN(z) "penel" PANNUM_(z)
 
-//#define _test(x) "/panels/panel-" x "/background-style"
-//#if !defined(ARRAY_SIZE)
-//    #define ARRAY_SIZE(x) (sizeof((x)) / sizeof((x)[0]))
-//#endif
-//#include <cstddef>
 int main(int argc,char **argv)
 {
 	GtkWidget*	vbox;
@@ -595,20 +579,6 @@ int main(int argc,char **argv)
 	int			c;
 	int			fd;
 	fpos_t		pos;
-
-//printf("%s\n",VER(9));
-//printf("%s\n",PAN(91) "siz");
-//printf("%s\n","panel" 3 "siz");
-//setValue(XTHEMER,"/testprop",INT,(void*)12345);
-//printf("%s\n",_test(2));
-//getValue(const char* channel,const char* property,dataType type,void* ptr)
-//int testdata[6]={100,200,300,400,500,600};
-//int* test=(int*)&testdata;
-//				printf("sizo of array = %i\n",getSize(test));
-//				printf("array num 5=%i\n",*((int*)test+4));
-
-//getValue(XFCEPANELS,"ZZ",ARRAY,&testdata);
-//exit(0);
 
 	while (1)
 		{

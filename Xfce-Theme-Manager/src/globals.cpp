@@ -205,19 +205,6 @@ int positionToInt(char* pos)
 	return(1);
 }
 
-char* doubleToStr(double num)
-{
-	char*		doublestr=NULL;
-	char*		comma=NULL;
-
-	asprintf(&doublestr,"%f",num);
-	comma=strchr(doublestr,',');
-	if(comma!=NULL)
-		*comma='.';	
-
-	return(doublestr);
-}
-
 char* getThemeNameFromDB(char* filepath)
 {
 	GKeyFile*	keyfile=g_key_file_new();

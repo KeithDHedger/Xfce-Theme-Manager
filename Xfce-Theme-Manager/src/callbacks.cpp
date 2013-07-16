@@ -680,8 +680,17 @@ void doMeta(char* metaFilename)
 										freeAndSet(&currentWallPaper,keydata);
 										break;
 									case 4:
+										setValue(XFCEDESKTOP,BACKDROPSTYLEPROP,INT,(void*)(long)strtol(keydata,NULL,0));
+										gtk_combo_box_set_active((GtkComboBox*)styleComboBox,(long)strtol(keydata,NULL,0));
+										break;
 									case 5:
+										setValue(XFWM,BUTTONLAYOUTPROP,STRING,(void*)keydata);
+										gtk_entry_set_text((GtkEntry*)layoutEntry,keydata);
+										break;
 									case 6:
+										setValue(XFWM,TITLEALIGNPROP,STRING,(void*)keydata);
+										gtk_combo_box_set_active((GtkComboBox*)titlePos,positionToInt(keydata));
+										break;
 									case 7:
 									case 8:
 									case 9:
@@ -901,6 +910,7 @@ gboolean setSatu(GtkWidget *widget,GdkEvent *event,gpointer user_data)
 	return(false);
 }
 
+//RDEO//
 void resetLayout(GtkWidget* widget,gpointer data)
 {
 	gtk_entry_set_text((GtkEntry*)data,currentButtonLayout);
