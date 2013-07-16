@@ -579,6 +579,11 @@ struct option long_options[]=
 //#define PANNUM_(z) PANNUM(z)
 //#define PAN(z) "penel" PANNUM_(z)
 
+//#define _test(x) "/panels/panel-" x "/background-style"
+//#if !defined(ARRAY_SIZE)
+//    #define ARRAY_SIZE(x) (sizeof((x)) / sizeof((x)[0]))
+//#endif
+//#include <cstddef>
 int main(int argc,char **argv)
 {
 	GtkWidget*	vbox;
@@ -595,6 +600,14 @@ int main(int argc,char **argv)
 //printf("%s\n",PAN(91) "siz");
 //printf("%s\n","panel" 3 "siz");
 //setValue(XTHEMER,"/testprop",INT,(void*)12345);
+//printf("%s\n",_test(2));
+//getValue(const char* channel,const char* property,dataType type,void* ptr)
+//int testdata[6]={100,200,300,400,500,600};
+//int* test=(int*)&testdata;
+//				printf("sizo of array = %i\n",getSize(test));
+//				printf("array num 5=%i\n",*((int*)test+4));
+
+//getValue(XFCEPANELS,"ZZ",ARRAY,&testdata);
 //exit(0);
 
 	while (1)

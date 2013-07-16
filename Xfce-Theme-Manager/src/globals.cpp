@@ -243,6 +243,7 @@ void getValue(const char* channel,const char* property,dataType type,void* ptr)
 	char*	data=NULL;
 	int		intdata;
 	double	floatdata;
+	int		array[4]={-1,-1,-1,-1};
 
 	XfconfChannel*	channelptr=xfconf_channel_get(channel);
 
@@ -264,6 +265,13 @@ void getValue(const char* channel,const char* property,dataType type,void* ptr)
 				floatdata=xfconf_channel_get_double(channelptr,property,-1);
 				if(floatdata!=-1)
 					*(double*)ptr=floatdata;
+				break;
+			case COLOURARRAY:
+				xfconf_channel_get_array(channelptr,property,G_TYPE_UINT,&array[0],G_TYPE_UINT,&array[1],G_TYPE_UINT,&array[2],G_TYPE_UINT,&array[3],G_TYPE_INVALID);
+				*((int*)ptr)=array[0];
+				*((int*)ptr+1)=array[1];
+				*((int*)ptr+2)=array[2];
+				*((int*)ptr+3)=array[3];
 				break;
 		}
 }

@@ -241,9 +241,13 @@ void TpopulatePanels(void)
             }
            else
            {
-           	GPtrArray *arr = (GPtrArray*)g_value_get_boxed(&value);
+           int len=-1;
+           xfconf_channel_get_array            (channel,"/panels", G_TYPE_INT,&len,G_TYPE_INVALID);
+                    printf("Value is an array with %i items:::::::::\n", len);
+           	GPtrArray *arr;
+           	// = (GPtrArray*)g_value_get_boxed(&value);
                 guint i;
-
+ arr=xfconf_channel_get_arrayv(channel,"/panels");
                 printf("Value is an array with %d items:\n", arr->len);
                 for(i = 0; i < arr->len; ++i)
                 {
@@ -272,18 +276,125 @@ void populatePanels(void)
 	char	buffer[1024];
 	char	command[1024];
 	int		cnt=0;
-TpopulatePanels();
+	int		tempint;
+	char*	tempstr=NULL;
+	int		red,green,blue,alpha;
+	int		temparray[4]={0,0,0,0};
+
+	bool	gotthispanel;
+	for(int j=0;j<10;j++)
+		{
+			gotthispanel=false;
+
+			tempint=-1;
+			sprintf((char*)&buffer,"/panels/panel-%i/background-style",j);
+			getValue(XFCEPANELS,(const char*)buffer,INT,&tempint);
+			if(tempint!=-1)
+				{
+					if(gotthispanel==false)
+						{
+							gotthispanel=true;
+							makeNewPanelData(cnt,j);
+						}
+					panels[cnt]->style=tempint;
+				}
+
+			sprintf((char*)&buffer,"/panels/panel-%i/size",j);
+			tempint=-1;
+			getValue(XFCEPANELS,(const char*)buffer,INT,&tempint);
+			if(tempint!=-1)
+				{
+					if(gotthispanel==false)
+						{
+							gotthispanel=true;
+							makeNewPanelData(cnt,j);
+						}
+					panels[cnt]->size=tempint;
+				}
+
+			sprintf((char*)&buffer,"/panels/panel-%i/background-image",j);
+			getValue(XFCEPANELS,(const char*)buffer,STRING,&tempstr);
+			if(strcmp("DEADBEEF",tempstr)!=0)
+				{
+					if(gotthispanel==false)
+						{
+							gotthispanel=true;
+							makeNewPanelData(cnt,j);
+						}
+
+					panels[cnt]->imagePath=strdup(tempstr);
+					freeAndNull(&tempstr);
+				}
+
+
+			sprintf((char*)&buffer,"/panels/panel-%i/background-color",j);
+			getValue(XFCEPANELS,(const char*)buffer,COLOURARRAY,&temparray);
+			if(temparray[0]!=-1)
+				{
+					if(gotthispanel==false)
+						{
+							gotthispanel=true;
+							makeNewPanelData(cnt,j);
+						}
+					panels[cnt]->red=temparray[0];
+					panels[cnt]->green=temparray[1];
+					panels[cnt]->blue=temparray[2];
+				}
+
+			sprintf((char*)&buffer,"/panels/panel-%i/background-alpha",j);
+			getValue(XFCEPANELS,(const char*)buffer,INT,&tempint);
+			if(tempint!=-1)
+				{
+					if(gotthispanel==false)
+						{
+							gotthispanel=true;
+							makeNewPanelData(cnt,j);
+						}
+					panels[cnt]->alpha=tempint;
+				}
+
+			if(gotthispanel==true)
+				{
+					revertPanels[cnt]=(panelData*)malloc(sizeof(panelData));
+					revertPanels[cnt]->style=panels[cnt]->style;
+					revertPanels[cnt]->size=panels[cnt]->size;
+					if(panels[cnt]->imagePath!=NULL)
+						revertPanels[cnt]->imagePath=strdup(panels[cnt]->imagePath);
+					else
+						revertPanels[cnt]->imagePath=NULL;
+					revertPanels[cnt]->red=panels[cnt]->red;
+					revertPanels[cnt]->green=panels[cnt]->green;
+					revertPanels[cnt]->blue=panels[cnt]->blue;
+					revertPanels[cnt]->alpha=panels[cnt]->alpha;
+					revertPanels[cnt]->panelNumber=panelNumbers[cnt];
+					cnt++;
+				}
+		}
+	numOfPanels=cnt;
+}
+
+void populatePanelsAAAA(void)
+{
+	FILE*	fp;
+	char	buffer[1024];
+	char	command[1024];
+	int		cnt=0;
+	int		tempint;
+
+//TpopulatePanels();
 
 	bool	gotthispanel;
 	for(int j=0;j<10;j++)
 		{
 			gotthispanel=false;
 			buffer[0]=0;
-
-			sprintf((char*)&command,"xfconf-query  array -c xfce4-panel -p /panels/panel-%i/background-style 2>/dev/null",j);
-			fp=popen(command,"r");
-			fgets(buffer,1024,fp);
-			pclose(fp);
+			tempint=-1;
+			//sprintf((char*)&command,"xfconf-query  array -c xfce4-panel -p /panels/panel-%i/background-style 2>/dev/null",j);
+			//fp=popen(command,"r");
+			//fgets(buffer,1024,fp);
+			//pclose(fp);
+			sprintf((char*)&buffer,"/panels/panel-%i/background-style",j);
+			getValue(XFCEPANELS,(const char*)buffer,INT,&tempint);
 			if(strlen(buffer)>0)
 				{
 					if(gotthispanel==false)
@@ -382,6 +493,7 @@ TpopulatePanels();
 		}
 	numOfPanels=cnt;
 }
+
 
 void setPanels(void)
 {
