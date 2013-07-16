@@ -23,7 +23,6 @@ char		filedata[8192];
 GtkWidget*	entryBox;
 char*		filename;
 char*		metaThemeSelected=NULL;
-bool		destroy=false;
 int		currentPage;
 
 void doResize(GtkWindow *window,gpointer user_data)
@@ -164,7 +163,7 @@ void changeViewWhat(GtkWidget* widget,gpointer data)
 	rerunAndUpdate(false,true);
 }
 
-void buildCustomDBNEW(const char* chan,const char* prop,dataType type,const char* key)
+void buildCustomDB(const char* chan,const char* prop,dataType type,const char* key)
 {
 	char*	strdata=NULL;
 	int		intdata;
@@ -288,19 +287,19 @@ else
 			if(fd!=NULL)
 				{
 					sprintf(filedata,"[Data]\nName=%s\nThumbnail=%s\n",filename,thumbfile);
-					buildCustomDBNEW(XSETTINGS,CONTROLTHEMEPROP,STRING,"GtkTheme");
-					buildCustomDBNEW(XSETTINGS,ICONTHEMEPROP,STRING,"IconTheme");
-					buildCustomDBNEW(XSETTINGS,CURSORSPROP,STRING,"CursorTheme");
-					buildCustomDBNEW(XFWM,WMBORDERSPROP,STRING,"Xfwm4Theme");
-					buildCustomDBNEW(XFCEDESKTOP,PAPERSPROP,STRING,"BackgroundImage");
-					buildCustomDBNEW(XFWM,BUTTONLAYOUTPROP,STRING,"TitleButtonLayout");
-					buildCustomDBNEW(XFWM,TITLEALIGNPROP,STRING,"TitlePosition");
-					buildCustomDBNEW(XFWM,WMFONTPROP,STRING,"WMFont");
-					buildCustomDBNEW(XSETTINGS,APPFONTPROP,STRING,"AppFont");
-					buildCustomDBNEW(XFCEDESKTOP,BACKDROPSTYLEPROP,INT,"BackdropStyle");
-					buildCustomDBNEW(XFCEDESKTOP,BACKDROPBRIGHTPROP,INT,"BackdropBright");
-					buildCustomDBNEW(XFCEDESKTOP,BACKDROPSATUPROP,FLOAT,"BackdropSatu");
-					buildCustomDBNEW(XSETTINGS,CURSORSIZEPROP,INT,"CursorSize");
+					buildCustomDB(XSETTINGS,CONTROLTHEMEPROP,STRING,"GtkTheme");
+					buildCustomDB(XSETTINGS,ICONTHEMEPROP,STRING,"IconTheme");
+					buildCustomDB(XSETTINGS,CURSORSPROP,STRING,"CursorTheme");
+					buildCustomDB(XFWM,WMBORDERSPROP,STRING,"Xfwm4Theme");
+					buildCustomDB(XFCEDESKTOP,PAPERSPROP,STRING,"BackgroundImage");
+					buildCustomDB(XFWM,BUTTONLAYOUTPROP,STRING,"TitleButtonLayout");
+					buildCustomDB(XFWM,TITLEALIGNPROP,STRING,"TitlePosition");
+					buildCustomDB(XFWM,WMFONTPROP,STRING,"WMFont");
+					buildCustomDB(XSETTINGS,APPFONTPROP,STRING,"AppFont");
+					buildCustomDB(XFCEDESKTOP,BACKDROPSTYLEPROP,INT,"BackdropStyle");
+					buildCustomDB(XFCEDESKTOP,BACKDROPBRIGHTPROP,INT,"BackdropBright");
+					buildCustomDB(XFCEDESKTOP,BACKDROPSATUPROP,FLOAT,"BackdropSatu");
+					buildCustomDB(XSETTINGS,CURSORSIZEPROP,INT,"CursorSize");
 
 //panel stuff
 					for(int j=0;j<numOfPanels;j++)
@@ -949,13 +948,13 @@ void resetFont(GtkWidget* widget,gpointer data)
 {
 	if((long)data==0)
 		{
-			gtk_font_button_set_font_name((GtkFontButton*)wmFontButton,currentWMFont);
-			setValue(XFWM,WMFONTPROP,STRING,(void*)currentWMFont);
+			gtk_font_button_set_font_name((GtkFontButton*)wmFontButton,"Sans 10");
+			setValue(XFWM,WMFONTPROP,STRING,(void*)"Sans 10");
 		}
 	else
 		{
-			gtk_font_button_set_font_name((GtkFontButton*)appFontButton,currentAppFont);
-			setValue(XSETTINGS,APPFONTPROP,STRING,(void*)currentAppFont);
+			gtk_font_button_set_font_name((GtkFontButton*)appFontButton,"Sans 10");
+			setValue(XSETTINGS,APPFONTPROP,STRING,(void*)"Sans 10");
 		}
 }
 

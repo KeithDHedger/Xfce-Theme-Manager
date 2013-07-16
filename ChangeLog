@@ -23,6 +23,7 @@ Changelog:
 		Major code clean.
 		Minor Polish translation changes.
 		Bug fix in makefile for mutlple parallel builds.
+		Reset buttons in Advanced Tab now reset to sensible system defaults.
 
 0.3.2	Added Polish translation, thanks to Michał Olber for that.
 	Added Polish man page.
