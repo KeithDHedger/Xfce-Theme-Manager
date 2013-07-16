@@ -643,6 +643,7 @@ void doMeta(char* metaFilename)
 
 	const char*		panelkeys[]={"PanelImage","PanelStyle","PanelSize","PanelRed","PanelGreen","PanelBlue","PanelAlpha"};
 	int				panelkeycnt=7;
+	double			tfloat;
 
 	gdk_window_get_pointer(NULL,NULL,NULL,&mask);
 	if (GDK_CONTROL_MASK & mask )
@@ -680,8 +681,8 @@ void doMeta(char* metaFilename)
 										freeAndSet(&currentWallPaper,keydata);
 										break;
 									case 4:
-										setValue(XFCEDESKTOP,BACKDROPSTYLEPROP,INT,(void*)(long)strtol(keydata,NULL,0));
-										gtk_combo_box_set_active((GtkComboBox*)styleComboBox,(long)strtol(keydata,NULL,0));
+										setValue(XFCEDESKTOP,BACKDROPSTYLEPROP,INT,(void*)(long)atol(keydata));
+										gtk_combo_box_set_active((GtkComboBox*)styleComboBox,(long)atol(keydata));
 										break;
 									case 5:
 										setValue(XFWM,BUTTONLAYOUTPROP,STRING,(void*)keydata);
@@ -692,15 +693,29 @@ void doMeta(char* metaFilename)
 										gtk_combo_box_set_active((GtkComboBox*)titlePos,positionToInt(keydata));
 										break;
 									case 7:
+										setValue(XFWM,WMFONTPROP,STRING,(void*)keydata);
+										gtk_font_button_set_font_name((GtkFontButton*)wmFontButton,keydata);
+										break;
 									case 8:
+										setValue(XSETTINGS,APPFONTPROP,STRING,(void*)keydata);
+										gtk_font_button_set_font_name((GtkFontButton*)appFontButton,keydata);
+										break;
 									case 9:
+										setValue(XFCEDESKTOP,BACKDROPBRIGHTPROP,INT,(void*)(long)atol(keydata));
+										gtk_range_set_value((GtkRange*)briteRange,atol(keydata));
+										break;
 									case 10:
+										tfloat=atof(keydata);
+										setValue(XFCEDESKTOP,BACKDROPSATUPROP,FLOAT,(void*)&tfloat);
+										gtk_range_set_value((GtkRange*)satuRange,tfloat);
 										break;
 									case 11:
 										setValue(XSETTINGS,CONTROLTHEMEPROP,STRING,keydata);
 										freeAndSet(&currentGtkTheme,keydata);
 										break;
 									case 12:
+										setValue(XSETTINGS,CURSORSIZEPROP,INT,(void*)(long)atol(keydata));
+										gtk_range_set_value((GtkRange*)cursorSize,atol(keydata));
 										break;
 									case 13:
 										setValue(XTHEMER,METATHEMEPROP,STRING,keydata);

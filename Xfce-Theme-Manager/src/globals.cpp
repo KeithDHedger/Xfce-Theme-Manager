@@ -28,7 +28,6 @@ double				currentSatu;
 int					currentCursSize;
 char*				currentMetaTheme=NULL;
 
-//char*				lastMetaTheme;
 char*				homeThemesHash;
 
 char*				originalGtkTheme=NULL;

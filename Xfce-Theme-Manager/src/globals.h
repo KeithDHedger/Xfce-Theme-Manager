@@ -5,10 +5,8 @@
  * Globals.h
  */
 
-
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gtk/gtk.h>
-
 
 #ifndef _GLOBALS_
 #define _GLOBALS_
