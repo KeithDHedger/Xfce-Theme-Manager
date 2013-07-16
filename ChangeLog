@@ -24,6 +24,7 @@ Changelog:
 		Minor Polish translation changes.
 		Bug fix in makefile for mutlple parallel builds.
 		Reset buttons in Advanced Tab now reset to sensible system defaults.
+		Corrected a bug in xfwm where setting the button layout to "" causes zfwm4 to crash.
 
 0.3.2	Added Polish translation, thanks to Michał Olber for that.
 	Added Polish man page.

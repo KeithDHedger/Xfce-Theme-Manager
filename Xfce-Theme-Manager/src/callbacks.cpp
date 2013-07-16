@@ -924,16 +924,21 @@ gboolean setSatu(GtkWidget *widget,GdkEvent *event,gpointer user_data)
 	return(false);
 }
 
-//RDEO//
 void resetLayout(GtkWidget* widget,gpointer data)
 {
-	gtk_entry_set_text((GtkEntry*)data,currentButtonLayout);
-	setValue(XFWM,BUTTONLAYOUTPROP,STRING,(void*)currentButtonLayout);
+	gtk_entry_set_text((GtkEntry*)data,"O|SHMC");
+	setValue(XFWM,BUTTONLAYOUTPROP,STRING,(void*)"O|SHMC");
 }
 
 void changeLayout(GtkWidget* widget,gpointer data)
 {
-	setValue(XFWM,BUTTONLAYOUTPROP,STRING,(void*)gtk_entry_get_text((GtkEntry*)widget));
+	if(strcasecmp(gtk_entry_get_text((GtkEntry*)widget),"")==0)
+		{
+			setValue(XFWM,BUTTONLAYOUTPROP,STRING,(void*)"|");
+			gtk_entry_set_text((GtkEntry*)widget,"|");
+		}
+	else
+		setValue(XFWM,BUTTONLAYOUTPROP,STRING,(void*)gtk_entry_get_text((GtkEntry*)widget));
 }
 
 void setFont(GtkWidget* widget,gpointer data)
