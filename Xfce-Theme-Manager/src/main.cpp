@@ -542,10 +542,10 @@ void printhelp(void)
 	printf("%ls\n",_translateHelp(HELP12));
 	printf("%ls\n",_translateHelp(HELP13));
 	printf("%ls\n",_translateHelp(HELP14));
-	printf("			%ls\n",_translateHelp(HELP15));
-	printf("			%ls\n",_translateHelp(HELP16));
-	printf("			%ls\n",_translateHelp(HELP17));
-	printf("			%ls\n",_translateHelp(HELP18));
+	printf("\t\t\t%ls\n",_translateHelp(HELP15));
+	printf("\t\t\t%ls\n",_translateHelp(HELP16));
+	printf("\t\t\t%ls\n",_translateHelp(HELP17));
+	printf("\t\t\t%ls\n",_translateHelp(HELP18));
 	printf("%ls\n",_translateHelp(HELP19));
 	printf("\n%ls\n",_translateHelp(HELP20));
 }
