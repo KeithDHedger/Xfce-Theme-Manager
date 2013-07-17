@@ -17,6 +17,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/stat.h>
+#include <wchar.h>
 
 #include "../Xfce-Theme-Manager/src/globals.h"
 
@@ -24,10 +25,20 @@ int main(int argc,char **argv)
 {
 	for (int j=0;j<STOPWORD;j++)
 		{
-			printf("ENGLISH:%s\n",langStr[0][j]);
-			printf("SPANISH:%s\n",langStr[1][j]);
-			printf("GERMAN:%s\n",langStr[2][j]);
-			printf("POLISH:%s\n\n",langStr[3][j]);
+			fprintf(stderr,"ENGLISH:%s\n",langStr[0][j]);
+			fprintf(stderr,"SPANISH:%s\n",langStr[1][j]);
+			fprintf(stderr,"GERMAN:%s\n",langStr[2][j]);
+			fprintf(stderr,"POLISH:%s\n\n",langStr[3][j]);
+		}
+
+	wprintf(L"-------------------------\n\n");
+
+	for (int j=0;j<HELPSTOP;j++)
+		{
+			wprintf(L"ENGLISH:%ls\n",helpStr[0][j]);
+			wprintf(L"SPANISH:%ls\n",helpStr[1][j]);
+			wprintf(L"GERMAN:%ls\n",helpStr[2][j]);
+			wprintf(L"POLISH:%ls\n\n",helpStr[3][j]);
 		}
 
 	return(0);
