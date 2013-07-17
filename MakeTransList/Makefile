@@ -10,12 +10,9 @@ CXXFLAGS=-O3 -Wall -Wunused-result -Wunused-function -lXcursor -lgthread-2.0 `pk
 all:
 	g++ $(SOURCES1) $(CXXFLAGS) -o $(PROGRAM1)
 	g++ $(SOURCES2) $(CXXFLAGS) -o $(PROGRAM2)
-#transgui:$(SOURCES1)
-#	g++ $(SOURCES1) $(CXXFLAGS) -o $(PROGRAM1)
-#
-#transhelp:$(SOURCES2)
-#	g++ $(SOURCES2) $(CXXFLAGS) -o $(PROGRAM2)
-#
+	./$(PROGRAM1) > GUITranslation
+	./$(PROGRAM2) > HELPTranslation
+
 clean:
 	rm $(PROGRAM1) $(PROGRAM2)
 
