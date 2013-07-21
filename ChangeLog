@@ -20,6 +20,7 @@ Changelog:
 0.3.4	Added GTK_DISABLE_DEPRECATED GTK_DISABLE_SINGLE_INCLUDES GDK_DISABLE_DEPRECATED GSEAL_ENABLE to flags for new gtk2 compatability.
 		Added button in advanced tab to go to gtk-apps.org to download xfce-composite-editor if not installed.
 		Removed accidental inclusion of development folder from archive.
+		Updated INSTALL file with fedora/debian instructions.
 
 0.3.3	Changed from external xconf-query to xfconf lib.
 		Speed change in GUI from 0.3.2 - Change meta theme approx 5s, 0.3.3 - Change meta theme approx 1.5s.
