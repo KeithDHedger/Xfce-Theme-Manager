@@ -1,5 +1,7 @@
 
 
+Xfce-Theme-Manager
+
 Debian install.
 
 sudo apt-get update
@@ -23,3 +25,12 @@ sudo apt-get install aclocal autoheader automake autoconf
   172  sudo apt-get install unique-1.0
   173  sudo apt-get install unique-1.0-dev
   179  sudo apt-get install ctags
+
+
+Fedora 16 Install
+sudo yum update kernel*
+sudo yum install gcc-c++ glib2-devel gtk2-devel libxfce4ui-devel xfconf-devel  gcc
+
+KKEdit
+
+GtkSu

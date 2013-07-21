@@ -445,6 +445,16 @@ void buildAdvancedGui(GtkWidget* advancedScrollBox)
 			gtk_box_pack_start(GTK_BOX(advancedVbox),advancedHbox,false,false,8);
 			gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_hseparator_new(),false,false,4);
 		}
+	else
+		{
+			gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_label_new(_translate(LAUNCHXCE)),false,false,2);
+			advancedHbox=gtk_hbox_new(true,4);
+			button=gtk_button_new_with_label(_translate(GOTOSITE));
+			g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(launchCompEd),(gpointer)1);
+			gtk_box_pack_start(GTK_BOX(advancedHbox),button,false,false,4);
+			gtk_box_pack_start(GTK_BOX(advancedVbox),advancedHbox,false,false,8);
+			gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_hseparator_new(),false,false,4);
+		}
 
 //panels
 	populatePanels();
