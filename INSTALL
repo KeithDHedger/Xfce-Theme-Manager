@@ -4,9 +4,9 @@ Xfce-Theme-Manager Installation Instructions.
 
 
 Source based distros (slackware etc):
-./configure
+./configure --prefix=/usr
 make
-sudo make install
+sudo make install --prefix=/usr
 
 Or if you have autotools installed:
 ./autogen.sh
@@ -31,15 +31,11 @@ Debian install using autotools.
 
 sudo apt-get install automake
 sudo apt-get install autotools-dev
-sudo apt-get install aclocal autoheader automake autoconf
+sudo apt-get install aclocal autoheader autoconf
 
-./autogen.sh
+./autogen.sh --prefix=/usr
 make
 sudo make install
-
-sudo apt-get install automake
-sudo apt-get install autotools-dev
-sudo apt-get install aclocal autoheader automake autoconf
 
 *********************
 
@@ -47,3 +43,10 @@ Fedora 16 Install
 sudo yum update kernel*
 sudo yum install gcc-c++ glib2-devel gtk2-devel libxfce4ui-devel xfconf-devel gcc
 
+Fedora Install using autotools.
+The above +
+sudo yum install automake autoconf
+
+./autogen.sh --prefix=/usr
+make
+sudo make install
