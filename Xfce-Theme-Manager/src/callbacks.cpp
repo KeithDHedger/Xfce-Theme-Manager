@@ -312,8 +312,8 @@ else
 							sprintf(filedata,"%sBackgroundImage=%s\n",filedata,monitorData[j]->imagePath);
 							sprintf(filedata,"%sBackdropStyle=%i\n",filedata,monitorData[j]->style);
 							sprintf(filedata,"%sBackdropBright=%i\n",filedata,monitorData[j]->brightness);
-							sprintf(filedata,"%sBackdropSatu=%i\n",filedata,monitorData[j]->satu);
-							
+							sprintf(filedata,"%sBackdropSatu=%f\n",filedata,monitorData[j]->satu);
+
 							//sprintf((char*)&generalBuffer[0],"%s%i/image-style",MONITORPROP,i);
 							//getValue(XFCEDESKTOP,(char*)&generalBuffer[0],INT,&currentWallStyle[i]);
 
@@ -658,14 +658,13 @@ void removeTheme(const char* name)
 
 void setMonitorData(void)
 {
-
 	for(int i=0;i<numberOfMonitors;i++)
 		{
 			sprintf((char*)&generalBuffer[0],"%s%i/image-style",MONITORPROP,i);
-			setValue(XFCEDESKTOP,(char*)&generalBuffer[0],INT,(void*)monitorData[i]->style);
+			setValue(XFCEDESKTOP,(char*)&generalBuffer[0],INT,(void*)(long)monitorData[i]->style);
 
 			sprintf((char*)&generalBuffer[0],"%s%i/brightness",MONITORPROP,i);
-			setValue(XFCEDESKTOP,(char*)&generalBuffer[0],INT,(void*)monitorData[i]->brightness);
+			setValue(XFCEDESKTOP,(char*)&generalBuffer[0],INT,(void*)(long)monitorData[i]->brightness);
 
 			sprintf((char*)&generalBuffer[0],"%s%i/saturation",MONITORPROP,i);
 			setValue(XFCEDESKTOP,(char*)&generalBuffer[0],FLOAT,&monitorData[i]->satu);
@@ -677,7 +676,6 @@ void setMonitorData(void)
 	gtk_combo_box_set_active((GtkComboBox*)styleComboBox,monitorData[currentMonitor]->style);
 	gtk_range_set_value((GtkRange*)briteRange,monitorData[currentMonitor]->brightness);
 	gtk_range_set_value((GtkRange*)satuRange,monitorData[currentMonitor]->satu);
-
 }
 
 //do meta theme
@@ -833,14 +831,15 @@ void doMeta(char* metaFilename)
 												break;
 											case 1:
 												monitorData[j]->style=atoi(keydata);
-												printf("ZZZZ%i\n",monitorData[j]->style);
 													////panels[j]->style=atoi(keydata);
 												break;
 											case 2:
+												monitorData[j]->brightness=atoi(keydata);
 												////panels[j]->size=atoi(keydata);
 												break;
 											case 3:
 												////panels[j]->red=atoi(keydata);
+												monitorData[j]->satu=atof(keydata);
 												break;
 										}
 									freeAndNull(&keydata);
@@ -1019,7 +1018,6 @@ gboolean setSatu(GtkWidget *widget,GdkEvent *event,gpointer user_data)
 {
 	gdouble	val=gtk_range_get_value((GtkRange*)widget);
 	monitorData[currentMonitor]->satu=val;
-
 	sprintf((char*)&generalBuffer[0],"%s%i/saturation",MONITORPROP,currentMonitor);
 	setValue(XFCEDESKTOP,(char*)&generalBuffer[0],FLOAT,&monitorData[currentMonitor]->satu);
 
