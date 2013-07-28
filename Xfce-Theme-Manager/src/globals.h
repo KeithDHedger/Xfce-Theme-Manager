@@ -94,7 +94,7 @@ extern const char*		folders[];
 extern const char*		langStr[][STOPWORD];
 extern const wchar_t*	helpStr[][HELPSTOP];
 	
-extern int				currentWallStyle[10];
+////extern int				currentWallStyle[10];
 extern char*			currentIconTheme;
 extern char*			currentWMTheme;
 extern char*			currentCursorTheme;
@@ -160,9 +160,19 @@ extern GdkWindow*		gdkWindow;
 extern GdkCursor*		watchCursor;
 extern GtkWidget*		screenNumber;
 
+//monitor stuff
+struct monitorStruct
+{
+	char*	imagePath;
+	int		brightness;
+	double	satu;
+	int		style;
+};
+
 ////extern int 				wallStyle[10];
 extern int				numberOfMonitors;
 extern int				currentMonitor;
+extern monitorStruct*	monitorData[10];
 
 extern GtkWidget*		layoutEntry;
 extern GtkComboBoxText*	titlePos;

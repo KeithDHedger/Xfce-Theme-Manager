@@ -595,9 +595,9 @@ void dropUri(GtkWidget *widget,GdkDragContext *context,gint x,gint y,GtkSelectio
 
 void wallStyleChanged(GtkWidget* widget,gpointer data)
 {
-	currentWallStyle[currentMonitor]=gtk_combo_box_get_active((GtkComboBox*)widget);
+	monitorData[currentMonitor]->style=gtk_combo_box_get_active((GtkComboBox*)widget);
 	sprintf((char*)&generalBuffer[0],"%s%i/image-style",MONITORPROP,currentMonitor);
-	setValue(XFCEDESKTOP,(char*)&generalBuffer[0],INT,(void*)(long)currentWallStyle[currentMonitor]);
+	setValue(XFCEDESKTOP,(char*)&generalBuffer[0],INT,(void*)(long)monitorData[currentMonitor]->style);
 }
 
 void previewSizeChanged(GtkWidget* widget,gpointer data)
@@ -656,6 +656,25 @@ void removeTheme(const char* name)
 	gtk_widget_destroy (dialog);
 }
 
+void setMonitorBackdrops(void)
+{
+	for(int i=0;i<numberOfMonitors;i++)
+		{
+			sprintf((char*)&generalBuffer[0],"%s%i/image-style",MONITORPROP,i);
+			setValue(XFCEDESKTOP,(char*)&generalBuffer[0],INT,&currentWallStyle[i]);
+
+			sprintf((char*)&generalBuffer[0],"%s%i/brightness",MONITORPROP,i);
+			setValue(XFCEDESKTOP,(char*)&generalBuffer[0],INT,&currentBright[i]);
+
+			sprintf((char*)&generalBuffer[0],"%s%i/saturation",MONITORPROP,i);
+			setValue(XFCEDESKTOP,(char*)&generalBuffer[0],FLOAT,&currentSatu[i]);
+
+			sprintf((char*)&generalBuffer[0],"%s%i/image-path",MONITORPROP,i);
+			setValue(XFCEDESKTOP,(char*)&generalBuffer[0],STRING,&currentWallPaper[i]);
+			printf("XXXXX%s = %s\n",(char*)&generalBuffer[0],currentWallPaper[i]);
+		}
+}
+
 //do meta theme
 void doMeta(char* metaFilename)
 {
@@ -669,6 +688,9 @@ void doMeta(char* metaFilename)
 	const char*		panelkeys[]={"PanelImage","PanelStyle","PanelSize","PanelRed","PanelGreen","PanelBlue","PanelAlpha"};
 	int				panelkeycnt=7;
 	double			tfloat;
+
+	const char*		monitorkeys[]={"BackgroundImage","BackdropStyle","BackdropBright","BackdropSatu"};
+	int				monitorkeycnt=4;
 
 	gdk_window_get_pointer(NULL,NULL,NULL,&mask);
 	if (GDK_CONTROL_MASK & mask )
@@ -706,8 +728,8 @@ void doMeta(char* metaFilename)
 									////	freeAndSet(&currentWallPaper,keydata);
 										break;
 									case 4:
-										setValue(XFCEDESKTOP,BACKDROPSTYLEPROP,INT,(void*)(long)atol(keydata));
-										gtk_combo_box_set_active((GtkComboBox*)styleComboBox,(long)atol(keydata));
+										////setValue(XFCEDESKTOP,BACKDROPSTYLEPROP,INT,(void*)(long)atol(keydata));
+										////gtk_combo_box_set_active((GtkComboBox*)styleComboBox,(long)atol(keydata));
 										break;
 									case 5:
 										setValue(XFWM,BUTTONLAYOUTPROP,STRING,(void*)keydata);
@@ -726,13 +748,13 @@ void doMeta(char* metaFilename)
 										gtk_font_button_set_font_name((GtkFontButton*)appFontButton,keydata);
 										break;
 									case 9:
-										setValue(XFCEDESKTOP,BACKDROPBRIGHTPROP,INT,(void*)(long)atol(keydata));
-										gtk_range_set_value((GtkRange*)briteRange,atol(keydata));
+										////setValue(XFCEDESKTOP,BACKDROPBRIGHTPROP,INT,(void*)(long)atol(keydata));
+										////gtk_range_set_value((GtkRange*)briteRange,atol(keydata));
 										break;
 									case 10:
-										tfloat=atof(keydata);
-										setValue(XFCEDESKTOP,BACKDROPSATUPROP,FLOAT,(void*)&tfloat);
-										gtk_range_set_value((GtkRange*)satuRange,tfloat);
+										////tfloat=atof(keydata);
+										////setValue(XFCEDESKTOP,BACKDROPSATUPROP,FLOAT,(void*)&tfloat);
+										////gtk_range_set_value((GtkRange*)satuRange,tfloat);
 										break;
 									case 11:
 										setValue(XSETTINGS,CONTROLTHEMEPROP,STRING,keydata);
@@ -782,12 +804,42 @@ void doMeta(char* metaFilename)
 											case 6:
 												panels[j]->alpha=atoi(keydata);
 												break;
-											}
-										freeAndNull(&keydata);
-									}
-							}
-					}
+										}
+									freeAndNull(&keydata);
+								}
+						}
+				}
 			setPanels();
+
+			for(int j=0;j<numberOfMonitors;j++)
+				{
+					sprintf((char*)&buffer,"Monitor-%i",j);
+					for(int k=0;k<monitorkeycnt;k++)
+						{
+							keydata=g_key_file_get_string(keyfile,buffer,(char*)monitorkeys[k],NULL);
+							if(keydata!=NULL)
+								{
+									switch(k)
+										{
+											case 0:
+											printf("key = %s val= %s %s\n",(char*)monitorkeys[k],currentWallPaper[j],keydata);
+											freeAndSet(&currentWallPaper[j],keydata);
+												break;
+											case 1:
+													////panels[j]->style=atoi(keydata);
+												break;
+											case 2:
+												////panels[j]->size=atoi(keydata);
+												break;
+											case 3:
+												////panels[j]->red=atoi(keydata);
+												break;
+										}
+									freeAndNull(&keydata);
+								}
+						}
+				}
+			setMonitorBackdrops();
 		}
 	
 	if(keydata!=NULL)
@@ -827,8 +879,7 @@ void setPieceNewNew(const char* filePath,long doWhat)
 							case WALLPAPERS:
 								sprintf((char*)&generalBuffer[0],"%s%i/image-path",MONITORPROP,currentMonitor);
 								setValue(XFCEDESKTOP,(char*)&generalBuffer[0],STRING,dataset);
-							////	printf("%s = %s\n",(char*)&generalBuffer[0],dataset);
-								freeAndSet(&currentWallPaper[currentMonitor],dataset);
+								freeAndSet(&monitorData[currentMonitor]->imagePath,dataset);
 								break;
 						}
 				}
@@ -928,7 +979,7 @@ void launchCompEd(GtkWidget* window,gpointer data)
 void resetBright(GtkWidget* widget,gpointer data)
 {
 	gtk_range_set_value((GtkRange*)data,0);
-	currentBright[currentMonitor]=0;
+	monitorData[currentMonitor]->brightness=0;
 
 	sprintf((char*)&generalBuffer[0],"%s%i/brightness",MONITORPROP,currentMonitor);
 	setValue(XFCEDESKTOP,(char*)&generalBuffer[0],INT,(void*)0);
@@ -937,10 +988,10 @@ void resetBright(GtkWidget* widget,gpointer data)
 gboolean setBright(GtkWidget *widget,GdkEvent *event,gpointer user_data)
 {
 	gdouble val=gtk_range_get_value((GtkRange*)widget);
-	currentBright[currentMonitor]=val;
+	monitorData[currentMonitor]->brightness=val;
 
 	sprintf((char*)&generalBuffer[0],"%s%i/brightness",MONITORPROP,currentMonitor);
-	setValue(XFCEDESKTOP,(char*)&generalBuffer[0],INT,(void*)(long)currentBright[currentMonitor]);
+	setValue(XFCEDESKTOP,(char*)&generalBuffer[0],INT,(void*)(long)monitorData[currentMonitor]->brightness);
 
 	return(false);
 }
@@ -949,20 +1000,20 @@ void resetSatu(GtkWidget* widget,gpointer data)
 {
 	double	d=1.0;
 
-	currentSatu[currentMonitor]=d;
+	monitorData[currentMonitor]->satu=d;
 	gtk_range_set_value((GtkRange*)data,1.0);
 
 	sprintf((char*)&generalBuffer[0],"%s%i/saturation",MONITORPROP,currentMonitor);
-	setValue(XFCEDESKTOP,(char*)&generalBuffer[0],FLOAT,&currentSatu[currentMonitor]);
+	setValue(XFCEDESKTOP,(char*)&generalBuffer[0],FLOAT,&monitorData[currentMonitor]->satu);
 }
 
 gboolean setSatu(GtkWidget *widget,GdkEvent *event,gpointer user_data)
 {
 	gdouble	val=gtk_range_get_value((GtkRange*)widget);
-	currentSatu[currentMonitor]=val;
+	monitorData[currentMonitor]->satu=val;
 
 	sprintf((char*)&generalBuffer[0],"%s%i/saturation",MONITORPROP,currentMonitor);
-	setValue(XFCEDESKTOP,(char*)&generalBuffer[0],FLOAT,&currentSatu[currentMonitor]);
+	setValue(XFCEDESKTOP,(char*)&generalBuffer[0],FLOAT,&monitorData[currentMonitor]->satu);
 
 	return(false);
 }
@@ -1040,9 +1091,9 @@ int checkFolders(void)
 void monitorChanged(GtkWidget* widget,gpointer data)
 {
 	currentMonitor=gtk_combo_box_get_active((GtkComboBox*)widget);
-	gtk_combo_box_set_active((GtkComboBox*)styleComboBox,currentWallStyle[currentMonitor]);
-	gtk_range_set_value((GtkRange*)briteRange,currentBright[currentMonitor]);
-	gtk_range_set_value((GtkRange*)satuRange,currentSatu[currentMonitor]);
+	gtk_combo_box_set_active((GtkComboBox*)styleComboBox,monitorData[currentMonitor]->style);
+	gtk_range_set_value((GtkRange*)briteRange,monitorData[currentMonitor]->brightness);
+	gtk_range_set_value((GtkRange*)satuRange,monitorData[currentMonitor]->satu);
 }
 
 

@@ -72,6 +72,7 @@ GtkWidget*			screenNumber;
 ////int 				wallStyle[10];
 int					numberOfMonitors;
 int					currentMonitor;
+monitorStruct*		monitorData[10];
 
 GtkWidget*			layoutEntry;
 GtkComboBoxText*	titlePos;

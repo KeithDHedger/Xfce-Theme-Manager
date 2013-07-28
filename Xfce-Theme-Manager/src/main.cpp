@@ -238,19 +238,22 @@ void init(void)
 
 	for(int i=0;i<numberOfMonitors;i++)
 		{
+			monitorData[i]=(monitorStruct*)malloc(sizeof(monitorStruct));
 			sprintf((char*)&generalBuffer[0],"%s%i/image-style",MONITORPROP,i);
-			getValue(XFCEDESKTOP,(char*)&generalBuffer[0],INT,&currentWallStyle[i]);
+			getValue(XFCEDESKTOP,(char*)&generalBuffer[0],INT,&monitorData[i]->style);
+			////getValue(XFCEDESKTOP,(char*)&generalBuffer[0],INT,&currentWallStyle[i]);
 
 			sprintf((char*)&generalBuffer[0],"%s%i/brightness",MONITORPROP,i);
-			getValue(XFCEDESKTOP,(char*)&generalBuffer[0],INT,&currentBright[i]);
+			getValue(XFCEDESKTOP,(char*)&generalBuffer[0],INT,&monitorData[i]->brightness);
+			////getValue(XFCEDESKTOP,(char*)&generalBuffer[0],INT,&currentBright[i]);
 
 			sprintf((char*)&generalBuffer[0],"%s%i/saturation",MONITORPROP,i);
-			getValue(XFCEDESKTOP,(char*)&generalBuffer[0],FLOAT,&currentSatu[i]);
+			getValue(XFCEDESKTOP,(char*)&generalBuffer[0],FLOAT,&monitorData[i]->satu);
+			////getValue(XFCEDESKTOP,(char*)&generalBuffer[0],FLOAT,&currentSatu[i]);
 
 			sprintf((char*)&generalBuffer[0],"%s%i/image-path",MONITORPROP,i);
-			getValue(XFCEDESKTOP,(char*)&generalBuffer[0],STRING,&currentWallPaper[i]);
-
-
+			getValue(XFCEDESKTOP,(char*)&generalBuffer[0],STRING,&monitorData[i]->imagePath);
+			////getValue(XFCEDESKTOP,(char*)&generalBuffer[0],STRING,&currentWallPaper[i]);
 		}
 
 //mouse
@@ -369,7 +372,7 @@ void init(void)
 	gtk_combo_box_text_append_text(styleComboBox,_translate(STRETCH));
 	gtk_combo_box_text_append_text(styleComboBox,_translate(SCALE));
 	gtk_combo_box_text_append_text(styleComboBox,_translate(ZOOM));
-	gtk_combo_box_set_active((GtkComboBox*)styleComboBox,currentWallStyle[0]);
+	gtk_combo_box_set_active((GtkComboBox*)styleComboBox,monitorData[0]->style);
 	g_signal_connect_after(G_OBJECT(styleComboBox),"changed",G_CALLBACK(wallStyleChanged),NULL);
 
 	gtk_box_pack_start((GtkBox*)previewBox[WALLPAPERS].vBox,(GtkWidget*)styleComboBox,FALSE,FALSE,2);

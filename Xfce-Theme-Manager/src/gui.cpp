@@ -531,7 +531,7 @@ void buildAdvancedGui(GtkWidget* advancedScrollBox)
 	gtk_box_pack_start(GTK_BOX(advancedHbox),gtk_label_new(_translate(BRITE)),false,false,4);
 	advancedRange=gtk_hscale_new_with_range(-128,127,1);
 	gtk_scale_set_value_pos((GtkScale*)advancedRange,GTK_POS_LEFT);
-	gtk_range_set_value((GtkRange*)advancedRange,currentBright[0]);
+	gtk_range_set_value((GtkRange*)advancedRange,monitorData[0]->brightness);
 	briteRange=advancedRange;
 
 	g_signal_connect(G_OBJECT(advancedRange),"button-release-event",G_CALLBACK(setBright),NULL);
@@ -548,7 +548,7 @@ void buildAdvancedGui(GtkWidget* advancedScrollBox)
 
 	advancedRange=gtk_hscale_new_with_range(-10,10,0.1);
 	gtk_scale_set_value_pos((GtkScale*)advancedRange,GTK_POS_LEFT);
-	gtk_range_set_value((GtkRange*)advancedRange,currentSatu[0]);
+	gtk_range_set_value((GtkRange*)advancedRange,monitorData[0]->satu);
 	g_signal_connect(G_OBJECT(advancedRange),"button-release-event",G_CALLBACK(setSatu),NULL);
 	satuRange=advancedRange;
 
