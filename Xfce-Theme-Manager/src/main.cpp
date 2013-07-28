@@ -92,6 +92,7 @@ bool		doPrintHelp=false;
 // RESET THEME
 void resetTheme(GtkWidget* widget,gpointer data)
 {
+#if 0
 	double	d=1.0;
 
 	gdk_window_set_cursor(gdkWindow,watchCursor); 
@@ -114,7 +115,7 @@ void resetTheme(GtkWidget* widget,gpointer data)
 	setValue(XFCEDESKTOP,PAPERSPROP,STRING,originalWallpaper);
 	freeAndSet(&currentWallPaper,originalWallpaper);
 
-	setValue(XFCEDESKTOP,BACKDROPSTYLEPROP,INT,(void*)(long)wallStyle);
+	//setValue(XFCEDESKTOP,BACKDROPSTYLEPROP,INT,(void*)(long)wallStyle);
 	setValue(XFCEDESKTOP,BACKDROPBRIGHTPROP,INT,(void*)(long)currentBright);
 	setValue(XFCEDESKTOP,BACKDROPSATUPROP,FLOAT,(void*)&d);
 
@@ -123,19 +124,20 @@ void resetTheme(GtkWidget* widget,gpointer data)
 	setValue(XFWM,WMFONTPROP,STRING,(void*)currentWMFont);
 	setValue(XSETTINGS,APPFONTPROP,STRING,(void*)currentAppFont);
 
-	gtk_combo_box_set_active((GtkComboBox*)styleComboBox,currentWallStyle);
+	////gtk_combo_box_set_active((GtkComboBox*)styleComboBox,currentWallStyle);
 	gtk_entry_set_text((GtkEntry*)layoutEntry,currentButtonLayout);
 	gtk_combo_box_set_active((GtkComboBox*)titlePos,positionToInt(currentTitlePos));
 	gtk_font_button_set_font_name((GtkFontButton*)wmFontButton,currentWMFont);
 	gtk_font_button_set_font_name((GtkFontButton*)appFontButton,currentAppFont);
-	gtk_range_set_value((GtkRange*)briteRange,currentBright);
-	gtk_range_set_value((GtkRange*)satuRange,currentSatu);
+	////gtk_range_set_value((GtkRange*)briteRange,currentBright);
+	////gtk_range_set_value((GtkRange*)satuRange,currentSatu);
 	gtk_range_set_value((GtkRange*)cursorSize,currentCursSize);
 
 	rerunAndUpdate(false,true);
 
 	gdk_window_set_cursor(gdkWindow,NULL);
 	resetPanels();
+#endif
 }
 
 void shutdown(GtkWidget* widget,gpointer data)
@@ -166,7 +168,7 @@ gboolean hashfunc(gpointer key,gpointer value,gpointer user_data)
 	char* str;
 	printf("key %s\n",(char*)key);
 	
-	str=sliceBetween((char*)key,"/Default/","/");
+	str=sliceBetween((char*)key,(char*)"/Default/",(char*)"/");
 	printf("slice %s\n",(char*)str);
 	g_free(str);
 	return false;
@@ -205,6 +207,12 @@ void init(void)
 	asprintf(&customFolder,"%s/custom",dbFolder);
 
 	asprintf(&homeThemesHash,"12345");
+
+//monitors
+	screenNumber=(GtkWidget*)gtk_combo_box_text_new();
+	GdkDisplay*	gdpy=gdk_display_get_default();
+	GdkScreen*	screen=gdk_display_get_screen(gdpy,0);
+	numberOfMonitors=gdk_screen_get_n_monitors(screen);
 	
 //gtk
 	getValue(XSETTINGS,CONTROLTHEMEPROP,STRING,&currentGtkTheme);
@@ -225,11 +233,25 @@ void init(void)
 	getValue(XSETTINGS,APPFONTPROP,STRING,&currentAppFont);
 
 //backdrop
-	getValue(XFCEDESKTOP,PAPERSPROP,STRING,&currentWallPaper);
-	getValue(XFCEDESKTOP,PAPERSPROP,STRING,&originalWallpaper);
-	getValue(XFCEDESKTOP,BACKDROPSTYLEPROP,INT,&currentWallStyle);
-	getValue(XFCEDESKTOP,BACKDROPBRIGHTPROP,INT,&currentBright);
-	getValue(XFCEDESKTOP,BACKDROPSATUPROP,FLOAT,&currentSatu);
+////	getValue(XFCEDESKTOP,PAPERSPROP,STRING,&currentWallPaper);
+////	getValue(XFCEDESKTOP,PAPERSPROP,STRING,&originalWallpaper);
+
+	for(int i=0;i<numberOfMonitors;i++)
+		{
+			sprintf((char*)&generalBuffer[0],"%s%i/image-style",MONITORPROP,i);
+			getValue(XFCEDESKTOP,(char*)&generalBuffer[0],INT,&currentWallStyle[i]);
+
+			sprintf((char*)&generalBuffer[0],"%s%i/brightness",MONITORPROP,i);
+			getValue(XFCEDESKTOP,(char*)&generalBuffer[0],INT,&currentBright[i]);
+
+			sprintf((char*)&generalBuffer[0],"%s%i/saturation",MONITORPROP,i);
+			getValue(XFCEDESKTOP,(char*)&generalBuffer[0],FLOAT,&currentSatu[i]);
+
+			sprintf((char*)&generalBuffer[0],"%s%i/image-path",MONITORPROP,i);
+			getValue(XFCEDESKTOP,(char*)&generalBuffer[0],STRING,&currentWallPaper[i]);
+
+
+		}
 
 //mouse
 	getValue(XSETTINGS,CURSORSPROP,STRING,&currentCursorTheme);
@@ -326,12 +348,6 @@ void init(void)
 
 
 //screen
-	screenNumber=(GtkWidget*)gtk_combo_box_text_new();
-	GdkDisplay*	gdpy=gdk_display_get_default();
-	GdkScreen*	screen=gdk_display_get_screen(gdpy,0);
-	numberOfMonitors=gdk_screen_get_n_monitors(screen);
-	printf("num of mons=%i\n",numberOfMonitors);
-
 	if(numberOfMonitors>1)
 		{
 			for(int j=0;j<numberOfMonitors;j++)
@@ -353,7 +369,7 @@ void init(void)
 	gtk_combo_box_text_append_text(styleComboBox,_translate(STRETCH));
 	gtk_combo_box_text_append_text(styleComboBox,_translate(SCALE));
 	gtk_combo_box_text_append_text(styleComboBox,_translate(ZOOM));
-	gtk_combo_box_set_active((GtkComboBox*)styleComboBox,currentWallStyle);
+	gtk_combo_box_set_active((GtkComboBox*)styleComboBox,currentWallStyle[0]);
 	g_signal_connect_after(G_OBJECT(styleComboBox),"changed",G_CALLBACK(wallStyleChanged),NULL);
 
 	gtk_box_pack_start((GtkBox*)previewBox[WALLPAPERS].vBox,(GtkWidget*)styleComboBox,FALSE,FALSE,2);
@@ -402,7 +418,6 @@ int doCliThemePart(char* name,long what)
 
 	char*	papername=NULL;
 
-printf("name=%s\n",name);
 	switch(what)
 		{
 			case WMBORDERS:
@@ -426,17 +441,17 @@ printf("name=%s\n",name);
 				return(0);
 				break;
 			case WALLPAPERS:
-				for(int j=0;j<2;j++)
-					{
-						sprintf((char*)&generalBuffer,"%s/%i.%s.db",wallpapersFolder,j,name);
-						papername=getThemeNameFromDB(generalBuffer);
-						if(papername!=NULL)
-							{
-								setValue(XFCEDESKTOP,PAPERSPROP,STRING,papername);
-								setValue(XTHEMER,METATHEMEPROP,STRING,(void*)"DEADBEEF");
-								return(0);
-							}
-					}
+				//for(int j=0;j<2;j++)
+				//	{
+				//		sprintf((char*)&generalBuffer,"%s/%i.%s.db",wallpapersFolder,j,name);
+				//		papername=getThemeNameFromDB(generalBuffer);
+				//		if(papername!=NULL)
+				//			{
+				//				setValue(XFCEDESKTOP,PAPERSPROP,STRING,papername);
+				//				setValue(XTHEMER,METATHEMEPROP,STRING,(void*)"DEADBEEF");
+				//				return(0);
+				//			}
+				//	}
 				break;
 		}
 	return(1);

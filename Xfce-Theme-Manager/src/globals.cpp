@@ -13,18 +13,18 @@
 #include "globals.h"
 
 //current stuff
-int					currentWallStyle;
+int					currentWallStyle[10];
 char*				currentIconTheme=NULL;
 char*				currentWMTheme=NULL;
 char*				currentCursorTheme=NULL;
-char*				currentWallPaper=NULL;
+char*				currentWallPaper[10]={NULL};
 char*				currentGtkTheme=NULL;
 char*				currentButtonLayout;
 char*				currentTitlePos;
 char*				currentWMFont;
 char*				currentAppFont;
-int					currentBright;
-double				currentSatu;
+int					currentBright[10];
+double				currentSatu[10];
 int					currentCursSize;
 char*				currentMetaTheme=NULL;
 
@@ -68,7 +68,8 @@ GdkWindow*			gdkWindow;
 GdkCursor*			watchCursor;
 GtkWidget*			screenNumber;
 
-int 				wallStyle;
+//walpaper style
+////int 				wallStyle[10];
 int					numberOfMonitors;
 int					currentMonitor;
 

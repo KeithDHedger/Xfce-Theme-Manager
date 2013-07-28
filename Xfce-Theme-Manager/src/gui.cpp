@@ -80,7 +80,7 @@ bool isCurrent(char* themename,const char* catagory,char* name)
 			if((g_ascii_strcasecmp(currentIconTheme,themename)==0)&&(g_ascii_strcasecmp("icons",catagory)==0))
 				retval=true;
 
-			if((g_ascii_strcasecmp(currentWallPaper,themename)==0)&&(g_ascii_strcasecmp("wallpapers",catagory)==0))
+			if((g_ascii_strcasecmp(currentWallPaper[currentMonitor],themename)==0)&&(g_ascii_strcasecmp("wallpapers",catagory)==0))
 				retval=true;
 		}
 	else
@@ -531,7 +531,7 @@ void buildAdvancedGui(GtkWidget* advancedScrollBox)
 	gtk_box_pack_start(GTK_BOX(advancedHbox),gtk_label_new(_translate(BRITE)),false,false,4);
 	advancedRange=gtk_hscale_new_with_range(-128,127,1);
 	gtk_scale_set_value_pos((GtkScale*)advancedRange,GTK_POS_LEFT);
-	gtk_range_set_value((GtkRange*)advancedRange,currentBright);
+	gtk_range_set_value((GtkRange*)advancedRange,currentBright[0]);
 	briteRange=advancedRange;
 
 	g_signal_connect(G_OBJECT(advancedRange),"button-release-event",G_CALLBACK(setBright),NULL);
@@ -548,7 +548,7 @@ void buildAdvancedGui(GtkWidget* advancedScrollBox)
 
 	advancedRange=gtk_hscale_new_with_range(-10,10,0.1);
 	gtk_scale_set_value_pos((GtkScale*)advancedRange,GTK_POS_LEFT);
-	gtk_range_set_value((GtkRange*)advancedRange,currentSatu);
+	gtk_range_set_value((GtkRange*)advancedRange,currentSatu[0]);
 	g_signal_connect(G_OBJECT(advancedRange),"button-release-event",G_CALLBACK(setSatu),NULL);
 	satuRange=advancedRange;
 

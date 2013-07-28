@@ -291,15 +291,40 @@ else
 					buildCustomDB(XSETTINGS,ICONTHEMEPROP,STRING,"IconTheme");
 					buildCustomDB(XSETTINGS,CURSORSPROP,STRING,"CursorTheme");
 					buildCustomDB(XFWM,WMBORDERSPROP,STRING,"Xfwm4Theme");
-					buildCustomDB(XFCEDESKTOP,PAPERSPROP,STRING,"BackgroundImage");
+					
+					////buildCustomDB(XFCEDESKTOP,PAPERSPROP,STRING,"BackgroundImage");
+					
 					buildCustomDB(XFWM,BUTTONLAYOUTPROP,STRING,"TitleButtonLayout");
 					buildCustomDB(XFWM,TITLEALIGNPROP,STRING,"TitlePosition");
 					buildCustomDB(XFWM,WMFONTPROP,STRING,"WMFont");
 					buildCustomDB(XSETTINGS,APPFONTPROP,STRING,"AppFont");
-					buildCustomDB(XFCEDESKTOP,BACKDROPSTYLEPROP,INT,"BackdropStyle");
-					buildCustomDB(XFCEDESKTOP,BACKDROPBRIGHTPROP,INT,"BackdropBright");
-					buildCustomDB(XFCEDESKTOP,BACKDROPSATUPROP,FLOAT,"BackdropSatu");
+					
+					////buildCustomDB(XFCEDESKTOP,BACKDROPSTYLEPROP,INT,"BackdropStyle");
+					////buildCustomDB(XFCEDESKTOP,BACKDROPBRIGHTPROP,INT,"BackdropBright");
+					////buildCustomDB(XFCEDESKTOP,BACKDROPSATUPROP,FLOAT,"BackdropSatu");
+					
 					buildCustomDB(XSETTINGS,CURSORSIZEPROP,INT,"CursorSize");
+
+//backdrop stuff
+					for(int j=0;j<numberOfMonitors;j++)
+						{
+							sprintf(filedata,"%s[Monitor-%i]\n",filedata,j);
+							sprintf(filedata,"%sBackgroundImage=%s\n",filedata,currentWallPaper[j]);
+							sprintf(filedata,"%sBackdropStyle=%i\n",filedata,currentWallStyle[j]);
+							sprintf(filedata,"%sBackdropBright=%i\n",filedata,currentBright[j]);
+							sprintf(filedata,"%sBackdropSatu=%i\n",filedata,currentSatu[j]);
+							
+							//sprintf((char*)&generalBuffer[0],"%s%i/image-style",MONITORPROP,i);
+							//getValue(XFCEDESKTOP,(char*)&generalBuffer[0],INT,&currentWallStyle[i]);
+
+							//sprintf((char*)&generalBuffer[0],"%s%i/brightness",MONITORPROP,i);
+							//getValue(XFCEDESKTOP,(char*)&generalBuffer[0],INT,&currentBright[i]);
+
+							//sprintf((char*)&generalBuffer[0],"%s%i/saturation",MONITORPROP,i);
+							//getValue(XFCEDESKTOP,(char*)&generalBuffer[0],FLOAT,&currentSatu[i]);
+
+						}
+
 
 //panel stuff
 					for(int j=0;j<numOfPanels;j++)
@@ -570,9 +595,9 @@ void dropUri(GtkWidget *widget,GdkDragContext *context,gint x,gint y,GtkSelectio
 
 void wallStyleChanged(GtkWidget* widget,gpointer data)
 {
-	wallStyle=gtk_combo_box_get_active((GtkComboBox*)widget);
+	currentWallStyle[currentMonitor]=gtk_combo_box_get_active((GtkComboBox*)widget);
 	sprintf((char*)&generalBuffer[0],"%s%i/image-style",MONITORPROP,currentMonitor);
-	setValue(XFCEDESKTOP,(char*)&generalBuffer[0],INT,(void*)(long)wallStyle);
+	setValue(XFCEDESKTOP,(char*)&generalBuffer[0],INT,(void*)(long)currentWallStyle[currentMonitor]);
 }
 
 void previewSizeChanged(GtkWidget* widget,gpointer data)
@@ -677,8 +702,8 @@ void doMeta(char* metaFilename)
 										freeAndSet(&currentIconTheme,keydata);
 										break;
 									case 3:
-										setValue(XFCEDESKTOP,PAPERSPROP,STRING,keydata);
-										freeAndSet(&currentWallPaper,keydata);
+										////setValue(XFCEDESKTOP,PAPERSPROP,STRING,keydata);
+									////	freeAndSet(&currentWallPaper,keydata);
 										break;
 									case 4:
 										setValue(XFCEDESKTOP,BACKDROPSTYLEPROP,INT,(void*)(long)atol(keydata));
@@ -803,7 +828,7 @@ void setPieceNewNew(const char* filePath,long doWhat)
 								sprintf((char*)&generalBuffer[0],"%s%i/image-path",MONITORPROP,currentMonitor);
 								setValue(XFCEDESKTOP,(char*)&generalBuffer[0],STRING,dataset);
 							////	printf("%s = %s\n",(char*)&generalBuffer[0],dataset);
-								freeAndSet(&currentWallPaper,dataset);
+								freeAndSet(&currentWallPaper[currentMonitor],dataset);
 								break;
 						}
 				}
@@ -903,13 +928,19 @@ void launchCompEd(GtkWidget* window,gpointer data)
 void resetBright(GtkWidget* widget,gpointer data)
 {
 	gtk_range_set_value((GtkRange*)data,0);
-	setValue(XFCEDESKTOP,BACKDROPBRIGHTPROP,INT,(void*)0);
+	currentBright[currentMonitor]=0;
+
+	sprintf((char*)&generalBuffer[0],"%s%i/brightness",MONITORPROP,currentMonitor);
+	setValue(XFCEDESKTOP,(char*)&generalBuffer[0],INT,(void*)0);
 }
 
 gboolean setBright(GtkWidget *widget,GdkEvent *event,gpointer user_data)
 {
 	gdouble val=gtk_range_get_value((GtkRange*)widget);
-	setValue(XFCEDESKTOP,BACKDROPBRIGHTPROP,INT,(void*)(long)val);
+	currentBright[currentMonitor]=val;
+
+	sprintf((char*)&generalBuffer[0],"%s%i/brightness",MONITORPROP,currentMonitor);
+	setValue(XFCEDESKTOP,(char*)&generalBuffer[0],INT,(void*)(long)currentBright[currentMonitor]);
 
 	return(false);
 }
@@ -918,14 +949,21 @@ void resetSatu(GtkWidget* widget,gpointer data)
 {
 	double	d=1.0;
 
+	currentSatu[currentMonitor]=d;
 	gtk_range_set_value((GtkRange*)data,1.0);
-	setValue(XFCEDESKTOP,BACKDROPSATUPROP,FLOAT,(void*)&d);
+
+	sprintf((char*)&generalBuffer[0],"%s%i/saturation",MONITORPROP,currentMonitor);
+	setValue(XFCEDESKTOP,(char*)&generalBuffer[0],FLOAT,&currentSatu[currentMonitor]);
 }
 
 gboolean setSatu(GtkWidget *widget,GdkEvent *event,gpointer user_data)
 {
 	gdouble	val=gtk_range_get_value((GtkRange*)widget);
-	setValue(XFCEDESKTOP,BACKDROPSATUPROP,FLOAT,(void*)&val);
+	currentSatu[currentMonitor]=val;
+
+	sprintf((char*)&generalBuffer[0],"%s%i/saturation",MONITORPROP,currentMonitor);
+	setValue(XFCEDESKTOP,(char*)&generalBuffer[0],FLOAT,&currentSatu[currentMonitor]);
+
 	return(false);
 }
 
@@ -1002,6 +1040,9 @@ int checkFolders(void)
 void monitorChanged(GtkWidget* widget,gpointer data)
 {
 	currentMonitor=gtk_combo_box_get_active((GtkComboBox*)widget);
+	gtk_combo_box_set_active((GtkComboBox*)styleComboBox,currentWallStyle[currentMonitor]);
+	gtk_range_set_value((GtkRange*)briteRange,currentBright[currentMonitor]);
+	gtk_range_set_value((GtkRange*)satuRange,currentSatu[currentMonitor]);
 }
 
 

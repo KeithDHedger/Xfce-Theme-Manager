@@ -48,7 +48,7 @@
 #define ICONTHEMEPROP "/Net/IconThemeName"
 #define WMBORDERSPROP "/general/theme"
 #define CURSORSPROP "/Gtk/CursorThemeName"
-#define PAPERSPROP "/backdrop/screen0/monitor0/image-path"
+//#define PAPERSPROP "/backdrop/screen0/monitor0/image-path"
 
 #define METATHEMEPROP "/MetaTheme"
 #define BUTTONLAYOUTPROP "/general/button_layout"
@@ -94,19 +94,19 @@ extern const char*		folders[];
 extern const char*		langStr[][STOPWORD];
 extern const wchar_t*	helpStr[][HELPSTOP];
 	
-extern int				currentWallStyle;
+extern int				currentWallStyle[10];
 extern char*			currentIconTheme;
 extern char*			currentWMTheme;
 extern char*			currentCursorTheme;
-extern char*			currentWallPaper;
+extern char*			currentWallPaper[10];
 extern char*			currentGtkTheme;
 
 extern char*			currentButtonLayout;
 extern char*			currentTitlePos;
 extern char*			currentWMFont;
 extern char*			currentAppFont;
-extern int				currentBright;
-extern double			currentSatu;
+extern int				currentBright[10];
+extern double			currentSatu[10];
 extern int				currentCursSize;
 extern char*			currentMetaTheme;
 
@@ -160,7 +160,7 @@ extern GdkWindow*		gdkWindow;
 extern GdkCursor*		watchCursor;
 extern GtkWidget*		screenNumber;
 
-extern int 				wallStyle;
+////extern int 				wallStyle[10];
 extern int				numberOfMonitors;
 extern int				currentMonitor;
 
