@@ -13,7 +13,7 @@
 #include "globals.h"
 
 //current stuff
-int					currentWallStyle[10];
+////int					currentWallStyle[10];
 char*				currentIconTheme=NULL;
 char*				currentWMTheme=NULL;
 char*				currentCursorTheme=NULL;

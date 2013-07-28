@@ -309,10 +309,10 @@ else
 					for(int j=0;j<numberOfMonitors;j++)
 						{
 							sprintf(filedata,"%s[Monitor-%i]\n",filedata,j);
-							sprintf(filedata,"%sBackgroundImage=%s\n",filedata,currentWallPaper[j]);
-							sprintf(filedata,"%sBackdropStyle=%i\n",filedata,currentWallStyle[j]);
-							sprintf(filedata,"%sBackdropBright=%i\n",filedata,currentBright[j]);
-							sprintf(filedata,"%sBackdropSatu=%i\n",filedata,currentSatu[j]);
+							sprintf(filedata,"%sBackgroundImage=%s\n",filedata,monitorData[j]->imagePath);
+							sprintf(filedata,"%sBackdropStyle=%i\n",filedata,monitorData[j]->style);
+							sprintf(filedata,"%sBackdropBright=%i\n",filedata,monitorData[j]->brightness);
+							sprintf(filedata,"%sBackdropSatu=%i\n",filedata,monitorData[j]->satu);
 							
 							//sprintf((char*)&generalBuffer[0],"%s%i/image-style",MONITORPROP,i);
 							//getValue(XFCEDESKTOP,(char*)&generalBuffer[0],INT,&currentWallStyle[i]);
@@ -656,23 +656,28 @@ void removeTheme(const char* name)
 	gtk_widget_destroy (dialog);
 }
 
-void setMonitorBackdrops(void)
+void setMonitorData(void)
 {
+
 	for(int i=0;i<numberOfMonitors;i++)
 		{
 			sprintf((char*)&generalBuffer[0],"%s%i/image-style",MONITORPROP,i);
-			setValue(XFCEDESKTOP,(char*)&generalBuffer[0],INT,&currentWallStyle[i]);
+			setValue(XFCEDESKTOP,(char*)&generalBuffer[0],INT,(void*)monitorData[i]->style);
 
 			sprintf((char*)&generalBuffer[0],"%s%i/brightness",MONITORPROP,i);
-			setValue(XFCEDESKTOP,(char*)&generalBuffer[0],INT,&currentBright[i]);
+			setValue(XFCEDESKTOP,(char*)&generalBuffer[0],INT,(void*)monitorData[i]->brightness);
 
 			sprintf((char*)&generalBuffer[0],"%s%i/saturation",MONITORPROP,i);
-			setValue(XFCEDESKTOP,(char*)&generalBuffer[0],FLOAT,&currentSatu[i]);
+			setValue(XFCEDESKTOP,(char*)&generalBuffer[0],FLOAT,&monitorData[i]->satu);
 
 			sprintf((char*)&generalBuffer[0],"%s%i/image-path",MONITORPROP,i);
-			setValue(XFCEDESKTOP,(char*)&generalBuffer[0],STRING,&currentWallPaper[i]);
-			printf("XXXXX%s = %s\n",(char*)&generalBuffer[0],currentWallPaper[i]);
+			setValue(XFCEDESKTOP,(char*)&generalBuffer[0],STRING,monitorData[i]->imagePath);
 		}
+
+	gtk_combo_box_set_active((GtkComboBox*)styleComboBox,monitorData[currentMonitor]->style);
+	gtk_range_set_value((GtkRange*)briteRange,monitorData[currentMonitor]->brightness);
+	gtk_range_set_value((GtkRange*)satuRange,monitorData[currentMonitor]->satu);
+
 }
 
 //do meta theme
@@ -810,6 +815,7 @@ void doMeta(char* metaFilename)
 						}
 				}
 			setPanels();
+//	const char*		monitorkeys[]={"BackgroundImage","BackdropStyle","BackdropBright","BackdropSatu"};
 
 			for(int j=0;j<numberOfMonitors;j++)
 				{
@@ -822,10 +828,12 @@ void doMeta(char* metaFilename)
 									switch(k)
 										{
 											case 0:
-											printf("key = %s val= %s %s\n",(char*)monitorkeys[k],currentWallPaper[j],keydata);
-											freeAndSet(&currentWallPaper[j],keydata);
+												freeAndSet(&monitorData[j]->imagePath,keydata);
+											//printf("key = %s val= %s %s\n",(char*)monitorkeys[k],monitorData[j]->imagePath,keydata);
 												break;
 											case 1:
+												monitorData[j]->style=atoi(keydata);
+												printf("ZZZZ%i\n",monitorData[j]->style);
 													////panels[j]->style=atoi(keydata);
 												break;
 											case 2:
@@ -839,7 +847,7 @@ void doMeta(char* metaFilename)
 								}
 						}
 				}
-			setMonitorBackdrops();
+			setMonitorData();
 		}
 	
 	if(keydata!=NULL)
