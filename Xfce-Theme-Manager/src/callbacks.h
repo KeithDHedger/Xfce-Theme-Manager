@@ -59,4 +59,7 @@ void doSetConfigs(void);
 void changeView(GtkWidget* widget,gpointer data);
 void changeViewWhat(GtkWidget* widget,gpointer data);
 int checkFolders(void);
+
+void monitorChanged(GtkWidget* widget,gpointer data);
+
 #endif

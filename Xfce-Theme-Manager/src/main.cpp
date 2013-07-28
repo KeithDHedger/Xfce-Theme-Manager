@@ -161,6 +161,18 @@ void showAdvanced(GtkWidget* widget,gpointer data)
 		gtk_notebook_set_current_page(advanced,0);
 }
 
+gboolean hashfunc(gpointer key,gpointer value,gpointer user_data)
+{
+	char* str;
+	printf("key %s\n",(char*)key);
+	
+	str=sliceBetween((char*)key,"/Default/","/");
+	printf("slice %s\n",(char*)str);
+	g_free(str);
+	return false;
+}	
+
+
 void init(void)
 {
 	gchar	*stdout=NULL;
@@ -291,26 +303,48 @@ void init(void)
 			gtk_box_pack_start((GtkBox*)previewBox[j].vBox,(GtkWidget*)previewBox[j].scrollBox,TRUE,TRUE,0);
 		}
 
-			previewBox[WALLPAPERS].scrollBox=(GtkScrolledWindow*)gtk_scrolled_window_new(NULL,NULL);
-			gtk_scrolled_window_set_policy(previewBox[WALLPAPERS].scrollBox,GTK_POLICY_AUTOMATIC,GTK_POLICY_ALWAYS);
-			previewBox[WALLPAPERS].vBox=(GtkVBox*)gtk_vbox_new(FALSE,0);
-			previewBox[WALLPAPERS].iconView=(GtkIconView*)gtk_icon_view_new();
-			previewBox[WALLPAPERS].itemCnt=0;
-			previewBox[WALLPAPERS].partIter=NULL;
-			previewBox[WALLPAPERS].store=gtk_list_store_new(3,GDK_TYPE_PIXBUF,G_TYPE_STRING,G_TYPE_STRING);
+	previewBox[WALLPAPERS].scrollBox=(GtkScrolledWindow*)gtk_scrolled_window_new(NULL,NULL);
+	gtk_scrolled_window_set_policy(previewBox[WALLPAPERS].scrollBox,GTK_POLICY_AUTOMATIC,GTK_POLICY_ALWAYS);
+	previewBox[WALLPAPERS].vBox=(GtkVBox*)gtk_vbox_new(FALSE,0);
+	previewBox[WALLPAPERS].iconView=(GtkIconView*)gtk_icon_view_new();
+	previewBox[WALLPAPERS].itemCnt=0;
+	previewBox[WALLPAPERS].partIter=NULL;
+	previewBox[WALLPAPERS].store=gtk_list_store_new(3,GDK_TYPE_PIXBUF,G_TYPE_STRING,G_TYPE_STRING);
 
-			gtk_icon_view_set_item_width(previewBox[WALLPAPERS].iconView,itemSize);
-			gtk_icon_view_set_item_padding(previewBox[WALLPAPERS].iconView,0);
-			gtk_icon_view_set_column_spacing(previewBox[WALLPAPERS].iconView,0);
-			gtk_icon_view_set_spacing(previewBox[WALLPAPERS].iconView,0);
+	gtk_icon_view_set_item_width(previewBox[WALLPAPERS].iconView,itemSize);
+	gtk_icon_view_set_item_padding(previewBox[WALLPAPERS].iconView,0);
+	gtk_icon_view_set_column_spacing(previewBox[WALLPAPERS].iconView,0);
+	gtk_icon_view_set_spacing(previewBox[WALLPAPERS].iconView,0);
 
-			gtk_icon_view_set_pixbuf_column(GTK_ICON_VIEW(previewBox[WALLPAPERS].iconView),PIXBUF_COLUMN);
-			gtk_icon_view_set_text_column(GTK_ICON_VIEW(previewBox[WALLPAPERS].iconView),TEXT_COLUMN);
+	gtk_icon_view_set_pixbuf_column(GTK_ICON_VIEW(previewBox[WALLPAPERS].iconView),PIXBUF_COLUMN);
+	gtk_icon_view_set_text_column(GTK_ICON_VIEW(previewBox[WALLPAPERS].iconView),TEXT_COLUMN);
 
-			gtk_icon_view_set_model(GTK_ICON_VIEW(previewBox[WALLPAPERS].iconView),GTK_TREE_MODEL(previewBox[WALLPAPERS].store));
+	gtk_icon_view_set_model(GTK_ICON_VIEW(previewBox[WALLPAPERS].iconView),GTK_TREE_MODEL(previewBox[WALLPAPERS].store));
 
-			gtk_container_add((GtkContainer *)previewBox[WALLPAPERS].scrollBox,(GtkWidget*)previewBox[WALLPAPERS].iconView);
+	gtk_container_add((GtkContainer *)previewBox[WALLPAPERS].scrollBox,(GtkWidget*)previewBox[WALLPAPERS].iconView);
 
+
+
+//screen
+	screenNumber=(GtkWidget*)gtk_combo_box_text_new();
+	GdkDisplay*	gdpy=gdk_display_get_default();
+	GdkScreen*	screen=gdk_display_get_screen(gdpy,0);
+	numberOfMonitors=gdk_screen_get_n_monitors(screen);
+	printf("num of mons=%i\n",numberOfMonitors);
+
+	if(numberOfMonitors>1)
+		{
+			for(int j=0;j<numberOfMonitors;j++)
+				{
+					sprintf((char*)&generalBuffer[0],"Monitor - %i",j);
+					gtk_combo_box_text_append_text((GtkComboBoxText*)screenNumber,generalBuffer);
+					g_signal_connect_after(G_OBJECT(screenNumber),"changed",G_CALLBACK(monitorChanged),NULL);
+				}
+			gtk_box_pack_start((GtkBox*)previewBox[WALLPAPERS].vBox,(GtkWidget*)screenNumber,FALSE,FALSE,2);
+			gtk_combo_box_set_active((GtkComboBox*)screenNumber,0);
+			currentMonitor=0;
+		}
+	
 
 	styleComboBox=(GtkComboBoxText*)gtk_combo_box_text_new();
 	gtk_combo_box_text_append_text(styleComboBox,_translate(AUTO));

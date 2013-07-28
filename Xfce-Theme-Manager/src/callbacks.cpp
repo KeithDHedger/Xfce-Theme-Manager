@@ -571,7 +571,8 @@ void dropUri(GtkWidget *widget,GdkDragContext *context,gint x,gint y,GtkSelectio
 void wallStyleChanged(GtkWidget* widget,gpointer data)
 {
 	wallStyle=gtk_combo_box_get_active((GtkComboBox*)widget);
-	setValue(XFCEDESKTOP,BACKDROPSTYLEPROP,INT,(void*)(long)wallStyle);
+	sprintf((char*)&generalBuffer[0],"%s%i/image-style",MONITORPROP,currentMonitor);
+	setValue(XFCEDESKTOP,(char*)&generalBuffer[0],INT,(void*)(long)wallStyle);
 }
 
 void previewSizeChanged(GtkWidget* widget,gpointer data)
@@ -799,8 +800,9 @@ void setPieceNewNew(const char* filePath,long doWhat)
 								freeAndSet(&currentCursorTheme,dataset);
 								break;
 							case WALLPAPERS:
-								setValue(XFCEDESKTOP,PAPERSPROP,STRING,dataset);
-								printf("%s\n",dataset);
+								sprintf((char*)&generalBuffer[0],"%s%i/image-path",MONITORPROP,currentMonitor);
+								setValue(XFCEDESKTOP,(char*)&generalBuffer[0],STRING,dataset);
+							////	printf("%s = %s\n",(char*)&generalBuffer[0],dataset);
 								freeAndSet(&currentWallPaper,dataset);
 								break;
 						}
@@ -996,4 +998,14 @@ int checkFolders(void)
 
 	return(strcmp(homeThemesHash,line));
 }
+
+void monitorChanged(GtkWidget* widget,gpointer data)
+{
+	currentMonitor=gtk_combo_box_get_active((GtkComboBox*)widget);
+}
+
+
+
+
+
 

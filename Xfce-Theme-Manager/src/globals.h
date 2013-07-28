@@ -42,18 +42,21 @@
 #define XFCEDESKTOP "xfce4-desktop"
 #define XTHEMER "xfcethemer"
 #define XFCEPANELS "xfce4-panel"
+#define MONITORPROP "/backdrop/screen0/monitor"
 
 #define CONTROLTHEMEPROP "/Net/ThemeName"
 #define ICONTHEMEPROP "/Net/IconThemeName"
 #define WMBORDERSPROP "/general/theme"
 #define CURSORSPROP "/Gtk/CursorThemeName"
 #define PAPERSPROP "/backdrop/screen0/monitor0/image-path"
+
 #define METATHEMEPROP "/MetaTheme"
 #define BUTTONLAYOUTPROP "/general/button_layout"
 #define TITLEALIGNPROP "/general/title_alignment"
 #define WMFONTPROP "/general/title_font"
 #define APPFONTPROP "/Gtk/FontName"
 #define BACKDROPSTYLEPROP "/backdrop/screen0/monitor0/image-style"
+
 #define BACKDROPBRIGHTPROP "/backdrop/screen0/monitor0/brightness"
 #define BACKDROPSATUPROP "/backdrop/screen0/monitor0/saturation"
 #define CURSORSIZEPROP "/Gtk/CursorThemeSize"
@@ -155,8 +158,12 @@ extern GtkComboBoxText*	styleComboBox;
 extern GtkComboBoxText*	previewComboBox;
 extern GdkWindow*		gdkWindow;
 extern GdkCursor*		watchCursor;
+extern GtkWidget*		screenNumber;
 
 extern int 				wallStyle;
+extern int				numberOfMonitors;
+extern int				currentMonitor;
+
 extern GtkWidget*		layoutEntry;
 extern GtkComboBoxText*	titlePos;
 extern GtkWidget*		briteRange;
@@ -253,6 +260,7 @@ void getValue(const char* channel,const char* property,dataType type,void* ptr);
 void setValue(const char* channel,const char* property,dataType type,void* ptr);
 void freeAndSet(char** ptr,char* data);
 char* getThemeNameFromDB(char* filepath);
+char* sliceBetween(char* srcstring,char* startstr,char* endstr);
 
 #endif
 
