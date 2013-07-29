@@ -98,15 +98,15 @@ extern const wchar_t*	helpStr[][HELPSTOP];
 extern char*			currentIconTheme;
 extern char*			currentWMTheme;
 extern char*			currentCursorTheme;
-extern char*			currentWallPaper[10];
+//extern char*			currentWallPaper[10];
 extern char*			currentGtkTheme;
 
 extern char*			currentButtonLayout;
 extern char*			currentTitlePos;
 extern char*			currentWMFont;
 extern char*			currentAppFont;
-extern int				currentBright[10];
-extern double			currentSatu[10];
+//extern int				currentBright[10];
+//extern double			currentSatu[10];
 extern int				currentCursSize;
 extern char*			currentMetaTheme;
 

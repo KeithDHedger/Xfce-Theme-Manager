@@ -27,5 +27,8 @@ void buildWallpapers(void);
 GtkWidget* buildTitlePos(void);
 void buildPages(void);
 void buildAdvancedGui(GtkWidget* advancedScrollBox);
+void freeIter(int whatBox);
+void addNewIcons(const char* subfolder,GtkIconView* tempIconView,int whatBox);
+void scrollToCurrent(int whatBox);
 
 #endif

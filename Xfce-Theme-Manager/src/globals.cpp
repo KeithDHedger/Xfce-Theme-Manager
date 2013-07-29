@@ -17,14 +17,14 @@
 char*				currentIconTheme=NULL;
 char*				currentWMTheme=NULL;
 char*				currentCursorTheme=NULL;
-char*				currentWallPaper[10]={NULL};
+//char*				currentWallPaper[10]={NULL};
 char*				currentGtkTheme=NULL;
 char*				currentButtonLayout;
 char*				currentTitlePos;
 char*				currentWMFont;
 char*				currentAppFont;
-int					currentBright[10];
-double				currentSatu[10];
+//int					currentBright[10];
+//double				currentSatu[10];
 int					currentCursSize;
 char*				currentMetaTheme=NULL;
 
@@ -69,7 +69,6 @@ GdkCursor*			watchCursor;
 GtkWidget*			screenNumber;
 
 //walpaper style
-////int 				wallStyle[10];
 int					numberOfMonitors;
 int					currentMonitor;
 monitorStruct*		monitorData[10];

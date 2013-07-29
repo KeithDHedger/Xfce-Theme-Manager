@@ -25,6 +25,8 @@ char*		filename;
 char*		metaThemeSelected=NULL;
 int		currentPage;
 
+void themeIconCallback(GtkIconView *view,gpointer doWhat);
+
 void doResize(GtkWindow *window,gpointer user_data)
 {
 	GtkAllocation	allocation;
@@ -656,6 +658,62 @@ void removeTheme(const char* name)
 	gtk_widget_destroy (dialog);
 }
 
+gboolean mouseMove(GtkWidget* widget,GdkEvent* event,gpointer user_data)
+{
+	GtkTreePath* path=NULL;
+
+	path=gtk_icon_view_get_path_at_pos((GtkIconView *)widget,event->button.x,event->button.y);
+	if (path!=NULL)
+		gtk_icon_view_select_path((GtkIconView *)widget,path);
+	else
+		gtk_icon_view_unselect_all((GtkIconView*)widget);
+
+	return(FALSE);
+}
+
+gboolean clickIt(GtkWidget* widget,GdkEvent* event,gpointer data)
+{
+	GtkTreePath* path=NULL;
+
+	gdk_window_set_cursor (gdkWindow,watchCursor); 
+
+	path=gtk_icon_view_get_path_at_pos((GtkIconView *)widget,event->button.x,event->button.y);
+	if (path!=NULL)
+		{
+			themeIconCallback((GtkIconView *)widget,(void*)data);
+		}
+
+	gdk_window_set_cursor(gdkWindow,NULL); 
+
+	return(TRUE);
+}
+
+bool fromSetMonitor=false;
+                                                        
+void monitorChanged(GtkWidget* widget,gpointer data)
+{
+	if(fromSetMonitor==true)
+		{
+			currentMonitor=0;
+			gtk_combo_box_set_active((GtkComboBox*)screenNumber,0);
+		}
+	else
+		currentMonitor=gtk_combo_box_get_active((GtkComboBox*)widget);
+	gtk_combo_box_set_active((GtkComboBox*)styleComboBox,monitorData[currentMonitor]->style);
+	gtk_range_set_value((GtkRange*)briteRange,monitorData[currentMonitor]->brightness);
+	gtk_range_set_value((GtkRange*)satuRange,monitorData[currentMonitor]->satu);
+
+	previewBox[WALLPAPERS].itemCnt=0;
+	freeIter(WALLPAPERS);
+
+	addNewIcons(folders[WALLPAPERS],previewBox[WALLPAPERS].iconView,WALLPAPERS);
+
+	g_signal_connect(G_OBJECT(previewBox[WALLPAPERS].iconView),"motion-notify-event",G_CALLBACK(mouseMove),NULL);
+	g_signal_connect(G_OBJECT(previewBox[WALLPAPERS].iconView),"button-press-event",G_CALLBACK(clickIt),(void*)(long)WALLPAPERS);
+
+	scrollToCurrent(WALLPAPERS);
+}
+
 void setMonitorData(void)
 {
 	for(int i=0;i<numberOfMonitors;i++)
@@ -673,9 +731,15 @@ void setMonitorData(void)
 			setValue(XFCEDESKTOP,(char*)&generalBuffer[0],STRING,monitorData[i]->imagePath);
 		}
 
+	currentMonitor=0;
 	gtk_combo_box_set_active((GtkComboBox*)styleComboBox,monitorData[currentMonitor]->style);
 	gtk_range_set_value((GtkRange*)briteRange,monitorData[currentMonitor]->brightness);
 	gtk_range_set_value((GtkRange*)satuRange,monitorData[currentMonitor]->satu);
+
+	fromSetMonitor=true;
+	monitorChanged(NULL,NULL);
+	fromSetMonitor=false;
+	
 }
 
 //do meta theme
@@ -690,7 +754,6 @@ void doMeta(char* metaFilename)
 
 	const char*		panelkeys[]={"PanelImage","PanelStyle","PanelSize","PanelRed","PanelGreen","PanelBlue","PanelAlpha"};
 	int				panelkeycnt=7;
-	double			tfloat;
 
 	const char*		monitorkeys[]={"BackgroundImage","BackdropStyle","BackdropBright","BackdropSatu"};
 	int				monitorkeycnt=4;
@@ -887,7 +950,6 @@ void setPieceNewNew(const char* filePath,long doWhat)
 								sprintf((char*)&generalBuffer[0],"%s%i/image-path",MONITORPROP,currentMonitor);
 								setValue(XFCEDESKTOP,(char*)&generalBuffer[0],STRING,dataset);
 								freeAndSet(&monitorData[currentMonitor]->imagePath,dataset);
-								printf("%s\n",dataset);
 								break;
 						}
 				}
@@ -946,36 +1008,6 @@ void themeIconCallback(GtkIconView *view,gpointer doWhat)
 	g_list_free(selected);
 }
 
-gboolean mouseMove(GtkWidget* widget,GdkEvent* event,gpointer user_data)
-{
-	GtkTreePath* path=NULL;
-
-	path=gtk_icon_view_get_path_at_pos((GtkIconView *)widget,event->button.x,event->button.y);
-	if (path!=NULL)
-		gtk_icon_view_select_path((GtkIconView *)widget,path);
-	else
-		gtk_icon_view_unselect_all((GtkIconView*)widget);
-
-	return(FALSE);
-}
-
-gboolean clickIt(GtkWidget* widget,GdkEvent* event,gpointer data)
-{
-	GtkTreePath* path=NULL;
-
-	gdk_window_set_cursor (gdkWindow,watchCursor); 
-
-	path=gtk_icon_view_get_path_at_pos((GtkIconView *)widget,event->button.x,event->button.y);
-	if (path!=NULL)
-		{
-			themeIconCallback((GtkIconView *)widget,(void*)data);
-		}
-
-	gdk_window_set_cursor(gdkWindow,NULL); 
-
-	return(TRUE);
-}
-                                                        
 void launchCompEd(GtkWidget* window,gpointer data)
 {
 	if(data==NULL)
@@ -1093,14 +1125,6 @@ int checkFolders(void)
 	setValue(XTHEMER,HASHPROP,STRING,(void*)line);
 
 	return(strcmp(homeThemesHash,line));
-}
-
-void monitorChanged(GtkWidget* widget,gpointer data)
-{
-	currentMonitor=gtk_combo_box_get_active((GtkComboBox*)widget);
-	gtk_combo_box_set_active((GtkComboBox*)styleComboBox,monitorData[currentMonitor]->style);
-	gtk_range_set_value((GtkRange*)briteRange,monitorData[currentMonitor]->brightness);
-	gtk_range_set_value((GtkRange*)satuRange,monitorData[currentMonitor]->satu);
 }
 
 

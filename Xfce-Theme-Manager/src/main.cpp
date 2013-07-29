@@ -419,7 +419,7 @@ gboolean updateBarTimer(gpointer data)
 int doCliThemePart(char* name,long what)
 {
 
-	char*	papername=NULL;
+//	char*	papername=NULL;
 
 	switch(what)
 		{
