@@ -887,6 +887,7 @@ void setPieceNewNew(const char* filePath,long doWhat)
 								sprintf((char*)&generalBuffer[0],"%s%i/image-path",MONITORPROP,currentMonitor);
 								setValue(XFCEDESKTOP,(char*)&generalBuffer[0],STRING,dataset);
 								freeAndSet(&monitorData[currentMonitor]->imagePath,dataset);
+								printf("%s\n",dataset);
 								break;
 						}
 				}
