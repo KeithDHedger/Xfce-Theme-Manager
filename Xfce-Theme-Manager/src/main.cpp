@@ -348,14 +348,12 @@ void init(void)
 
 	gtk_container_add((GtkContainer *)previewBox[WALLPAPERS].scrollBox,(GtkWidget*)previewBox[WALLPAPERS].iconView);
 
-
-
 //screen
 	if(numberOfMonitors>1)
 		{
 			for(int j=0;j<numberOfMonitors;j++)
 				{
-					sprintf((char*)&generalBuffer[0],"Monitor - %i",j);
+					sprintf((char*)&generalBuffer[0],"%s - %i",_translate(MONITOR),j);
 					gtk_combo_box_text_append_text((GtkComboBoxText*)screenNumber,generalBuffer);
 					g_signal_connect_after(G_OBJECT(screenNumber),"changed",G_CALLBACK(monitorChanged),NULL);
 				}
@@ -364,7 +362,6 @@ void init(void)
 			currentMonitor=0;
 		}
 	
-
 	styleComboBox=(GtkComboBoxText*)gtk_combo_box_text_new();
 	gtk_combo_box_text_append_text(styleComboBox,_translate(AUTO));
 	gtk_combo_box_text_append_text(styleComboBox,_translate(CENTRED));
@@ -415,46 +412,44 @@ gboolean updateBarTimer(gpointer data)
 	else
 		return(false);
 }
-//				cliRetVal|=doCliThemePart(cliControls,controlsFolder,XCONFSETCONTROLS);
+
 int doCliThemePart(char* name,long what)
 {
 
-//	char*	papername=NULL;
+	char*	papername=NULL;
+
+	setValue(XTHEMER,METATHEMEPROP,STRING,(void*)"DEADBEEF");
 
 	switch(what)
 		{
 			case WMBORDERS:
 				setValue(XFWM,WMBORDERSPROP,STRING,name);
-				setValue(XTHEMER,METATHEMEPROP,STRING,(void*)"DEADBEEF");
 				return(0);
 				break;
 			case CONTROLS:
 				setValue(XSETTINGS,CONTROLTHEMEPROP,STRING,name);
-				setValue(XTHEMER,METATHEMEPROP,STRING,(void*)"DEADBEEF");
 				return(0);
 				break;
 			case ICONS:
 				setValue(XSETTINGS,ICONTHEMEPROP,STRING,name);
-				setValue(XTHEMER,METATHEMEPROP,STRING,(void*)"DEADBEEF");
 				return(0);
 				break;
 			case CURSORS:
 				setValue(XSETTINGS,CURSORSPROP,STRING,name);
-				setValue(XTHEMER,METATHEMEPROP,STRING,(void*)"DEADBEEF");
 				return(0);
 				break;
 			case WALLPAPERS:
-				//for(int j=0;j<2;j++)
-				//	{
-				//		sprintf((char*)&generalBuffer,"%s/%i.%s.db",wallpapersFolder,j,name);
-				//		papername=getThemeNameFromDB(generalBuffer);
-				//		if(papername!=NULL)
-				//			{
-				//				setValue(XFCEDESKTOP,PAPERSPROP,STRING,papername);
-				//				setValue(XTHEMER,METATHEMEPROP,STRING,(void*)"DEADBEEF");
-				//				return(0);
-				//			}
-				//	}
+				for(int j=0;j<2;j++)
+					{	
+						sprintf((char*)&generalBuffer,"%s/%i.%s.db",wallpapersFolder,j,name);
+						papername=getThemeNameFromDB(generalBuffer);
+						
+						if(papername!=NULL)
+							{
+								sprintf((char*)&generalBuffer[0],"%s%i/image-path",MONITORPROP,cliMonitor);
+								setValue(XFCEDESKTOP,(char*)&generalBuffer[0],STRING,papername);
+							}
+					}
 				break;
 		}
 	return(1);
@@ -580,26 +575,27 @@ void doAbout(GtkWidget* widget,gpointer data)
 
 void printhelp(void)
 {
-	printf("%ls %s\n",_translateHelp(HELP1),VERSION);
-	printf("%ls\n",_translateHelp(HELP2));
-	printf("%ls\n",_translateHelp(HELP3));
-	printf("%ls\n",_translateHelp(HELP4));
-	printf("%ls\n",_translateHelp(HELP5));
-	printf("%ls\n",_translateHelp(HELP6));
-	printf("%ls\n",_translateHelp(HELP7));
-	printf("%ls\n",_translateHelp(HELP8));
-	printf("%ls\n",_translateHelp(HELP9));
-	printf("%ls\n",_translateHelp(HELP10));
-	printf("%ls\n",_translateHelp(HELP11));
-	printf("%ls\n",_translateHelp(HELP12));
-	printf("%ls\n",_translateHelp(HELP13));
-	printf("%ls\n",_translateHelp(HELP14));
+	printf("%ls %s\n",_translateHelp(HELP1),VERSION);//version
+	printf("%ls\n",_translateHelp(HELP2));//usage
+	printf("%ls\n",_translateHelp(HELP3));//usage
+	printf("%ls\n",_translateHelp(HELP4));//-v, --version		Print version info and quit
+	printf("%ls\n",_translateHelp(HELP5));//-u, --update-db		Update the database
+	printf("%ls\n",_translateHelp(HELP6));//-r, --build-db		Re-build the database
+	printf("%ls\n",_translateHelp(HELP7));//-n, --nogui		Don't run the GUI
+	printf("%ls\n",_translateHelp(HELP8));//-t, --theme=ARG		Set the meta-theme to ARG
+	printf("%ls\n",_translateHelp(HELP9));//-c, --controls=ARG	Set the controls theme to ARG
+	printf("%ls\n",_translateHelp(HELP10));//-w, --wmborder=ARG	Set the window border to ARG
+	printf("%ls\n",_translateHelp(HELP11));//-i, --icons=ARG		Set the icon theme to ARG
+	printf("%ls\n",_translateHelp(HELP12));//-p, --cursors=ARG	Set the cursor theme to ARG
+	printf("%ls\n",_translateHelp(HELP13));//-b, --backdrop=ARG	Set wallpaper to ARG
+	printf("%ls\n",_translateHelp(HELP21));//-m --monitor set monitor for wallpaper default 0
+	printf("%ls\n",_translateHelp(HELP14));//-l, --list=ARG		List DB entry's, where ARG = any of "*Ctwcib"
 	printf("\t\t\t%ls\n",_translateHelp(HELP15));
 	printf("\t\t\t%ls\n",_translateHelp(HELP16));
 	printf("\t\t\t%ls\n",_translateHelp(HELP17));
 	printf("\t\t\t%ls\n",_translateHelp(HELP18));
-	printf("%ls\n",_translateHelp(HELP19));
-	printf("\n%ls\n",_translateHelp(HELP20));
+	printf("%ls\n",_translateHelp(HELP19));//-?, --help		This help
+	printf("\n%ls\n",_translateHelp(HELP20));//Options tcwipblvh? all imply -n
 }
 
 struct option long_options[]=
@@ -616,6 +612,7 @@ struct option long_options[]=
 		{"backdrop",1,0,'b'},
 		{"list",1,0,'l'},
 		{"save",1,0,'s'},
+		{"monitor",1,0,'m'},
 		{"help",0,0,'?'},
 		{0, 0, 0, 0}
 	};
@@ -635,7 +632,7 @@ int main(int argc,char **argv)
 	while (1)
 		{
 			int option_index=0;
-			c=getopt_long_only(argc,argv,":t:c:w:i:p:b:l:s:urnv?h",long_options,&option_index);
+			c=getopt_long_only(argc,argv,":t:c:w:i:p:b:l:s:m:urnv?h",long_options,&option_index);
 
 			if (c==-1)
 				break;
@@ -701,6 +698,12 @@ int main(int argc,char **argv)
 
 					case 's':
 						cliFileName=optarg;
+						noGui=true;
+						break;
+
+					case 'm':
+						cliMonitor=atoi(optarg);
+						printf("mon = %i\n",cliMonitor);
 						noGui=true;
 						break;
 
