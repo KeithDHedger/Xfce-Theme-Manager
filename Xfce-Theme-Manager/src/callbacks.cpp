@@ -750,7 +750,7 @@ void doMeta(char* metaFilename)
 	char*			keydata=NULL;
 	GdkModifierType	mask;
 	char			buffer[64];	
-	const char*		keys[]={"CursorTheme","Xfwm4Theme","IconTheme","BackgroundImage","BackdropStyle","TitleButtonLayout","TitlePosition","WMFont","AppFont","BackdropBright","BackdropSatu","GtkTheme","CursorSize","Name"};
+	const char*		keys[]={"CursorTheme","Xfwm4Theme","IconTheme","TitleButtonLayout","TitlePosition","WMFont","AppFont","GtkTheme","CursorSize","Name"};
 
 	const char*		panelkeys[]={"PanelImage","PanelStyle","PanelSize","PanelRed","PanelGreen","PanelBlue","PanelAlpha"};
 	int				panelkeycnt=7;
@@ -790,47 +790,30 @@ void doMeta(char* metaFilename)
 										freeAndSet(&currentIconTheme,keydata);
 										break;
 									case 3:
-										////setValue(XFCEDESKTOP,PAPERSPROP,STRING,keydata);
-									////	freeAndSet(&currentWallPaper,keydata);
-										break;
-									case 4:
-										////setValue(XFCEDESKTOP,BACKDROPSTYLEPROP,INT,(void*)(long)atol(keydata));
-										////gtk_combo_box_set_active((GtkComboBox*)styleComboBox,(long)atol(keydata));
-										break;
-									case 5:
 										setValue(XFWM,BUTTONLAYOUTPROP,STRING,(void*)keydata);
 										gtk_entry_set_text((GtkEntry*)layoutEntry,keydata);
 										break;
-									case 6:
+									case 4:
 										setValue(XFWM,TITLEALIGNPROP,STRING,(void*)keydata);
 										gtk_combo_box_set_active((GtkComboBox*)titlePos,positionToInt(keydata));
 										break;
-									case 7:
+									case 5:
 										setValue(XFWM,WMFONTPROP,STRING,(void*)keydata);
 										gtk_font_button_set_font_name((GtkFontButton*)wmFontButton,keydata);
 										break;
-									case 8:
+									case 6:
 										setValue(XSETTINGS,APPFONTPROP,STRING,(void*)keydata);
 										gtk_font_button_set_font_name((GtkFontButton*)appFontButton,keydata);
 										break;
-									case 9:
-										////setValue(XFCEDESKTOP,BACKDROPBRIGHTPROP,INT,(void*)(long)atol(keydata));
-										////gtk_range_set_value((GtkRange*)briteRange,atol(keydata));
-										break;
-									case 10:
-										////tfloat=atof(keydata);
-										////setValue(XFCEDESKTOP,BACKDROPSATUPROP,FLOAT,(void*)&tfloat);
-										////gtk_range_set_value((GtkRange*)satuRange,tfloat);
-										break;
-									case 11:
+									case 7:
 										setValue(XSETTINGS,CONTROLTHEMEPROP,STRING,keydata);
 										freeAndSet(&currentGtkTheme,keydata);
 										break;
-									case 12:
+									case 8:
 										setValue(XSETTINGS,CURSORSIZEPROP,INT,(void*)(long)atol(keydata));
 										gtk_range_set_value((GtkRange*)cursorSize,atol(keydata));
 										break;
-									case 13:
+									case 9:
 										setValue(XTHEMER,METATHEMEPROP,STRING,keydata);
 										freeAndSet(&currentMetaTheme,keydata);
 										break;
@@ -876,7 +859,6 @@ void doMeta(char* metaFilename)
 						}
 				}
 			setPanels();
-//	const char*		monitorkeys[]={"BackgroundImage","BackdropStyle","BackdropBright","BackdropSatu"};
 
 			for(int j=0;j<numberOfMonitors;j++)
 				{
@@ -890,18 +872,14 @@ void doMeta(char* metaFilename)
 										{
 											case 0:
 												freeAndSet(&monitorData[j]->imagePath,keydata);
-											//printf("key = %s val= %s %s\n",(char*)monitorkeys[k],monitorData[j]->imagePath,keydata);
 												break;
 											case 1:
 												monitorData[j]->style=atoi(keydata);
-													////panels[j]->style=atoi(keydata);
 												break;
 											case 2:
 												monitorData[j]->brightness=atoi(keydata);
-												////panels[j]->size=atoi(keydata);
 												break;
 											case 3:
-												////panels[j]->red=atoi(keydata);
 												monitorData[j]->satu=atof(keydata);
 												break;
 										}

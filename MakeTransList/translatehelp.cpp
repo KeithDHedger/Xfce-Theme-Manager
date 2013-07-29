@@ -21,7 +21,8 @@ int main(int argc,char **argv)
 			wprintf(L"ENGLISH:%ls\n",helpStr[0][j]);
 			wprintf(L"SPANISH:%ls\n",helpStr[1][j]);
 			wprintf(L"GERMAN:%ls\n",helpStr[2][j]);
-			wprintf(L"POLISH:%ls\n\n",helpStr[3][j]);
+			wprintf(L"POLISH:%ls\n",helpStr[3][j]);
+			wprintf(L"FRENCH:%ls\n\n",helpStr[4][j]);
 		}
 
 	return(0);

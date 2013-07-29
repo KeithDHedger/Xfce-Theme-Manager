@@ -17,7 +17,8 @@ int main(int argc,char **argv)
 			printf("ENGLISH:%s\n",langStr[0][j]);
 			printf("SPANISH:%s\n",langStr[1][j]);
 			printf("GERMAN:%s\n",langStr[2][j]);
-			printf("POLISH:%s\n\n",langStr[3][j]);
+			printf("POLISH:%s\n",langStr[3][j]);
+			printf("FRENCH:%s\n\n",langStr[4][j]);
 		}
 
 	return(0);
