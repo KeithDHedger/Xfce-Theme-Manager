@@ -29,10 +29,7 @@ void previewSizeChanged(GtkWidget* widget,gpointer data);
 void themeIconCallback(GtkIconView *view,gpointer doWhat);
 void setPiece(char* filePath,const char* doCommand,bool update);
 
-
 gboolean itemact (GtkWidget *widget,GdkEvent  *event,gpointer   user_data);
-
-
 gboolean mouseMove(GtkWidget *widget,GdkEvent* event,gpointer user_data);
 gboolean clickIt(GtkWidget *widget,GdkEvent* event,gpointer data);
 

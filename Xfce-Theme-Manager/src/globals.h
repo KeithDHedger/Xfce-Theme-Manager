@@ -48,17 +48,13 @@
 #define ICONTHEMEPROP "/Net/IconThemeName"
 #define WMBORDERSPROP "/general/theme"
 #define CURSORSPROP "/Gtk/CursorThemeName"
-//#define PAPERSPROP "/backdrop/screen0/monitor0/image-path"
 
 #define METATHEMEPROP "/MetaTheme"
 #define BUTTONLAYOUTPROP "/general/button_layout"
 #define TITLEALIGNPROP "/general/title_alignment"
 #define WMFONTPROP "/general/title_font"
 #define APPFONTPROP "/Gtk/FontName"
-//#define BACKDROPSTYLEPROP "/backdrop/screen0/monitor0/image-style"
 
-//#define BACKDROPBRIGHTPROP "/backdrop/screen0/monitor0/brightness"
-//#define BACKDROPSATUPROP "/backdrop/screen0/monitor0/saturation"
 #define CURSORSIZEPROP "/Gtk/CursorThemeSize"
 
 //my configs
@@ -248,17 +244,6 @@ extern int				gotXCE;
 extern bool				noGui;
 extern bool				updateDb;
 extern bool				rebuildDb;
-
-extern char*			cliTheme;
-extern char*			cliControls;
-extern char*			cliBorder;
-extern char*			cliIcons;
-extern char*			cliCursors;
-extern char*			cliWallpaper;
-extern char*			listParts;
-extern char*			cliFileName;
-extern int				cliMonitor;
-extern int				cliPanel;
 
 extern void freeAndNull(char** ptr);
 extern int positionToInt(char* pos);

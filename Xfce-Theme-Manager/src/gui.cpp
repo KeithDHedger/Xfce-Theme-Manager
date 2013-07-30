@@ -60,7 +60,6 @@
 bool			addView=true;
 GtkListStore*	store;
 
-
 bool isCurrent(char* themename,const char* catagory,char* name)
 {
 	bool	retval=false;
@@ -145,8 +144,6 @@ gint sortFunc(gconstpointer a,gconstpointer b)
 	return(g_ascii_strcasecmp((const char*)a,(const char*)b));
 }
 
-
-
 GdkPixbuf *f_pixbuf_from_cairo_surface(cairo_surface_t *source)
 {
 	gint width=cairo_image_surface_get_width(source);
@@ -229,7 +226,6 @@ void addIconEntry(GtkListStore *store,const char* iconPng,const char* iconName,c
 				gdk_cairo_set_source_pixbuf(cr,pixbuf,HALFGAP,HALFGAP);
 				cairo_paint_with_alpha(cr,100);
 			cairo_restore(cr);
-
 
 			cairo_save(cr);
 				cairo_rectangle(cr,0,0,pixWid+GAP,pixHite+GAP);
@@ -634,7 +630,6 @@ void buildAdvancedGui(GtkWidget* advancedScrollBox)
 	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_hseparator_new(),false,false,4);
 	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_label_new(_translate(VIEW)),false,false,2);
 	advancedHbox=gtk_hbox_new(true,0);
-
 
 	systemCheck=gtk_check_button_new_with_label(_translate(GLOBAL));
 	gtk_toggle_button_set_active((GtkToggleButton*)systemCheck,showGlobal);

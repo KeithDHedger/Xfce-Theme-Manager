@@ -17,7 +17,7 @@
 #include "database.h"
 #include "thumbnails.h"
 #include "panels.h"
-
+#include "cli.h"
 
 char		filedata[8192];
 GtkWidget*	entryBox;
@@ -293,17 +293,11 @@ else
 					buildCustomDB(XSETTINGS,ICONTHEMEPROP,STRING,"IconTheme");
 					buildCustomDB(XSETTINGS,CURSORSPROP,STRING,"CursorTheme");
 					buildCustomDB(XFWM,WMBORDERSPROP,STRING,"Xfwm4Theme");
-					
-					////buildCustomDB(XFCEDESKTOP,PAPERSPROP,STRING,"BackgroundImage");
-					
+
 					buildCustomDB(XFWM,BUTTONLAYOUTPROP,STRING,"TitleButtonLayout");
 					buildCustomDB(XFWM,TITLEALIGNPROP,STRING,"TitlePosition");
 					buildCustomDB(XFWM,WMFONTPROP,STRING,"WMFont");
 					buildCustomDB(XSETTINGS,APPFONTPROP,STRING,"AppFont");
-					
-					////buildCustomDB(XFCEDESKTOP,BACKDROPSTYLEPROP,INT,"BackdropStyle");
-					////buildCustomDB(XFCEDESKTOP,BACKDROPBRIGHTPROP,INT,"BackdropBright");
-					////buildCustomDB(XFCEDESKTOP,BACKDROPSATUPROP,FLOAT,"BackdropSatu");
 					
 					buildCustomDB(XSETTINGS,CURSORSIZEPROP,INT,"CursorSize");
 
@@ -315,18 +309,7 @@ else
 							sprintf(filedata,"%sBackdropStyle=%i\n",filedata,monitorData[j]->style);
 							sprintf(filedata,"%sBackdropBright=%i\n",filedata,monitorData[j]->brightness);
 							sprintf(filedata,"%sBackdropSatu=%f\n",filedata,monitorData[j]->satu);
-
-							//sprintf((char*)&generalBuffer[0],"%s%i/image-style",MONITORPROP,i);
-							//getValue(XFCEDESKTOP,(char*)&generalBuffer[0],INT,&currentWallStyle[i]);
-
-							//sprintf((char*)&generalBuffer[0],"%s%i/brightness",MONITORPROP,i);
-							//getValue(XFCEDESKTOP,(char*)&generalBuffer[0],INT,&currentBright[i]);
-
-							//sprintf((char*)&generalBuffer[0],"%s%i/saturation",MONITORPROP,i);
-							//getValue(XFCEDESKTOP,(char*)&generalBuffer[0],FLOAT,&currentSatu[i]);
-
 						}
-
 
 //panel stuff
 					for(int j=0;j<numOfPanels;j++)
@@ -746,7 +729,7 @@ void setMonitorData(void)
 void doMeta(char* metaFilename)
 {
 	GKeyFile*		keyfile=g_key_file_new();
-	int				keycnt=14;
+	int				keycnt=10;
 	char*			keydata=NULL;
 	GdkModifierType	mask;
 	char			buffer[64];	
@@ -764,7 +747,6 @@ void doMeta(char* metaFilename)
 			removeTheme(metaFilename);
 			return;
 		}
-
 	if(g_key_file_load_from_file(keyfile,metaFilename,G_KEY_FILE_NONE,NULL))
 		{
 			metaThemeSelected=g_key_file_get_string(keyfile,"Data",(char*)"Name",NULL);

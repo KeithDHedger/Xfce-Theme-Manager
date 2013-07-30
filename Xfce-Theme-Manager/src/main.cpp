@@ -29,6 +29,7 @@
 #include "gui.h"
 #include "callbacks.h"
 #include "panels.h"
+#include "cli.h"
 
 #include "config.h"
 
@@ -106,8 +107,6 @@ void resetMonitors(void)
 // RESET THEME
 void resetTheme(GtkWidget* widget,gpointer data)
 {
-	double	d=1.0;
-
 	gdk_window_set_cursor(gdkWindow,watchCursor); 
 
 	freeAndSet(&currentMetaTheme,originalMetaTheme);
@@ -178,15 +177,8 @@ gboolean hashfunc(gpointer key,gpointer value,gpointer user_data)
 	return false;
 }	
 
-
-void init(void)
+void initFolders(void)
 {
-	gchar	*stdout=NULL;
-	gchar	*stderr=NULL;
-	gint   retval=0;
-
-	setlocale(LC_ALL, "");
-
 	homeFolder=(char*)g_get_home_dir();
 
 	if(strcmp(getenv("HOME"),homeFolder)!=0)
@@ -209,7 +201,40 @@ void init(void)
 	asprintf(&cursorsFolder,"%s/cursors",dbFolder);
 	asprintf(&wallpapersFolder,"%s/wallpapers",dbFolder);
 	asprintf(&customFolder,"%s/custom",dbFolder);
+}
 
+void init(void)
+{
+	gchar	*stdout=NULL;
+	gchar	*stderr=NULL;
+	gint   retval=0;
+
+	setlocale(LC_ALL, "");
+
+#if 0
+	homeFolder=(char*)g_get_home_dir();
+
+	if(strcmp(getenv("HOME"),homeFolder)!=0)
+		setenv("HOME",homeFolder,1);
+
+	asprintf(&themesArray[0],"%s/.themes",homeFolder);
+	asprintf(&themesArray[1],"%s",GLOBALTHEMES);
+	
+	asprintf(&iconsArray[0],"%s/.icons",homeFolder);
+	asprintf(&iconsArray[1],"%s",GLOBALICONS);
+
+	asprintf(&papersArray[0],"%s/.local/share/xfce4/backdrops",homeFolder);
+	asprintf(&papersArray[1],"%s",GLOBALWALLPAPERS);
+
+	asprintf(&dbFolder,"%s/.config/XfceThemeManager",homeFolder);
+	asprintf(&metaFolder,"%s/meta",dbFolder);
+	asprintf(&framesFolder,"%s/frames",dbFolder);
+	asprintf(&controlsFolder,"%s/controls",dbFolder);
+	asprintf(&iconsFolder,"%s/icons",dbFolder);
+	asprintf(&cursorsFolder,"%s/cursors",dbFolder);
+	asprintf(&wallpapersFolder,"%s/wallpapers",dbFolder);
+	asprintf(&customFolder,"%s/custom",dbFolder);
+#endif
 	asprintf(&homeThemesHash,"12345");
 
 //monitors
@@ -237,9 +262,6 @@ void init(void)
 	getValue(XSETTINGS,APPFONTPROP,STRING,&currentAppFont);
 
 //backdrop
-////	getValue(XFCEDESKTOP,PAPERSPROP,STRING,&currentWallPaper);
-////	getValue(XFCEDESKTOP,PAPERSPROP,STRING,&originalWallpaper);
-
 	for(int i=0;i<numberOfMonitors;i++)
 		{
 			monitorData[i]=(monitorStruct*)malloc(sizeof(monitorStruct));
@@ -418,77 +440,6 @@ gboolean updateBarTimer(gpointer data)
 		return(false);
 }
 
-int doCliThemePart(char* name,long what)
-{
-
-	char*	papername=NULL;
-
-	setValue(XTHEMER,METATHEMEPROP,STRING,(void*)"DEADBEEF");
-
-	switch(what)
-		{
-			case WMBORDERS:
-				setValue(XFWM,WMBORDERSPROP,STRING,name);
-				return(0);
-				break;
-			case CONTROLS:
-				setValue(XSETTINGS,CONTROLTHEMEPROP,STRING,name);
-				return(0);
-				break;
-			case ICONS:
-				setValue(XSETTINGS,ICONTHEMEPROP,STRING,name);
-				return(0);
-				break;
-			case CURSORS:
-				setValue(XSETTINGS,CURSORSPROP,STRING,name);
-				return(0);
-				break;
-			case WALLPAPERS:
-				for(int j=0;j<2;j++)
-					{	
-						sprintf((char*)&generalBuffer,"%s/%i.%s.db",wallpapersFolder,j,name);
-						papername=getThemeNameFromDB(generalBuffer);
-						
-						if(papername!=NULL)
-							{
-								sprintf((char*)&generalBuffer[0],"%s%i/image-path",MONITORPROP,cliMonitor);
-								setValue(XFCEDESKTOP,(char*)&generalBuffer[0],STRING,papername);
-							}
-					}
-				break;
-		}
-	return(1);
-}
-
-int doCliTheme(void)
-{
-	char* tn=NULL;			
-
-	asprintf(&tn,"%s/%s.db",customFolder,cliTheme);
-	if (g_file_test(tn,G_FILE_TEST_EXISTS))
-		{
-			doMeta(tn);
-			freeAndNull(&tn);
-			return(0);
-		}
-	else
-		freeAndNull(&tn);
-
-	for (int j=0;j<2;j++)
-		{
-			asprintf(&tn,"%s/%i.%s.db",metaFolder,j,cliTheme);
-			if (g_file_test(tn,G_FILE_TEST_EXISTS))
-				{
-					doMeta(tn);
-					freeAndNull(&tn);
-					return(0);
-				}
-			else
-				freeAndNull(&tn);
-		}
-	return(1);
-}
-
 void printName(const char* section,char* folderName)
 {
 	GDir*			folder=NULL;
@@ -620,6 +571,7 @@ struct option long_options[]=
 		{"save",1,0,'s'},
 		{"monitor",1,0,'m'},
 		{"panel",1,0,'a'},
+		{"panel-size",1,0,'z'},
 		{"help",0,0,'?'},
 		{0, 0, 0, 0}
 	};
@@ -636,10 +588,13 @@ int main(int argc,char **argv)
 	int			fd;
 	fpos_t		pos;
 
+	xfconf_init(NULL);
+	initFolders();
+
 	while (1)
 		{
 			int option_index=0;
-			c=getopt_long_only(argc,argv,":t:c:w:i:p:b:l:s:m:a:urnv?h",long_options,&option_index);
+			c=getopt_long_only(argc,argv,":t:c:w:i:p:b:l:s:m:a:z:urnv?h",long_options,&option_index);
 
 			if (c==-1)
 				break;
@@ -701,6 +656,8 @@ int main(int argc,char **argv)
 					case 'b':
 						noGui=true;
 						cliWallpaper=optarg;
+						doCliThemePart(cliWallpaper,WALLPAPERS);
+						printf("out\n");
 						break;
 
 					case 's':
@@ -715,6 +672,12 @@ int main(int argc,char **argv)
 
 					case 'a':
 						cliPanel=atoi(optarg);
+						noGui=true;
+						break;
+
+					case 'z':
+						cliPanelSize=atoi(optarg);
+						cliSetPanelSize();
 						noGui=true;
 						break;
 
@@ -735,7 +698,6 @@ int main(int argc,char **argv)
 #endif
 	gdk_threads_init();
 	gtk_init(&argc,&argv);
-	xfconf_init(NULL);
 
 	init();
 
@@ -899,7 +861,6 @@ int main(int argc,char **argv)
 
 			g_signal_connect(G_OBJECT(notebook),"switch-page",G_CALLBACK(doChangePage),NULL);
 
-
 			gtk_main();
 
 			fflush(stderr);
@@ -932,9 +893,8 @@ int main(int argc,char **argv)
 			if (cliCursors!=NULL)
 				cliRetVal|=doCliThemePart(cliCursors,CURSORS);
 
-			if (cliWallpaper!=NULL)
-				cliRetVal|=doCliThemePart(cliWallpaper,WALLPAPERS);
-
+//			if (cliWallpaper!=NULL)
+//				cliRetVal|=doCliThemePart(cliWallpaper,WALLPAPERS);
 
 			if (cliFileName!=NULL)
 				customTheme(NULL,NULL);
