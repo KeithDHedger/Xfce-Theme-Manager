@@ -125,25 +125,15 @@ void resetTheme(GtkWidget* widget,gpointer data)
 	setValue(XSETTINGS,CURSORSPROP,STRING,originalCursorTheme);
 	freeAndSet(&currentCursorTheme,originalCursorTheme);
 
-//	setValue(XFCEDESKTOP,PAPERSPROP,STRING,originalWallpaper);
-//	freeAndSet(&currentWallPaper,originalWallpaper);
-
-	//setValue(XFCEDESKTOP,BACKDROPSTYLEPROP,INT,(void*)(long)wallStyle);
-//	setValue(XFCEDESKTOP,BACKDROPBRIGHTPROP,INT,(void*)(long)currentBright);
-//	setValue(XFCEDESKTOP,BACKDROPSATUPROP,FLOAT,(void*)&d);
-
 	setValue(XFWM,BUTTONLAYOUTPROP,STRING,(void*)currentButtonLayout);
 	setValue(XFWM,TITLEALIGNPROP,STRING,(void*)currentTitlePos);
 	setValue(XFWM,WMFONTPROP,STRING,(void*)currentWMFont);
 	setValue(XSETTINGS,APPFONTPROP,STRING,(void*)currentAppFont);
 
-	////gtk_combo_box_set_active((GtkComboBox*)styleComboBox,currentWallStyle);
 	gtk_entry_set_text((GtkEntry*)layoutEntry,currentButtonLayout);
 	gtk_combo_box_set_active((GtkComboBox*)titlePos,positionToInt(currentTitlePos));
 	gtk_font_button_set_font_name((GtkFontButton*)wmFontButton,currentWMFont);
 	gtk_font_button_set_font_name((GtkFontButton*)appFontButton,currentAppFont);
-	////gtk_range_set_value((GtkRange*)briteRange,currentBright);
-	////gtk_range_set_value((GtkRange*)satuRange,currentSatu);
 	gtk_range_set_value((GtkRange*)cursorSize,currentCursSize);
 
 	resetMonitors();
