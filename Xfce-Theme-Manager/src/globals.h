@@ -254,6 +254,7 @@ void setValue(const char* channel,const char* property,dataType type,void* ptr);
 void freeAndSet(char** ptr,char* data);
 char* getThemeNameFromDB(char* filepath);
 char* sliceBetween(char* srcstring,char* startstr,char* endstr);
+char* slice(char* srcstring,int tmpstartchar,int tmpendchar);
 
 #endif
 

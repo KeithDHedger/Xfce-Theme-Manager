@@ -211,30 +211,6 @@ void init(void)
 
 	setlocale(LC_ALL, "");
 
-#if 0
-	homeFolder=(char*)g_get_home_dir();
-
-	if(strcmp(getenv("HOME"),homeFolder)!=0)
-		setenv("HOME",homeFolder,1);
-
-	asprintf(&themesArray[0],"%s/.themes",homeFolder);
-	asprintf(&themesArray[1],"%s",GLOBALTHEMES);
-	
-	asprintf(&iconsArray[0],"%s/.icons",homeFolder);
-	asprintf(&iconsArray[1],"%s",GLOBALICONS);
-
-	asprintf(&papersArray[0],"%s/.local/share/xfce4/backdrops",homeFolder);
-	asprintf(&papersArray[1],"%s",GLOBALWALLPAPERS);
-
-	asprintf(&dbFolder,"%s/.config/XfceThemeManager",homeFolder);
-	asprintf(&metaFolder,"%s/meta",dbFolder);
-	asprintf(&framesFolder,"%s/frames",dbFolder);
-	asprintf(&controlsFolder,"%s/controls",dbFolder);
-	asprintf(&iconsFolder,"%s/icons",dbFolder);
-	asprintf(&cursorsFolder,"%s/cursors",dbFolder);
-	asprintf(&wallpapersFolder,"%s/wallpapers",dbFolder);
-	asprintf(&customFolder,"%s/custom",dbFolder);
-#endif
 	asprintf(&homeThemesHash,"12345");
 
 //monitors
@@ -572,6 +548,10 @@ struct option long_options[]=
 		{"monitor",1,0,'m'},
 		{"panel",1,0,'a'},
 		{"panel-size",1,0,'z'},
+		{"panel-style",1,0,'y'},
+		{"panel-image",1,0,'g'},
+		{"panel-alpha",1,0,'d'},
+		{"panel-colour",1,0,'o'},
 		{"help",0,0,'?'},
 		{0, 0, 0, 0}
 	};
@@ -594,7 +574,7 @@ int main(int argc,char **argv)
 	while (1)
 		{
 			int option_index=0;
-			c=getopt_long_only(argc,argv,":t:c:w:i:p:b:l:s:m:a:z:urnv?h",long_options,&option_index);
+			c=getopt_long_only(argc,argv,":t:c:w:i:p:b:l:s:m:a:z:y:g:d:o:urnv?h",long_options,&option_index);
 
 			if (c==-1)
 				break;
@@ -656,8 +636,7 @@ int main(int argc,char **argv)
 					case 'b':
 						noGui=true;
 						cliWallpaper=optarg;
-						doCliThemePart(cliWallpaper,WALLPAPERS);
-						printf("out\n");
+						cliRetVal|=doCliThemePart(cliWallpaper,WALLPAPERS);
 						break;
 
 					case 's':
@@ -678,6 +657,32 @@ int main(int argc,char **argv)
 					case 'z':
 						cliPanelSize=atoi(optarg);
 						cliSetPanelSize();
+						noGui=true;
+						break;
+
+					case 'y':
+						cliPanelStyle=atoi(optarg);
+						cliSetPanelStyle();
+						noGui=true;
+						break;
+
+					case 'g':
+						cliPanelImage=optarg;
+						cliSetPanelImage();
+						noGui=true;
+						break;
+
+					case 'd':
+						cliPanelAlpha=atoi(optarg);
+						cliSetPanelAlpha();
+						noGui=true;
+						break;
+
+					case 'o':
+						if(strlen(optarg)!=6)
+							return(1);
+						cliPanelColour=optarg;
+						cliSetPanelColour();
 						noGui=true;
 						break;
 
@@ -892,9 +897,6 @@ int main(int argc,char **argv)
 
 			if (cliCursors!=NULL)
 				cliRetVal|=doCliThemePart(cliCursors,CURSORS);
-
-//			if (cliWallpaper!=NULL)
-//				cliRetVal|=doCliThemePart(cliWallpaper,WALLPAPERS);
 
 			if (cliFileName!=NULL)
 				customTheme(NULL,NULL);
