@@ -55,10 +55,10 @@
 #define TITLEALIGNPROP "/general/title_alignment"
 #define WMFONTPROP "/general/title_font"
 #define APPFONTPROP "/Gtk/FontName"
-#define BACKDROPSTYLEPROP "/backdrop/screen0/monitor0/image-style"
+//#define BACKDROPSTYLEPROP "/backdrop/screen0/monitor0/image-style"
 
-#define BACKDROPBRIGHTPROP "/backdrop/screen0/monitor0/brightness"
-#define BACKDROPSATUPROP "/backdrop/screen0/monitor0/saturation"
+//#define BACKDROPBRIGHTPROP "/backdrop/screen0/monitor0/brightness"
+//#define BACKDROPSATUPROP "/backdrop/screen0/monitor0/saturation"
 #define CURSORSIZEPROP "/Gtk/CursorThemeSize"
 
 //my configs
@@ -85,7 +85,7 @@ enum {PIXBUF_COLUMN,TEXT_COLUMN,FILE_NAME};
 enum words {THEMES=0,WMBORDERS,CONTROLS,ICONS,CURSORS,WALLPAPERS,REBUILDTHEDB,REBUILDDB,LAUNCHXCE,BACKDROPADJ,BRITE,SATU,RESET,BUTTONLAYOUT,FONTSELECT,WMFONT,APPFONT,CURSORSIZE,RESETTHEME,CUSTOMTHEME,ADVANCED,TITLEPOS,ENTERNAME,LEFT,CENTRE,RIGHT,AUTO,CENTRED,TILED,STRETCH,SCALE,ZOOM,CUSTOM,VIEW,GLOBAL,CUSTOMMETA,REMOVETHEME,SUBTITLE,ABOUTBOX,HUGEP,LARGEP,MEDIUMP,SMALLP,PANELS,PANELSIZE,PANELNONE,PANELSYS,PANELIMAGE,PANELSTYLE,PANELFILE,PANELALPHA,PANELCOLOUR,GOTOSITE,MONITOR,STOPWORD};
 
 enum helpwords
-{HELP1,HELP2,HELP3,HELP4,HELP5,HELP6,HELP7,HELP8,HELP9,HELP10,HELP11,HELP12,HELP13,HELP14,HELP15,HELP16,HELP17,HELP18,HELP19,HELP20,HELP21,HELPSTOP};
+{HELP1,HELP2,HELP3,HELP4,HELP5,HELP6,HELP7,HELP8,HELP9,HELP10,HELP11,HELP12,HELP13,HELP14,HELP15,HELP16,HELP17,HELP18,HELP19,HELP20,HELP21,HELP22,HELPSTOP};
 
 enum preSize {PREHUGE=256,PRELARGE=128,PREMEDIUM=64,PRESMALL=48};
 enum {SCROLLBOX,VBOX,ICONVIEW};
@@ -165,10 +165,10 @@ struct monitorStruct
 	int		style;
 };
 
-////extern int 				wallStyle[10];
 extern int				numberOfMonitors;
 extern int				currentMonitor;
 extern monitorStruct*	monitorData[10];
+extern monitorStruct*	revertMonitorData[10];
 
 extern GtkWidget*		layoutEntry;
 extern GtkComboBoxText*	titlePos;
@@ -258,6 +258,7 @@ extern char*			cliWallpaper;
 extern char*			listParts;
 extern char*			cliFileName;
 extern int				cliMonitor;
+extern int				cliPanel;
 
 extern void freeAndNull(char** ptr);
 extern int positionToInt(char* pos);

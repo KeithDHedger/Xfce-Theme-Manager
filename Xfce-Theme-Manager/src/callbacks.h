@@ -61,5 +61,6 @@ void changeViewWhat(GtkWidget* widget,gpointer data);
 int checkFolders(void);
 
 void monitorChanged(GtkWidget* widget,gpointer data);
+void setMonitorData(void);
 
 #endif

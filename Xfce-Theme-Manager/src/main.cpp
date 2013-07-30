@@ -89,10 +89,23 @@ GtkWidget*	customButton;
 int			cliRetVal=0;
 bool		doPrintHelp=false;
 
+void resetMonitors(void)
+{
+	for(int i=0;i<numberOfMonitors;i++)
+		{
+			monitorData[i]->style=revertMonitorData[i]->style;
+			monitorData[i]->brightness=revertMonitorData[i]->brightness;
+			monitorData[i]->satu=revertMonitorData[i]->satu;
+			if(monitorData[i]->imagePath!=NULL)
+				g_free(monitorData[i]->imagePath);
+			monitorData[i]->imagePath=strdup(revertMonitorData[i]->imagePath);
+		}
+	setMonitorData();
+}
+
 // RESET THEME
 void resetTheme(GtkWidget* widget,gpointer data)
 {
-#if 0
 	double	d=1.0;
 
 	gdk_window_set_cursor(gdkWindow,watchCursor); 
@@ -112,12 +125,12 @@ void resetTheme(GtkWidget* widget,gpointer data)
 	setValue(XSETTINGS,CURSORSPROP,STRING,originalCursorTheme);
 	freeAndSet(&currentCursorTheme,originalCursorTheme);
 
-	setValue(XFCEDESKTOP,PAPERSPROP,STRING,originalWallpaper);
-	freeAndSet(&currentWallPaper,originalWallpaper);
+//	setValue(XFCEDESKTOP,PAPERSPROP,STRING,originalWallpaper);
+//	freeAndSet(&currentWallPaper,originalWallpaper);
 
 	//setValue(XFCEDESKTOP,BACKDROPSTYLEPROP,INT,(void*)(long)wallStyle);
-	setValue(XFCEDESKTOP,BACKDROPBRIGHTPROP,INT,(void*)(long)currentBright);
-	setValue(XFCEDESKTOP,BACKDROPSATUPROP,FLOAT,(void*)&d);
+//	setValue(XFCEDESKTOP,BACKDROPBRIGHTPROP,INT,(void*)(long)currentBright);
+//	setValue(XFCEDESKTOP,BACKDROPSATUPROP,FLOAT,(void*)&d);
 
 	setValue(XFWM,BUTTONLAYOUTPROP,STRING,(void*)currentButtonLayout);
 	setValue(XFWM,TITLEALIGNPROP,STRING,(void*)currentTitlePos);
@@ -133,11 +146,12 @@ void resetTheme(GtkWidget* widget,gpointer data)
 	////gtk_range_set_value((GtkRange*)satuRange,currentSatu);
 	gtk_range_set_value((GtkRange*)cursorSize,currentCursSize);
 
+	resetMonitors();
+
 	rerunAndUpdate(false,true);
 
 	gdk_window_set_cursor(gdkWindow,NULL);
 	resetPanels();
-#endif
 }
 
 void shutdown(GtkWidget* widget,gpointer data)
@@ -239,21 +253,22 @@ void init(void)
 	for(int i=0;i<numberOfMonitors;i++)
 		{
 			monitorData[i]=(monitorStruct*)malloc(sizeof(monitorStruct));
+			revertMonitorData[i]=(monitorStruct*)malloc(sizeof(monitorStruct));
 			sprintf((char*)&generalBuffer[0],"%s%i/image-style",MONITORPROP,i);
 			getValue(XFCEDESKTOP,(char*)&generalBuffer[0],INT,&monitorData[i]->style);
-			////getValue(XFCEDESKTOP,(char*)&generalBuffer[0],INT,&currentWallStyle[i]);
+			revertMonitorData[i]->style=monitorData[i]->style;
 
 			sprintf((char*)&generalBuffer[0],"%s%i/brightness",MONITORPROP,i);
 			getValue(XFCEDESKTOP,(char*)&generalBuffer[0],INT,&monitorData[i]->brightness);
-			////getValue(XFCEDESKTOP,(char*)&generalBuffer[0],INT,&currentBright[i]);
+			revertMonitorData[i]->brightness=monitorData[i]->brightness;
 
 			sprintf((char*)&generalBuffer[0],"%s%i/saturation",MONITORPROP,i);
 			getValue(XFCEDESKTOP,(char*)&generalBuffer[0],FLOAT,&monitorData[i]->satu);
-			////getValue(XFCEDESKTOP,(char*)&generalBuffer[0],FLOAT,&currentSatu[i]);
+			revertMonitorData[i]->satu=monitorData[i]->satu;
 
 			sprintf((char*)&generalBuffer[0],"%s%i/image-path",MONITORPROP,i);
 			getValue(XFCEDESKTOP,(char*)&generalBuffer[0],STRING,&monitorData[i]->imagePath);
-			////getValue(XFCEDESKTOP,(char*)&generalBuffer[0],STRING,&currentWallPaper[i]);
+			revertMonitorData[i]->imagePath=strdup(monitorData[i]->imagePath);
 		}
 
 //mouse
@@ -589,6 +604,7 @@ void printhelp(void)
 	printf("%ls\n",_translateHelp(HELP12));//-p, --cursors=ARG	Set the cursor theme to ARG
 	printf("%ls\n",_translateHelp(HELP13));//-b, --backdrop=ARG	Set wallpaper to ARG
 	printf("%ls\n",_translateHelp(HELP21));//-m --monitor set monitor for wallpaper default 0
+	printf("%ls\n",_translateHelp(HELP22));//-a, --panel=ARG	Set which panel to change ( default is 0 )
 	printf("%ls\n",_translateHelp(HELP14));//-l, --list=ARG		List DB entry's, where ARG = any of "*Ctwcib"
 	printf("\t\t\t%ls\n",_translateHelp(HELP15));
 	printf("\t\t\t%ls\n",_translateHelp(HELP16));
@@ -613,6 +629,7 @@ struct option long_options[]=
 		{"list",1,0,'l'},
 		{"save",1,0,'s'},
 		{"monitor",1,0,'m'},
+		{"panel",1,0,'a'},
 		{"help",0,0,'?'},
 		{0, 0, 0, 0}
 	};
@@ -632,7 +649,7 @@ int main(int argc,char **argv)
 	while (1)
 		{
 			int option_index=0;
-			c=getopt_long_only(argc,argv,":t:c:w:i:p:b:l:s:m:urnv?h",long_options,&option_index);
+			c=getopt_long_only(argc,argv,":t:c:w:i:p:b:l:s:m:a:urnv?h",long_options,&option_index);
 
 			if (c==-1)
 				break;
@@ -703,7 +720,11 @@ int main(int argc,char **argv)
 
 					case 'm':
 						cliMonitor=atoi(optarg);
-						printf("mon = %i\n",cliMonitor);
+						noGui=true;
+						break;
+
+					case 'a':
+						cliPanel=atoi(optarg);
 						noGui=true;
 						break;
 
