@@ -13,17 +13,25 @@
 
 #include "../Xfce-Theme-Manager/src/globals.h"
 
+const wchar_t*	language[]={L"ENGLISH",L"SPANISH",L"GERMAN",L"POLISH",L"FRENCH"};
+const char*	suffix[]={"","es","de","pl","fr"};
+char		buffer[256];
+
 int main(int argc,char **argv)
 {
+	FILE*	fp;
 	setlocale(LC_ALL, "");
-	for (int j=0;j<HELPSTOP;j++)
-		{
-			wprintf(L"ENGLISH:%ls\n",helpStr[0][j]);
-			wprintf(L"SPANISH:%ls\n",helpStr[1][j]);
-			wprintf(L"GERMAN:%ls\n",helpStr[2][j]);
-			wprintf(L"POLISH:%ls\n",helpStr[3][j]);
-			wprintf(L"FRENCH:%ls\n\n",helpStr[4][j]);
-		}
 
+	for(int i=SPANISH;i<NONE;i++)
+		{
+			sprintf((char*)&buffer[0],"./HELPTranslation.%s",suffix[i]);
+			fp=fopen(buffer,"w");
+			for (int j=0;j<HELPSTOP;j++)
+				{
+					fwprintf(fp,L"ENGLISH:%ls\n",helpStr[0][j]);
+					fwprintf(fp,L"%ls:%ls\n\n",language[i],helpStr[i][j]);
+				}
+			fclose(fp);
+		}
 	return(0);
 }

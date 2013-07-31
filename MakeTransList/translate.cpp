@@ -10,16 +10,24 @@
 
 #include "../Xfce-Theme-Manager/src/globals.h"
 
+const char*	language[]={"ENGLISH","SPANISH","GERMAN","POLISH","FRENCH"};
+const char*	suffix[]={"","es","de","pl","fr"};
+char		buffer[256];
+
 int main(int argc,char **argv)
 {
-	for (int j=0;j<STOPWORD;j++)
-		{
-			printf("ENGLISH:%s\n",langStr[0][j]);
-			printf("SPANISH:%s\n",langStr[1][j]);
-			printf("GERMAN:%s\n",langStr[2][j]);
-			printf("POLISH:%s\n",langStr[3][j]);
-			printf("FRENCH:%s\n\n",langStr[4][j]);
-		}
+	FILE*	fp;
 
+	for(int i=SPANISH;i<NONE;i++)
+		{
+			sprintf((char*)&buffer[0],"./GUITranslation.%s",suffix[i]);
+			fp=fopen(buffer,"w");
+			for (int j=0;j<STOPWORD;j++)
+				{
+					fprintf(fp,"ENGLISH:%s\n",langStr[0][j]);
+					fprintf(fp,"%s:%s\n\n",language[i],langStr[i][j]);
+				}
+			fclose(fp);
+		}
 	return(0);
 }
