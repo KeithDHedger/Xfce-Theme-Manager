@@ -282,6 +282,8 @@ void init(void)
 				langID=GERMAN;
 			if(strncmp("pl",stdout,2)==0)
 				langID=POLISH;
+			if(strncmp("fr",stdout,2)==0)
+				langID=FRENCH;
 		}
 
 //check hashses
@@ -522,6 +524,11 @@ void printhelp(void)
 	printf("%ls\n",_translateHelp(HELP13));//-b, --backdrop=ARG	Set wallpaper to ARG
 	printf("%ls\n",_translateHelp(HELP21));//-m --monitor set monitor for wallpaper default 0
 	printf("%ls\n",_translateHelp(HELP22));//-a, --panel=ARG	Set which panel to change ( default is 0 )
+	printf("%ls\n",_translateHelp(HELP23));//-z, --panel-size=ARG	Set panel size to ARG
+	printf("%ls\n",_translateHelp(HELP24));//-y, --panel-style=ARG	Set panel style to ARG
+	printf("%ls\n",_translateHelp(HELP25));//-g, --panel-image=ARG	Set path to panel image to ARG
+	printf("%ls\n",_translateHelp(HELP26));//-d, --panel-alpha=ARG	Set panel alpha to ARG
+	printf("%ls\n",_translateHelp(HELP27));//-o, --panel-colour=ARG	Set panel colour to ARG in hex format ie ff00ff
 	printf("%ls\n",_translateHelp(HELP14));//-l, --list=ARG		List DB entry's, where ARG = any of "*Ctwcib"
 	printf("\t\t\t%ls\n",_translateHelp(HELP15));
 	printf("\t\t\t%ls\n",_translateHelp(HELP16));
