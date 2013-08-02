@@ -1,3 +1,25 @@
 #!/bin/bash -e
 
 #©keithhedger Fri 2 Aug 12:20:09 BST 2013 kdhedger68713@gmail.com
+
+NUMMONITORS=2
+BORDERSARRAY=
+ARRAYNUM=0
+
+makeArray ()
+{
+	while read
+		do
+			BORDERSARRAY[$ARRAYNUM]="$REPLY"
+			((ARRAYNUM=ARRAYNUM+1))
+		done< <(xfce-theme-manager -l b)
+}
+
+
+makeArray
+
+if [ -e ~/.config/XfceThemeManager/wallpapernumber ];then
+:
+else
+:
+fi

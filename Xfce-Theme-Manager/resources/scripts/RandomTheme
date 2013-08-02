@@ -7,8 +7,9 @@ ARRAYNUM=0
 
 # C = just custom themes
 # t = meta themes
+# Ct both
 
-THEMESORT=Ct
+THEMESORT=C
 
 makeArray ()
 {
