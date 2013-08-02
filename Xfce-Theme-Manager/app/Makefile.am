@@ -13,6 +13,9 @@ xfcethememanager_CXXFLAGS = -O3 -export-dynamic
 docfilesdir = $(pkgdatadir)/docs
 docfiles_DATA = ../resources/docs/*
 
+scriptfilesdir = $(pkgdatadir)/scripts
+scriptfiles_DATA = ../resources/scripts/*
+
 bin_PROGRAMS = xfcethememanager
  
 install-exec-hook:

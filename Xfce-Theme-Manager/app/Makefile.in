@@ -62,7 +62,8 @@ mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
-am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(docfilesdir)"
+am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(docfilesdir)" \
+	"$(DESTDIR)$(scriptfilesdir)"
 PROGRAMS = $(bin_PROGRAMS)
 am__objects_1 = xfcethememanager-callbacks.$(OBJEXT) \
 	xfcethememanager-cli.$(OBJEXT) \
@@ -143,7 +144,7 @@ am__uninstall_files_from_dir = { \
     || { echo " ( cd '$$dir' && rm -f" $$files ")"; \
          $(am__cd) "$$dir" && rm -f $$files; }; \
   }
-DATA = $(docfiles_DATA)
+DATA = $(docfiles_DATA) $(scriptfiles_DATA)
 am__tagged_files = $(HEADERS) $(SOURCES) $(TAGS_FILES) $(LISP)
 # Read a list of newline-separated strings from the standard input,
 # and print each of them once, without duplicates.  Input order is
@@ -298,6 +299,8 @@ xfcethememanager_CFLAGS = -O3 -export-dynamic
 xfcethememanager_CXXFLAGS = -O3 -export-dynamic
 docfilesdir = $(pkgdatadir)/docs
 docfiles_DATA = ../resources/docs/*
+scriptfilesdir = $(pkgdatadir)/scripts
+scriptfiles_DATA = ../resources/scripts/*
 all: all-am
 
 .SUFFIXES:
@@ -540,6 +543,27 @@ uninstall-docfilesDATA:
 	@list='$(docfiles_DATA)'; test -n "$(docfilesdir)" || list=; \
 	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
 	dir='$(DESTDIR)$(docfilesdir)'; $(am__uninstall_files_from_dir)
+install-scriptfilesDATA: $(scriptfiles_DATA)
+	@$(NORMAL_INSTALL)
+	@list='$(scriptfiles_DATA)'; test -n "$(scriptfilesdir)" || list=; \
+	if test -n "$$list"; then \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(scriptfilesdir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(scriptfilesdir)" || exit 1; \
+	fi; \
+	for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  echo "$$d$$p"; \
+	done | $(am__base_list) | \
+	while read files; do \
+	  echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(scriptfilesdir)'"; \
+	  $(INSTALL_DATA) $$files "$(DESTDIR)$(scriptfilesdir)" || exit $$?; \
+	done
+
+uninstall-scriptfilesDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(scriptfiles_DATA)'; test -n "$(scriptfilesdir)" || list=; \
+	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
+	dir='$(DESTDIR)$(scriptfilesdir)'; $(am__uninstall_files_from_dir)
 
 ID: $(am__tagged_files)
 	$(am__define_uniq_tagged_files); mkid -fID $$unique
@@ -627,7 +651,7 @@ check-am: all-am
 check: check-am
 all-am: Makefile $(PROGRAMS) $(DATA)
 installdirs:
-	for dir in "$(DESTDIR)$(bindir)" "$(DESTDIR)$(docfilesdir)"; do \
+	for dir in "$(DESTDIR)$(bindir)" "$(DESTDIR)$(docfilesdir)" "$(DESTDIR)$(scriptfilesdir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 install: install-am
@@ -682,7 +706,7 @@ info: info-am
 
 info-am:
 
-install-data-am: install-docfilesDATA
+install-data-am: install-docfilesDATA install-scriptfilesDATA
 
 install-dvi: install-dvi-am
 
@@ -728,7 +752,8 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-binPROGRAMS uninstall-docfilesDATA
+uninstall-am: uninstall-binPROGRAMS uninstall-docfilesDATA \
+	uninstall-scriptfilesDATA
 	@$(NORMAL_INSTALL)
 	$(MAKE) $(AM_MAKEFLAGS) uninstall-hook
 .MAKE: install-am install-exec-am install-strip uninstall-am
@@ -741,12 +766,13 @@ uninstall-am: uninstall-binPROGRAMS uninstall-docfilesDATA
 	install-docfilesDATA install-dvi install-dvi-am install-exec \
 	install-exec-am install-exec-hook install-html install-html-am \
 	install-info install-info-am install-man install-pdf \
-	install-pdf-am install-ps install-ps-am install-strip \
-	installcheck installcheck-am installdirs maintainer-clean \
+	install-pdf-am install-ps install-ps-am \
+	install-scriptfilesDATA install-strip installcheck \
+	installcheck-am installdirs maintainer-clean \
 	maintainer-clean-generic mostlyclean mostlyclean-compile \
 	mostlyclean-generic pdf pdf-am ps ps-am tags tags-am uninstall \
 	uninstall-am uninstall-binPROGRAMS uninstall-docfilesDATA \
-	uninstall-hook
+	uninstall-hook uninstall-scriptfilesDATA
 
 
 install-exec-hook:
