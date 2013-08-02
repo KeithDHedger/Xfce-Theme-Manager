@@ -1,3 +1,25 @@
 #!/bin/bash -e
 
 #©keithhedger Fri 2 Aug 12:17:52 BST 2013 kdhedger68713@gmail.com
+
+GTKARRAY=
+ARRAYNUM=0
+
+makeArray ()
+{
+	while read
+		do
+			GTKARRAY[$ARRAYNUM]="$REPLY"
+			((ARRAYNUM=ARRAYNUM+1))
+		done< <(xfce-theme-manager -l c)
+}
+
+
+makeArray
+
+GTKNUMBER=$RANDOM
+MAXFILES=${#GTKARRAY[@]}
+GTKNUM=$(( (GTKNUMBER %=  MAXFILES-1) +1 ))
+GTK=${GTKARRAY[GTKNUM]}
+
+xfce-theme-manager  -c "$GTK"

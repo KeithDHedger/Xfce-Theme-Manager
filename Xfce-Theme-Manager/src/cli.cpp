@@ -126,7 +126,6 @@ int doCliThemePart(char* name,long what)
 					{	
 						sprintf((char*)&generalBuffer,"%s/%i.%s.db",wallpapersFolder,j,name);
 						papername=getThemeNameFromDB(generalBuffer);
-						printf("%s\n",(char*)&generalBuffer[0]);
 						if(papername!=NULL)
 							{
 								sprintf((char*)&generalBuffer[0],"%s%i/image-path",MONITORPROP,cliMonitor);

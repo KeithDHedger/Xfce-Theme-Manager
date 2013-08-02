@@ -13,9 +13,7 @@ makeArray ()
 	while read
 		do
 			BORDERSARRAY[$ARRAYNUM]="$REPLY"
-			echo $ARRAYNUM ${BORDERSARRAY[$ARRAYNUM]}
 			((ARRAYNUM=ARRAYNUM+1))
-			#echo $REPLY
 		done< <(xfce-theme-manager -l b)
 }
 

@@ -1,3 +1,25 @@
 #!/bin/bash -e
 
 #©keithhedger Fri 2 Aug 12:19:42 BST 2013 kdhedger68713@gmail.com
+
+WMBARRAY=
+ARRAYNUM=0
+
+makeArray ()
+{
+	while read
+		do
+			WMBARRAY[$ARRAYNUM]="$REPLY"
+			((ARRAYNUM=ARRAYNUM+1))
+		done< <(xfce-theme-manager -l w)
+}
+
+
+makeArray
+
+WMBNUMBER=$RANDOM
+MAXFILES=${#WMBARRAY[@]}
+WMBNUM=$(( (WMBNUMBER %=  MAXFILES-1) +1 ))
+WMB=${WMBARRAY[WMBNUM]}
+
+xfce-theme-manager  -w "$WMB"

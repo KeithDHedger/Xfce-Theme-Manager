@@ -1,3 +1,73 @@
 #!/bin/bash -e
 
 #©keithhedger Fri 2 Aug 12:20:31 BST 2013 kdhedger68713@gmail.com
+
+NUMMONITORS=2
+BORDERSARRAY=
+ARRAYNUM=0
+
+makeArray ()
+{
+	while read
+		do
+			BORDERSARRAY[$ARRAYNUM]="$REPLY"
+			((ARRAYNUM=ARRAYNUM+1))
+		done< <(xfce-theme-manager -l b)
+}
+
+
+makeArray
+
+for((j=0;j<NUMMONITORS;j++))
+	do
+		WALLNUMBER=$RANDOM
+		MAXFILES=${#BORDERSARRAY[@]}
+		PICNUM=$(( (WALLNUMBER %=  MAXFILES-1) +1 ))
+		PIC=${BORDERSARRAY[PICNUM]}
+
+#set monitor to j
+#set wallpaperstyle to auto
+		xfce-theme-manager -e 0 -m $j -b "$PIC"
+done
+
+GTKARRAY=
+ARRAYNUM=0
+
+makeArray ()
+{
+	while read
+		do
+			GTKARRAY[$ARRAYNUM]="$REPLY"
+			((ARRAYNUM=ARRAYNUM+1))
+		done< <(xfce-theme-manager -l c)
+}
+
+
+makeArray
+
+GTKNUMBER=$RANDOM
+MAXFILES=${#GTKARRAY[@]}
+GTKNUM=$(( (GTKNUMBER %=  MAXFILES-1) +1 ))
+GTK=${GTKARRAY[GTKNUM]}
+
+WMBARRAY=
+ARRAYNUM=0
+
+makeArray ()
+{
+	while read
+		do
+			WMBARRAY[$ARRAYNUM]="$REPLY"
+			((ARRAYNUM=ARRAYNUM+1))
+		done< <(xfce-theme-manager -l w)
+}
+
+
+makeArray
+
+WMBNUMBER=$RANDOM
+MAXFILES=${#WMBARRAY[@]}
+WMBNUM=$(( (WMBNUMBER %=  MAXFILES-1) +1 ))
+WMB=${WMBARRAY[WMBNUM]}
+
+xfce-theme-manager  -w "$WMB" -c "$GTK"
