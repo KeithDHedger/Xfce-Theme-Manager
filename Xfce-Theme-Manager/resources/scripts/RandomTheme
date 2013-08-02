@@ -8,14 +8,16 @@ ARRAYNUM=0
 # C = just custom themes
 # t = meta themes
 
-THEMESORT=C
+THEMESORT=Ct
 
 makeArray ()
 {
 	while read
 		do
-			THEMEARRAY[$ARRAYNUM]="$REPLY"
-			((ARRAYNUM=ARRAYNUM+1))
+			if [ ${REPLY:0:1} != "[" ];then
+				THEMEARRAY[$ARRAYNUM]="$REPLY"
+				((ARRAYNUM=ARRAYNUM+1))
+			fi
 		done< <(xfce-theme-manager -l $THEMESORT)
 }
 
@@ -24,7 +26,7 @@ makeArray
 
 THEMENUMBER=$RANDOM
 MAXFILES=${#THEMEARRAY[@]}
-THEMENUM=$(( (THEMENUMBER %=  MAXFILES-1) +1 ))
+THEMENUM=$(( (THEMENUMBER %=  MAXFILES) ))
 THEME=${THEMEARRAY[THEMENUM]}
 
 xfce-theme-manager  -t "$THEME"
