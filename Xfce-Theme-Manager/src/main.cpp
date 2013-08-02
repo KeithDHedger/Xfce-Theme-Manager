@@ -523,6 +523,8 @@ void printhelp(void)
 	printf("%ls\n",_translateHelp(HELP12));//-p, --cursors=ARG	Set the cursor theme to ARG
 	printf("%ls\n",_translateHelp(HELP13));//-b, --backdrop=ARG	Set wallpaper to ARG
 	printf("%ls\n",_translateHelp(HELP21));//-m --monitor set monitor for wallpaper default 0
+	printf("%ls\n",_translateHelp(HELP28));//-e, --paper-style=ARG	Set wallpaper style to ARG
+	
 	printf("%ls\n",_translateHelp(HELP22));//-a, --panel=ARG	Set which panel to change ( default is 0 )
 	printf("%ls\n",_translateHelp(HELP23));//-z, --panel-size=ARG	Set panel size to ARG
 	printf("%ls\n",_translateHelp(HELP24));//-y, --panel-style=ARG	Set panel style to ARG
@@ -553,6 +555,7 @@ struct option long_options[]=
 		{"list",1,0,'l'},
 		{"save",1,0,'s'},
 		{"monitor",1,0,'m'},
+		{"paper-style",1,0,'e'},
 		{"panel",1,0,'a'},
 		{"panel-size",1,0,'z'},
 		{"panel-style",1,0,'y'},
@@ -581,7 +584,7 @@ int main(int argc,char **argv)
 	while (1)
 		{
 			int option_index=0;
-			c=getopt_long_only(argc,argv,":t:c:w:i:p:b:l:s:m:a:z:y:g:d:o:urnv?h",long_options,&option_index);
+			c=getopt_long_only(argc,argv,":t:c:w:i:p:b:l:s:m:a:z:y:g:d:o:e:urnv?h",long_options,&option_index);
 
 			if (c==-1)
 				break;
@@ -653,6 +656,13 @@ int main(int argc,char **argv)
 
 					case 'm':
 						cliMonitor=atoi(optarg);
+						noGui=true;
+						break;
+
+
+					case 'e':
+						cliPaperStyle=atoi(optarg);
+						cliSetPaperStyle();
 						noGui=true;
 						break;
 

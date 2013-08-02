@@ -26,6 +26,7 @@ int					cliPanelStyle;
 char*				cliPanelImage;
 int					cliPanelAlpha;
 char*				cliPanelColour;
+int					cliPaperStyle=0;
 
 void cliSetPanelColour(void)
 {
@@ -137,3 +138,15 @@ int doCliThemePart(char* name,long what)
 		}
 	return(1);
 }
+
+void cliSetPaperStyle(void)
+{
+	sprintf((char*)&generalBuffer[0],"%s%i/image-style",MONITORPROP,cliMonitor);
+	setValue(XFCEDESKTOP,(char*)&generalBuffer[0],INT,(void*)cliPaperStyle);
+}
+
+
+
+
+
+

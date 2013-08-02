@@ -25,6 +25,7 @@ extern int				cliPanelStyle;
 extern char*			cliPanelImage;
 extern int				cliPanelAlpha;
 extern char*			cliPanelColour;
+extern int				cliPaperStyle;
 
 void cliSetPanelSize(void);
 int doCliTheme(void);
@@ -33,5 +34,6 @@ void cliSetPanelStyle(void);
 void cliSetPanelImage(void);
 void cliSetPanelAlpha(void);
 void cliSetPanelColour(void);
+void cliSetPaperStyle(void);
 
 #endif
