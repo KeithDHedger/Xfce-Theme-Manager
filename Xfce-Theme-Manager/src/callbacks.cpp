@@ -677,6 +677,7 @@ void monitorChanged(GtkWidget* widget,gpointer data)
 {
 	if(initing==true)
 		return;
+
 	if(fromSetMonitor==true)
 		{
 			currentMonitor=0;
