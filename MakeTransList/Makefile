@@ -15,4 +15,7 @@ all:
 
 clean:
 	rm $(PROGRAM1) $(PROGRAM2)
+	rm GUITranslation.*
+	rm HELPTranslation.*
+
 
