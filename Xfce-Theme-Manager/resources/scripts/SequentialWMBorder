@@ -1,3 +1,32 @@
-#!/bin/bash -e
+#!/bin/bash
 
 #©keithhedger Fri 2 Aug 12:21:33 BST 2013 kdhedger68713@gmail.com
+
+WMBARRAY=
+ARRAYNUM=0
+
+makeArray ()
+{
+	while read
+		do
+			if [ ${REPLY:0:1} != "[" ];then
+				WMBARRAY[$ARRAYNUM]="$REPLY"
+				((ARRAYNUM=ARRAYNUM+1))
+			fi
+		done< <(xfce-theme-manager -l w|sort)
+}
+
+
+makeArray
+
+if [ -e ~/.config/XfceThemeManager/wmbnumber ];then
+	PAPERNUM=$(cat ~/.config/XfceThemeManager/wmbnumber)
+else
+	PAPERNUM=0
+fi
+
+((PAPERNUM++))
+
+echo $PAPERNUM > ~/.config/XfceThemeManager/wmbnumber
+
+xfce-theme-manager  -w "${WMBARRAY[PAPERNUM]}"
