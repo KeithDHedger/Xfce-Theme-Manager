@@ -197,6 +197,51 @@ określają zestaw ikon, wtedy zostaną one użyte.
 		Ustaw tapetę na ARG.
 .br
 
+\-m, \-\-monitor
+.br 
+	Set monitor for wallpaper default 0
+.br 
+	\-m can be used multiple times on the command line,
+.br 
+	the last value is used, this allows you to set wallpapers for multple monitors in one go.
+.br 
+
+\-a, \-\-panel=ARG
+.br 
+	Set which panel to change ( default is 1 )
+.br 
+	\-a can be used multiple times on the command line,
+.br 
+	the last value is used, this allows you to set multple panel data in one go.
+.br 
+
+\-z, \-\-panel\-size=ARG
+.br 
+	Set panel size to ARG
+.br 
+
+\-y, \-\-panel\-style=ARG
+.br 
+	Set panel style to ARG
+.br 
+
+\-g, \-\-panel\-image=ARG
+.br 
+	Set path to panel image to ARG
+.br 
+
+\-d, \-\-panel\-alpha=ARG
+.br 
+	Set panel alpha to ARG, range 0\-100
+.br 
+
+\-o, \-\-panel\-colour=ARG
+.br 
+	Set panel colour to ARG in hex format ie ff00ff
+.br 
+	ARG MUST be exactly 6 hex characters.
+.br 
+
 -l, --list=ARG
 .br
 		Pokaż wpisy w bazie danych, gdzie ARG = dowolny znak z "*Ctwcib".
