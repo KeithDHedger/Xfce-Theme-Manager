@@ -212,6 +212,44 @@ określają zestaw ikon, wtedy zostaną one użyte.
 .br
 
 Options tcwipblvh? all imply -n.
+.br 
+.SH "EXAMPLES"
+A number of example scripts for command line usage can be found in /PREFIX/share/Xfce\-Theme\-Manager/scripts.
+
+\fBRandomGTK\fR
+.br 
+Set a random gtk theme.
+
+.br 
+\fBRandomWMBorder\fR
+.br 
+Set a random window maanger border.
+
+.br 
+\fBRandomWallpaper\fR
+.br 
+Set a random wallpaper on all monitors.
+
+.br 
+\fBRandomAll\fR
+.br 
+Do all of the above \- WARNING! this can create some eye watering combinations!
+
+.br 
+\fBSequentialGTK\fR
+.br 
+Every time the script is run the next gtk theme in a sorted list is used.
+
+.br 
+\fBSequentialWMBorder\fR
+.br 
+Every time the script is run the next  in a sorted window maanger border list is used.
+
+.br 
+\fBSequentialWallpaper\fR
+.br 
+Every time the script is run the next  in a sorted wallpaper list is used.
+
 .br
 .SH  AUTHOR
 .B Xfce-Theme-Manager
@@ -219,4 +257,4 @@ został stworzony przez Keitha Hedgera
 
 Strona podręcznika została napisana przez Eduardo Echeverria <echevemaster@gmail.com>,
 dla projektu Fedora (i może być używana przez innych), zmienione przez Keith Hedger, przetłumaczone przez Pablo Morales Romero
-<pg.morales.romero@gmail.com> (hiszpański), Martin F. Schumann <mfs@mfs.name> (niemiecki), Michał Olber (redakcja@osworld.pl)(polski).
+<pg.morales.romero@gmail.com> (hiszpański), Martin F. Schumann <mfs@mfs.name> (niemiecki), Michał Olber <redakcja@osworld.pl> (polski), Moatib <moatib@ymail.com> (French).
