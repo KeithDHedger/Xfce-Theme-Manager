@@ -3,7 +3,7 @@
 #©keithhedger Fri 2 Aug 12:20:09 BST 2013 kdhedger68713@gmail.com
 
 MONITORNUMBER=0
-BORDERSARRAY=
+PAPERSARRAY=
 ARRAYNUM=0
 
 makeArray ()
@@ -11,7 +11,7 @@ makeArray ()
 	while read
 		do
 			if [ ${REPLY:0:1} != "[" ];then
-				BORDERSARRAY[$ARRAYNUM]="$REPLY"
+				PAPERSARRAY[$ARRAYNUM]="$REPLY"
 				((ARRAYNUM=ARRAYNUM+1))
 			fi
 		done< <(xfce-theme-manager -l b|sort)
@@ -22,12 +22,14 @@ makeArray
 
 if [ -e ~/.config/XfceThemeManager/wallpapernumber ];then
 	PAPERNUM=$(cat ~/.config/XfceThemeManager/wallpapernumber)
+	if [ $PAPERNUM -gt ${#PAPERSARRAY[@]} ];then
+		PAPERNUM=0
+	fi
 else
 	PAPERNUM=0
 fi
 
+xfce-theme-manager -e 0 -m $MONITORNUMBER -b "${PAPERSARRAY[PAPERNUM]}"
+
 ((PAPERNUM++))
-
-xfce-theme-manager -e 0 -m $MONITORNUMBER -b "${BORDERSARRAY[PAPERNUM]}"
-
-echo $PAPERNUM > ~/.config/XfceThemeManager/wallpapernumber
+echo -n $PAPERNUM > ~/.config/XfceThemeManager/wallpapernumber
