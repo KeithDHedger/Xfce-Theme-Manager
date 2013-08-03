@@ -724,6 +724,7 @@ int main(int argc,char **argv)
 	gtk_init(&argc,&argv);
 
 	init();
+	initing=false;
 
 	if(doPrintHelp==true)
 		{

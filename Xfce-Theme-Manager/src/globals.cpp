@@ -25,6 +25,7 @@ int					currentCursSize;
 char*				currentMetaTheme=NULL;
 
 char*				homeThemesHash;
+bool				initing=true;
 
 char*				originalGtkTheme=NULL;
 char*				originalIconTheme=NULL;

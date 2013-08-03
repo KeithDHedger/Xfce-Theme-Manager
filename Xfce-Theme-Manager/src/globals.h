@@ -110,6 +110,7 @@ extern char*			originalWallpaper;
 extern char*			originalMetaTheme;
 
 extern char*			homeThemesHash;
+extern bool				initing;
 
 struct boxStruct
 {
