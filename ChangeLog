@@ -26,6 +26,7 @@ Changelog:
 		Added French translation.
 		Added command line args for panels.
 		Fixed duplicate wallpaper entry bug when changing monitor.
+		Added licence to 'About' box.
 
 0.3.3	Changed from external xconf-query to xfconf lib.
 		Speed change in GUI from 0.3.2 - Change meta theme approx 5s, 0.3.3 - Change meta theme approx 1.5s.

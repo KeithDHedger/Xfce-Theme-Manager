@@ -501,7 +501,7 @@ void printList(void)
 
 void doAbout(GtkWidget* widget,gpointer data)
 {
-	const char*	authors[]={"K.D.Hedger <"MYEMAIL">",NULL};
+	const char*	authors[]={"K.D.Hedger <"MYEMAIL">","stuff","more stuff",NULL};
 	const char	copyright[] ="Copyright \xc2\xa9 2012-2013 K.D.Hedger";
 	const char*	aboutboxstring=_translate(ABOUTBOX);
 	const char*	translators="Spanish translation:\nPablo Morales Romero <pg.morales.romero@gmail.com>.\n\nGerman translation:\nMartin F. Schumann. <mfs@mfs.name>\n\nPolish translation:\nMichał Olber (OSWorld) <redakcja@osworld.pl> ";
