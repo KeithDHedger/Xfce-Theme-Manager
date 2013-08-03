@@ -505,8 +505,18 @@ void doAbout(GtkWidget* widget,gpointer data)
 	const char	copyright[] ="Copyright \xc2\xa9 2012-2013 K.D.Hedger";
 	const char*	aboutboxstring=_translate(ABOUTBOX);
 	const char*	translators="Spanish translation:\nPablo Morales Romero <pg.morales.romero@gmail.com>.\n\nGerman translation:\nMartin F. Schumann. <mfs@mfs.name>\n\nPolish translation:\nMichał Olber (OSWorld) <redakcja@osworld.pl> ";
+	char* licence=NULL;
+	sprintf((char*)&generalBuffer[0],"cat %s/docs/gpl-3.0.txt\n",DATADIR);
+	GString*		str=g_string_new(NULL);
+	FILE*			fp;
 
-	gtk_show_about_dialog(NULL,"authors",authors,"translator-credits",translators,"comments",aboutboxstring,"copyright",copyright,"version",VERSION,"website",MYWEBSITE,"program-name","Xfce-Theme-Manager","logo-icon-name","xfce-theme-manager",NULL); 
+	fp=popen(generalBuffer, "r");
+	while(fgets(generalBuffer,1024,fp))
+		g_string_append_printf(str,"%s",generalBuffer);
+	pclose(fp);
+	gtk_show_about_dialog(NULL,"authors",authors,"translator-credits",translators,"comments",aboutboxstring,"copyright",copyright,"version",VERSION,"website",MYWEBSITE,"program-name","Xfce-Theme-Manager","logo-icon-name","xfce-theme-manager","license",str->str,NULL); 
+
+	g_string_free(str,true);
 }
 
 void printhelp(void)
