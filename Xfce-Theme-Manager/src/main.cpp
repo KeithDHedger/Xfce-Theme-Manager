@@ -902,6 +902,8 @@ int main(int argc,char **argv)
 					return(0);
 				}
 
+			populatePanels();
+
 			if (cliControls!=NULL)
 				cliRetVal|=doCliThemePart(cliControls,CONTROLS);
 

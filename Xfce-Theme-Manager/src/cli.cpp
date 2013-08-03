@@ -80,7 +80,6 @@ int doCliTheme(void)
 		}
 	else
 		freeAndNull(&tn);
-
 	for (int j=0;j<2;j++)
 		{
 			asprintf(&tn,"%s/%i.%s.db",metaFolder,j,cliTheme);

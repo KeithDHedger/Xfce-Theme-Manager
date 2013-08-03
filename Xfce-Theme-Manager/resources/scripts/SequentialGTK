@@ -20,14 +20,14 @@ makeArray ()
 makeArray
 
 if [ -e ~/.config/XfceThemeManager/gtknumber ];then
-	PAPERNUM=$(cat ~/.config/XfceThemeManager/gtknumber)
-	if [ $PAPERNUM -gt ${#GTKARRAY[@]} ];then
-		PAPERNUM=0
+	GTKNUM=$(cat ~/.config/XfceThemeManager/gtknumber)
+	if [ $GTKNUM -ge ${#GTKARRAY[@]} ];then
+		GTKNUM=0
 	fi
 else
-	PAPERNUM=0
+	GTKNUM=0
 fi
 
-xfce-theme-manager  -c "${GTKARRAY[PAPERNUM]}"
-((PAPERNUM++))
-echo -n $PAPERNUM > ~/.config/XfceThemeManager/gtknumber
+xfce-theme-manager  -c "${GTKARRAY[GTKNUM]}"
+((GTKNUM++))
+echo -n $GTKNUM > ~/.config/XfceThemeManager/gtknumber

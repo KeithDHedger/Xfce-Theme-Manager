@@ -22,7 +22,7 @@ makeArray
 
 if [ -e ~/.config/XfceThemeManager/wallpapernumber ];then
 	PAPERNUM=$(cat ~/.config/XfceThemeManager/wallpapernumber)
-	if [ $PAPERNUM -gt ${#PAPERSARRAY[@]} ];then
+	if [ $PAPERNUM -ge ${#PAPERSARRAY[@]} ];then
 		PAPERNUM=0
 	fi
 else

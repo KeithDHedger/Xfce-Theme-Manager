@@ -2,7 +2,7 @@
 
 #©keithhedger Fri 2 Aug 12:21:33 BST 2013 kdhedger68713@gmail.com
 
-GTKARRAY=
+ICONARRAY=
 ARRAYNUM=0
 
 makeArray ()
@@ -10,24 +10,24 @@ makeArray ()
 	while read
 		do
 			if [ ${REPLY:0:1} != "[" ];then
-				GTKARRAY[$ARRAYNUM]="$REPLY"
+				ICONARRAY[$ARRAYNUM]="$REPLY"
 				((ARRAYNUM=ARRAYNUM+1))
 			fi
-		done< <(xfce-theme-manager -l c)
+		done< <(xfce-theme-manager -l i)
 }
 
 
 makeArray
 
-if [ -e ~/.config/XfceThemeManager/gtknumber ];then
-	PAPERNUM=$(cat ~/.config/XfceThemeManager/gtknumber)
-	if [ $PAPERNUM -gt ${#GTKARRAY[@]} ];then
-		PAPERNUM=0
+if [ -e ~/.config/XfceThemeManager/iconnumber ];then
+	ICONNUM=$(cat ~/.config/XfceThemeManager/iconnumber)
+	if [ $ICONNUM -ge ${#ICONARRAY[@]} ];then
+		ICONNUM=0
 	fi
 else
-	PAPERNUM=0
+	ICONNUM=0
 fi
 
-xfce-theme-manager  -c "${GTKARRAY[PAPERNUM]}"
-((PAPERNUM++))
-echo -n $PAPERNUM > ~/.config/XfceThemeManager/gtknumber
+xfce-theme-manager  -i "${ICONARRAY[ICONNUM]}"
+((ICONNUM++))
+echo -n $ICONNUM > ~/.config/XfceThemeManager/iconnumber

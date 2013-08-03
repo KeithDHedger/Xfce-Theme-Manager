@@ -20,14 +20,14 @@ makeArray ()
 makeArray
 
 if [ -e ~/.config/XfceThemeManager/wmbnumber ];then
-	PAPERNUM=$(cat ~/.config/XfceThemeManager/wmbnumber)
-	if [ $PAPERNUM -gt ${#WMBARRAY[@]} ];then
-		PAPERNUM=0
+	WMBNUM=$(cat ~/.config/XfceThemeManager/wmbnumber)
+	if [ $WMBNUM -ge ${#WMBARRAY[@]} ];then
+		WMBNUM=0
 	fi
 else
-	PAPERNUM=0
+	WMBNUM=0
 fi
 
-xfce-theme-manager  -w "${WMBARRAY[PAPERNUM]}"
-((PAPERNUM++))
-echo -n $PAPERNUM > ~/.config/XfceThemeManager/wmbnumber
+xfce-theme-manager  -w "${WMBARRAY[WMBNUM]}"
+((WMBNUM++))
+echo -n $WMBNUM > ~/.config/XfceThemeManager/wmbnumber
