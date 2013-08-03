@@ -240,7 +240,7 @@ void addIconEntry(GtkListStore *store,const char* iconPng,const char* iconName,c
 			cairo_destroy(cr);
 		}
 
-gtk_list_store_set(previewBox[whatBox].store,&iter,PIXBUF_COLUMN,pixbuf,TEXT_COLUMN,iconName,FILE_NAME,dbPath,-1);
+	gtk_list_store_set(previewBox[whatBox].store,&iter,PIXBUF_COLUMN,pixbuf,TEXT_COLUMN,iconName,FILE_NAME,dbPath,-1);
 	g_object_unref(pixbuf);
 
 }
@@ -387,7 +387,7 @@ void buildPages(void)
 
 	scrollToCurrent(THEMES);
 
-	for (int j=1;j<WALLPAPERS;j++)
+	for (int j=1;j<=WALLPAPERS;j++)
 		{
 			previewBox[j].itemCnt=0;
 			freeIter(j);
@@ -399,16 +399,6 @@ void buildPages(void)
 
 			scrollToCurrent(j);
 		}
-	
-	previewBox[WALLPAPERS].itemCnt=0;
-	freeIter(WALLPAPERS);
-
-	addNewIcons(folders[WALLPAPERS],previewBox[WALLPAPERS].iconView,WALLPAPERS);
-
-	g_signal_connect(G_OBJECT(previewBox[WALLPAPERS].iconView),"motion-notify-event",G_CALLBACK(mouseMove),NULL);
-	g_signal_connect(G_OBJECT(previewBox[WALLPAPERS].iconView),"button-press-event",G_CALLBACK(clickIt),(void*)(long)WALLPAPERS);
-
-	scrollToCurrent(WALLPAPERS);
 }
 
 void buildAdvancedGui(GtkWidget* advancedScrollBox)

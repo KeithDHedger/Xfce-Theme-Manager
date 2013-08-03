@@ -688,9 +688,10 @@ void monitorChanged(GtkWidget* widget,gpointer data)
 
 	previewBox[WALLPAPERS].itemCnt=0;
 	freeIter(WALLPAPERS);
+	gtk_list_store_clear(previewBox[WALLPAPERS].store);
 
 	addNewIcons(folders[WALLPAPERS],previewBox[WALLPAPERS].iconView,WALLPAPERS);
-
+			
 	g_signal_connect(G_OBJECT(previewBox[WALLPAPERS].iconView),"motion-notify-event",G_CALLBACK(mouseMove),NULL);
 	g_signal_connect(G_OBJECT(previewBox[WALLPAPERS].iconView),"button-press-event",G_CALLBACK(clickIt),(void*)(long)WALLPAPERS);
 

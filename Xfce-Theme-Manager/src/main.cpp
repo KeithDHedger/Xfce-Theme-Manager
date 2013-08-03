@@ -218,7 +218,7 @@ void init(void)
 	GdkDisplay*	gdpy=gdk_display_get_default();
 	GdkScreen*	screen=gdk_display_get_screen(gdpy,0);
 	numberOfMonitors=gdk_screen_get_n_monitors(screen);
-	
+
 //gtk
 	getValue(XSETTINGS,CONTROLTHEMEPROP,STRING,&currentGtkTheme);
 	getValue(XSETTINGS,CONTROLTHEMEPROP,STRING,&originalGtkTheme);
@@ -336,6 +336,7 @@ void init(void)
 	previewBox[WALLPAPERS].scrollBox=(GtkScrolledWindow*)gtk_scrolled_window_new(NULL,NULL);
 	gtk_scrolled_window_set_policy(previewBox[WALLPAPERS].scrollBox,GTK_POLICY_AUTOMATIC,GTK_POLICY_ALWAYS);
 	previewBox[WALLPAPERS].vBox=(GtkVBox*)gtk_vbox_new(FALSE,0);
+	
 	previewBox[WALLPAPERS].iconView=(GtkIconView*)gtk_icon_view_new();
 	previewBox[WALLPAPERS].itemCnt=0;
 	previewBox[WALLPAPERS].partIter=NULL;
@@ -354,6 +355,7 @@ void init(void)
 	gtk_container_add((GtkContainer *)previewBox[WALLPAPERS].scrollBox,(GtkWidget*)previewBox[WALLPAPERS].iconView);
 
 //screen
+
 	if(numberOfMonitors>1)
 		{
 			for(int j=0;j<numberOfMonitors;j++)
@@ -366,7 +368,7 @@ void init(void)
 			gtk_combo_box_set_active((GtkComboBox*)screenNumber,0);
 			currentMonitor=0;
 		}
-	
+
 	styleComboBox=(GtkComboBoxText*)gtk_combo_box_text_new();
 	gtk_combo_box_text_append_text(styleComboBox,_translate(AUTO));
 	gtk_combo_box_text_append_text(styleComboBox,_translate(CENTRED));
