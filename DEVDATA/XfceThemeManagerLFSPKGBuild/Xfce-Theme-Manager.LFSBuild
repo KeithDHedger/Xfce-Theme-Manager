@@ -4,7 +4,7 @@
 
 NAME="Xfce-Theme-Manager"
 VERSION="0.3.4"
-BUILD=2
+BUILD=3
 SECTION="XTRA"
 SUFFIX="LFS"
 TARBALL="${NAME}-${VERSION}.tar.gz"
