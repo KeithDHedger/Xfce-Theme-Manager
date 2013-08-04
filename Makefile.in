@@ -737,7 +737,7 @@ uninstall-am:
 
 
 remake:
-	$(shell ./remakesourcelist)
+	./remakesourcelist
 
 all-local:
 	mv Xfce-Theme-Manager/app/xfcethememanager $(TRANSFORMNAME)
