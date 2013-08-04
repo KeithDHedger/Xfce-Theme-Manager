@@ -140,7 +140,7 @@ int doCliThemePart(char* name,long what)
 void cliSetPaperStyle(void)
 {
 	sprintf((char*)&generalBuffer[0],"%s%i/image-style",MONITORPROP,cliMonitor);
-	setValue(XFCEDESKTOP,(char*)&generalBuffer[0],INT,(void*)cliPaperStyle);
+	setValue(XFCEDESKTOP,(char*)&generalBuffer[0],INT,(void*)(long)cliPaperStyle);
 }
 
 

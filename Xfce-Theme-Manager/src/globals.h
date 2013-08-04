@@ -246,9 +246,8 @@ extern bool				noGui;
 extern bool				updateDb;
 extern bool				rebuildDb;
 
-extern void freeAndNull(char** ptr);
-extern int positionToInt(char* pos);
-
+void freeAndNull(char** ptr);
+int positionToInt(char* pos);
 int sizeDrop(bool toDrop,int data);
 void getValue(const char* channel,const char* property,dataType type,void* ptr);
 void setValue(const char* channel,const char* property,dataType type,void* ptr);
