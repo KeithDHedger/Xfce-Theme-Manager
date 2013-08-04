@@ -1,0 +1,14 @@
+#!/bin/bash -e
+
+#©keithhedger Sun 4 Aug 12:15:59 BST 2013 kdhedger68713@gmail.com
+
+
+LANGUAGE="FRENCH"
+INFILE=HELPTranslation.fr
+
+cat $INFILE|grep $LANGUAGE|sed "s/$LANGUAGE://"|awk -F "\n" '{print "L\"" $1 "\""}'| tr "\n" ",">./outstring.help
+
+LANGUAGE="FRENCH"
+INFILE=GUITranslation.fr
+
+cat $INFILE|grep $LANGUAGE|sed "s/$LANGUAGE://"|awk -F "\n" '{print "\"" $1 "\""}'| tr "\n" ",">./outstring.gui
