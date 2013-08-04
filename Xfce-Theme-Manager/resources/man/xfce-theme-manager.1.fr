@@ -1,304 +1,296 @@
-.TH "XFCE-THEME-MANAGER" "1" "0.3.0" "K.D.Hedger" ""
-.SH "NAME"
-xfce\-theme\-manager \- A theme manager for Xfce
-.SH "SYNOPSIS"
+.TH "XFCE-THEME-MANAGER" "1" "0.3.4" "K.D.Hedger" ""
+.SH "NOM"
+xfce\-theme\-manager \- Un gestionnaire de thèmes pour Xfce
+.SH "RÉSUMÉ"
 .B xfce\-theme\-manager
 [option.1] ... [option.N]
 .br 
 .SH "DESCRIPTION"
-This manual page documents briefly
+Ce manuel documente brièvement
 .B xfce\-theme\-manager.
 .br 
-xfce\-theme\-manager is a theme manager allowing easy configuration of themes, window borders, controls, icons, backdrops, cursors etcetera for Xfce4.
-.SH "OPERATION"
-When xfce\-theme\-manager starts, the user can do any of the following
+xfce\-theme\-manager est un gestionnaire de thèmes permettant une configuration aisée des thèmes de bordures de fenêtres, contrôles, icônes, curseurs, fond d'écran, etc, pour Xfce4.
+.SH "FONCTIONNEMENT"
+Lorsque xfce\-theme\-manager est lancé, l'utilisateur peut effectuer les opérations suivantes :
 .br 
 
-.B [Reset Theme]
+.B [Réinitialiser le thème]
 .br 
-Discard all changes.
-.br 
-
-.B [Save Theme]
-.br 
-Enter a custom theme name to save/delete, you can also quickly delete a custom
-theme by control\-clicking a custom theme thumbnail.
+Annuler toutes les modifications.
 .br 
 
-.B [About]
+.B [Sauvegarder le thème]
 .br 
-Credits and stuff.
-.br 
-
-.B [Advanced Tab]
+Entrez un nom de thème personnalisé à sauvegarder ou à supprimer. Vous pouvez également supprimer rapidement un thème personnalisé en cliquant sur sa miniature, tout en maintenant la touche Contrôle du clavier enfoncée.
 .br 
 
-.B [Rebuild DB]
+.B [À propos]
 .br 
-Rebuild the database.
+Crédits et autres trucs.
+.br 
+
+.B [Onglet avancé]
+.br 
+
+.B [Regénérer la BDD]
+.br 
+Regénérer la base de données.
 .br 
 
 .B [Xfce\-Composite\-Editor]
 .br 
-Run the composite editor (if installed).
+Lancer xfce4\-composite\-editor (si installé).
 .br 
-Available here:
+Disponible ici :
 .br 
-http://keithhedger.hostingsiteforfree.com/zips/Xfce4\-Composite\-Editor.ta r.gz
+http://keithhedger.hostingsiteforfree.com/zips/Xfce4\-Composite\-Editor.tar.gz
 .br 
-You need to have gtkdialog version 0.8.x and BASH installed To run the Composite Editor.
-.br 
-
-.B [Backdrop Adjustments]
-.br 
-Set Brightness/Saturation of the wallpaper.
+Vous devez avoir gtkdialog version 0.8.x et BASH d'installer pour utiliser l'éditeur de composition.
 .br 
 
-.B [Button Layout]
+.B [Ajustements de l'arrière plan]
 .br 
-The layout of close, maximize etc. (some themes may overide this).
-.br 
-
-.B [Title Position]
-.br 
-Placement of the window title, (some themes may overide this).
+Definir la Luminosité et la Saturation du fond d'écran.
 .br 
 
-.B [Font Selection]
+.B [Agencement des boutons]
 .br 
-Title bar/application font.
-.br 
-
-.B [Cursor Size]
-.br 
-Set the cursor size if the cursor theme suports it, some do some don't.
+Disposition des boutons Fermer, Maximiser, etc (certains thèmes peuvent outrepasser cette option).
 .br 
 
-.B [View Options]
+.B [Position du titre]
 .br 
-.B [Show system Themes]
-.br 
-Show globally installed theme parts.
+Placement du titre des fenêtres (certains thèmes peuvent outrepasser cette option).
 .br 
 
-.B [Only show Custom Themes]
+.B [Sélection de la police]
 .br 
-Only shows meta themes that you have created, auto generated meta themes
-are not shown.
-.br 
-
-.B [Themes]
-.br 
-Show globally installed meta themes.
+Police des barres de titre et des applications
 .br 
 
-.B [Window Borders]
+.B [Taille du curseur]
 .br 
-Show globally installed Xwm4 themes.
-.br 
-
-.B [Controls]
-.br 
-Show globally installed Gtk themes.
+Définir la taille du curseur si le thème le prend en charge (fonctionne avec certains, d'autres non).
 .br 
 
-.B [Icons]
+.B [Options d'affichage]
 .br 
-Show globally installed icon themes.
+.B [Afficher les thèmes système]
 .br 
-
-.B [Cursors]
-.br 
-Show globally installed mouse themes.
+Afficher les thèmes installés globalement.
 .br 
 
-.B [Wallpapers]
+.B [N'afficher que les thèmes personnalisés]
 .br 
-Show globally installed wallpapers.
-.br 
-
-Locally installed themes parts are always shown except for meta themes if the
-.B [Only show Custom Themes]
-is checked.
-.br 
-You can quickly delete a custom theme by holding control and clicking on the
-thumbnail, only custom themes you have created can be deleted and only 
-the database entry is removed nothing is uninstalled from your system.
-.br 
-To install a theme/gtk/icon/cursor/border/wallpaper just drag and drop 
-the archive (wallpapers should not be archived) anywhere on the main window
-and if posible the theme etc will be installed into the correct place, 
-all installations are local, supported archive types are: "*.tgz","*.gz","*.zip","*.ta r","*.bz2", supported wallpaper types are: "*.jpg","*.png","*.bmp","*.gif"
-anything else you will have to install yourself.
+Montre seulement les méta\-thèmes que vous avez créé, les méta\-thèmes auto\-générés ne seront pas affichés.
 .br 
 
-You must have unzip installed to drag 'n' drop .zip files.
+.B [Thèmes]
+.br 
+Afficher les méta\-thèmes installés globalement.
 .br 
 
-The thumbnails are stored in ${HOME}/.config/XfceThemeManager.
+.B [Bordures de fenêtres]
+.br 
+Afficher les thèmes Xfwm4 installés globalement.
 .br 
 
-The DB is updated automatically on drag'n'drop, if you do a lot of adding and
-removing of themes/icons etc you may want to run Re\-build DB from 
-the advanced tab.
+.B [Contrôles]
+.br 
+Afficher les thèmes GTK installés globalement.
 .br 
 
-Meta Themes are themes that contain a gtk2 folder and an xfwm4 folder (ie window frames and controls), if there is a gnome\-like "theme.index" file that also specifies an icon set this will be used as well.
+.B [Icônes]
 .br 
-.SH "COMMAND LINE OPTIONS"
+Afficher les thèmes d'icônes installés globalement.
+.br 
+
+.B [Curseurs]
+.br 
+Afficher les thèmes de curseurs de souris installés globalement.
+.br 
+
+.B [Fonds d'écran]
+.br 
+Afficher les fonds d'écran installés globalement.
+.br 
+
+Les thèmes installés localement sont toujours affichés excepté pour les méta\-themes si
+.B [N'afficher que les thèmes personnalisés]
+est activé.
+.br 
+Vous pouvez supprimer rapidement un thème personnalisé en maintenant la touche Contrôle du clavier enfoncée puis en cliquant sur sa miniature. Seuls les thèmes personnalisés que vous avez créés peuvent être supprimés et seule l'entrée de la base de données est effacée, rien n'est désinstallé de votre système.
+.br 
+Pour installer un thème GTK, d'icônes, de curseur, de bordure de fenêtre ou un fond d'écran, simplement glisser et déposer l'archive (les fonds d'écran ne doivent pas être archivés) n'importe où sur la fenêtre principale et si possible, le thème sera installé à l'endroit approprié. Toutes les installations sont locales et les formats pris en charge sont : "*.tgz","*.gz","*.zip","*.ta r","*.bz2" et les types de fonds d'écran pris en charge sont : "*.jpg","*.png","*.bmp" et "*.gif". Tout le reste devra être installé par vous\-même.
+.br 
+
+Vous devez installer unzip pour glisser/déposer les archives au format .zip.
+.br 
+
+Les miniatures sont enregistrées dans ${HOME}/.config/XfceThemeManager.
+.br 
+
+La BDD est mise à jour automatiquement au ​​glisser/déposer. Si vous effectuez plusieurs installations et désinstallation de thèmes vous pourriez devoir lancer Regénérer la BDD dans l'onglet Avancé.
+.br 
+
+Les méta\-thèmes sont des thèmes contenant un dossier gtk2 et un dossier xfwm4 (soit de bordures de fenêtres et de contrôles). S'il y a un fichier "index.theme" qui spécifie un thème d'icônes, il sera utilisé.
+.br 
+.SH "OPTIONS DE LIGNE DE COMMANDE"
 \-v, \-\-version
 .br 
-	Print version info and quit.
+	Afficher les informations de version et quitter.
 .br 
 
 \-u, \-\-update\-db
 .br 
-	Update the database.
+	Mettre à jour la base de données.
 .br 
 
 \-r, \-\-build\-db
 .br 
-	Re\-build the database.
+	Regénérer la base de données.
 .br 
 
 \-n, \-\-nogui
 .br 
-	Don't run the GUI.
+	Ne pas lancer l'interface graphique.
 .br 
 
 \-t, \-\-theme=ARG
 .br 
-	Set the meta\-theme to ARG.
+	Définir le méta-thème à ARG.
 .br 
 
 \-c, \-\-controls=ARG
 .br 
-	Set the controls theme to ARG.
+	Définir le thème des contrôles à ARG.
 .br 
 
 \-w, \-\-wmborder=ARG
 .br 
-	Set the window border to ARG.
+	Définir le thème de bordure de fenêtres à ARG.
 .br 
 
 \-i, \-\-icons=ARG
 .br 
-	Set the icon theme to ARG.
+	Définir le thème d'icônes à ARG.
 .br 
 
 \-p, \-\-cursors=ARG
 .br 
-	Set the cursor theme to ARG.
+	Définir le thème de curseur à ARG.
 .br 
 
 \-b, \-\-backdrop=ARG
 .br 
-	Set wallpaper to ARG.
+	Définir le fond d'écran à ARG.
 .br 
 
 \-m, \-\-monitor
 .br 
-	Set monitor for wallpaper default 0
+	Définir sur quel moniteur changer le fond d'écran (par défaut 0)
 .br 
-	\-m can be used multiple times on the command line,
+	\-m peut être utilisé à plusieurs reprise sur la ligne de commande,
 .br 
-	the last value is used, this allows you to set wallpapers for multple monitors in one go.
+	la dernière valeur est utilisée, cela vous permet de définir des
+.br 
+	fonds d'écran pour plusieurs moniteurs en une seule fois.
 .br 
 
 \-a, \-\-panel=ARG
 .br 
-	Set which panel to change ( default is 1 )
+	Définir quel tableau de bord modifier (par défaut 1)
 .br 
-	\-a can be used multiple times on the command line,
+	\-a peut être utilisé à plusieurs reprise sur la ligne de commande,
 .br 
-	the last value is used, this allows you to set multple panel data in one go.
+	la dernière valeur est utilisée, cela vous permet de définir des
+.br 
+	données pour plusieurs tableaux de bord en une seule fois.
 .br 
 
 \-z, \-\-panel\-size=ARG
 .br 
-	Set panel size to ARG
+	Définir la taille de tableau de bord à ARG
 .br 
 
 \-y, \-\-panel\-style=ARG
 .br 
-	Set panel style to ARG
+	Définir le style du tableau de bord à ARG
 .br 
 
 \-g, \-\-panel\-image=ARG
 .br 
-	Set path to panel image to ARG
+	Définir le chemin vers l'image du tableau de bord à ARG
 .br 
 
 \-d, \-\-panel\-alpha=ARG
 .br 
-	Set panel alpha to ARG, range 0\-100
+	Définir l'opacité du tableau de bord à ARG (échelle de 0\-100)
 .br 
 
 \-o, \-\-panel\-colour=ARG
 .br 
-	Set panel colour to ARG in hex format ie ff00ff
+	Définir la couleur du tableau de bord à ARG en hexadécimal, soit
 .br 
-	ARG MUST be exactly 6 hex characters.
+	ff00ff. ARG DOIT avoir exactement 6 caractères hexadécimal.
 .br 
 
 \-l, \-\-list=ARG
 .br 
-	List DB entry's, where ARG = any of "*Ctwcib".
+	Lister les entrées de la BDD, où ARG peut être "*Ctwcib".
 .br 
 
-	Where 'C' prints custom themes, 't' prints themes, 'w' prints window borders, 'c' prints controls 'i' prints icons and 'b' prints backdrops.
-	If the first/only character is a '*' then all entry's are printed.
+	Où 'C' affiche les thèmes personnalisés, 't' affiche les thèmes, 'w' affiche les thèmes de bordure de fenêtres, 'c' affiche les thèmes des contrôles, 'i' affiche les thèmes d'icônes et 'b' affiche les fonds d'écran. Si le premier/seul caractère est un '*' toutes les entrées sont affichées.
 .br 
 
 \-?, \-\-help
 .br 
-	Print help.
+	Afficher l'aide.
 .br 
 
-Options tcwipblvh? all imply \-n.
+Les options tcwipblvh? équivalent toutes à \-n.
 .br 
-.SH "EXAMPLES"
-A number of example scripts for command line usage can be found in /PREFIX/share/Xfce\-Theme\-Manager/scripts.
+.SH "EXEMPLES"
+Un certain nombre d'exemples de scripts pour une utilisation en ligne de commande peuvent être trouvés dans /PREFIX/share/Xfce\-Theme\-Manager/scripts.
 
 \fBRandomGTK\fR
 .br 
-Set a random gtk theme.
+Définir un thème GTK aléatoire.
 
 .br 
 \fBRandomWMBorder\fR
 .br 
-Set a random window maanger border.
+Définir un thème de bordure de fenêtres aléatoire.
 
 .br 
 \fBRandomWallpaper\fR
 .br 
-Set a random wallpaper on all monitors.
+Définir un fond d'écran aléatoire sur tous les moniteurs.
 
 .br 
 \fBRandomAll\fR
 .br 
-Do all of the above \- WARNING! this can create some eye watering combinations!
+Faire tout ce qui précède. \- ATTENTION ! cela peut créer des combinaisons irritantes pour les yeux !
 
 .br 
 \fBSequentialGTK\fR
 .br 
-Every time the script is run the next gtk theme in a sorted list is used.
+Chaque fois que le script est lancé, le thème GTK suivant d'une liste triée est utilisé.
 
 .br 
 \fBSequentialWMBorder\fR
 .br 
-Every time the script is run the next  in a sorted window maanger border list is used.
+Chaque fois que le script est lancé, le thème de bordure de fenêtres suivant d'une liste triée est utilisé.
 
 .br 
 \fBSequentialWallpaper\fR
 .br 
-Every time the script is run the next  in a sorted wallpaper list is used.
+Chaque fois que le script est lancé, le fond d'écran suivant d'une liste triée est utilisé.
 
 .br 
-.SH "AUTHOR"
+.SH "AUTEUR"
 .B Xfce\-Theme\-Manager
-was written by Keith Hedger
+est écrit par Keith Hedger
  
-This manual page was written by Eduardo Echeverria <echevemaster@gmail.com>,
-for the Fedora project (and may be used by others), Amended by Keith Hedger, Translated by Pablo Morales Romero <pg.morales.romero@gmail.com> (Spanish), Martin F. Schumann <mfs@mfs.name> (German), Michał Olber (Polish), Moatib <moatib@ymail.com> (French).
+Ce manuel a été écrit par Eduardo Echeverria <echevemaster@gmail.com>, pour le projet Fedora (et peut être utiliser par les autres), modifié par Keith Hedger, traduit par Pablo Morales Romero <pg.morales.romero@gmail.com> (Espagnol), Martin F. Schumann <mfs@mfs.name> (Allemand), Michał Olber (Polonais), Moatib <moatib@ymail.com> (Français).
 

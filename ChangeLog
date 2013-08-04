@@ -23,7 +23,7 @@ Changelog:
 		Updated INSTALL file with fedora/debian instructions.
 		Added support for setting different wallpapers for different monitors in GUI.
 		Added support for setting different wallpapers for different monitors from command line.
-		Added French translation.
+		Added French translation, thanks to Moatib for that.
 		Added command line args for panels.
 		Fixed duplicate wallpaper entry bug when changing monitor.
 		Added licence to 'About' box.

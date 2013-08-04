@@ -1,4 +1,4 @@
-.TH "XFCE-THEME-MANAGER" "1" "0.3.0" "K.D.Hedger" ""
+.TH "XFCE-THEME-MANAGER" "1" "0.3.4" "K.D.Hedger" ""
 
 .SH NOMBRE
 xfce-theme-manager - Un administrador de temas para Xfce
