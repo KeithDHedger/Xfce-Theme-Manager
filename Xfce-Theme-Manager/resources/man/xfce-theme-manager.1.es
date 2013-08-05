@@ -192,47 +192,47 @@ Metatemas son temas que contienen una carpeta gtk2 y una xfwm4 (controles y bord
 
 \-m, \-\-monitor
 .br 
-	Set monitor for wallpaper default 0
+	Define el monitor para el fondo de pantalla (por defecto 0).
 .br 
-	\-m can be used multiple times on the command line,
+	\-m puede ser usado múltiples veces en la línea de comando,
 .br 
-	the last value is used, this allows you to set wallpapers for multple monitors in one go.
+	el último valor es usado, esto te permite definir fondos de pantalla rápidamente.
 .br 
 
 \-a, \-\-panel=ARG
 .br 
-	Set which panel to change ( default is 1 )
+	Define cuál panel cambiar (por defecto es 1).
 .br 
-	\-a can be used multiple times on the command line,
+	\-a puede ser usado múltiples veces en la línea de comando,
 .br 
-	the last value is used, this allows you to set multple panel data in one go.
+	el último valor es usado, esto te permite definir múltiples datos de paneles de una vez.
 .br 
 
 \-z, \-\-panel\-size=ARG
 .br 
-	Set panel size to ARG
+	Ajusta el tamaño del panel a ARG
 .br 
 
 \-y, \-\-panel\-style=ARG
 .br 
-	Set panel style to ARG
+	Ajusta el estilo del panel a ARG
 .br 
 
 \-g, \-\-panel\-image=ARG
 .br 
-	Set path to panel image to ARG
+	Ajusta la ruta de imagen del panel a ARG
 .br 
 
 \-d, \-\-panel\-alpha=ARG
 .br 
-	Set panel alpha to ARG, range 0\-100
+	Ajusta el alfa del panel a ARG, rango 0\-100
 .br 
 
 \-o, \-\-panel\-colour=ARG
 .br 
-	Set panel colour to ARG in hex format ie ff00ff
+	Define el color del panel a ARG en formato hex, p.ej. ff00ff
 .br 
-	ARG MUST be exactly 6 hex characters.
+	ARG DEBE ser ser exactamente de 6 caracteres hex.
 .br 
 
 -l, --list=ARG
@@ -251,42 +251,42 @@ Metatemas son temas que contienen una carpeta gtk2 y una xfwm4 (controles y bord
 
 Opciones tcwipblvh? todas implican -n.
 .br 
-.SH "EXAMPLES"
-A number of example scripts for command line usage can be found in /PREFIX/share/Xfce\-Theme\-Manager/scripts.
+.SH "EJEMPLOS"
+Un número de scripts de ejemplo para el uso de línea de comandos puede ser encontrado en /PREFIX/share/Xfce\-Theme\-Manager/scripts.
 
 \fBRandomGTK\fR
 .br 
-Set a random gtk theme.
+Define un tema gtk al azar.
 
 .br 
 \fBRandomWMBorder\fR
 .br 
-Set a random window maanger border.
+Define un borde del gestor de ventana al azar.
 
 .br 
 \fBRandomWallpaper\fR
 .br 
-Set a random wallpaper on all monitors.
+Define un fondo de pantalla al azar en todos los monitores.
 
 .br 
 \fBRandomAll\fR
 .br 
-Do all of the above \- WARNING! this can create some eye watering combinations!
+Hace todo lo de arriba \- ¡ATENCIÓN! ¡esto puede crear algunas combinaciones que hacen llorar!
 
 .br 
 \fBSequentialGTK\fR
 .br 
-Every time the script is run the next gtk theme in a sorted list is used.
+Cada vez que se ejecuta el script se usa el próximo tema gtk en una lista ordenada.
 
 .br 
 \fBSequentialWMBorder\fR
 .br 
-Every time the script is run the next  in a sorted window maanger border list is used.
+Cada vez que se ejecuta el script se usa el próximo borde de gestor de ventana en una lista ordenada.
 
 .br 
 \fBSequentialWallpaper\fR
 .br 
-Every time the script is run the next  in a sorted wallpaper list is used.
+Cada vez que se ejecuta el script se usa el próximo fondo de pantalla de una lista.
 
 .br 
 .SH "AUTOR"
