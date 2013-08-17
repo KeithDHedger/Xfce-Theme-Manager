@@ -514,7 +514,7 @@ void doAbout(GtkWidget* widget,gpointer data)
 	while(fgets(generalBuffer,1024,fp))
 		g_string_append_printf(str,"%s",generalBuffer);
 	pclose(fp);
-	gtk_show_about_dialog(NULL,"authors",authors,"translator-credits",translators,"comments",aboutboxstring,"copyright",copyright,"version",VERSION,"website",MYWEBSITE,"program-name","Xfce-Theme-Manager","logo-icon-name","xfce-theme-manager","license",str->str,"wrap-license",true,NULL); 
+	gtk_show_about_dialog(NULL,"authors",authors,"translator-credits",translators,"comments",aboutboxstring,"copyright",copyright,"version",VERSION,"website",MYWEBSITE,"program-name","Xfce-Theme-Manager","logo-icon-name","xfce-theme-manager","license",str->str,NULL); 
 
 	g_string_free(str,true);
 }
