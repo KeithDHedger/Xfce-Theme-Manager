@@ -1,4 +1,4 @@
-.TH "XFCE-THEME-MANAGER" "1" "0.3.4" "K.D.Hedger" ""
+.TH "XFCE-THEME-MANAGER" "1" "0.3.0" "K.D.Hedger" ""
 .SH NAME
 xfce-theme-manager - Ein Oberflächenverwalter für Xfce
 .SH ÜBERSICHT
@@ -192,47 +192,47 @@ Meta-Oberflächen sind Oberflächen, die einen Gtk2- und einen xfwm4-Ordner enth
 
 \-m, \-\-monitor
 .br 
-	Set monitor for wallpaper default 0
+	Legt den Monitor fest, für den das Hintergrundbild geändert wird ( Standard ist 0 ).
 .br 
-	\-m can be used multiple times on the command line,
+	\-m kann mehrfach angegeben werden.
 .br 
-	the last value is used, this allows you to set wallpapers for multple monitors in one go.
+	Dadurch kann das Hintergrundbild für mehrere Bildschirme gleichzeitig geändert werden.
 .br 
 
 \-a, \-\-panel=ARG
 .br 
-	Set which panel to change ( default is 1 )
+	Legt fest, welches Panel verändert wird ( Standard ist 1 ).
 .br 
-	\-a can be used multiple times on the command line,
+	\-a kann mehrfach angegeben werden.
 .br 
-	the last value is used, this allows you to set multple panel data in one go.
+	Dadurch können mehrere Panel gleichzeitig verändert werden.
 .br 
 
 \-z, \-\-panel\-size=ARG
 .br 
-	Set panel size to ARG
+	Setzt Panel\-Größe auf ARG
 .br 
 
 \-y, \-\-panel\-style=ARG
 .br 
-	Set panel style to ARG
+	Setzt Panel\-Stil auf ARG
 .br 
 
 \-g, \-\-panel\-image=ARG
 .br 
-	Set path to panel image to ARG
+	Setzt den Pfad zum Panel\-Hintergrundbild auf ARG
 .br 
 
 \-d, \-\-panel\-alpha=ARG
 .br 
-	Set panel alpha to ARG, range 0\-100
+	Setzt Alpha\-Wert des Panels auf ARG ( Werte zwischen 0 und 100 )
 .br 
 
 \-o, \-\-panel\-colour=ARG
 .br 
-	Set panel colour to ARG in hex format ie ff00ff
+	Setzt Farbe des Panels auf ARG.
 .br 
-	ARG MUST be exactly 6 hex characters.
+	ARG muss aus genau sechs Hexadezimalzeichen bestehen (z. B. ff00ff).
 .br 
 
 -l, --list=ARG
@@ -249,44 +249,44 @@ Meta-Oberflächen sind Oberflächen, die einen Gtk2- und einen xfwm4-Ordner enth
 	Zeigt die Hilfe.
 .br
 
-Die Optionen tcwipblvh? implizieren alle -n.
+Die Optionen tcwipblvh? implizieren alle \-n.
 .br 
-.SH "EXAMPLES"
-A number of example scripts for command line usage can be found in /PREFIX/share/Xfce\-Theme\-Manager/scripts.
+.SH "BEISPIELE"
+Eine Reihe Beispiel\-Skripte für die Benutzung des Programms von der Kommandozeile liegen in /PREFIX/share/Xfce\-Theme\-Manager/scripts.
 
 \fBRandomGTK\fR
 .br 
-Set a random gtk theme.
+Setzt eine zufälliges Gtk\-Oberfläche.
 
 .br 
 \fBRandomWMBorder\fR
 .br 
-Set a random window maanger border.
+Setzt zufällige Fensterrahmen.
 
 .br 
 \fBRandomWallpaper\fR
 .br 
-Set a random wallpaper on all monitors.
+Setzt einen zufälligen Hintergrund auf allen Monitoren.
 
 .br 
 \fBRandomAll\fR
 .br 
-Do all of the above \- WARNING! this can create some eye watering combinations!
+Setze zufällige Oberfläche, Fensterrahmen und Hintergründe.
 
 .br 
 \fBSequentialGTK\fR
 .br 
-Every time the script is run the next gtk theme in a sorted list is used.
+Bei jeder Ausführung des Skripts wird die nächste Gtk-Oberfläche aus einer sortierten Liste gesetzt.
 
 .br 
 \fBSequentialWMBorder\fR
 .br 
-Every time the script is run the next  in a sorted window maanger border list is used.
+Bei jeder Ausführung des Skripts werden die nächsten Fensterrahmen aus einer sortierten Liste gesetzt.
 
 .br 
 \fBSequentialWallpaper\fR
 .br 
-Every time the script is run the next  in a sorted wallpaper list is used.
+Bei jeder Ausführung des Skripts wird das nächste Hintergrundbild aus einer sortierten Liste gesetzt.
 
 .br
 .SH  AUTOR

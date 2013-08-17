@@ -1,4 +1,4 @@
-.TH "XFCE-THEME-MANAGER" "1" "0.3.4" "K.D.Hedger" ""
+.TH "XFCE-THEME-MANAGER" "1" "0.3.0" "K.D.Hedger" ""
 .SH NAME
 xfce-theme-manager - Menedżer stylów dla Xfce
 .SH SYNOPSIS
@@ -199,47 +199,47 @@ określają zestaw ikon, wtedy zostaną one użyte.
 
 \-m, \-\-monitor
 .br 
-	Set monitor for wallpaper default 0
+	Ustawia monitor dla danej tapety ( domyślnie 0 )
 .br 
-	\-m can be used multiple times on the command line,
+	\-m Opcja może być użyta wiele razy w poleceniu,
 .br 
-	the last value is used, this allows you to set wallpapers for multple monitors in one go.
+	używana jest ostatnia wartość, pozwala to na ustawienie wielu tapet dla różnych monitorów za jednym razem.
 .br 
 
 \-a, \-\-panel=ARG
 .br 
-	Set which panel to change ( default is 1 )
+	Ustawia, który panel ma się zmieniać ( domyślnie jest 1 )
 .br 
-	\-a can be used multiple times on the command line,
+	\-a Opcja może być użyta wiele razy w poleceniu,
 .br 
-	the last value is used, this allows you to set multple panel data in one go.
+	używana jest ostatnia wartość, pozwala to na ustawienie wielu tapet dla różnych monitorów za jednym razem.
 .br 
 
 \-z, \-\-panel\-size=ARG
 .br 
-	Set panel size to ARG
+	Ustawia wielkość panelu na ARG
 .br 
 
 \-y, \-\-panel\-style=ARG
 .br 
-	Set panel style to ARG
+	Ustawia styl panelu na ARG
 .br 
 
 \-g, \-\-panel\-image=ARG
 .br 
-	Set path to panel image to ARG
+	Ustawia ścieżkę do obrazka panelu na ARG
 .br 
 
 \-d, \-\-panel\-alpha=ARG
 .br 
-	Set panel alpha to ARG, range 0\-100
+	Ustawia kanał alfa panelu na ARG, zakres 0\-100
 .br 
 
 \-o, \-\-panel\-colour=ARG
 .br 
-	Set panel colour to ARG in hex format ie ff00ff
+	Ustawia kolor panelu na ARG w formacie hex, np. ff00ff
 .br 
-	ARG MUST be exactly 6 hex characters.
+	ARG musi mieć dokładnie 6 znaków hex.
 .br 
 
 -l, --list=ARG
@@ -263,37 +263,37 @@ A number of example scripts for command line usage can be found in /PREFIX/share
 
 \fBRandomGTK\fR
 .br 
-Set a random gtk theme.
+Ustawia losowy styl gtk.
 
 .br 
 \fBRandomWMBorder\fR
 .br 
-Set a random window maanger border.
+Ustawia losowe obramowanie menedżera okien.
 
 .br 
 \fBRandomWallpaper\fR
 .br 
-Set a random wallpaper on all monitors.
+Ustawia losowe tapety na wszystkich monitorach.
 
 .br 
 \fBRandomAll\fR
 .br 
-Do all of the above \- WARNING! this can create some eye watering combinations!
+Wykonuje wszystko powyżej \- UWAGA! może to spowodować różne dziwne kombinacje!
 
 .br 
 \fBSequentialGTK\fR
 .br 
-Every time the script is run the next gtk theme in a sorted list is used.
+Za każdym razem, kiedy wykonywany jest skrypt, opcja używa następneg stylu gtk z posortowanej listy.
 
 .br 
 \fBSequentialWMBorder\fR
 .br 
-Every time the script is run the next  in a sorted window maanger border list is used.
+Za każdym razem, kiedy wykonywany jest skrypt, opcja używa następnego stylu obramowania okien z posortowanej listy.
 
 .br 
 \fBSequentialWallpaper\fR
 .br 
-Every time the script is run the next  in a sorted wallpaper list is used.
+Za każdym razem, kiedy wykonywany jest skrypt, opcja używa następnej tapety z posortowanej listy.
 
 .br
 .SH  AUTHOR
