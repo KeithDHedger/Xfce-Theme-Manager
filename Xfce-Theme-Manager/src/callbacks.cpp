@@ -582,7 +582,12 @@ void dropUri(GtkWidget *widget,GdkDragContext *context,gint x,gint y,GtkSelectio
 void wallStyleChanged(GtkWidget* widget,gpointer data)
 {
 	monitorData[currentMonitor]->style=gtk_combo_box_get_active((GtkComboBox*)widget);
+#ifdef _411_
+	//sprintf((char*)&generalBuffer[0],"%s%i/image-style",MONITORPROP,currentMonitor);
+	sprintf((char*)&generalBuffer[0],"%s%s/workspace0/image-style",MONITORPROP,monitorData[currentMonitor]->name);
+#else
 	sprintf((char*)&generalBuffer[0],"%s%i/image-style",MONITORPROP,currentMonitor);
+#endif
 	setValue(XFCEDESKTOP,(char*)&generalBuffer[0],INT,(void*)(long)monitorData[currentMonitor]->style);
 }
 
