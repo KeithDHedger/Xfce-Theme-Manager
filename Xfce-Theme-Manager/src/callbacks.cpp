@@ -18,6 +18,7 @@
 #include "thumbnails.h"
 #include "panels.h"
 #include "cli.h"
+#include "config.h"
 
 char		filedata[8192];
 GtkWidget*	entryBox;
@@ -911,7 +912,11 @@ void setPieceNewNew(const char* filePath,long doWhat)
 								freeAndSet(&currentCursorTheme,dataset);
 								break;
 							case WALLPAPERS:
+#ifdef _411_
+								sprintf((char*)&generalBuffer[0],"%s%s/workspace0/last-image",MONITORPROP,monitorData[currentMonitor]->name);
+#else
 								sprintf((char*)&generalBuffer[0],"%s%i/image-path",MONITORPROP,currentMonitor);
+#endif
 								setValue(XFCEDESKTOP,(char*)&generalBuffer[0],STRING,dataset);
 								freeAndSet(&monitorData[currentMonitor]->imagePath,dataset);
 								break;

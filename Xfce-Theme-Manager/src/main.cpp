@@ -377,7 +377,11 @@ void init(void)
 		}
 
 	styleComboBox=(GtkComboBoxText*)gtk_combo_box_text_new();
+#ifdef _411_
+	gtk_combo_box_text_append_text(styleComboBox,_translate(NOSTYLE));
+#else
 	gtk_combo_box_text_append_text(styleComboBox,_translate(AUTO));
+#endif
 	gtk_combo_box_text_append_text(styleComboBox,_translate(CENTRED));
 	gtk_combo_box_text_append_text(styleComboBox,_translate(TILED));
 	gtk_combo_box_text_append_text(styleComboBox,_translate(STRETCH));
