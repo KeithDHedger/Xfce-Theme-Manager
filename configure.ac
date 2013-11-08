@@ -57,5 +57,11 @@ if test $UNZIP = false; then
 	AC_MSG_WARN([No unzip program found! You will not be able to drag 'n' drop zip files!])
 fi
 
+
+desktopversion=`xfdesktop --version|head -n 1|awk '{print $5}'|awk -F "," '{print $1}'|awk -F "." '{print $2}'`
+if test $desktopversion = 11; then
+	AC_DEFINE([_411_], [], [xfdesktop 4.11.1])
+fi
+
 AC_OUTPUT(Makefile Xfce-Theme-Manager/app/Makefile)
 

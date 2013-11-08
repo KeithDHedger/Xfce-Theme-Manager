@@ -43,7 +43,9 @@
 #define XTHEMER "xfcethemer"
 #define XFCEPANELS "xfce4-panel"
 #define MONITORPROP "/backdrop/screen0/monitor"
-
+//#define MONITORPROP11 "/backdrop/screen0/monitor"
+// /backdrop/screen0/monitorCRT1/workspace0/last-image
+// /backdrop/screen0/monitorCRT1/workspace0/last-image
 #define CONTROLTHEMEPROP "/Net/ThemeName"
 #define ICONTHEMEPROP "/Net/IconThemeName"
 #define WMBORDERSPROP "/general/theme"
@@ -160,6 +162,7 @@ struct monitorStruct
 	int		brightness;
 	double	satu;
 	int		style;
+	char*	name;
 };
 
 extern int				numberOfMonitors;

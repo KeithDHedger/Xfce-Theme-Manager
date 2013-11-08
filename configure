@@ -5137,6 +5137,14 @@ if test $UNZIP = false; then
 $as_echo "$as_me: WARNING: No unzip program found! You will not be able to drag 'n' drop zip files!" >&2;}
 fi
 
+
+desktopversion=`xfdesktop --version|head -n 1|awk '{print $5}'|awk -F "," '{print $1}'|awk -F "." '{print $2}'`
+if test $desktopversion = 11; then
+
+$as_echo "#define _411_ /**/" >>confdefs.h
+
+fi
+
 ac_config_files="$ac_config_files Makefile Xfce-Theme-Manager/app/Makefile"
 
 cat >confcache <<\_ACEOF

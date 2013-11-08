@@ -32,3 +32,6 @@
 
 /* Version number of package */
 #undef VERSION
+
+/* xfdesktop 4.11.1 */
+#undef _411_

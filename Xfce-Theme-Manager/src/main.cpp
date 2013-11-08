@@ -207,8 +207,8 @@ void init(void)
 {
 	gchar	*stdout=NULL;
 	gchar	*stderr=NULL;
-	gint   retval=0;
-
+	gint	retval=0;
+//	char	*mname;
 	setlocale(LC_ALL, "");
 
 	asprintf(&homeThemesHash,"12345");
@@ -237,11 +237,12 @@ void init(void)
 	getValue(XFWM,WMFONTPROP,STRING,&currentWMFont);
 	getValue(XSETTINGS,APPFONTPROP,STRING,&currentAppFont);
 
-//backdrop
 	for(int i=0;i<numberOfMonitors;i++)
 		{
+
 			monitorData[i]=(monitorStruct*)malloc(sizeof(monitorStruct));
 			revertMonitorData[i]=(monitorStruct*)malloc(sizeof(monitorStruct));
+
 			sprintf((char*)&generalBuffer[0],"%s%i/image-style",MONITORPROP,i);
 			getValue(XFCEDESKTOP,(char*)&generalBuffer[0],INT,&monitorData[i]->style);
 			revertMonitorData[i]->style=monitorData[i]->style;
@@ -254,7 +255,13 @@ void init(void)
 			getValue(XFCEDESKTOP,(char*)&generalBuffer[0],FLOAT,&monitorData[i]->satu);
 			revertMonitorData[i]->satu=monitorData[i]->satu;
 
+#ifdef _411_
+			monitorData[i]->name=gdk_screen_get_monitor_plug_name(screen,i);
+			asprintf(&monitorData[i]->name,"%s",monitorData[i]->name);
+			sprintf((char*)&generalBuffer[0],"%s%s/workspace0/last-image",MONITORPROP,monitorData[i]->name);
+#else
 			sprintf((char*)&generalBuffer[0],"%s%i/image-path",MONITORPROP,i);
+#endif
 			getValue(XFCEDESKTOP,(char*)&generalBuffer[0],STRING,&monitorData[i]->imagePath);
 			revertMonitorData[i]->imagePath=strdup(monitorData[i]->imagePath);
 		}
