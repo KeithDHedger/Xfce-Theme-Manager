@@ -243,10 +243,6 @@ void init(void)
 			monitorData[i]=(monitorStruct*)malloc(sizeof(monitorStruct));
 			revertMonitorData[i]=(monitorStruct*)malloc(sizeof(monitorStruct));
 
-			sprintf((char*)&generalBuffer[0],"%s%i/image-style",MONITORPROP,i);
-			getValue(XFCEDESKTOP,(char*)&generalBuffer[0],INT,&monitorData[i]->style);
-			revertMonitorData[i]->style=monitorData[i]->style;
-
 			sprintf((char*)&generalBuffer[0],"%s%i/brightness",MONITORPROP,i);
 			getValue(XFCEDESKTOP,(char*)&generalBuffer[0],INT,&monitorData[i]->brightness);
 			revertMonitorData[i]->brightness=monitorData[i]->brightness;
@@ -264,6 +260,15 @@ void init(void)
 #endif
 			getValue(XFCEDESKTOP,(char*)&generalBuffer[0],STRING,&monitorData[i]->imagePath);
 			revertMonitorData[i]->imagePath=strdup(monitorData[i]->imagePath);
+//style
+#ifdef _411_
+			sprintf((char*)&generalBuffer[0],"%s%s/workspace0/image-style",MONITORPROP,monitorData[i]->name);
+#else
+			sprintf((char*)&generalBuffer[0],"%s%i/image-style",MONITORPROP,i);
+#endif
+
+			getValue(XFCEDESKTOP,(char*)&generalBuffer[0],INT,&monitorData[i]->style);
+			revertMonitorData[i]->style=monitorData[i]->style;
 		}
 
 //mouse

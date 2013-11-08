@@ -583,7 +583,6 @@ void wallStyleChanged(GtkWidget* widget,gpointer data)
 {
 	monitorData[currentMonitor]->style=gtk_combo_box_get_active((GtkComboBox*)widget);
 #ifdef _411_
-	//sprintf((char*)&generalBuffer[0],"%s%i/image-style",MONITORPROP,currentMonitor);
 	sprintf((char*)&generalBuffer[0],"%s%s/workspace0/image-style",MONITORPROP,monitorData[currentMonitor]->name);
 #else
 	sprintf((char*)&generalBuffer[0],"%s%i/image-style",MONITORPROP,currentMonitor);
@@ -711,7 +710,11 @@ void setMonitorData(void)
 {
 	for(int i=0;i<numberOfMonitors;i++)
 		{
+#ifdef _411_
+			sprintf((char*)&generalBuffer[0],"%s%s/workspace0/image-style",MONITORPROP,monitorData[i]->name);
+#else
 			sprintf((char*)&generalBuffer[0],"%s%i/image-style",MONITORPROP,i);
+#endif
 			setValue(XFCEDESKTOP,(char*)&generalBuffer[0],INT,(void*)(long)monitorData[i]->style);
 
 			sprintf((char*)&generalBuffer[0],"%s%i/brightness",MONITORPROP,i);
@@ -720,7 +723,11 @@ void setMonitorData(void)
 			sprintf((char*)&generalBuffer[0],"%s%i/saturation",MONITORPROP,i);
 			setValue(XFCEDESKTOP,(char*)&generalBuffer[0],FLOAT,&monitorData[i]->satu);
 
+#ifdef _411_
+			sprintf((char*)&generalBuffer[0],"%s%s/workspace0/last-image",MONITORPROP,monitorData[i]->name);
+#else
 			sprintf((char*)&generalBuffer[0],"%s%i/image-path",MONITORPROP,i);
+#endif
 			setValue(XFCEDESKTOP,(char*)&generalBuffer[0],STRING,monitorData[i]->imagePath);
 		}
 
@@ -867,6 +874,11 @@ void doMeta(char* metaFilename)
 												break;
 											case 1:
 												monitorData[j]->style=atoi(keydata);
+#ifdef _411_
+												if(monitorData[j]->style==0)
+													monitorData[j]->style=3;
+#endif
+
 												break;
 											case 2:
 												monitorData[j]->brightness=atoi(keydata);
