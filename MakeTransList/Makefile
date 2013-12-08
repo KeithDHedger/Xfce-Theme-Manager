@@ -11,7 +11,7 @@ all:
 	g++ $(SOURCES1) $(CXXFLAGS) -o $(PROGRAM1)
 	g++ $(SOURCES2) $(CXXFLAGS) -o $(PROGRAM2)
 	./$(PROGRAM1)
-	./$(PROGRAM2)
+#	./$(PROGRAM2)
 
 clean:
 	rm $(PROGRAM1) $(PROGRAM2)

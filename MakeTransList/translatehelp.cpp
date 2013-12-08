@@ -13,9 +13,9 @@
 
 #include "../Xfce-Theme-Manager/src/globals.h"
 
-const wchar_t*	language[]={L"ENGLISH",L"SPANISH",L"GERMAN",L"POLISH",L"FRENCH"};
-const char*	suffix[]={"","es","de","pl","fr"};
-char		buffer[256];
+const wchar_t*	language[]={L"ENGLISH",L"SPANISH",L"GERMAN",L"POLISH",L"FRENCH",L"PORTUGUESE"};
+const char*	suffix[]={"","es","de","pl","fr","pt"};
+char		buffer[1024];
 
 int main(int argc,char **argv)
 {
