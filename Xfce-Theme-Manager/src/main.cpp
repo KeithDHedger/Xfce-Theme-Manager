@@ -427,6 +427,9 @@ void makeProgressBar(void)
 
 gboolean updateBarTimer(gpointer data)
 {	
+	if(progressBar==NULL)
+		return(false);
+
 	if(GTK_IS_PROGRESS_BAR((GtkProgressBar*)progressBar))
 		{
 			gtk_progress_bar_pulse((GtkProgressBar*)progressBar);
@@ -779,6 +782,8 @@ int main(int argc,char **argv)
 #endif
 
 						gtk_main();
+						gtk_widget_destroy(progressBar);
+						progressBar=NULL;
 					gdk_threads_leave();
 					gtk_widget_destroy(progressWindow);
 				}
