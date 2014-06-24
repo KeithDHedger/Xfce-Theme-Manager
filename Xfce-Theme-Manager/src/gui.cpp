@@ -48,12 +48,7 @@
  * The GIMP -- an image manipulation program
  * Copyright(C)1995 Spencer Kimball and Peter Mattis
 */
-#include <stdlib.h>
-#include <gtk/gtk.h>
-#include <string.h>
-#include <sys/stat.h>
 
-#include "globals.h"
 #include "callbacks.h"
 #include "panels.h"
 

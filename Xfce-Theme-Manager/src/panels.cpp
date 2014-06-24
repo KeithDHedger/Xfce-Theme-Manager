@@ -7,7 +7,6 @@
 * 
 ******************************************************/
 #include <stdlib.h>
-#include <gtk/gtk.h>
 #include <string.h>
 #include <sys/stat.h>
 #include <ctype.h>

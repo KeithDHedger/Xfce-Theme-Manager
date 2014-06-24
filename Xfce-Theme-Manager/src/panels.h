@@ -7,8 +7,6 @@
 * 
 ******************************************************/
 
-#include "globals.h"
-
 #ifndef _PANELS_
 #define _PANELS_
 

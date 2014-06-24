@@ -14,16 +14,11 @@
  *
  */
 
-#include <stdlib.h>
-#include <gtk/gtk.h>
-#include <string.h>
-#include <sys/stat.h>
 #include <getopt.h>
 #include <locale.h>
 #include <wchar.h>
 #include <xfconf/xfconf.h>
 
-#include "globals.h"
 #include "database.h"
 #include "thumbnails.h"
 #include "gui.h"

@@ -8,7 +8,6 @@
 ******************************************************/
 #include <xfconf/xfconf.h>
 
-#include "globals.h"
 #include "callbacks.h"
 
 char*				cliTheme=NULL;

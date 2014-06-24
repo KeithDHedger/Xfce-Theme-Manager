@@ -16,8 +16,6 @@
  */
 
 #include <stdlib.h>
-#include <gdk-pixbuf/gdk-pixbuf.h>
-#include <gtk/gtk.h>
 #include <string.h>
 #include <X11/Xcursor/Xcursor.h>
 

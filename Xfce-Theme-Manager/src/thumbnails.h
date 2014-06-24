@@ -14,6 +14,7 @@
  *
  * thumbnails.h
  */
+#include <gdk-pixbuf/gdk-pixbuf.h>
 
 #ifndef _THUMBS_
 #define _THUMBS_

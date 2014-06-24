@@ -4,9 +4,9 @@
  *
  * Globals.cpp
  */
-#include <gdk-pixbuf/gdk-pixbuf.h>
+//#include <gdk-pixbuf/gdk-pixbuf.h>
+
 #include <stdlib.h>
-#include <gtk/gtk.h>
 #include <string.h>
 #include <xfconf/xfconf.h>
 

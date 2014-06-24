@@ -11,7 +11,6 @@
 
 #include "globals.h"
 #include "thumbnails.h"
-#include <gtk/gtk.h>
 #include <stdlib.h>
 
 void writeDBFile(char* filename,char* name,char* gtk,char* frame,char* icon,char* paper,char* cursor,char* thumb,bool ismeta)

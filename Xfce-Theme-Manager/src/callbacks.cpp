@@ -7,12 +7,10 @@
  */
 
 #include <stdlib.h>
-#include <gtk/gtk.h>
 #include <string.h>
 #include <sys/stat.h>
 #include <unistd.h>
 
-#include "globals.h"
 #include "gui.h"
 #include "database.h"
 #include "thumbnails.h"
