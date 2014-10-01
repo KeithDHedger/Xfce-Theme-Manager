@@ -745,6 +745,7 @@ int main(int argc,char **argv)
 	g_thread_init(NULL);
 #endif
 	gdk_threads_init();
+	gdk_threads_enter();
 	gtk_init(&argc,&argv);
 
 	init();
@@ -767,7 +768,7 @@ int main(int argc,char **argv)
 			if (noGui==false)
 				{
 					makeProgressBar();
-					gdk_threads_enter();
+//					gdk_threads_enter();
 						g_timeout_add (100,updateBarTimer,NULL);
 
 #if GLIB_MINOR_VERSION < PREFERVERSION
@@ -779,7 +780,7 @@ int main(int argc,char **argv)
 						gtk_main();
 						gtk_widget_destroy(progressBar);
 						progressBar=NULL;
-					gdk_threads_leave();
+//					gdk_threads_leave();
 					gtk_widget_destroy(progressWindow);
 				}
 			else
@@ -913,6 +914,7 @@ int main(int argc,char **argv)
 			g_signal_connect(G_OBJECT(notebook),"switch-page",G_CALLBACK(doChangePage),NULL);
 
 			gtk_main();
+					gdk_threads_leave();
 
 			fflush(stderr);
 			dup2(fd,fileno(stderr));
