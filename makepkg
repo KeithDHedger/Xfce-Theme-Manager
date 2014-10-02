@@ -15,14 +15,17 @@ mv /tmp/Xfce-Theme-Manager /tmp/Xfce-Theme-Manager-${VERSION}
 
 cd /tmp/Xfce-Theme-Manager-${VERSION}
 
-./remakesourcelist
-aclocal
-autoheader
-touch NEWS README AUTHORS
-automake --add-missing --copy
-autoconf
-#rm -rf ./autom4te.cache
-rm ./compile ./missing ./COPYING ./AUTHORS ./NEWS ./README
+./configure --prefix=/usr
+make
+make distclean
+#./remakesourcelist
+#aclocal
+#autoheader
+#touch NEWS README AUTHORS
+#automake --add-missing --copy
+#autoconf
+##rm -rf ./autom4te.cache
+#rm ./compile ./missing ./COPYING ./AUTHORS ./NEWS ./README
 cd ..
 
 tar -czvf Xfce-Theme-Manager-${VERSION}.tar.gz Xfce-Theme-Manager-${VERSION}
