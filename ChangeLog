@@ -17,6 +17,11 @@ Please send them direct to me at:kdhedger68713@gmail.com posting them on xfce-lo
 ***************************************
 
 Changelog:
+0.3.6
+		Fixed changes to threading for new gdk/gtk/glib libs ( specifically for debian testing ).
+0.3.5
+		Minor glib timer bug fixed causing a seg fault on newer systems ( xubuntu 'saucy' ).
+		
 0.3.4	Added GTK_DISABLE_DEPRECATED GTK_DISABLE_SINGLE_INCLUDES GDK_DISABLE_DEPRECATED GSEAL_ENABLE to flags for new gtk2 compatability.
 		Added button in advanced tab to go to gtk-apps.org to download xfce-composite-editor if not installed.
 		Removed accidental inclusion of development folder from archive.
