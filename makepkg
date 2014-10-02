@@ -15,7 +15,7 @@ mv /tmp/Xfce-Theme-Manager /tmp/Xfce-Theme-Manager-${VERSION}
 
 cd /tmp/Xfce-Theme-Manager-${VERSION}
 
-./configure --prefix=/usr
+./autogen.sh --prefix=/usr
 make
 make distclean
 #./remakesourcelist
