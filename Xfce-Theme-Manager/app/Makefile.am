@@ -1,4 +1,4 @@
-
+AUTOMAKE_OPTIONS = subdir-objects
 include ../flagsandlibs
 include ../sources
 

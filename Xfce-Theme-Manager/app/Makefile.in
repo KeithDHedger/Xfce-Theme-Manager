@@ -93,13 +93,15 @@ CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(docfilesdir)" \
 	"$(DESTDIR)$(scriptfilesdir)"
 PROGRAMS = $(bin_PROGRAMS)
-am__objects_1 = xfcethememanager-callbacks.$(OBJEXT) \
-	xfcethememanager-cli.$(OBJEXT) \
-	xfcethememanager-database.$(OBJEXT) \
-	xfcethememanager-globals.$(OBJEXT) \
-	xfcethememanager-gui.$(OBJEXT) xfcethememanager-main.$(OBJEXT) \
-	xfcethememanager-panels.$(OBJEXT) \
-	xfcethememanager-thumbnails.$(OBJEXT)
+am__dirstamp = $(am__leading_dot)dirstamp
+am__objects_1 = ../src/xfcethememanager-callbacks.$(OBJEXT) \
+	../src/xfcethememanager-cli.$(OBJEXT) \
+	../src/xfcethememanager-database.$(OBJEXT) \
+	../src/xfcethememanager-globals.$(OBJEXT) \
+	../src/xfcethememanager-gui.$(OBJEXT) \
+	../src/xfcethememanager-main.$(OBJEXT) \
+	../src/xfcethememanager-panels.$(OBJEXT) \
+	../src/xfcethememanager-thumbnails.$(OBJEXT)
 am_xfcethememanager_OBJECTS = $(am__objects_1)
 xfcethememanager_OBJECTS = $(am_xfcethememanager_OBJECTS)
 xfcethememanager_LDADD = $(LDADD)
@@ -304,6 +306,7 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
+AUTOMAKE_OPTIONS = subdir-objects
 AM_CPPFLAGS = -I$(top_srcdir) \
 			$(GTK_CFLAGS) \
 			$(GLIB_CFLAGS) \
@@ -404,6 +407,28 @@ uninstall-binPROGRAMS:
 
 clean-binPROGRAMS:
 	-test -z "$(bin_PROGRAMS)" || rm -f $(bin_PROGRAMS)
+../src/$(am__dirstamp):
+	@$(MKDIR_P) ../src
+	@: > ../src/$(am__dirstamp)
+../src/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) ../src/$(DEPDIR)
+	@: > ../src/$(DEPDIR)/$(am__dirstamp)
+../src/xfcethememanager-callbacks.$(OBJEXT): ../src/$(am__dirstamp) \
+	../src/$(DEPDIR)/$(am__dirstamp)
+../src/xfcethememanager-cli.$(OBJEXT): ../src/$(am__dirstamp) \
+	../src/$(DEPDIR)/$(am__dirstamp)
+../src/xfcethememanager-database.$(OBJEXT): ../src/$(am__dirstamp) \
+	../src/$(DEPDIR)/$(am__dirstamp)
+../src/xfcethememanager-globals.$(OBJEXT): ../src/$(am__dirstamp) \
+	../src/$(DEPDIR)/$(am__dirstamp)
+../src/xfcethememanager-gui.$(OBJEXT): ../src/$(am__dirstamp) \
+	../src/$(DEPDIR)/$(am__dirstamp)
+../src/xfcethememanager-main.$(OBJEXT): ../src/$(am__dirstamp) \
+	../src/$(DEPDIR)/$(am__dirstamp)
+../src/xfcethememanager-panels.$(OBJEXT): ../src/$(am__dirstamp) \
+	../src/$(DEPDIR)/$(am__dirstamp)
+../src/xfcethememanager-thumbnails.$(OBJEXT): ../src/$(am__dirstamp) \
+	../src/$(DEPDIR)/$(am__dirstamp)
 
 xfcethememanager$(EXEEXT): $(xfcethememanager_OBJECTS) $(xfcethememanager_DEPENDENCIES) $(EXTRA_xfcethememanager_DEPENDENCIES) 
 	@rm -f xfcethememanager$(EXEEXT)
@@ -411,144 +436,147 @@ xfcethememanager$(EXEEXT): $(xfcethememanager_OBJECTS) $(xfcethememanager_DEPEND
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
+	-rm -f ../src/*.$(OBJEXT)
 
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xfcethememanager-callbacks.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xfcethememanager-cli.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xfcethememanager-database.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xfcethememanager-globals.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xfcethememanager-gui.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xfcethememanager-main.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xfcethememanager-panels.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xfcethememanager-thumbnails.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@../src/$(DEPDIR)/xfcethememanager-callbacks.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@../src/$(DEPDIR)/xfcethememanager-cli.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@../src/$(DEPDIR)/xfcethememanager-database.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@../src/$(DEPDIR)/xfcethememanager-globals.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@../src/$(DEPDIR)/xfcethememanager-gui.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@../src/$(DEPDIR)/xfcethememanager-main.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@../src/$(DEPDIR)/xfcethememanager-panels.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@../src/$(DEPDIR)/xfcethememanager-thumbnails.Po@am__quote@
 
 .cpp.o:
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\
+@am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $$depbase.Tpo -c -o $@ $< &&\
+@am__fastdepCXX_TRUE@	$(am__mv) $$depbase.Tpo $$depbase.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXXCOMPILE) -c -o $@ $<
 
 .cpp.obj:
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ `$(CYGPATH_W) '$<'`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.obj$$||'`;\
+@am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $$depbase.Tpo -c -o $@ `$(CYGPATH_W) '$<'` &&\
+@am__fastdepCXX_TRUE@	$(am__mv) $$depbase.Tpo $$depbase.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXXCOMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
 
-xfcethememanager-callbacks.o: ../src/callbacks.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfcethememanager_CXXFLAGS) $(CXXFLAGS) -MT xfcethememanager-callbacks.o -MD -MP -MF $(DEPDIR)/xfcethememanager-callbacks.Tpo -c -o xfcethememanager-callbacks.o `test -f '../src/callbacks.cpp' || echo '$(srcdir)/'`../src/callbacks.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/xfcethememanager-callbacks.Tpo $(DEPDIR)/xfcethememanager-callbacks.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../src/callbacks.cpp' object='xfcethememanager-callbacks.o' libtool=no @AMDEPBACKSLASH@
+../src/xfcethememanager-callbacks.o: ../src/callbacks.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfcethememanager_CXXFLAGS) $(CXXFLAGS) -MT ../src/xfcethememanager-callbacks.o -MD -MP -MF ../src/$(DEPDIR)/xfcethememanager-callbacks.Tpo -c -o ../src/xfcethememanager-callbacks.o `test -f '../src/callbacks.cpp' || echo '$(srcdir)/'`../src/callbacks.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) ../src/$(DEPDIR)/xfcethememanager-callbacks.Tpo ../src/$(DEPDIR)/xfcethememanager-callbacks.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../src/callbacks.cpp' object='../src/xfcethememanager-callbacks.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfcethememanager_CXXFLAGS) $(CXXFLAGS) -c -o xfcethememanager-callbacks.o `test -f '../src/callbacks.cpp' || echo '$(srcdir)/'`../src/callbacks.cpp
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfcethememanager_CXXFLAGS) $(CXXFLAGS) -c -o ../src/xfcethememanager-callbacks.o `test -f '../src/callbacks.cpp' || echo '$(srcdir)/'`../src/callbacks.cpp
 
-xfcethememanager-callbacks.obj: ../src/callbacks.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfcethememanager_CXXFLAGS) $(CXXFLAGS) -MT xfcethememanager-callbacks.obj -MD -MP -MF $(DEPDIR)/xfcethememanager-callbacks.Tpo -c -o xfcethememanager-callbacks.obj `if test -f '../src/callbacks.cpp'; then $(CYGPATH_W) '../src/callbacks.cpp'; else $(CYGPATH_W) '$(srcdir)/../src/callbacks.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/xfcethememanager-callbacks.Tpo $(DEPDIR)/xfcethememanager-callbacks.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../src/callbacks.cpp' object='xfcethememanager-callbacks.obj' libtool=no @AMDEPBACKSLASH@
+../src/xfcethememanager-callbacks.obj: ../src/callbacks.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfcethememanager_CXXFLAGS) $(CXXFLAGS) -MT ../src/xfcethememanager-callbacks.obj -MD -MP -MF ../src/$(DEPDIR)/xfcethememanager-callbacks.Tpo -c -o ../src/xfcethememanager-callbacks.obj `if test -f '../src/callbacks.cpp'; then $(CYGPATH_W) '../src/callbacks.cpp'; else $(CYGPATH_W) '$(srcdir)/../src/callbacks.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) ../src/$(DEPDIR)/xfcethememanager-callbacks.Tpo ../src/$(DEPDIR)/xfcethememanager-callbacks.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../src/callbacks.cpp' object='../src/xfcethememanager-callbacks.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfcethememanager_CXXFLAGS) $(CXXFLAGS) -c -o xfcethememanager-callbacks.obj `if test -f '../src/callbacks.cpp'; then $(CYGPATH_W) '../src/callbacks.cpp'; else $(CYGPATH_W) '$(srcdir)/../src/callbacks.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfcethememanager_CXXFLAGS) $(CXXFLAGS) -c -o ../src/xfcethememanager-callbacks.obj `if test -f '../src/callbacks.cpp'; then $(CYGPATH_W) '../src/callbacks.cpp'; else $(CYGPATH_W) '$(srcdir)/../src/callbacks.cpp'; fi`
 
-xfcethememanager-cli.o: ../src/cli.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfcethememanager_CXXFLAGS) $(CXXFLAGS) -MT xfcethememanager-cli.o -MD -MP -MF $(DEPDIR)/xfcethememanager-cli.Tpo -c -o xfcethememanager-cli.o `test -f '../src/cli.cpp' || echo '$(srcdir)/'`../src/cli.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/xfcethememanager-cli.Tpo $(DEPDIR)/xfcethememanager-cli.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../src/cli.cpp' object='xfcethememanager-cli.o' libtool=no @AMDEPBACKSLASH@
+../src/xfcethememanager-cli.o: ../src/cli.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfcethememanager_CXXFLAGS) $(CXXFLAGS) -MT ../src/xfcethememanager-cli.o -MD -MP -MF ../src/$(DEPDIR)/xfcethememanager-cli.Tpo -c -o ../src/xfcethememanager-cli.o `test -f '../src/cli.cpp' || echo '$(srcdir)/'`../src/cli.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) ../src/$(DEPDIR)/xfcethememanager-cli.Tpo ../src/$(DEPDIR)/xfcethememanager-cli.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../src/cli.cpp' object='../src/xfcethememanager-cli.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfcethememanager_CXXFLAGS) $(CXXFLAGS) -c -o xfcethememanager-cli.o `test -f '../src/cli.cpp' || echo '$(srcdir)/'`../src/cli.cpp
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfcethememanager_CXXFLAGS) $(CXXFLAGS) -c -o ../src/xfcethememanager-cli.o `test -f '../src/cli.cpp' || echo '$(srcdir)/'`../src/cli.cpp
 
-xfcethememanager-cli.obj: ../src/cli.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfcethememanager_CXXFLAGS) $(CXXFLAGS) -MT xfcethememanager-cli.obj -MD -MP -MF $(DEPDIR)/xfcethememanager-cli.Tpo -c -o xfcethememanager-cli.obj `if test -f '../src/cli.cpp'; then $(CYGPATH_W) '../src/cli.cpp'; else $(CYGPATH_W) '$(srcdir)/../src/cli.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/xfcethememanager-cli.Tpo $(DEPDIR)/xfcethememanager-cli.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../src/cli.cpp' object='xfcethememanager-cli.obj' libtool=no @AMDEPBACKSLASH@
+../src/xfcethememanager-cli.obj: ../src/cli.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfcethememanager_CXXFLAGS) $(CXXFLAGS) -MT ../src/xfcethememanager-cli.obj -MD -MP -MF ../src/$(DEPDIR)/xfcethememanager-cli.Tpo -c -o ../src/xfcethememanager-cli.obj `if test -f '../src/cli.cpp'; then $(CYGPATH_W) '../src/cli.cpp'; else $(CYGPATH_W) '$(srcdir)/../src/cli.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) ../src/$(DEPDIR)/xfcethememanager-cli.Tpo ../src/$(DEPDIR)/xfcethememanager-cli.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../src/cli.cpp' object='../src/xfcethememanager-cli.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfcethememanager_CXXFLAGS) $(CXXFLAGS) -c -o xfcethememanager-cli.obj `if test -f '../src/cli.cpp'; then $(CYGPATH_W) '../src/cli.cpp'; else $(CYGPATH_W) '$(srcdir)/../src/cli.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfcethememanager_CXXFLAGS) $(CXXFLAGS) -c -o ../src/xfcethememanager-cli.obj `if test -f '../src/cli.cpp'; then $(CYGPATH_W) '../src/cli.cpp'; else $(CYGPATH_W) '$(srcdir)/../src/cli.cpp'; fi`
 
-xfcethememanager-database.o: ../src/database.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfcethememanager_CXXFLAGS) $(CXXFLAGS) -MT xfcethememanager-database.o -MD -MP -MF $(DEPDIR)/xfcethememanager-database.Tpo -c -o xfcethememanager-database.o `test -f '../src/database.cpp' || echo '$(srcdir)/'`../src/database.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/xfcethememanager-database.Tpo $(DEPDIR)/xfcethememanager-database.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../src/database.cpp' object='xfcethememanager-database.o' libtool=no @AMDEPBACKSLASH@
+../src/xfcethememanager-database.o: ../src/database.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfcethememanager_CXXFLAGS) $(CXXFLAGS) -MT ../src/xfcethememanager-database.o -MD -MP -MF ../src/$(DEPDIR)/xfcethememanager-database.Tpo -c -o ../src/xfcethememanager-database.o `test -f '../src/database.cpp' || echo '$(srcdir)/'`../src/database.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) ../src/$(DEPDIR)/xfcethememanager-database.Tpo ../src/$(DEPDIR)/xfcethememanager-database.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../src/database.cpp' object='../src/xfcethememanager-database.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfcethememanager_CXXFLAGS) $(CXXFLAGS) -c -o xfcethememanager-database.o `test -f '../src/database.cpp' || echo '$(srcdir)/'`../src/database.cpp
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfcethememanager_CXXFLAGS) $(CXXFLAGS) -c -o ../src/xfcethememanager-database.o `test -f '../src/database.cpp' || echo '$(srcdir)/'`../src/database.cpp
 
-xfcethememanager-database.obj: ../src/database.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfcethememanager_CXXFLAGS) $(CXXFLAGS) -MT xfcethememanager-database.obj -MD -MP -MF $(DEPDIR)/xfcethememanager-database.Tpo -c -o xfcethememanager-database.obj `if test -f '../src/database.cpp'; then $(CYGPATH_W) '../src/database.cpp'; else $(CYGPATH_W) '$(srcdir)/../src/database.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/xfcethememanager-database.Tpo $(DEPDIR)/xfcethememanager-database.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../src/database.cpp' object='xfcethememanager-database.obj' libtool=no @AMDEPBACKSLASH@
+../src/xfcethememanager-database.obj: ../src/database.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfcethememanager_CXXFLAGS) $(CXXFLAGS) -MT ../src/xfcethememanager-database.obj -MD -MP -MF ../src/$(DEPDIR)/xfcethememanager-database.Tpo -c -o ../src/xfcethememanager-database.obj `if test -f '../src/database.cpp'; then $(CYGPATH_W) '../src/database.cpp'; else $(CYGPATH_W) '$(srcdir)/../src/database.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) ../src/$(DEPDIR)/xfcethememanager-database.Tpo ../src/$(DEPDIR)/xfcethememanager-database.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../src/database.cpp' object='../src/xfcethememanager-database.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfcethememanager_CXXFLAGS) $(CXXFLAGS) -c -o xfcethememanager-database.obj `if test -f '../src/database.cpp'; then $(CYGPATH_W) '../src/database.cpp'; else $(CYGPATH_W) '$(srcdir)/../src/database.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfcethememanager_CXXFLAGS) $(CXXFLAGS) -c -o ../src/xfcethememanager-database.obj `if test -f '../src/database.cpp'; then $(CYGPATH_W) '../src/database.cpp'; else $(CYGPATH_W) '$(srcdir)/../src/database.cpp'; fi`
 
-xfcethememanager-globals.o: ../src/globals.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfcethememanager_CXXFLAGS) $(CXXFLAGS) -MT xfcethememanager-globals.o -MD -MP -MF $(DEPDIR)/xfcethememanager-globals.Tpo -c -o xfcethememanager-globals.o `test -f '../src/globals.cpp' || echo '$(srcdir)/'`../src/globals.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/xfcethememanager-globals.Tpo $(DEPDIR)/xfcethememanager-globals.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../src/globals.cpp' object='xfcethememanager-globals.o' libtool=no @AMDEPBACKSLASH@
+../src/xfcethememanager-globals.o: ../src/globals.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfcethememanager_CXXFLAGS) $(CXXFLAGS) -MT ../src/xfcethememanager-globals.o -MD -MP -MF ../src/$(DEPDIR)/xfcethememanager-globals.Tpo -c -o ../src/xfcethememanager-globals.o `test -f '../src/globals.cpp' || echo '$(srcdir)/'`../src/globals.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) ../src/$(DEPDIR)/xfcethememanager-globals.Tpo ../src/$(DEPDIR)/xfcethememanager-globals.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../src/globals.cpp' object='../src/xfcethememanager-globals.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfcethememanager_CXXFLAGS) $(CXXFLAGS) -c -o xfcethememanager-globals.o `test -f '../src/globals.cpp' || echo '$(srcdir)/'`../src/globals.cpp
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfcethememanager_CXXFLAGS) $(CXXFLAGS) -c -o ../src/xfcethememanager-globals.o `test -f '../src/globals.cpp' || echo '$(srcdir)/'`../src/globals.cpp
 
-xfcethememanager-globals.obj: ../src/globals.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfcethememanager_CXXFLAGS) $(CXXFLAGS) -MT xfcethememanager-globals.obj -MD -MP -MF $(DEPDIR)/xfcethememanager-globals.Tpo -c -o xfcethememanager-globals.obj `if test -f '../src/globals.cpp'; then $(CYGPATH_W) '../src/globals.cpp'; else $(CYGPATH_W) '$(srcdir)/../src/globals.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/xfcethememanager-globals.Tpo $(DEPDIR)/xfcethememanager-globals.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../src/globals.cpp' object='xfcethememanager-globals.obj' libtool=no @AMDEPBACKSLASH@
+../src/xfcethememanager-globals.obj: ../src/globals.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfcethememanager_CXXFLAGS) $(CXXFLAGS) -MT ../src/xfcethememanager-globals.obj -MD -MP -MF ../src/$(DEPDIR)/xfcethememanager-globals.Tpo -c -o ../src/xfcethememanager-globals.obj `if test -f '../src/globals.cpp'; then $(CYGPATH_W) '../src/globals.cpp'; else $(CYGPATH_W) '$(srcdir)/../src/globals.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) ../src/$(DEPDIR)/xfcethememanager-globals.Tpo ../src/$(DEPDIR)/xfcethememanager-globals.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../src/globals.cpp' object='../src/xfcethememanager-globals.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfcethememanager_CXXFLAGS) $(CXXFLAGS) -c -o xfcethememanager-globals.obj `if test -f '../src/globals.cpp'; then $(CYGPATH_W) '../src/globals.cpp'; else $(CYGPATH_W) '$(srcdir)/../src/globals.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfcethememanager_CXXFLAGS) $(CXXFLAGS) -c -o ../src/xfcethememanager-globals.obj `if test -f '../src/globals.cpp'; then $(CYGPATH_W) '../src/globals.cpp'; else $(CYGPATH_W) '$(srcdir)/../src/globals.cpp'; fi`
 
-xfcethememanager-gui.o: ../src/gui.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfcethememanager_CXXFLAGS) $(CXXFLAGS) -MT xfcethememanager-gui.o -MD -MP -MF $(DEPDIR)/xfcethememanager-gui.Tpo -c -o xfcethememanager-gui.o `test -f '../src/gui.cpp' || echo '$(srcdir)/'`../src/gui.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/xfcethememanager-gui.Tpo $(DEPDIR)/xfcethememanager-gui.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../src/gui.cpp' object='xfcethememanager-gui.o' libtool=no @AMDEPBACKSLASH@
+../src/xfcethememanager-gui.o: ../src/gui.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfcethememanager_CXXFLAGS) $(CXXFLAGS) -MT ../src/xfcethememanager-gui.o -MD -MP -MF ../src/$(DEPDIR)/xfcethememanager-gui.Tpo -c -o ../src/xfcethememanager-gui.o `test -f '../src/gui.cpp' || echo '$(srcdir)/'`../src/gui.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) ../src/$(DEPDIR)/xfcethememanager-gui.Tpo ../src/$(DEPDIR)/xfcethememanager-gui.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../src/gui.cpp' object='../src/xfcethememanager-gui.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfcethememanager_CXXFLAGS) $(CXXFLAGS) -c -o xfcethememanager-gui.o `test -f '../src/gui.cpp' || echo '$(srcdir)/'`../src/gui.cpp
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfcethememanager_CXXFLAGS) $(CXXFLAGS) -c -o ../src/xfcethememanager-gui.o `test -f '../src/gui.cpp' || echo '$(srcdir)/'`../src/gui.cpp
 
-xfcethememanager-gui.obj: ../src/gui.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfcethememanager_CXXFLAGS) $(CXXFLAGS) -MT xfcethememanager-gui.obj -MD -MP -MF $(DEPDIR)/xfcethememanager-gui.Tpo -c -o xfcethememanager-gui.obj `if test -f '../src/gui.cpp'; then $(CYGPATH_W) '../src/gui.cpp'; else $(CYGPATH_W) '$(srcdir)/../src/gui.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/xfcethememanager-gui.Tpo $(DEPDIR)/xfcethememanager-gui.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../src/gui.cpp' object='xfcethememanager-gui.obj' libtool=no @AMDEPBACKSLASH@
+../src/xfcethememanager-gui.obj: ../src/gui.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfcethememanager_CXXFLAGS) $(CXXFLAGS) -MT ../src/xfcethememanager-gui.obj -MD -MP -MF ../src/$(DEPDIR)/xfcethememanager-gui.Tpo -c -o ../src/xfcethememanager-gui.obj `if test -f '../src/gui.cpp'; then $(CYGPATH_W) '../src/gui.cpp'; else $(CYGPATH_W) '$(srcdir)/../src/gui.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) ../src/$(DEPDIR)/xfcethememanager-gui.Tpo ../src/$(DEPDIR)/xfcethememanager-gui.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../src/gui.cpp' object='../src/xfcethememanager-gui.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfcethememanager_CXXFLAGS) $(CXXFLAGS) -c -o xfcethememanager-gui.obj `if test -f '../src/gui.cpp'; then $(CYGPATH_W) '../src/gui.cpp'; else $(CYGPATH_W) '$(srcdir)/../src/gui.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfcethememanager_CXXFLAGS) $(CXXFLAGS) -c -o ../src/xfcethememanager-gui.obj `if test -f '../src/gui.cpp'; then $(CYGPATH_W) '../src/gui.cpp'; else $(CYGPATH_W) '$(srcdir)/../src/gui.cpp'; fi`
 
-xfcethememanager-main.o: ../src/main.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfcethememanager_CXXFLAGS) $(CXXFLAGS) -MT xfcethememanager-main.o -MD -MP -MF $(DEPDIR)/xfcethememanager-main.Tpo -c -o xfcethememanager-main.o `test -f '../src/main.cpp' || echo '$(srcdir)/'`../src/main.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/xfcethememanager-main.Tpo $(DEPDIR)/xfcethememanager-main.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../src/main.cpp' object='xfcethememanager-main.o' libtool=no @AMDEPBACKSLASH@
+../src/xfcethememanager-main.o: ../src/main.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfcethememanager_CXXFLAGS) $(CXXFLAGS) -MT ../src/xfcethememanager-main.o -MD -MP -MF ../src/$(DEPDIR)/xfcethememanager-main.Tpo -c -o ../src/xfcethememanager-main.o `test -f '../src/main.cpp' || echo '$(srcdir)/'`../src/main.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) ../src/$(DEPDIR)/xfcethememanager-main.Tpo ../src/$(DEPDIR)/xfcethememanager-main.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../src/main.cpp' object='../src/xfcethememanager-main.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfcethememanager_CXXFLAGS) $(CXXFLAGS) -c -o xfcethememanager-main.o `test -f '../src/main.cpp' || echo '$(srcdir)/'`../src/main.cpp
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfcethememanager_CXXFLAGS) $(CXXFLAGS) -c -o ../src/xfcethememanager-main.o `test -f '../src/main.cpp' || echo '$(srcdir)/'`../src/main.cpp
 
-xfcethememanager-main.obj: ../src/main.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfcethememanager_CXXFLAGS) $(CXXFLAGS) -MT xfcethememanager-main.obj -MD -MP -MF $(DEPDIR)/xfcethememanager-main.Tpo -c -o xfcethememanager-main.obj `if test -f '../src/main.cpp'; then $(CYGPATH_W) '../src/main.cpp'; else $(CYGPATH_W) '$(srcdir)/../src/main.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/xfcethememanager-main.Tpo $(DEPDIR)/xfcethememanager-main.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../src/main.cpp' object='xfcethememanager-main.obj' libtool=no @AMDEPBACKSLASH@
+../src/xfcethememanager-main.obj: ../src/main.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfcethememanager_CXXFLAGS) $(CXXFLAGS) -MT ../src/xfcethememanager-main.obj -MD -MP -MF ../src/$(DEPDIR)/xfcethememanager-main.Tpo -c -o ../src/xfcethememanager-main.obj `if test -f '../src/main.cpp'; then $(CYGPATH_W) '../src/main.cpp'; else $(CYGPATH_W) '$(srcdir)/../src/main.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) ../src/$(DEPDIR)/xfcethememanager-main.Tpo ../src/$(DEPDIR)/xfcethememanager-main.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../src/main.cpp' object='../src/xfcethememanager-main.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfcethememanager_CXXFLAGS) $(CXXFLAGS) -c -o xfcethememanager-main.obj `if test -f '../src/main.cpp'; then $(CYGPATH_W) '../src/main.cpp'; else $(CYGPATH_W) '$(srcdir)/../src/main.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfcethememanager_CXXFLAGS) $(CXXFLAGS) -c -o ../src/xfcethememanager-main.obj `if test -f '../src/main.cpp'; then $(CYGPATH_W) '../src/main.cpp'; else $(CYGPATH_W) '$(srcdir)/../src/main.cpp'; fi`
 
-xfcethememanager-panels.o: ../src/panels.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfcethememanager_CXXFLAGS) $(CXXFLAGS) -MT xfcethememanager-panels.o -MD -MP -MF $(DEPDIR)/xfcethememanager-panels.Tpo -c -o xfcethememanager-panels.o `test -f '../src/panels.cpp' || echo '$(srcdir)/'`../src/panels.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/xfcethememanager-panels.Tpo $(DEPDIR)/xfcethememanager-panels.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../src/panels.cpp' object='xfcethememanager-panels.o' libtool=no @AMDEPBACKSLASH@
+../src/xfcethememanager-panels.o: ../src/panels.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfcethememanager_CXXFLAGS) $(CXXFLAGS) -MT ../src/xfcethememanager-panels.o -MD -MP -MF ../src/$(DEPDIR)/xfcethememanager-panels.Tpo -c -o ../src/xfcethememanager-panels.o `test -f '../src/panels.cpp' || echo '$(srcdir)/'`../src/panels.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) ../src/$(DEPDIR)/xfcethememanager-panels.Tpo ../src/$(DEPDIR)/xfcethememanager-panels.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../src/panels.cpp' object='../src/xfcethememanager-panels.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfcethememanager_CXXFLAGS) $(CXXFLAGS) -c -o xfcethememanager-panels.o `test -f '../src/panels.cpp' || echo '$(srcdir)/'`../src/panels.cpp
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfcethememanager_CXXFLAGS) $(CXXFLAGS) -c -o ../src/xfcethememanager-panels.o `test -f '../src/panels.cpp' || echo '$(srcdir)/'`../src/panels.cpp
 
-xfcethememanager-panels.obj: ../src/panels.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfcethememanager_CXXFLAGS) $(CXXFLAGS) -MT xfcethememanager-panels.obj -MD -MP -MF $(DEPDIR)/xfcethememanager-panels.Tpo -c -o xfcethememanager-panels.obj `if test -f '../src/panels.cpp'; then $(CYGPATH_W) '../src/panels.cpp'; else $(CYGPATH_W) '$(srcdir)/../src/panels.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/xfcethememanager-panels.Tpo $(DEPDIR)/xfcethememanager-panels.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../src/panels.cpp' object='xfcethememanager-panels.obj' libtool=no @AMDEPBACKSLASH@
+../src/xfcethememanager-panels.obj: ../src/panels.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfcethememanager_CXXFLAGS) $(CXXFLAGS) -MT ../src/xfcethememanager-panels.obj -MD -MP -MF ../src/$(DEPDIR)/xfcethememanager-panels.Tpo -c -o ../src/xfcethememanager-panels.obj `if test -f '../src/panels.cpp'; then $(CYGPATH_W) '../src/panels.cpp'; else $(CYGPATH_W) '$(srcdir)/../src/panels.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) ../src/$(DEPDIR)/xfcethememanager-panels.Tpo ../src/$(DEPDIR)/xfcethememanager-panels.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../src/panels.cpp' object='../src/xfcethememanager-panels.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfcethememanager_CXXFLAGS) $(CXXFLAGS) -c -o xfcethememanager-panels.obj `if test -f '../src/panels.cpp'; then $(CYGPATH_W) '../src/panels.cpp'; else $(CYGPATH_W) '$(srcdir)/../src/panels.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfcethememanager_CXXFLAGS) $(CXXFLAGS) -c -o ../src/xfcethememanager-panels.obj `if test -f '../src/panels.cpp'; then $(CYGPATH_W) '../src/panels.cpp'; else $(CYGPATH_W) '$(srcdir)/../src/panels.cpp'; fi`
 
-xfcethememanager-thumbnails.o: ../src/thumbnails.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfcethememanager_CXXFLAGS) $(CXXFLAGS) -MT xfcethememanager-thumbnails.o -MD -MP -MF $(DEPDIR)/xfcethememanager-thumbnails.Tpo -c -o xfcethememanager-thumbnails.o `test -f '../src/thumbnails.cpp' || echo '$(srcdir)/'`../src/thumbnails.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/xfcethememanager-thumbnails.Tpo $(DEPDIR)/xfcethememanager-thumbnails.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../src/thumbnails.cpp' object='xfcethememanager-thumbnails.o' libtool=no @AMDEPBACKSLASH@
+../src/xfcethememanager-thumbnails.o: ../src/thumbnails.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfcethememanager_CXXFLAGS) $(CXXFLAGS) -MT ../src/xfcethememanager-thumbnails.o -MD -MP -MF ../src/$(DEPDIR)/xfcethememanager-thumbnails.Tpo -c -o ../src/xfcethememanager-thumbnails.o `test -f '../src/thumbnails.cpp' || echo '$(srcdir)/'`../src/thumbnails.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) ../src/$(DEPDIR)/xfcethememanager-thumbnails.Tpo ../src/$(DEPDIR)/xfcethememanager-thumbnails.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../src/thumbnails.cpp' object='../src/xfcethememanager-thumbnails.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfcethememanager_CXXFLAGS) $(CXXFLAGS) -c -o xfcethememanager-thumbnails.o `test -f '../src/thumbnails.cpp' || echo '$(srcdir)/'`../src/thumbnails.cpp
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfcethememanager_CXXFLAGS) $(CXXFLAGS) -c -o ../src/xfcethememanager-thumbnails.o `test -f '../src/thumbnails.cpp' || echo '$(srcdir)/'`../src/thumbnails.cpp
 
-xfcethememanager-thumbnails.obj: ../src/thumbnails.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfcethememanager_CXXFLAGS) $(CXXFLAGS) -MT xfcethememanager-thumbnails.obj -MD -MP -MF $(DEPDIR)/xfcethememanager-thumbnails.Tpo -c -o xfcethememanager-thumbnails.obj `if test -f '../src/thumbnails.cpp'; then $(CYGPATH_W) '../src/thumbnails.cpp'; else $(CYGPATH_W) '$(srcdir)/../src/thumbnails.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/xfcethememanager-thumbnails.Tpo $(DEPDIR)/xfcethememanager-thumbnails.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../src/thumbnails.cpp' object='xfcethememanager-thumbnails.obj' libtool=no @AMDEPBACKSLASH@
+../src/xfcethememanager-thumbnails.obj: ../src/thumbnails.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfcethememanager_CXXFLAGS) $(CXXFLAGS) -MT ../src/xfcethememanager-thumbnails.obj -MD -MP -MF ../src/$(DEPDIR)/xfcethememanager-thumbnails.Tpo -c -o ../src/xfcethememanager-thumbnails.obj `if test -f '../src/thumbnails.cpp'; then $(CYGPATH_W) '../src/thumbnails.cpp'; else $(CYGPATH_W) '$(srcdir)/../src/thumbnails.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) ../src/$(DEPDIR)/xfcethememanager-thumbnails.Tpo ../src/$(DEPDIR)/xfcethememanager-thumbnails.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../src/thumbnails.cpp' object='../src/xfcethememanager-thumbnails.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfcethememanager_CXXFLAGS) $(CXXFLAGS) -c -o xfcethememanager-thumbnails.obj `if test -f '../src/thumbnails.cpp'; then $(CYGPATH_W) '../src/thumbnails.cpp'; else $(CYGPATH_W) '$(srcdir)/../src/thumbnails.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfcethememanager_CXXFLAGS) $(CXXFLAGS) -c -o ../src/xfcethememanager-thumbnails.obj `if test -f '../src/thumbnails.cpp'; then $(CYGPATH_W) '../src/thumbnails.cpp'; else $(CYGPATH_W) '$(srcdir)/../src/thumbnails.cpp'; fi`
 install-docfilesDATA: $(docfiles_DATA)
 	@$(NORMAL_INSTALL)
 	@list='$(docfiles_DATA)'; test -n "$(docfilesdir)" || list=; \
@@ -707,6 +735,8 @@ clean-generic:
 distclean-generic:
 	-test -z "$(CONFIG_CLEAN_FILES)" || rm -f $(CONFIG_CLEAN_FILES)
 	-test . = "$(srcdir)" || test -z "$(CONFIG_CLEAN_VPATH_FILES)" || rm -f $(CONFIG_CLEAN_VPATH_FILES)
+	-rm -f ../src/$(DEPDIR)/$(am__dirstamp)
+	-rm -f ../src/$(am__dirstamp)
 
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
@@ -716,7 +746,7 @@ clean: clean-am
 clean-am: clean-binPROGRAMS clean-generic mostlyclean-am
 
 distclean: distclean-am
-	-rm -rf ./$(DEPDIR)
+	-rm -rf ../src/$(DEPDIR)
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-tags
@@ -763,7 +793,7 @@ install-ps-am:
 installcheck-am:
 
 maintainer-clean: maintainer-clean-am
-	-rm -rf ./$(DEPDIR)
+	-rm -rf ../src/$(DEPDIR)
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 
