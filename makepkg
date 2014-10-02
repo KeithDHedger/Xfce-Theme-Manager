@@ -21,7 +21,7 @@ autoheader
 touch NEWS README AUTHORS
 automake --add-missing --copy
 autoconf
-rm -rf ./autom4te.cache
+#rm -rf ./autom4te.cache
 rm ./compile ./missing ./COPYING ./AUTHORS ./NEWS ./README
 cd ..
 
