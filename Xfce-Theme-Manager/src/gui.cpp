@@ -540,6 +540,13 @@ void buildAdvancedGui(GtkWidget* advancedScrollBox)
 	g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(resetSatu),(gpointer)advancedRange);
 	gtk_box_pack_start(GTK_BOX(advancedHbox),button,false,false,8);
 
+
+	spanMonitorsWidget=gtk_check_button_new_with_label(_translate(SPANMONITORS));
+
+	gtk_toggle_button_set_active((GtkToggleButton*)spanMonitorsWidget,spanMonitors);
+	g_signal_connect_after(G_OBJECT(spanMonitorsWidget),"toggled",G_CALLBACK(setSpanMonitors),NULL);
+	gtk_box_pack_start(GTK_BOX(advancedVbox),spanMonitorsWidget,false,false,2);
+
 	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_hseparator_new(),false,false,4);
 
 //buton layout

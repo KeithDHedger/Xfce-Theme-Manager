@@ -214,6 +214,9 @@ void init(void)
 	GdkScreen*	screen=gdk_display_get_screen(gdpy,0);
 	numberOfMonitors=gdk_screen_get_n_monitors(screen);
 
+//span desktop
+	getValue(XFCEDESKTOP,SCREENPROP,BOOLEAN,&spanMonitors);
+
 //gtk
 	getValue(XSETTINGS,CONTROLTHEMEPROP,STRING,&currentGtkTheme);
 	getValue(XSETTINGS,CONTROLTHEMEPROP,STRING,&originalGtkTheme);

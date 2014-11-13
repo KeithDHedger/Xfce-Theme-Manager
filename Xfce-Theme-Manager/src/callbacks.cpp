@@ -190,6 +190,9 @@ void buildCustomDB(const char* chan,const char* prop,dataType type,const char* k
 
 			case COLOURARRAY:
 				break;
+
+			case BOOLEAN:
+				break;
 		}
 }
 
@@ -1039,6 +1042,13 @@ gboolean setSatu(GtkWidget *widget,GdkEvent *event,gpointer user_data)
 	setValue(XFCEDESKTOP,(char*)&generalBuffer[0],FLOAT,&monitorData[currentMonitor]->satu);
 
 	return(false);
+}
+
+void setSpanMonitors(GtkWidget* widget,gpointer data)
+{
+	long val=(int)gtk_toggle_button_get_active((GtkToggleButton*)widget);
+	//sprintf((char*)&generalBuffer[0],"%s",SCREENPROP);
+	setValue(XFCEDESKTOP,SCREENPROP,BOOLEAN,(void*)val);
 }
 
 void resetLayout(GtkWidget* widget,gpointer data)

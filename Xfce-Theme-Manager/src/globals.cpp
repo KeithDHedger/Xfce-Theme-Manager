@@ -75,6 +75,7 @@ GtkWidget*			layoutEntry;
 GtkComboBoxText*	titlePos;
 GtkWidget*			briteRange;
 GtkWidget*			satuRange;
+GtkWidget*			spanMonitorsWidget;
 GtkWidget*			cursorSize;
 
 GtkWidget*			wallpapersMainBox=NULL;
@@ -133,6 +134,7 @@ int					winWid=420;
 int					winHite=470;
 int					gotXCE=0;
 int					previewSize=128;
+int					spanMonitors=0;
 
 bool				noGui=false;
 bool				updateDb=false;
@@ -141,17 +143,17 @@ bool				rebuildDb=false;
 const char*			folders[]={"meta","frames","controls","icons","cursors","wallpapers"};
 
 const char*			langStr[][STOPWORD]={
-{"Themes","Window Borders","Controls","Icons","Cursors","Wallpapers","Re-Build The Database","Rebuild DB","Launch Xfce-Composite-Editor","Backdrop Adjustments","Brightness","Saturation","Reset","Button Layout","Font Selection","WM Font","App Font","Cursor Size","Reset Theme","Save Theme","Advanced","Title Position","Enter Name for Theme...","Left","Centre","Right","Auto","Centered","Tiled","Stretched","Scaled","Zoomed","Custom","View Options","Show System Themes","Show Only Custom Themes","Delete Custom Theme","Integrated theme manager","An intergrated theme manager for Xfce 4.10","Huge Previews","Large Previews","Medium Previews","Small Previews","Panels","Panel Size:","None","Solid Colour","Image","Style:\t","File:\t\t","Alpha:\t","Colour:\t","Get it at http://gtk-apps.org","Monitor","None"},
+{"Themes","Window Borders","Controls","Icons","Cursors","Wallpapers","Re-Build The Database","Rebuild DB","Launch Xfce-Composite-Editor","Backdrop Adjustments","Brightness","Saturation","Reset","Button Layout","Font Selection","WM Font","App Font","Cursor Size","Reset Theme","Save Theme","Advanced","Title Position","Enter Name for Theme...","Left","Centre","Right","Auto","Centered","Tiled","Stretched","Scaled","Zoomed","Custom","View Options","Show System Themes","Show Only Custom Themes","Delete Custom Theme","Integrated theme manager","An intergrated theme manager for Xfce 4.10","Huge Previews","Large Previews","Medium Previews","Small Previews","Panels","Panel Size:","None","Solid Colour","Image","Style:\t","File:\t\t","Alpha:\t","Colour:\t","Get it at http://gtk-apps.org","Monitor","None","Span Monitors"},
 
-{"Temas","Bordes De Ventana","Controles","Iconos","Cursores","Fondos De Pantalla","Re-Crear La Base De Datos","Reconstruir DB","Lanzar Xfce-Composite-Editor","Ajustes De Fondo De Escritorio","Brillo","Saturación","Reiniciar","Orden De Los Botones","Selección De Fuentes","Fuente De WM","Fuentes De Aplicación","Tamaño Del Cursor","Restablecer Tema","Guardar Tema","Avanzado","Posición Del Título","Ingrese el nombre del Tema...","Izquierda","Centro","Derecho","Auto","Centrado","Mosaico","Estirado","Escalado","Zoomed","Costumbre","Ver Opciones","Mostrar Temas del Sistema","Mostrar Sólo Temas Personalizados","Borrar Tema Personalizado","Un gestor integrado de temas","Un gestor de temas integrada para Xfce 4.10","Vista previa enorme","Vista previa grande","Vista previa mediana","Vista previa pequeña","Paneles","Tamaño del panel:","Ninguno","Color sólido","Imagen","Estilo:\t","Archivo:\t\t","Alfa:\t","Color:\t","Consíguelo en http://gtk-apps.org","Monitor","None"},
+{"Temas","Bordes De Ventana","Controles","Iconos","Cursores","Fondos De Pantalla","Re-Crear La Base De Datos","Reconstruir DB","Lanzar Xfce-Composite-Editor","Ajustes De Fondo De Escritorio","Brillo","Saturación","Reiniciar","Orden De Los Botones","Selección De Fuentes","Fuente De WM","Fuentes De Aplicación","Tamaño Del Cursor","Restablecer Tema","Guardar Tema","Avanzado","Posición Del Título","Ingrese el nombre del Tema...","Izquierda","Centro","Derecho","Auto","Centrado","Mosaico","Estirado","Escalado","Zoomed","Costumbre","Ver Opciones","Mostrar Temas del Sistema","Mostrar Sólo Temas Personalizados","Borrar Tema Personalizado","Un gestor integrado de temas","Un gestor de temas integrada para Xfce 4.10","Vista previa enorme","Vista previa grande","Vista previa mediana","Vista previa pequeña","Paneles","Tamaño del panel:","Ninguno","Color sólido","Imagen","Estilo:\t","Archivo:\t\t","Alfa:\t","Color:\t","Consíguelo en http://gtk-apps.org","Monitor","None","Span Monitors"},
 
-{"Oberfläche","Fensterrahmen","Schaltflächen","Symbole","Mauszeiger","Hintergründe","Datenbank neu anlegen","DB erneuern","Xfce-Composite-Editor starten","Hintergrund-Anpassung","Helligkeit","Sättigung","Zurücksetzen","Anordnung der Schaltflächen","Schrift","Fensterschrift","Anwendungsschrift","Größe des Mauszeigers","Oberfläche zurücksetzen","Oberfläche speichern","Erweitert","Position des Fenstertitels","Name für Oberfläche eingeben...","Links","Mitte","Rechts","Automatisch","Zentriert","Gekachelt","Gestreckt","Skaliert","Vergrößert","Benutzerdefiniert","Anzeige-Optionen","System-Oberflächen Anzeigen","Nur benutzerdefinierte Oberflächen anzeigen","Benutzerdefinierte Oberfläche löschen","Eine integrierte Oberflächen-Verwaltung","Eine integrierte Oberflächen-Verwaltung für Xfce 4.10","Riesige Vorschaubilder","Große Vorschaubilder","Mittlere Vorschaubilder","Kleine Vorschaubilder","Panele","Panel-Größe:","Keine","Einfarbig","Bild","Stil:\t","Datei:\t\t","Alpha:\t","Farbe:\t","Herunterladen von http://gtk-apps.org","Bildschirm","None"},
+{"Oberfläche","Fensterrahmen","Schaltflächen","Symbole","Mauszeiger","Hintergründe","Datenbank neu anlegen","DB erneuern","Xfce-Composite-Editor starten","Hintergrund-Anpassung","Helligkeit","Sättigung","Zurücksetzen","Anordnung der Schaltflächen","Schrift","Fensterschrift","Anwendungsschrift","Größe des Mauszeigers","Oberfläche zurücksetzen","Oberfläche speichern","Erweitert","Position des Fenstertitels","Name für Oberfläche eingeben...","Links","Mitte","Rechts","Automatisch","Zentriert","Gekachelt","Gestreckt","Skaliert","Vergrößert","Benutzerdefiniert","Anzeige-Optionen","System-Oberflächen Anzeigen","Nur benutzerdefinierte Oberflächen anzeigen","Benutzerdefinierte Oberfläche löschen","Eine integrierte Oberflächen-Verwaltung","Eine integrierte Oberflächen-Verwaltung für Xfce 4.10","Riesige Vorschaubilder","Große Vorschaubilder","Mittlere Vorschaubilder","Kleine Vorschaubilder","Panele","Panel-Größe:","Keine","Einfarbig","Bild","Stil:\t","Datei:\t\t","Alpha:\t","Farbe:\t","Herunterladen von http://gtk-apps.org","Bildschirm","None","Span Monitors"},
 
-{"Style","Obramowania okien","Kontrolki","Ikony","Kursory","Tapety","Przebudowanie bazy danych","Przebudowanie bazy danych","Uruchom Xfce-Composite-Editor","Ustawienia tła","Jasność","Nasycenie","Reset","Położenie przycisków","Wybór czcionki","Czcionka menedżera okien","Czcionka aplikacji","Wielkość kursora","Resetowanie stylu","Zapisz styl","Zaawansowane","Pozycja tytułu okna","Wprowadź nazwę stylu","Lewo","Centrum","Prawo","Automatycznie","Wyśrodkowanie","Sąsiadująco","Rozciągnięcie","Przeskalowanie","Powiększenie","Własne","Opcje widoku","Pokaż style systemowe","Pokaż tylko własne style","Usuń własny styl","Zintegrowany menedżer stylów","Zintegrowany menedżer stylów dla Xfce 4.10","Ogromne","Duże","Średnie","Małe","Panele","Wielkość Panelu","Żaden","Stały Kolor","Obraz","Styl:\t\t","Plik:\t\t","Alfa:\t","Kolor:\t","Zdobądź na http://gtk-apps.org","Monitor","None"},
+{"Style","Obramowania okien","Kontrolki","Ikony","Kursory","Tapety","Przebudowanie bazy danych","Przebudowanie bazy danych","Uruchom Xfce-Composite-Editor","Ustawienia tła","Jasność","Nasycenie","Reset","Położenie przycisków","Wybór czcionki","Czcionka menedżera okien","Czcionka aplikacji","Wielkość kursora","Resetowanie stylu","Zapisz styl","Zaawansowane","Pozycja tytułu okna","Wprowadź nazwę stylu","Lewo","Centrum","Prawo","Automatycznie","Wyśrodkowanie","Sąsiadująco","Rozciągnięcie","Przeskalowanie","Powiększenie","Własne","Opcje widoku","Pokaż style systemowe","Pokaż tylko własne style","Usuń własny styl","Zintegrowany menedżer stylów","Zintegrowany menedżer stylów dla Xfce 4.10","Ogromne","Duże","Średnie","Małe","Panele","Wielkość Panelu","Żaden","Stały Kolor","Obraz","Styl:\t\t","Plik:\t\t","Alfa:\t","Kolor:\t","Zdobądź na http://gtk-apps.org","Monitor","None","Span Monitors"},
 
-{"Thèmes","Bourdures de fenêtres","Contrôles","Icônes","Curseurs","Fonds d'écran","Regénérer la base de données","Regénérer la BDD","Lancer Xfce-Composite-Editor","Ajustements de l'arrière plan","Luminosité","Saturation","Réinitialiser","Agencement des boutons","Sélection de la police","Gestionnaire de fenêtres","Applications","Taille du curseur","Réinitialiser le thème","Sauvegarder le thème","Avancés","Position du titre","Entrez le nom du thème...","Gauche","Centre","Droite","Auto","Centré","Mosaïque","Étiré","Adapté","Zoomé","Personnalisé","Options d'affichage","Afficher les thèmes système","N'afficher que les thèmes personnalisés","Supprimer le thème personnalisé","Gestionnaire de thèmes intégré","Un gestionnaire de thème intégrée pour Xfce 4.10","Très grands aperçus","Grands aperçus","Aperçus moyen","Petits aperçus","Tableau de bord","Dimension :","Aucun","Couleur pleine","Image","Style :\t","Ficher :\t\t","Opacité :\t","Couleur :\t","Procurez-vous le à http://gtk-apps.org","Moniteur","None"},
+{"Thèmes","Bourdures de fenêtres","Contrôles","Icônes","Curseurs","Fonds d'écran","Regénérer la base de données","Regénérer la BDD","Lancer Xfce-Composite-Editor","Ajustements de l'arrière plan","Luminosité","Saturation","Réinitialiser","Agencement des boutons","Sélection de la police","Gestionnaire de fenêtres","Applications","Taille du curseur","Réinitialiser le thème","Sauvegarder le thème","Avancés","Position du titre","Entrez le nom du thème...","Gauche","Centre","Droite","Auto","Centré","Mosaïque","Étiré","Adapté","Zoomé","Personnalisé","Options d'affichage","Afficher les thèmes système","N'afficher que les thèmes personnalisés","Supprimer le thème personnalisé","Gestionnaire de thèmes intégré","Un gestionnaire de thème intégrée pour Xfce 4.10","Très grands aperçus","Grands aperçus","Aperçus moyen","Petits aperçus","Tableau de bord","Dimension :","Aucun","Couleur pleine","Image","Style :\t","Ficher :\t\t","Opacité :\t","Couleur :\t","Procurez-vous le à http://gtk-apps.org","Moniteur","None","Span Monitors"},
 
-{"","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","None"}
+{"","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","None","Span Monitors"}
 
 };
 
@@ -232,6 +234,7 @@ void getValue(const char* channel,const char* property,dataType type,void* ptr)
 	int		intdata;
 	double	floatdata;
 	int		array[4]={-1,-1,-1,-1};
+	bool	booldata;
 
 	XfconfChannel*	channelptr=xfconf_channel_get(channel);
 
@@ -241,6 +244,13 @@ void getValue(const char* channel,const char* property,dataType type,void* ptr)
 				intdata=xfconf_channel_get_int(channelptr,property,-1);
 				if(intdata!=-1)
 					*(int*)ptr=intdata;
+				break;
+
+			case BOOLEAN:
+				booldata=xfconf_channel_get_bool(channelptr,property,-1);
+				
+				if(booldata!=-1)
+					*(int*)ptr=booldata;
 				break;
 
 			case STRING:
@@ -272,6 +282,10 @@ void setValue(const char* channel,const char* property,dataType type,void* data)
 		{
 			case INT:
 				xfconf_channel_set_int(channelptr,property,(int)(long)data);
+				break;
+
+			case BOOLEAN:
+				xfconf_channel_set_bool(channelptr,property,(bool)data);
 				break;
 
 			case STRING:

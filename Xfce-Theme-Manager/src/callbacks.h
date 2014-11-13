@@ -58,5 +58,6 @@ int checkFolders(void);
 
 void monitorChanged(GtkWidget* widget,gpointer data);
 void setMonitorData(void);
+void setSpanMonitors(GtkWidget* widget,gpointer data);
 
 #endif
