@@ -669,6 +669,7 @@ gboolean clickIt(GtkWidget* widget,GdkEvent* event,gpointer data)
 	path=gtk_icon_view_get_path_at_pos((GtkIconView *)widget,event->button.x,event->button.y);
 	if (path!=NULL)
 		{
+		printf("click\n");
 			themeIconCallback((GtkIconView *)widget,(void*)data);
 		}
 
@@ -953,6 +954,7 @@ void themeIconCallback(GtkIconView *view,gpointer doWhat)
 	GtkTreePath*	path;
 	GtkTreeIter		iter;
 	char*			text;
+	char			*script;
 
 	selected=gtk_icon_view_get_selected_items(view);
 	if (!selected)
@@ -969,28 +971,57 @@ void themeIconCallback(GtkIconView *view,gpointer doWhat)
 		{
 			case THEMES:
 				doMeta(text);
+				printf("click theme %s\n",text);
+				asprintf(&script,"%s/Scripts/XfceMetaScript \"%s\"",getenv("HOME"),text);
 				break;
 
 			case WMBORDERS:
+				printf("click wm %s\n",text);
 				setPieceNewNew(text,WMBORDERS);
+				asprintf(&script,"%s/Scripts/XfceWMScript set \"%s\"",getenv("HOME"),text);
 				break;
 
 			case CONTROLS:
+				printf("click controls %s\n",text);
 				setPieceNewNew(text,CONTROLS);
+				asprintf(&script,"%s/Scripts/XfceControlsScript set \"%s\"",getenv("HOME"),text);
 				break;
 
 			case ICONS:
+				printf("click icons %s\n",text);
 				setPieceNewNew(text,ICONS);
+				asprintf(&script,"%s/Scripts/XfceIconsScript set \"%s\"",getenv("HOME"),text);
 				break;
 
 			case CURSORS:
+				printf("click cursor %s\n",text);
 				setPieceNewNew(text,CURSORS);
+				asprintf(&script,"%s/Scripts/XfceCursorScript set \"%s\"",getenv("HOME"),text);
 				break;
 
 			case WALLPAPERS:
 				setPieceNewNew(text,WALLPAPERS);
+				
+				{
+					char	mname[4096]={0,};
+					char	*ptr=&mname[0];
+					int		cnt=0;
+					for(int j=0;j<numberOfMonitors;j++)
+						{
+							cnt=sprintf(ptr,"%i ",monitorData[j]->style);
+							ptr+=cnt;
+							cnt=sprintf(ptr,"\"%s\" ",monitorData[j]->imagePath);
+							ptr+=cnt;
+						}
+					printf("click backdrop %s\n",text);
+					asprintf(&script,"%s/Scripts/XfceBackdropScript %i %s",getenv("HOME"),spanMonitors,mname);
+				}
 				break;
 		}
+
+	system(script);
+	free(script);
+
 	g_free(text);
 	g_list_free(selected);
 }
@@ -1049,6 +1080,7 @@ void setSpanMonitors(GtkWidget* widget,gpointer data)
 	long val=(int)gtk_toggle_button_get_active((GtkToggleButton*)widget);
 	//sprintf((char*)&generalBuffer[0],"%s",SCREENPROP);
 	setValue(XFCEDESKTOP,SCREENPROP,BOOLEAN,(void*)val);
+	spanMonitors=val;
 }
 
 void resetLayout(GtkWidget* widget,gpointer data)

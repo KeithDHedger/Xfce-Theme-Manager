@@ -102,6 +102,8 @@ void resetMonitors(void)
 // RESET THEME
 void resetTheme(GtkWidget* widget,gpointer data)
 {
+	char	*script;
+
 	gdk_window_set_cursor(gdkWindow,watchCursor);
 
 	freeAndSet(&currentMetaTheme,originalMetaTheme);
@@ -133,6 +135,10 @@ void resetTheme(GtkWidget* widget,gpointer data)
 	resetMonitors();
 
 	rerunAndUpdate(false,true);
+
+//	asprintf(&script,"%s/Scripts/XfceResetScript reset \"%s\"",getenv("HOME"),text);
+//	system(script);
+//	free(script);
 
 	gdk_window_set_cursor(gdkWindow,NULL);
 	resetPanels();
