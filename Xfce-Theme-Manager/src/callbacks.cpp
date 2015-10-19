@@ -932,6 +932,9 @@ void setPieceNewNew(const char* filePath,long doWhat)
 								break;
 							case WALLPAPERS:
 #ifdef _411_
+								//sprintf((char*)&generalBuffer[0],"/backdrop/single-workspace-mode");
+								setValue(XFCEDESKTOP,(char*)"/backdrop/single-workspace-mode",BOOLEAN,(void*)true);
+								setValue(XFCEDESKTOP,(char*)"/backdrop/single-workspace-number",INT,(void*)0);
 								sprintf((char*)&generalBuffer[0],"%s%s/workspace0/last-image",MONITORPROP,monitorData[currentMonitor]->name);
 #else
 								sprintf((char*)&generalBuffer[0],"%s%i/image-path",MONITORPROP,currentMonitor);
