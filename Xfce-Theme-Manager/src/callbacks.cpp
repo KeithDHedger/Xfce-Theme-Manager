@@ -1,9 +1,21 @@
 /*
  *
- * K.D.Hedger 2012 <kdhedger68713@gmail.com>
- *
- *
- * callbacks.cpp
+ * ©K. D. Hedger. Tue 20 Oct 15:52:37 BST 2015 kdhedger68713@gmail.com
+
+ * This file (callbacks.cpp) is part of Xfce-Theme-Manager.
+
+ * Xfce-Theme-Manager is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * at your option) any later version.
+
+ * Xfce-Theme-Manager is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+ * You should have received a copy of the GNU General Public License
+ * along with Xfce-Theme-Manager.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #include <stdlib.h>
@@ -668,10 +680,7 @@ gboolean clickIt(GtkWidget* widget,GdkEvent* event,gpointer data)
 
 	path=gtk_icon_view_get_path_at_pos((GtkIconView *)widget,event->button.x,event->button.y);
 	if (path!=NULL)
-		{
-		printf("click\n");
-			themeIconCallback((GtkIconView *)widget,(void*)data);
-		}
+		themeIconCallback((GtkIconView *)widget,(void*)data);
 
 	gdk_window_set_cursor(gdkWindow,NULL); 
 
@@ -932,7 +941,6 @@ void setPieceNewNew(const char* filePath,long doWhat)
 								break;
 							case WALLPAPERS:
 #ifdef _411_
-								//sprintf((char*)&generalBuffer[0],"/backdrop/single-workspace-mode");
 								setValue(XFCEDESKTOP,(char*)"/backdrop/single-workspace-mode",BOOLEAN,(void*)true);
 								setValue(XFCEDESKTOP,(char*)"/backdrop/single-workspace-number",INT,(void*)0);
 								sprintf((char*)&generalBuffer[0],"%s%s/workspace0/last-image",MONITORPROP,monitorData[currentMonitor]->name);
@@ -974,37 +982,31 @@ void themeIconCallback(GtkIconView *view,gpointer doWhat)
 		{
 			case THEMES:
 				doMeta(text);
-				printf("click theme %s\n",text);
 				asprintf(&script,"%s/Scripts/XfceMetaScript \"%s\"",getenv("HOME"),text);
 				break;
 
 			case WMBORDERS:
-				printf("click wm %s\n",text);
 				setPieceNewNew(text,WMBORDERS);
 				asprintf(&script,"%s/Scripts/XfceWMScript set \"%s\"",getenv("HOME"),text);
 				break;
 
 			case CONTROLS:
-				printf("click controls %s\n",text);
 				setPieceNewNew(text,CONTROLS);
 				asprintf(&script,"%s/Scripts/XfceControlsScript set \"%s\"",getenv("HOME"),text);
 				break;
 
 			case ICONS:
-				printf("click icons %s\n",text);
 				setPieceNewNew(text,ICONS);
 				asprintf(&script,"%s/Scripts/XfceIconsScript set \"%s\"",getenv("HOME"),text);
 				break;
 
 			case CURSORS:
-				printf("click cursor %s\n",text);
 				setPieceNewNew(text,CURSORS);
 				asprintf(&script,"%s/Scripts/XfceCursorScript set \"%s\"",getenv("HOME"),text);
 				break;
 
 			case WALLPAPERS:
-				setPieceNewNew(text,WALLPAPERS);
-				
+				setPieceNewNew(text,WALLPAPERS);				
 				{
 					char	mname[4096]={0,};
 					char	*ptr=&mname[0];
@@ -1016,7 +1018,6 @@ void themeIconCallback(GtkIconView *view,gpointer doWhat)
 							cnt=sprintf(ptr,"\"%s\" ",monitorData[j]->imagePath);
 							ptr+=cnt;
 						}
-					printf("click backdrop %s\n",text);
 					asprintf(&script,"%s/Scripts/XfceBackdropScript %i %s",getenv("HOME"),spanMonitors,mname);
 				}
 				break;

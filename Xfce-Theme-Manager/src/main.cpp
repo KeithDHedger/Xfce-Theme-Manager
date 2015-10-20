@@ -1,4 +1,24 @@
 /*
+ *
+ * ©K. D. Hedger. Tue 20 Oct 15:55:15 BST 2015 kdhedger68713@gmail.com
+
+ * This file (main.cpp) is part of Xfce-Theme-Manager.
+
+ * Xfce-Theme-Manager is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * at your option) any later version.
+
+ * Xfce-Theme-Manager is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+ * You should have received a copy of the GNU General Public License
+ * along with Xfce-Theme-Manager.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/*
  * Original author of parts of gtkpreview David D Lowe <daviddlowe.flimm@gmail.com>
  * Parts of cursor preveiw Copyright (c) 2008 Nick Schermer <nick@xfce.org> & Jannis Pohlmann <jannis@xfce.org>
  * from xfce4-settings-4.6.5/dialogs/mouse-settings
@@ -102,8 +122,6 @@ void resetMonitors(void)
 // RESET THEME
 void resetTheme(GtkWidget* widget,gpointer data)
 {
-	char	*script;
-
 	gdk_window_set_cursor(gdkWindow,watchCursor);
 
 	freeAndSet(&currentMetaTheme,originalMetaTheme);
@@ -135,10 +153,6 @@ void resetTheme(GtkWidget* widget,gpointer data)
 	resetMonitors();
 
 	rerunAndUpdate(false,true);
-
-//	asprintf(&script,"%s/Scripts/XfceResetScript reset \"%s\"",getenv("HOME"),text);
-//	system(script);
-//	free(script);
 
 	gdk_window_set_cursor(gdkWindow,NULL);
 	resetPanels();

@@ -2,7 +2,7 @@
 #
 #   Xfce-Theme-Manager
 #
-#   ©K.D.Hedger 2013
+#   ©K.D.Hedger 2013-2015
 #   kdhedger68713@gmail.com
 #
 #   Released under GPL see the included licence file ( {prefix}/share/Xfce-Theme-Manager/docs/gpl-3.0.txt )
@@ -17,6 +17,13 @@ Please send them direct to me at:kdhedger68713@gmail.com posting them on xfce-lo
 ***************************************
 
 Changelog:
+0.3.7
+		Added script call backs when selecting theme parts.
+		Added 'Span Monitors' to advanced tab.
+		Updated source files licence header.
+		Fixed wrong global backdrop folder.
+		Changed website address.
+		Fixed changes for xfce 4.12.
 0.3.6
 		Fixed changes to threading for new gdk/gtk/glib libs ( specifically for debian testing ).
 0.3.5
