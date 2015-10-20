@@ -1,6 +1,6 @@
 /*
  *
- * ©K. D. Hedger. Tue 20 Oct 15:56:26 BST 2015 kdhedger68713@gmail.com
+ * ©K. D. Hedger. Tue 20 Oct 15:56:26 BST 2015 keithhedger@keithhedger.darktech.org
 
  * This file (gui.h) is part of Xfce-Theme-Manager.
 
@@ -30,7 +30,7 @@
  *
  * Seriously mucked about by:
  *
- * K.D.Hedger 2012 <kdhedger68713@gmail.com>
+ * K.D.Hedger 2012 <keithhedger@keithhedger.darktech.org>
  *
  * gui.h
  */

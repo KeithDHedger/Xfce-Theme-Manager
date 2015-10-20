@@ -1,6 +1,6 @@
 /*
  *
- * ©K. D. Hedger. Tue 20 Oct 15:54:03 BST 2015 kdhedger68713@gmail.com
+ * ©K. D. Hedger. Tue 20 Oct 15:54:03 BST 2015 keithhedger@keithhedger.darktech.org
 
  * This file (globals.h) is part of Xfce-Theme-Manager.
 
@@ -24,7 +24,7 @@
 #ifndef _GLOBALS_
 #define _GLOBALS_
 
-#define MYEMAIL "kdhedger68713@gmail.com"
+#define MYEMAIL "keithhedger@keithhedger.darktech.org"
 #define MYWEBSITE "http://keithhedger.darktech.org"
 
 #define PADWIDTH 72

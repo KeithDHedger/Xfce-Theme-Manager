@@ -1,6 +1,6 @@
 /*
  *
- * ©K. D. Hedger. Tue 20 Oct 15:53:24 BST 2015 kdhedger68713@gmail.com
+ * ©K. D. Hedger. Tue 20 Oct 15:53:24 BST 2015 keithhedger@keithhedger.darktech.org
 
  * This file (database.cpp) is part of Xfce-Theme-Manager.
 
