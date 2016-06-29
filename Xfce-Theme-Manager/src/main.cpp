@@ -47,6 +47,7 @@
 #include "cli.h"
 
 #include "config.h"
+#include "internet.h"
 
 #ifdef GOT_LIBXFCEUI
 #include <libxfce4ui/libxfce4ui.h>
@@ -538,8 +539,7 @@ void printList(void)
 
 void doAbout(GtkWidget* widget,gpointer data)
 {
-	const char*	authors[]= {"K.D.Hedger <"MYEMAIL">","\nMore by the same author\n","Xfce4-Composite-Editor\nhttp://gtk-apps.org/content/show.php/Xfce4-Composite-Editor?content=149523\n","KKEdit\nhttp://gtk-apps.org/content/show.php?content=158161\n","Manpage Editor\nhttp://gtk-apps.org/content/show.php?content=160219\n","GtkSu\nhttp://gtk-apps.org/content/show.php?content=158974",NULL};
-	const char	copyright[] ="Copyright \xc2\xa9 2012-2013 K.D.Hedger";
+	const char	copyright[]=COPYRITE;
 	const char*	aboutboxstring=_translate(ABOUTBOX);
 	const char*	translators="Spanish translation:\nPablo Morales Romero <pg.morales.romero@gmail.com>.\n\nGerman translation:\nMartin F. Schumann. <mfs@mfs.name>\n\nPolish translation:\nMichał Olber (OSWorld) <redakcja@osworld.pl>\n\nFrench Translation:\nMoatib <moatib@ymail.com>";
 	FILE*			fp;
@@ -551,7 +551,7 @@ void doAbout(GtkWidget* widget,gpointer data)
 	while(fgets(generalBuffer,1024,fp))
 		g_string_append_printf(str,"%s",generalBuffer);
 	pclose(fp);
-	gtk_show_about_dialog(NULL,"authors",authors,"translator-credits",translators,"comments",aboutboxstring,"copyright",copyright,"version",VERSION,"website",MYWEBSITE,"program-name","Xfce-Theme-Manager","logo-icon-name","xfce-theme-manager","license",str->str,NULL);
+	gtk_show_about_dialog(NULL,"authors",authors,"translator-credits",translators,"comments",aboutboxstring,"copyright",copyright,"version",VERSION,"website",THEMEMANAGER,"website-label","Xfce-Theme-Manager","program-name","Xfce-Theme-Manager","logo-icon-name","xfce-theme-manager","license",str->str,NULL);
 
 	g_string_free(str,true);
 }

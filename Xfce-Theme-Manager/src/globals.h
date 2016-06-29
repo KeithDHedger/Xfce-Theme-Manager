@@ -24,9 +24,6 @@
 #ifndef _GLOBALS_
 #define _GLOBALS_
 
-#define MYEMAIL "keithhedger@keithhedger.darktech.org"
-#define MYWEBSITE "http://keithhedger.darktech.org"
-
 #define PADWIDTH 72
 #define MAXBOXWIDTH 256
 #define ICONSIZE 32

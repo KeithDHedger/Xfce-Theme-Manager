@@ -107,6 +107,7 @@ am__objects_1 = ../src/xfcethememanager-callbacks.$(OBJEXT) \
 	../src/xfcethememanager-database.$(OBJEXT) \
 	../src/xfcethememanager-globals.$(OBJEXT) \
 	../src/xfcethememanager-gui.$(OBJEXT) \
+	../src/xfcethememanager-internet.$(OBJEXT) \
 	../src/xfcethememanager-main.$(OBJEXT) \
 	../src/xfcethememanager-panels.$(OBJEXT) \
 	../src/xfcethememanager-thumbnails.$(OBJEXT)
@@ -330,7 +331,7 @@ AM_CPPFLAGS = -I$(top_srcdir) \
 			-DLIBDIR=\""${libdir}/${PACKAGE}"\" \
 			-DGTK_DISABLE_DEPRECATED -DGTK_DISABLE_SINGLE_INCLUDES -DGDK_DISABLE_DEPRECATED -DGSEAL_ENABLE
 
-COMMONSRC = ../src/callbacks.cpp ../src/cli.cpp ../src/database.cpp ../src/globals.cpp ../src/gui.cpp ../src/main.cpp ../src/panels.cpp ../src/thumbnails.cpp
+COMMONSRC = ../src/callbacks.cpp ../src/cli.cpp ../src/database.cpp ../src/globals.cpp ../src/gui.cpp ../src/internet.cpp ../src/main.cpp ../src/panels.cpp ../src/thumbnails.cpp
 TRANSFORMNAME = xfce-theme-manager
 NAME = Xfce-Theme-Manager
 xfcethememanager_SOURCES = $(COMMONSRC)
@@ -432,6 +433,8 @@ clean-binPROGRAMS:
 	../src/$(DEPDIR)/$(am__dirstamp)
 ../src/xfcethememanager-gui.$(OBJEXT): ../src/$(am__dirstamp) \
 	../src/$(DEPDIR)/$(am__dirstamp)
+../src/xfcethememanager-internet.$(OBJEXT): ../src/$(am__dirstamp) \
+	../src/$(DEPDIR)/$(am__dirstamp)
 ../src/xfcethememanager-main.$(OBJEXT): ../src/$(am__dirstamp) \
 	../src/$(DEPDIR)/$(am__dirstamp)
 ../src/xfcethememanager-panels.$(OBJEXT): ../src/$(am__dirstamp) \
@@ -455,6 +458,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@../src/$(DEPDIR)/xfcethememanager-database.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@../src/$(DEPDIR)/xfcethememanager-globals.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@../src/$(DEPDIR)/xfcethememanager-gui.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@../src/$(DEPDIR)/xfcethememanager-internet.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@../src/$(DEPDIR)/xfcethememanager-main.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@../src/$(DEPDIR)/xfcethememanager-panels.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@../src/$(DEPDIR)/xfcethememanager-thumbnails.Po@am__quote@
@@ -544,6 +548,20 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../src/gui.cpp' object='../src/xfcethememanager-gui.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfcethememanager_CXXFLAGS) $(CXXFLAGS) -c -o ../src/xfcethememanager-gui.obj `if test -f '../src/gui.cpp'; then $(CYGPATH_W) '../src/gui.cpp'; else $(CYGPATH_W) '$(srcdir)/../src/gui.cpp'; fi`
+
+../src/xfcethememanager-internet.o: ../src/internet.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfcethememanager_CXXFLAGS) $(CXXFLAGS) -MT ../src/xfcethememanager-internet.o -MD -MP -MF ../src/$(DEPDIR)/xfcethememanager-internet.Tpo -c -o ../src/xfcethememanager-internet.o `test -f '../src/internet.cpp' || echo '$(srcdir)/'`../src/internet.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) ../src/$(DEPDIR)/xfcethememanager-internet.Tpo ../src/$(DEPDIR)/xfcethememanager-internet.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../src/internet.cpp' object='../src/xfcethememanager-internet.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfcethememanager_CXXFLAGS) $(CXXFLAGS) -c -o ../src/xfcethememanager-internet.o `test -f '../src/internet.cpp' || echo '$(srcdir)/'`../src/internet.cpp
+
+../src/xfcethememanager-internet.obj: ../src/internet.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfcethememanager_CXXFLAGS) $(CXXFLAGS) -MT ../src/xfcethememanager-internet.obj -MD -MP -MF ../src/$(DEPDIR)/xfcethememanager-internet.Tpo -c -o ../src/xfcethememanager-internet.obj `if test -f '../src/internet.cpp'; then $(CYGPATH_W) '../src/internet.cpp'; else $(CYGPATH_W) '$(srcdir)/../src/internet.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) ../src/$(DEPDIR)/xfcethememanager-internet.Tpo ../src/$(DEPDIR)/xfcethememanager-internet.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../src/internet.cpp' object='../src/xfcethememanager-internet.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfcethememanager_CXXFLAGS) $(CXXFLAGS) -c -o ../src/xfcethememanager-internet.obj `if test -f '../src/internet.cpp'; then $(CYGPATH_W) '../src/internet.cpp'; else $(CYGPATH_W) '$(srcdir)/../src/internet.cpp'; fi`
 
 ../src/xfcethememanager-main.o: ../src/main.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfcethememanager_CXXFLAGS) $(CXXFLAGS) -MT ../src/xfcethememanager-main.o -MD -MP -MF ../src/$(DEPDIR)/xfcethememanager-main.Tpo -c -o ../src/xfcethememanager-main.o `test -f '../src/main.cpp' || echo '$(srcdir)/'`../src/main.cpp
