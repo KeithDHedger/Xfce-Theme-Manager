@@ -26,10 +26,13 @@
 #define MANPAGEPAGE GLOBALWEBSITE "/pages/manpageeditor/help.html"
 #define CLIPVIEW GLOBALWEBSITE "/pages/clipviewer/clip.html"
 #define THEMEMANAGER GLOBALWEBSITE "/pages/apps.html#themeed"
+#define COMPMANAGER GLOBALWEBSITE "/pages/apps.html#xfcecomp"
+#define KKEDITPAGE "http://kkedit.darktech.org"
 
 #define COPYRITE "Copyright \xc2\xa9 2013-2016 K.D.Hedger"
 
 #ifndef _USEQT5_
+extern const char	*moreapps[];
 extern const char	*authors[];
 #else
 extern const char*	authors;
