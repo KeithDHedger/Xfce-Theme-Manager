@@ -5016,7 +5016,7 @@ $as_echo "$as_me: WARNING: No unzip program found! You will not be able to drag 
 fi
 
 
-desktopversion=`xfdesktop --version|head -n 1|awk '{print $5}'|awk -F "," '{print $1}'|awk -F "." '{print $2}'`
+desktopversion=`LANG=C xfdesktop --version|head -n 1|awk '{print $5}'|awk -F "," '{print $1}'|awk -F "." '{print $2}'`
 if test $desktopversion -gt 10; then
 
 $as_echo "#define _411_ /**/" >>confdefs.h
