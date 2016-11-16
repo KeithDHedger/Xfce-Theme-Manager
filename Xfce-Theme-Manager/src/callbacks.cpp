@@ -1030,7 +1030,7 @@ void themeIconCallback(GtkIconView *view,gpointer doWhat)
 	g_free(text);
 	g_list_free(selected);
 
-    event.type=GDK_CLIENT_EVENT;
+	event.type=GDK_CLIENT_EVENT;
 	event.send_event=TRUE;
 	event.window=NULL;
 	event.message_type=gdk_atom_intern("_GTK_READ_RCFILES",FALSE);
