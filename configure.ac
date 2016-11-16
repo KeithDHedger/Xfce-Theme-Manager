@@ -53,7 +53,7 @@ if test $UNZIP = false; then
 fi
 
 
-desktopversion=`xfdesktop --version|head -n 1|awk '{print $5}'|awk -F "," '{print $1}'|awk -F "." '{print $2}'`
+desktopversion=`LANG=C xfdesktop --version|head -n 1|awk '{print $5}'|awk -F "," '{print $1}'|awk -F "." '{print $2}'`
 if test $desktopversion -gt 10; then
 	AC_DEFINE([_411_], [], [xfdesktop 4.11.1])
 fi
