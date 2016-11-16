@@ -20,7 +20,6 @@ Changelog:
 0.3.8	
 		Maintenance update.
 		Global message sent to all gtk apps on theme switch.
-
 0.3.7
 		Added script call backs when selecting theme parts.
 		Added 'Span Monitors' to advanced tab.
