@@ -10,6 +10,16 @@
 #   http://www.gnu.org/licenses/translations.html
 #------------------------------------------------------
 
+#------------------------------------------------------------
+#                      PLEASE NOTE!!
+#
+#  This project is now in maintenence mode,
+#  I will NOT be accepting ANY new feeature requests.
+#  I will ONLY be accepting/fixing bugs.
+#  Please see the readme, man page or webpage:
+#  http://khapplications.darktech.org/pages/apps.html#themeed
+#------------------------------------------------------------
+
 DEPENDENCIES:
 
 glib-2.0
