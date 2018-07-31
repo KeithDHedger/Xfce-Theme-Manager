@@ -1,6 +1,6 @@
 /*
  *
- * ©K. D. Hedger. Tue 28 Jun 10:44:42 BST 2016 kdhedger68713@gmail.com
+ * ©K. D. Hedger. Tue 28 Jun 10:44:42 BST 2016 keithdhedger@gmail.com
  
  * Projects is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,16 +19,16 @@
 #ifndef _INTERNET_
 #define _INTERNET_
 
-#define MYEMAIL "keithhedger@keithhedger.darktech.org"
-#define MYWEBSITE "http://khapplications.darktech.org/index.html"
-#define GLOBALWEBSITE "http://khapplications.darktech.org"
+#define MYEMAIL "keithdhedger@gmail.com"
+#define MYWEBSITE "http://khapplications.freeddns.org/index.html"
+#define GLOBALWEBSITE "http://khapplications.freeddns.org"
 #define ASPELLPAGE GLOBALWEBSITE "/pages/aspellgui/aspelgui.html"
 #define MANPAGEPAGE GLOBALWEBSITE "/pages/manpageeditor/help.html"
 #define CLIPVIEW GLOBALWEBSITE "/pages/clipviewer/clip.html"
 #define THEMEMANAGER GLOBALWEBSITE "/pages/apps.html#themeed"
 #define COMPMANAGER GLOBALWEBSITE "/pages/apps.html#xfcecomp"
-#define KKEDITPAGE "http://kkedit.darktech.org"
-#define KKTERMINALPAGE "http://khapplications.darktech.org/index.html"
+#define KKEDITPAGE "http://kkedit.freeddns.org"
+#define KKTERMINALPAGE "http://khapplications.freeddns.org/pages/kkterminal/kkterminal.html"
 
 #define COPYRITE "Copyright \xc2\xa9 2013-2016 K.D.Hedger"
 

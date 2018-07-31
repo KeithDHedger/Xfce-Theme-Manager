@@ -1,6 +1,6 @@
 /*
  *
- * ©K. D. Hedger. Tue 20 Oct 15:55:24 BST 2015 keithhedger@keithhedger.darktech.org
+ * ©K. D. Hedger. Tue 20 Oct 15:55:24 BST 2015 keithdhedger@gmail.com
 
  * This file (panels.cpp) is part of Xfce-Theme-Manager.
 

@@ -1,6 +1,6 @@
 /*
  *
- * ©K. D. Hedger. Tue 20 Oct 15:56:15 BST 2015 keithhedger@keithhedger.darktech.org
+ * ©K. D. Hedger. Tue 20 Oct 15:56:15 BST 2015 keithdhedger@gmail.com
 
  * This file (gui.cpp) is part of Xfce-Theme-Manager.
 
@@ -30,7 +30,7 @@
  *
  * Seriously mucked about by:
  *
- * K.D.Hedger 2012 <keithhedger@keithhedger.darktech.org>
+ * K.D.Hedger 2012 <keithdhedger@gmail.com>
  *
  * gui.cpp
  */
