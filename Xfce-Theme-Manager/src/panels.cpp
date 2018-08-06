@@ -124,7 +124,8 @@ void selectPanel(GtkComboBox *widget, gpointer user_data)
 
 	panelChanging=true;
 	currentPanel=gtk_combo_box_get_active((GtkComboBox*)panelSelect);
-
+	if(currentPanel==-1)
+		return;
 	panel=panels[currentPanel];
 
 	gtk_combo_box_set_active((GtkComboBox*)panelStyleWidget,panel->style);

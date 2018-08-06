@@ -102,7 +102,7 @@ void rerunAndUpdate(bool rebuild,bool resetmeta)
 			freeAndSet(&currentMetaTheme,(char*)"DEADBEEF");
 		}
 
-	for (int j=THEMES;j<=WALLPAPERS;j++)
+	for (int j=THEMES; j<=WALLPAPERS; j++)
 		{
 			gtk_list_store_clear(previewBox[j].store);
 		}
@@ -138,40 +138,40 @@ void changeViewWhat(GtkWidget* widget,gpointer data)
 {
 	switch ((long)data)
 		{
-			case THEMES:
-				showMeta=(int)gtk_toggle_button_get_active((GtkToggleButton*)widget);
-				setValue(XTHEMER,SHOWMETAPROP,INT,(void*)(long)showMeta);
-				break;
+		case THEMES:
+			showMeta=(int)gtk_toggle_button_get_active((GtkToggleButton*)widget);
+			setValue(XTHEMER,SHOWMETAPROP,INT,(void*)(long)showMeta);
+			break;
 
-			case WMBORDERS:
-				showDecs=(int)gtk_toggle_button_get_active((GtkToggleButton*)widget);
-				setValue(XTHEMER,SHOWWMBORDERPROP,INT,(void*)(long)showMeta);
-				break;
+		case WMBORDERS:
+			showDecs=(int)gtk_toggle_button_get_active((GtkToggleButton*)widget);
+			setValue(XTHEMER,SHOWWMBORDERPROP,INT,(void*)(long)showMeta);
+			break;
 
-			case CONTROLS:
-				showGtk=(int)gtk_toggle_button_get_active((GtkToggleButton*)widget);
-				setValue(XTHEMER,SHOWGTKPROP,INT,(void*)(long)showGtk);
-				break;
+		case CONTROLS:
+			showGtk=(int)gtk_toggle_button_get_active((GtkToggleButton*)widget);
+			setValue(XTHEMER,SHOWGTKPROP,INT,(void*)(long)showGtk);
+			break;
 
-			case ICONS:
-				showIcons=(int)gtk_toggle_button_get_active((GtkToggleButton*)widget);
-				setValue(XTHEMER,SHOWICONSPROP,INT,(void*)(long)showIcons);
-				break;
+		case ICONS:
+			showIcons=(int)gtk_toggle_button_get_active((GtkToggleButton*)widget);
+			setValue(XTHEMER,SHOWICONSPROP,INT,(void*)(long)showIcons);
+			break;
 
-			case CURSORS:
-				showCursors=(int)gtk_toggle_button_get_active((GtkToggleButton*)widget);
-				setValue(XTHEMER,SHOWCURSORSPROP,INT,(void*)(long)showCursors);
-				break;
+		case CURSORS:
+			showCursors=(int)gtk_toggle_button_get_active((GtkToggleButton*)widget);
+			setValue(XTHEMER,SHOWCURSORSPROP,INT,(void*)(long)showCursors);
+			break;
 
-			case WALLPAPERS:
-				showBackdrop=(int)gtk_toggle_button_get_active((GtkToggleButton*)widget);
-				setValue(XTHEMER,SHOWBACKDROPSPROP,INT,(void*)(long)showBackdrop);
-				break;
+		case WALLPAPERS:
+			showBackdrop=(int)gtk_toggle_button_get_active((GtkToggleButton*)widget);
+			setValue(XTHEMER,SHOWBACKDROPSPROP,INT,(void*)(long)showBackdrop);
+			break;
 
-			case CUSTOMMETA:
-				showOnlyCustom=(int)gtk_toggle_button_get_active((GtkToggleButton*)widget);
-				setValue(XTHEMER,SHOWCUSTOMPROP,INT,(void*)(long)showOnlyCustom);
-				break;
+		case CUSTOMMETA:
+			showOnlyCustom=(int)gtk_toggle_button_get_active((GtkToggleButton*)widget);
+			setValue(XTHEMER,SHOWCUSTOMPROP,INT,(void*)(long)showOnlyCustom);
+			break;
 		}
 	rerunAndUpdate(false,true);
 }
@@ -184,27 +184,27 @@ void buildCustomDB(const char* chan,const char* prop,dataType type,const char* k
 
 	switch(type)
 		{
-			case INT:
-				getValue(chan,prop,type,&intdata);
-				sprintf(filedata,"%s%s=%i\n",filedata,key,intdata);
-				break;
+		case INT:
+			getValue(chan,prop,type,&intdata);
+			sprintf(filedata,"%s%s=%i\n",filedata,key,intdata);
+			break;
 
-			case STRING:
-				getValue(chan,prop,type,&strdata);
-				sprintf(filedata,"%s%s=%s\n",filedata,key,strdata);
-				g_free(strdata);
-				break;
+		case STRING:
+			getValue(chan,prop,type,&strdata);
+			sprintf(filedata,"%s%s=%s\n",filedata,key,strdata);
+			g_free(strdata);
+			break;
 
-			case FLOAT:
-				getValue(chan,prop,type,&floatdata);
-				sprintf(filedata,"%s%s=%f\n",filedata,key,floatdata);
-				break;
+		case FLOAT:
+			getValue(chan,prop,type,&floatdata);
+			sprintf(filedata,"%s%s=%f\n",filedata,key,floatdata);
+			break;
 
-			case COLOURARRAY:
-				break;
+		case COLOURARRAY:
+			break;
 
-			case BOOLEAN:
-				break;
+		case BOOLEAN:
+			break;
 		}
 }
 
@@ -212,21 +212,21 @@ void response(GtkDialog *dialog,gint response_id,gpointer user_data)
 {
 	switch (response_id)
 		{
-			case GTK_RESPONSE_OK:
-				asprintf(&filename,"%s",gtk_entry_get_text((GtkEntry*)entryBox));
-				break;
-			case DELETETHEME:
-				asprintf(&filename,"%s",gtk_entry_get_text((GtkEntry*)entryBox));
-				if (filename!=NULL && strlen(filename)>0)
-					{
-						sprintf(generalBuffer,"%s/%s.db",customFolder,filename);
-						remove(generalBuffer);
-						sprintf(generalBuffer,"%s/%s.png",customFolder,filename);
-						remove(generalBuffer);
-						freeAndNull(&filename);
-						rerunAndUpdate(true,true);
-					}
-				break;
+		case GTK_RESPONSE_OK:
+			asprintf(&filename,"%s",gtk_entry_get_text((GtkEntry*)entryBox));
+			break;
+		case DELETETHEME:
+			asprintf(&filename,"%s",gtk_entry_get_text((GtkEntry*)entryBox));
+			if (filename!=NULL && strlen(filename)>0)
+				{
+					sprintf(generalBuffer,"%s/%s.db",customFolder,filename);
+					remove(generalBuffer);
+					sprintf(generalBuffer,"%s/%s.png",customFolder,filename);
+					remove(generalBuffer);
+					freeAndNull(&filename);
+					rerunAndUpdate(true,true);
+				}
+			break;
 		}
 	gtk_widget_destroy((GtkWidget*)dialog);
 }
@@ -251,38 +251,38 @@ void customTheme(GtkWidget* window,gpointer data)
 
 	if (cliFileName==NULL)
 		{
-	if (metaThemeSelected==NULL)
-		{
-			getValue(XFWM,WMBORDERSPROP,STRING,&stdout);
-			if (strcasecmp(stdout,"DEADBEEF")!=0)
+			if (metaThemeSelected==NULL)
 				{
-					asprintf(&customname,"%s %s",stdout,_translate(CUSTOM));
-					freeAndNull(&stdout);
+					getValue(XFWM,WMBORDERSPROP,STRING,&stdout);
+					if (strcasecmp(stdout,"DEADBEEF")!=0)
+						{
+							asprintf(&customname,"%s %s",stdout,_translate(CUSTOM));
+							freeAndNull(&stdout);
+						}
 				}
+			else
+				{
+					if(g_str_has_suffix((const gchar *)metaThemeSelected,_translate(CUSTOM)))
+						asprintf(&customname,"%s",metaThemeSelected);
+					else
+						asprintf(&customname,"%s %s",metaThemeSelected,_translate(CUSTOM));
+				}
+
+			getFilename=gtk_dialog_new_with_buttons(_translate(ENTERNAME),NULL,GTK_DIALOG_MODAL,GTK_STOCK_CANCEL,GTK_RESPONSE_CANCEL,GTK_STOCK_SAVE,GTK_RESPONSE_OK,GTK_STOCK_DELETE,100,NULL);
+			gtk_dialog_set_default_response((GtkDialog*)getFilename,GTK_RESPONSE_OK);
+			g_signal_connect(G_OBJECT(getFilename),"response",G_CALLBACK(response),NULL);
+			content_area=gtk_dialog_get_content_area(GTK_DIALOG(getFilename));
+
+			entryBox=gtk_entry_new();
+			gtk_entry_set_text((GtkEntry*)entryBox,customname);
+			gtk_entry_set_activates_default((GtkEntry*)entryBox,true);
+			gtk_container_add(GTK_CONTAINER(content_area),entryBox);
+
+			gtk_widget_show  (entryBox);
+			gtk_dialog_run((GtkDialog *)getFilename);
 		}
 	else
-		{
-			if(g_str_has_suffix((const gchar *)metaThemeSelected,_translate(CUSTOM)))
-				asprintf(&customname,"%s",metaThemeSelected);
-			else
-				asprintf(&customname,"%s %s",metaThemeSelected,_translate(CUSTOM));
-		}
-
-	getFilename=gtk_dialog_new_with_buttons(_translate(ENTERNAME),NULL,GTK_DIALOG_MODAL,GTK_STOCK_CANCEL,GTK_RESPONSE_CANCEL,GTK_STOCK_SAVE,GTK_RESPONSE_OK,GTK_STOCK_DELETE,100,NULL);
-	gtk_dialog_set_default_response((GtkDialog*)getFilename,GTK_RESPONSE_OK);
-	g_signal_connect(G_OBJECT(getFilename),"response",G_CALLBACK(response),NULL);
-	content_area=gtk_dialog_get_content_area(GTK_DIALOG(getFilename));
-
-	entryBox=gtk_entry_new();
-	gtk_entry_set_text((GtkEntry*)entryBox,customname);
-	gtk_entry_set_activates_default((GtkEntry*)entryBox,true);
-	gtk_container_add(GTK_CONTAINER(content_area),entryBox);
-
-	gtk_widget_show  (entryBox);
-	gtk_dialog_run((GtkDialog *)getFilename);
-}
-else
-	filename=cliFileName;
+		filename=cliFileName;
 
 	if (filename!=NULL && strlen(filename)>0)
 		{
@@ -312,11 +312,11 @@ else
 					buildCustomDB(XFWM,TITLEALIGNPROP,STRING,"TitlePosition");
 					buildCustomDB(XFWM,WMFONTPROP,STRING,"WMFont");
 					buildCustomDB(XSETTINGS,APPFONTPROP,STRING,"AppFont");
-					
+
 					buildCustomDB(XSETTINGS,CURSORSIZEPROP,INT,"CursorSize");
 
 //backdrop stuff
-					for(int j=0;j<numberOfMonitors;j++)
+					for(int j=0; j<numberOfMonitors; j++)
 						{
 							sprintf(filedata,"%s[Monitor-%i]\n",filedata,j);
 							sprintf(filedata,"%sBackgroundImage=%s\n",filedata,monitorData[j]->imagePath);
@@ -326,7 +326,7 @@ else
 						}
 
 //panel stuff
-					for(int j=0;j<numOfPanels;j++)
+					for(int j=0; j<numOfPanels; j++)
 						{
 							sprintf(filedata,"%s[Panel-%i]\n",filedata,panels[j]->panelNumber);
 							sprintf(filedata,"%sPanelImage=%s\n",filedata,panels[j]->imagePath);
@@ -380,7 +380,7 @@ else
 //rebuild db
 void rerunAndBuild(GtkWidget* window,gpointer data)
 {
-	char*	datax[]={(char*)"xfce-theme-manager",(char*)"-r",NULL};
+	char*	datax[]= {(char*)"xfce-theme-manager",(char*)"-r",NULL};
 
 	gtk_main_quit();
 	execvp("xfce-theme-manager",datax);
@@ -401,15 +401,15 @@ void setTitlePos(GtkComboBoxText* widget,gpointer data)
 
 	switch (position)
 		{
-			case 0:
-				setValue(XFWM,TITLEALIGNPROP,STRING,(void*)"left");
-				break;
-			case 1:
-				setValue(XFWM,TITLEALIGNPROP,STRING,(void*)"center");
-				break;
-			case 2:
-				setValue(XFWM,TITLEALIGNPROP,STRING,(void*)"right");
-				break;
+		case 0:
+			setValue(XFWM,TITLEALIGNPROP,STRING,(void*)"left");
+			break;
+		case 1:
+			setValue(XFWM,TITLEALIGNPROP,STRING,(void*)"center");
+			break;
+		case 2:
+			setValue(XFWM,TITLEALIGNPROP,STRING,(void*)"right");
+			break;
 		}
 }
 
@@ -454,57 +454,57 @@ int extractAndInstall(char* filename,int ziptype)
 		}
 
 	while(true)
-	{
-		sprintf(generalBuffer,"%s \"%s\" */gtkrc",commandtest,filename);
-		g_spawn_command_line_sync((char*)generalBuffer,&stdout,&stderr,&spawnret,NULL);
-		if (spawnret==0)
-			{
-				stdout[strlen(stdout)-1]=0;
-				if(strlen(stdout)>1)
-					{
-						sprintf(generalBuffer,"%s \"%s\"",commandextracttheme,filename);
-						retval=system(generalBuffer);
-						freeAndNull(&stdout);
-						break;
-					}
-				freeAndNull(&stdout);
-			}
+		{
+			sprintf(generalBuffer,"%s \"%s\" */gtkrc",commandtest,filename);
+			g_spawn_command_line_sync((char*)generalBuffer,&stdout,&stderr,&spawnret,NULL);
+			if (spawnret==0)
+				{
+					stdout[strlen(stdout)-1]=0;
+					if(strlen(stdout)>1)
+						{
+							sprintf(generalBuffer,"%s \"%s\"",commandextracttheme,filename);
+							retval=system(generalBuffer);
+							freeAndNull(&stdout);
+							break;
+						}
+					freeAndNull(&stdout);
+				}
 
-		sprintf(generalBuffer,"%s \"%s\" */themerc",commandtest,filename);
-		g_spawn_command_line_sync((char*)generalBuffer,&stdout,&stderr,&spawnret,NULL);
-		if (spawnret==0)
-			{
-			stdout[strlen(stdout)-1]=0;
-				if(strlen(stdout)>1)
-					{
-						sprintf(generalBuffer,"%s \"%s\"",commandextracttheme,filename);
-						retval=system(generalBuffer);
-						freeAndNull(&stdout);
-						freeAndNull(&stderr);
-						break;
-					}
-				freeAndNull(&stdout);
-				freeAndNull(&stderr);
-			}
+			sprintf(generalBuffer,"%s \"%s\" */themerc",commandtest,filename);
+			g_spawn_command_line_sync((char*)generalBuffer,&stdout,&stderr,&spawnret,NULL);
+			if (spawnret==0)
+				{
+					stdout[strlen(stdout)-1]=0;
+					if(strlen(stdout)>1)
+						{
+							sprintf(generalBuffer,"%s \"%s\"",commandextracttheme,filename);
+							retval=system(generalBuffer);
+							freeAndNull(&stdout);
+							freeAndNull(&stderr);
+							break;
+						}
+					freeAndNull(&stdout);
+					freeAndNull(&stderr);
+				}
 
-		sprintf(generalBuffer,"%s \"%s\" */index.theme",commandtest,filename);
-		g_spawn_command_line_sync((char*)generalBuffer,&stdout,&stderr,&spawnret,NULL);
-		if (spawnret==0)
-			{
-				stdout[strlen(stdout)-1]=0;
-				if(strlen(stdout)>1)
-					{
-						sprintf(generalBuffer,"%s \"%s\"",commandextracticon,filename);
-						retval=system(generalBuffer);
-						freeAndNull(&stdout);
-						freeAndNull(&stderr);
-						break;
-					}
-				freeAndNull(&stdout);
-				freeAndNull(&stderr);
-			}
-		break;
-	}
+			sprintf(generalBuffer,"%s \"%s\" */index.theme",commandtest,filename);
+			g_spawn_command_line_sync((char*)generalBuffer,&stdout,&stderr,&spawnret,NULL);
+			if (spawnret==0)
+				{
+					stdout[strlen(stdout)-1]=0;
+					if(strlen(stdout)>1)
+						{
+							sprintf(generalBuffer,"%s \"%s\"",commandextracticon,filename);
+							retval=system(generalBuffer);
+							freeAndNull(&stdout);
+							freeAndNull(&stderr);
+							break;
+						}
+					freeAndNull(&stdout);
+					freeAndNull(&stderr);
+				}
+			break;
+		}
 
 	if(retval!=0)
 		infoDialog("Can't Install",filename,GTK_MESSAGE_ERROR);
@@ -520,8 +520,8 @@ void dropUri(GtkWidget *widget,GdkDragContext *context,gint x,gint y,GtkSelectio
 	gchar**	array=gtk_selection_data_get_uris(selection_data);
 	int		cnt=g_strv_length(array);
 	char*		filename;
-	const char*	ziptype[]={".tgz",".gz",".zip",".tar",".bz2",NULL};
-	const char* pictype[]={".jpg",".png",".bmp",".gif",NULL};
+	const char*	ziptype[]= {".tgz",".gz",".zip",".tar",".bz2",NULL};
+	const char* pictype[]= {".jpg",".png",".bmp",".gif",NULL};
 	int		doupdate=1;
 	int doneinstalls=0;
 
@@ -539,11 +539,11 @@ void dropUri(GtkWidget *widget,GdkDragContext *context,gint x,gint y,GtkSelectio
 	system(generalBuffer);
 
 //themes
-	for(int j=0;j<cnt;j++)
+	for(int j=0; j<cnt; j++)
 		{
 			filename=g_filename_from_uri(array[j],NULL,NULL);
 			lowername=g_ascii_strdown(filename,-1);
-			for(int k=0;k<5;k++)
+			for(int k=0; k<5; k++)
 				{
 					if(g_str_has_suffix(lowername,ziptype[k]))
 						{
@@ -558,11 +558,11 @@ void dropUri(GtkWidget *widget,GdkDragContext *context,gint x,gint y,GtkSelectio
 		}
 
 //pics
-	for(int j=0;j<cnt;j++)
+	for(int j=0; j<cnt; j++)
 		{
 			filename=g_filename_from_uri(array[j],NULL,NULL);
 			lowername=g_ascii_strdown(filename,-1);
-			for(int k=0;k<4;k++)
+			for(int k=0; k<4; k++)
 				{
 					if(g_str_has_suffix(lowername,pictype[k]))
 						{
@@ -610,24 +610,24 @@ void previewSizeChanged(GtkWidget* widget,gpointer data)
 	index=gtk_combo_box_get_active((GtkComboBox*)widget);
 	switch(index)
 		{
-			case 0:
-				previewSize=256;
-				break;
+		case 0:
+			previewSize=256;
+			break;
 
-			case 1:
-				previewSize=128;
-				break;
+		case 1:
+			previewSize=128;
+			break;
 
-			case 2:
-				previewSize=64;
-				break;
+		case 2:
+			previewSize=64;
+			break;
 
-			case 3:
-				previewSize=48;
-				break;
-			case -1:
-				return;
-				break;
+		case 3:
+			previewSize=48;
+			break;
+		case -1:
+			return;
+			break;
 		}
 	setValue(XTHEMER,PREVSIZEPROP,INT,(void*)(long)previewSize);
 	rerunAndUpdate(false,true);
@@ -676,19 +676,19 @@ gboolean clickIt(GtkWidget* widget,GdkEvent* event,gpointer data)
 {
 	GtkTreePath* path=NULL;
 
-	gdk_window_set_cursor (gdkWindow,watchCursor); 
+	gdk_window_set_cursor (gdkWindow,watchCursor);
 
 	path=gtk_icon_view_get_path_at_pos((GtkIconView *)widget,event->button.x,event->button.y);
 	if (path!=NULL)
 		themeIconCallback((GtkIconView *)widget,(void*)data);
 
-	gdk_window_set_cursor(gdkWindow,NULL); 
+	gdk_window_set_cursor(gdkWindow,NULL);
 
 	return(TRUE);
 }
 
 bool fromSetMonitor=false;
-                                                        
+
 void monitorChanged(GtkWidget* widget,gpointer data)
 {
 	if(initing==true)
@@ -710,7 +710,7 @@ void monitorChanged(GtkWidget* widget,gpointer data)
 	gtk_list_store_clear(previewBox[WALLPAPERS].store);
 
 	addNewIcons(folders[WALLPAPERS],previewBox[WALLPAPERS].iconView,WALLPAPERS);
-			
+
 	g_signal_connect(G_OBJECT(previewBox[WALLPAPERS].iconView),"motion-notify-event",G_CALLBACK(mouseMove),NULL);
 	g_signal_connect(G_OBJECT(previewBox[WALLPAPERS].iconView),"button-press-event",G_CALLBACK(clickIt),(void*)(long)WALLPAPERS);
 
@@ -719,7 +719,7 @@ void monitorChanged(GtkWidget* widget,gpointer data)
 
 void setMonitorData(void)
 {
-	for(int i=0;i<numberOfMonitors;i++)
+	for(int i=0; i<numberOfMonitors; i++)
 		{
 #ifdef _411_
 			sprintf((char*)&generalBuffer[0],"%s%s/workspace0/image-style",MONITORPROP,monitorData[i]->name);
@@ -750,7 +750,7 @@ void setMonitorData(void)
 	fromSetMonitor=true;
 	monitorChanged(NULL,NULL);
 	fromSetMonitor=false;
-	
+
 }
 
 //do meta theme
@@ -760,13 +760,13 @@ void doMeta(char* metaFilename)
 	int				keycnt=10;
 	char*			keydata=NULL;
 	GdkModifierType	mask;
-	char			buffer[64];	
-	const char*		keys[]={"CursorTheme","Xfwm4Theme","IconTheme","TitleButtonLayout","TitlePosition","WMFont","AppFont","GtkTheme","CursorSize","Name"};
+	char			buffer[64];
+	const char*		keys[]= {"CursorTheme","Xfwm4Theme","IconTheme","TitleButtonLayout","TitlePosition","WMFont","AppFont","GtkTheme","CursorSize","Name"};
 
-	const char*		panelkeys[]={"PanelImage","PanelStyle","PanelSize","PanelRed","PanelGreen","PanelBlue","PanelAlpha"};
+	const char*		panelkeys[]= {"PanelImage","PanelStyle","PanelSize","PanelRed","PanelGreen","PanelBlue","PanelAlpha"};
 	int				panelkeycnt=7;
 
-	const char*		monitorkeys[]={"BackgroundImage","BackdropStyle","BackdropBright","BackdropSatu"};
+	const char*		monitorkeys[]= {"BackgroundImage","BackdropStyle","BackdropBright","BackdropSatu"};
 	int				monitorkeycnt=4;
 
 	gdk_window_get_pointer(NULL,NULL,NULL,&mask);
@@ -780,89 +780,89 @@ void doMeta(char* metaFilename)
 			metaThemeSelected=g_key_file_get_string(keyfile,"Data",(char*)"Name",NULL);
 			setValue(XTHEMER,METATHEMEPROP,STRING,metaThemeSelected);
 			freeAndSet(&currentMetaTheme,metaThemeSelected);
-			for (int j=0;j<keycnt;j++)
+			for (int j=0; j<keycnt; j++)
 				{
 					keydata=g_key_file_get_string(keyfile,"Data",(char*)keys[j],NULL);
 					if(keydata!=NULL)
 						{
 							switch(j)
 								{
-									case 0:
-										setValue(XSETTINGS,CURSORSPROP,STRING,keydata);
-										freeAndSet(&currentCursorTheme,keydata);
-										break;
-									case 1:
-										setValue(XFWM,WMBORDERSPROP,STRING,keydata);
-										freeAndSet(&currentWMTheme,keydata);
-										break;
-									case 2:
-										setValue(XSETTINGS,ICONTHEMEPROP,STRING,keydata);
-										freeAndSet(&currentIconTheme,keydata);
-										break;
-									case 3:
-										setValue(XFWM,BUTTONLAYOUTPROP,STRING,(void*)keydata);
-										gtk_entry_set_text((GtkEntry*)layoutEntry,keydata);
-										break;
-									case 4:
-										setValue(XFWM,TITLEALIGNPROP,STRING,(void*)keydata);
-										gtk_combo_box_set_active((GtkComboBox*)titlePos,positionToInt(keydata));
-										break;
-									case 5:
-										setValue(XFWM,WMFONTPROP,STRING,(void*)keydata);
-										gtk_font_button_set_font_name((GtkFontButton*)wmFontButton,keydata);
-										break;
-									case 6:
-										setValue(XSETTINGS,APPFONTPROP,STRING,(void*)keydata);
-										gtk_font_button_set_font_name((GtkFontButton*)appFontButton,keydata);
-										break;
-									case 7:
-										setValue(XSETTINGS,CONTROLTHEMEPROP,STRING,keydata);
-										freeAndSet(&currentGtkTheme,keydata);
-										break;
-									case 8:
-										setValue(XSETTINGS,CURSORSIZEPROP,INT,(void*)(long)atol(keydata));
-										gtk_range_set_value((GtkRange*)cursorSize,atol(keydata));
-										break;
-									case 9:
-										setValue(XTHEMER,METATHEMEPROP,STRING,keydata);
-										freeAndSet(&currentMetaTheme,keydata);
-										break;
+								case 0:
+									setValue(XSETTINGS,CURSORSPROP,STRING,keydata);
+									freeAndSet(&currentCursorTheme,keydata);
+									break;
+								case 1:
+									setValue(XFWM,WMBORDERSPROP,STRING,keydata);
+									freeAndSet(&currentWMTheme,keydata);
+									break;
+								case 2:
+									setValue(XSETTINGS,ICONTHEMEPROP,STRING,keydata);
+									freeAndSet(&currentIconTheme,keydata);
+									break;
+								case 3:
+									setValue(XFWM,BUTTONLAYOUTPROP,STRING,(void*)keydata);
+									gtk_entry_set_text((GtkEntry*)layoutEntry,keydata);
+									break;
+								case 4:
+									setValue(XFWM,TITLEALIGNPROP,STRING,(void*)keydata);
+									gtk_combo_box_set_active((GtkComboBox*)titlePos,positionToInt(keydata));
+									break;
+								case 5:
+									setValue(XFWM,WMFONTPROP,STRING,(void*)keydata);
+									gtk_font_button_set_font_name((GtkFontButton*)wmFontButton,keydata);
+									break;
+								case 6:
+									setValue(XSETTINGS,APPFONTPROP,STRING,(void*)keydata);
+									gtk_font_button_set_font_name((GtkFontButton*)appFontButton,keydata);
+									break;
+								case 7:
+									setValue(XSETTINGS,CONTROLTHEMEPROP,STRING,keydata);
+									freeAndSet(&currentGtkTheme,keydata);
+									break;
+								case 8:
+									setValue(XSETTINGS,CURSORSIZEPROP,INT,(void*)(long)atol(keydata));
+									gtk_range_set_value((GtkRange*)cursorSize,atol(keydata));
+									break;
+								case 9:
+									setValue(XTHEMER,METATHEMEPROP,STRING,keydata);
+									freeAndSet(&currentMetaTheme,keydata);
+									break;
 								}
 						}
 				}
 			rerunAndUpdate(false,true);
 
-			for (int j=0;j<numOfPanels;j++)
+			for (int j=0; j<numOfPanels; j++)
 				{
 					sprintf((char*)&buffer,"Panel-%i",panels[j]->panelNumber);
-					for(int k=0;k<panelkeycnt;k++)
+					for(int k=0; k<panelkeycnt; k++)
 						{
 							keydata=g_key_file_get_string(keyfile,buffer,(char*)panelkeys[k],NULL);
 							if(keydata!=NULL)
 								{
 									switch(k)
 										{
-											case 0:
-												freeAndSet(&panels[j]->imagePath,keydata);
-												break;
-											case 1:
-												panels[j]->style=atoi(keydata);
-												break;
-											case 2:
-												panels[j]->size=atoi(keydata);
-												break;
-											case 3:
-												panels[j]->red=atoi(keydata);
-												break;
-											case 4:
-												panels[j]->green=atoi(keydata);
-												break;
-											case 5:
-												panels[j]->blue=atoi(keydata);
-												break;
-											case 6:
-												panels[j]->alpha=atoi(keydata);
-												break;
+										case 0:
+											freeAndSet(&panels[j]->imagePath,keydata);
+											break;
+										case 1:
+											panels[j]->style=atoi(keydata);
+											break;
+										case 2:
+											panels[j]->size=atoi(keydata);
+											break;
+										case 3:
+											panels[j]->red=atoi(keydata);
+											break;
+										case 4:
+											panels[j]->green=atoi(keydata);
+											break;
+										case 5:
+											panels[j]->blue=atoi(keydata);
+											break;
+										case 6:
+											panels[j]->alpha=atoi(keydata);
+											break;
 										}
 									freeAndNull(&keydata);
 								}
@@ -870,33 +870,33 @@ void doMeta(char* metaFilename)
 				}
 			setPanels();
 
-			for(int j=0;j<numberOfMonitors;j++)
+			for(int j=0; j<numberOfMonitors; j++)
 				{
 					sprintf((char*)&buffer,"Monitor-%i",j);
-					for(int k=0;k<monitorkeycnt;k++)
+					for(int k=0; k<monitorkeycnt; k++)
 						{
 							keydata=g_key_file_get_string(keyfile,buffer,(char*)monitorkeys[k],NULL);
 							if(keydata!=NULL)
 								{
 									switch(k)
 										{
-											case 0:
-												freeAndSet(&monitorData[j]->imagePath,keydata);
-												break;
-											case 1:
-												monitorData[j]->style=atoi(keydata);
+										case 0:
+											freeAndSet(&monitorData[j]->imagePath,keydata);
+											break;
+										case 1:
+											monitorData[j]->style=atoi(keydata);
 #ifdef _411_
-												if(monitorData[j]->style==0)
-													monitorData[j]->style=3;
+											if(monitorData[j]->style==0)
+												monitorData[j]->style=3;
 #endif
 
-												break;
-											case 2:
-												monitorData[j]->brightness=atoi(keydata);
-												break;
-											case 3:
-												monitorData[j]->satu=atof(keydata);
-												break;
+											break;
+										case 2:
+											monitorData[j]->brightness=atoi(keydata);
+											break;
+										case 3:
+											monitorData[j]->satu=atof(keydata);
+											break;
 										}
 									freeAndNull(&keydata);
 								}
@@ -904,7 +904,7 @@ void doMeta(char* metaFilename)
 				}
 			setMonitorData();
 		}
-	
+
 	if(keydata!=NULL)
 		g_key_file_free(keyfile);
 
@@ -923,33 +923,33 @@ void setPieceNewNew(const char* filePath,long doWhat)
 				{
 					switch(doWhat)
 						{
-							case WMBORDERS:
-								setValue(XFWM,WMBORDERSPROP,STRING,dataset);
-								freeAndSet(&currentWMTheme,dataset);
-								break;
-							case CONTROLS:
-								setValue(XSETTINGS,CONTROLTHEMEPROP,STRING,dataset);
-								freeAndSet(&currentGtkTheme,dataset);
-								break;
-							case ICONS:
-								setValue(XSETTINGS,ICONTHEMEPROP,STRING,dataset);
-								freeAndSet(&currentIconTheme,dataset);
-								break;
-							case CURSORS:
-								setValue(XSETTINGS,CURSORSPROP,STRING,dataset);
-								freeAndSet(&currentCursorTheme,dataset);
-								break;
-							case WALLPAPERS:
+						case WMBORDERS:
+							setValue(XFWM,WMBORDERSPROP,STRING,dataset);
+							freeAndSet(&currentWMTheme,dataset);
+							break;
+						case CONTROLS:
+							setValue(XSETTINGS,CONTROLTHEMEPROP,STRING,dataset);
+							freeAndSet(&currentGtkTheme,dataset);
+							break;
+						case ICONS:
+							setValue(XSETTINGS,ICONTHEMEPROP,STRING,dataset);
+							freeAndSet(&currentIconTheme,dataset);
+							break;
+						case CURSORS:
+							setValue(XSETTINGS,CURSORSPROP,STRING,dataset);
+							freeAndSet(&currentCursorTheme,dataset);
+							break;
+						case WALLPAPERS:
 #ifdef _411_
-								setValue(XFCEDESKTOP,(char*)"/backdrop/single-workspace-mode",BOOLEAN,(void*)true);
-								setValue(XFCEDESKTOP,(char*)"/backdrop/single-workspace-number",INT,(void*)0);
-								sprintf((char*)&generalBuffer[0],"%s%s/workspace0/last-image",MONITORPROP,monitorData[currentMonitor]->name);
+							setValue(XFCEDESKTOP,(char*)"/backdrop/single-workspace-mode",BOOLEAN,(void*)true);
+							setValue(XFCEDESKTOP,(char*)"/backdrop/single-workspace-number",INT,(void*)0);
+							sprintf((char*)&generalBuffer[0],"%s%s/workspace0/last-image",MONITORPROP,monitorData[currentMonitor]->name);
 #else
-								sprintf((char*)&generalBuffer[0],"%s%i/image-path",MONITORPROP,currentMonitor);
+							sprintf((char*)&generalBuffer[0],"%s%i/image-path",MONITORPROP,currentMonitor);
 #endif
-								setValue(XFCEDESKTOP,(char*)&generalBuffer[0],STRING,dataset);
-								freeAndSet(&monitorData[currentMonitor]->imagePath,dataset);
-								break;
+							setValue(XFCEDESKTOP,(char*)&generalBuffer[0],STRING,dataset);
+							freeAndSet(&monitorData[currentMonitor]->imagePath,dataset);
+							break;
 						}
 				}
 		}
@@ -981,47 +981,47 @@ void themeIconCallback(GtkIconView *view,gpointer doWhat)
 
 	switch((long)doWhat)
 		{
-			case THEMES:
-				doMeta(text);
-				asprintf(&script,"%s/Scripts/XfceMetaScript \"%s\"",getenv("HOME"),text);
-				break;
+		case THEMES:
+			doMeta(text);
+			asprintf(&script,"%s/Scripts/XfceMetaScript \"%s\"",getenv("HOME"),text);
+			break;
 
-			case WMBORDERS:
-				setPieceNewNew(text,WMBORDERS);
-				asprintf(&script,"%s/Scripts/XfceWMScript set \"%s\"",getenv("HOME"),text);
-				break;
+		case WMBORDERS:
+			setPieceNewNew(text,WMBORDERS);
+			asprintf(&script,"%s/Scripts/XfceWMScript set \"%s\"",getenv("HOME"),text);
+			break;
 
-			case CONTROLS:
-				setPieceNewNew(text,CONTROLS);
-				asprintf(&script,"%s/Scripts/XfceControlsScript set \"%s\"",getenv("HOME"),text);
-				break;
+		case CONTROLS:
+			setPieceNewNew(text,CONTROLS);
+			asprintf(&script,"%s/Scripts/XfceControlsScript set \"%s\"",getenv("HOME"),text);
+			break;
 
-			case ICONS:
-				setPieceNewNew(text,ICONS);
-				asprintf(&script,"%s/Scripts/XfceIconsScript set \"%s\"",getenv("HOME"),text);
-				break;
+		case ICONS:
+			setPieceNewNew(text,ICONS);
+			asprintf(&script,"%s/Scripts/XfceIconsScript set \"%s\"",getenv("HOME"),text);
+			break;
 
-			case CURSORS:
-				setPieceNewNew(text,CURSORS);
-				asprintf(&script,"%s/Scripts/XfceCursorScript set \"%s\"",getenv("HOME"),text);
-				break;
+		case CURSORS:
+			setPieceNewNew(text,CURSORS);
+			asprintf(&script,"%s/Scripts/XfceCursorScript set \"%s\"",getenv("HOME"),text);
+			break;
 
-			case WALLPAPERS:
-				setPieceNewNew(text,WALLPAPERS);				
-				{
-					char	mname[4096]={0,};
-					char	*ptr=&mname[0];
-					int		cnt=0;
-					for(int j=0;j<numberOfMonitors;j++)
-						{
-							cnt=sprintf(ptr,"%i ",monitorData[j]->style);
-							ptr+=cnt;
-							cnt=sprintf(ptr,"\"%s\" ",monitorData[j]->imagePath);
-							ptr+=cnt;
-						}
-					asprintf(&script,"%s/Scripts/XfceBackdropScript %i %s",getenv("HOME"),spanMonitors,mname);
-				}
-				break;
+		case WALLPAPERS:
+			setPieceNewNew(text,WALLPAPERS);
+			{
+				char	mname[4096]= {0,};
+				char	*ptr=&mname[0];
+				int		cnt=0;
+				for(int j=0; j<numberOfMonitors; j++)
+					{
+						cnt=sprintf(ptr,"%i ",monitorData[j]->style);
+						ptr+=cnt;
+						cnt=sprintf(ptr,"\"%s\" ",monitorData[j]->imagePath);
+						ptr+=cnt;
+					}
+				asprintf(&script,"%s/Scripts/XfceBackdropScript %i %s",getenv("HOME"),spanMonitors,mname);
+			}
+			break;
 		}
 
 	system(script);

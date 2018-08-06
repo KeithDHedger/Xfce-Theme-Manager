@@ -247,7 +247,7 @@ void getValue(const char* channel,const char* property,dataType type,void* ptr)
 	int		intdata;
 	double	floatdata;
 	int		array[4]={-1,-1,-1,-1};
-	bool	booldata;
+	int		booldata;
 
 	XfconfChannel*	channelptr=xfconf_channel_get(channel);
 
@@ -260,8 +260,7 @@ void getValue(const char* channel,const char* property,dataType type,void* ptr)
 				break;
 
 			case BOOLEAN:
-				booldata=xfconf_channel_get_bool(channelptr,property,-1);
-				
+				booldata=(int)xfconf_channel_get_bool(channelptr,property,-1);
 				if(booldata!=-1)
 					*(int*)ptr=booldata;
 				break;

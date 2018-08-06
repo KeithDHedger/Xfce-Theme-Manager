@@ -425,7 +425,6 @@ void buildAdvancedGui(GtkWidget* advancedScrollBox)
 	char		buffer[32];
 
 	advancedVbox=gtk_vbox_new(FALSE,0);
-
 //database
 	gtk_box_pack_start(GTK_BOX(advancedVbox),gtk_label_new(_translate(REBUILDTHEDB)),false,false,2);
 	advancedHbox=gtk_hbox_new(true,4);
@@ -690,6 +689,4 @@ void buildAdvancedGui(GtkWidget* advancedScrollBox)
 	gtk_box_pack_start(GTK_BOX(advancedHbox),cursorsCheck,true,true,0);
 	gtk_box_pack_start(GTK_BOX(advancedHbox),paperCheck,true,true,0);
 	gtk_box_pack_start(GTK_BOX(advancedVbox),advancedHbox,false,false,2);
-
 }
-
