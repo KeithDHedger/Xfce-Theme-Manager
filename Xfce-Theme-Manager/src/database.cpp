@@ -527,7 +527,7 @@ gpointer rebuildDB(gpointer data)
 											if(g_key_file_load_from_file(keyfile,indexfile,G_KEY_FILE_NONE,NULL))
 												displayname=g_key_file_get_string(keyfile,"Icon Theme","Name",NULL);
 											else
-												asprintf(&displayname,entry);
+												asprintf(&displayname,"%s",entry);
 
 											asprintf(&thumbfile,"%s/%s.png",cursorsFolder,entry);
 											makecursor((char*)entry,thumbfile);
