@@ -1,3 +1,11 @@
 *.o
 configlink
 .svn
+config.log
+config.status
+stamp-h1
+Makefile
+Xfce-Theme-Manager/app/xfce-theme-manager
+Xfce-Theme-Manager/src/.*
+config.h
+

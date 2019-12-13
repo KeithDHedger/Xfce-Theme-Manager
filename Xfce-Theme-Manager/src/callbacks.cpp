@@ -1043,7 +1043,7 @@ void launchCompEd(GtkWidget* window,gpointer data)
 	if(data==NULL)
 		system("xfce4-composite-editor");
 	else
-		system("xdg-open http://gtk-apps.org/content/show.php/Xfce4-Composite-Editor?content=149523");
+		system("xdg-open http://khapplications.freeddns.org/pages/apps.html#xfcecomp");
 }
 
 void resetBright(GtkWidget* widget,gpointer data)
