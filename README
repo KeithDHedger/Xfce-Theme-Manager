@@ -44,13 +44,11 @@ OPTION			Usage<br>
 -i, --icons=ARG		Set the icon theme to ARG<br>
 -p, --cursors=ARG	Set the cursor theme to ARG<br>
 -b, --backdrop=ARG	Set wallpaper to ARG<br>
--l, --list=ARG		List DB entry's, where ARG = any of '\*Ctwcib'<br>
-<br>
-Where 'C' prints custom themes, 't' prints themes,<br>
-'w' prints window borders, 'c' prints controls,<br>
-'i' prints icons and 'b' prints backdrops.<br>
-If the first/only character is a '*' then all entry's are printed.<br>
-<br>
+-l, --list=ARG		List DB entry's, where ARG = any of "\*Ctwcib"<br>
+			Where 'C' prints custom themes, 't' prints themes,<br>
+			'w' prints window borders, 'c' prints controls,<br>
+			'i' prints icons and 'b' prints backdrops.<br>
+			If the first/only character is a '\*' then all entry's are printed.<br>
 -?, --help=ARG		This help<br>
 <br>
 Options tcwipblvh? all imply -n<br>
