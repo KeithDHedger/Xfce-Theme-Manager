@@ -14,8 +14,8 @@ PLEASE NOTE!!<br>
 This project is now in maintenence mode,I will NOT be accepting ANY new feeature requests.<br>
 I will ONLY be accepting/fixing bugs.<br>
 Please see the readme, man page or webpage:<br>
-http://khapplications.freeddns.org/pages/apps.html#themeed
-
+http://khapplications.freeddns.org/pages/apps.html#themeed<br>
+<br>
 ![Meta Tab](screenshots/metatab.png?raw=true "Meta Tab")<br>
 <br>
 DEPENDENCIES:<br>
@@ -27,12 +27,12 @@ gtk+-2.0<br>
 <br>
 unzip - Runtime dependency to drag and drop zip archives.<br>
 <br>
-****************************************************<br>
+************************************************************************************************<br>
 EXTERNAL APPS (Optional):<br>
 <br>
 Xfce4-Composite-Editor Available here:<br>
 https://github.com/KeithDHedger/Xfwm4CompositeEditor/archive/xfce4-composite-editor-0.2.2.tar.gz<br>
-****************************************************<br>
+************************************************************************************************<br>
 <br>
 Usage: xfce-theme-manager [option.1] ... [option.N]<br>
 <br>
