@@ -33,7 +33,7 @@ unzip - Runtime dependency to drag and drop zip archives.
 EXTERNAL APPS (Optional):
 
 Xfce4-Composite-Editor Available here:
-http://gtk-apps.org/content/show.php/Xfce4-Composite-Editor?content=149523&PHPSESSID=f9317d406c1ed0e51799fb6b6a1e3e32
+https://github.com/KeithDHedger/Xfwm4CompositeEditor/archive/xfce4-composite-editor-0.2.2.tar.gz
 ****************************************************
 
 Usage: xfce-theme-manager [option.1] ... [option.N]
@@ -75,7 +75,7 @@ Options tcwipblvh? all imply -n
 [Xfce-Composite-Editor]
 	Run the composite editor (if installed).
 	Available here:
-	http://keithhedger.hostingsiteforfree.com/zips/Xfce4-Composite-Editor.ta r.gz
+	https://github.com/KeithDHedger/Xfwm4CompositeEditor/archive/xfce4-composite-editor-0.2.2.tar.gz
 	You need to have gtkdialog version 0.8.x and BASH installed To run the Composite Editor.
 
 [Backdrop Adjustments]
