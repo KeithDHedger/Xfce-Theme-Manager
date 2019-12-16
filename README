@@ -31,7 +31,7 @@ EXTERNAL APPS (Optional):<br>
 Xfce4-Composite-Editor Available here:<br>
 https://github.com/KeithDHedger/Xfwm4CompositeEditor/archive/xfce4-composite-editor-0.2.2.tar.gz<br>
 <br>
-Usage: xfce-theme-manager [option.1] ... [option.N]<br>
+CLI Usage: xfce-theme-manager [option.1] ... [option.N]<br>
 <br>
 OPTION			Usage<br>
 -v, --version		Print version info and quit<br>
