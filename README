@@ -1,26 +1,26 @@
-#------------------------------------------------------
-#
-#   Xfce-Theme-Manager
-#
-#   ©K.D.Hedger 2013
-#   keithhdhedger@gmail.com
-#
-#   Released under GPL see the included licence file ( {prefix}/share/Xfce-Theme-Manager/docs/gpl-3.0.txt )
-#   Translations of the licence can be found here:
-#   http://www.gnu.org/licenses/translations.html
-#------------------------------------------------------
+
+
+   Xfce-Theme-Manager
+
+   ©K.D.Hedger 2013
+   keithhdhedger@gmail.com
+
+   Released under GPL see the included licence file ( {prefix}/share/Xfce-Theme-Manager/docs/gpl-3.0.txt )
+   Translations of the licence can be found here:
+   http://www.gnu.org/licenses/translations.html
+
 
 ![Meta Tab](screenshots/Ametatab.png?raw=true "Meta Tab")<br>
 
-#------------------------------------------------------------
-#                      PLEASE NOTE!!
-#
-#  This project is now in maintenence mode,
-#  I will NOT be accepting ANY new feeature requests.
-#  I will ONLY be accepting/fixing bugs.
-#  Please see the readme, man page or webpage:
-#  http://khapplications.freeddns.org/pages/apps.html#themeed
-#------------------------------------------------------------
+
+                      PLEASE NOTE!!
+
+  This project is now in maintenence mode,
+  I will NOT be accepting ANY new feeature requests.
+  I will ONLY be accepting/fixing bugs.
+  Please see the readme, man page or webpage:
+  http://khapplications.freeddns.org/pages/apps.html#themeed
+
 
 DEPENDENCIES:
 
