@@ -27,12 +27,9 @@ gtk+-2.0<br>
 <br>
 unzip - Runtime dependency to drag and drop zip archives.<br>
 <br>
-************************************************************************************************<br>
 EXTERNAL APPS (Optional):<br>
-<br>
 Xfce4-Composite-Editor Available here:<br>
 https://github.com/KeithDHedger/Xfwm4CompositeEditor/archive/xfce4-composite-editor-0.2.2.tar.gz<br>
-************************************************************************************************<br>
 <br>
 Usage: xfce-theme-manager [option.1] ... [option.N]<br>
 <br>
