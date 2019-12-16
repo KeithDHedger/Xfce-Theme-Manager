@@ -96,22 +96,28 @@ Options tcwipblvh? all imply -n<br>
 	Only shows meta themes that you have created, auto generated meta themes are not shown.<br>
 <br>
 [Themes]<br>
-	Show globally installed meta themes.<br>
+	Show installed meta themes.<br>
+![Meta Tab](screenshots/metatab.png?raw=true "Meta Tab")<br>
 <br>
 [Window Borders]<br>
-	Show globally installed Xwm4 themes.<br>
+	Show installed Xwm4 themes.<br>
+![WM Border Tab](screenshots/wmbordertab.png?raw=true "WM Border Tab")<br>
 <br>
 [Controls]<br>
-	Show globally installed Gtk themes.<br>
+	Show installed Gtk themes.<br>
+![Controls Tab](screenshots/controlstab.png?raw=true "Controls Tab")<br>
 <br>
 [Icons]<br>
-	Show globally installed icon themes.<br>
+	Show installed icon themes.<br>
+![Icons Tab](screenshots/iconstab.png?raw=true "Icons Tab")<br>
 <br>
-[Cursors]
-	Show globally installed mouse themes.
+[Cursors]<br>
+	Show installed cursor themes.<br>
+![Cursors Tab](screenshots/cursorstab.png?raw=true "Cursors Tab")<br>
 <br>
 [Wallpapers]<br>
-	Show globally installed wallpapers.<br>
+	Show installed wallpapers.<br>
+![Backdrops Tab](screenshots/backdrops.png?raw=true "Backdrops Tab")<br>
 <br>
 Locally installed themes parts are always shown except for meta themes if the [Only show Custom Themes] is checked.<br>
 <br>
