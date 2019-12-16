@@ -44,7 +44,7 @@ OPTION			Usage<br>
 -i, --icons=ARG		Set the icon theme to ARG<br>
 -p, --cursors=ARG	Set the cursor theme to ARG<br>
 -b, --backdrop=ARG	Set wallpaper to ARG<br>
--l, --list=ARG		List DB entry's, where ARG = any of "*Ctwcib"<br>
+-l, --list=ARG		List DB entry's, where ARG = any of '*Ctwcib'<br>
 <br>
 Where 'C' prints custom themes, 't' prints themes,<br>
 'w' prints window borders, 'c' prints controls,<br>
