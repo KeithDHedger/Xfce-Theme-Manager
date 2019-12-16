@@ -17,4 +17,22 @@ Please see the readme, man page or webpage:<br>
 http://khapplications.freeddns.org/pages/apps.html#themeed
 
 ![Meta Tab](screenshots/metatab.png?raw=true "Meta Tab")<br>
-
+<br>
+DEPENDENCIES:<br>
+<br>
+glib-2.0<br>
+gdk-2.0<br>
+cairo<br>
+gtk+-2.0<br>
+<br>
+unzip - Runtime dependency to drag and drop zip archives.<br>
+<br>
+****************************************************<br>
+EXTERNAL APPS (Optional):<br>
+<br>
+Xfce4-Composite-Editor Available here:<br>
+https://github.com/KeithDHedger/Xfwm4CompositeEditor/archive/xfce4-composite-editor-0.2.2.tar.gz<br>
+****************************************************<br>
+<br>
+Usage: xfce-theme-manager [option.1] ... [option.N]<br>
+<br>
