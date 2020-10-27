@@ -19,7 +19,9 @@
 
 			Having switched to Xfce from gnome one of the main annoyances I have found is having multiple settings GUI's for setting the theme, one for the window border and one for the controls/icons and neither include thumbnails!<br>
 As I like to switch themes and mix and match this soon became VERY irritating hence this application, as you can see from the screenshots only one GUI is used to set all the bits of a theme, the "Themes" tab contains themes that have an integrated window border/control theme ( and if there is a gnome-like theme.index file that specifies an icon set this will be used as well ), everything is fairly self explanatory, just click on a thumbnail to set a particular theme/window border/control/icon set.<br>
-	Full installation/usage is in the README file in the archive.<br>
+
+<a href="#instructions">Full installation/usage</a><br>
+<!--	Full installation/usage is in the README file in the archive.<br>-->
 
 			<br>
 			<font size="3">
@@ -78,6 +80,225 @@ As I like to switch themes and mix and match this soon became VERY irritating he
 			</font>
 			<br>
 			<img alt="" src="screenshots/xfcethemescrshots/custom.png"/><br>
+<br>
+<hr size="2" width="100%">
+<br>
+<a name="instructions">
+
+<font size="3">
+<b>Instructions</b>
+</font>
+
+<br>
+
+Released under GPL see the included licence file ( {prefix}/share/Xfce-Theme-Manager/docs/gpl-3.0.txt )<br>
+Translations of the licence can be found here:<br>
+http://www.gnu.org/licenses/translations.html<br>
+<br>
+<b>PLEASE NOTE!!</b><br>
+
+This project is now in maintenence mode,I will NOT be accepting ANY new feature requests.<br>
+I will ONLY be accepting/fixing bugs.<br>
+<br>
+DEPENDENCIES:<br>
+<br>
+glib-2.0<br>
+gdk-2.0<br>
+cairo<br>
+gtk+-2.0<br>
+<br>
+unzip - Runtime dependency to drag and drop zip archives.<br>
+<br>
+EXTERNAL APPS (Optional):<br>
+Xfce4-Composite-Editor Available here:<br>
+https://github.com/KeithDHedger/Xfwm4CompositeEditor/archive/xfce4-composite-editor-0.2.2.tar.gz<br>
+<br>
+CLI Usage: xfce-theme-manager [option.1] ... [option.N]<br>
+<br>
+<div align="center">
+<b>OPTIONS</b><br>
+<table width="75%" height="339" border="1" cellspacing="2" cellpadding="2" align="center">
+<tbody>
+<tr>
+<td>-v, --version</td>
+<td>Print version info and quit</td>
+</tr>
+<tr>
+<td>-u, --update-db</td>
+<td>Update the database</td>
+</tr>
+<tr>
+<td>-r, --build-db </td>
+<td>Re-build the database</td>
+</tr>
+<tr>
+<td>-n, --nogui</td>
+<td>Don't run the GUI</td>
+</tr>
+<tr>
+<td>-t, --theme=ARG</td>
+<td>ARG Set the meta-theme to ARG</td>
+</tr>
+<tr>
+<td>-c, --controls=ARG</td>
+<td>Set the controls theme to ARG</td>
+</tr>
+<tr>
+<td>-w, --wmborder=ARG</td>
+<td>ARG Set the window border to ARG</td>
+</tr>
+<tr>
+<td>-i, --icons=ARG</td>
+<td>Set the icon theme to ARG</td>
+</tr>
+<tr>
+<td>-p, --cursors=ARG</td>
+<td>Set the cursor theme to ARG</td>
+</tr>
+<tr>
+<td>-b, --backdrop=ARG</td>
+<td>Set wallpaper to ARG</td>
+</tr>
+<tr>
+<td>-l, --list=ARG</td>
+<td>List DB entry's, where ARG = any of "\*Ctwcib"</td>
+</tr>
+<tr>
+<td>-?, --help</td>
+<td>This help</td>
+</tr>
+</tbody>
+</table>
+</div>
+<br>
+
+Where 'C' prints custom themes, 't' prints themes,<br>
+'w' prints window borders, 'c' prints controls,<br>
+'i' prints icons and 'b' prints backdrops.<br>
+If the first/only character is a '\*' then all entry's are printed.<br>
+
+<br>
+Options tcwipblvh? all imply -n<br>
+<br>
+<hr size="2" width="100%">
+[Themes Tab]<br>
+			<img alt="" src="screenshots/xfcethemescrshots/metatab.png"/><br>
+[Reset Theme]<br>
+Discard all changes.<br>
+<br>
+[Save Theme]<br>
+Enter a custom theme name to save/delete, you can also quickly delete a custom theme by control-clicking a custom theme thumbnail.<br>
+<br>
+[About]<br>
+Credits and stuff.<br>
+<br>
+<hr size="2" width="100%">
+[Advanced Tab]<br>
+			<img alt="advancetab1" src="screenshots/xfcethemescrshots/advancedtab1.png"/><br>
+<br>
+[Rebuild DB]<br>
+	Rebuild the database.<br>
+<br>
+[Xfce-Composite-Editor]<br>
+	Run the composite editor (if installed).<br>
+	Available here:<br>
+	<a href="https://github.com/KeithDHedger/Xfwm4CompositeEditor/archive/xfce4-composite-editor-0.2.2.tar.gz">Xfwm4CompositeEditor</a><br>
+	You need to have gtkdialog version 0.8.x and BASH installed To run the Composite Editor.<br>
+<br>
+[Panels]<br>
+Panel size, image etc.<br>
+<br>
+[Backdrop Adjustments]<br>
+	Set Brightness/Saturation of the wallpaper.<br>
+<br>
+[Button Layout]<br>
+	The layout of close, maximize etc. (some themes may overide this).<br>
+<br>
+[Title Position]<br>
+	Placement of the window title, (some themes may overide this).<br>
+<br>
+[Font Selection]<br>
+	Title bar/application font.<br>
+<br>
+[Cursor Size]<br>
+	Set the cursor size if the cursor theme suports it, some do some don't.<br>
+<br>
+[View Options]<br>
+[Show System Themes]<br>
+	Show globally installed theme parts.<br>
+<br>
+[Only show Custom Themes]<br>
+	Only shows meta themes that you have created, auto generated meta themes are not shown.<br>
+<br>
+<hr size="2" width="100%">
+[Themes]<br>
+	Show installed meta themes.<br>
+			<img alt="" src="screenshots/xfcethemescrshots/metatab.png"/><br>
+<br>
+<hr size="2" width="100%">
+[Window Borders]<br>
+	Show installed Xwm4 themes.<br>
+			<img alt="" src="screenshots/xfcethemescrshots/wmbordertab.png"/><br>
+<br>
+[Controls]<br>
+	Show installed Gtk themes.<br>
+![Controls Tab](screenshots/controlstab.png?raw=true "Controls Tab")<br>
+<br>
+[Icons]<br>
+	Show installed icon themes.<br>
+![Icons Tab](screenshots/iconstab.png?raw=true "Icons Tab")<br>
+<br>
+[Cursors]<br>
+	Show installed cursor themes.<br>
+![Cursors Tab](screenshots/cursorstab.png?raw=true "Cursors Tab")<br>
+<br>
+[Wallpapers]<br>
+	Show installed wallpapers.<br>
+![Backdrops Tab](screenshots/backdrops.png?raw=true "Backdrops Tab")<br>
+<br>
+Locally installed themes parts are always shown except for meta themes if the [Only show Custom Themes] is checked.<br>
+<br>
+You can quickly delete a custom theme by holding control and clicking on the thumbnail, only custom themes you  have  created  can be deleted and only the database entry is removed nothing is uninstalled from your system.<br>
+<br>
+To install a theme/gtk/icon/cursor/border/wallpaper just drag and drop the archive (wallpapers should  not be  archived) anywhere on the main window and if posible the theme etc will be installed into the correct place, all installations are local, supported archive types  are:  "*.tgz","*.gz","*.zip","*.tar","*.bz2", supported  wallpaper  types  are:  "*.jpg","*.png","*.bmp","*.gif"  anything else you will have to install yourself.<br>
+<br>
+You must have unzip installed to drag 'n' drop .zip files.<br>
+<br>
+The thumbnails are stored in ${HOME}/.config/XfceThemeManager.<br>
+<br>
+The DB is updated automatically on drag'n'drop, if you do a lot of adding and removing of themes/icons etc you may want to run Re-build DB from the advanced tab.<br>
+<br>
+Meta  Themes are themes that contain a gtk2 folder and an xfwm4 folder (ie window frames and controls), if there is a gnome-like "theme.index" file that also specifies an icon set this will be used as well.<br>
+<br>
+<br>
+Spanish/German is now catered for if you have set the 'LANG' enviroment variable properly, other translations are invited email me for a list to be translated.<br>
+<br>
+INSTALL:<br>
+Extract the archive say into /tmp, cd into /tmp/Xfce-Theme-Manager-(VERSION), run ./autogen.sh ( or ./configure ), make, sudo make install, this will install the Xfce-Theme-Manager GUI, icon and the desktop file.<br>
+<br>
+The GUI can be run from the command line or from the settings menu.<br>
+The GUI can be manually installed and/or run from the main folder.<br>
+<br>
+There is no configure script as the makefile is very simple, default is to install in /usr/local/bin this can be changed by setting the PREFIX variable prior to make install ( sudo make install PREFIX=/usr ).<br>
+<br>
+If you have a source based pkg manager like slackware the dev files for glib etc should already be installed, if you are using a debian based install you may have to install the dev packages as well, from a terminal for a clean system type:<br>
+<br>
+sudo apt-get update<br>
+sudo apt-get install build-essential glib-2.0-dev libgtk2.0-dev libxfce4ui-1-dev<br>
+<br>
+Check your installation documentation for further details, but this works on a new clean version of xubuntu-12.10, other flavours of debian based installs should be the same.
+You may have to access xfce-theme-manager via the main settings manager in the main menu.<br>
+<br>
+You may have to run  xfce4-panel --restart to see the Xfce-Theme-Manager menu item in settings.<br>
+<br>
+If you are upgrading from an older version please rebuild the DB ( from the "Advanced" tab ).<br>
+<br>
+
+BUGS:<br>
+Please send them direct to me at: keithdhedger@gmail.com posting them on xfce-look etc gets too messy!<br>
+<br>
+<br>
+Enjoy!<br>
 
 			<br>
 			<br>
