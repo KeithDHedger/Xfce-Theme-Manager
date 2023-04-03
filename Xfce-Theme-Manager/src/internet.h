@@ -1,6 +1,6 @@
 /*
  *
- * ©K. D. Hedger. Tue 28 Jun 10:44:42 BST 2016 keithdhedger@gmail.com
+ * ©K. D. Hedger. Tue 28 Jun 10:44:42 BST 2016 kdhedger68713@gmail.com
  
  * Projects is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,18 +19,23 @@
 #ifndef _INTERNET_
 #define _INTERNET_
 
-#define MYEMAIL "keithdhedger@gmail.com"
-#define MYWEBSITE "http://khapplications.freeddns.org/index.html"
-#define GLOBALWEBSITE "http://khapplications.freeddns.org"
+#define MYEMAIL "kdhedger68713@gmail.com"
+#define MYWEBSITE "https://keithdhedger.github.io/"
+#define GLOBALWEBSITE "https://keithdhedger.github.io"
 #define ASPELLPAGE GLOBALWEBSITE "/pages/aspellgui/aspelgui.html"
-#define MANPAGEPAGE GLOBALWEBSITE "/pages/manpageeditor/help.html"
+#define MANPAGEPAGE GLOBALWEBSITE "/pages/manpageeditor/manpageeditor.html"
 #define CLIPVIEW GLOBALWEBSITE "/pages/clipviewer/clip.html"
 #define THEMEMANAGER GLOBALWEBSITE "/pages/apps.html#themeed"
 #define COMPMANAGER GLOBALWEBSITE "/pages/apps.html#xfcecomp"
-#define KKEDITPAGE "http://kkedit.freeddns.org"
-#define KKTERMINALPAGE "http://khapplications.freeddns.org/pages/kkterminal/kkterminal.html"
+#define KKEDITPAGE "https://keithdhedger.github.io/KKEdit/"
+#define KKEDITPAGEFR "https://keithdhedger.github.io/KKEdit/help.fr.html"
+#define KKTERMINALPAGE GLOBALWEBSITE "/pages/kkterminal/kkterminal.html"
+#define KKEDITQTPAGE "https://keithdhedger.github.io/KKEditQT/"
+#define XDECSPAGE GLOBALWEBSITE "/pages/xdecorations/xdecorations.html"
+#define GTKSUPAGE GLOBALWEBSITE "/pages/gtksu/gtksu.html"
+#define KKFILEMANAGER "https://github.com/KeithDHedger/KKFileManager"
 
-#define COPYRITE "Copyright \xc2\xa9 2013-2016 K.D.Hedger"
+#define COPYRITE "Copyright © 2013-2023 K.D.Hedger"
 
 #ifndef _USEQT5_
 extern const char	*moreapps[];
