@@ -258,17 +258,17 @@ gpointer rebuildDB(gpointer data)
 		{
 			if (g_file_test(dbFolder,G_FILE_TEST_IS_DIR))
 				{
-					sprintf(generalBuffer,"rm -r %s",metaFolder);
+					snprintf(generalBuffer,GENBUFFERSIZE,"rm -r %s",metaFolder);
 					system(generalBuffer);
-					sprintf(generalBuffer,"rm -r %s",framesFolder);
+					snprintf(generalBuffer,GENBUFFERSIZE,"rm -r %s",framesFolder);
 					system(generalBuffer);
-					sprintf(generalBuffer,"rm -r %s",controlsFolder);
+					snprintf(generalBuffer,GENBUFFERSIZE,"rm -r %s",controlsFolder);
 					system(generalBuffer);
-					sprintf(generalBuffer,"rm -r %s",iconsFolder);
+					snprintf(generalBuffer,GENBUFFERSIZE,"rm -r %s",iconsFolder);
 					system(generalBuffer);
-					sprintf(generalBuffer,"rm -r %s",cursorsFolder);
+					snprintf(generalBuffer,GENBUFFERSIZE,"rm -r %s",cursorsFolder);
 					system(generalBuffer);
-					sprintf(generalBuffer,"rm -r %s",wallpapersFolder);
+					snprintf(generalBuffer,GENBUFFERSIZE,"rm -r %s",wallpapersFolder);
 					system(generalBuffer);
 				}
 		}
@@ -556,7 +556,7 @@ gpointer rebuildDB(gpointer data)
 					entry=g_dir_read_name(folder);
 					while(entry!=NULL)
 						{
-							sprintf(generalBuffer,"%s/%s",papersArray[i],entry);
+							snprintf(generalBuffer,GENBUFFERSIZE,"%s/%s",papersArray[i],entry);
 							if(g_file_test(generalBuffer,G_FILE_TEST_IS_DIR)==false)
 								{
 									asprintf(&dbfile,"%s/%i.%s.db",wallpapersFolder,i,entry);

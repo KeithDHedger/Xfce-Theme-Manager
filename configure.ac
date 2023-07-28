@@ -1,6 +1,6 @@
 #
 #
-AC_INIT([Xfce-Theme-Manager],[0.3.8],[PROJ],[Xfce-Theme-Manager])
+AC_INIT([Xfce-Theme-Manager],[0.3.9],[PROJ],[Xfce-Theme-Manager])
 
 AC_CONFIG_HEADER([config.h])
 AC_PROG_CXX

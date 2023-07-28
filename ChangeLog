@@ -13,10 +13,14 @@
 
 ***************************************
 BUGS:
-Please send them direct to me at:keithhedger@keithhedger.darktech.org posting them on xfce-look etc gets too messy!
+Please send them direct to me at:kdhedger68713@.gmail.com.
 ***************************************
 
 Changelog:
+0.3.9
+		Removed redundant xfdesktop --reload.
+		Buffer overflow fixes.
+		Minor changes to xconf settings.
 0.3.8	
 		Added new release.
 		Removed release with broken links.

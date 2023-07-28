@@ -126,9 +126,9 @@ int					controlHeight=64;
 int					controlWidth=256;
 GdkPixbuf*			controlsPixbuf;
 
-GtkNotebook*		notebook;
+GtkNotebook*			notebook;
 
-char				generalBuffer[4096];
+char					generalBuffer[GENBUFFERSIZE];
 
 GdkPixbuf*			missingImage;
 GdkPixbuf*			blankImage;

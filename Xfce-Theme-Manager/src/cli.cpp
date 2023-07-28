@@ -138,7 +138,9 @@ int doCliThemePart(char* name,long what)
 						papername=getThemeNameFromDB(generalBuffer);
 						if(papername!=NULL)
 							{
-								sprintf((char*)&generalBuffer[0],"%s%i/image-path",MONITORPROP,cliMonitor);
+								sprintf((char*)&generalBuffer[0],"%s%s/workspace0/last-image",MONITORPROP,monitorData[cliMonitor]->name);
+								setValue(XFCEDESKTOP,(char*)&generalBuffer[0],STRING,papername);
+								sprintf((char*)&generalBuffer[0],"%s%i/workspace0/last-image",MONITORPROP,cliMonitor);
 								setValue(XFCEDESKTOP,(char*)&generalBuffer[0],STRING,papername);
 								return(0);
 							}

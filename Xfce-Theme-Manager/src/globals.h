@@ -84,6 +84,8 @@
 #define _translate(x) langStr[langID][x]
 #define _translateHelp(x) helpStr[langID][x]
 
+#define GENBUFFERSIZE 8192
+
 enum {ENGLISH=0,SPANISH,GERMAN,POLISH,FRENCH,PORTUGUESE,NONE};
 
 enum dataType {INT,BOOLEAN,STRING,FLOAT,COLOURARRAY};
@@ -109,7 +111,7 @@ extern char*			currentButtonLayout;
 extern char*			currentTitlePos;
 extern char*			currentWMFont;
 extern char*			currentAppFont;
-extern int				currentCursSize;
+extern int			currentCursSize;
 extern char*			currentMetaTheme;
 
 extern char*			originalGtkTheme;
@@ -120,7 +122,7 @@ extern char*			originalWallpaper;
 extern char*			originalMetaTheme;
 
 extern char*			homeThemesHash;
-extern bool				initing;
+extern bool			initing;
 
 struct boxStruct
 {
@@ -233,7 +235,7 @@ extern int				controlWidth;
 extern GdkPixbuf*		controlsPixbuf;
 extern GtkNotebook*		notebook;
 
-extern char				generalBuffer[4096];
+extern char				generalBuffer[GENBUFFERSIZE];
 
 extern GdkPixbuf*		missingImage;
 extern GdkPixbuf*		blankImage;

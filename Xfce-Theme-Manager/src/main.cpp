@@ -219,6 +219,27 @@ void initFolders(void)
 	asprintf(&customFolder,"%s/custom",dbFolder);
 }
 
+void getmonames(void)
+{
+	FILE*	fp;
+	char	line[256];
+
+char *generalBuffer;
+asprintf(&generalBuffer,"xrandr|grep -i '\\bconnected'|awk '{print $1}'");
+int cnt=0;
+
+	fp=popen(generalBuffer, "r");
+	while(fgets(line,255,fp))
+		{
+			if(strlen(line)>0)
+				{
+					line[strlen(line)-1]=0;
+					asprintf(&monitorData[cnt++]->name,"%s",line);
+				}
+		}
+	pclose(fp);
+}
+
 void init(void)
 {
 	gchar	*stdout=NULL;
@@ -284,10 +305,11 @@ void init(void)
 #else
 			sprintf((char*)&generalBuffer[0],"%s%i/image-style",MONITORPROP,i);
 #endif
-
 			getValue(XFCEDESKTOP,(char*)&generalBuffer[0],INT,&monitorData[i]->style);
 			revertMonitorData[i]->style=monitorData[i]->style;
 		}
+
+	getmonames();
 
 //mouse
 	getValue(XSETTINGS,CURSORSPROP,STRING,&currentCursorTheme);
@@ -390,7 +412,7 @@ void init(void)
 		{
 			for(int j=0; j<numberOfMonitors; j++)
 				{
-					sprintf((char*)&generalBuffer[0],"%s - %i",_translate(MONITOR),j);
+					sprintf((char*)&generalBuffer[0],"%s - %s",_translate(MONITOR),monitorData[j]->name);
 					gtk_combo_box_text_append_text((GtkComboBoxText*)screenNumber,generalBuffer);
 					g_signal_connect_after(G_OBJECT(screenNumber),"changed",G_CALLBACK(monitorChanged),NULL);
 				}
@@ -471,7 +493,7 @@ void printName(const char* section,char* folderName)
 				{
 					if(strstr(entry,".db"))
 						{
-							sprintf(generalBuffer,"%s\n",&entry[2]);
+							snprintf(generalBuffer,GENBUFFERSIZE,"%s\n",&entry[2]);
 							generalBuffer[strlen(entry)-5]=0;
 							printf("%s\n",generalBuffer);
 						}
@@ -505,7 +527,7 @@ void printList(void)
 								{
 									if(strstr(entry,".db"))
 										{
-											sprintf(generalBuffer,"%s\n",entry);
+											snprintf(generalBuffer,GENBUFFERSIZE,"%s\n",entry);
 											generalBuffer[strlen(generalBuffer)-4]=0;
 											printf("%s\n",generalBuffer);
 										}
@@ -628,6 +650,20 @@ int main(int argc,char **argv)
 
 	xfconf_init(NULL);
 	initFolders();
+
+	fflush(stderr);
+	fgetpos(stderr,&pos);
+	fd=dup(fileno(stderr));
+	freopen("/dev/null","w",stderr);
+
+#if GLIB_MINOR_VERSION < PREFERVERSION
+	g_thread_init(NULL);
+#endif
+	gdk_threads_init();
+	gdk_threads_enter();
+	gtk_init(&argc,&argv);
+
+	init();
 
 	while (1)
 		{
@@ -758,19 +794,6 @@ int main(int argc,char **argv)
 				}
 		}
 
-	fflush(stderr);
-	fgetpos(stderr,&pos);
-	fd=dup(fileno(stderr));
-	freopen("/dev/null","w",stderr);
-
-#if GLIB_MINOR_VERSION < PREFERVERSION
-	g_thread_init(NULL);
-#endif
-	gdk_threads_init();
-	gdk_threads_enter();
-	gtk_init(&argc,&argv);
-
-	init();
 	initing=false;
 
 	if(doPrintHelp==true)
@@ -782,7 +805,7 @@ int main(int argc,char **argv)
 	if(checkFolders()!=0)
 		updateDb=true;
 
-	sprintf(generalBuffer,"%s/.config/XfceThemeManager",homeFolder);
+	snprintf(generalBuffer,GENBUFFERSIZE,"%s/.config/XfceThemeManager",homeFolder);
 	dbexists=g_file_test(generalBuffer,G_FILE_TEST_IS_DIR);
 
 	if ((rebuildDb==true) ||  (dbexists==false))
@@ -954,7 +977,6 @@ int main(int argc,char **argv)
 			if (cliIcons!=NULL)
 				{
 					cliRetVal|=doCliThemePart(cliIcons,ICONS);
-					system("xfdesktop --reload");
 				}
 
 			if (cliCursors!=NULL)

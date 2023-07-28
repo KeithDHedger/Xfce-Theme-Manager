@@ -176,7 +176,7 @@ void changeViewWhat(GtkWidget* widget,gpointer data)
 	rerunAndUpdate(false,true);
 }
 
-void buildCustomDB(const char* chan,const char* prop,dataType type,const char* key)
+void buildCustomDB(const char* chan,const char* prop,dataType type,const char* key,FILE *fd)
 {
 	char*	strdata=NULL;
 	int		intdata;
@@ -186,18 +186,18 @@ void buildCustomDB(const char* chan,const char* prop,dataType type,const char* k
 		{
 		case INT:
 			getValue(chan,prop,type,&intdata);
-			sprintf(filedata,"%s%s=%i\n",filedata,key,intdata);
+			fprintf(fd,"%s=%i\n",key,intdata);
 			break;
 
 		case STRING:
 			getValue(chan,prop,type,&strdata);
-			sprintf(filedata,"%s%s=%s\n",filedata,key,strdata);
+			fprintf(fd,"%s=%s\n",key,strdata);
 			g_free(strdata);
 			break;
 
 		case FLOAT:
 			getValue(chan,prop,type,&floatdata);
-			sprintf(filedata,"%s%s=%f\n",filedata,key,floatdata);
+			fprintf(fd,"%s=%f\n",key,floatdata);
 			break;
 
 		case COLOURARRAY:
@@ -219,9 +219,9 @@ void response(GtkDialog *dialog,gint response_id,gpointer user_data)
 			asprintf(&filename,"%s",gtk_entry_get_text((GtkEntry*)entryBox));
 			if (filename!=NULL && strlen(filename)>0)
 				{
-					sprintf(generalBuffer,"%s/%s.db",customFolder,filename);
+					sprintf(filedata,"%s/%s.db",customFolder,filename);
 					remove(generalBuffer);
-					sprintf(generalBuffer,"%s/%s.png",customFolder,filename);
+					sprintf(filedata,"%s/%s.png",customFolder,filename);
 					remove(generalBuffer);
 					freeAndNull(&filename);
 					rerunAndUpdate(true,true);
@@ -302,42 +302,42 @@ void customTheme(GtkWidget* window,gpointer data)
 			fd=fopen(dbname,"w");
 			if(fd!=NULL)
 				{
-					sprintf(filedata,"[Data]\nName=%s\nThumbnail=%s\n",filename,thumbfile);
-					buildCustomDB(XSETTINGS,CONTROLTHEMEPROP,STRING,"GtkTheme");
-					buildCustomDB(XSETTINGS,ICONTHEMEPROP,STRING,"IconTheme");
-					buildCustomDB(XSETTINGS,CURSORSPROP,STRING,"CursorTheme");
-					buildCustomDB(XFWM,WMBORDERSPROP,STRING,"Xfwm4Theme");
+					fprintf(fd,"[Data]\nName=%s\nThumbnail=%s\n",filename,thumbfile);
+					buildCustomDB(XSETTINGS,CONTROLTHEMEPROP,STRING,"GtkTheme",fd);
+					buildCustomDB(XSETTINGS,ICONTHEMEPROP,STRING,"IconTheme",fd);
+					buildCustomDB(XSETTINGS,CURSORSPROP,STRING,"CursorTheme",fd);
+					buildCustomDB(XFWM,WMBORDERSPROP,STRING,"Xfwm4Theme",fd);
 
-					buildCustomDB(XFWM,BUTTONLAYOUTPROP,STRING,"TitleButtonLayout");
-					buildCustomDB(XFWM,TITLEALIGNPROP,STRING,"TitlePosition");
-					buildCustomDB(XFWM,WMFONTPROP,STRING,"WMFont");
-					buildCustomDB(XSETTINGS,APPFONTPROP,STRING,"AppFont");
+					buildCustomDB(XFWM,BUTTONLAYOUTPROP,STRING,"TitleButtonLayout",fd);
+					buildCustomDB(XFWM,TITLEALIGNPROP,STRING,"TitlePosition",fd);
+					buildCustomDB(XFWM,WMFONTPROP,STRING,"WMFont",fd);
+					buildCustomDB(XSETTINGS,APPFONTPROP,STRING,"AppFont",fd);
 
-					buildCustomDB(XSETTINGS,CURSORSIZEPROP,INT,"CursorSize");
+					buildCustomDB(XSETTINGS,CURSORSIZEPROP,INT,"CursorSize",fd);
 
 //backdrop stuff
 					for(int j=0; j<numberOfMonitors; j++)
 						{
-							sprintf(filedata,"%s[Monitor-%i]\n",filedata,j);
-							sprintf(filedata,"%sBackgroundImage=%s\n",filedata,monitorData[j]->imagePath);
-							sprintf(filedata,"%sBackdropStyle=%i\n",filedata,monitorData[j]->style);
-							sprintf(filedata,"%sBackdropBright=%i\n",filedata,monitorData[j]->brightness);
-							sprintf(filedata,"%sBackdropSatu=%f\n",filedata,monitorData[j]->satu);
+							fprintf(fd,"[Monitor-%i]\n",j);
+							fprintf(fd,"BackgroundImage=%s\n",monitorData[j]->imagePath);
+							fprintf(fd,"BackdropStyle=%i\n",monitorData[j]->style);
+							fprintf(fd,"BackdropBright=%i\n",monitorData[j]->brightness);
+							fprintf(fd,"BackdropSatu=%f\n",monitorData[j]->satu);
 						}
 
 //panel stuff
 					for(int j=0; j<numOfPanels; j++)
 						{
-							sprintf(filedata,"%s[Panel-%i]\n",filedata,panels[j]->panelNumber);
-							sprintf(filedata,"%sPanelImage=%s\n",filedata,panels[j]->imagePath);
-							sprintf(filedata,"%sPanelStyle=%i\n",filedata,panels[j]->style);
-							sprintf(filedata,"%sPanelSize=%i\n",filedata,panels[j]->size);
-							sprintf(filedata,"%sPanelAlpha=%i\n",filedata,panels[j]->alpha);
-							sprintf(filedata,"%sPanelRed=%i\n",filedata,panels[j]->red);
-							sprintf(filedata,"%sPanelGreen=%i\n",filedata,panels[j]->green);
-							sprintf(filedata,"%sPanelBlue=%i\n",filedata,panels[j]->blue);
+						
+							fprintf(fd,"[Panel-%i]\n",panels[j]->panelNumber);
+							fprintf(fd,"PanelImage=%s\n",panels[j]->imagePath);
+							fprintf(fd,"PanelStyle=%i\n",panels[j]->style);
+							fprintf(fd,"PanelSize=%i\n",panels[j]->size);
+							fprintf(fd,"PanelAlpha=%i\n",panels[j]->alpha);
+							fprintf(fd,"PanelRed=%i\n",panels[j]->red);
+							fprintf(fd,"PanelGreen=%i\n",panels[j]->green);
+							fprintf(fd,"PanelBlue=%i\n",panels[j]->blue);
 						}
-					fprintf(fd,"%s\n",filedata);
 					fclose(fd);
 
 					controlWidth=400;
@@ -455,14 +455,14 @@ int extractAndInstall(char* filename,int ziptype)
 
 	while(true)
 		{
-			sprintf(generalBuffer,"%s \"%s\" */gtkrc",commandtest,filename);
+			sprintf(filedata,"%s \"%s\" */gtkrc",commandtest,filename);
 			g_spawn_command_line_sync((char*)generalBuffer,&stdout,&stderr,&spawnret,NULL);
 			if (spawnret==0)
 				{
 					stdout[strlen(stdout)-1]=0;
 					if(strlen(stdout)>1)
 						{
-							sprintf(generalBuffer,"%s \"%s\"",commandextracttheme,filename);
+							sprintf(filedata,"%s \"%s\"",commandextracttheme,filename);
 							retval=system(generalBuffer);
 							freeAndNull(&stdout);
 							break;
@@ -470,14 +470,14 @@ int extractAndInstall(char* filename,int ziptype)
 					freeAndNull(&stdout);
 				}
 
-			sprintf(generalBuffer,"%s \"%s\" */themerc",commandtest,filename);
+			sprintf(filedata,"%s \"%s\" */themerc",commandtest,filename);
 			g_spawn_command_line_sync((char*)generalBuffer,&stdout,&stderr,&spawnret,NULL);
 			if (spawnret==0)
 				{
 					stdout[strlen(stdout)-1]=0;
 					if(strlen(stdout)>1)
 						{
-							sprintf(generalBuffer,"%s \"%s\"",commandextracttheme,filename);
+							sprintf(filedata,"%s \"%s\"",commandextracttheme,filename);
 							retval=system(generalBuffer);
 							freeAndNull(&stdout);
 							freeAndNull(&stderr);
@@ -487,14 +487,14 @@ int extractAndInstall(char* filename,int ziptype)
 					freeAndNull(&stderr);
 				}
 
-			sprintf(generalBuffer,"%s \"%s\" */index.theme",commandtest,filename);
+			sprintf(filedata,"%s \"%s\" */index.theme",commandtest,filename);
 			g_spawn_command_line_sync((char*)generalBuffer,&stdout,&stderr,&spawnret,NULL);
 			if (spawnret==0)
 				{
 					stdout[strlen(stdout)-1]=0;
 					if(strlen(stdout)>1)
 						{
-							sprintf(generalBuffer,"%s \"%s\"",commandextracticon,filename);
+							sprintf(filedata,"%s \"%s\"",commandextracticon,filename);
 							retval=system(generalBuffer);
 							freeAndNull(&stdout);
 							freeAndNull(&stderr);
@@ -529,13 +529,13 @@ void dropUri(GtkWidget *widget,GdkDragContext *context,gint x,gint y,GtkSelectio
 
 //make sure folders are there
 //themes
-	sprintf(generalBuffer,"mkdir -p %s/.themes",homeFolder);
+	sprintf(filedata,"mkdir -p %s/.themes",homeFolder);
 	system(generalBuffer);
 //icons etc
-	sprintf(generalBuffer,"mkdir -p %s/.icons",homeFolder);
+	sprintf(filedata,"mkdir -p %s/.icons",homeFolder);
 	system(generalBuffer);
 //pics
-	sprintf(generalBuffer,"mkdir -p %s/.local/share/xfce4/backdrops",homeFolder);
+	sprintf(filedata,"mkdir -p %s/.local/share/xfce4/backdrops",homeFolder);
 	system(generalBuffer);
 
 //themes
@@ -646,7 +646,7 @@ void removeTheme(const char* name)
 	if(gtk_dialog_run (GTK_DIALOG(dialog))==GTK_RESPONSE_YES)
 		{
 			namelen=strlen(name);
-			sprintf(generalBuffer,"%s",name);
+			sprintf(filedata,"%s",name);
 			remove(name);
 			generalBuffer[namelen-2]='p';
 			generalBuffer[namelen-1]='n';
@@ -907,8 +907,6 @@ void doMeta(char* metaFilename)
 
 	if(keydata!=NULL)
 		g_key_file_free(keyfile);
-
-	system("xfdesktop --reload");
 }
 
 void setPieceNewNew(const char* filePath,long doWhat)
