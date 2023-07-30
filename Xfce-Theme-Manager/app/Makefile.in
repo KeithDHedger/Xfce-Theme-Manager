@@ -102,11 +102,11 @@ am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(docfilesdir)" \
 	"$(DESTDIR)$(scriptfilesdir)"
 PROGRAMS = $(bin_PROGRAMS)
 am__dirstamp = $(am__leading_dot)dirstamp
-am__objects_1 = ../src/callbacks.$(OBJEXT) ../src/cli.$(OBJEXT) \
-	../src/database.$(OBJEXT) ../src/globals.$(OBJEXT) \
-	../src/gui.$(OBJEXT) ../src/internet.$(OBJEXT) \
-	../src/main.$(OBJEXT) ../src/panels.$(OBJEXT) \
-	../src/thumbnails.$(OBJEXT)
+am__objects_1 = ../src/globals.$(OBJEXT) ../src/database.$(OBJEXT) \
+	../src/thumbnails.$(OBJEXT) ../src/internet.$(OBJEXT) \
+	../src/panels.$(OBJEXT) ../src/callbacks.$(OBJEXT) \
+	../src/gui.$(OBJEXT) ../src/cli.$(OBJEXT) \
+	../src/main.$(OBJEXT)
 am_xfcethememanager_OBJECTS = $(am__objects_1)
 xfcethememanager_OBJECTS = $(am_xfcethememanager_OBJECTS)
 xfcethememanager_LDADD = $(LDADD)
@@ -326,7 +326,17 @@ AM_CPPFLAGS = -I$(top_srcdir) \
 			-DLIBDIR=\""${libdir}/${PACKAGE}"\" \
 			-DGTK_DISABLE_DEPRECATED -DGTK_DISABLE_SINGLE_INCLUDES -DGDK_DISABLE_DEPRECATED -DGSEAL_ENABLE
 
-COMMONSRC = ../src/callbacks.cpp ../src/cli.cpp ../src/database.cpp ../src/globals.cpp ../src/gui.cpp ../src/internet.cpp ../src/main.cpp ../src/panels.cpp ../src/thumbnails.cpp
+COMMONSRC = \
+../src/globals.cpp \
+../src/database.cpp \
+../src/thumbnails.cpp \
+../src/internet.cpp \
+../src/panels.cpp \
+../src/callbacks.cpp \
+../src/gui.cpp \
+../src/cli.cpp \
+../src/main.cpp
+
 TRANSFORMNAME = xfce-theme-manager
 NAME = Xfce-Theme-Manager
 xfcethememanager_SOURCES = $(COMMONSRC)
@@ -416,23 +426,23 @@ clean-binPROGRAMS:
 ../src/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) ../src/$(DEPDIR)
 	@: > ../src/$(DEPDIR)/$(am__dirstamp)
-../src/callbacks.$(OBJEXT): ../src/$(am__dirstamp) \
-	../src/$(DEPDIR)/$(am__dirstamp)
-../src/cli.$(OBJEXT): ../src/$(am__dirstamp) \
+../src/globals.$(OBJEXT): ../src/$(am__dirstamp) \
 	../src/$(DEPDIR)/$(am__dirstamp)
 ../src/database.$(OBJEXT): ../src/$(am__dirstamp) \
 	../src/$(DEPDIR)/$(am__dirstamp)
-../src/globals.$(OBJEXT): ../src/$(am__dirstamp) \
-	../src/$(DEPDIR)/$(am__dirstamp)
-../src/gui.$(OBJEXT): ../src/$(am__dirstamp) \
+../src/thumbnails.$(OBJEXT): ../src/$(am__dirstamp) \
 	../src/$(DEPDIR)/$(am__dirstamp)
 ../src/internet.$(OBJEXT): ../src/$(am__dirstamp) \
 	../src/$(DEPDIR)/$(am__dirstamp)
-../src/main.$(OBJEXT): ../src/$(am__dirstamp) \
-	../src/$(DEPDIR)/$(am__dirstamp)
 ../src/panels.$(OBJEXT): ../src/$(am__dirstamp) \
 	../src/$(DEPDIR)/$(am__dirstamp)
-../src/thumbnails.$(OBJEXT): ../src/$(am__dirstamp) \
+../src/callbacks.$(OBJEXT): ../src/$(am__dirstamp) \
+	../src/$(DEPDIR)/$(am__dirstamp)
+../src/gui.$(OBJEXT): ../src/$(am__dirstamp) \
+	../src/$(DEPDIR)/$(am__dirstamp)
+../src/cli.$(OBJEXT): ../src/$(am__dirstamp) \
+	../src/$(DEPDIR)/$(am__dirstamp)
+../src/main.$(OBJEXT): ../src/$(am__dirstamp) \
 	../src/$(DEPDIR)/$(am__dirstamp)
 
 xfcethememanager$(EXEEXT): $(xfcethememanager_OBJECTS) $(xfcethememanager_DEPENDENCIES) $(EXTRA_xfcethememanager_DEPENDENCIES) 

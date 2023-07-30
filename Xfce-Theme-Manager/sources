@@ -1,1 +1,10 @@
-COMMONSRC = ../src/callbacks.cpp ../src/cli.cpp ../src/database.cpp ../src/globals.cpp ../src/gui.cpp ../src/internet.cpp ../src/main.cpp ../src/panels.cpp ../src/thumbnails.cpp
+COMMONSRC = \
+../src/globals.cpp \
+../src/database.cpp \
+../src/thumbnails.cpp \
+../src/internet.cpp \
+../src/panels.cpp \
+../src/callbacks.cpp \
+../src/gui.cpp \
+../src/cli.cpp \
+../src/main.cpp
