@@ -7,9 +7,6 @@ NAME = Xfce-Theme-Manager
 
 xfcethememanager_SOURCES = $(COMMONSRC)
 
-xfcethememanager_CFLAGS = -O3 -export-dynamic
-xfcethememanager_CXXFLAGS = -O3 -export-dynamic
-
 docfilesdir = $(pkgdatadir)/docs
 docfiles_DATA = ../resources/docs/*
 
