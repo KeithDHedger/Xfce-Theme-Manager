@@ -997,6 +997,7 @@ void themeIconCallback(GtkIconView *view,gpointer doWhat)
 		case ICONS:
 			setPieceNewNew(text,ICONS);
 			asprintf(&script,"%s/Scripts/XfceIconsScript set \"%s\"",getenv("HOME"),text);
+			printf(">>%s<<\n",script);
 			break;
 
 		case CURSORS:
