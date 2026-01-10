@@ -74,3 +74,4 @@ void setMonitorData(void);
 void setSpanMonitors(GtkWidget* widget,gpointer data);
 
 #endif
+

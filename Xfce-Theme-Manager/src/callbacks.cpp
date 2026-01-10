@@ -530,13 +530,13 @@ void dropUri(GtkWidget *widget,GdkDragContext *context,gint x,gint y,GtkSelectio
 //make sure folders are there
 //themes
 	sprintf(filedata,"mkdir -p %s/.themes",homeFolder);
-	system(generalBuffer);
+	system(filedata);
 //icons etc
 	sprintf(filedata,"mkdir -p %s/.icons",homeFolder);
-	system(generalBuffer);
+	system(filedata);
 //pics
 	sprintf(filedata,"mkdir -p %s/.local/share/xfce4/backdrops",homeFolder);
-	system(generalBuffer);
+	system(filedata);
 
 //themes
 	for(int j=0; j<cnt; j++)

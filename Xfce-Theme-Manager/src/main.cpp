@@ -222,11 +222,15 @@ void initFolders(void)
 void getmonames(void)
 {
 	FILE*	fp;
-	char	line[256];
+	char		line[256];
+	int		cnt=0;
+	char		*generalBuffer;
 
-char *generalBuffer;
-asprintf(&generalBuffer,"xrandr|grep -i '\\bconnected'|awk '{print $1}'");
-int cnt=0;
+
+	if(numberOfMonitors>1)
+		asprintf(&generalBuffer,"xrandr --listactivemonitors|tail -n +2|awk '{print $2}'");
+	else
+		asprintf(&generalBuffer,"xrandr|grep -i '\\bconnected'|awk '{print $1}'");
 
 	fp=popen(generalBuffer, "r");
 	while(fgets(line,255,fp))
@@ -236,8 +240,13 @@ int cnt=0;
 					line[strlen(line)-1]=0;
 					asprintf(&monitorData[cnt++]->name,"%s",line);
 				}
+			else
+				{
+					asprintf(&monitorData[cnt++]->name,"Monitor%i",cnt);
+				}
 		}
 	pclose(fp);
+//	asprintf(&monitorData[cnt++]->name,"HDMI1");
 }
 
 void init(void)
