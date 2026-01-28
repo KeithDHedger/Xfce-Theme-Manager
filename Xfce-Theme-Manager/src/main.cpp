@@ -663,7 +663,7 @@ int main(int argc,char **argv)
 	fflush(stderr);
 	fgetpos(stderr,&pos);
 	fd=dup(fileno(stderr));
-	//freopen("/dev/null","w",stderr);
+	freopen("/dev/null","w",stderr);
 
 #if GLIB_MINOR_VERSION < PREFERVERSION
 	g_thread_init(NULL);
