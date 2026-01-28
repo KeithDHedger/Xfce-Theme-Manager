@@ -106,10 +106,25 @@ int doCliTheme(void)
 	return(1);
 }
 
+void sendData(char *command)
+{
+	GdkEventClient	event;
+
+	system(command);
+
+	event.type=GDK_CLIENT_EVENT;
+	event.send_event=TRUE;
+	event.window=NULL;
+	event.message_type=gdk_atom_intern("_GTK_READ_RCFILES",FALSE);
+	event.data_format=8;
+	gdk_event_send_clientmessage_toall((GdkEvent *)&event);
+}
+
 int doCliThemePart(char* name,long what)
 {
-
-	char*	papername=NULL;
+	char				*papername=NULL;
+	char				*comm=NULL;
+	int				retval=0;
 
 	setValue(XTHEMER,METATHEMEPROP,STRING,(void*)"DEADBEEF");
 
@@ -117,19 +132,33 @@ int doCliThemePart(char* name,long what)
 		{
 			case WMBORDERS:
 				setValue(XFWM,WMBORDERSPROP,STRING,name);
-				return(0);
 				break;
 			case CONTROLS:
 				setValue(XSETTINGS,CONTROLTHEMEPROP,STRING,name);
-				return(0);
+				asprintf(&comm,"sed -i 's/^gtk-theme-name.*$/gtk-theme-name=\"%s\"/' ~/.gtkrc-2.0",name);
+				sendData(comm);
+				free(comm);
 				break;
 			case ICONS:
 				setValue(XSETTINGS,ICONTHEMEPROP,STRING,name);
-				return(0);
+				asprintf(&comm,"sed -i 's/^gtk-icon-theme-name.*$/gtk-icon-theme-name=\"%s\"/' ~/.gtkrc-2.0",name);
+				sendData(comm);
+				free(comm);
+				//return(0);
 				break;
 			case CURSORS:
 				setValue(XSETTINGS,CURSORSPROP,STRING,name);
-				return(0);
+				asprintf(&comm,"sed -i 's/^gtk-cursor-theme-name.*$/gtk-cursor-theme-name=\"%s\"/' ~/.gtkrc-2.0",name);
+				sendData(comm);
+				free(comm);
+				system("xrdb -remove ~/xinits/XDefaults/XCursorsfile");
+				asprintf(&comm,"sed -i 's/^Xcursor.theme: .*$/Xcursor.theme: %s/' ~/xinits/XDefaults/XCursorsfile",name);
+				sendData(comm);
+				free(comm);
+				asprintf(&comm,"sed -i 's/^gtk-cursor-theme-name.*$/gtk-cursor-theme-name=\"%s\"/' ~/.gtkrc-2.0",name);
+				sendData(comm);
+				free(comm);
+				system("xrdb -merge ~/xinits/XDefaults/XCursorsfile");
 				break;
 			case WALLPAPERS:
 				for(int j=0;j<2;j++)
@@ -142,12 +171,14 @@ int doCliThemePart(char* name,long what)
 								setValue(XFCEDESKTOP,(char*)&generalBuffer[0],STRING,papername);
 								sprintf((char*)&generalBuffer[0],"%s%i/workspace0/last-image",MONITORPROP,cliMonitor);
 								setValue(XFCEDESKTOP,(char*)&generalBuffer[0],STRING,papername);
-								return(0);
+								//return(0);
+								break;
 							}
 					}
 				break;
 		}
-	return(1);
+
+	return(retval);
 }
 
 void cliSetPaperStyle(void)
